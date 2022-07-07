@@ -1,0 +1,42 @@
+/*
+ * audio.c
+ *
+ *  Created on: Jul 6, 2022
+ *      Author: jeffsnyder
+ */
+#include "audio.h"
+#include "leaf.h"
+
+
+//the audio buffers are put in the D2 RAM area because that is a memory location that the DMA has access to.
+int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
+int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
+
+void audioFrame(uint16_t buffer_offset);
+float audioTickL(float audioIn);
+float audioTickR(float audioIn);
+
+HAL_StatusTypeDef transmit_status;
+HAL_StatusTypeDef receive_status;
+
+uint8_t codecReady = 0;
+
+float sample = 0.0f;
+
+tCycle mySine;
+
+
+//MEMPOOLS
+#define SMALL_MEM_SIZE 5000
+char smallMemory[SMALL_MEM_SIZE];
+
+#define MEDIUM_MEM_SIZE 500000
+char mediumMemory[MEDIUM_MEM_SIZE] __ATTR_RAM_D1;
+
+#define LARGE_MEM_SIZE 33554432 //32 MBytes - size of SDRAM IC
+char largeMemory[LARGE_MEM_SIZE] __ATTR_SDRAM;
+
+void audio_init(SAI_HandleTypeDef)
+{
+
+}

@@ -1,0 +1,25 @@
+21:45:45 **** Incremental Build of configuration Debug for project Daisy_Seed_Rev2 ****
+make -j7 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32H750xx -c -I../Core/Inc -I/Users/jeffsnyder/dev/LEAF/leaf -I../FATFS/Target -I../FATFS/App -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:138:3: warning: implicit declaration of function 'audio_init' [-Wimplicit-function-declaration]
+  138 |   audio_init(&hsai_BlockB1, &hsai_BlockA1);
+      |   ^~~~~~~~~~
+arm-none-eabi-gcc -o "Daisy_Seed_Rev2.elf" @"objects.list"   -mcpu=cortex-m7 -T"/Users/jeffsnyder/STM32CubeIDE/workspace_1.10.0/Daisy_Seed_Rev2/STM32H750IBKX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Daisy_Seed_Rev2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Daisy_Seed_Rev2.elf
+ 
+arm-none-eabi-size   Daisy_Seed_Rev2.elf 
+arm-none-eabi-objdump -h -S  Daisy_Seed_Rev2.elf  > "Daisy_Seed_Rev2.list"
+   text	   data	    bss	    dec	    hex	filename
+ 103708	    264	 540224	 644196	  9d464	Daisy_Seed_Rev2.elf
+Finished building: default.size.stdout
+ 
+Finished building: Daisy_Seed_Rev2.list
+ 
+21:46:04 **** Incremental Build of configuration Debug for project Daisy_Seed_Rev2 ****
+make -j7 all 
+arm-none-eabi-size   Daisy_Seed_Rev2.elf 
+   text	   data	    bss	    dec	    hex	filename
+ 103708	    264	 540224	 644196	  9d464	Daisy_Seed_Rev2.elf
+Finished building: default.size.stdout
+ 

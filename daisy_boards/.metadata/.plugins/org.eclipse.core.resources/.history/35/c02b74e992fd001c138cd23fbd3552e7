@@ -1,0 +1,19 @@
+/*
+ * audio.c
+ *
+ *  Created on: Jul 6, 2022
+ *      Author: jeffsnyder
+ */
+#include "audio.h"
+#include "leaf.h"
+
+
+//the audio buffers are put in the D2 RAM area because that is a memory location that the DMA has access to.
+int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
+int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
+
+
+void audio_init(SAI_HandleTypeDef)
+{
+
+}

@@ -1,0 +1,29 @@
+/*
+ * audio.h
+ *
+ *  Created on: Jul 6, 2022
+ *      Author: jeffsnyder
+ */
+
+#ifndef INC_AUDIO_H_
+#define INC_AUDIO_H_
+
+
+#include "stm32h7xx_hal.h"
+#include "leaf.h"
+#include "main.h"
+
+
+#define AUDIO_FRAME_SIZE      32
+#define HALF_BUFFER_SIZE      AUDIO_FRAME_SIZE * 2 //number of samples per half of the "double-buffer" (twice the audio frame size because there are interleaved samples for both left and right channels)
+#define AUDIO_BUFFER_SIZE     AUDIO_FRAME_SIZE * 4 //number of samples in the whole data structure (four times the audio frame size because of stereo and also double-buffering/ping-ponging)
+
+
+
+
+void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn);
+void audioFrame(uint16_t buffer_offset);
+float audioTickL(float audioIn);
+float audioTickR(float audioIn);
+
+#endif /* INC_AUDIO_H_ */
