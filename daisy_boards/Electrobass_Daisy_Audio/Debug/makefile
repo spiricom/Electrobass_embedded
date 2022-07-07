@@ -70,8 +70,8 @@ all: main-build
 main-build: Electrobass_Daisy_Audio.elf secondary-outputs
 
 # Tool invocations
-Electrobass_Daisy_Audio.elf Electrobass_Daisy_Audio.map: $(OBJS) $(USER_OBJS) /Users/dp9443/Documents/Princeton/Electrobass_embedded/daisy_boards/Electrobass_Daisy_Audio/STM32H750IBKX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Electrobass_Daisy_Audio.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/dp9443/Documents/Princeton/Electrobass_embedded/daisy_boards/Electrobass_Daisy_Audio/STM32H750IBKX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Electrobass_Daisy_Audio.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Electrobass_Daisy_Audio.elf Electrobass_Daisy_Audio.map: $(OBJS) $(USER_OBJS) /Users/jeffsnyder/dev/Electrobass_embedded/daisy_boards/Electrobass_Daisy_Audio/STM32H750IBKX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Electrobass_Daisy_Audio.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/jeffsnyder/dev/Electrobass_embedded/daisy_boards/Electrobass_Daisy_Audio/STM32H750IBKX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Electrobass_Daisy_Audio.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
