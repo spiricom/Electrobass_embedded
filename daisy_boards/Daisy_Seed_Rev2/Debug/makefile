@@ -70,8 +70,8 @@ all: main-build
 main-build: Daisy_Seed_Rev2.elf secondary-outputs
 
 # Tool invocations
-Daisy_Seed_Rev2.elf Daisy_Seed_Rev2.map: $(OBJS) $(USER_OBJS) /Users/jeffsnyder/STM32CubeIDE/workspace_1.10.0/Daisy_Seed_Rev2/STM32H750IBKX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Daisy_Seed_Rev2.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/jeffsnyder/STM32CubeIDE/workspace_1.10.0/Daisy_Seed_Rev2/STM32H750IBKX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Daisy_Seed_Rev2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Daisy_Seed_Rev2.elf Daisy_Seed_Rev2.map: $(OBJS) $(USER_OBJS) /Users/jeffsnyder/dev/Electrobass_embedded/daisy_boards/Daisy_Seed_Rev2/STM32H750IBKX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Daisy_Seed_Rev2.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/jeffsnyder/dev/Electrobass_embedded/daisy_boards/Daisy_Seed_Rev2/STM32H750IBKX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Daisy_Seed_Rev2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
