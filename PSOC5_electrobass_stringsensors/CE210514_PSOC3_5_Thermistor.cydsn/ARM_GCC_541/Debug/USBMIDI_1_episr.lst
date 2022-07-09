@@ -1,0 +1,1807 @@
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"USBMIDI_1_episr.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.USBMIDI_1_EP_1_ISR,"ax",%progbits
+  20              		.align	2
+  21              		.global	USBMIDI_1_EP_1_ISR
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	USBMIDI_1_EP_1_ISR, %function
+  25              	USBMIDI_1_EP_1_ISR:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\USBMIDI_1_episr.c"
+   1:Generated_Source\PSoC5/USBMIDI_1_episr.c **** /***************************************************************************//**
+   2:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * \file USBMIDI_1_episr.c
+   3:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * \version 3.20
+   4:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *
+   5:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * \brief
+   6:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *  This file contains the Data endpoint Interrupt Service Routines.
+   7:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *
+   8:Generated_Source\PSoC5/USBMIDI_1_episr.c **** ********************************************************************************
+   9:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * \copyright
+  10:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * Copyright 2008-2016, Cypress Semiconductor Corporation.  All rights reserved.
+  11:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * You may use this file only in accordance with the license, terms, conditions,
+  12:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  13:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * the software package with which this file was provided.
+  14:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *******************************************************************************/
+  15:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  16:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #include "USBMIDI_1_pvt.h"
+  17:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #include "USBMIDI_1_cydmac.h"
+  18:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  19:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  20:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  21:Generated_Source\PSoC5/USBMIDI_1_episr.c **** /***************************************
+  22:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * Custom Declarations
+  23:Generated_Source\PSoC5/USBMIDI_1_episr.c **** ***************************************/
+  24:Generated_Source\PSoC5/USBMIDI_1_episr.c **** /* `#START CUSTOM_DECLARATIONS` Place your declaration here */
+  25:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  26:Generated_Source\PSoC5/USBMIDI_1_episr.c **** /* `#END` */
+  27:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  28:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  29:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_EP1_ISR_ACTIVE)
+  30:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /******************************************************************************
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 2
+
+
+  31:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_EP_1_ISR
+  32:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ***************************************************************************//**
+  33:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+  34:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Endpoint 1 Interrupt Service Routine
+  35:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+  36:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ******************************************************************************/
+  37:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_EP_1_ISR)
+  38:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+  28              		.loc 1 38 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  39:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  40:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_1_ISR_ENTRY_CALLBACK
+  41:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_1_ISR_EntryCallback();
+  42:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_1_ISR_ENTRY_CALLBACK) */
+  43:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  44:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP1_USER_CODE` Place your code here */
+  45:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  46:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+  47:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  48:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+  49:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+  50:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+  51:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             uint8 intEn = EA;
+  52:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             CyGlobalIntEnable;  /* Enable nested interrupts. */
+  53:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+  54:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     
+  55:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieEpInterruptSource(USBMIDI_1_SIE_INT_EP1_INTR);
+  38              		.loc 1 55 0
+  39 0004 0D4B     		ldr	r3, .L3
+  40 0006 0122     		movs	r2, #1
+  41 0008 1A70     		strb	r2, [r3]
+  56:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             
+  57:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* Notifies user that transfer IN or OUT transfer is completed.
+  58:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * IN endpoint: endpoint buffer can be reloaded, Host is read data.
+  59:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * OUT endpoint: data is ready to be read from endpoint buffer. 
+  60:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         */
+  61:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)
+  62:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         if (0u != (USBMIDI_1_EP[USBMIDI_1_EP1].addr & USBMIDI_1_DIR_IN))
+  63:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO) */
+  64:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+  65:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Read CR0 register to clear SIE lock. */
+  66:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             (void) USBMIDI_1_SIE_EP_BASE.sieEp[USBMIDI_1_EP1].epCr0;
+  42              		.loc 1 66 0
+  43 000a 0D4B     		ldr	r3, .L3+4
+  44 000c 9B7C     		ldrb	r3, [r3, #18]
+  67:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             
+  68:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Toggle all endpoint types except ISOC. */
+  69:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_GET_EP_TYPE(USBMIDI_1_EP1) != USBMIDI_1_EP_TYPE_ISOC)
+  45              		.loc 1 69 0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 3
+
+
+  46 000e 0D4B     		ldr	r3, .L3+8
+  47 0010 1B7B     		ldrb	r3, [r3, #12]
+  48 0012 DBB2     		uxtb	r3, r3
+  49 0014 03F00303 		and	r3, r3, #3
+  50 0018 012B     		cmp	r3, #1
+  51 001a 08D0     		beq	.L2
+  70:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+  71:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_EP[USBMIDI_1_EP1].epToggle ^= USBMIDI_1_EPX_CNT_DATA_TOGGLE;
+  52              		.loc 1 71 0
+  53 001c 094B     		ldr	r3, .L3+8
+  54 001e DB7B     		ldrb	r3, [r3, #15]
+  55 0020 DBB2     		uxtb	r3, r3
+  56 0022 83F07F03 		eor	r3, r3, #127
+  57 0026 DB43     		mvns	r3, r3
+  58 0028 DAB2     		uxtb	r2, r3
+  59 002a 064B     		ldr	r3, .L3+8
+  60 002c DA73     		strb	r2, [r3, #15]
+  61              	.L2:
+  72:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+  73:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  74:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* EP_MANAGEMENT_DMA_AUTO (Ticket ID# 214187): For OUT endpoint this event is used to n
+  75:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * user that DMA has completed copying data from OUT endpoint which is not completely tr
+  76:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * Because last chunk of data is being copied.
+  77:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC 3/5LP: it is acceptable as DMA is really fast.
+  78:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC4: this event is set in Arbiter interrupt (source is DMA_TERMIN).
+  79:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             */
+  80:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             USBMIDI_1_EP[USBMIDI_1_EP1].apiEpState = USBMIDI_1_EVENT_PENDING;
+  62              		.loc 1 80 0
+  63 002e 054B     		ldr	r3, .L3+8
+  64 0030 0122     		movs	r2, #1
+  65 0032 5A73     		strb	r2, [r3, #13]
+  81:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+  82:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  83:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO))
+  84:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+  85:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+  86:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_midi_out_ep == USBMIDI_1_EP1)
+  87:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+  88:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_MIDI_OUT_Service();
+  89:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+  90:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #endif /* (USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+  91:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)) */
+  92:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     
+  93:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP1_END_USER_CODE` Place your code here */
+  94:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  95:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+  96:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+  97:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_1_ISR_EXIT_CALLBACK
+  98:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_1_ISR_ExitCallback();
+  99:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_1_ISR_EXIT_CALLBACK) */
+ 100:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 101:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 102:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 103:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 104:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             EA = intEn; /* Restore nested interrupt configuration. */
+ 105:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 106:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 4
+
+
+ 107:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+  66              		.loc 1 107 0
+  67 0034 00BF     		nop
+  68 0036 BD46     		mov	sp, r7
+  69              		.cfi_def_cfa_register 13
+  70              		@ sp needed
+  71 0038 80BC     		pop	{r7}
+  72              		.cfi_restore 7
+  73              		.cfi_def_cfa_offset 0
+  74 003a 7047     		bx	lr
+  75              	.L4:
+  76              		.align	2
+  77              	.L3:
+  78 003c 0B600040 		.word	1073766411
+  79 0040 FC5F0040 		.word	1073766396
+  80 0044 00000000 		.word	USBMIDI_1_EP
+  81              		.cfi_endproc
+  82              	.LFE0:
+  83              		.size	USBMIDI_1_EP_1_ISR, .-USBMIDI_1_EP_1_ISR
+  84              		.section	.text.USBMIDI_1_EP_2_ISR,"ax",%progbits
+  85              		.align	2
+  86              		.global	USBMIDI_1_EP_2_ISR
+  87              		.thumb
+  88              		.thumb_func
+  89              		.type	USBMIDI_1_EP_2_ISR, %function
+  90              	USBMIDI_1_EP_2_ISR:
+  91              	.LFB1:
+ 108:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 109:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_EP1_ISR_ACTIVE) */
+ 110:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 111:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 112:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_EP2_ISR_ACTIVE)
+ 113:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /*******************************************************************************
+ 114:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_EP_2_ISR
+ 115:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ****************************************************************************//**
+ 116:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 117:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Endpoint 2 Interrupt Service Routine.
+ 118:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 119:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *******************************************************************************/
+ 120:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_EP_2_ISR)
+ 121:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+  92              		.loc 1 121 0
+  93              		.cfi_startproc
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 1, uses_anonymous_args = 0
+  96              		@ link register save eliminated.
+  97 0000 80B4     		push	{r7}
+  98              		.cfi_def_cfa_offset 4
+  99              		.cfi_offset 7, -4
+ 100 0002 00AF     		add	r7, sp, #0
+ 101              		.cfi_def_cfa_register 7
+ 122:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_2_ISR_ENTRY_CALLBACK
+ 123:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_2_ISR_EntryCallback();
+ 124:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_2_ISR_ENTRY_CALLBACK) */
+ 125:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 126:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP2_USER_CODE` Place your code here */
+ 127:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 5
+
+
+ 128:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 129:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 130:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 131:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 132:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 133:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             uint8 intEn = EA;
+ 134:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             CyGlobalIntEnable;  /* Enable nested interrupts. */
+ 135:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 136:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 137:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieEpInterruptSource(USBMIDI_1_SIE_INT_EP2_INTR);
+ 102              		.loc 1 137 0
+ 103 0004 0E4B     		ldr	r3, .L7
+ 104 0006 0222     		movs	r2, #2
+ 105 0008 1A70     		strb	r2, [r3]
+ 138:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 139:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* Notifies user that transfer IN or OUT transfer is completed.
+ 140:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * IN endpoint: endpoint buffer can be reloaded, Host is read data.
+ 141:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * OUT endpoint: data is ready to be read from endpoint buffer. 
+ 142:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         */
+ 143:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)
+ 144:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         if (0u != (USBMIDI_1_EP[USBMIDI_1_EP2].addr & USBMIDI_1_DIR_IN))
+ 145:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO) */
+ 146:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {            
+ 147:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Read CR0 register to clear SIE lock. */
+ 148:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             (void) USBMIDI_1_SIE_EP_BASE.sieEp[USBMIDI_1_EP2].epCr0;
+ 106              		.loc 1 148 0
+ 107 000a 0E4B     		ldr	r3, .L7+4
+ 108 000c 93F82230 		ldrb	r3, [r3, #34]
+ 149:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             
+ 150:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Toggle all endpoint types except ISOC. */
+ 151:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_GET_EP_TYPE(USBMIDI_1_EP2) != USBMIDI_1_EP_TYPE_ISOC)
+ 109              		.loc 1 151 0
+ 110 0010 0D4B     		ldr	r3, .L7+8
+ 111 0012 1B7E     		ldrb	r3, [r3, #24]
+ 112 0014 DBB2     		uxtb	r3, r3
+ 113 0016 03F00303 		and	r3, r3, #3
+ 114 001a 012B     		cmp	r3, #1
+ 115 001c 08D0     		beq	.L6
+ 152:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 153:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_EP[USBMIDI_1_EP2].epToggle ^= USBMIDI_1_EPX_CNT_DATA_TOGGLE;
+ 116              		.loc 1 153 0
+ 117 001e 0A4B     		ldr	r3, .L7+8
+ 118 0020 DB7E     		ldrb	r3, [r3, #27]
+ 119 0022 DBB2     		uxtb	r3, r3
+ 120 0024 83F07F03 		eor	r3, r3, #127
+ 121 0028 DB43     		mvns	r3, r3
+ 122 002a DAB2     		uxtb	r2, r3
+ 123 002c 064B     		ldr	r3, .L7+8
+ 124 002e DA76     		strb	r2, [r3, #27]
+ 125              	.L6:
+ 154:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 155:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 156:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* EP_MANAGEMENT_DMA_AUTO (Ticket ID# 214187): For OUT endpoint this event is used to n
+ 157:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * user that DMA has completed copying data from OUT endpoint which is not completely tr
+ 158:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * Because last chunk of data is being copied.
+ 159:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC 3/5LP: it is acceptable as DMA is really fast.
+ 160:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC4: this event is set in Arbiter interrupt (source is DMA_TERMIN).
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 6
+
+
+ 161:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             */
+ 162:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             USBMIDI_1_EP[USBMIDI_1_EP2].apiEpState = USBMIDI_1_EVENT_PENDING;
+ 126              		.loc 1 162 0
+ 127 0030 054B     		ldr	r3, .L7+8
+ 128 0032 0122     		movs	r2, #1
+ 129 0034 5A76     		strb	r2, [r3, #25]
+ 163:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 164:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 165:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO))
+ 166:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 167:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 168:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_midi_out_ep == USBMIDI_1_EP2)
+ 169:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 170:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_MIDI_OUT_Service();
+ 171:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 172:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #endif /* (USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 173:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)) */        
+ 174:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     
+ 175:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP2_END_USER_CODE` Place your code here */
+ 176:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 177:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 178:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 179:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_2_ISR_EXIT_CALLBACK
+ 180:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_2_ISR_ExitCallback();
+ 181:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_2_ISR_EXIT_CALLBACK) */
+ 182:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 183:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 184:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 185:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 186:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             EA = intEn; /* Restore nested interrupt configuration. */
+ 187:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 188:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 189:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+ 130              		.loc 1 189 0
+ 131 0036 00BF     		nop
+ 132 0038 BD46     		mov	sp, r7
+ 133              		.cfi_def_cfa_register 13
+ 134              		@ sp needed
+ 135 003a 80BC     		pop	{r7}
+ 136              		.cfi_restore 7
+ 137              		.cfi_def_cfa_offset 0
+ 138 003c 7047     		bx	lr
+ 139              	.L8:
+ 140 003e 00BF     		.align	2
+ 141              	.L7:
+ 142 0040 0B600040 		.word	1073766411
+ 143 0044 FC5F0040 		.word	1073766396
+ 144 0048 00000000 		.word	USBMIDI_1_EP
+ 145              		.cfi_endproc
+ 146              	.LFE1:
+ 147              		.size	USBMIDI_1_EP_2_ISR, .-USBMIDI_1_EP_2_ISR
+ 148              		.section	.text.USBMIDI_1_SOF_ISR,"ax",%progbits
+ 149              		.align	2
+ 150              		.global	USBMIDI_1_SOF_ISR
+ 151              		.thumb
+ 152              		.thumb_func
+ 153              		.type	USBMIDI_1_SOF_ISR, %function
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 7
+
+
+ 154              	USBMIDI_1_SOF_ISR:
+ 155              	.LFB2:
+ 190:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_EP2_ISR_ACTIVE) */
+ 191:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 192:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 193:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_EP3_ISR_ACTIVE)
+ 194:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /*******************************************************************************
+ 195:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_EP_3_ISR
+ 196:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ****************************************************************************//**
+ 197:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 198:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Endpoint 3 Interrupt Service Routine.
+ 199:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 200:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *******************************************************************************/
+ 201:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_EP_3_ISR)
+ 202:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+ 203:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_3_ISR_ENTRY_CALLBACK
+ 204:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_3_ISR_EntryCallback();
+ 205:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_3_ISR_ENTRY_CALLBACK) */
+ 206:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 207:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP3_USER_CODE` Place your code here */
+ 208:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 209:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 210:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 211:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 212:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 213:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 214:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             uint8 intEn = EA;
+ 215:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             CyGlobalIntEnable;  /* Enable nested interrupts. */
+ 216:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 217:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 218:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieEpInterruptSource(USBMIDI_1_SIE_INT_EP3_INTR);    
+ 219:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 220:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* Notifies user that transfer IN or OUT transfer is completed.
+ 221:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * IN endpoint: endpoint buffer can be reloaded, Host is read data.
+ 222:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * OUT endpoint: data is ready to be read from endpoint buffer. 
+ 223:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         */
+ 224:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)
+ 225:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         if (0u != (USBMIDI_1_EP[USBMIDI_1_EP3].addr & USBMIDI_1_DIR_IN))
+ 226:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_MANAGEMENT_DMA_AUTO) */
+ 227:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {            
+ 228:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Read CR0 register to clear SIE lock. */
+ 229:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             (void) USBMIDI_1_SIE_EP_BASE.sieEp[USBMIDI_1_EP3].epCr0;
+ 230:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 231:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Toggle all endpoint types except ISOC. */
+ 232:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_GET_EP_TYPE(USBMIDI_1_EP3) != USBMIDI_1_EP_TYPE_ISOC)
+ 233:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 234:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_EP[USBMIDI_1_EP3].epToggle ^= USBMIDI_1_EPX_CNT_DATA_TOGGLE;
+ 235:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 236:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 237:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* EP_MANAGEMENT_DMA_AUTO (Ticket ID# 214187): For OUT endpoint this event is used to n
+ 238:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * user that DMA has completed copying data from OUT endpoint which is not completely tr
+ 239:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * Because last chunk of data is being copied.
+ 240:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC 3/5LP: it is acceptable as DMA is really fast.
+ 241:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC4: this event is set in Arbiter interrupt (source is DMA_TERMIN).
+ 242:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             */
+ 243:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             USBMIDI_1_EP[USBMIDI_1_EP3].apiEpState = USBMIDI_1_EVENT_PENDING;
+ 244:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 8
+
+
+ 245:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 246:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO))
+ 247:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 248:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 249:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_midi_out_ep == USBMIDI_1_EP3)
+ 250:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 251:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_MIDI_OUT_Service();
+ 252:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 253:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #endif /* (USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 254:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)) */        
+ 255:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 256:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP3_END_USER_CODE` Place your code here */
+ 257:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 258:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 259:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 260:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_3_ISR_EXIT_CALLBACK
+ 261:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_3_ISR_ExitCallback();
+ 262:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_3_ISR_EXIT_CALLBACK) */
+ 263:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 264:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 265:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 266:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 267:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             EA = intEn; /* Restore nested interrupt configuration. */
+ 268:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 269:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 270:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+ 271:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_EP3_ISR_ACTIVE) */
+ 272:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 273:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 274:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_EP4_ISR_ACTIVE)
+ 275:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /*******************************************************************************
+ 276:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_EP_4_ISR
+ 277:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ****************************************************************************//**
+ 278:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 279:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Endpoint 4 Interrupt Service Routine.
+ 280:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 281:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *******************************************************************************/
+ 282:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_EP_4_ISR)
+ 283:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+ 284:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_4_ISR_ENTRY_CALLBACK
+ 285:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_4_ISR_EntryCallback();
+ 286:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_4_ISR_ENTRY_CALLBACK) */
+ 287:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 288:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP4_USER_CODE` Place your code here */
+ 289:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 290:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 291:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 292:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 293:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 294:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 295:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             uint8 intEn = EA;
+ 296:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             CyGlobalIntEnable;  /* Enable nested interrupts. */
+ 297:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 298:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 299:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieEpInterruptSource(USBMIDI_1_SIE_INT_EP4_INTR);
+ 300:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 301:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* Notifies user that transfer IN or OUT transfer is completed.
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 9
+
+
+ 302:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * IN endpoint: endpoint buffer can be reloaded, Host is read data.
+ 303:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * OUT endpoint: data is ready to read from endpoint buffer. 
+ 304:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         */
+ 305:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)
+ 306:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         if (0u != (USBMIDI_1_EP[USBMIDI_1_EP4].addr & USBMIDI_1_DIR_IN))
+ 307:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_MANAGEMENT_DMA_AUTO) */
+ 308:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 309:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Read CR0 register to clear SIE lock. */
+ 310:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             (void) USBMIDI_1_SIE_EP_BASE.sieEp[USBMIDI_1_EP4].epCr0;
+ 311:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 312:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Toggle all endpoint types except ISOC. */
+ 313:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_GET_EP_TYPE(USBMIDI_1_EP4) != USBMIDI_1_EP_TYPE_ISOC)
+ 314:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 315:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_EP[USBMIDI_1_EP4].epToggle ^= USBMIDI_1_EPX_CNT_DATA_TOGGLE;
+ 316:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 317:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 318:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* EP_MANAGEMENT_DMA_AUTO (Ticket ID# 214187): For OUT endpoint this event is used to n
+ 319:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * user that DMA has completed copying data from OUT endpoint which is not completely tr
+ 320:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * Because last chunk of data is being copied.
+ 321:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC 3/5LP: it is acceptable as DMA is really fast.
+ 322:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC4: this event is set in Arbiter interrupt (source is DMA_TERMIN).
+ 323:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             */
+ 324:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             USBMIDI_1_EP[USBMIDI_1_EP4].apiEpState = USBMIDI_1_EVENT_PENDING;
+ 325:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 326:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 327:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO))
+ 328:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 329:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 330:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if(USBMIDI_1_midi_out_ep == USBMIDI_1_EP4)
+ 331:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 332:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_MIDI_OUT_Service();
+ 333:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 334:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #endif /* (USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 335:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)) */        
+ 336:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 337:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP4_END_USER_CODE` Place your code here */
+ 338:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 339:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 340:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 341:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_4_ISR_EXIT_CALLBACK
+ 342:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_4_ISR_ExitCallback();
+ 343:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_4_ISR_EXIT_CALLBACK) */
+ 344:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 345:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 346:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 347:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 348:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             EA = intEn; /* Restore nested interrupt configuration. */
+ 349:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 350:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 351:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+ 352:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_EP4_ISR_ACTIVE) */
+ 353:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 354:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 355:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_EP5_ISR_ACTIVE)
+ 356:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /*******************************************************************************
+ 357:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_EP_5_ISR
+ 358:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ****************************************************************************//**
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 10
+
+
+ 359:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 360:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Endpoint 5 Interrupt Service Routine
+ 361:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 362:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 363:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *******************************************************************************/
+ 364:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_EP_5_ISR)
+ 365:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+ 366:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_5_ISR_ENTRY_CALLBACK
+ 367:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_5_ISR_EntryCallback();
+ 368:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_5_ISR_ENTRY_CALLBACK) */
+ 369:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 370:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP5_USER_CODE` Place your code here */
+ 371:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 372:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 373:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 374:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && \
+ 375:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                  USBMIDI_1_ISR_SERVICE_MIDI_OUT && CY_PSOC3)
+ 376:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 377:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             uint8 intEn = EA;
+ 378:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             CyGlobalIntEnable;  /* Enable nested interrupts. */
+ 379:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 380:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 381:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieEpInterruptSource(USBMIDI_1_SIE_INT_EP5_INTR);
+ 382:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     
+ 383:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* Notifies user that transfer IN or OUT transfer is completed.
+ 384:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * IN endpoint: endpoint buffer can be reloaded, Host is read data.
+ 385:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * OUT endpoint: data is ready to read from endpoint buffer. 
+ 386:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         */
+ 387:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)
+ 388:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         if (0u != (USBMIDI_1_EP[USBMIDI_1_EP5].addr & USBMIDI_1_DIR_IN))
+ 389:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_MANAGEMENT_DMA_AUTO) */
+ 390:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {            
+ 391:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Read CR0 register to clear SIE lock. */
+ 392:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             (void) USBMIDI_1_SIE_EP_BASE.sieEp[USBMIDI_1_EP5].epCr0;
+ 393:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 394:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Toggle all endpoint types except ISOC. */
+ 395:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_GET_EP_TYPE(USBMIDI_1_EP5) != USBMIDI_1_EP_TYPE_ISOC)
+ 396:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 397:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_EP[USBMIDI_1_EP5].epToggle ^= USBMIDI_1_EPX_CNT_DATA_TOGGLE;
+ 398:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 399:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 400:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* EP_MANAGEMENT_DMA_AUTO (Ticket ID# 214187): For OUT endpoint this event is used to n
+ 401:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * user that DMA has completed copying data from OUT endpoint which is not completely tr
+ 402:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * Because last chunk of data is being copied.
+ 403:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC 3/5LP: it is acceptable as DMA is really fast.
+ 404:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC4: this event is set in Arbiter interrupt (source is DMA_TERMIN).
+ 405:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             */
+ 406:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             USBMIDI_1_EP[USBMIDI_1_EP5].apiEpState = USBMIDI_1_EVENT_PENDING;
+ 407:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 408:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 409:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO))        
+ 410:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 411:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 412:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_midi_out_ep == USBMIDI_1_EP5)
+ 413:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 414:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_MIDI_OUT_Service();
+ 415:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 11
+
+
+ 416:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #endif /* (USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 417:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)) */
+ 418:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 419:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP5_END_USER_CODE` Place your code here */
+ 420:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 421:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 422:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 423:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_5_ISR_EXIT_CALLBACK
+ 424:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_5_ISR_ExitCallback();
+ 425:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_5_ISR_EXIT_CALLBACK) */
+ 426:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 427:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 428:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 429:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 430:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             EA = intEn; /* Restore nested interrupt configuration. */
+ 431:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 432:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 433:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+ 434:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_EP5_ISR_ACTIVE) */
+ 435:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 436:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 437:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_EP6_ISR_ACTIVE)
+ 438:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /*******************************************************************************
+ 439:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_EP_6_ISR
+ 440:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ****************************************************************************//**
+ 441:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 442:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Endpoint 6 Interrupt Service Routine.
+ 443:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 444:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 445:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *******************************************************************************/
+ 446:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_EP_6_ISR)
+ 447:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+ 448:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_6_ISR_ENTRY_CALLBACK
+ 449:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_6_ISR_EntryCallback();
+ 450:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_6_ISR_ENTRY_CALLBACK) */
+ 451:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 452:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP6_USER_CODE` Place your code here */
+ 453:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 454:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 455:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 456:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 457:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 458:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 459:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             uint8 intEn = EA;
+ 460:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             CyGlobalIntEnable;  /* Enable nested interrupts. */
+ 461:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 462:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 463:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieEpInterruptSource(USBMIDI_1_SIE_INT_EP6_INTR);
+ 464:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 465:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* Notifies user that transfer IN or OUT transfer is completed.
+ 466:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * IN endpoint: endpoint buffer can be reloaded, Host is read data.
+ 467:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * OUT endpoint: data is ready to read from endpoint buffer. 
+ 468:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         */
+ 469:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)
+ 470:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         if (0u != (USBMIDI_1_EP[USBMIDI_1_EP6].addr & USBMIDI_1_DIR_IN))
+ 471:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_MANAGEMENT_DMA_AUTO) */
+ 472:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 12
+
+
+ 473:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Read CR0 register to clear SIE lock. */
+ 474:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             (void) USBMIDI_1_SIE_EP_BASE.sieEp[USBMIDI_1_EP6].epCr0;
+ 475:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 476:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Toggle all endpoint types except ISOC. */
+ 477:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_GET_EP_TYPE(USBMIDI_1_EP6) != USBMIDI_1_EP_TYPE_ISOC)
+ 478:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 479:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_EP[USBMIDI_1_EP6].epToggle ^= USBMIDI_1_EPX_CNT_DATA_TOGGLE;
+ 480:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 481:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             
+ 482:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* EP_MANAGEMENT_DMA_AUTO (Ticket ID# 214187): For OUT endpoint this event is used to n
+ 483:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * user that DMA has completed copying data from OUT endpoint which is not completely tr
+ 484:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * Because last chunk of data is being copied.
+ 485:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC 3/5LP: it is acceptable as DMA is really fast.
+ 486:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC4: this event is set in Arbiter interrupt (source is DMA_TERMIN).
+ 487:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             */
+ 488:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             USBMIDI_1_EP[USBMIDI_1_EP6].apiEpState = USBMIDI_1_EVENT_PENDING;
+ 489:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 490:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 491:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO))
+ 492:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 493:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 494:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_midi_out_ep == USBMIDI_1_EP6)
+ 495:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 496:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_MIDI_OUT_Service();
+ 497:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 498:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #endif /* (USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 499:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)) */
+ 500:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 501:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP6_END_USER_CODE` Place your code here */
+ 502:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 503:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 504:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 505:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_6_ISR_EXIT_CALLBACK
+ 506:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_6_ISR_ExitCallback();
+ 507:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_6_ISR_EXIT_CALLBACK) */
+ 508:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 509:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 510:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 511:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 512:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             EA = intEn; /* Restore nested interrupt configuration. */
+ 513:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 514:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 515:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+ 516:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_EP6_ISR_ACTIVE) */
+ 517:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 518:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 519:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_EP7_ISR_ACTIVE)
+ 520:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /*******************************************************************************
+ 521:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_EP_7_ISR
+ 522:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ****************************************************************************//**
+ 523:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 524:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Endpoint 7 Interrupt Service Routine.
+ 525:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 526:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 527:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *******************************************************************************/
+ 528:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_EP_7_ISR)
+ 529:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 13
+
+
+ 530:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_7_ISR_ENTRY_CALLBACK
+ 531:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_7_ISR_EntryCallback();
+ 532:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_7_ISR_ENTRY_CALLBACK) */
+ 533:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 534:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP7_USER_CODE` Place your code here */
+ 535:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 536:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 537:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 538:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 539:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 540:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 541:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             uint8 intEn = EA;
+ 542:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             CyGlobalIntEnable;  /* Enable nested interrupts. */
+ 543:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 544:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     
+ 545:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieEpInterruptSource(USBMIDI_1_SIE_INT_EP7_INTR);
+ 546:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 547:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* Notifies user that transfer IN or OUT transfer is completed.
+ 548:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * IN endpoint: endpoint buffer can be reloaded, Host is read data.
+ 549:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * OUT endpoint: data is ready to read from endpoint buffer. 
+ 550:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         */
+ 551:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)
+ 552:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         if (0u != (USBMIDI_1_EP[USBMIDI_1_EP7].addr & USBMIDI_1_DIR_IN))
+ 553:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_MANAGEMENT_DMA_AUTO) */
+ 554:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {           
+ 555:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Read CR0 register to clear SIE lock. */
+ 556:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             (void) USBMIDI_1_SIE_EP_BASE.sieEp[USBMIDI_1_EP7].epCr0;
+ 557:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 558:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Toggle all endpoint types except ISOC. */
+ 559:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_GET_EP_TYPE(USBMIDI_1_EP7) != USBMIDI_1_EP_TYPE_ISOC)
+ 560:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 561:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_EP[USBMIDI_1_EP7].epToggle ^= USBMIDI_1_EPX_CNT_DATA_TOGGLE;
+ 562:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 563:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             
+ 564:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* EP_MANAGEMENT_DMA_AUTO (Ticket ID# 214187): For OUT endpoint this event is used to n
+ 565:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * user that DMA has completed copying data from OUT endpoint which is not completely tr
+ 566:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * Because last chunk of data is being copied.
+ 567:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC 3/5LP: it is acceptable as DMA is really fast.
+ 568:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC4: this event is set in Arbiter interrupt (source is DMA_TERMIN).
+ 569:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             */
+ 570:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             USBMIDI_1_EP[USBMIDI_1_EP7].apiEpState = USBMIDI_1_EVENT_PENDING;
+ 571:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 572:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 573:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 574:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO))
+ 575:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 576:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 577:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if(USBMIDI_1_midi_out_ep == USBMIDI_1_EP7)
+ 578:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 579:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_MIDI_OUT_Service();
+ 580:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 581:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #endif /* (USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 582:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)) */
+ 583:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 584:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP7_END_USER_CODE` Place your code here */
+ 585:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 586:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 14
+
+
+ 587:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 588:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_7_ISR_EXIT_CALLBACK
+ 589:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_7_ISR_ExitCallback();
+ 590:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_7_ISR_EXIT_CALLBACK) */
+ 591:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 592:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 593:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 594:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 595:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             EA = intEn; /* Restore nested interrupt configuration. */
+ 596:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 597:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 598:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+ 599:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_EP7_ISR_ACTIVE) */
+ 600:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 601:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 602:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_EP8_ISR_ACTIVE)
+ 603:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /*******************************************************************************
+ 604:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_EP_8_ISR
+ 605:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ****************************************************************************//**
+ 606:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 607:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Endpoint 8 Interrupt Service Routine
+ 608:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 609:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 610:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *******************************************************************************/
+ 611:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_EP_8_ISR)
+ 612:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+ 613:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_8_ISR_ENTRY_CALLBACK
+ 614:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_8_ISR_EntryCallback();
+ 615:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_8_ISR_ENTRY_CALLBACK) */
+ 616:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 617:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP8_USER_CODE` Place your code here */
+ 618:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 619:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 620:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 621:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 622:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 623:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 624:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             uint8 intEn = EA;
+ 625:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             CyGlobalIntEnable;  /* Enable nested interrupts. */
+ 626:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 627:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 628:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieEpInterruptSource(USBMIDI_1_SIE_INT_EP8_INTR);
+ 629:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 630:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* Notifies user that transfer IN or OUT transfer is completed.
+ 631:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * IN endpoint: endpoint buffer can be reloaded, Host is read data.
+ 632:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         * OUT endpoint: data is ready to read from endpoint buffer. 
+ 633:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         */
+ 634:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)
+ 635:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         if (0u != (USBMIDI_1_EP[USBMIDI_1_EP8].addr & USBMIDI_1_DIR_IN))
+ 636:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_MANAGEMENT_DMA_AUTO) */
+ 637:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         {
+ 638:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Read CR0 register to clear SIE lock. */
+ 639:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             (void) USBMIDI_1_SIE_EP_BASE.sieEp[USBMIDI_1_EP8].epCr0;
+ 640:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 641:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* Toggle all endpoint types except ISOC. */
+ 642:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_GET_EP_TYPE(USBMIDI_1_EP8) != USBMIDI_1_EP_TYPE_ISOC)
+ 643:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 15
+
+
+ 644:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_EP[USBMIDI_1_EP8].epToggle ^= USBMIDI_1_EPX_CNT_DATA_TOGGLE;
+ 645:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 646:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 647:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             /* EP_MANAGEMENT_DMA_AUTO (Ticket ID# 214187): For OUT endpoint this event is used to n
+ 648:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * user that DMA has completed copying data from OUT endpoint which is not completely tr
+ 649:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * Because last chunk of data is being copied.
+ 650:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC 3/5LP: it is acceptable as DMA is really fast.
+ 651:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             * For CY_PSOC4: this event is set in Arbiter interrupt (source is DMA_TERMIN).
+ 652:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             */
+ 653:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             USBMIDI_1_EP[USBMIDI_1_EP8].apiEpState = USBMIDI_1_EVENT_PENDING;
+ 654:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 655:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 656:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO))
+ 657:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #if (defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 658:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 659:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             if (USBMIDI_1_midi_out_ep == USBMIDI_1_EP8)
+ 660:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             {
+ 661:Generated_Source\PSoC5/USBMIDI_1_episr.c ****                 USBMIDI_1_MIDI_OUT_Service();
+ 662:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             }
+ 663:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         #endif /* (USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 664:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (!(CY_PSOC4 && USBMIDI_1_EP_MANAGEMENT_DMA_AUTO)) */
+ 665:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 666:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START EP8_END_USER_CODE` Place your code here */
+ 667:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 668:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 669:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 670:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_EP_8_ISR_EXIT_CALLBACK
+ 671:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_EP_8_ISR_ExitCallback();
+ 672:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_EP_8_ISR_EXIT_CALLBACK) */
+ 673:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 674:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #if (CY_PSOC3 && defined(USBMIDI_1_ENABLE_MIDI_STREAMING) && \
+ 675:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         !defined(USBMIDI_1_MAIN_SERVICE_MIDI_OUT) && USBMIDI_1_ISR_SERVICE_MIDI_OUT)
+ 676:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         
+ 677:Generated_Source\PSoC5/USBMIDI_1_episr.c ****             EA = intEn; /* Restore nested interrupt configuration. */
+ 678:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         }
+ 679:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (CY_PSOC3 && USBMIDI_1_ISR_SERVICE_MIDI_OUT) */
+ 680:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+ 681:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_EP8_ISR_ACTIVE) */
+ 682:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 683:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 684:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_SOF_ISR_ACTIVE)
+ 685:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /*******************************************************************************
+ 686:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     * Function Name: USBMIDI_1_SOF_ISR
+ 687:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     ****************************************************************************//**
+ 688:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 689:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *  Start of Frame Interrupt Service Routine.
+ 690:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 691:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *
+ 692:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     *******************************************************************************/
+ 693:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     CY_ISR(USBMIDI_1_SOF_ISR)
+ 694:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     {
+ 156              		.loc 1 694 0
+ 157              		.cfi_startproc
+ 158              		@ args = 0, pretend = 0, frame = 0
+ 159              		@ frame_needed = 1, uses_anonymous_args = 0
+ 160              		@ link register save eliminated.
+ 161 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 16
+
+
+ 162              		.cfi_def_cfa_offset 4
+ 163              		.cfi_offset 7, -4
+ 164 0002 00AF     		add	r7, sp, #0
+ 165              		.cfi_def_cfa_register 7
+ 695:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_SOF_ISR_ENTRY_CALLBACK
+ 696:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_SOF_ISR_EntryCallback();
+ 697:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_SOF_ISR_ENTRY_CALLBACK) */
+ 698:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 699:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#START SOF_USER_CODE` Place your code here */
+ 700:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 701:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         /* `#END` */
+ 702:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 703:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_ClearSieInterruptSource(USBMIDI_1_INTR_SIE_SOF_INTR);
+ 704:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 705:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #ifdef USBMIDI_1_SOF_ISR_EXIT_CALLBACK
+ 706:Generated_Source\PSoC5/USBMIDI_1_episr.c ****         USBMIDI_1_SOF_ISR_ExitCallback();
+ 707:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     #endif /* (USBMIDI_1_SOF_ISR_EXIT_CALLBACK) */
+ 708:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     }
+ 166              		.loc 1 708 0
+ 167 0004 00BF     		nop
+ 168 0006 BD46     		mov	sp, r7
+ 169              		.cfi_def_cfa_register 13
+ 170              		@ sp needed
+ 171 0008 80BC     		pop	{r7}
+ 172              		.cfi_restore 7
+ 173              		.cfi_def_cfa_offset 0
+ 174 000a 7047     		bx	lr
+ 175              		.cfi_endproc
+ 176              	.LFE2:
+ 177              		.size	USBMIDI_1_SOF_ISR, .-USBMIDI_1_SOF_ISR
+ 178              		.section	.text.USBMIDI_1_BUS_RESET_ISR,"ax",%progbits
+ 179              		.align	2
+ 180              		.global	USBMIDI_1_BUS_RESET_ISR
+ 181              		.thumb
+ 182              		.thumb_func
+ 183              		.type	USBMIDI_1_BUS_RESET_ISR, %function
+ 184              	USBMIDI_1_BUS_RESET_ISR:
+ 185              	.LFB3:
+ 709:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_SOF_ISR_ACTIVE) */
+ 710:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 711:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 712:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #if (USBMIDI_1_BUS_RESET_ISR_ACTIVE)
+ 713:Generated_Source\PSoC5/USBMIDI_1_episr.c **** /*******************************************************************************
+ 714:Generated_Source\PSoC5/USBMIDI_1_episr.c **** * Function Name: USBMIDI_1_BUS_RESET_ISR
+ 715:Generated_Source\PSoC5/USBMIDI_1_episr.c **** ****************************************************************************//**
+ 716:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *
+ 717:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *  USB Bus Reset Interrupt Service Routine.  Calls _Start with the same
+ 718:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *  parameters as the last USER call to _Start
+ 719:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *
+ 720:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *
+ 721:Generated_Source\PSoC5/USBMIDI_1_episr.c **** *******************************************************************************/
+ 722:Generated_Source\PSoC5/USBMIDI_1_episr.c **** CY_ISR(USBMIDI_1_BUS_RESET_ISR)
+ 723:Generated_Source\PSoC5/USBMIDI_1_episr.c **** {
+ 186              		.loc 1 723 0
+ 187              		.cfi_startproc
+ 188              		@ args = 0, pretend = 0, frame = 0
+ 189              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 17
+
+
+ 190 0000 80B5     		push	{r7, lr}
+ 191              		.cfi_def_cfa_offset 8
+ 192              		.cfi_offset 7, -8
+ 193              		.cfi_offset 14, -4
+ 194 0002 00AF     		add	r7, sp, #0
+ 195              		.cfi_def_cfa_register 7
+ 724:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #ifdef USBMIDI_1_BUS_RESET_ISR_ENTRY_CALLBACK
+ 725:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     USBMIDI_1_BUS_RESET_ISR_EntryCallback();
+ 726:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_BUS_RESET_ISR_ENTRY_CALLBACK) */
+ 727:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 728:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /* `#START BUS_RESET_USER_CODE` Place your code here */
+ 729:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 730:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     /* `#END` */
+ 731:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 732:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     USBMIDI_1_ClearSieInterruptSource(USBMIDI_1_INTR_SIE_BUS_RESET_INTR);
+ 733:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 734:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     USBMIDI_1_ReInitComponent();
+ 196              		.loc 1 734 0
+ 197 0004 FFF7FEFF 		bl	USBMIDI_1_ReInitComponent
+ 735:Generated_Source\PSoC5/USBMIDI_1_episr.c **** 
+ 736:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #ifdef USBMIDI_1_BUS_RESET_ISR_EXIT_CALLBACK
+ 737:Generated_Source\PSoC5/USBMIDI_1_episr.c ****     USBMIDI_1_BUS_RESET_ISR_ExitCallback();
+ 738:Generated_Source\PSoC5/USBMIDI_1_episr.c **** #endif /* (USBMIDI_1_BUS_RESET_ISR_EXIT_CALLBACK) */
+ 739:Generated_Source\PSoC5/USBMIDI_1_episr.c **** }
+ 198              		.loc 1 739 0
+ 199 0008 00BF     		nop
+ 200 000a 80BD     		pop	{r7, pc}
+ 201              		.cfi_endproc
+ 202              	.LFE3:
+ 203              		.size	USBMIDI_1_BUS_RESET_ISR, .-USBMIDI_1_BUS_RESET_ISR
+ 204              		.text
+ 205              	.Letext0:
+ 206              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 207              		.file 3 "Generated_Source\\PSoC5\\USBMIDI_1.h"
+ 208              		.file 4 "Generated_Source\\PSoC5\\USBMIDI_1_pvt.h"
+ 209              		.section	.debug_info,"",%progbits
+ 210              	.Ldebug_info0:
+ 211 0000 26020000 		.4byte	0x226
+ 212 0004 0400     		.2byte	0x4
+ 213 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 214 000a 04       		.byte	0x4
+ 215 000b 01       		.uleb128 0x1
+ 216 000c 00000000 		.4byte	.LASF37
+ 217 0010 0C       		.byte	0xc
+ 218 0011 BD020000 		.4byte	.LASF38
+ 219 0015 DA010000 		.4byte	.LASF39
+ 220 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 221 001d 00000000 		.4byte	0
+ 222 0021 00000000 		.4byte	.Ldebug_line0
+ 223 0025 02       		.uleb128 0x2
+ 224 0026 01       		.byte	0x1
+ 225 0027 06       		.byte	0x6
+ 226 0028 13030000 		.4byte	.LASF0
+ 227 002c 02       		.uleb128 0x2
+ 228 002d 01       		.byte	0x1
+ 229 002e 08       		.byte	0x8
+ 230 002f F0000000 		.4byte	.LASF1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 18
+
+
+ 231 0033 02       		.uleb128 0x2
+ 232 0034 02       		.byte	0x2
+ 233 0035 05       		.byte	0x5
+ 234 0036 A3020000 		.4byte	.LASF2
+ 235 003a 02       		.uleb128 0x2
+ 236 003b 02       		.byte	0x2
+ 237 003c 07       		.byte	0x7
+ 238 003d C6000000 		.4byte	.LASF3
+ 239 0041 02       		.uleb128 0x2
+ 240 0042 04       		.byte	0x4
+ 241 0043 05       		.byte	0x5
+ 242 0044 E6020000 		.4byte	.LASF4
+ 243 0048 02       		.uleb128 0x2
+ 244 0049 04       		.byte	0x4
+ 245 004a 07       		.byte	0x7
+ 246 004b 16010000 		.4byte	.LASF5
+ 247 004f 02       		.uleb128 0x2
+ 248 0050 08       		.byte	0x8
+ 249 0051 05       		.byte	0x5
+ 250 0052 CC010000 		.4byte	.LASF6
+ 251 0056 02       		.uleb128 0x2
+ 252 0057 08       		.byte	0x8
+ 253 0058 07       		.byte	0x7
+ 254 0059 83010000 		.4byte	.LASF7
+ 255 005d 03       		.uleb128 0x3
+ 256 005e 04       		.byte	0x4
+ 257 005f 05       		.byte	0x5
+ 258 0060 696E7400 		.ascii	"int\000"
+ 259 0064 02       		.uleb128 0x2
+ 260 0065 04       		.byte	0x4
+ 261 0066 07       		.byte	0x7
+ 262 0067 76010000 		.4byte	.LASF8
+ 263 006b 04       		.uleb128 0x4
+ 264 006c AD020000 		.4byte	.LASF9
+ 265 0070 02       		.byte	0x2
+ 266 0071 E401     		.2byte	0x1e4
+ 267 0073 2C000000 		.4byte	0x2c
+ 268 0077 04       		.uleb128 0x4
+ 269 0078 64010000 		.4byte	.LASF10
+ 270 007c 02       		.byte	0x2
+ 271 007d E501     		.2byte	0x1e5
+ 272 007f 3A000000 		.4byte	0x3a
+ 273 0083 02       		.uleb128 0x2
+ 274 0084 04       		.byte	0x4
+ 275 0085 04       		.byte	0x4
+ 276 0086 A7000000 		.4byte	.LASF11
+ 277 008a 02       		.uleb128 0x2
+ 278 008b 08       		.byte	0x8
+ 279 008c 04       		.byte	0x4
+ 280 008d 40010000 		.4byte	.LASF12
+ 281 0091 02       		.uleb128 0x2
+ 282 0092 01       		.byte	0x1
+ 283 0093 08       		.byte	0x8
+ 284 0094 86020000 		.4byte	.LASF13
+ 285 0098 04       		.uleb128 0x4
+ 286 0099 FE000000 		.4byte	.LASF14
+ 287 009d 02       		.byte	0x2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 19
+
+
+ 288 009e 8E02     		.2byte	0x28e
+ 289 00a0 A4000000 		.4byte	0xa4
+ 290 00a4 05       		.uleb128 0x5
+ 291 00a5 6B000000 		.4byte	0x6b
+ 292 00a9 02       		.uleb128 0x2
+ 293 00aa 08       		.byte	0x8
+ 294 00ab 04       		.byte	0x4
+ 295 00ac 07030000 		.4byte	.LASF15
+ 296 00b0 02       		.uleb128 0x2
+ 297 00b1 04       		.byte	0x4
+ 298 00b2 07       		.byte	0x7
+ 299 00b3 BC010000 		.4byte	.LASF16
+ 300 00b7 06       		.uleb128 0x6
+ 301 00b8 0C       		.byte	0xc
+ 302 00b9 03       		.byte	0x3
+ 303 00ba 8D       		.byte	0x8d
+ 304 00bb 2C010000 		.4byte	0x12c
+ 305 00bf 07       		.uleb128 0x7
+ 306 00c0 47010000 		.4byte	.LASF17
+ 307 00c4 03       		.byte	0x3
+ 308 00c5 8F       		.byte	0x8f
+ 309 00c6 6B000000 		.4byte	0x6b
+ 310 00ca 00       		.byte	0
+ 311 00cb 07       		.uleb128 0x7
+ 312 00cc 6B010000 		.4byte	.LASF18
+ 313 00d0 03       		.byte	0x3
+ 314 00d1 90       		.byte	0x90
+ 315 00d2 6B000000 		.4byte	0x6b
+ 316 00d6 01       		.byte	0x1
+ 317 00d7 07       		.uleb128 0x7
+ 318 00d8 9A010000 		.4byte	.LASF19
+ 319 00dc 03       		.byte	0x3
+ 320 00dd 91       		.byte	0x91
+ 321 00de 6B000000 		.4byte	0x6b
+ 322 00e2 02       		.byte	0x2
+ 323 00e3 07       		.uleb128 0x7
+ 324 00e4 E7000000 		.4byte	.LASF20
+ 325 00e8 03       		.byte	0x3
+ 326 00e9 92       		.byte	0x92
+ 327 00ea 6B000000 		.4byte	0x6b
+ 328 00ee 03       		.byte	0x3
+ 329 00ef 07       		.uleb128 0x7
+ 330 00f0 28010000 		.4byte	.LASF21
+ 331 00f4 03       		.byte	0x3
+ 332 00f5 93       		.byte	0x93
+ 333 00f6 6B000000 		.4byte	0x6b
+ 334 00fa 04       		.byte	0x4
+ 335 00fb 07       		.uleb128 0x7
+ 336 00fc C5010000 		.4byte	.LASF22
+ 337 0100 03       		.byte	0x3
+ 338 0101 94       		.byte	0x94
+ 339 0102 6B000000 		.4byte	0x6b
+ 340 0106 05       		.byte	0x5
+ 341 0107 07       		.uleb128 0x7
+ 342 0108 4E010000 		.4byte	.LASF23
+ 343 010c 03       		.byte	0x3
+ 344 010d 95       		.byte	0x95
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 20
+
+
+ 345 010e 77000000 		.4byte	0x77
+ 346 0112 06       		.byte	0x6
+ 347 0113 07       		.uleb128 0x7
+ 348 0114 59010000 		.4byte	.LASF24
+ 349 0118 03       		.byte	0x3
+ 350 0119 96       		.byte	0x96
+ 351 011a 77000000 		.4byte	0x77
+ 352 011e 08       		.byte	0x8
+ 353 011f 07       		.uleb128 0x7
+ 354 0120 B3020000 		.4byte	.LASF25
+ 355 0124 03       		.byte	0x3
+ 356 0125 97       		.byte	0x97
+ 357 0126 6B000000 		.4byte	0x6b
+ 358 012a 0A       		.byte	0xa
+ 359 012b 00       		.byte	0
+ 360 012c 08       		.uleb128 0x8
+ 361 012d 8E000000 		.4byte	.LASF26
+ 362 0131 03       		.byte	0x3
+ 363 0132 98       		.byte	0x98
+ 364 0133 B7000000 		.4byte	0xb7
+ 365 0137 06       		.uleb128 0x6
+ 366 0138 10       		.byte	0x10
+ 367 0139 03       		.byte	0x3
+ 368 013a D4       		.byte	0xd4
+ 369 013b 70010000 		.4byte	0x170
+ 370 013f 07       		.uleb128 0x7
+ 371 0140 D9000000 		.4byte	.LASF27
+ 372 0144 03       		.byte	0x3
+ 373 0145 D6       		.byte	0xd6
+ 374 0146 6B000000 		.4byte	0x6b
+ 375 014a 00       		.byte	0
+ 376 014b 07       		.uleb128 0x7
+ 377 014c E0000000 		.4byte	.LASF28
+ 378 0150 03       		.byte	0x3
+ 379 0151 D7       		.byte	0xd7
+ 380 0152 6B000000 		.4byte	0x6b
+ 381 0156 01       		.byte	0x1
+ 382 0157 07       		.uleb128 0x7
+ 383 0158 8B020000 		.4byte	.LASF29
+ 384 015c 03       		.byte	0x3
+ 385 015d D8       		.byte	0xd8
+ 386 015e 6B000000 		.4byte	0x6b
+ 387 0162 02       		.byte	0x2
+ 388 0163 09       		.uleb128 0x9
+ 389 0164 67617000 		.ascii	"gap\000"
+ 390 0168 03       		.byte	0x3
+ 391 0169 D9       		.byte	0xd9
+ 392 016a 70010000 		.4byte	0x170
+ 393 016e 03       		.byte	0x3
+ 394 016f 00       		.byte	0
+ 395 0170 0A       		.uleb128 0xa
+ 396 0171 6B000000 		.4byte	0x6b
+ 397 0175 80010000 		.4byte	0x180
+ 398 0179 0B       		.uleb128 0xb
+ 399 017a B0000000 		.4byte	0xb0
+ 400 017e 0C       		.byte	0xc
+ 401 017f 00       		.byte	0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 21
+
+
+ 402 0180 08       		.uleb128 0x8
+ 403 0181 EF020000 		.4byte	.LASF30
+ 404 0185 03       		.byte	0x3
+ 405 0186 DA       		.byte	0xda
+ 406 0187 37010000 		.4byte	0x137
+ 407 018b 0C       		.uleb128 0xc
+ 408 018c 90       		.byte	0x90
+ 409 018d 03       		.byte	0x3
+ 410 018e 0E01     		.2byte	0x10e
+ 411 0190 A2010000 		.4byte	0x1a2
+ 412 0194 0D       		.uleb128 0xd
+ 413 0195 3A010000 		.4byte	.LASF31
+ 414 0199 03       		.byte	0x3
+ 415 019a 1001     		.2byte	0x110
+ 416 019c A2010000 		.4byte	0x1a2
+ 417 01a0 00       		.byte	0
+ 418 01a1 00       		.byte	0
+ 419 01a2 0A       		.uleb128 0xa
+ 420 01a3 80010000 		.4byte	0x180
+ 421 01a7 B2010000 		.4byte	0x1b2
+ 422 01ab 0B       		.uleb128 0xb
+ 423 01ac B0000000 		.4byte	0xb0
+ 424 01b0 08       		.byte	0x8
+ 425 01b1 00       		.byte	0
+ 426 01b2 04       		.uleb128 0x4
+ 427 01b3 AD000000 		.4byte	.LASF32
+ 428 01b7 03       		.byte	0x3
+ 429 01b8 1101     		.2byte	0x111
+ 430 01ba 8B010000 		.4byte	0x18b
+ 431 01be 0E       		.uleb128 0xe
+ 432 01bf 1F030000 		.4byte	.LASF33
+ 433 01c3 01       		.byte	0x1
+ 434 01c4 25       		.byte	0x25
+ 435 01c5 00000000 		.4byte	.LFB0
+ 436 01c9 48000000 		.4byte	.LFE0-.LFB0
+ 437 01cd 01       		.uleb128 0x1
+ 438 01ce 9C       		.byte	0x9c
+ 439 01cf 0E       		.uleb128 0xe
+ 440 01d0 03010000 		.4byte	.LASF34
+ 441 01d4 01       		.byte	0x1
+ 442 01d5 78       		.byte	0x78
+ 443 01d6 00000000 		.4byte	.LFB1
+ 444 01da 4C000000 		.4byte	.LFE1-.LFB1
+ 445 01de 01       		.uleb128 0x1
+ 446 01df 9C       		.byte	0x9c
+ 447 01e0 0F       		.uleb128 0xf
+ 448 01e1 91020000 		.4byte	.LASF35
+ 449 01e5 01       		.byte	0x1
+ 450 01e6 B502     		.2byte	0x2b5
+ 451 01e8 00000000 		.4byte	.LFB2
+ 452 01ec 0C000000 		.4byte	.LFE2-.LFB2
+ 453 01f0 01       		.uleb128 0x1
+ 454 01f1 9C       		.byte	0x9c
+ 455 01f2 10       		.uleb128 0x10
+ 456 01f3 A4010000 		.4byte	.LASF36
+ 457 01f7 01       		.byte	0x1
+ 458 01f8 D202     		.2byte	0x2d2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 22
+
+
+ 459 01fa 00000000 		.4byte	.LFB3
+ 460 01fe 0C000000 		.4byte	.LFE3-.LFB3
+ 461 0202 01       		.uleb128 0x1
+ 462 0203 9C       		.byte	0x9c
+ 463 0204 0A       		.uleb128 0xa
+ 464 0205 14020000 		.4byte	0x214
+ 465 0209 14020000 		.4byte	0x214
+ 466 020d 0B       		.uleb128 0xb
+ 467 020e B0000000 		.4byte	0xb0
+ 468 0212 08       		.byte	0x8
+ 469 0213 00       		.byte	0
+ 470 0214 05       		.uleb128 0x5
+ 471 0215 2C010000 		.4byte	0x12c
+ 472 0219 11       		.uleb128 0x11
+ 473 021a 2D010000 		.4byte	.LASF40
+ 474 021e 04       		.byte	0x4
+ 475 021f 79       		.byte	0x79
+ 476 0220 24020000 		.4byte	0x224
+ 477 0224 05       		.uleb128 0x5
+ 478 0225 04020000 		.4byte	0x204
+ 479 0229 00       		.byte	0
+ 480              		.section	.debug_abbrev,"",%progbits
+ 481              	.Ldebug_abbrev0:
+ 482 0000 01       		.uleb128 0x1
+ 483 0001 11       		.uleb128 0x11
+ 484 0002 01       		.byte	0x1
+ 485 0003 25       		.uleb128 0x25
+ 486 0004 0E       		.uleb128 0xe
+ 487 0005 13       		.uleb128 0x13
+ 488 0006 0B       		.uleb128 0xb
+ 489 0007 03       		.uleb128 0x3
+ 490 0008 0E       		.uleb128 0xe
+ 491 0009 1B       		.uleb128 0x1b
+ 492 000a 0E       		.uleb128 0xe
+ 493 000b 55       		.uleb128 0x55
+ 494 000c 17       		.uleb128 0x17
+ 495 000d 11       		.uleb128 0x11
+ 496 000e 01       		.uleb128 0x1
+ 497 000f 10       		.uleb128 0x10
+ 498 0010 17       		.uleb128 0x17
+ 499 0011 00       		.byte	0
+ 500 0012 00       		.byte	0
+ 501 0013 02       		.uleb128 0x2
+ 502 0014 24       		.uleb128 0x24
+ 503 0015 00       		.byte	0
+ 504 0016 0B       		.uleb128 0xb
+ 505 0017 0B       		.uleb128 0xb
+ 506 0018 3E       		.uleb128 0x3e
+ 507 0019 0B       		.uleb128 0xb
+ 508 001a 03       		.uleb128 0x3
+ 509 001b 0E       		.uleb128 0xe
+ 510 001c 00       		.byte	0
+ 511 001d 00       		.byte	0
+ 512 001e 03       		.uleb128 0x3
+ 513 001f 24       		.uleb128 0x24
+ 514 0020 00       		.byte	0
+ 515 0021 0B       		.uleb128 0xb
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 23
+
+
+ 516 0022 0B       		.uleb128 0xb
+ 517 0023 3E       		.uleb128 0x3e
+ 518 0024 0B       		.uleb128 0xb
+ 519 0025 03       		.uleb128 0x3
+ 520 0026 08       		.uleb128 0x8
+ 521 0027 00       		.byte	0
+ 522 0028 00       		.byte	0
+ 523 0029 04       		.uleb128 0x4
+ 524 002a 16       		.uleb128 0x16
+ 525 002b 00       		.byte	0
+ 526 002c 03       		.uleb128 0x3
+ 527 002d 0E       		.uleb128 0xe
+ 528 002e 3A       		.uleb128 0x3a
+ 529 002f 0B       		.uleb128 0xb
+ 530 0030 3B       		.uleb128 0x3b
+ 531 0031 05       		.uleb128 0x5
+ 532 0032 49       		.uleb128 0x49
+ 533 0033 13       		.uleb128 0x13
+ 534 0034 00       		.byte	0
+ 535 0035 00       		.byte	0
+ 536 0036 05       		.uleb128 0x5
+ 537 0037 35       		.uleb128 0x35
+ 538 0038 00       		.byte	0
+ 539 0039 49       		.uleb128 0x49
+ 540 003a 13       		.uleb128 0x13
+ 541 003b 00       		.byte	0
+ 542 003c 00       		.byte	0
+ 543 003d 06       		.uleb128 0x6
+ 544 003e 13       		.uleb128 0x13
+ 545 003f 01       		.byte	0x1
+ 546 0040 0B       		.uleb128 0xb
+ 547 0041 0B       		.uleb128 0xb
+ 548 0042 3A       		.uleb128 0x3a
+ 549 0043 0B       		.uleb128 0xb
+ 550 0044 3B       		.uleb128 0x3b
+ 551 0045 0B       		.uleb128 0xb
+ 552 0046 01       		.uleb128 0x1
+ 553 0047 13       		.uleb128 0x13
+ 554 0048 00       		.byte	0
+ 555 0049 00       		.byte	0
+ 556 004a 07       		.uleb128 0x7
+ 557 004b 0D       		.uleb128 0xd
+ 558 004c 00       		.byte	0
+ 559 004d 03       		.uleb128 0x3
+ 560 004e 0E       		.uleb128 0xe
+ 561 004f 3A       		.uleb128 0x3a
+ 562 0050 0B       		.uleb128 0xb
+ 563 0051 3B       		.uleb128 0x3b
+ 564 0052 0B       		.uleb128 0xb
+ 565 0053 49       		.uleb128 0x49
+ 566 0054 13       		.uleb128 0x13
+ 567 0055 38       		.uleb128 0x38
+ 568 0056 0B       		.uleb128 0xb
+ 569 0057 00       		.byte	0
+ 570 0058 00       		.byte	0
+ 571 0059 08       		.uleb128 0x8
+ 572 005a 16       		.uleb128 0x16
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 24
+
+
+ 573 005b 00       		.byte	0
+ 574 005c 03       		.uleb128 0x3
+ 575 005d 0E       		.uleb128 0xe
+ 576 005e 3A       		.uleb128 0x3a
+ 577 005f 0B       		.uleb128 0xb
+ 578 0060 3B       		.uleb128 0x3b
+ 579 0061 0B       		.uleb128 0xb
+ 580 0062 49       		.uleb128 0x49
+ 581 0063 13       		.uleb128 0x13
+ 582 0064 00       		.byte	0
+ 583 0065 00       		.byte	0
+ 584 0066 09       		.uleb128 0x9
+ 585 0067 0D       		.uleb128 0xd
+ 586 0068 00       		.byte	0
+ 587 0069 03       		.uleb128 0x3
+ 588 006a 08       		.uleb128 0x8
+ 589 006b 3A       		.uleb128 0x3a
+ 590 006c 0B       		.uleb128 0xb
+ 591 006d 3B       		.uleb128 0x3b
+ 592 006e 0B       		.uleb128 0xb
+ 593 006f 49       		.uleb128 0x49
+ 594 0070 13       		.uleb128 0x13
+ 595 0071 38       		.uleb128 0x38
+ 596 0072 0B       		.uleb128 0xb
+ 597 0073 00       		.byte	0
+ 598 0074 00       		.byte	0
+ 599 0075 0A       		.uleb128 0xa
+ 600 0076 01       		.uleb128 0x1
+ 601 0077 01       		.byte	0x1
+ 602 0078 49       		.uleb128 0x49
+ 603 0079 13       		.uleb128 0x13
+ 604 007a 01       		.uleb128 0x1
+ 605 007b 13       		.uleb128 0x13
+ 606 007c 00       		.byte	0
+ 607 007d 00       		.byte	0
+ 608 007e 0B       		.uleb128 0xb
+ 609 007f 21       		.uleb128 0x21
+ 610 0080 00       		.byte	0
+ 611 0081 49       		.uleb128 0x49
+ 612 0082 13       		.uleb128 0x13
+ 613 0083 2F       		.uleb128 0x2f
+ 614 0084 0B       		.uleb128 0xb
+ 615 0085 00       		.byte	0
+ 616 0086 00       		.byte	0
+ 617 0087 0C       		.uleb128 0xc
+ 618 0088 13       		.uleb128 0x13
+ 619 0089 01       		.byte	0x1
+ 620 008a 0B       		.uleb128 0xb
+ 621 008b 0B       		.uleb128 0xb
+ 622 008c 3A       		.uleb128 0x3a
+ 623 008d 0B       		.uleb128 0xb
+ 624 008e 3B       		.uleb128 0x3b
+ 625 008f 05       		.uleb128 0x5
+ 626 0090 01       		.uleb128 0x1
+ 627 0091 13       		.uleb128 0x13
+ 628 0092 00       		.byte	0
+ 629 0093 00       		.byte	0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 25
+
+
+ 630 0094 0D       		.uleb128 0xd
+ 631 0095 0D       		.uleb128 0xd
+ 632 0096 00       		.byte	0
+ 633 0097 03       		.uleb128 0x3
+ 634 0098 0E       		.uleb128 0xe
+ 635 0099 3A       		.uleb128 0x3a
+ 636 009a 0B       		.uleb128 0xb
+ 637 009b 3B       		.uleb128 0x3b
+ 638 009c 05       		.uleb128 0x5
+ 639 009d 49       		.uleb128 0x49
+ 640 009e 13       		.uleb128 0x13
+ 641 009f 38       		.uleb128 0x38
+ 642 00a0 0B       		.uleb128 0xb
+ 643 00a1 00       		.byte	0
+ 644 00a2 00       		.byte	0
+ 645 00a3 0E       		.uleb128 0xe
+ 646 00a4 2E       		.uleb128 0x2e
+ 647 00a5 00       		.byte	0
+ 648 00a6 3F       		.uleb128 0x3f
+ 649 00a7 19       		.uleb128 0x19
+ 650 00a8 03       		.uleb128 0x3
+ 651 00a9 0E       		.uleb128 0xe
+ 652 00aa 3A       		.uleb128 0x3a
+ 653 00ab 0B       		.uleb128 0xb
+ 654 00ac 3B       		.uleb128 0x3b
+ 655 00ad 0B       		.uleb128 0xb
+ 656 00ae 27       		.uleb128 0x27
+ 657 00af 19       		.uleb128 0x19
+ 658 00b0 11       		.uleb128 0x11
+ 659 00b1 01       		.uleb128 0x1
+ 660 00b2 12       		.uleb128 0x12
+ 661 00b3 06       		.uleb128 0x6
+ 662 00b4 40       		.uleb128 0x40
+ 663 00b5 18       		.uleb128 0x18
+ 664 00b6 9742     		.uleb128 0x2117
+ 665 00b8 19       		.uleb128 0x19
+ 666 00b9 00       		.byte	0
+ 667 00ba 00       		.byte	0
+ 668 00bb 0F       		.uleb128 0xf
+ 669 00bc 2E       		.uleb128 0x2e
+ 670 00bd 00       		.byte	0
+ 671 00be 3F       		.uleb128 0x3f
+ 672 00bf 19       		.uleb128 0x19
+ 673 00c0 03       		.uleb128 0x3
+ 674 00c1 0E       		.uleb128 0xe
+ 675 00c2 3A       		.uleb128 0x3a
+ 676 00c3 0B       		.uleb128 0xb
+ 677 00c4 3B       		.uleb128 0x3b
+ 678 00c5 05       		.uleb128 0x5
+ 679 00c6 27       		.uleb128 0x27
+ 680 00c7 19       		.uleb128 0x19
+ 681 00c8 11       		.uleb128 0x11
+ 682 00c9 01       		.uleb128 0x1
+ 683 00ca 12       		.uleb128 0x12
+ 684 00cb 06       		.uleb128 0x6
+ 685 00cc 40       		.uleb128 0x40
+ 686 00cd 18       		.uleb128 0x18
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 26
+
+
+ 687 00ce 9742     		.uleb128 0x2117
+ 688 00d0 19       		.uleb128 0x19
+ 689 00d1 00       		.byte	0
+ 690 00d2 00       		.byte	0
+ 691 00d3 10       		.uleb128 0x10
+ 692 00d4 2E       		.uleb128 0x2e
+ 693 00d5 00       		.byte	0
+ 694 00d6 3F       		.uleb128 0x3f
+ 695 00d7 19       		.uleb128 0x19
+ 696 00d8 03       		.uleb128 0x3
+ 697 00d9 0E       		.uleb128 0xe
+ 698 00da 3A       		.uleb128 0x3a
+ 699 00db 0B       		.uleb128 0xb
+ 700 00dc 3B       		.uleb128 0x3b
+ 701 00dd 05       		.uleb128 0x5
+ 702 00de 27       		.uleb128 0x27
+ 703 00df 19       		.uleb128 0x19
+ 704 00e0 11       		.uleb128 0x11
+ 705 00e1 01       		.uleb128 0x1
+ 706 00e2 12       		.uleb128 0x12
+ 707 00e3 06       		.uleb128 0x6
+ 708 00e4 40       		.uleb128 0x40
+ 709 00e5 18       		.uleb128 0x18
+ 710 00e6 9642     		.uleb128 0x2116
+ 711 00e8 19       		.uleb128 0x19
+ 712 00e9 00       		.byte	0
+ 713 00ea 00       		.byte	0
+ 714 00eb 11       		.uleb128 0x11
+ 715 00ec 34       		.uleb128 0x34
+ 716 00ed 00       		.byte	0
+ 717 00ee 03       		.uleb128 0x3
+ 718 00ef 0E       		.uleb128 0xe
+ 719 00f0 3A       		.uleb128 0x3a
+ 720 00f1 0B       		.uleb128 0xb
+ 721 00f2 3B       		.uleb128 0x3b
+ 722 00f3 0B       		.uleb128 0xb
+ 723 00f4 49       		.uleb128 0x49
+ 724 00f5 13       		.uleb128 0x13
+ 725 00f6 3F       		.uleb128 0x3f
+ 726 00f7 19       		.uleb128 0x19
+ 727 00f8 3C       		.uleb128 0x3c
+ 728 00f9 19       		.uleb128 0x19
+ 729 00fa 00       		.byte	0
+ 730 00fb 00       		.byte	0
+ 731 00fc 00       		.byte	0
+ 732              		.section	.debug_aranges,"",%progbits
+ 733 0000 34000000 		.4byte	0x34
+ 734 0004 0200     		.2byte	0x2
+ 735 0006 00000000 		.4byte	.Ldebug_info0
+ 736 000a 04       		.byte	0x4
+ 737 000b 00       		.byte	0
+ 738 000c 0000     		.2byte	0
+ 739 000e 0000     		.2byte	0
+ 740 0010 00000000 		.4byte	.LFB0
+ 741 0014 48000000 		.4byte	.LFE0-.LFB0
+ 742 0018 00000000 		.4byte	.LFB1
+ 743 001c 4C000000 		.4byte	.LFE1-.LFB1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 27
+
+
+ 744 0020 00000000 		.4byte	.LFB2
+ 745 0024 0C000000 		.4byte	.LFE2-.LFB2
+ 746 0028 00000000 		.4byte	.LFB3
+ 747 002c 0C000000 		.4byte	.LFE3-.LFB3
+ 748 0030 00000000 		.4byte	0
+ 749 0034 00000000 		.4byte	0
+ 750              		.section	.debug_ranges,"",%progbits
+ 751              	.Ldebug_ranges0:
+ 752 0000 00000000 		.4byte	.LFB0
+ 753 0004 48000000 		.4byte	.LFE0
+ 754 0008 00000000 		.4byte	.LFB1
+ 755 000c 4C000000 		.4byte	.LFE1
+ 756 0010 00000000 		.4byte	.LFB2
+ 757 0014 0C000000 		.4byte	.LFE2
+ 758 0018 00000000 		.4byte	.LFB3
+ 759 001c 0C000000 		.4byte	.LFE3
+ 760 0020 00000000 		.4byte	0
+ 761 0024 00000000 		.4byte	0
+ 762              		.section	.debug_line,"",%progbits
+ 763              	.Ldebug_line0:
+ 764 0000 D6000000 		.section	.debug_str,"MS",%progbits,1
+ 764      02006E00 
+ 764      00000201 
+ 764      FB0E0D00 
+ 764      01010101 
+ 765              	.LASF37:
+ 766 0000 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 766      43313120 
+ 766      352E342E 
+ 766      31203230 
+ 766      31363036 
+ 767 0033 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 767      20726576 
+ 767      6973696F 
+ 767      6E203233 
+ 767      37373135 
+ 768 0066 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 768      66756E63 
+ 768      74696F6E 
+ 768      2D736563 
+ 768      74696F6E 
+ 769              	.LASF26:
+ 770 008e 545F5553 		.ascii	"T_USBMIDI_1_EP_CTL_BLOCK\000"
+ 770      424D4944 
+ 770      495F315F 
+ 770      45505F43 
+ 770      544C5F42 
+ 771              	.LASF11:
+ 772 00a7 666C6F61 		.ascii	"float\000"
+ 772      7400
+ 773              	.LASF32:
+ 774 00ad 5553424D 		.ascii	"USBMIDI_1_sie_eps_struct\000"
+ 774      4944495F 
+ 774      315F7369 
+ 774      655F6570 
+ 774      735F7374 
+ 775              	.LASF3:
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 28
+
+
+ 776 00c6 73686F72 		.ascii	"short unsigned int\000"
+ 776      7420756E 
+ 776      7369676E 
+ 776      65642069 
+ 776      6E7400
+ 777              	.LASF27:
+ 778 00d9 6570436E 		.ascii	"epCnt0\000"
+ 778      743000
+ 779              	.LASF28:
+ 780 00e0 6570436E 		.ascii	"epCnt1\000"
+ 780      743100
+ 781              	.LASF20:
+ 782 00e7 6570546F 		.ascii	"epToggle\000"
+ 782      67676C65 
+ 782      00
+ 783              	.LASF1:
+ 784 00f0 756E7369 		.ascii	"unsigned char\000"
+ 784      676E6564 
+ 784      20636861 
+ 784      7200
+ 785              	.LASF14:
+ 786 00fe 72656738 		.ascii	"reg8\000"
+ 786      00
+ 787              	.LASF34:
+ 788 0103 5553424D 		.ascii	"USBMIDI_1_EP_2_ISR\000"
+ 788      4944495F 
+ 788      315F4550 
+ 788      5F325F49 
+ 788      535200
+ 789              	.LASF5:
+ 790 0116 6C6F6E67 		.ascii	"long unsigned int\000"
+ 790      20756E73 
+ 790      69676E65 
+ 790      6420696E 
+ 790      7400
+ 791              	.LASF21:
+ 792 0128 61646472 		.ascii	"addr\000"
+ 792      00
+ 793              	.LASF40:
+ 794 012d 5553424D 		.ascii	"USBMIDI_1_EP\000"
+ 794      4944495F 
+ 794      315F4550 
+ 794      00
+ 795              	.LASF31:
+ 796 013a 73696545 		.ascii	"sieEp\000"
+ 796      7000
+ 797              	.LASF12:
+ 798 0140 646F7562 		.ascii	"double\000"
+ 798      6C6500
+ 799              	.LASF17:
+ 800 0147 61747472 		.ascii	"attrib\000"
+ 800      696200
+ 801              	.LASF23:
+ 802 014e 62756666 		.ascii	"buffOffset\000"
+ 802      4F666673 
+ 802      657400
+ 803              	.LASF24:
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 29
+
+
+ 804 0159 62756666 		.ascii	"bufferSize\000"
+ 804      65725369 
+ 804      7A6500
+ 805              	.LASF10:
+ 806 0164 75696E74 		.ascii	"uint16\000"
+ 806      313600
+ 807              	.LASF18:
+ 808 016b 61706945 		.ascii	"apiEpState\000"
+ 808      70537461 
+ 808      746500
+ 809              	.LASF8:
+ 810 0176 756E7369 		.ascii	"unsigned int\000"
+ 810      676E6564 
+ 810      20696E74 
+ 810      00
+ 811              	.LASF7:
+ 812 0183 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 812      206C6F6E 
+ 812      6720756E 
+ 812      7369676E 
+ 812      65642069 
+ 813              	.LASF19:
+ 814 019a 68774570 		.ascii	"hwEpState\000"
+ 814      53746174 
+ 814      6500
+ 815              	.LASF36:
+ 816 01a4 5553424D 		.ascii	"USBMIDI_1_BUS_RESET_ISR\000"
+ 816      4944495F 
+ 816      315F4255 
+ 816      535F5245 
+ 816      5345545F 
+ 817              	.LASF16:
+ 818 01bc 73697A65 		.ascii	"sizetype\000"
+ 818      74797065 
+ 818      00
+ 819              	.LASF22:
+ 820 01c5 65704D6F 		.ascii	"epMode\000"
+ 820      646500
+ 821              	.LASF6:
+ 822 01cc 6C6F6E67 		.ascii	"long long int\000"
+ 822      206C6F6E 
+ 822      6720696E 
+ 822      7400
+ 823              	.LASF39:
+ 824 01da 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Downloads\\Electrobass_H7-ma"
+ 824      73657273 
+ 824      5C4A6566 
+ 824      66536E79 
+ 824      6465725C 
+ 825 0209 73746572 		.ascii	"ster\\Electrobass_H7-master\\PSOC5_electrobass_stri"
+ 825      5C456C65 
+ 825      6374726F 
+ 825      62617373 
+ 825      5F48372D 
+ 826 023a 6E677365 		.ascii	"ngsensors\\PSOC5_electrobass_stringsensors\\CE21051"
+ 826      6E736F72 
+ 826      735C5053 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 30
+
+
+ 826      4F43355F 
+ 826      656C6563 
+ 827 026b 345F5053 		.ascii	"4_PSOC3_5_Thermistor.cydsn\000"
+ 827      4F43335F 
+ 827      355F5468 
+ 827      65726D69 
+ 827      73746F72 
+ 828              	.LASF13:
+ 829 0286 63686172 		.ascii	"char\000"
+ 829      00
+ 830              	.LASF29:
+ 831 028b 65704372 		.ascii	"epCr0\000"
+ 831      3000
+ 832              	.LASF35:
+ 833 0291 5553424D 		.ascii	"USBMIDI_1_SOF_ISR\000"
+ 833      4944495F 
+ 833      315F534F 
+ 833      465F4953 
+ 833      5200
+ 834              	.LASF2:
+ 835 02a3 73686F72 		.ascii	"short int\000"
+ 835      7420696E 
+ 835      7400
+ 836              	.LASF9:
+ 837 02ad 75696E74 		.ascii	"uint8\000"
+ 837      3800
+ 838              	.LASF25:
+ 839 02b3 696E7465 		.ascii	"interface\000"
+ 839      72666163 
+ 839      6500
+ 840              	.LASF38:
+ 841 02bd 47656E65 		.ascii	"Generated_Source\\PSoC5\\USBMIDI_1_episr.c\000"
+ 841      72617465 
+ 841      645F536F 
+ 841      75726365 
+ 841      5C50536F 
+ 842              	.LASF4:
+ 843 02e6 6C6F6E67 		.ascii	"long int\000"
+ 843      20696E74 
+ 843      00
+ 844              	.LASF30:
+ 845 02ef 5553424D 		.ascii	"USBMIDI_1_sie_ep_struct\000"
+ 845      4944495F 
+ 845      315F7369 
+ 845      655F6570 
+ 845      5F737472 
+ 846              	.LASF15:
+ 847 0307 6C6F6E67 		.ascii	"long double\000"
+ 847      20646F75 
+ 847      626C6500 
+ 848              	.LASF0:
+ 849 0313 7369676E 		.ascii	"signed char\000"
+ 849      65642063 
+ 849      68617200 
+ 850              	.LASF33:
+ 851 031f 5553424D 		.ascii	"USBMIDI_1_EP_1_ISR\000"
+ 851      4944495F 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccHAaxfX.s 			page 31
+
+
+ 851      315F4550 
+ 851      5F315F49 
+ 851      535200
+ 852              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

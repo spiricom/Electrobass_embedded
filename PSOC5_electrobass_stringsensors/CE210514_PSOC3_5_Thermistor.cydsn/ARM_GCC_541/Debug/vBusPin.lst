@@ -1,0 +1,1100 @@
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"vBusPin.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.vBusPin_Write,"ax",%progbits
+  20              		.align	2
+  21              		.global	vBusPin_Write
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	vBusPin_Write, %function
+  25              	vBusPin_Write:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\vBusPin.c"
+   1:Generated_Source\PSoC5/vBusPin.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/vBusPin.c **** * File Name: vBusPin.c  
+   3:Generated_Source\PSoC5/vBusPin.c **** * Version 2.20
+   4:Generated_Source\PSoC5/vBusPin.c **** *
+   5:Generated_Source\PSoC5/vBusPin.c **** * Description:
+   6:Generated_Source\PSoC5/vBusPin.c **** *  This file contains API to enable firmware control of a Pins component.
+   7:Generated_Source\PSoC5/vBusPin.c **** *
+   8:Generated_Source\PSoC5/vBusPin.c **** * Note:
+   9:Generated_Source\PSoC5/vBusPin.c **** *
+  10:Generated_Source\PSoC5/vBusPin.c **** ********************************************************************************
+  11:Generated_Source\PSoC5/vBusPin.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  12:Generated_Source\PSoC5/vBusPin.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  13:Generated_Source\PSoC5/vBusPin.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  14:Generated_Source\PSoC5/vBusPin.c **** * the software package with which this file was provided.
+  15:Generated_Source\PSoC5/vBusPin.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/vBusPin.c **** 
+  17:Generated_Source\PSoC5/vBusPin.c **** #include "cytypes.h"
+  18:Generated_Source\PSoC5/vBusPin.c **** #include "vBusPin.h"
+  19:Generated_Source\PSoC5/vBusPin.c **** 
+  20:Generated_Source\PSoC5/vBusPin.c **** /* APIs are not generated for P15[7:6] on PSoC 5 */
+  21:Generated_Source\PSoC5/vBusPin.c **** #if !(CY_PSOC5A &&\
+  22:Generated_Source\PSoC5/vBusPin.c **** 	 vBusPin__PORT == 15 && ((vBusPin__MASK & 0xC0) != 0))
+  23:Generated_Source\PSoC5/vBusPin.c **** 
+  24:Generated_Source\PSoC5/vBusPin.c **** 
+  25:Generated_Source\PSoC5/vBusPin.c **** /*******************************************************************************
+  26:Generated_Source\PSoC5/vBusPin.c **** * Function Name: vBusPin_Write
+  27:Generated_Source\PSoC5/vBusPin.c **** ****************************************************************************//**
+  28:Generated_Source\PSoC5/vBusPin.c **** *
+  29:Generated_Source\PSoC5/vBusPin.c **** * \brief Writes the value to the physical port (data output register), masking
+  30:Generated_Source\PSoC5/vBusPin.c **** *  and shifting the bits appropriately. 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 2
+
+
+  31:Generated_Source\PSoC5/vBusPin.c **** *
+  32:Generated_Source\PSoC5/vBusPin.c **** * The data output register controls the signal applied to the physical pin in 
+  33:Generated_Source\PSoC5/vBusPin.c **** * conjunction with the drive mode parameter. This function avoids changing 
+  34:Generated_Source\PSoC5/vBusPin.c **** * other bits in the port by using the appropriate method (read-modify-write or
+  35:Generated_Source\PSoC5/vBusPin.c **** * bit banding).
+  36:Generated_Source\PSoC5/vBusPin.c **** *
+  37:Generated_Source\PSoC5/vBusPin.c **** * <b>Note</b> This function should not be used on a hardware digital output pin 
+  38:Generated_Source\PSoC5/vBusPin.c **** * as it is driven by the hardware signal attached to it.
+  39:Generated_Source\PSoC5/vBusPin.c **** *
+  40:Generated_Source\PSoC5/vBusPin.c **** * \param value
+  41:Generated_Source\PSoC5/vBusPin.c **** *  Value to write to the component instance.
+  42:Generated_Source\PSoC5/vBusPin.c **** *
+  43:Generated_Source\PSoC5/vBusPin.c **** * \return 
+  44:Generated_Source\PSoC5/vBusPin.c **** *  None 
+  45:Generated_Source\PSoC5/vBusPin.c **** *
+  46:Generated_Source\PSoC5/vBusPin.c **** * \sideeffect
+  47:Generated_Source\PSoC5/vBusPin.c **** *  If you use read-modify-write operations that are not atomic; the Interrupt 
+  48:Generated_Source\PSoC5/vBusPin.c **** *  Service Routines (ISR) can cause corruption of this function. An ISR that 
+  49:Generated_Source\PSoC5/vBusPin.c **** *  interrupts this function and performs writes to the Pins component data 
+  50:Generated_Source\PSoC5/vBusPin.c **** *  register can cause corrupted port data. To avoid this issue, you should 
+  51:Generated_Source\PSoC5/vBusPin.c **** *  either use the Per-Pin APIs (primary method) or disable interrupts around 
+  52:Generated_Source\PSoC5/vBusPin.c **** *  this function.
+  53:Generated_Source\PSoC5/vBusPin.c **** *
+  54:Generated_Source\PSoC5/vBusPin.c **** * \funcusage
+  55:Generated_Source\PSoC5/vBusPin.c **** *  \snippet vBusPin_SUT.c usage_vBusPin_Write
+  56:Generated_Source\PSoC5/vBusPin.c **** *******************************************************************************/
+  57:Generated_Source\PSoC5/vBusPin.c **** void vBusPin_Write(uint8 value)
+  58:Generated_Source\PSoC5/vBusPin.c **** {
+  28              		.loc 1 58 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 85B0     		sub	sp, sp, #20
+  37              		.cfi_def_cfa_offset 24
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 0346     		mov	r3, r0
+  41 0008 FB71     		strb	r3, [r7, #7]
+  59:Generated_Source\PSoC5/vBusPin.c ****     uint8 staticBits = (vBusPin_DR & (uint8)(~vBusPin_MASK));
+  42              		.loc 1 59 0
+  43 000a 094B     		ldr	r3, .L2
+  44 000c 1B78     		ldrb	r3, [r3]
+  45 000e DBB2     		uxtb	r3, r3
+  46 0010 03F07F03 		and	r3, r3, #127
+  47 0014 FB73     		strb	r3, [r7, #15]
+  60:Generated_Source\PSoC5/vBusPin.c ****     vBusPin_DR = staticBits | ((uint8)(value << vBusPin_SHIFT) & vBusPin_MASK);
+  48              		.loc 1 60 0
+  49 0016 0649     		ldr	r1, .L2
+  50 0018 FB79     		ldrb	r3, [r7, #7]
+  51 001a DB01     		lsls	r3, r3, #7
+  52 001c DAB2     		uxtb	r2, r3
+  53 001e FB7B     		ldrb	r3, [r7, #15]
+  54 0020 1343     		orrs	r3, r3, r2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 3
+
+
+  55 0022 DBB2     		uxtb	r3, r3
+  56 0024 0B70     		strb	r3, [r1]
+  61:Generated_Source\PSoC5/vBusPin.c **** }
+  57              		.loc 1 61 0
+  58 0026 00BF     		nop
+  59 0028 1437     		adds	r7, r7, #20
+  60              		.cfi_def_cfa_offset 4
+  61 002a BD46     		mov	sp, r7
+  62              		.cfi_def_cfa_register 13
+  63              		@ sp needed
+  64 002c 80BC     		pop	{r7}
+  65              		.cfi_restore 7
+  66              		.cfi_def_cfa_offset 0
+  67 002e 7047     		bx	lr
+  68              	.L3:
+  69              		.align	2
+  70              	.L2:
+  71 0030 C0510040 		.word	1073762752
+  72              		.cfi_endproc
+  73              	.LFE0:
+  74              		.size	vBusPin_Write, .-vBusPin_Write
+  75              		.section	.text.vBusPin_SetDriveMode,"ax",%progbits
+  76              		.align	2
+  77              		.global	vBusPin_SetDriveMode
+  78              		.thumb
+  79              		.thumb_func
+  80              		.type	vBusPin_SetDriveMode, %function
+  81              	vBusPin_SetDriveMode:
+  82              	.LFB1:
+  62:Generated_Source\PSoC5/vBusPin.c **** 
+  63:Generated_Source\PSoC5/vBusPin.c **** 
+  64:Generated_Source\PSoC5/vBusPin.c **** /*******************************************************************************
+  65:Generated_Source\PSoC5/vBusPin.c **** * Function Name: vBusPin_SetDriveMode
+  66:Generated_Source\PSoC5/vBusPin.c **** ****************************************************************************//**
+  67:Generated_Source\PSoC5/vBusPin.c **** *
+  68:Generated_Source\PSoC5/vBusPin.c **** * \brief Sets the drive mode for each of the Pins component's pins.
+  69:Generated_Source\PSoC5/vBusPin.c **** * 
+  70:Generated_Source\PSoC5/vBusPin.c **** * <b>Note</b> This affects all pins in the Pins component instance. Use the
+  71:Generated_Source\PSoC5/vBusPin.c **** * Per-Pin APIs if you wish to control individual pin's drive modes.
+  72:Generated_Source\PSoC5/vBusPin.c **** *
+  73:Generated_Source\PSoC5/vBusPin.c **** * \param mode
+  74:Generated_Source\PSoC5/vBusPin.c **** *  Mode for the selected signals. Valid options are documented in 
+  75:Generated_Source\PSoC5/vBusPin.c **** *  \ref driveMode.
+  76:Generated_Source\PSoC5/vBusPin.c **** *
+  77:Generated_Source\PSoC5/vBusPin.c **** * \return
+  78:Generated_Source\PSoC5/vBusPin.c **** *  None
+  79:Generated_Source\PSoC5/vBusPin.c **** *
+  80:Generated_Source\PSoC5/vBusPin.c **** * \sideeffect
+  81:Generated_Source\PSoC5/vBusPin.c **** *  If you use read-modify-write operations that are not atomic, the ISR can
+  82:Generated_Source\PSoC5/vBusPin.c **** *  cause corruption of this function. An ISR that interrupts this function 
+  83:Generated_Source\PSoC5/vBusPin.c **** *  and performs writes to the Pins component Drive Mode registers can cause 
+  84:Generated_Source\PSoC5/vBusPin.c **** *  corrupted port data. To avoid this issue, you should either use the Per-Pin
+  85:Generated_Source\PSoC5/vBusPin.c **** *  APIs (primary method) or disable interrupts around this function.
+  86:Generated_Source\PSoC5/vBusPin.c **** *
+  87:Generated_Source\PSoC5/vBusPin.c **** * \funcusage
+  88:Generated_Source\PSoC5/vBusPin.c **** *  \snippet vBusPin_SUT.c usage_vBusPin_SetDriveMode
+  89:Generated_Source\PSoC5/vBusPin.c **** *******************************************************************************/
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 4
+
+
+  90:Generated_Source\PSoC5/vBusPin.c **** void vBusPin_SetDriveMode(uint8 mode)
+  91:Generated_Source\PSoC5/vBusPin.c **** {
+  83              		.loc 1 91 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 8
+  86              		@ frame_needed = 1, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 80B4     		push	{r7}
+  89              		.cfi_def_cfa_offset 4
+  90              		.cfi_offset 7, -4
+  91 0002 83B0     		sub	sp, sp, #12
+  92              		.cfi_def_cfa_offset 16
+  93 0004 00AF     		add	r7, sp, #0
+  94              		.cfi_def_cfa_register 7
+  95 0006 0346     		mov	r3, r0
+  96 0008 FB71     		strb	r3, [r7, #7]
+  92:Generated_Source\PSoC5/vBusPin.c **** 	CyPins_SetPinDriveMode(vBusPin_0, mode);
+  97              		.loc 1 92 0
+  98 000a 0B49     		ldr	r1, .L5
+  99 000c 0A4B     		ldr	r3, .L5
+ 100 000e 1B78     		ldrb	r3, [r3]
+ 101 0010 DBB2     		uxtb	r3, r3
+ 102 0012 5BB2     		sxtb	r3, r3
+ 103 0014 23F00E03 		bic	r3, r3, #14
+ 104 0018 5AB2     		sxtb	r2, r3
+ 105 001a 97F90730 		ldrsb	r3, [r7, #7]
+ 106 001e 03F00E03 		and	r3, r3, #14
+ 107 0022 5BB2     		sxtb	r3, r3
+ 108 0024 1343     		orrs	r3, r3, r2
+ 109 0026 5BB2     		sxtb	r3, r3
+ 110 0028 DBB2     		uxtb	r3, r3
+ 111 002a 0B70     		strb	r3, [r1]
+  93:Generated_Source\PSoC5/vBusPin.c **** }
+ 112              		.loc 1 93 0
+ 113 002c 00BF     		nop
+ 114 002e 0C37     		adds	r7, r7, #12
+ 115              		.cfi_def_cfa_offset 4
+ 116 0030 BD46     		mov	sp, r7
+ 117              		.cfi_def_cfa_register 13
+ 118              		@ sp needed
+ 119 0032 80BC     		pop	{r7}
+ 120              		.cfi_restore 7
+ 121              		.cfi_def_cfa_offset 0
+ 122 0034 7047     		bx	lr
+ 123              	.L6:
+ 124 0036 00BF     		.align	2
+ 125              	.L5:
+ 126 0038 67500040 		.word	1073762407
+ 127              		.cfi_endproc
+ 128              	.LFE1:
+ 129              		.size	vBusPin_SetDriveMode, .-vBusPin_SetDriveMode
+ 130              		.section	.text.vBusPin_Read,"ax",%progbits
+ 131              		.align	2
+ 132              		.global	vBusPin_Read
+ 133              		.thumb
+ 134              		.thumb_func
+ 135              		.type	vBusPin_Read, %function
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 5
+
+
+ 136              	vBusPin_Read:
+ 137              	.LFB2:
+  94:Generated_Source\PSoC5/vBusPin.c **** 
+  95:Generated_Source\PSoC5/vBusPin.c **** 
+  96:Generated_Source\PSoC5/vBusPin.c **** /*******************************************************************************
+  97:Generated_Source\PSoC5/vBusPin.c **** * Function Name: vBusPin_Read
+  98:Generated_Source\PSoC5/vBusPin.c **** ****************************************************************************//**
+  99:Generated_Source\PSoC5/vBusPin.c **** *
+ 100:Generated_Source\PSoC5/vBusPin.c **** * \brief Reads the associated physical port (pin status register) and masks 
+ 101:Generated_Source\PSoC5/vBusPin.c **** *  the required bits according to the width and bit position of the component
+ 102:Generated_Source\PSoC5/vBusPin.c **** *  instance. 
+ 103:Generated_Source\PSoC5/vBusPin.c **** *
+ 104:Generated_Source\PSoC5/vBusPin.c **** * The pin's status register returns the current logic level present on the 
+ 105:Generated_Source\PSoC5/vBusPin.c **** * physical pin.
+ 106:Generated_Source\PSoC5/vBusPin.c **** *
+ 107:Generated_Source\PSoC5/vBusPin.c **** * \return 
+ 108:Generated_Source\PSoC5/vBusPin.c **** *  The current value for the pins in the component as a right justified number.
+ 109:Generated_Source\PSoC5/vBusPin.c **** *
+ 110:Generated_Source\PSoC5/vBusPin.c **** * \funcusage
+ 111:Generated_Source\PSoC5/vBusPin.c **** *  \snippet vBusPin_SUT.c usage_vBusPin_Read  
+ 112:Generated_Source\PSoC5/vBusPin.c **** *******************************************************************************/
+ 113:Generated_Source\PSoC5/vBusPin.c **** uint8 vBusPin_Read(void)
+ 114:Generated_Source\PSoC5/vBusPin.c **** {
+ 138              		.loc 1 114 0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 1, uses_anonymous_args = 0
+ 142              		@ link register save eliminated.
+ 143 0000 80B4     		push	{r7}
+ 144              		.cfi_def_cfa_offset 4
+ 145              		.cfi_offset 7, -4
+ 146 0002 00AF     		add	r7, sp, #0
+ 147              		.cfi_def_cfa_register 7
+ 115:Generated_Source\PSoC5/vBusPin.c ****     return (vBusPin_PS & vBusPin_MASK) >> vBusPin_SHIFT;
+ 148              		.loc 1 115 0
+ 149 0004 054B     		ldr	r3, .L9
+ 150 0006 1B78     		ldrb	r3, [r3]
+ 151 0008 DBB2     		uxtb	r3, r3
+ 152 000a 03F08003 		and	r3, r3, #128
+ 153 000e DB09     		lsrs	r3, r3, #7
+ 154 0010 DBB2     		uxtb	r3, r3
+ 116:Generated_Source\PSoC5/vBusPin.c **** }
+ 155              		.loc 1 116 0
+ 156 0012 1846     		mov	r0, r3
+ 157 0014 BD46     		mov	sp, r7
+ 158              		.cfi_def_cfa_register 13
+ 159              		@ sp needed
+ 160 0016 80BC     		pop	{r7}
+ 161              		.cfi_restore 7
+ 162              		.cfi_def_cfa_offset 0
+ 163 0018 7047     		bx	lr
+ 164              	.L10:
+ 165 001a 00BF     		.align	2
+ 166              	.L9:
+ 167 001c C1510040 		.word	1073762753
+ 168              		.cfi_endproc
+ 169              	.LFE2:
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 6
+
+
+ 170              		.size	vBusPin_Read, .-vBusPin_Read
+ 171              		.section	.text.vBusPin_ReadDataReg,"ax",%progbits
+ 172              		.align	2
+ 173              		.global	vBusPin_ReadDataReg
+ 174              		.thumb
+ 175              		.thumb_func
+ 176              		.type	vBusPin_ReadDataReg, %function
+ 177              	vBusPin_ReadDataReg:
+ 178              	.LFB3:
+ 117:Generated_Source\PSoC5/vBusPin.c **** 
+ 118:Generated_Source\PSoC5/vBusPin.c **** 
+ 119:Generated_Source\PSoC5/vBusPin.c **** /*******************************************************************************
+ 120:Generated_Source\PSoC5/vBusPin.c **** * Function Name: vBusPin_ReadDataReg
+ 121:Generated_Source\PSoC5/vBusPin.c **** ****************************************************************************//**
+ 122:Generated_Source\PSoC5/vBusPin.c **** *
+ 123:Generated_Source\PSoC5/vBusPin.c **** * \brief Reads the associated physical port's data output register and masks 
+ 124:Generated_Source\PSoC5/vBusPin.c **** *  the correct bits according to the width and bit position of the component 
+ 125:Generated_Source\PSoC5/vBusPin.c **** *  instance. 
+ 126:Generated_Source\PSoC5/vBusPin.c **** *
+ 127:Generated_Source\PSoC5/vBusPin.c **** * The data output register controls the signal applied to the physical pin in 
+ 128:Generated_Source\PSoC5/vBusPin.c **** * conjunction with the drive mode parameter. This is not the same as the 
+ 129:Generated_Source\PSoC5/vBusPin.c **** * preferred vBusPin_Read() API because the 
+ 130:Generated_Source\PSoC5/vBusPin.c **** * vBusPin_ReadDataReg() reads the data register instead of the status 
+ 131:Generated_Source\PSoC5/vBusPin.c **** * register. For output pins this is a useful function to determine the value 
+ 132:Generated_Source\PSoC5/vBusPin.c **** * just written to the pin.
+ 133:Generated_Source\PSoC5/vBusPin.c **** *
+ 134:Generated_Source\PSoC5/vBusPin.c **** * \return 
+ 135:Generated_Source\PSoC5/vBusPin.c **** *  The current value of the data register masked and shifted into a right 
+ 136:Generated_Source\PSoC5/vBusPin.c **** *  justified number for the component instance.
+ 137:Generated_Source\PSoC5/vBusPin.c **** *
+ 138:Generated_Source\PSoC5/vBusPin.c **** * \funcusage
+ 139:Generated_Source\PSoC5/vBusPin.c **** *  \snippet vBusPin_SUT.c usage_vBusPin_ReadDataReg 
+ 140:Generated_Source\PSoC5/vBusPin.c **** *******************************************************************************/
+ 141:Generated_Source\PSoC5/vBusPin.c **** uint8 vBusPin_ReadDataReg(void)
+ 142:Generated_Source\PSoC5/vBusPin.c **** {
+ 179              		.loc 1 142 0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 1, uses_anonymous_args = 0
+ 183              		@ link register save eliminated.
+ 184 0000 80B4     		push	{r7}
+ 185              		.cfi_def_cfa_offset 4
+ 186              		.cfi_offset 7, -4
+ 187 0002 00AF     		add	r7, sp, #0
+ 188              		.cfi_def_cfa_register 7
+ 143:Generated_Source\PSoC5/vBusPin.c ****     return (vBusPin_DR & vBusPin_MASK) >> vBusPin_SHIFT;
+ 189              		.loc 1 143 0
+ 190 0004 054B     		ldr	r3, .L13
+ 191 0006 1B78     		ldrb	r3, [r3]
+ 192 0008 DBB2     		uxtb	r3, r3
+ 193 000a 03F08003 		and	r3, r3, #128
+ 194 000e DB09     		lsrs	r3, r3, #7
+ 195 0010 DBB2     		uxtb	r3, r3
+ 144:Generated_Source\PSoC5/vBusPin.c **** }
+ 196              		.loc 1 144 0
+ 197 0012 1846     		mov	r0, r3
+ 198 0014 BD46     		mov	sp, r7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 7
+
+
+ 199              		.cfi_def_cfa_register 13
+ 200              		@ sp needed
+ 201 0016 80BC     		pop	{r7}
+ 202              		.cfi_restore 7
+ 203              		.cfi_def_cfa_offset 0
+ 204 0018 7047     		bx	lr
+ 205              	.L14:
+ 206 001a 00BF     		.align	2
+ 207              	.L13:
+ 208 001c C0510040 		.word	1073762752
+ 209              		.cfi_endproc
+ 210              	.LFE3:
+ 211              		.size	vBusPin_ReadDataReg, .-vBusPin_ReadDataReg
+ 212              		.section	.text.vBusPin_SetInterruptMode,"ax",%progbits
+ 213              		.align	2
+ 214              		.global	vBusPin_SetInterruptMode
+ 215              		.thumb
+ 216              		.thumb_func
+ 217              		.type	vBusPin_SetInterruptMode, %function
+ 218              	vBusPin_SetInterruptMode:
+ 219              	.LFB4:
+ 145:Generated_Source\PSoC5/vBusPin.c **** 
+ 146:Generated_Source\PSoC5/vBusPin.c **** 
+ 147:Generated_Source\PSoC5/vBusPin.c **** /* If interrupt is connected for this Pins component */ 
+ 148:Generated_Source\PSoC5/vBusPin.c **** #if defined(vBusPin_INTSTAT) 
+ 149:Generated_Source\PSoC5/vBusPin.c **** 
+ 150:Generated_Source\PSoC5/vBusPin.c ****     /*******************************************************************************
+ 151:Generated_Source\PSoC5/vBusPin.c ****     * Function Name: vBusPin_SetInterruptMode
+ 152:Generated_Source\PSoC5/vBusPin.c ****     ****************************************************************************//**
+ 153:Generated_Source\PSoC5/vBusPin.c ****     *
+ 154:Generated_Source\PSoC5/vBusPin.c ****     * \brief Configures the interrupt mode for each of the Pins component's
+ 155:Generated_Source\PSoC5/vBusPin.c ****     *  pins. Alternatively you may set the interrupt mode for all the pins
+ 156:Generated_Source\PSoC5/vBusPin.c ****     *  specified in the Pins component.
+ 157:Generated_Source\PSoC5/vBusPin.c ****     *
+ 158:Generated_Source\PSoC5/vBusPin.c ****     *  <b>Note</b> The interrupt is port-wide and therefore any enabled pin
+ 159:Generated_Source\PSoC5/vBusPin.c ****     *  interrupt may trigger it.
+ 160:Generated_Source\PSoC5/vBusPin.c ****     *
+ 161:Generated_Source\PSoC5/vBusPin.c ****     * \param position
+ 162:Generated_Source\PSoC5/vBusPin.c ****     *  The pin position as listed in the Pins component. You may OR these to be 
+ 163:Generated_Source\PSoC5/vBusPin.c ****     *  able to configure the interrupt mode of multiple pins within a Pins 
+ 164:Generated_Source\PSoC5/vBusPin.c ****     *  component. Or you may use vBusPin_INTR_ALL to configure the
+ 165:Generated_Source\PSoC5/vBusPin.c ****     *  interrupt mode of all the pins in the Pins component.       
+ 166:Generated_Source\PSoC5/vBusPin.c ****     *  - vBusPin_0_INTR       (First pin in the list)
+ 167:Generated_Source\PSoC5/vBusPin.c ****     *  - vBusPin_1_INTR       (Second pin in the list)
+ 168:Generated_Source\PSoC5/vBusPin.c ****     *  - ...
+ 169:Generated_Source\PSoC5/vBusPin.c ****     *  - vBusPin_INTR_ALL     (All pins in Pins component)
+ 170:Generated_Source\PSoC5/vBusPin.c ****     *
+ 171:Generated_Source\PSoC5/vBusPin.c ****     * \param mode
+ 172:Generated_Source\PSoC5/vBusPin.c ****     *  Interrupt mode for the selected pins. Valid options are documented in
+ 173:Generated_Source\PSoC5/vBusPin.c ****     *  \ref intrMode.
+ 174:Generated_Source\PSoC5/vBusPin.c ****     *
+ 175:Generated_Source\PSoC5/vBusPin.c ****     * \return 
+ 176:Generated_Source\PSoC5/vBusPin.c ****     *  None
+ 177:Generated_Source\PSoC5/vBusPin.c ****     *  
+ 178:Generated_Source\PSoC5/vBusPin.c ****     * \sideeffect
+ 179:Generated_Source\PSoC5/vBusPin.c ****     *  It is recommended that the interrupt be disabled before calling this 
+ 180:Generated_Source\PSoC5/vBusPin.c ****     *  function to avoid unintended interrupt requests. Note that the interrupt
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 8
+
+
+ 181:Generated_Source\PSoC5/vBusPin.c ****     *  type is port wide, and therefore will trigger for any enabled pin on the 
+ 182:Generated_Source\PSoC5/vBusPin.c ****     *  port.
+ 183:Generated_Source\PSoC5/vBusPin.c ****     *
+ 184:Generated_Source\PSoC5/vBusPin.c ****     * \funcusage
+ 185:Generated_Source\PSoC5/vBusPin.c ****     *  \snippet vBusPin_SUT.c usage_vBusPin_SetInterruptMode
+ 186:Generated_Source\PSoC5/vBusPin.c ****     *******************************************************************************/
+ 187:Generated_Source\PSoC5/vBusPin.c ****     void vBusPin_SetInterruptMode(uint16 position, uint16 mode)
+ 188:Generated_Source\PSoC5/vBusPin.c ****     {
+ 220              		.loc 1 188 0
+ 221              		.cfi_startproc
+ 222              		@ args = 0, pretend = 0, frame = 8
+ 223              		@ frame_needed = 1, uses_anonymous_args = 0
+ 224              		@ link register save eliminated.
+ 225 0000 80B4     		push	{r7}
+ 226              		.cfi_def_cfa_offset 4
+ 227              		.cfi_offset 7, -4
+ 228 0002 83B0     		sub	sp, sp, #12
+ 229              		.cfi_def_cfa_offset 16
+ 230 0004 00AF     		add	r7, sp, #0
+ 231              		.cfi_def_cfa_register 7
+ 232 0006 0346     		mov	r3, r0
+ 233 0008 0A46     		mov	r2, r1
+ 234 000a FB80     		strh	r3, [r7, #6]	@ movhi
+ 235 000c 1346     		mov	r3, r2	@ movhi
+ 236 000e BB80     		strh	r3, [r7, #4]	@ movhi
+ 189:Generated_Source\PSoC5/vBusPin.c **** 		if((position & vBusPin_0_INTR) != 0u) 
+ 237              		.loc 1 189 0
+ 238 0010 FB88     		ldrh	r3, [r7, #6]
+ 239 0012 03F08003 		and	r3, r3, #128
+ 240 0016 002B     		cmp	r3, #0
+ 241 0018 03D0     		beq	.L17
+ 190:Generated_Source\PSoC5/vBusPin.c **** 		{ 
+ 191:Generated_Source\PSoC5/vBusPin.c **** 			 vBusPin_0_INTTYPE_REG = (uint8)mode; 
+ 242              		.loc 1 191 0
+ 243 001a 044B     		ldr	r3, .L18
+ 244 001c BA88     		ldrh	r2, [r7, #4]	@ movhi
+ 245 001e D2B2     		uxtb	r2, r2
+ 246 0020 1A70     		strb	r2, [r3]
+ 247              	.L17:
+ 192:Generated_Source\PSoC5/vBusPin.c **** 		}
+ 193:Generated_Source\PSoC5/vBusPin.c ****     }
+ 248              		.loc 1 193 0
+ 249 0022 00BF     		nop
+ 250 0024 0C37     		adds	r7, r7, #12
+ 251              		.cfi_def_cfa_offset 4
+ 252 0026 BD46     		mov	sp, r7
+ 253              		.cfi_def_cfa_register 13
+ 254              		@ sp needed
+ 255 0028 80BC     		pop	{r7}
+ 256              		.cfi_restore 7
+ 257              		.cfi_def_cfa_offset 0
+ 258 002a 7047     		bx	lr
+ 259              	.L19:
+ 260              		.align	2
+ 261              	.L18:
+ 262 002c 67450040 		.word	1073759591
+ 263              		.cfi_endproc
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 9
+
+
+ 264              	.LFE4:
+ 265              		.size	vBusPin_SetInterruptMode, .-vBusPin_SetInterruptMode
+ 266              		.section	.text.vBusPin_ClearInterrupt,"ax",%progbits
+ 267              		.align	2
+ 268              		.global	vBusPin_ClearInterrupt
+ 269              		.thumb
+ 270              		.thumb_func
+ 271              		.type	vBusPin_ClearInterrupt, %function
+ 272              	vBusPin_ClearInterrupt:
+ 273              	.LFB5:
+ 194:Generated_Source\PSoC5/vBusPin.c ****     
+ 195:Generated_Source\PSoC5/vBusPin.c ****     
+ 196:Generated_Source\PSoC5/vBusPin.c ****     /*******************************************************************************
+ 197:Generated_Source\PSoC5/vBusPin.c ****     * Function Name: vBusPin_ClearInterrupt
+ 198:Generated_Source\PSoC5/vBusPin.c ****     ****************************************************************************//**
+ 199:Generated_Source\PSoC5/vBusPin.c ****     *
+ 200:Generated_Source\PSoC5/vBusPin.c ****     * \brief Clears any active interrupts attached with the component and returns 
+ 201:Generated_Source\PSoC5/vBusPin.c ****     *  the value of the interrupt status register allowing determination of which
+ 202:Generated_Source\PSoC5/vBusPin.c ****     *  pins generated an interrupt event.
+ 203:Generated_Source\PSoC5/vBusPin.c ****     *
+ 204:Generated_Source\PSoC5/vBusPin.c ****     * \return 
+ 205:Generated_Source\PSoC5/vBusPin.c ****     *  The right-shifted current value of the interrupt status register. Each pin 
+ 206:Generated_Source\PSoC5/vBusPin.c ****     *  has one bit set if it generated an interrupt event. For example, bit 0 is 
+ 207:Generated_Source\PSoC5/vBusPin.c ****     *  for pin 0 and bit 1 is for pin 1 of the Pins component.
+ 208:Generated_Source\PSoC5/vBusPin.c ****     *  
+ 209:Generated_Source\PSoC5/vBusPin.c ****     * \sideeffect
+ 210:Generated_Source\PSoC5/vBusPin.c ****     *  Clears all bits of the physical port's interrupt status register, not just
+ 211:Generated_Source\PSoC5/vBusPin.c ****     *  those associated with the Pins component.
+ 212:Generated_Source\PSoC5/vBusPin.c ****     *
+ 213:Generated_Source\PSoC5/vBusPin.c ****     * \funcusage
+ 214:Generated_Source\PSoC5/vBusPin.c ****     *  \snippet vBusPin_SUT.c usage_vBusPin_ClearInterrupt
+ 215:Generated_Source\PSoC5/vBusPin.c ****     *******************************************************************************/
+ 216:Generated_Source\PSoC5/vBusPin.c ****     uint8 vBusPin_ClearInterrupt(void)
+ 217:Generated_Source\PSoC5/vBusPin.c ****     {
+ 274              		.loc 1 217 0
+ 275              		.cfi_startproc
+ 276              		@ args = 0, pretend = 0, frame = 0
+ 277              		@ frame_needed = 1, uses_anonymous_args = 0
+ 278              		@ link register save eliminated.
+ 279 0000 80B4     		push	{r7}
+ 280              		.cfi_def_cfa_offset 4
+ 281              		.cfi_offset 7, -4
+ 282 0002 00AF     		add	r7, sp, #0
+ 283              		.cfi_def_cfa_register 7
+ 218:Generated_Source\PSoC5/vBusPin.c ****         return (vBusPin_INTSTAT & vBusPin_MASK) >> vBusPin_SHIFT;
+ 284              		.loc 1 218 0
+ 285 0004 054B     		ldr	r3, .L22
+ 286 0006 1B78     		ldrb	r3, [r3]
+ 287 0008 DBB2     		uxtb	r3, r3
+ 288 000a 03F08003 		and	r3, r3, #128
+ 289 000e DB09     		lsrs	r3, r3, #7
+ 290 0010 DBB2     		uxtb	r3, r3
+ 219:Generated_Source\PSoC5/vBusPin.c ****     }
+ 291              		.loc 1 219 0
+ 292 0012 1846     		mov	r0, r3
+ 293 0014 BD46     		mov	sp, r7
+ 294              		.cfi_def_cfa_register 13
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 10
+
+
+ 295              		@ sp needed
+ 296 0016 80BC     		pop	{r7}
+ 297              		.cfi_restore 7
+ 298              		.cfi_def_cfa_offset 0
+ 299 0018 7047     		bx	lr
+ 300              	.L23:
+ 301 001a 00BF     		.align	2
+ 302              	.L22:
+ 303 001c 8C450040 		.word	1073759628
+ 304              		.cfi_endproc
+ 305              	.LFE5:
+ 306              		.size	vBusPin_ClearInterrupt, .-vBusPin_ClearInterrupt
+ 307              		.text
+ 308              	.Letext0:
+ 309              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 310              		.section	.debug_info,"",%progbits
+ 311              	.Ldebug_info0:
+ 312 0000 6D010000 		.4byte	0x16d
+ 313 0004 0400     		.2byte	0x4
+ 314 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 315 000a 04       		.byte	0x4
+ 316 000b 01       		.uleb128 0x1
+ 317 000c 00000000 		.4byte	.LASF24
+ 318 0010 0C       		.byte	0xc
+ 319 0011 45010000 		.4byte	.LASF25
+ 320 0015 CC000000 		.4byte	.LASF26
+ 321 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 322 001d 00000000 		.4byte	0
+ 323 0021 00000000 		.4byte	.Ldebug_line0
+ 324 0025 02       		.uleb128 0x2
+ 325 0026 01       		.byte	0x1
+ 326 0027 06       		.byte	0x6
+ 327 0028 2A020000 		.4byte	.LASF0
+ 328 002c 02       		.uleb128 0x2
+ 329 002d 01       		.byte	0x1
+ 330 002e 08       		.byte	0x8
+ 331 002f 32010000 		.4byte	.LASF1
+ 332 0033 02       		.uleb128 0x2
+ 333 0034 02       		.byte	0x2
+ 334 0035 05       		.byte	0x5
+ 335 0036 11020000 		.4byte	.LASF2
+ 336 003a 02       		.uleb128 0x2
+ 337 003b 02       		.byte	0x2
+ 338 003c 07       		.byte	0x7
+ 339 003d 66010000 		.4byte	.LASF3
+ 340 0041 02       		.uleb128 0x2
+ 341 0042 04       		.byte	0x4
+ 342 0043 05       		.byte	0x5
+ 343 0044 21020000 		.4byte	.LASF4
+ 344 0048 02       		.uleb128 0x2
+ 345 0049 04       		.byte	0x4
+ 346 004a 07       		.byte	0x7
+ 347 004b 79010000 		.4byte	.LASF5
+ 348 004f 02       		.uleb128 0x2
+ 349 0050 08       		.byte	0x8
+ 350 0051 05       		.byte	0x5
+ 351 0052 FE010000 		.4byte	.LASF6
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 11
+
+
+ 352 0056 02       		.uleb128 0x2
+ 353 0057 08       		.byte	0x8
+ 354 0058 07       		.byte	0x7
+ 355 0059 B6010000 		.4byte	.LASF7
+ 356 005d 03       		.uleb128 0x3
+ 357 005e 04       		.byte	0x4
+ 358 005f 05       		.byte	0x5
+ 359 0060 696E7400 		.ascii	"int\000"
+ 360 0064 02       		.uleb128 0x2
+ 361 0065 04       		.byte	0x4
+ 362 0066 07       		.byte	0x7
+ 363 0067 9B010000 		.4byte	.LASF8
+ 364 006b 04       		.uleb128 0x4
+ 365 006c 1B020000 		.4byte	.LASF9
+ 366 0070 02       		.byte	0x2
+ 367 0071 E401     		.2byte	0x1e4
+ 368 0073 2C000000 		.4byte	0x2c
+ 369 0077 04       		.uleb128 0x4
+ 370 0078 8B010000 		.4byte	.LASF10
+ 371 007c 02       		.byte	0x2
+ 372 007d E501     		.2byte	0x1e5
+ 373 007f 3A000000 		.4byte	0x3a
+ 374 0083 02       		.uleb128 0x2
+ 375 0084 04       		.byte	0x4
+ 376 0085 04       		.byte	0x4
+ 377 0086 2C010000 		.4byte	.LASF11
+ 378 008a 02       		.uleb128 0x2
+ 379 008b 08       		.byte	0x8
+ 380 008c 04       		.byte	0x4
+ 381 008d B8000000 		.4byte	.LASF12
+ 382 0091 02       		.uleb128 0x2
+ 383 0092 01       		.byte	0x1
+ 384 0093 08       		.byte	0x8
+ 385 0094 0C020000 		.4byte	.LASF13
+ 386 0098 04       		.uleb128 0x4
+ 387 0099 40010000 		.4byte	.LASF14
+ 388 009d 02       		.byte	0x2
+ 389 009e 8E02     		.2byte	0x28e
+ 390 00a0 A4000000 		.4byte	0xa4
+ 391 00a4 05       		.uleb128 0x5
+ 392 00a5 6B000000 		.4byte	0x6b
+ 393 00a9 06       		.uleb128 0x6
+ 394 00aa A8010000 		.4byte	.LASF15
+ 395 00ae 01       		.byte	0x1
+ 396 00af 39       		.byte	0x39
+ 397 00b0 00000000 		.4byte	.LFB0
+ 398 00b4 34000000 		.4byte	.LFE0-.LFB0
+ 399 00b8 01       		.uleb128 0x1
+ 400 00b9 9C       		.byte	0x9c
+ 401 00ba DB000000 		.4byte	0xdb
+ 402 00be 07       		.uleb128 0x7
+ 403 00bf A7000000 		.4byte	.LASF17
+ 404 00c3 01       		.byte	0x1
+ 405 00c4 39       		.byte	0x39
+ 406 00c5 6B000000 		.4byte	0x6b
+ 407 00c9 02       		.uleb128 0x2
+ 408 00ca 91       		.byte	0x91
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 12
+
+
+ 409 00cb 6F       		.sleb128 -17
+ 410 00cc 08       		.uleb128 0x8
+ 411 00cd AD000000 		.4byte	.LASF27
+ 412 00d1 01       		.byte	0x1
+ 413 00d2 3B       		.byte	0x3b
+ 414 00d3 6B000000 		.4byte	0x6b
+ 415 00d7 02       		.uleb128 0x2
+ 416 00d8 91       		.byte	0x91
+ 417 00d9 77       		.sleb128 -9
+ 418 00da 00       		.byte	0
+ 419 00db 06       		.uleb128 0x6
+ 420 00dc D2010000 		.4byte	.LASF16
+ 421 00e0 01       		.byte	0x1
+ 422 00e1 5A       		.byte	0x5a
+ 423 00e2 00000000 		.4byte	.LFB1
+ 424 00e6 3C000000 		.4byte	.LFE1-.LFB1
+ 425 00ea 01       		.uleb128 0x1
+ 426 00eb 9C       		.byte	0x9c
+ 427 00ec FF000000 		.4byte	0xff
+ 428 00f0 07       		.uleb128 0x7
+ 429 00f1 CD010000 		.4byte	.LASF18
+ 430 00f5 01       		.byte	0x1
+ 431 00f6 5A       		.byte	0x5a
+ 432 00f7 6B000000 		.4byte	0x6b
+ 433 00fb 02       		.uleb128 0x2
+ 434 00fc 91       		.byte	0x91
+ 435 00fd 77       		.sleb128 -9
+ 436 00fe 00       		.byte	0
+ 437 00ff 09       		.uleb128 0x9
+ 438 0100 BF000000 		.4byte	.LASF19
+ 439 0104 01       		.byte	0x1
+ 440 0105 71       		.byte	0x71
+ 441 0106 6B000000 		.4byte	0x6b
+ 442 010a 00000000 		.4byte	.LFB2
+ 443 010e 20000000 		.4byte	.LFE2-.LFB2
+ 444 0112 01       		.uleb128 0x1
+ 445 0113 9C       		.byte	0x9c
+ 446 0114 09       		.uleb128 0x9
+ 447 0115 36020000 		.4byte	.LASF20
+ 448 0119 01       		.byte	0x1
+ 449 011a 8D       		.byte	0x8d
+ 450 011b 6B000000 		.4byte	0x6b
+ 451 011f 00000000 		.4byte	.LFB3
+ 452 0123 20000000 		.4byte	.LFE3-.LFB3
+ 453 0127 01       		.uleb128 0x1
+ 454 0128 9C       		.byte	0x9c
+ 455 0129 06       		.uleb128 0x6
+ 456 012a 8E000000 		.4byte	.LASF21
+ 457 012e 01       		.byte	0x1
+ 458 012f BB       		.byte	0xbb
+ 459 0130 00000000 		.4byte	.LFB4
+ 460 0134 30000000 		.4byte	.LFE4-.LFB4
+ 461 0138 01       		.uleb128 0x1
+ 462 0139 9C       		.byte	0x9c
+ 463 013a 5B010000 		.4byte	0x15b
+ 464 013e 07       		.uleb128 0x7
+ 465 013f 92010000 		.4byte	.LASF22
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 13
+
+
+ 466 0143 01       		.byte	0x1
+ 467 0144 BB       		.byte	0xbb
+ 468 0145 77000000 		.4byte	0x77
+ 469 0149 02       		.uleb128 0x2
+ 470 014a 91       		.byte	0x91
+ 471 014b 76       		.sleb128 -10
+ 472 014c 07       		.uleb128 0x7
+ 473 014d CD010000 		.4byte	.LASF18
+ 474 0151 01       		.byte	0x1
+ 475 0152 BB       		.byte	0xbb
+ 476 0153 77000000 		.4byte	0x77
+ 477 0157 02       		.uleb128 0x2
+ 478 0158 91       		.byte	0x91
+ 479 0159 74       		.sleb128 -12
+ 480 015a 00       		.byte	0
+ 481 015b 09       		.uleb128 0x9
+ 482 015c E7010000 		.4byte	.LASF23
+ 483 0160 01       		.byte	0x1
+ 484 0161 D8       		.byte	0xd8
+ 485 0162 6B000000 		.4byte	0x6b
+ 486 0166 00000000 		.4byte	.LFB5
+ 487 016a 20000000 		.4byte	.LFE5-.LFB5
+ 488 016e 01       		.uleb128 0x1
+ 489 016f 9C       		.byte	0x9c
+ 490 0170 00       		.byte	0
+ 491              		.section	.debug_abbrev,"",%progbits
+ 492              	.Ldebug_abbrev0:
+ 493 0000 01       		.uleb128 0x1
+ 494 0001 11       		.uleb128 0x11
+ 495 0002 01       		.byte	0x1
+ 496 0003 25       		.uleb128 0x25
+ 497 0004 0E       		.uleb128 0xe
+ 498 0005 13       		.uleb128 0x13
+ 499 0006 0B       		.uleb128 0xb
+ 500 0007 03       		.uleb128 0x3
+ 501 0008 0E       		.uleb128 0xe
+ 502 0009 1B       		.uleb128 0x1b
+ 503 000a 0E       		.uleb128 0xe
+ 504 000b 55       		.uleb128 0x55
+ 505 000c 17       		.uleb128 0x17
+ 506 000d 11       		.uleb128 0x11
+ 507 000e 01       		.uleb128 0x1
+ 508 000f 10       		.uleb128 0x10
+ 509 0010 17       		.uleb128 0x17
+ 510 0011 00       		.byte	0
+ 511 0012 00       		.byte	0
+ 512 0013 02       		.uleb128 0x2
+ 513 0014 24       		.uleb128 0x24
+ 514 0015 00       		.byte	0
+ 515 0016 0B       		.uleb128 0xb
+ 516 0017 0B       		.uleb128 0xb
+ 517 0018 3E       		.uleb128 0x3e
+ 518 0019 0B       		.uleb128 0xb
+ 519 001a 03       		.uleb128 0x3
+ 520 001b 0E       		.uleb128 0xe
+ 521 001c 00       		.byte	0
+ 522 001d 00       		.byte	0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 14
+
+
+ 523 001e 03       		.uleb128 0x3
+ 524 001f 24       		.uleb128 0x24
+ 525 0020 00       		.byte	0
+ 526 0021 0B       		.uleb128 0xb
+ 527 0022 0B       		.uleb128 0xb
+ 528 0023 3E       		.uleb128 0x3e
+ 529 0024 0B       		.uleb128 0xb
+ 530 0025 03       		.uleb128 0x3
+ 531 0026 08       		.uleb128 0x8
+ 532 0027 00       		.byte	0
+ 533 0028 00       		.byte	0
+ 534 0029 04       		.uleb128 0x4
+ 535 002a 16       		.uleb128 0x16
+ 536 002b 00       		.byte	0
+ 537 002c 03       		.uleb128 0x3
+ 538 002d 0E       		.uleb128 0xe
+ 539 002e 3A       		.uleb128 0x3a
+ 540 002f 0B       		.uleb128 0xb
+ 541 0030 3B       		.uleb128 0x3b
+ 542 0031 05       		.uleb128 0x5
+ 543 0032 49       		.uleb128 0x49
+ 544 0033 13       		.uleb128 0x13
+ 545 0034 00       		.byte	0
+ 546 0035 00       		.byte	0
+ 547 0036 05       		.uleb128 0x5
+ 548 0037 35       		.uleb128 0x35
+ 549 0038 00       		.byte	0
+ 550 0039 49       		.uleb128 0x49
+ 551 003a 13       		.uleb128 0x13
+ 552 003b 00       		.byte	0
+ 553 003c 00       		.byte	0
+ 554 003d 06       		.uleb128 0x6
+ 555 003e 2E       		.uleb128 0x2e
+ 556 003f 01       		.byte	0x1
+ 557 0040 3F       		.uleb128 0x3f
+ 558 0041 19       		.uleb128 0x19
+ 559 0042 03       		.uleb128 0x3
+ 560 0043 0E       		.uleb128 0xe
+ 561 0044 3A       		.uleb128 0x3a
+ 562 0045 0B       		.uleb128 0xb
+ 563 0046 3B       		.uleb128 0x3b
+ 564 0047 0B       		.uleb128 0xb
+ 565 0048 27       		.uleb128 0x27
+ 566 0049 19       		.uleb128 0x19
+ 567 004a 11       		.uleb128 0x11
+ 568 004b 01       		.uleb128 0x1
+ 569 004c 12       		.uleb128 0x12
+ 570 004d 06       		.uleb128 0x6
+ 571 004e 40       		.uleb128 0x40
+ 572 004f 18       		.uleb128 0x18
+ 573 0050 9742     		.uleb128 0x2117
+ 574 0052 19       		.uleb128 0x19
+ 575 0053 01       		.uleb128 0x1
+ 576 0054 13       		.uleb128 0x13
+ 577 0055 00       		.byte	0
+ 578 0056 00       		.byte	0
+ 579 0057 07       		.uleb128 0x7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 15
+
+
+ 580 0058 05       		.uleb128 0x5
+ 581 0059 00       		.byte	0
+ 582 005a 03       		.uleb128 0x3
+ 583 005b 0E       		.uleb128 0xe
+ 584 005c 3A       		.uleb128 0x3a
+ 585 005d 0B       		.uleb128 0xb
+ 586 005e 3B       		.uleb128 0x3b
+ 587 005f 0B       		.uleb128 0xb
+ 588 0060 49       		.uleb128 0x49
+ 589 0061 13       		.uleb128 0x13
+ 590 0062 02       		.uleb128 0x2
+ 591 0063 18       		.uleb128 0x18
+ 592 0064 00       		.byte	0
+ 593 0065 00       		.byte	0
+ 594 0066 08       		.uleb128 0x8
+ 595 0067 34       		.uleb128 0x34
+ 596 0068 00       		.byte	0
+ 597 0069 03       		.uleb128 0x3
+ 598 006a 0E       		.uleb128 0xe
+ 599 006b 3A       		.uleb128 0x3a
+ 600 006c 0B       		.uleb128 0xb
+ 601 006d 3B       		.uleb128 0x3b
+ 602 006e 0B       		.uleb128 0xb
+ 603 006f 49       		.uleb128 0x49
+ 604 0070 13       		.uleb128 0x13
+ 605 0071 02       		.uleb128 0x2
+ 606 0072 18       		.uleb128 0x18
+ 607 0073 00       		.byte	0
+ 608 0074 00       		.byte	0
+ 609 0075 09       		.uleb128 0x9
+ 610 0076 2E       		.uleb128 0x2e
+ 611 0077 00       		.byte	0
+ 612 0078 3F       		.uleb128 0x3f
+ 613 0079 19       		.uleb128 0x19
+ 614 007a 03       		.uleb128 0x3
+ 615 007b 0E       		.uleb128 0xe
+ 616 007c 3A       		.uleb128 0x3a
+ 617 007d 0B       		.uleb128 0xb
+ 618 007e 3B       		.uleb128 0x3b
+ 619 007f 0B       		.uleb128 0xb
+ 620 0080 27       		.uleb128 0x27
+ 621 0081 19       		.uleb128 0x19
+ 622 0082 49       		.uleb128 0x49
+ 623 0083 13       		.uleb128 0x13
+ 624 0084 11       		.uleb128 0x11
+ 625 0085 01       		.uleb128 0x1
+ 626 0086 12       		.uleb128 0x12
+ 627 0087 06       		.uleb128 0x6
+ 628 0088 40       		.uleb128 0x40
+ 629 0089 18       		.uleb128 0x18
+ 630 008a 9742     		.uleb128 0x2117
+ 631 008c 19       		.uleb128 0x19
+ 632 008d 00       		.byte	0
+ 633 008e 00       		.byte	0
+ 634 008f 00       		.byte	0
+ 635              		.section	.debug_aranges,"",%progbits
+ 636 0000 44000000 		.4byte	0x44
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 16
+
+
+ 637 0004 0200     		.2byte	0x2
+ 638 0006 00000000 		.4byte	.Ldebug_info0
+ 639 000a 04       		.byte	0x4
+ 640 000b 00       		.byte	0
+ 641 000c 0000     		.2byte	0
+ 642 000e 0000     		.2byte	0
+ 643 0010 00000000 		.4byte	.LFB0
+ 644 0014 34000000 		.4byte	.LFE0-.LFB0
+ 645 0018 00000000 		.4byte	.LFB1
+ 646 001c 3C000000 		.4byte	.LFE1-.LFB1
+ 647 0020 00000000 		.4byte	.LFB2
+ 648 0024 20000000 		.4byte	.LFE2-.LFB2
+ 649 0028 00000000 		.4byte	.LFB3
+ 650 002c 20000000 		.4byte	.LFE3-.LFB3
+ 651 0030 00000000 		.4byte	.LFB4
+ 652 0034 30000000 		.4byte	.LFE4-.LFB4
+ 653 0038 00000000 		.4byte	.LFB5
+ 654 003c 20000000 		.4byte	.LFE5-.LFB5
+ 655 0040 00000000 		.4byte	0
+ 656 0044 00000000 		.4byte	0
+ 657              		.section	.debug_ranges,"",%progbits
+ 658              	.Ldebug_ranges0:
+ 659 0000 00000000 		.4byte	.LFB0
+ 660 0004 34000000 		.4byte	.LFE0
+ 661 0008 00000000 		.4byte	.LFB1
+ 662 000c 3C000000 		.4byte	.LFE1
+ 663 0010 00000000 		.4byte	.LFB2
+ 664 0014 20000000 		.4byte	.LFE2
+ 665 0018 00000000 		.4byte	.LFB3
+ 666 001c 20000000 		.4byte	.LFE3
+ 667 0020 00000000 		.4byte	.LFB4
+ 668 0024 30000000 		.4byte	.LFE4
+ 669 0028 00000000 		.4byte	.LFB5
+ 670 002c 20000000 		.4byte	.LFE5
+ 671 0030 00000000 		.4byte	0
+ 672 0034 00000000 		.4byte	0
+ 673              		.section	.debug_line,"",%progbits
+ 674              	.Ldebug_line0:
+ 675 0000 B8000000 		.section	.debug_str,"MS",%progbits,1
+ 675      02004400 
+ 675      00000201 
+ 675      FB0E0D00 
+ 675      01010101 
+ 676              	.LASF24:
+ 677 0000 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 677      43313120 
+ 677      352E342E 
+ 677      31203230 
+ 677      31363036 
+ 678 0033 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 678      20726576 
+ 678      6973696F 
+ 678      6E203233 
+ 678      37373135 
+ 679 0066 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 679      66756E63 
+ 679      74696F6E 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 17
+
+
+ 679      2D736563 
+ 679      74696F6E 
+ 680              	.LASF21:
+ 681 008e 76427573 		.ascii	"vBusPin_SetInterruptMode\000"
+ 681      50696E5F 
+ 681      53657449 
+ 681      6E746572 
+ 681      72757074 
+ 682              	.LASF17:
+ 683 00a7 76616C75 		.ascii	"value\000"
+ 683      6500
+ 684              	.LASF27:
+ 685 00ad 73746174 		.ascii	"staticBits\000"
+ 685      69634269 
+ 685      747300
+ 686              	.LASF12:
+ 687 00b8 646F7562 		.ascii	"double\000"
+ 687      6C6500
+ 688              	.LASF19:
+ 689 00bf 76427573 		.ascii	"vBusPin_Read\000"
+ 689      50696E5F 
+ 689      52656164 
+ 689      00
+ 690              	.LASF26:
+ 691 00cc 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Documents\\PSOC5_electrobass"
+ 691      73657273 
+ 691      5C4A6566 
+ 691      66536E79 
+ 691      6465725C 
+ 692 00fb 5F737472 		.ascii	"_stringsensors\\CE210514_PSOC3_5_Thermistor.cydsn\000"
+ 692      696E6773 
+ 692      656E736F 
+ 692      72735C43 
+ 692      45323130 
+ 693              	.LASF11:
+ 694 012c 666C6F61 		.ascii	"float\000"
+ 694      7400
+ 695              	.LASF1:
+ 696 0132 756E7369 		.ascii	"unsigned char\000"
+ 696      676E6564 
+ 696      20636861 
+ 696      7200
+ 697              	.LASF14:
+ 698 0140 72656738 		.ascii	"reg8\000"
+ 698      00
+ 699              	.LASF25:
+ 700 0145 47656E65 		.ascii	"Generated_Source\\PSoC5\\vBusPin.c\000"
+ 700      72617465 
+ 700      645F536F 
+ 700      75726365 
+ 700      5C50536F 
+ 701              	.LASF3:
+ 702 0166 73686F72 		.ascii	"short unsigned int\000"
+ 702      7420756E 
+ 702      7369676E 
+ 702      65642069 
+ 702      6E7400
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 18
+
+
+ 703              	.LASF5:
+ 704 0179 6C6F6E67 		.ascii	"long unsigned int\000"
+ 704      20756E73 
+ 704      69676E65 
+ 704      6420696E 
+ 704      7400
+ 705              	.LASF10:
+ 706 018b 75696E74 		.ascii	"uint16\000"
+ 706      313600
+ 707              	.LASF22:
+ 708 0192 706F7369 		.ascii	"position\000"
+ 708      74696F6E 
+ 708      00
+ 709              	.LASF8:
+ 710 019b 756E7369 		.ascii	"unsigned int\000"
+ 710      676E6564 
+ 710      20696E74 
+ 710      00
+ 711              	.LASF15:
+ 712 01a8 76427573 		.ascii	"vBusPin_Write\000"
+ 712      50696E5F 
+ 712      57726974 
+ 712      6500
+ 713              	.LASF7:
+ 714 01b6 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 714      206C6F6E 
+ 714      6720756E 
+ 714      7369676E 
+ 714      65642069 
+ 715              	.LASF18:
+ 716 01cd 6D6F6465 		.ascii	"mode\000"
+ 716      00
+ 717              	.LASF16:
+ 718 01d2 76427573 		.ascii	"vBusPin_SetDriveMode\000"
+ 718      50696E5F 
+ 718      53657444 
+ 718      72697665 
+ 718      4D6F6465 
+ 719              	.LASF23:
+ 720 01e7 76427573 		.ascii	"vBusPin_ClearInterrupt\000"
+ 720      50696E5F 
+ 720      436C6561 
+ 720      72496E74 
+ 720      65727275 
+ 721              	.LASF6:
+ 722 01fe 6C6F6E67 		.ascii	"long long int\000"
+ 722      206C6F6E 
+ 722      6720696E 
+ 722      7400
+ 723              	.LASF13:
+ 724 020c 63686172 		.ascii	"char\000"
+ 724      00
+ 725              	.LASF2:
+ 726 0211 73686F72 		.ascii	"short int\000"
+ 726      7420696E 
+ 726      7400
+ 727              	.LASF9:
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFFCamX.s 			page 19
+
+
+ 728 021b 75696E74 		.ascii	"uint8\000"
+ 728      3800
+ 729              	.LASF4:
+ 730 0221 6C6F6E67 		.ascii	"long int\000"
+ 730      20696E74 
+ 730      00
+ 731              	.LASF0:
+ 732 022a 7369676E 		.ascii	"signed char\000"
+ 732      65642063 
+ 732      68617200 
+ 733              	.LASF20:
+ 734 0236 76427573 		.ascii	"vBusPin_ReadDataReg\000"
+ 734      50696E5F 
+ 734      52656164 
+ 734      44617461 
+ 734      52656700 
+ 735              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
