@@ -1199,7 +1199,7 @@ HAL_StatusTypeDef HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c, uint16_t DevA
     /* Wait until STOPF flag is set */
     if (I2C_WaitOnSTOPFlagUntilTimeout(hi2c, Timeout, tickstart) != HAL_OK)
     {
-			return HAL_ERROR;
+      return HAL_ERROR;
     }
 
     /* Clear STOP Flag */

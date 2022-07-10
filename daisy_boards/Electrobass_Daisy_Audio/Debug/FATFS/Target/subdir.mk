@@ -6,14 +6,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../FATFS/Target/bsp_driver_sd.c \
+../FATFS/Target/fatfs_platform.c \
 ../FATFS/Target/sd_diskio.c 
 
 OBJS += \
 ./FATFS/Target/bsp_driver_sd.o \
+./FATFS/Target/fatfs_platform.o \
 ./FATFS/Target/sd_diskio.o 
 
 C_DEPS += \
 ./FATFS/Target/bsp_driver_sd.d \
+./FATFS/Target/fatfs_platform.d \
 ./FATFS/Target/sd_diskio.d 
 
 
@@ -24,7 +27,7 @@ FATFS/Target/%.o FATFS/Target/%.su: ../FATFS/Target/%.c FATFS/Target/subdir.mk
 clean: clean-FATFS-2f-Target
 
 clean-FATFS-2f-Target:
-	-$(RM) ./FATFS/Target/bsp_driver_sd.d ./FATFS/Target/bsp_driver_sd.o ./FATFS/Target/bsp_driver_sd.su ./FATFS/Target/sd_diskio.d ./FATFS/Target/sd_diskio.o ./FATFS/Target/sd_diskio.su
+	-$(RM) ./FATFS/Target/bsp_driver_sd.d ./FATFS/Target/bsp_driver_sd.o ./FATFS/Target/bsp_driver_sd.su ./FATFS/Target/fatfs_platform.d ./FATFS/Target/fatfs_platform.o ./FATFS/Target/fatfs_platform.su ./FATFS/Target/sd_diskio.d ./FATFS/Target/sd_diskio.o ./FATFS/Target/sd_diskio.su
 
 .PHONY: clean-FATFS-2f-Target
 

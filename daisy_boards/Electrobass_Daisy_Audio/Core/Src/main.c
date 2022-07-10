@@ -18,27 +18,23 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "adc.h"
 #include "dac.h"
 #include "dma.h"
 #include "fatfs.h"
 #include "i2c.h"
-#include "opamp.h"
 #include "quadspi.h"
 #include "rng.h"
 #include "sai.h"
 #include "sdmmc.h"
 #include "spi.h"
-#include "tim.h"
-#include "usart.h"
-#include "usb_device.h"
-#include "usb_otg_hs.h"
 #include "gpio.h"
 #include "fmc.h"
-#include "codec.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "leaf.h"
+#include "codec.h"
+#include "audio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -70,7 +66,8 @@ void MPU_Conf(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+uint8_t SPI_TX[32] __ATTR_RAM_D2;
+uint8_t SPI_RX[32] __ATTR_RAM_D2;
 /* USER CODE END 0 */
 
 /**
@@ -81,12 +78,14 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	  MPU_Conf();
-	  /* Enable I-Cache---------------------------------------------------------*/
-	  SCB_EnableICache();
 
-	  /* Enable D-Cache---------------------------------------------------------*/
-	  SCB_EnableDCache();
   /* USER CODE END 1 */
+
+  /* Enable I-Cache---------------------------------------------------------*/
+  SCB_EnableICache();
+
+  /* Enable D-Cache---------------------------------------------------------*/
+  SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -110,23 +109,16 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_ADC1_Init();
   MX_DAC1_Init();
   MX_FMC_Init();
   MX_I2C2_Init();
-  MX_OPAMP1_Init();
   MX_QUADSPI_Init();
   MX_SAI1_Init();
-  MX_SAI2_Init();
   MX_SDMMC1_SD_Init();
   MX_SPI1_Init();
-  MX_TIM1_Init();
-  MX_USART1_UART_Init();
   MX_I2C1_Init();
   MX_RNG_Init();
   MX_FATFS_Init();
-  MX_USB_OTG_HS_USB_Init();
-  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
   uint32_t tempFPURegisterVal = __get_FPSCR();
@@ -136,6 +128,8 @@ int main(void)
   codec_init(&hi2c2);
 
   audio_init(&hsai_BlockB1, &hsai_BlockA1);
+
+  HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -143,9 +137,9 @@ int main(void)
   while (1)
   {
 
-	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+	  //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 	  HAL_Delay(100);
-	  /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
@@ -230,9 +224,8 @@ void PeriphCommonClock_Config(void)
 
   /** Initializes the peripherals clock
   */
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_FMC|RCC_PERIPHCLK_ADC
-                              |RCC_PERIPHCLK_SDMMC|RCC_PERIPHCLK_SAI1
-                              |RCC_PERIPHCLK_SAI2;
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_FMC|RCC_PERIPHCLK_SDMMC
+                              |RCC_PERIPHCLK_SAI1;
   PeriphClkInitStruct.PLL2.PLL2M = 1;
   PeriphClkInitStruct.PLL2.PLL2N = 12;
   PeriphClkInitStruct.PLL2.PLL2P = 8;
@@ -252,8 +245,6 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.FmcClockSelection = RCC_FMCCLKSOURCE_PLL2;
   PeriphClkInitStruct.SdmmcClockSelection = RCC_SDMMCCLKSOURCE_PLL2;
   PeriphClkInitStruct.Sai1ClockSelection = RCC_SAI1CLKSOURCE_PLL3;
-  PeriphClkInitStruct.Sai23ClockSelection = RCC_SAI23CLKSOURCE_PLL3;
-  PeriphClkInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_PLL3;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -355,6 +346,85 @@ void MPU_Conf(void)
 
 
 	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+}
+
+void sendNoteOn(uint8_t note, uint8_t velocity);
+void sendCtrl(uint8_t value, uint8_t ctrl);
+
+
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	//spiBuffer = 1;
+    uint8_t offset = 16;
+    if (SPI_RX[offset] == 1)
+    {
+    	//got a change!
+    	 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+
+    	 uint8_t currentByte = offset+1;
+
+    	 while (SPI_RX[currentByte] != 0)
+    	 {
+			 if (SPI_RX[currentByte] == 0x90)
+			 {
+				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 else if (SPI_RX[currentByte] == 0xb0)
+			 {
+				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 else if (SPI_RX[currentByte] == 0xe0)
+			 {
+				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 currentByte = currentByte+3;
+    	 }
+
+    }
+}
+
+void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
+{
+	//spiBuffer = 0;
+    uint8_t offset = 0;
+
+    if (SPI_RX[offset] == 1)
+    {
+    	//got a change!
+    	 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+    	 uint8_t currentByte = offset+1;
+
+    	 while (SPI_RX[currentByte] != 0)
+    	 {
+			 if (SPI_RX[currentByte] == 0x90)
+			 {
+				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 else if (SPI_RX[currentByte] == 0xb0)
+			 {
+				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 else if (SPI_RX[currentByte] == 0xe0)
+			 {
+				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 currentByte = currentByte+3;
+    	 }
+    }
+}
+
+
+void sendNoteOn(uint8_t note, uint8_t velocity)
+{
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+}
+void sendCtrl(uint8_t value, uint8_t ctrl)
+{
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+}
+void sendPitchBend(uint8_t value, uint8_t ctrl)
+{
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 }
 
 /* USER CODE END 4 */

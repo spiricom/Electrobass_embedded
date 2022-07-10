@@ -45,8 +45,8 @@
 #define SDRECORD 0
 #define SAMPLE_RATE 48000
 
-#define MAPLE1
-
+//#define MAPLE1
+#define GREEN3
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -102,6 +102,7 @@ float Dsmoothed2;
 float dbSmoothed2;
 
 float stringScaling[4] = {2.0f, 1.3f, 0.9f, 0.4f};
+float stringScaling2[4] = {1.20f, 1.4f, 0.9f, 0.5f};
 int armed[NUM_STRINGS] = {0,0,0,0};
 float prevdbSmoothed2[NUM_STRINGS];
 int threshOut = 0;
@@ -457,6 +458,8 @@ int attackDetectPeak2 (int whichString, int tempInt)
 	float tempSamp = (((float)tempInt - TWO_TO_15) * INV_TWO_TO_15);
 #ifdef MAPLE1
 	tempSamp = tempSamp * stringScaling[whichString] * 2.0f;
+#elif defined GREEN3
+	tempSamp = tempSamp * stringScaling2[whichString] * 2.0f;
 #else
 	tempSamp = tempSamp;
 #endif
