@@ -1,25 +1,21 @@
-23:57:24 **** Incremental Build of configuration Debug for project Electrobass_Daisy_Audio ****
+20:02:37 **** Incremental Build of configuration Debug for project Electrobass_Daisy_Pluck ****
 make -j7 all 
-arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32H750xx -c -I../Core/Inc -I/Users/jeffsnyder/dev/LEAF/leaf -I../FATFS/Target -I../FATFS/App -I../USB_DEVICE/App -I../USB_DEVICE/Target -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FatFs/src -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
-../Core/Src/main.c: In function 'HAL_SPI_TxRxCpltCallback':
-../Core/Src/main.c:378:6: warning: implicit declaration of function 'sendPitchBend' [-Wimplicit-function-declaration]
-  378 |      sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-      |      ^~~~~~~~~~~~~
-../Core/Src/main.c: At top level:
-../Core/Src/main.c:425:6: warning: conflicting types for 'sendPitchBend'
-  425 | void sendPitchBend(uint8_t value, uint8_t ctrl)
-      |      ^~~~~~~~~~~~~
-../Core/Src/main.c:378:6: note: previous implicit declaration of 'sendPitchBend' was here
-  378 |      sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-      |      ^~~~~~~~~~~~~
-arm-none-eabi-gcc -o "Electrobass_Daisy_Audio.elf" @"objects.list"   -mcpu=cortex-m7 -T"/Users/jeffsnyder/dev/Electrobass_embedded/daisy_boards/Electrobass_Daisy_Audio/STM32H750IBKX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Electrobass_Daisy_Audio.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Electrobass_Daisy_Audio.elf
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m7 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32H750xx -c -I/Users/jeffsnyder/dev/LEAF/leaf -I../Core/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc -I../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32H7xx/Include -I../Drivers/CMSIS/Include -Ofast -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "Electrobass_Daisy_Pluck.elf" @"objects.list"   -mcpu=cortex-m7 -T"/Users/jeffsnyder/dev/Electrobass_embedded/daisy_boards/Electrobass_Daisy_Pluck/STM32H750IBKX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Electrobass_Daisy_Pluck.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: Electrobass_Daisy_Pluck.elf
  
-arm-none-eabi-size   Electrobass_Daisy_Audio.elf 
-arm-none-eabi-objdump -h -S  Electrobass_Daisy_Audio.elf  > "Electrobass_Daisy_Audio.list"
+arm-none-eabi-size   Electrobass_Daisy_Pluck.elf 
+arm-none-eabi-objdump -h -S  Electrobass_Daisy_Pluck.elf  > "Electrobass_Daisy_Pluck.list"
    text	   data	    bss	    dec	    hex	filename
-  65052	     24	 532184	 597260	  91d0c	Electrobass_Daisy_Audio.elf
+  39348	    176	 426272	 465796	  71b84	Electrobass_Daisy_Pluck.elf
 Finished building: default.size.stdout
  
-Finished building: Electrobass_Daisy_Audio.list
+Finished building: Electrobass_Daisy_Pluck.list
+ 
+20:02:52 **** Incremental Build of configuration Debug for project Electrobass_Daisy_Pluck ****
+make -j7 all 
+arm-none-eabi-size   Electrobass_Daisy_Pluck.elf 
+   text	   data	    bss	    dec	    hex	filename
+  39348	    176	 426272	 465796	  71b84	Electrobass_Daisy_Pluck.elf
+Finished building: default.size.stdout
  

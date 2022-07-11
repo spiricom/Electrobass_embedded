@@ -15,12 +15,15 @@ int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 
 
 
+
 HAL_StatusTypeDef transmit_status;
 HAL_StatusTypeDef receive_status;
 
 float sample = 0.0f;
 
-tCycle mySine;
+tMBSaw myOsc;
+tSimplePoly poly;
+float bend;
 
 
 //MEMPOOLS
@@ -43,8 +46,9 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	LEAF_init(&leaf, SAMPLE_RATE, mediumMemory, MEDIUM_MEM_SIZE, &randomNumber);
 	tMempool_init (&smallPool, smallMemory, SMALL_MEM_SIZE, &leaf);
 	//tMempool_init (&largePool, largeMemory, LARGE_MEM_SIZE, &leaf);
-	tCycle_initToPool(&mySine, &smallPool);
-	tCycle_setFreq(&mySine, 440.0f);
+	tMBSaw_initToPool(&myOsc, &smallPool);
+	tMBSaw_setFreq(&myOsc, 440.0f);
+	tSimplePoly_init(&poly, 1, &leaf);
 	HAL_Delay(10);
 	for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
 	{
@@ -84,11 +88,44 @@ float audioTickL(float audioIn)
 
 	sample = 0.0f;
 
-		//tCycle_setFreq(&mySine, (tRamp_tick(&adc[i]) * 500.0f) + 100.0f); // use knob to set frequency between 100 and 600 Hz
-	sample += tCycle_tick(&mySine); // tick the oscillator
+
+	tMBSaw_setFreq(&myOsc, mtof(bend + (float)tSimplePoly_getPitch(&poly, 0)));
+	uint8_t vel = tSimplePoly_getVelocity(&poly, 0);
+	sample += tMBSaw_tick(&myOsc); // tick the oscillator
+	//sample *= ((float)vel) / 127.0f;
+	float velocity = (float)vel;
+    velocity = ((0.007685533519034f*velocity) + 0.0239372430f);
+    velocity = velocity * velocity;
+    sample *= velocity;
+	//sample *= ((float)vel) / 127.0f;;
 	//sample *= 0.33f; // drop the gain because we've got three full volume sine waves summing here
 
 	return sample;
+}
+
+
+
+void sendNoteOn(uint8_t note, uint8_t velocity)
+{
+	if (velocity > 0)
+	{
+		tSimplePoly_noteOn(&poly, note, velocity);
+	}
+	else
+	{
+		tSimplePoly_noteOff(&poly, note);
+	}
+}
+void sendCtrl(uint8_t value, uint8_t ctrl)
+{
+	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+}
+void sendPitchBend(uint8_t value, uint8_t ctrl)
+{
+	int bendInt = value + (ctrl << 7);
+	bendInt = bendInt - 8192;
+	bend = bendInt * 0.002929866324849f; //divide by (16383 / 48 semitones)
+
 }
 
 
@@ -101,3 +138,6 @@ void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 {
 	audioFrame(0);
 }
+
+
+

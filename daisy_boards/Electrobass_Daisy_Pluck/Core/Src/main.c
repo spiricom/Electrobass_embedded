@@ -487,9 +487,9 @@ int attackDetectPeak2 (int whichString, int tempInt)
 	slopeStorage[whichString] = slope;
 	float integerVersion = Dsmoothed2 * (TWO_TO_16 - 1);
 
-	//if (whichString == 1)
+	if (whichString == 1)
 	{
-		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, (uint16_t)integerVersion >> 4);
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, (uint16_t)integerVersion >> 4);
 	}
 	threshOut = tThreshold_tick(&threshold[whichString], integerVersion);
 	if (threshOut > 0)
@@ -641,9 +641,9 @@ void ADC_Frame(int offset)
 			int tempInt = adcBytes[j];
 
 			didPlucked[j] = attackDetectPeak2(j, tempInt);
-			//if (j == 1)
+			if (j == 1)
 			{
-				//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)stringPressed[j] >>4);
+				HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)stringPressed[j] >>4);
 			}
 			//stringTouchRH[j] = (SPI_RX[(16*spiBuffer) + 8] >> (j+4)) & 1;
 			//stringTouchLH[j] = (SPI_RX[(16*spiBuffer) + 8] >> j) & 1;
@@ -703,21 +703,21 @@ void ADC_Frame(int offset)
 				{
 					if (LHmuted  > 0)
 					{
-						//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_SET);
+						HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_SET);
 					}
 					else
 					{
-						//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
+						HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
 					}
 
 
 					if (stringTouchRH[j]  > 0)
 					{
-						//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
+						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
 					}
 					else
 					{
-						//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
+						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
 					}
 				}
 
@@ -820,7 +820,7 @@ void ADC_Frame(int offset)
 					stringSounding[j] = 0;
 					if (j == 1)
 					{
-						//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 0);
+						HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 0);
 					}
 				}
 

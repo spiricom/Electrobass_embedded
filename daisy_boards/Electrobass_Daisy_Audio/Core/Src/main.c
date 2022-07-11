@@ -77,7 +77,7 @@ uint8_t SPI_RX[32] __ATTR_RAM_D2;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	  MPU_Conf();
+  MPU_Conf();
 
   /* USER CODE END 1 */
 
@@ -348,8 +348,6 @@ void MPU_Conf(void)
 	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
 
-void sendNoteOn(uint8_t note, uint8_t velocity);
-void sendCtrl(uint8_t value, uint8_t ctrl);
 
 
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
@@ -414,18 +412,6 @@ void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 }
 
 
-void sendNoteOn(uint8_t note, uint8_t velocity)
-{
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-}
-void sendCtrl(uint8_t value, uint8_t ctrl)
-{
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-}
-void sendPitchBend(uint8_t value, uint8_t ctrl)
-{
-	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-}
 
 /* USER CODE END 4 */
 
