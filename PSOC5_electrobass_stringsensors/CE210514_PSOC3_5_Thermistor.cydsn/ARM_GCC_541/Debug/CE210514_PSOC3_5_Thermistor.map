@@ -2861,7 +2861,7 @@ END GROUP
                 0x0000d47c                __cy_regions = .
                 0x0000d47c        0x4 LONG 0xd490 __cy_region_init_ram
                 0x0000d480        0x4 LONG 0x1fff80c8 __cy_region_start_data
-                0x0000d484        0x4 LONG 0x180 __cy_region_init_size_ram
+                0x0000d484        0x4 LONG 0x188 __cy_region_init_size_ram
                 0x0000d488        0x4 LONG 0xbb0 __cy_region_zero_size_ram
                 0x0000d48c                __cy_regions_end = .
                 0x0000d490                . = ALIGN (0x8)
@@ -2884,7 +2884,7 @@ END GROUP
  .noinit        0x1fff80c4        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyLib.o)
                 0x1fff80c4                CyResetStatus
 
-.data           0x1fff80c8      0x180 load address 0x0000d490
+.data           0x1fff80c8      0x188 load address 0x0000d490
                 0x1fff80c8                __cy_region_start_data = .
  *(.jcr)
  .jcr           0x1fff80c8        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m/crtbegin.o
@@ -2893,7 +2893,7 @@ END GROUP
  *(.got)
  *(.shdata)
  *(.data .data.* .gnu.linkonce.d.*)
- .data          0x1fff80cc       0x62 .\ARM_GCC_541\Debug\main.o
+ .data          0x1fff80cc       0x68 .\ARM_GCC_541\Debug\main.o
                 0x1fff80cc                thresholdArray
                 0x1fff80d4                fretMeasurements
                 0x1fff80f4                fretRatios
@@ -2904,279 +2904,280 @@ END GROUP
                 0x1fff8118                openStringMIDI
                 0x1fff8128                linearHysteresis
                 0x1fff812c                knobs7bitHysteresis
- *fill*         0x1fff812e        0x2 
- .data          0x1fff8130        0x4 .\ARM_GCC_541\Debug\Cm3Start.o
- .data          0x1fff8134        0xd .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
-                0x1fff8134                CapSense_sensorEnableMask
-                0x1fff8138                CapSense_idacSettings
-                0x1fff8140                CapSense_analogSwitchDivider
- *fill*         0x1fff8141        0x3 
- .data          0x1fff8144       0x38 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
-                0x1fff8144                CapSense_fingerThreshold
-                0x1fff8154                CapSense_noiseThreshold
-                0x1fff8164                CapSense_hysteresis
-                0x1fff8174                CapSense_debounce
- .data          0x1fff817c        0x8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyDmac.o)
- .data          0x1fff8184       0x10 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyLib.o)
-                0x1fff8184                cydelay_freq_hz
-                0x1fff8188                cydelay_freq_khz
-                0x1fff818c                cydelay_freq_mhz
-                0x1fff8190                cydelay_32k_ms
- .data          0x1fff8194        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(AMux_1.o)
- .data          0x1fff8195        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
-                0x1fff8195                ADC_1_Config
- *fill*         0x1fff8196        0x2 
- .data          0x1fff8198        0x6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_PM.o)
-                0x1fff8198                I2C_1_backup
- .data          0x1fff819e        0x2 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
- .data          0x1fff81a0        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_TempBuf_dma.o)
-                0x1fff81a0                ADC_SAR_Seq_1_TempBuf_DmaHandle
- .data          0x1fff81a1        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_FinalBuf_dma.o)
-                0x1fff81a1                ADC_SAR_Seq_1_FinalBuf_DmaHandle
- .data          0x1fff81a2        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_RX_dma.o)
-                0x1fff81a2                DMA_1_RX_DmaHandle
- .data          0x1fff81a3        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_TX_dma.o)
-                0x1fff81a3                DMA_1_TX_DmaHandle
- .data          0x1fff81a4        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
- .data          0x1fff81a5        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_RX_dma.o)
-                0x1fff81a5                DMA_2_RX_DmaHandle
- .data          0x1fff81a6        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_TX_dma.o)
-                0x1fff81a6                DMA_2_TX_DmaHandle
- .data          0x1fff81a7        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep2_dma.o)
-                0x1fff81a7                USB_ep2_DmaHandle
- .data          0x1fff81a8        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep1_dma.o)
-                0x1fff81a8                USB_ep1_DmaHandle
+                0x1fff8130                counter2
+ .data          0x1fff8134        0x4 .\ARM_GCC_541\Debug\Cm3Start.o
+ .data          0x1fff8138        0xd .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
+                0x1fff8138                CapSense_sensorEnableMask
+                0x1fff813c                CapSense_idacSettings
+                0x1fff8144                CapSense_analogSwitchDivider
+ *fill*         0x1fff8145        0x3 
+ .data          0x1fff8148       0x38 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
+                0x1fff8148                CapSense_fingerThreshold
+                0x1fff8158                CapSense_noiseThreshold
+                0x1fff8168                CapSense_hysteresis
+                0x1fff8178                CapSense_debounce
+ .data          0x1fff8180        0x8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyDmac.o)
+ .data          0x1fff8188       0x10 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyLib.o)
+                0x1fff8188                cydelay_freq_hz
+                0x1fff818c                cydelay_freq_khz
+                0x1fff8190                cydelay_freq_mhz
+                0x1fff8194                cydelay_32k_ms
+ .data          0x1fff8198        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(AMux_1.o)
+ .data          0x1fff8199        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
+                0x1fff8199                ADC_1_Config
+ *fill*         0x1fff819a        0x2 
+ .data          0x1fff819c        0x6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_PM.o)
+                0x1fff819c                I2C_1_backup
+ .data          0x1fff81a2        0x2 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
+ .data          0x1fff81a4        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_TempBuf_dma.o)
+                0x1fff81a4                ADC_SAR_Seq_1_TempBuf_DmaHandle
+ .data          0x1fff81a5        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_FinalBuf_dma.o)
+                0x1fff81a5                ADC_SAR_Seq_1_FinalBuf_DmaHandle
+ .data          0x1fff81a6        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_RX_dma.o)
+                0x1fff81a6                DMA_1_RX_DmaHandle
+ .data          0x1fff81a7        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_TX_dma.o)
+                0x1fff81a7                DMA_1_TX_DmaHandle
+ .data          0x1fff81a8        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
+ .data          0x1fff81a9        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_RX_dma.o)
+                0x1fff81a9                DMA_2_RX_DmaHandle
+ .data          0x1fff81aa        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_TX_dma.o)
+                0x1fff81aa                DMA_2_TX_DmaHandle
+ .data          0x1fff81ab        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep2_dma.o)
+                0x1fff81ab                USB_ep2_DmaHandle
+ .data          0x1fff81ac        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep1_dma.o)
+                0x1fff81ac                USB_ep1_DmaHandle
  .data.__fdlib_version
-                0x1fff81a9        0x1 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_lib_ver.o)
-                0x1fff81a9                __fdlib_version
- *fill*         0x1fff81aa        0x2 
+                0x1fff81ad        0x1 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libm.a(lib_a-s_lib_ver.o)
+                0x1fff81ad                __fdlib_version
+ *fill*         0x1fff81ae        0x2 
  .data.impure_data
-                0x1fff81ac       0x60 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
+                0x1fff81b0       0x60 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
  .data._impure_ptr
-                0x1fff820c        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
-                0x1fff820c                _impure_ptr
- .data.lconv    0x1fff8210       0x38 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-locale.o)
-                0x1fff8248                . = ALIGN (0x8)
+                0x1fff8210        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
+                0x1fff8210                _impure_ptr
+ .data.lconv    0x1fff8214       0x38 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-locale.o)
+                0x1fff8250                . = ALIGN (0x8)
+ *fill*         0x1fff824c        0x4 
  *(.ram)
-                0x1fff8248                _edata = .
+                0x1fff8250                _edata = .
 
-.igot.plt       0x1fff8248        0x0 load address 0x0000d610
- .igot.plt      0x1fff8248        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m/crtbegin.o
+.igot.plt       0x1fff8250        0x0 load address 0x0000d618
+ .igot.plt      0x1fff8250        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m/crtbegin.o
 
-.bss            0x1fff8248      0xbb0 load address 0x0000d610
-                0x1fff8248                PROVIDE (__bss_start__, .)
+.bss            0x1fff8250      0xbb0 load address 0x0000d618
+                0x1fff8250                PROVIDE (__bss_start__, .)
  *(.shbss)
  *(.bss .bss.* .gnu.linkonce.b.*)
- .bss           0x1fff8248       0x1c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m/crtbegin.o
- *fill*         0x1fff8264        0x4 
- .bss           0x1fff8268      0x140 .\ARM_GCC_541\Debug\main.o
-                0x1fff8268                usbActivityCounter
-                0x1fff8269                currentVBUS
-                0x1fff826a                prevVBUS
-                0x1fff826b                USB_active
-                0x1fff826c                USB_check_flag
-                0x1fff826e                midiSent
-                0x1fff8270                midiOverflow
-                0x1fff8274                scanPart
-                0x1fff8278                channel
-                0x1fff827c                currentOutPointer
-                0x1fff8280                outChanged
-                0x1fff8284                i
-                0x1fff8285                counter
-                0x1fff8288                octave
-                0x1fff8290                array
-                0x1fff8294                barCount
-                0x1fff8298                stringStates
-                0x1fff82b8                whichLinearSensor
-                0x1fff82bc                testVar
-                0x1fff82c0                lastNotes
-                0x1fff82d0                polyMode
-                0x1fff82d4                openStringCount
-                0x1fff82e4                loudestString
-                0x1fff82e8                timeSinceLastAttack
-                0x1fff82f0                previousHysteresisStates
-                0x1fff8300                invStringMappedPositions
-                0x1fff8310                stringMIDI
-                0x1fff8320                stringMIDIPrev
-                0x1fff8330                previousPitchBendsSent
-                0x1fff8334                firPointer
-                0x1fff8338                knobs7bit
-                0x1fff8340                knobs7bitPrev
-                0x1fff834c                knobs7bitPrevLS
-                0x1fff8358                linFirPointer
-                0x1fff835c                linearSmoothed
-                0x1fff836c                linearSmoothedPrev
-                0x1fff837c                LHMuteCounter
-                0x1fff838c                LHMute
-                0x1fff8390                pitchFreeze
-                0x1fff8394                pitchBendHistoryPointer
-                0x1fff839c                skipPointer
-                0x1fff83a0                bufCount
-                0x1fff83a4                iVtherm
- .bss           0x1fff83a8        0xc .\ARM_GCC_541\Debug\cyfitter_cfg.o
- .bss           0x1fff83b4        0xc .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
-                0x1fff83b8                CapSense_widgetResolution
- .bss           0x1fff83c0        0x9 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
-                0x1fff83c0                CapSense_debounceCounter
- *fill*         0x1fff83c9        0x3 
- .bss           0x1fff83cc        0x8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CySpc.o)
-                0x1fff83cc                SpcLockState
- .bss           0x1fff83d4        0xc .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
-                0x1fff83d4                ADC_1_convDone
-                0x1fff83d5                ADC_1_stopConversion
-                0x1fff83d6                ADC_1_initVar
-                0x1fff83d7                ADC_1_started
-                0x1fff83d8                ADC_1_Offset
- .bss           0x1fff83e0        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1.o)
-                0x1fff83e0                SPIM_1_initVar
- .bss           0x1fff83e1        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2.o)
-                0x1fff83e1                SPIM_2_initVar
- *fill*         0x1fff83e2        0x2 
- .bss           0x1fff83e4       0x12 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
-                0x1fff83e4                ADC_SAR_Seq_1_initVar
- .bss           0x1fff83f6        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_SAR.o)
-                0x1fff83f6                ADC_SAR_Seq_1_SAR_initVar
- .bss           0x1fff83f7        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
-                0x1fff83f7                USB_initVar
- .bss           0x1fff83f8        0x2 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_std.o)
- .bss           0x1fff83fa        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(IDAC8_1.o)
-                0x1fff83fa                IDAC8_1_initVar
- *fill*         0x1fff83fb        0x1 
+ .bss           0x1fff8250       0x1c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m/crtbegin.o
+ *fill*         0x1fff826c        0x4 
+ .bss           0x1fff8270      0x140 .\ARM_GCC_541\Debug\main.o
+                0x1fff8270                usbActivityCounter
+                0x1fff8271                currentVBUS
+                0x1fff8272                prevVBUS
+                0x1fff8273                USB_active
+                0x1fff8274                USB_check_flag
+                0x1fff8276                midiSent
+                0x1fff8278                midiOverflow
+                0x1fff827c                scanPart
+                0x1fff8280                channel
+                0x1fff8284                currentOutPointer
+                0x1fff8288                outChanged
+                0x1fff828c                i
+                0x1fff828d                counter
+                0x1fff8290                octave
+                0x1fff8298                array
+                0x1fff829c                barCount
+                0x1fff82a0                stringStates
+                0x1fff82c0                whichLinearSensor
+                0x1fff82c4                testVar
+                0x1fff82c8                lastNotes
+                0x1fff82d8                polyMode
+                0x1fff82dc                openStringCount
+                0x1fff82ec                loudestString
+                0x1fff82f0                timeSinceLastAttack
+                0x1fff82f8                previousHysteresisStates
+                0x1fff8308                invStringMappedPositions
+                0x1fff8318                stringMIDI
+                0x1fff8328                stringMIDIPrev
+                0x1fff8338                previousPitchBendsSent
+                0x1fff833c                firPointer
+                0x1fff8340                knobs7bit
+                0x1fff8348                knobs7bitPrev
+                0x1fff8354                knobs7bitPrevLS
+                0x1fff8360                linFirPointer
+                0x1fff8364                linearSmoothed
+                0x1fff8374                linearSmoothedPrev
+                0x1fff8384                LHMuteCounter
+                0x1fff8394                LHMute
+                0x1fff8398                pitchFreeze
+                0x1fff839c                pitchBendHistoryPointer
+                0x1fff83a4                skipPointer
+                0x1fff83a8                bufCount
+                0x1fff83ac                iVtherm
+ .bss           0x1fff83b0        0xc .\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .bss           0x1fff83bc        0xc .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
+                0x1fff83c0                CapSense_widgetResolution
+ .bss           0x1fff83c8        0x9 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
+                0x1fff83c8                CapSense_debounceCounter
+ *fill*         0x1fff83d1        0x3 
+ .bss           0x1fff83d4        0x8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CySpc.o)
+                0x1fff83d4                SpcLockState
+ .bss           0x1fff83dc        0xc .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
+                0x1fff83dc                ADC_1_convDone
+                0x1fff83dd                ADC_1_stopConversion
+                0x1fff83de                ADC_1_initVar
+                0x1fff83df                ADC_1_started
+                0x1fff83e0                ADC_1_Offset
+ .bss           0x1fff83e8        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1.o)
+                0x1fff83e8                SPIM_1_initVar
+ .bss           0x1fff83e9        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2.o)
+                0x1fff83e9                SPIM_2_initVar
+ *fill*         0x1fff83ea        0x2 
+ .bss           0x1fff83ec       0x12 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
+                0x1fff83ec                ADC_SAR_Seq_1_initVar
+ .bss           0x1fff83fe        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_SAR.o)
+                0x1fff83fe                ADC_SAR_Seq_1_SAR_initVar
+ .bss           0x1fff83ff        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
+                0x1fff83ff                USB_initVar
+ .bss           0x1fff8400        0x2 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_std.o)
+ .bss           0x1fff8402        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(IDAC8_1.o)
+                0x1fff8402                IDAC8_1_initVar
+ *fill*         0x1fff8403        0x1 
  .bss.__malloc_sbrk_start
-                0x1fff83fc        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
-                0x1fff83fc                __malloc_sbrk_start
+                0x1fff8404        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+                0x1fff8404                __malloc_sbrk_start
  .bss.__malloc_free_list
-                0x1fff8400        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
-                0x1fff8400                __malloc_free_list
+                0x1fff8408        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+                0x1fff8408                __malloc_free_list
  *(COMMON)
- COMMON         0x1fff8404      0x7aa .\ARM_GCC_541\Debug\main.o
-                0x1fff8404                rx2Buffer
-                0x1fff8414                skippedNotes
-                0x1fff8694                linearFIR
-                0x1fff86b4                tx2BufferTemp
-                0x1fff86c4                linearPotValue32Bit
-                0x1fff86d4                temper
-                0x1fff86d8                tx2TD
-                0x1fff86dc                midiMsg
-                0x1fff86e0                hp_x
-                0x1fff86f0                stringCapSensorsOnOff
-                0x1fff86f4                ptr
-                0x1fff86f8                txChannel
-                0x1fff86fc                pitchBendHistory
-                0x1fff88fc                rx2Channel
-                0x1fff88fd                eeprom_cnt
-                0x1fff8900                tx2Buffer
-                0x1fff8910                knobs
-                0x1fff8924                tempMIDI
-                0x1fff8928                rxTD
-                0x1fff8929                rx2TD
-                0x1fff892c                stringCapSensorsRaw
-                0x1fff893c                hysteresisStates
-                0x1fff894c                buttons
-                0x1fff8950                previousButtons
-                0x1fff897c                rxBuffer
-                0x1fff898c                eepromReturnValue
-                0x1fff8990                txBuffer
-                0x1fff89a0                I2Cbuff1
-                0x1fff8aa0                crossFadeStartCount
-                0x1fff8ab0                stringPlucksPrev
-                0x1fff8ac0                txTD
-                0x1fff8ac4                knobsFIR
-                0x1fff8b64                vibratoCrossfade
-                0x1fff8b74                hp_y
-                0x1fff8b84                stringPlucks
-                0x1fff8b94                pitchBendsPerString
-                0x1fff8ba4                status
-                0x1fff8ba8                hp_R
-                0x1fff8bac                tx2Channel
-                0x1fff8bad                rxChannel
- *fill*         0x1fff8bae        0x2 
- COMMON         0x1fff8bb0       0x12 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
-                0x1fff8bb0                CapSense_sensorRaw
-                0x1fff8bc0                CapSense_sensorIndex
-                0x1fff8bc1                CapSense_csv
- *fill*         0x1fff8bc2        0x2 
- COMMON         0x1fff8bc4       0x41 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
-                0x1fff8bc4                CapSense_lowBaselineResetCnt
-                0x1fff8bcc                CapSense_sensorBaselineLow
-                0x1fff8bd4                CapSense_sensorSignal
-                0x1fff8be4                CapSense_sensorBaseline
-                0x1fff8bf4                CapSense_rawFilterData1
-                0x1fff8c04                CapSense_sensorOnMask
- *fill*         0x1fff8c05        0x3 
- COMMON         0x1fff8c08        0x2 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyFlash.o)
-                0x1fff8c08                dieTemperature
- *fill*         0x1fff8c0a        0x2 
- COMMON         0x1fff8c0c        0x4 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
-                0x1fff8c0c                ADC_1_CountsPerVolt
- COMMON         0x1fff8c10        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1.o)
-                0x1fff8c10                I2C_1_state
- *fill*         0x1fff8c11        0x3 
- COMMON         0x1fff8c14        0xa .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
-                0x1fff8c14                ADC_SAR_Seq_1_finalArray
- *fill*         0x1fff8c1e        0x2 
- COMMON         0x1fff8c20        0xa .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_SAR.o)
-                0x1fff8c20                ADC_SAR_Seq_1_SAR_countsPerVolt
-                0x1fff8c22                ADC_SAR_Seq_1_SAR_offset
-                0x1fff8c24                ADC_SAR_Seq_1_SAR_countsPer10Volt
-                0x1fff8c28                ADC_SAR_Seq_1_SAR_shift
- *fill*         0x1fff8c2a        0x2 
- COMMON         0x1fff8c2c       0x65 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
-                0x1fff8c2c                USB_inBufFull
-                0x1fff8c38                USB_inDataPointer
-                0x1fff8c5c                USB_DmaTd
-                0x1fff8c68                USB_DmaChan
-                0x1fff8c74                USB_inLength
-                0x1fff8c88                USB_DmaNextTd
- *fill*         0x1fff8c91        0x3 
- COMMON         0x1fff8c94       0x98 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_drv.o)
-                0x1fff8c94                USB_transferState
-                0x1fff8c95                USB_interfaceNumber
-                0x1fff8c96                USB_lastPacketSize
-                0x1fff8c98                USB_interfaceClass
-                0x1fff8c9c                USB_interfaceSetting
-                0x1fff8c9e                USB_ep0Mode
-                0x1fff8c9f                USB_device
-                0x1fff8ca0                USB_deviceAddress
-                0x1fff8ca1                USB_ep0Toggle
-                0x1fff8ca4                USB_interfaceSettingLast
-                0x1fff8ca6                USB_configurationChanged
-                0x1fff8ca8                USB_interfaceStatus
-                0x1fff8caa                USB_transferByteCount
-                0x1fff8cac                USB_configuration
-                0x1fff8cb0                USB_currentTD
-                0x1fff8cbc                USB_ep0Count
-                0x1fff8cbd                USB_deviceStatus
-                0x1fff8cc0                USB_EP
- COMMON         0x1fff8d2c       0x84 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_midi.o)
-                0x1fff8d2c                USB_midiOutBuffer
-                0x1fff8d6c                USB_midi_in_ep
-                0x1fff8d6d                USB_midiInPointer
-                0x1fff8d6e                USB_midi_out_ep
-                0x1fff8d70                USB_midiInBuffer
- COMMON         0x1fff8db0       0x1c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(Em_EEPROM.o)
-                0x1fff8db0                Em_EEPROM_context
- COMMON         0x1fff8dcc       0x22 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_descr.o)
-                0x1fff8dcc                USB_idSerialNumberStringDescriptor
- *fill*         0x1fff8dee        0x2 
- COMMON         0x1fff8df0        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-reent.o)
-                0x1fff8df0                errno
-                0x1fff8df8                . = ALIGN (0x8)
- *fill*         0x1fff8df4        0x4 
+ COMMON         0x1fff840c      0x7aa .\ARM_GCC_541\Debug\main.o
+                0x1fff840c                rx2Buffer
+                0x1fff841c                skippedNotes
+                0x1fff869c                linearFIR
+                0x1fff86bc                tx2BufferTemp
+                0x1fff86cc                linearPotValue32Bit
+                0x1fff86dc                temper
+                0x1fff86e0                tx2TD
+                0x1fff86e4                midiMsg
+                0x1fff86e8                hp_x
+                0x1fff86f8                stringCapSensorsOnOff
+                0x1fff86fc                ptr
+                0x1fff8700                txChannel
+                0x1fff8704                pitchBendHistory
+                0x1fff8904                rx2Channel
+                0x1fff8905                eeprom_cnt
+                0x1fff8908                tx2Buffer
+                0x1fff8918                knobs
+                0x1fff892c                tempMIDI
+                0x1fff8930                rxTD
+                0x1fff8931                rx2TD
+                0x1fff8934                stringCapSensorsRaw
+                0x1fff8944                hysteresisStates
+                0x1fff8954                buttons
+                0x1fff8958                previousButtons
+                0x1fff8984                rxBuffer
+                0x1fff8994                eepromReturnValue
+                0x1fff8998                txBuffer
+                0x1fff89a8                I2Cbuff1
+                0x1fff8aa8                crossFadeStartCount
+                0x1fff8ab8                stringPlucksPrev
+                0x1fff8ac8                txTD
+                0x1fff8acc                knobsFIR
+                0x1fff8b6c                vibratoCrossfade
+                0x1fff8b7c                hp_y
+                0x1fff8b8c                stringPlucks
+                0x1fff8b9c                pitchBendsPerString
+                0x1fff8bac                status
+                0x1fff8bb0                hp_R
+                0x1fff8bb4                tx2Channel
+                0x1fff8bb5                rxChannel
+ *fill*         0x1fff8bb6        0x2 
+ COMMON         0x1fff8bb8       0x12 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
+                0x1fff8bb8                CapSense_sensorRaw
+                0x1fff8bc8                CapSense_sensorIndex
+                0x1fff8bc9                CapSense_csv
+ *fill*         0x1fff8bca        0x2 
+ COMMON         0x1fff8bcc       0x41 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
+                0x1fff8bcc                CapSense_lowBaselineResetCnt
+                0x1fff8bd4                CapSense_sensorBaselineLow
+                0x1fff8bdc                CapSense_sensorSignal
+                0x1fff8bec                CapSense_sensorBaseline
+                0x1fff8bfc                CapSense_rawFilterData1
+                0x1fff8c0c                CapSense_sensorOnMask
+ *fill*         0x1fff8c0d        0x3 
+ COMMON         0x1fff8c10        0x2 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyFlash.o)
+                0x1fff8c10                dieTemperature
+ *fill*         0x1fff8c12        0x2 
+ COMMON         0x1fff8c14        0x4 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
+                0x1fff8c14                ADC_1_CountsPerVolt
+ COMMON         0x1fff8c18        0x1 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1.o)
+                0x1fff8c18                I2C_1_state
+ *fill*         0x1fff8c19        0x3 
+ COMMON         0x1fff8c1c        0xa .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
+                0x1fff8c1c                ADC_SAR_Seq_1_finalArray
+ *fill*         0x1fff8c26        0x2 
+ COMMON         0x1fff8c28        0xa .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_SAR.o)
+                0x1fff8c28                ADC_SAR_Seq_1_SAR_countsPerVolt
+                0x1fff8c2a                ADC_SAR_Seq_1_SAR_offset
+                0x1fff8c2c                ADC_SAR_Seq_1_SAR_countsPer10Volt
+                0x1fff8c30                ADC_SAR_Seq_1_SAR_shift
+ *fill*         0x1fff8c32        0x2 
+ COMMON         0x1fff8c34       0x65 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
+                0x1fff8c34                USB_inBufFull
+                0x1fff8c40                USB_inDataPointer
+                0x1fff8c64                USB_DmaTd
+                0x1fff8c70                USB_DmaChan
+                0x1fff8c7c                USB_inLength
+                0x1fff8c90                USB_DmaNextTd
+ *fill*         0x1fff8c99        0x3 
+ COMMON         0x1fff8c9c       0x98 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_drv.o)
+                0x1fff8c9c                USB_transferState
+                0x1fff8c9d                USB_interfaceNumber
+                0x1fff8c9e                USB_lastPacketSize
+                0x1fff8ca0                USB_interfaceClass
+                0x1fff8ca4                USB_interfaceSetting
+                0x1fff8ca6                USB_ep0Mode
+                0x1fff8ca7                USB_device
+                0x1fff8ca8                USB_deviceAddress
+                0x1fff8ca9                USB_ep0Toggle
+                0x1fff8cac                USB_interfaceSettingLast
+                0x1fff8cae                USB_configurationChanged
+                0x1fff8cb0                USB_interfaceStatus
+                0x1fff8cb2                USB_transferByteCount
+                0x1fff8cb4                USB_configuration
+                0x1fff8cb8                USB_currentTD
+                0x1fff8cc4                USB_ep0Count
+                0x1fff8cc5                USB_deviceStatus
+                0x1fff8cc8                USB_EP
+ COMMON         0x1fff8d34       0x84 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_midi.o)
+                0x1fff8d34                USB_midiOutBuffer
+                0x1fff8d74                USB_midi_in_ep
+                0x1fff8d75                USB_midiInPointer
+                0x1fff8d76                USB_midi_out_ep
+                0x1fff8d78                USB_midiInBuffer
+ COMMON         0x1fff8db8       0x1c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(Em_EEPROM.o)
+                0x1fff8db8                Em_EEPROM_context
+ COMMON         0x1fff8dd4       0x22 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_descr.o)
+                0x1fff8dd4                USB_idSerialNumberStringDescriptor
+ *fill*         0x1fff8df6        0x2 
+ COMMON         0x1fff8df8        0x4 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-reent.o)
+                0x1fff8df8                errno
+                0x1fff8e00                . = ALIGN (0x8)
+ *fill*         0x1fff8dfc        0x4 
  *(.ram.b)
-                0x1fff8df8                _end = .
-                0x1fff8df8                __end = .
-                0x1fff8df8                PROVIDE (end, .)
-                0x1fff8df8                PROVIDE (__bss_end__, .)
+                0x1fff8e00                _end = .
+                0x1fff8e00                __end = .
+                0x1fff8e00                PROVIDE (end, .)
+                0x1fff8e00                PROVIDE (__bss_end__, .)
                 0x0000d490                __cy_region_init_ram = LOADADDR (.data)
-                0x00000180                __cy_region_init_size_ram = (_edata - ADDR (.data))
+                0x00000188                __cy_region_init_size_ram = (_edata - ADDR (.data))
                 0x00000bb0                __cy_region_zero_size_ram = (_end - _edata)
 
-.heap           0x1fff8df8       0x80 load address 0x0000d610
-                0x1fff8df8                . = _end
-                0x1fff8e78                . = (. + 0x80)
- *fill*         0x1fff8df8       0x80 
-                0x1fff8e78                __cy_heap_limit = .
+.heap           0x1fff8e00       0x80 load address 0x0000d618
+                0x1fff8e00                . = _end
+                0x1fff8e80                . = (. + 0x80)
+ *fill*         0x1fff8e00       0x80 
+                0x1fff8e80                __cy_heap_limit = .
 
 .stack          0x20007800      0x800
                 0x20007800                __cy_stack_limit = .
@@ -3223,8 +3224,8 @@ END GROUP
  .cymeta        0x90500000        0xc .\ARM_GCC_541\Debug\cymetadata.o
                 0x90500000                cy_metadata
 
-.rel.dyn        0x0000d610        0x0 load address 0x9050000c
- .rel.iplt      0x0000d610        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m/crtbegin.o
+.rel.dyn        0x0000d618        0x0 load address 0x9050000c
+ .rel.iplt      0x0000d618        0x0 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/armv7-m/crtbegin.o
 
 .stab
  *(.stab)
@@ -3396,81 +3397,81 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0xe603
+.debug_info     0x00000000     0xe615
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0xfdd .\ARM_GCC_541\Debug\main.o
- .debug_info    0x00000fdd      0xc06 .\ARM_GCC_541\Debug\midi.o
- .debug_info    0x00001be3      0x721 .\ARM_GCC_541\Debug\cyfitter_cfg.o
- .debug_info    0x00002304      0x139 .\ARM_GCC_541\Debug\cymetadata.o
- .debug_info    0x0000243d      0x32b .\ARM_GCC_541\Debug\Cm3Start.o
- .debug_info    0x00002768      0x586 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
- .debug_info    0x00002cee      0x5b2 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
- .debug_info    0x000032a0       0xe6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_INT.o)
- .debug_info    0x00003386      0x246 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CompCH0.o)
- .debug_info    0x000035cc      0x1ad .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IdacCH0.o)
- .debug_info    0x00003779      0x14e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_AMuxCH0.o)
- .debug_info    0x000038c7      0x25d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IntClock.o)
- .debug_info    0x00003b24      0xa75 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(cy_em_eeprom.o)
- .debug_info    0x00004599      0x8c0 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyDmac.o)
- .debug_info    0x00004e59      0x3b9 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyFlash.o)
- .debug_info    0x00005212      0xe51 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyLib.o)
- .debug_info    0x00006063      0x57a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(cyPm.o)
- .debug_info    0x000065dd      0x4c0 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CySpc.o)
- .debug_info    0x00006a9d      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(AMux_1.o)
- .debug_info    0x00006bb8      0x72c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
- .debug_info    0x000072e4       0xd3 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_INT.o)
- .debug_info    0x000073b7      0x25d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_Ext_CP_Clk.o)
- .debug_info    0x00007614      0x299 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_theACLK.o)
- .debug_info    0x000078ad      0x3f4 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1.o)
- .debug_info    0x00007ca1      0x3f4 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2.o)
- .debug_info    0x00008095      0x25d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1_IntClock.o)
- .debug_info    0x000082f2      0x25d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2_IntClock.o)
- .debug_info    0x0000854f      0x201 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1.o)
- .debug_info    0x00008750      0x156 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_INT.o)
- .debug_info    0x000088a6      0x19a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_PM.o)
- .debug_info    0x00008a40      0x3f8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_MASTER.o)
- .debug_info    0x00008e38      0x3ab .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
- .debug_info    0x000091e3       0xa0 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_INT.o)
- .debug_info    0x00009283      0x462 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_SAR.o)
- .debug_info    0x000096e5      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_TempBuf_dma.o)
- .debug_info    0x00009800      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_FinalBuf_dma.o)
- .debug_info    0x0000991b      0x241 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_IRQ.o)
- .debug_info    0x00009b5c      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUXS0.o)
- .debug_info    0x00009c7a      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUX_EN.o)
- .debug_info    0x00009d98      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUXS1.o)
- .debug_info    0x00009eb6      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_RX_dma.o)
- .debug_info    0x00009fd1      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_TX_dma.o)
- .debug_info    0x0000a0ec      0x979 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
- .debug_info    0x0000aa65      0x52d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_drv.o)
- .debug_info    0x0000af92      0x3f4 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_episr.o)
- .debug_info    0x0000b386      0x18d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_pm.o)
- .debug_info    0x0000b513      0x94e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_std.o)
- .debug_info    0x0000be61       0xef .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_vnd.o)
- .debug_info    0x0000bf50      0x307 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_midi.o)
- .debug_info    0x0000c257      0x1ab .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SleepTimer.o)
- .debug_info    0x0000c402      0x171 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(vBusPin.o)
- .debug_info    0x0000c573      0x241 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(my_Vbus_ISR.o)
- .debug_info    0x0000c7b4      0x21d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(Em_EEPROM.o)
- .debug_info    0x0000c9d1      0x171 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_Dp.o)
- .debug_info    0x0000cb42      0x1ad .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(IDAC8_1.o)
- .debug_info    0x0000ccef      0x246 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CompCH1.o)
- .debug_info    0x0000cf35      0x1ad .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IdacCH1.o)
- .debug_info    0x0000d0e2      0x14e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_AMuxCH1.o)
- .debug_info    0x0000d230      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(blue_LED.o)
- .debug_info    0x0000d34e      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(LED1.o)
- .debug_info    0x0000d46c      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CV_pedal_sense.o)
- .debug_info    0x0000d58a      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_RX_dma.o)
- .debug_info    0x0000d6a5      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_TX_dma.o)
- .debug_info    0x0000d7c0      0x142 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP17_DMA_Done_SR.o)
- .debug_info    0x0000d902      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep2_dma.o)
- .debug_info    0x0000da1d      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep1_dma.o)
- .debug_info    0x0000db38      0x241 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP_DMA_Done_isr.o)
- .debug_info    0x0000dd79      0x142 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP8_DMA_Done_SR.o)
- .debug_info    0x0000debb      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPI_ready.o)
- .debug_info    0x0000dfd9       0xbd .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyBootAsmGnu.o)
- .debug_info    0x0000e096      0x1c8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_cls.o)
- .debug_info    0x0000e25e      0x2a8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_descr.o)
- .debug_info    0x0000e506       0xfd .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_audio.o)
+ .debug_info    0x00000000      0xfef .\ARM_GCC_541\Debug\main.o
+ .debug_info    0x00000fef      0xc06 .\ARM_GCC_541\Debug\midi.o
+ .debug_info    0x00001bf5      0x721 .\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_info    0x00002316      0x139 .\ARM_GCC_541\Debug\cymetadata.o
+ .debug_info    0x0000244f      0x32b .\ARM_GCC_541\Debug\Cm3Start.o
+ .debug_info    0x0000277a      0x586 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
+ .debug_info    0x00002d00      0x5b2 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
+ .debug_info    0x000032b2       0xe6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_INT.o)
+ .debug_info    0x00003398      0x246 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CompCH0.o)
+ .debug_info    0x000035de      0x1ad .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IdacCH0.o)
+ .debug_info    0x0000378b      0x14e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_AMuxCH0.o)
+ .debug_info    0x000038d9      0x25d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IntClock.o)
+ .debug_info    0x00003b36      0xa75 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(cy_em_eeprom.o)
+ .debug_info    0x000045ab      0x8c0 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyDmac.o)
+ .debug_info    0x00004e6b      0x3b9 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyFlash.o)
+ .debug_info    0x00005224      0xe51 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyLib.o)
+ .debug_info    0x00006075      0x57a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(cyPm.o)
+ .debug_info    0x000065ef      0x4c0 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CySpc.o)
+ .debug_info    0x00006aaf      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(AMux_1.o)
+ .debug_info    0x00006bca      0x72c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
+ .debug_info    0x000072f6       0xd3 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_INT.o)
+ .debug_info    0x000073c9      0x25d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_Ext_CP_Clk.o)
+ .debug_info    0x00007626      0x299 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_theACLK.o)
+ .debug_info    0x000078bf      0x3f4 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1.o)
+ .debug_info    0x00007cb3      0x3f4 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2.o)
+ .debug_info    0x000080a7      0x25d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1_IntClock.o)
+ .debug_info    0x00008304      0x25d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2_IntClock.o)
+ .debug_info    0x00008561      0x201 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1.o)
+ .debug_info    0x00008762      0x156 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_INT.o)
+ .debug_info    0x000088b8      0x19a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_PM.o)
+ .debug_info    0x00008a52      0x3f8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_MASTER.o)
+ .debug_info    0x00008e4a      0x3ab .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
+ .debug_info    0x000091f5       0xa0 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_INT.o)
+ .debug_info    0x00009295      0x462 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_SAR.o)
+ .debug_info    0x000096f7      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_TempBuf_dma.o)
+ .debug_info    0x00009812      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_FinalBuf_dma.o)
+ .debug_info    0x0000992d      0x241 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_IRQ.o)
+ .debug_info    0x00009b6e      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUXS0.o)
+ .debug_info    0x00009c8c      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUX_EN.o)
+ .debug_info    0x00009daa      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUXS1.o)
+ .debug_info    0x00009ec8      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_RX_dma.o)
+ .debug_info    0x00009fe3      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_TX_dma.o)
+ .debug_info    0x0000a0fe      0x979 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
+ .debug_info    0x0000aa77      0x52d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_drv.o)
+ .debug_info    0x0000afa4      0x3f4 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_episr.o)
+ .debug_info    0x0000b398      0x18d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_pm.o)
+ .debug_info    0x0000b525      0x94e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_std.o)
+ .debug_info    0x0000be73       0xef .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_vnd.o)
+ .debug_info    0x0000bf62      0x307 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_midi.o)
+ .debug_info    0x0000c269      0x1ab .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SleepTimer.o)
+ .debug_info    0x0000c414      0x171 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(vBusPin.o)
+ .debug_info    0x0000c585      0x241 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(my_Vbus_ISR.o)
+ .debug_info    0x0000c7c6      0x21d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(Em_EEPROM.o)
+ .debug_info    0x0000c9e3      0x171 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_Dp.o)
+ .debug_info    0x0000cb54      0x1ad .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(IDAC8_1.o)
+ .debug_info    0x0000cd01      0x246 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CompCH1.o)
+ .debug_info    0x0000cf47      0x1ad .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IdacCH1.o)
+ .debug_info    0x0000d0f4      0x14e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_AMuxCH1.o)
+ .debug_info    0x0000d242      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(blue_LED.o)
+ .debug_info    0x0000d360      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(LED1.o)
+ .debug_info    0x0000d47e      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CV_pedal_sense.o)
+ .debug_info    0x0000d59c      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_RX_dma.o)
+ .debug_info    0x0000d6b7      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_TX_dma.o)
+ .debug_info    0x0000d7d2      0x142 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP17_DMA_Done_SR.o)
+ .debug_info    0x0000d914      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep2_dma.o)
+ .debug_info    0x0000da2f      0x11b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep1_dma.o)
+ .debug_info    0x0000db4a      0x241 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP_DMA_Done_isr.o)
+ .debug_info    0x0000dd8b      0x142 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP8_DMA_Done_SR.o)
+ .debug_info    0x0000decd      0x11e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPI_ready.o)
+ .debug_info    0x0000dfeb       0xbd .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyBootAsmGnu.o)
+ .debug_info    0x0000e0a8      0x1c8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_cls.o)
+ .debug_info    0x0000e270      0x2a8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_descr.o)
+ .debug_info    0x0000e518       0xfd .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_audio.o)
 
 .debug_abbrev   0x00000000     0x4954
  *(.debug_abbrev)
@@ -3728,151 +3729,151 @@ END GROUP
  .debug_frame   0x00007618       0x30 c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mlock.o)
  .debug_frame   0x00007648       0x5c c:/program files (x86)/cypress/psoc creator/4.4/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-reent.o)
 
-.debug_str      0x00000000     0x6b01
+.debug_str      0x00000000     0x6b0a
  *(.debug_str)
- .debug_str     0x00000000      0xa19 .\ARM_GCC_541\Debug\main.o
-                                0xa97 (size before relaxing)
- .debug_str     0x00000a19      0x36d .\ARM_GCC_541\Debug\midi.o
+ .debug_str     0x00000000      0xa22 .\ARM_GCC_541\Debug\main.o
+                                0xaa0 (size before relaxing)
+ .debug_str     0x00000a22      0x36d .\ARM_GCC_541\Debug\midi.o
                                 0x59b (size before relaxing)
- .debug_str     0x00000d86      0x3d1 .\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_str     0x00000d8f      0x3d1 .\ARM_GCC_541\Debug\cyfitter_cfg.o
                                 0x5a7 (size before relaxing)
- .debug_str     0x00001157       0x75 .\ARM_GCC_541\Debug\cymetadata.o
+ .debug_str     0x00001160       0x75 .\ARM_GCC_541\Debug\cymetadata.o
                                 0x211 (size before relaxing)
- .debug_str     0x000011cc      0x117 .\ARM_GCC_541\Debug\Cm3Start.o
+ .debug_str     0x000011d5      0x117 .\ARM_GCC_541\Debug\Cm3Start.o
                                 0x304 (size before relaxing)
- .debug_str     0x000012e3      0x34b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
+ .debug_str     0x000012ec      0x34b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense.o)
                                 0x518 (size before relaxing)
- .debug_str     0x0000162e      0x2d7 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
+ .debug_str     0x00001637      0x2d7 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CSHL.o)
                                 0x543 (size before relaxing)
- .debug_str     0x00001905       0x4e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_INT.o)
+ .debug_str     0x0000190e       0x4e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_INT.o)
                                 0x223 (size before relaxing)
- .debug_str     0x00001953      0x1bc .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CompCH0.o)
+ .debug_str     0x0000195c      0x1bc .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CompCH0.o)
                                 0x37d (size before relaxing)
- .debug_str     0x00001b0f      0x131 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IdacCH0.o)
+ .debug_str     0x00001b18      0x131 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IdacCH0.o)
                                 0x2e0 (size before relaxing)
- .debug_str     0x00001c40       0xfb .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_AMuxCH0.o)
+ .debug_str     0x00001c49       0xfb .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_AMuxCH0.o)
                                 0x29c (size before relaxing)
- .debug_str     0x00001d3b      0x1da .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IntClock.o)
+ .debug_str     0x00001d44      0x1da .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IntClock.o)
                                 0x393 (size before relaxing)
- .debug_str     0x00001f15      0x347 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(cy_em_eeprom.o)
+ .debug_str     0x00001f1e      0x347 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(cy_em_eeprom.o)
                                 0x650 (size before relaxing)
- .debug_str     0x0000225c      0x350 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyDmac.o)
+ .debug_str     0x00002265      0x350 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyDmac.o)
                                 0x54a (size before relaxing)
- .debug_str     0x000025ac      0x14b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyFlash.o)
+ .debug_str     0x000025b5      0x14b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyFlash.o)
                                 0x334 (size before relaxing)
- .debug_str     0x000026f7      0x7c6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyLib.o)
+ .debug_str     0x00002700      0x7c6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CyLib.o)
                                 0xa17 (size before relaxing)
- .debug_str     0x00002ebd      0x371 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(cyPm.o)
+ .debug_str     0x00002ec6      0x371 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(cyPm.o)
                                 0x570 (size before relaxing)
- .debug_str     0x0000322e      0x127 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CySpc.o)
+ .debug_str     0x00003237      0x127 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CySpc.o)
                                 0x32e (size before relaxing)
- .debug_str     0x00003355       0x79 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(AMux_1.o)
+ .debug_str     0x0000335e       0x79 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(AMux_1.o)
                                 0x21f (size before relaxing)
- .debug_str     0x000033ce      0x322 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
+ .debug_str     0x000033d7      0x322 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1.o)
                                 0x554 (size before relaxing)
- .debug_str     0x000036f0       0x4f .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_INT.o)
+ .debug_str     0x000036f9       0x4f .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_INT.o)
                                 0x1f7 (size before relaxing)
- .debug_str     0x0000373f      0x183 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_Ext_CP_Clk.o)
+ .debug_str     0x00003748      0x183 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_Ext_CP_Clk.o)
                                 0x387 (size before relaxing)
- .debug_str     0x000038c2      0x1a6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_theACLK.o)
+ .debug_str     0x000038cb      0x1a6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_1_theACLK.o)
                                 0x3aa (size before relaxing)
- .debug_str     0x00003a68      0x243 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1.o)
+ .debug_str     0x00003a71      0x243 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1.o)
                                 0x41d (size before relaxing)
- .debug_str     0x00003cab      0x21b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2.o)
+ .debug_str     0x00003cb4      0x21b .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2.o)
                                 0x41d (size before relaxing)
- .debug_str     0x00003ec6      0x177 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1_IntClock.o)
+ .debug_str     0x00003ecf      0x177 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_1_IntClock.o)
                                 0x37b (size before relaxing)
- .debug_str     0x0000403d      0x177 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2_IntClock.o)
+ .debug_str     0x00004046      0x177 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPIM_2_IntClock.o)
                                 0x37b (size before relaxing)
- .debug_str     0x000041b4       0xf6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1.o)
+ .debug_str     0x000041bd       0xf6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1.o)
                                 0x2cb (size before relaxing)
- .debug_str     0x000042aa       0x94 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_INT.o)
+ .debug_str     0x000042b3       0x94 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_INT.o)
                                 0x29b (size before relaxing)
- .debug_str     0x0000433e       0x60 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_PM.o)
+ .debug_str     0x00004347       0x60 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_PM.o)
                                 0x277 (size before relaxing)
- .debug_str     0x0000439e      0x18c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_MASTER.o)
+ .debug_str     0x000043a7      0x18c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(I2C_1_MASTER.o)
                                 0x3ff (size before relaxing)
- .debug_str     0x0000452a      0x28c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
+ .debug_str     0x00004533      0x28c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1.o)
                                 0x4b0 (size before relaxing)
- .debug_str     0x000047b6       0x3d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_INT.o)
+ .debug_str     0x000047bf       0x3d .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_INT.o)
                                 0x1e5 (size before relaxing)
- .debug_str     0x000047f3      0x2c3 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_SAR.o)
+ .debug_str     0x000047fc      0x2c3 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_SAR.o)
                                 0x51d (size before relaxing)
- .debug_str     0x00004ab6       0xd3 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_TempBuf_dma.o)
+ .debug_str     0x00004abf       0xd3 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_TempBuf_dma.o)
                                 0x288 (size before relaxing)
- .debug_str     0x00004b89       0x9c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_FinalBuf_dma.o)
+ .debug_str     0x00004b92       0x9c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_FinalBuf_dma.o)
                                 0x28c (size before relaxing)
- .debug_str     0x00004c25      0x18e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_IRQ.o)
+ .debug_str     0x00004c2e      0x18e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ADC_SAR_Seq_1_IRQ.o)
                                 0x37b (size before relaxing)
- .debug_str     0x00004db3       0x75 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUXS0.o)
+ .debug_str     0x00004dbc       0x75 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUXS0.o)
                                 0x21e (size before relaxing)
- .debug_str     0x00004e28       0x6f .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUX_EN.o)
+ .debug_str     0x00004e31       0x6f .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUX_EN.o)
                                 0x223 (size before relaxing)
- .debug_str     0x00004e97       0x6a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUXS1.o)
+ .debug_str     0x00004ea0       0x6a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(ExtMUXS1.o)
                                 0x21e (size before relaxing)
- .debug_str     0x00004f01       0x64 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_RX_dma.o)
+ .debug_str     0x00004f0a       0x64 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_RX_dma.o)
                                 0x254 (size before relaxing)
- .debug_str     0x00004f65       0x64 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_TX_dma.o)
+ .debug_str     0x00004f6e       0x64 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_1_TX_dma.o)
                                 0x254 (size before relaxing)
- .debug_str     0x00004fc9      0x426 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
+ .debug_str     0x00004fd2      0x426 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB.o)
                                 0x695 (size before relaxing)
- .debug_str     0x000053ef      0x29c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_drv.o)
+ .debug_str     0x000053f8      0x29c .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_drv.o)
                                 0x58b (size before relaxing)
- .debug_str     0x0000568b       0xb3 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_episr.o)
+ .debug_str     0x00005694       0xb3 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_episr.o)
                                 0x3c9 (size before relaxing)
- .debug_str     0x0000573e       0x80 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_pm.o)
+ .debug_str     0x00005747       0x80 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_pm.o)
                                 0x274 (size before relaxing)
- .debug_str     0x000057be      0x281 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_std.o)
+ .debug_str     0x000057c7      0x281 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_std.o)
                                 0x6d5 (size before relaxing)
- .debug_str     0x00005a3f       0x36 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_vnd.o)
+ .debug_str     0x00005a48       0x36 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_vnd.o)
                                 0x20e (size before relaxing)
- .debug_str     0x00005a75       0xdb .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_midi.o)
+ .debug_str     0x00005a7e       0xdb .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_midi.o)
                                 0x35d (size before relaxing)
- .debug_str     0x00005b50       0xda .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SleepTimer.o)
+ .debug_str     0x00005b59       0xda .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SleepTimer.o)
                                 0x29c (size before relaxing)
- .debug_str     0x00005c2a       0x9e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(vBusPin.o)
+ .debug_str     0x00005c33       0x9e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(vBusPin.o)
                                 0x259 (size before relaxing)
- .debug_str     0x00005cc8      0x13a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(my_Vbus_ISR.o)
+ .debug_str     0x00005cd1      0x13a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(my_Vbus_ISR.o)
                                 0x327 (size before relaxing)
- .debug_str     0x00005e02       0x41 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(Em_EEPROM.o)
+ .debug_str     0x00005e0b       0x41 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(Em_EEPROM.o)
                                 0x34c (size before relaxing)
- .debug_str     0x00005e43       0x8e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_Dp.o)
+ .debug_str     0x00005e4c       0x8e .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_Dp.o)
                                 0x252 (size before relaxing)
- .debug_str     0x00005ed1       0xbf .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(IDAC8_1.o)
+ .debug_str     0x00005eda       0xbf .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(IDAC8_1.o)
                                 0x27d (size before relaxing)
- .debug_str     0x00005f90      0x170 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CompCH1.o)
+ .debug_str     0x00005f99      0x170 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_CompCH1.o)
                                 0x37d (size before relaxing)
- .debug_str     0x00006100      0x122 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IdacCH1.o)
+ .debug_str     0x00006109      0x122 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_IdacCH1.o)
                                 0x2e0 (size before relaxing)
- .debug_str     0x00006222       0xf6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_AMuxCH1.o)
+ .debug_str     0x0000622b       0xf6 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CapSense_AMuxCH1.o)
                                 0x29c (size before relaxing)
- .debug_str     0x00006318       0x6a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(blue_LED.o)
+ .debug_str     0x00006321       0x6a .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(blue_LED.o)
                                 0x21e (size before relaxing)
- .debug_str     0x00006382       0x56 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(LED1.o)
+ .debug_str     0x0000638b       0x56 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(LED1.o)
                                 0x20a (size before relaxing)
- .debug_str     0x000063d8       0x88 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CV_pedal_sense.o)
+ .debug_str     0x000063e1       0x88 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(CV_pedal_sense.o)
                                 0x23c (size before relaxing)
- .debug_str     0x00006460       0x64 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_RX_dma.o)
+ .debug_str     0x00006469       0x64 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_RX_dma.o)
                                 0x254 (size before relaxing)
- .debug_str     0x000064c4       0x64 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_TX_dma.o)
+ .debug_str     0x000064cd       0x64 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(DMA_2_TX_dma.o)
                                 0x254 (size before relaxing)
- .debug_str     0x00006528       0xd0 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP17_DMA_Done_SR.o)
+ .debug_str     0x00006531       0xd0 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP17_DMA_Done_SR.o)
                                 0x297 (size before relaxing)
- .debug_str     0x000065f8       0x60 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep2_dma.o)
+ .debug_str     0x00006601       0x60 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep2_dma.o)
                                 0x250 (size before relaxing)
- .debug_str     0x00006658       0x60 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep1_dma.o)
+ .debug_str     0x00006661       0x60 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_ep1_dma.o)
                                 0x250 (size before relaxing)
- .debug_str     0x000066b8      0x1aa .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP_DMA_Done_isr.o)
+ .debug_str     0x000066c1      0x1aa .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP_DMA_Done_isr.o)
                                 0x397 (size before relaxing)
- .debug_str     0x00006862       0xca .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP8_DMA_Done_SR.o)
+ .debug_str     0x0000686b       0xca .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_EP8_DMA_Done_SR.o)
                                 0x291 (size before relaxing)
- .debug_str     0x0000692c       0x6f .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPI_ready.o)
+ .debug_str     0x00006935       0x6f .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(SPI_ready.o)
                                 0x223 (size before relaxing)
- .debug_str     0x0000699b       0x37 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_cls.o)
+ .debug_str     0x000069a4       0x37 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_cls.o)
                                 0x2a4 (size before relaxing)
- .debug_str     0x000069d2       0xe8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_descr.o)
+ .debug_str     0x000069db       0xe8 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_descr.o)
                                 0x352 (size before relaxing)
- .debug_str     0x00006aba       0x47 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_audio.o)
+ .debug_str     0x00006ac3       0x47 .\ARM_GCC_541\Debug\CE210514_PSOC3_5_Thermistor.a(USB_audio.o)
                                 0x21f (size before relaxing)
 
 .debug_loc
