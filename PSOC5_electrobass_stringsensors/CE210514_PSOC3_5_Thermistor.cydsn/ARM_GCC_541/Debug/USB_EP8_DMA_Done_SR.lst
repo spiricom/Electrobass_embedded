@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
   28:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** *  Reads the current value assigned to the Status Register.
   29:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** *
   30:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** * Parameters:
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 2
 
 
   31:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** *  None.
@@ -97,7 +97,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
   51              	.L4:
   52 0012 00BF     		.align	2
   53              	.L3:
-  54 0014 62640040 		.word	1073767522
+  54 0014 66640040 		.word	1073767526
   55              		.cfi_endproc
   56              	.LFE0:
   57              		.size	USB_EP8_DMA_Done_SR_Read, .-USB_EP8_DMA_Done_SR_Read
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
   47:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** * Summary:
   48:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** *  Enables the Status Register interrupt.
   49:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** *
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 3
 
 
   50:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** * Parameters:
@@ -174,11 +174,11 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  102              	.L7:
  103 002e 00BF     		.align	2
  104              	.L6:
- 105 0030 92640040 		.word	1073767570
+ 105 0030 96640040 		.word	1073767574
  106              		.cfi_endproc
  107              	.LFE1:
  108              		.size	USB_EP8_DMA_Done_SR_InterruptEnable, .-USB_EP8_DMA_Done_SR_InterruptEnable
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 4
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 4
 
 
  109              		.section	.text.USB_EP8_DMA_Done_SR_InterruptDisable,"ax",%progbits
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  141              		.loc 1 85 0
  142 001e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
  143 0020 1846     		mov	r0, r3
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 5
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 5
 
 
  144 0022 FFF7FEFF 		bl	CyExitCriticalSection
@@ -254,7 +254,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  153              	.L10:
  154 002e 00BF     		.align	2
  155              	.L9:
- 156 0030 92640040 		.word	1073767570
+ 156 0030 96640040 		.word	1073767574
  157              		.cfi_endproc
  158              	.LFE2:
  159              		.size	USB_EP8_DMA_Done_SR_InterruptDisable, .-USB_EP8_DMA_Done_SR_InterruptDisable
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  179              		.cfi_def_cfa_register 7
  180 0006 0346     		mov	r3, r0
  181 0008 FB71     		strb	r3, [r7, #7]
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 6
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 6
 
 
  105:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c ****     #if(USB_EP8_DMA_Done_SR_INPUTS < 8u)
@@ -328,7 +328,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  201              	.L13:
  202 0022 00BF     		.align	2
  203              	.L12:
- 204 0024 82640040 		.word	1073767554
+ 204 0024 86640040 		.word	1073767558
  205              		.cfi_endproc
  206              	.LFE3:
  207              		.size	USB_EP8_DMA_Done_SR_WriteMask, .-USB_EP8_DMA_Done_SR_WriteMask
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  125:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** *******************************************************************************/
  126:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** uint8 USB_EP8_DMA_Done_SR_ReadMask(void) 
  127:Generated_Source\PSoC5/USB_EP8_DMA_Done_SR.c **** {
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 7
 
 
  216              		.loc 1 127 0
@@ -389,7 +389,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  239              	.L17:
  240 0012 00BF     		.align	2
  241              	.L16:
- 242 0014 82640040 		.word	1073767554
+ 242 0014 86640040 		.word	1073767558
  243              		.cfi_endproc
  244              	.LFE4:
  245              		.size	USB_EP8_DMA_Done_SR_ReadMask, .-USB_EP8_DMA_Done_SR_ReadMask
@@ -405,34 +405,34 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  255 000b 01       		.uleb128 0x1
  256 000c 79000000 		.4byte	.LASF22
  257 0010 0C       		.byte	0xc
- 258 0011 10020000 		.4byte	.LASF23
- 259 0015 87010000 		.4byte	.LASF24
+ 258 0011 1F020000 		.4byte	.LASF23
+ 259 0015 15010000 		.4byte	.LASF24
  260 0019 00000000 		.4byte	.Ldebug_ranges0+0
  261 001d 00000000 		.4byte	0
  262 0021 00000000 		.4byte	.Ldebug_line0
  263 0025 02       		.uleb128 0x2
  264 0026 01       		.byte	0x1
  265 0027 06       		.byte	0x6
- 266 0028 56010000 		.4byte	.LASF0
+ 266 0028 C5010000 		.4byte	.LASF0
  267 002c 02       		.uleb128 0x2
  268 002d 01       		.byte	0x1
  269 002e 08       		.byte	0x8
  270 002f 07010000 		.4byte	.LASF1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 8
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 8
 
 
  271 0033 02       		.uleb128 0x2
  272 0034 02       		.byte	0x2
  273 0035 05       		.byte	0x5
- 274 0036 3D020000 		.4byte	.LASF2
+ 274 0036 4C020000 		.4byte	.LASF2
  275 003a 02       		.uleb128 0x2
  276 003b 02       		.byte	0x2
  277 003c 07       		.byte	0x7
- 278 003d 43010000 		.4byte	.LASF3
+ 278 003d B2010000 		.4byte	.LASF3
  279 0041 02       		.uleb128 0x2
  280 0042 04       		.byte	0x4
  281 0043 05       		.byte	0x5
- 282 0044 1A010000 		.4byte	.LASF4
+ 282 0044 89010000 		.4byte	.LASF4
  283 0048 02       		.uleb128 0x2
  284 0049 04       		.byte	0x4
  285 004a 07       		.byte	0x7
@@ -465,31 +465,31 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  312 007e 02       		.uleb128 0x2
  313 007f 08       		.byte	0x8
  314 0080 04       		.byte	0x4
- 315 0081 3C010000 		.4byte	.LASF10
+ 315 0081 AB010000 		.4byte	.LASF10
  316 0085 02       		.uleb128 0x2
  317 0086 01       		.byte	0x1
  318 0087 08       		.byte	0x8
- 319 0088 15010000 		.4byte	.LASF11
+ 319 0088 84010000 		.4byte	.LASF11
  320 008c 04       		.uleb128 0x4
- 321 008d 47020000 		.4byte	.LASF13
+ 321 008d 56020000 		.4byte	.LASF13
  322 0091 02       		.byte	0x2
  323 0092 8E02     		.2byte	0x28e
  324 0094 98000000 		.4byte	0x98
  325 0098 05       		.uleb128 0x5
  326 0099 6B000000 		.4byte	0x6b
  327 009d 02       		.uleb128 0x2
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 9
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 9
 
 
  328 009e 08       		.byte	0x8
  329 009f 04       		.byte	0x4
- 330 00a0 04020000 		.4byte	.LASF14
+ 330 00a0 13020000 		.4byte	.LASF14
  331 00a4 02       		.uleb128 0x2
  332 00a5 04       		.byte	0x4
  333 00a6 07       		.byte	0x7
- 334 00a7 6A020000 		.4byte	.LASF15
+ 334 00a7 79020000 		.4byte	.LASF15
  335 00ab 06       		.uleb128 0x6
- 336 00ac 23010000 		.4byte	.LASF20
+ 336 00ac 92010000 		.4byte	.LASF20
  337 00b0 01       		.byte	0x1
  338 00b1 25       		.byte	0x25
  339 00b2 6B000000 		.4byte	0x6b
@@ -507,7 +507,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  351 00d0 9C       		.byte	0x9c
  352 00d1 E4000000 		.4byte	0xe4
  353 00d5 08       		.uleb128 0x8
- 354 00d6 73020000 		.4byte	.LASF18
+ 354 00d6 82020000 		.4byte	.LASF18
  355 00da 01       		.byte	0x1
  356 00db 3B       		.byte	0x3b
  357 00dc 6B000000 		.4byte	0x6b
@@ -516,7 +516,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  360 00e2 77       		.sleb128 -9
  361 00e3 00       		.byte	0
  362 00e4 07       		.uleb128 0x7
- 363 00e5 62010000 		.4byte	.LASF17
+ 363 00e5 D1010000 		.4byte	.LASF17
  364 00e9 01       		.byte	0x1
  365 00ea 50       		.byte	0x50
  366 00eb 00000000 		.4byte	.LFB2
@@ -525,7 +525,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  369 00f4 9C       		.byte	0x9c
  370 00f5 08010000 		.4byte	0x108
  371 00f9 08       		.uleb128 0x8
- 372 00fa 73020000 		.4byte	.LASF18
+ 372 00fa 82020000 		.4byte	.LASF18
  373 00fe 01       		.byte	0x1
  374 00ff 52       		.byte	0x52
  375 0100 6B000000 		.4byte	0x6b
@@ -534,11 +534,11 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  378 0106 77       		.sleb128 -9
  379 0107 00       		.byte	0
  380 0108 09       		.uleb128 0x9
- 381 0109 4C020000 		.4byte	.LASF19
+ 381 0109 5B020000 		.4byte	.LASF19
  382 010d 01       		.byte	0x1
  383 010e 67       		.byte	0x67
  384 010f 00000000 		.4byte	.LFB3
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 10
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 10
 
 
  385 0113 28000000 		.4byte	.LFE3-.LFB3
@@ -555,7 +555,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  396 012a 77       		.sleb128 -9
  397 012b 00       		.byte	0
  398 012c 06       		.uleb128 0x6
- 399 012d E7010000 		.4byte	.LASF21
+ 399 012d F6010000 		.4byte	.LASF21
  400 0131 01       		.byte	0x1
  401 0132 7E       		.byte	0x7e
  402 0133 6B000000 		.4byte	0x6b
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  439 001d 00       		.byte	0
  440 001e 03       		.uleb128 0x3
  441 001f 24       		.uleb128 0x24
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 11
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 11
 
 
  442 0020 00       		.byte	0
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  496 0057 07       		.uleb128 0x7
  497 0058 2E       		.uleb128 0x2e
  498 0059 01       		.byte	0x1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 12
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 12
 
 
  499 005a 3F       		.uleb128 0x3f
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  553 0091 40       		.uleb128 0x40
  554 0092 18       		.uleb128 0x18
  555 0093 9742     		.uleb128 0x2117
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 13
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 13
 
 
  556 0095 19       		.uleb128 0x19
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  610 002c 00000000 		.4byte	0
  611              		.section	.debug_line,"",%progbits
  612              	.Ldebug_line0:
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 14
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 14
 
 
  613 0000 B3000000 		.section	.debug_str,"MS",%progbits,1
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  633      66756E63 
  633      74696F6E 
  633      2D736563 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 15
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 15
 
 
  633      74696F6E 
@@ -847,88 +847,92 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 1
  635      676E6564 
  635      20636861 
  635      7200
- 636              	.LASF11:
- 637 0115 63686172 		.ascii	"char\000"
- 637      00
- 638              	.LASF4:
- 639 011a 6C6F6E67 		.ascii	"long int\000"
- 639      20696E74 
- 639      00
- 640              	.LASF20:
- 641 0123 5553425F 		.ascii	"USB_EP8_DMA_Done_SR_Read\000"
- 641      4550385F 
- 641      444D415F 
- 641      446F6E65 
- 641      5F53525F 
- 642              	.LASF10:
- 643 013c 646F7562 		.ascii	"double\000"
- 643      6C6500
- 644              	.LASF3:
- 645 0143 73686F72 		.ascii	"short unsigned int\000"
- 645      7420756E 
- 645      7369676E 
- 645      65642069 
- 645      6E7400
- 646              	.LASF0:
- 647 0156 7369676E 		.ascii	"signed char\000"
- 647      65642063 
- 647      68617200 
- 648              	.LASF17:
- 649 0162 5553425F 		.ascii	"USB_EP8_DMA_Done_SR_InterruptDisable\000"
- 649      4550385F 
- 649      444D415F 
- 649      446F6E65 
- 649      5F53525F 
- 650              	.LASF24:
- 651 0187 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Documents\\PSOC5_electrobass"
- 651      73657273 
- 651      5C4A6566 
- 651      66536E79 
- 651      6465725C 
- 652 01b6 5F737472 		.ascii	"_stringsensors\\CE210514_PSOC3_5_Thermistor.cydsn\000"
- 652      696E6773 
- 652      656E736F 
- 652      72735C43 
- 652      45323130 
- 653              	.LASF21:
- 654 01e7 5553425F 		.ascii	"USB_EP8_DMA_Done_SR_ReadMask\000"
- 654      4550385F 
- 654      444D415F 
- 654      446F6E65 
- 654      5F53525F 
- 655              	.LASF14:
- 656 0204 6C6F6E67 		.ascii	"long double\000"
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccCPRNhi.s 			page 16
+ 636              	.LASF24:
+ 637 0115 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 637      73657273 
+ 637      5C4A6566 
+ 637      66536E79 
+ 637      6465725C 
+ 638 0143 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 638      5F656C65 
+ 638      6374726F 
+ 638      62617373 
+ 638      5F737472 
+ 639 0175 65726D69 		.ascii	"ermistor.cydsn\000"
+ 639      73746F72 
+ 639      2E637964 
+ 639      736E00
+ 640              	.LASF11:
+ 641 0184 63686172 		.ascii	"char\000"
+ 641      00
+ 642              	.LASF4:
+ 643 0189 6C6F6E67 		.ascii	"long int\000"
+ 643      20696E74 
+ 643      00
+ 644              	.LASF20:
+ 645 0192 5553425F 		.ascii	"USB_EP8_DMA_Done_SR_Read\000"
+ 645      4550385F 
+ 645      444D415F 
+ 645      446F6E65 
+ 645      5F53525F 
+ 646              	.LASF10:
+ 647 01ab 646F7562 		.ascii	"double\000"
+ 647      6C6500
+ 648              	.LASF3:
+ 649 01b2 73686F72 		.ascii	"short unsigned int\000"
+ 649      7420756E 
+ 649      7369676E 
+ 649      65642069 
+ 649      6E7400
+ 650              	.LASF0:
+ 651 01c5 7369676E 		.ascii	"signed char\000"
+ 651      65642063 
+ 651      68617200 
+ 652              	.LASF17:
+ 653 01d1 5553425F 		.ascii	"USB_EP8_DMA_Done_SR_InterruptDisable\000"
+ 653      4550385F 
+ 653      444D415F 
+ 653      446F6E65 
+ 653      5F53525F 
+ 654              	.LASF21:
+ 655 01f6 5553425F 		.ascii	"USB_EP8_DMA_Done_SR_ReadMask\000"
+ 655      4550385F 
+ 655      444D415F 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccq4y1hb.s 			page 16
 
 
- 656      20646F75 
- 656      626C6500 
- 657              	.LASF23:
- 658 0210 47656E65 		.ascii	"Generated_Source\\PSoC5\\USB_EP8_DMA_Done_SR.c\000"
- 658      72617465 
- 658      645F536F 
- 658      75726365 
- 658      5C50536F 
- 659              	.LASF2:
- 660 023d 73686F72 		.ascii	"short int\000"
- 660      7420696E 
- 660      7400
- 661              	.LASF13:
- 662 0247 72656738 		.ascii	"reg8\000"
- 662      00
- 663              	.LASF19:
- 664 024c 5553425F 		.ascii	"USB_EP8_DMA_Done_SR_WriteMask\000"
- 664      4550385F 
- 664      444D415F 
- 664      446F6E65 
- 664      5F53525F 
- 665              	.LASF15:
- 666 026a 73697A65 		.ascii	"sizetype\000"
- 666      74797065 
- 666      00
- 667              	.LASF18:
- 668 0273 696E7465 		.ascii	"interruptState\000"
- 668      72727570 
- 668      74537461 
- 668      746500
- 669              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 655      446F6E65 
+ 655      5F53525F 
+ 656              	.LASF14:
+ 657 0213 6C6F6E67 		.ascii	"long double\000"
+ 657      20646F75 
+ 657      626C6500 
+ 658              	.LASF23:
+ 659 021f 47656E65 		.ascii	"Generated_Source\\PSoC5\\USB_EP8_DMA_Done_SR.c\000"
+ 659      72617465 
+ 659      645F536F 
+ 659      75726365 
+ 659      5C50536F 
+ 660              	.LASF2:
+ 661 024c 73686F72 		.ascii	"short int\000"
+ 661      7420696E 
+ 661      7400
+ 662              	.LASF13:
+ 663 0256 72656738 		.ascii	"reg8\000"
+ 663      00
+ 664              	.LASF19:
+ 665 025b 5553425F 		.ascii	"USB_EP8_DMA_Done_SR_WriteMask\000"
+ 665      4550385F 
+ 665      444D415F 
+ 665      446F6E65 
+ 665      5F53525F 
+ 666              	.LASF15:
+ 667 0279 73697A65 		.ascii	"sizetype\000"
+ 667      74797065 
+ 667      00
+ 668              	.LASF18:
+ 669 0282 696E7465 		.ascii	"interruptState\000"
+ 669      72727570 
+ 669      74537461 
+ 669      746500
+ 670              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

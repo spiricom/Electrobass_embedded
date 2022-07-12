@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
   21:Generated_Source\PSoC5/CapSense_PM.c ****     0x00u, /* enableState; */
   22:Generated_Source\PSoC5/CapSense_PM.c ****     
   23:Generated_Source\PSoC5/CapSense_PM.c **** };
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 2
 
 
   24:Generated_Source\PSoC5/CapSense_PM.c **** 
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
   62:Generated_Source\PSoC5/CapSense_PM.c ****     /* Clear all sensors */
   63:Generated_Source\PSoC5/CapSense_PM.c ****     CapSense_ClearSensors();
   51              		.loc 1 63 0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 3
 
 
   52 000e FFF7FEFF 		bl	CapSense_ClearSensors
@@ -131,7 +131,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
   56              	.L3:
   57 0016 00BF     		.align	2
   58              	.L2:
-  59 0018 7B640040 		.word	1073767547
+  59 0018 7A640040 		.word	1073767546
   60 001c 00000000 		.word	CapSense_backup
   61              		.cfi_endproc
   62              	.LFE0:
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
   98:Generated_Source\PSoC5/CapSense_PM.c **** *  No
   99:Generated_Source\PSoC5/CapSense_PM.c **** *
  100:Generated_Source\PSoC5/CapSense_PM.c **** *******************************************************************************/
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 4
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 4
 
 
  101:Generated_Source\PSoC5/CapSense_PM.c **** void CapSense_Sleep(void) 
@@ -234,11 +234,11 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  107              	.L8:
  108 002a 00BF     		.align	2
  109              	.L7:
- 110 002c 7B640040 		.word	1073767547
+ 110 002c 7A640040 		.word	1073767546
  111 0030 00000000 		.word	CapSense_backup
  112              		.cfi_endproc
  113              	.LFE1:
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 5
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 5
 
 
  114              		.size	CapSense_Sleep, .-CapSense_Sleep
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  151:Generated_Source\PSoC5/CapSense_PM.c ****     #elif (CapSense_PRS_OPTIONS == CapSense_PRS_16BITS)
  152:Generated_Source\PSoC5/CapSense_PM.c ****         /* Write FIFO with seed */
  153:Generated_Source\PSoC5/CapSense_PM.c ****         CY_SET_REG16(CapSense_SEED_COPY_PTR, CapSense_MEASURE_FULL_RANGE);      /* F0 register */
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 6
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 6
 
 
  133              		.loc 1 153 0
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  188:Generated_Source\PSoC5/CapSense_PM.c ****             
  189:Generated_Source\PSoC5/CapSense_PM.c ****             /* Raw Counter */
  190:Generated_Source\PSoC5/CapSense_PM.c ****             CapSense_RAW_CH1_PERIOD_HI_REG    = CapSense_MEASURE_FULL_RANGE_LOW;       /* F1 regist
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 7
 
 
  153              		.loc 1 190 0
@@ -412,17 +412,17 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  183              	.L11:
  184              		.align	2
  185              	.L10:
- 186 0050 43640040 		.word	1073767491
- 187 0054 48640040 		.word	1073767496
- 188 0058 58650040 		.word	1073767768
- 189 005c 48650040 		.word	1073767752
- 190 0060 4A650040 		.word	1073767754
- 191 0064 5B650040 		.word	1073767771
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 8
+ 186 0050 48640040 		.word	1073767496
+ 187 0054 49650040 		.word	1073767753
+ 188 0058 5A650040 		.word	1073767770
+ 189 005c 4A650040 		.word	1073767754
+ 190 0060 4E640040 		.word	1073767502
+ 191 0064 5F640040 		.word	1073767519
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 8
 
 
- 192 0068 4B650040 		.word	1073767755
- 193 006c 7B640040 		.word	1073767547
+ 192 0068 4F640040 		.word	1073767503
+ 193 006c 7A640040 		.word	1073767546
  194 0070 00000000 		.word	CapSense_backup
  195              		.cfi_endproc
  196              	.LFE2:
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  214 0002 00AF     		add	r7, sp, #0
  215              		.cfi_def_cfa_register 7
  241:Generated_Source\PSoC5/CapSense_PM.c ****     CapSense_RestoreConfig();
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 9
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 9
 
 
  216              		.loc 1 241 0
@@ -522,14 +522,14 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  247 000c BF000000 		.4byte	.LASF25
  248 0010 0C       		.byte	0xc
  249 0011 49000000 		.4byte	.LASF26
- 250 0015 8A010000 		.4byte	.LASF27
+ 250 0015 5B010000 		.4byte	.LASF27
  251 0019 00000000 		.4byte	.Ldebug_ranges0+0
  252 001d 00000000 		.4byte	0
  253 0021 00000000 		.4byte	.Ldebug_line0
  254 0025 02       		.uleb128 0x2
  255 0026 01       		.byte	0x1
  256 0027 06       		.byte	0x6
- 257 0028 FD010000 		.4byte	.LASF0
+ 257 0028 0C020000 		.4byte	.LASF0
  258 002c 02       		.uleb128 0x2
  259 002d 01       		.byte	0x1
  260 002e 08       		.byte	0x8
@@ -537,18 +537,18 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  262 0033 02       		.uleb128 0x2
  263 0034 02       		.byte	0x2
  264 0035 05       		.byte	0x5
- 265 0036 25020000 		.4byte	.LASF2
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 10
+ 265 0036 34020000 		.4byte	.LASF2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 10
 
 
  266 003a 02       		.uleb128 0x2
  267 003b 02       		.byte	0x2
  268 003c 07       		.byte	0x7
- 269 003d EA010000 		.4byte	.LASF3
+ 269 003d F9010000 		.4byte	.LASF3
  270 0041 02       		.uleb128 0x2
  271 0042 04       		.byte	0x4
  272 0043 05       		.byte	0x5
- 273 0044 81010000 		.4byte	.LASF4
+ 273 0044 F0010000 		.4byte	.LASF4
  274 0048 02       		.uleb128 0x2
  275 0049 04       		.byte	0x4
  276 004a 07       		.byte	0x7
@@ -568,14 +568,14 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  290 0064 02       		.uleb128 0x2
  291 0065 04       		.byte	0x4
  292 0066 07       		.byte	0x7
- 293 0067 36020000 		.4byte	.LASF8
+ 293 0067 45020000 		.4byte	.LASF8
  294 006b 04       		.uleb128 0x4
  295 006c 73000000 		.4byte	.LASF9
  296 0070 02       		.byte	0x2
  297 0071 E401     		.2byte	0x1e4
  298 0073 2C000000 		.4byte	0x2c
  299 0077 04       		.uleb128 0x4
- 300 0078 2F020000 		.4byte	.LASF10
+ 300 0078 3E020000 		.4byte	.LASF10
  301 007c 02       		.byte	0x2
  302 007d E501     		.2byte	0x1e5
  303 007f 3A000000 		.4byte	0x3a
@@ -586,11 +586,11 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  308 008a 02       		.uleb128 0x2
  309 008b 08       		.byte	0x8
  310 008c 04       		.byte	0x4
- 311 008d 7A010000 		.4byte	.LASF12
+ 311 008d E9010000 		.4byte	.LASF12
  312 0091 02       		.uleb128 0x2
  313 0092 01       		.byte	0x1
  314 0093 08       		.byte	0x8
- 315 0094 5B010000 		.4byte	.LASF13
+ 315 0094 CA010000 		.4byte	.LASF13
  316 0098 04       		.uleb128 0x4
  317 0099 6E000000 		.4byte	.LASF14
  318 009d 02       		.byte	0x2
@@ -598,11 +598,11 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  320 00a0 A4000000 		.4byte	0xa4
  321 00a4 05       		.uleb128 0x5
  322 00a5 6B000000 		.4byte	0x6b
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 11
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 11
 
 
  323 00a9 04       		.uleb128 0x4
- 324 00aa 74010000 		.4byte	.LASF15
+ 324 00aa E3010000 		.4byte	.LASF15
  325 00ae 02       		.byte	0x2
  326 00af 8F02     		.2byte	0x28f
  327 00b1 B5000000 		.4byte	0xb5
@@ -611,11 +611,11 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  330 00ba 02       		.uleb128 0x2
  331 00bb 08       		.byte	0x8
  332 00bc 04       		.byte	0x4
- 333 00bd 19020000 		.4byte	.LASF16
+ 333 00bd 28020000 		.4byte	.LASF16
  334 00c1 02       		.uleb128 0x2
  335 00c2 04       		.byte	0x4
  336 00c3 07       		.byte	0x7
- 337 00c4 43020000 		.4byte	.LASF17
+ 337 00c4 52020000 		.4byte	.LASF17
  338 00c8 06       		.uleb128 0x6
  339 00c9 02       		.byte	0x2
  340 00ca 03       		.byte	0x3
@@ -640,7 +640,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  359 00ef 8D       		.byte	0x8d
  360 00f0 C8000000 		.4byte	0xc8
  361 00f4 09       		.uleb128 0x9
- 362 00f5 60010000 		.4byte	.LASF21
+ 362 00f5 CF010000 		.4byte	.LASF21
  363 00f9 01       		.byte	0x1
  364 00fa 38       		.byte	0x38
  365 00fb 00000000 		.4byte	.LFB0
@@ -648,7 +648,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  367 0103 01       		.uleb128 0x1
  368 0104 9C       		.byte	0x9c
  369 0105 09       		.uleb128 0x9
- 370 0106 4C020000 		.4byte	.LASF22
+ 370 0106 5B020000 		.4byte	.LASF22
  371 010a 01       		.byte	0x1
  372 010b 65       		.byte	0x65
  373 010c 00000000 		.4byte	.LFB1
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  377 0116 0A       		.uleb128 0xa
  378 0117 A2000000 		.4byte	.LASF23
  379 011b 01       		.byte	0x1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 12
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 12
 
 
  380 011c 90       		.byte	0x90
@@ -675,7 +675,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  391 0136 01       		.uleb128 0x1
  392 0137 9C       		.byte	0x9c
  393 0138 0B       		.uleb128 0xb
- 394 0139 09020000 		.4byte	.LASF28
+ 394 0139 18020000 		.4byte	.LASF28
  395 013d 01       		.byte	0x1
  396 013e 13       		.byte	0x13
  397 013f E9000000 		.4byte	0xe9
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  434 001e 03       		.uleb128 0x3
  435 001f 24       		.uleb128 0x24
  436 0020 00       		.byte	0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 13
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 13
 
 
  437 0021 0B       		.uleb128 0xb
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  491 0057 00       		.byte	0
  492 0058 00       		.byte	0
  493 0059 08       		.uleb128 0x8
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 14
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 14
 
 
  494 005a 16       		.uleb128 0x16
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  548 0091 9742     		.uleb128 0x2117
  549 0093 19       		.uleb128 0x19
  550 0094 00       		.byte	0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 15
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 15
 
 
  551 0095 00       		.byte	0
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  602      FB0E0D00 
  602      01010101 
  603              	.LASF6:
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 16
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 16
 
 
  604 0000 6C6F6E67 		.ascii	"long long int\000"
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  626      7400
  627              	.LASF25:
  628 00bf 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 17
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 17
 
 
  628      43313120 
@@ -980,77 +980,81 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 1
  632      676E6564 
  632      20636861 
  632      7200
- 633              	.LASF13:
- 634 015b 63686172 		.ascii	"char\000"
- 634      00
- 635              	.LASF21:
- 636 0160 43617053 		.ascii	"CapSense_SaveConfig\000"
- 636      656E7365 
- 636      5F536176 
- 636      65436F6E 
- 636      66696700 
- 637              	.LASF15:
- 638 0174 72656731 		.ascii	"reg16\000"
- 638      3600
- 639              	.LASF12:
- 640 017a 646F7562 		.ascii	"double\000"
- 640      6C6500
- 641              	.LASF4:
- 642 0181 6C6F6E67 		.ascii	"long int\000"
- 642      20696E74 
- 642      00
- 643              	.LASF27:
- 644 018a 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Documents\\PSOC5_electrobass"
- 644      73657273 
- 644      5C4A6566 
- 644      66536E79 
- 644      6465725C 
- 645 01b9 5F737472 		.ascii	"_stringsensors\\CE210514_PSOC3_5_Thermistor.cydsn\000"
- 645      696E6773 
- 645      656E736F 
- 645      72735C43 
- 645      45323130 
- 646              	.LASF3:
- 647 01ea 73686F72 		.ascii	"short unsigned int\000"
- 647      7420756E 
- 647      7369676E 
- 647      65642069 
- 647      6E7400
- 648              	.LASF0:
- 649 01fd 7369676E 		.ascii	"signed char\000"
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccED4d2H.s 			page 18
+ 633              	.LASF27:
+ 634 015b 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 634      73657273 
+ 634      5C4A6566 
+ 634      66536E79 
+ 634      6465725C 
+ 635 0189 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 635      5F656C65 
+ 635      6374726F 
+ 635      62617373 
+ 635      5F737472 
+ 636 01bb 65726D69 		.ascii	"ermistor.cydsn\000"
+ 636      73746F72 
+ 636      2E637964 
+ 636      736E00
+ 637              	.LASF13:
+ 638 01ca 63686172 		.ascii	"char\000"
+ 638      00
+ 639              	.LASF21:
+ 640 01cf 43617053 		.ascii	"CapSense_SaveConfig\000"
+ 640      656E7365 
+ 640      5F536176 
+ 640      65436F6E 
+ 640      66696700 
+ 641              	.LASF15:
+ 642 01e3 72656731 		.ascii	"reg16\000"
+ 642      3600
+ 643              	.LASF12:
+ 644 01e9 646F7562 		.ascii	"double\000"
+ 644      6C6500
+ 645              	.LASF4:
+ 646 01f0 6C6F6E67 		.ascii	"long int\000"
+ 646      20696E74 
+ 646      00
+ 647              	.LASF3:
+ 648 01f9 73686F72 		.ascii	"short unsigned int\000"
+ 648      7420756E 
+ 648      7369676E 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrFJmkM.s 			page 18
 
 
- 649      65642063 
- 649      68617200 
- 650              	.LASF28:
- 651 0209 43617053 		.ascii	"CapSense_backup\000"
- 651      656E7365 
- 651      5F626163 
- 651      6B757000 
- 652              	.LASF16:
- 653 0219 6C6F6E67 		.ascii	"long double\000"
- 653      20646F75 
- 653      626C6500 
- 654              	.LASF2:
- 655 0225 73686F72 		.ascii	"short int\000"
- 655      7420696E 
- 655      7400
- 656              	.LASF10:
- 657 022f 75696E74 		.ascii	"uint16\000"
- 657      313600
- 658              	.LASF8:
- 659 0236 756E7369 		.ascii	"unsigned int\000"
- 659      676E6564 
- 659      20696E74 
- 659      00
- 660              	.LASF17:
- 661 0243 73697A65 		.ascii	"sizetype\000"
- 661      74797065 
- 661      00
- 662              	.LASF22:
- 663 024c 43617053 		.ascii	"CapSense_Sleep\000"
- 663      656E7365 
- 663      5F536C65 
- 663      657000
- 664              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 648      65642069 
+ 648      6E7400
+ 649              	.LASF0:
+ 650 020c 7369676E 		.ascii	"signed char\000"
+ 650      65642063 
+ 650      68617200 
+ 651              	.LASF28:
+ 652 0218 43617053 		.ascii	"CapSense_backup\000"
+ 652      656E7365 
+ 652      5F626163 
+ 652      6B757000 
+ 653              	.LASF16:
+ 654 0228 6C6F6E67 		.ascii	"long double\000"
+ 654      20646F75 
+ 654      626C6500 
+ 655              	.LASF2:
+ 656 0234 73686F72 		.ascii	"short int\000"
+ 656      7420696E 
+ 656      7400
+ 657              	.LASF10:
+ 658 023e 75696E74 		.ascii	"uint16\000"
+ 658      313600
+ 659              	.LASF8:
+ 660 0245 756E7369 		.ascii	"unsigned int\000"
+ 660      676E6564 
+ 660      20696E74 
+ 660      00
+ 661              	.LASF17:
+ 662 0252 73697A65 		.ascii	"sizetype\000"
+ 662      74797065 
+ 662      00
+ 663              	.LASF22:
+ 664 025b 43617053 		.ascii	"CapSense_Sleep\000"
+ 664      656E7365 
+ 664      5F536C65 
+ 664      657000
+ 665              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

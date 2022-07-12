@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
   55              		.size	CapSense_hysteresis, 16
   56              	CapSense_hysteresis:
   57 0020 0400     		.short	4
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 2
 
 
   58 0022 0400     		.short	4
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  110 000e 01       		.byte	1
  111 000f 01       		.byte	1
  112              		.section	.text.CapSense_BaseInit,"ax",%progbits
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 3
 
 
  113              		.align	2
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
   47:Generated_Source\PSoC5/CapSense_CSHL.c **** 
   48:Generated_Source\PSoC5/CapSense_CSHL.c **** uint16 CapSense_fingerThreshold[] = {
   49:Generated_Source\PSoC5/CapSense_CSHL.c ****     8u, 8u, 8u, 8u, 12u, 12u, 12u, 12u, 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 4
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 4
 
 
   50:Generated_Source\PSoC5/CapSense_CSHL.c **** };
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  104:Generated_Source\PSoC5/CapSense_CSHL.c **** *  Loads CapSense_debounceCounter[sensor] array element with initial 
  105:Generated_Source\PSoC5/CapSense_CSHL.c **** *  value equal CapSense_debounce[].
  106:Generated_Source\PSoC5/CapSense_CSHL.c **** *  Loads the CapSense_rawFilterData2[sensor] and 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 5
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 5
 
 
  107:Generated_Source\PSoC5/CapSense_CSHL.c **** *  CapSense_rawFilterData2[sensor] array element with an 
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  142:Generated_Source\PSoC5/CapSense_CSHL.c ****     #if (CapSense_TOTAL_MATRIX_BUTTONS_COUNT)
  143:Generated_Source\PSoC5/CapSense_CSHL.c ****         uint8 debounceIndex;
  144:Generated_Source\PSoC5/CapSense_CSHL.c ****     #endif  /* (CapSense_TOTAL_MATRIX_BUTTONS_COUNT) */
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 6
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 6
 
 
  145:Generated_Source\PSoC5/CapSense_CSHL.c ****     
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  166 0042 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
  167 0044 0649     		ldr	r1, .L2+4
  168 0046 31F81210 		ldrh	r1, [r1, r2, lsl #1]
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 7
 
 
  169 004a 0B4A     		ldr	r2, .L2+28
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  192:Generated_Source\PSoC5/CapSense_CSHL.c **** *  Loads the CapSense_sensorBaseline[sensor] array element with an 
  193:Generated_Source\PSoC5/CapSense_CSHL.c **** *  initial value by scanning the selected sensor (one channel design) or pair 
  194:Generated_Source\PSoC5/CapSense_CSHL.c **** *  of sensors (two channels designs). The raw count value is copied into the 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 8
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 8
 
 
  195:Generated_Source\PSoC5/CapSense_CSHL.c **** *  baseline array for each sensor. The raw data filters are initialized if 
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  223:Generated_Source\PSoC5/CapSense_CSHL.c ****     
  224:Generated_Source\PSoC5/CapSense_CSHL.c ****         if(sensor < CapSense_TOTAL_SENSOR_COUNT__CH0)
  230              		.loc 1 224 0 is_stmt 1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 9
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 9
 
 
  231 001e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  241:Generated_Source\PSoC5/CapSense_CSHL.c **** * Function Name: CapSense_InitializeAllBaselines
  242:Generated_Source\PSoC5/CapSense_CSHL.c **** ********************************************************************************
  243:Generated_Source\PSoC5/CapSense_CSHL.c **** *
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 10
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 10
 
 
  244:Generated_Source\PSoC5/CapSense_CSHL.c **** * Summary:
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  296 001a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
  297 001c 032B     		cmp	r3, #3
  298 001e F5D9     		bls	.L11
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 11
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 11
 
 
  269:Generated_Source\PSoC5/CapSense_CSHL.c ****     }
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  326 0002 82B0     		sub	sp, sp, #8
  327              		.cfi_def_cfa_offset 16
  328 0004 00AF     		add	r7, sp, #0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 12
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 12
 
 
  329              		.cfi_def_cfa_register 7
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  364              		.loc 1 314 0
  365 0040 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
  366 0042 0A4A     		ldr	r2, .L17+4
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 13
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 13
 
 
  367 0044 0021     		movs	r1, #0
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  327:Generated_Source\PSoC5/CapSense_CSHL.c **** * Summary:
  328:Generated_Source\PSoC5/CapSense_CSHL.c **** *  Updates the CapSense_sensorBaseline[sensor] array element using the 
  329:Generated_Source\PSoC5/CapSense_CSHL.c **** *  LP filter with k = 256. The signal calculates the difference of count by 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 14
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 14
 
 
  330:Generated_Source\PSoC5/CapSense_CSHL.c **** *  subtracting the previous baseline from the current raw count value and stores
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  424 000e D35C     		ldrb	r3, [r2, r3]
  425 0010 7B75     		strb	r3, [r7, #21]
  367:Generated_Source\PSoC5/CapSense_CSHL.c ****     uint16 noiseThreshold = CapSense_noiseThreshold[widget];
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 15
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 15
 
 
  426              		.loc 1 367 0
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  397:Generated_Source\PSoC5/CapSense_CSHL.c ****         CapSense_rawFilterData1[sensor] = filteredRawData;
  398:Generated_Source\PSoC5/CapSense_CSHL.c ****             
  399:Generated_Source\PSoC5/CapSense_CSHL.c ****     #elif (CapSense_RAW_FILTER_MASK & CapSense_JITTER_FILTER)
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 16
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 16
 
 
  400:Generated_Source\PSoC5/CapSense_CSHL.c ****         filteredRawData = CapSense_JitterFilter(filteredRawData, CapSense_rawFilterData1[sensor]);
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  475 0072 D31A     		subs	r3, r2, r3
  476 0074 FB82     		strh	r3, [r7, #22]	@ movhi
  430:Generated_Source\PSoC5/CapSense_CSHL.c ****         widget = 0u;    /* Negative difference - Do NOT calculate the Signal */
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 17
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 17
 
 
  477              		.loc 1 430 0
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  517              	.L22:
  443:Generated_Source\PSoC5/CapSense_CSHL.c ****         }
  444:Generated_Source\PSoC5/CapSense_CSHL.c ****     }
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 18
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 18
 
 
  445:Generated_Source\PSoC5/CapSense_CSHL.c ****     else
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  554 00ec 32F81330 		ldrh	r3, [r2, r3, lsl #1]
  555 00f0 1A46     		mov	r2, r3
  556 00f2 FB68     		ldr	r3, [r7, #12]
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 19
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 19
 
 
  557 00f4 9B1A     		subs	r3, r3, r2
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  487:Generated_Source\PSoC5/CapSense_CSHL.c ****         #else
  488:Generated_Source\PSoC5/CapSense_CSHL.c ****             CapSense_sensorSignal[sensor] = ((uint16) tempRaw);
  587              		.loc 1 488 0 is_stmt 1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 20
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 20
 
 
  588 0126 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  629              	.LFB5:
  502:Generated_Source\PSoC5/CapSense_CSHL.c **** 
  503:Generated_Source\PSoC5/CapSense_CSHL.c **** 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 21
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 21
 
 
  504:Generated_Source\PSoC5/CapSense_CSHL.c **** /*******************************************************************************
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  541:Generated_Source\PSoC5/CapSense_CSHL.c ****     {
  542:Generated_Source\PSoC5/CapSense_CSHL.c ****         pos = (i >> 3u);
  647              		.loc 1 542 0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 22
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 22
 
 
  648 000c FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  693              	.LFE5:
  694              		.size	CapSense_UpdateEnabledBaselines, .-CapSense_UpdateEnabledBaselines
  695              		.section	.text.CapSense_CheckIsSensorActive,"ax",%progbits
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 23
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 23
 
 
  696              		.align	2
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  706              		@ frame_needed = 1, uses_anonymous_args = 0
  707              		@ link register save eliminated.
  708 0000 80B4     		push	{r7}
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 24
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 24
 
 
  709              		.cfi_def_cfa_offset 4
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  607:Generated_Source\PSoC5/CapSense_CSHL.c ****     /* Was on */
  608:Generated_Source\PSoC5/CapSense_CSHL.c ****     if (0u != (CapSense_sensorOnMask[pos] & onMask))
  750              		.loc 1 608 0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 25
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 25
 
 
  751 0046 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  793 0094 7A8A     		ldrh	r2, [r7, #18]
  794 0096 3B8A     		ldrh	r3, [r7, #16]
  795 0098 1344     		add	r3, r3, r2
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 26
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 26
 
 
  796 009a 9942     		cmp	r1, r3
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  834 00d6 D25C     		ldrb	r2, [r2, r3]	@ zero_extendqisi2
  835 00d8 BB7D     		ldrb	r3, [r7, #22]
  836 00da 1340     		ands	r3, r3, r2
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 27
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 27
 
 
  837 00dc DBB2     		uxtb	r3, r3
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  649:Generated_Source\PSoC5/CapSense_CSHL.c **** *  The touch pad and matrix buttons widgets need to have active sensor within 
  650:Generated_Source\PSoC5/CapSense_CSHL.c **** *  col and row to return widget active status.
  651:Generated_Source\PSoC5/CapSense_CSHL.c **** *
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 28
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 28
 
 
  652:Generated_Source\PSoC5/CapSense_CSHL.c **** * Parameters:
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  911 0024 1846     		mov	r0, r3
  912 0026 FFF7FEFF 		bl	CapSense_CheckIsSensorActive
  913 002a 0346     		mov	r3, r0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 29
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 29
 
 
  914 002c 002B     		cmp	r3, #0
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  687:Generated_Source\PSoC5/CapSense_CSHL.c **** /*******************************************************************************
  688:Generated_Source\PSoC5/CapSense_CSHL.c **** * Function Name: CapSense_CheckIsAnyWidgetActive
  689:Generated_Source\PSoC5/CapSense_CSHL.c **** ********************************************************************************
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 30
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 30
 
 
  690:Generated_Source\PSoC5/CapSense_CSHL.c **** *
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  717:Generated_Source\PSoC5/CapSense_CSHL.c ****             state = CapSense_WIDGET_IS_ACTIVE;
  982              		.loc 1 717 0
  983 001e 0123     		movs	r3, #1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 31
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 31
 
 
  984 0020 BB71     		strb	r3, [r7, #6]
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  738:Generated_Source\PSoC5/CapSense_CSHL.c **** *
  739:Generated_Source\PSoC5/CapSense_CSHL.c **** * Global Variables:
  740:Generated_Source\PSoC5/CapSense_CSHL.c **** *  CapSense_sensorEnableMask[] - used to store the sensor scanning 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 32
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 32
 
 
  741:Generated_Source\PSoC5/CapSense_CSHL.c **** *  state.
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1046 0022 7B73     		strb	r3, [r7, #13]
  765:Generated_Source\PSoC5/CapSense_CSHL.c ****         enMask = 0x01u << (rawIndex & 0x07u);
  1047              		.loc 1 765 0 discriminator 1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 33
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 33
 
 
  1048 0024 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1094              		.global	CapSense_DisableWidget
  1095              		.thumb
  1096              		.thumb_func
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 34
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 34
 
 
  1097              		.type	CapSense_DisableWidget, %function
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1116 000c 144A     		ldr	r2, .L65
  1117 000e D35C     		ldrb	r3, [r2, r3]
  1118 0010 FB73     		strb	r3, [r7, #15]
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 35
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 35
 
 
  809:Generated_Source\PSoC5/CapSense_CSHL.c ****     uint8 numberOfSensors = CapSense_numberOfSensors[widget] + rawIndex;
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1158              		.loc 1 823 0
  1159 0056 00BF     		nop
  1160 0058 1437     		adds	r7, r7, #20
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 36
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 36
 
 
  1161              		.cfi_def_cfa_offset 4
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  853:Generated_Source\PSoC5/CapSense_CSHL.c ****         uint8 CapSense_FindMaximum(uint8 offset, uint8 count, uint16 fingerThreshold)
  854:Generated_Source\PSoC5/CapSense_CSHL.c **** 	                                       
  855:Generated_Source\PSoC5/CapSense_CSHL.c ****     #endif /* (CapSense_IS_DIPLEX_SLIDER) */
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 37
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 37
 
 
  856:Generated_Source\PSoC5/CapSense_CSHL.c ****     {
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  910:Generated_Source\PSoC5/CapSense_CSHL.c ****                     i++; 
  911:Generated_Source\PSoC5/CapSense_CSHL.c ****                     curPos = diplex[i];
  912:Generated_Source\PSoC5/CapSense_CSHL.c ****                     if(i == count)
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 38
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 38
 
 
  913:Generated_Source\PSoC5/CapSense_CSHL.c ****                     {
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  967:Generated_Source\PSoC5/CapSense_CSHL.c ****             {                      
  968:Generated_Source\PSoC5/CapSense_CSHL.c ****                 /* Looking for the grater element within centroid */
  969:Generated_Source\PSoC5/CapSense_CSHL.c ****                 if(startOfSlider[i] > fingerThreshold)
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 39
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 39
 
 
  970:Generated_Source\PSoC5/CapSense_CSHL.c ****                 {
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1024:Generated_Source\PSoC5/CapSense_CSHL.c **** 
 1025:Generated_Source\PSoC5/CapSense_CSHL.c ****         uint8 position;
 1026:Generated_Source\PSoC5/CapSense_CSHL.c ****         uint32 numerator;
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 40
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 40
 
 
 1027:Generated_Source\PSoC5/CapSense_CSHL.c ****         int32 denominator;
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1081:Generated_Source\PSoC5/CapSense_CSHL.c ****                     pos     = diplex[maximum];
 1082:Generated_Source\PSoC5/CapSense_CSHL.c ****                     posPrev = diplex[maximum - 1u];
 1083:Generated_Source\PSoC5/CapSense_CSHL.c ****                     posNext = diplex[maximum + 1u];
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 41
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 41
 
 
 1084:Generated_Source\PSoC5/CapSense_CSHL.c ****                     count <<= 1u;                    
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1138:Generated_Source\PSoC5/CapSense_CSHL.c ****         {
 1139:Generated_Source\PSoC5/CapSense_CSHL.c ****             CapSense_centroid[CapSense_POS_NEXT] -= noiseThreshold;
 1140:Generated_Source\PSoC5/CapSense_CSHL.c ****         }
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 42
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 42
 
 
 1141:Generated_Source\PSoC5/CapSense_CSHL.c ****         else
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1195:Generated_Source\PSoC5/CapSense_CSHL.c ****     *
 1196:Generated_Source\PSoC5/CapSense_CSHL.c ****     * Side Effects:
 1197:Generated_Source\PSoC5/CapSense_CSHL.c ****     *  If any sensor within the slider widget is active, the function returns values
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 43
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 43
 
 
 1198:Generated_Source\PSoC5/CapSense_CSHL.c ****     *  from zero to the API resolution value set in the CapSense customizer. If no
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1252:Generated_Source\PSoC5/CapSense_CSHL.c ****             maximum = CapSense_FindMaximum(offset, count, CapSense_fingerThreshold[widget], diplex)
 1253:Generated_Source\PSoC5/CapSense_CSHL.c ****         #else
 1254:Generated_Source\PSoC5/CapSense_CSHL.c ****             maximum = CapSense_FindMaximum(offset, count, CapSense_fingerThreshold[widget]);
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 44
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 44
 
 
 1255:Generated_Source\PSoC5/CapSense_CSHL.c ****         #endif /* (CapSense_IS_DIPLEX_SLIDER) */
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1309:Generated_Source\PSoC5/CapSense_CSHL.c **** 
 1310:Generated_Source\PSoC5/CapSense_CSHL.c ****                         #if(0u!=(CapSense_AVERAGING_FILTER & CapSense_LINEAR_SLIDERS_POS_FILTERS_MA
 1311:Generated_Source\PSoC5/CapSense_CSHL.c ****                             if (0u != (posFiltersMask & CapSense_AVERAGING_FILTER)) 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 45
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 45
 
 
 1312:Generated_Source\PSoC5/CapSense_CSHL.c ****                             {
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1366:Generated_Source\PSoC5/CapSense_CSHL.c ****             #if(0u != CapSense_LINEAR_SLIDERS_POS_FILTERS_MASK)
 1367:Generated_Source\PSoC5/CapSense_CSHL.c ****                 /* Reset the filters */
 1368:Generated_Source\PSoC5/CapSense_CSHL.c ****                 if(0u != (posFiltersMask & CapSense_ANY_POS_FILTER))
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 46
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 46
 
 
 1369:Generated_Source\PSoC5/CapSense_CSHL.c ****                 {
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1423:Generated_Source\PSoC5/CapSense_CSHL.c ****             uint8 firstTimeIndex = CapSense_posFiltersData[widget];
 1424:Generated_Source\PSoC5/CapSense_CSHL.c ****             uint8 posFiltersMask = CapSense_posFiltersMask[widget]; 
 1425:Generated_Source\PSoC5/CapSense_CSHL.c ****         #endif /* (0u != CapSense_RADIAL_SLIDERS_POS_FILTERS_MASK) */
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 47
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 47
 
 
 1426:Generated_Source\PSoC5/CapSense_CSHL.c **** 
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1480:Generated_Source\PSoC5/CapSense_CSHL.c ****                     }
 1481:Generated_Source\PSoC5/CapSense_CSHL.c ****                     else
 1482:Generated_Source\PSoC5/CapSense_CSHL.c ****                     {
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 48
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 48
 
 
 1483:Generated_Source\PSoC5/CapSense_CSHL.c ****                         /* Do filtering */
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1537:Generated_Source\PSoC5/CapSense_CSHL.c ****                             if (0u != (posFiltersMask & CapSense_JITTER_FILTER))
 1538:Generated_Source\PSoC5/CapSense_CSHL.c ****                             {
 1539:Generated_Source\PSoC5/CapSense_CSHL.c ****                                 position = CapSense_JitterFilter(position, 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 49
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 49
 
 
 1540:Generated_Source\PSoC5/CapSense_CSHL.c ****                                                                          CapSense_posFiltersData[po
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1594:Generated_Source\PSoC5/CapSense_CSHL.c ****     * Return:
 1595:Generated_Source\PSoC5/CapSense_CSHL.c ****     *  Returns a 1 if a finger is on the touch pad, 0 - if not.
 1596:Generated_Source\PSoC5/CapSense_CSHL.c ****     *
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 50
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 50
 
 
 1597:Generated_Source\PSoC5/CapSense_CSHL.c ****     * Side Effects:
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1651:Generated_Source\PSoC5/CapSense_CSHL.c ****             {
 1652:Generated_Source\PSoC5/CapSense_CSHL.c ****                 /* X and Y maximums are found = true touch */
 1653:Generated_Source\PSoC5/CapSense_CSHL.c ****                 touch = 1u;
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 51
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 51
 
 
 1654:Generated_Source\PSoC5/CapSense_CSHL.c ****                 
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1708:Generated_Source\PSoC5/CapSense_CSHL.c ****                                                                       CapSense_posFiltersData[posXI
 1709:Generated_Source\PSoC5/CapSense_CSHL.c ****                                     CapSense_posFiltersData[posXIndex + 1u] = 
 1710:Generated_Source\PSoC5/CapSense_CSHL.c ****                                                                              CapSense_posFiltersDat
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 52
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 52
 
 
 1711:Generated_Source\PSoC5/CapSense_CSHL.c ****                                     CapSense_posFiltersData[posXIndex] = tempPos;
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1765:Generated_Source\PSoC5/CapSense_CSHL.c **** 
 1766:Generated_Source\PSoC5/CapSense_CSHL.c ****                             #if (0u != (CapSense_IIR4_FILTER & CapSense_TOUCH_PADS_POS_FILTERS_MASK
 1767:Generated_Source\PSoC5/CapSense_CSHL.c ****                                 if (0u != (posFiltersMask & CapSense_IIR4_FILTER))
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 53
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 53
 
 
 1768:Generated_Source\PSoC5/CapSense_CSHL.c ****                                 {
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1822:Generated_Source\PSoC5/CapSense_CSHL.c **** #if ( (CapSense_RAW_FILTER_MASK & CapSense_MEDIAN_FILTER) | \
 1823:Generated_Source\PSoC5/CapSense_CSHL.c ****       (CapSense_POS_FILTERS_MASK & CapSense_MEDIAN_FILTER) )
 1824:Generated_Source\PSoC5/CapSense_CSHL.c ****     /*******************************************************************************
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 54
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 54
 
 
 1825:Generated_Source\PSoC5/CapSense_CSHL.c ****     * Function Name: CapSense_MedianFilter
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1879:Generated_Source\PSoC5/CapSense_CSHL.c ****     *  x2:  Previous value.
 1880:Generated_Source\PSoC5/CapSense_CSHL.c ****     *  x3:  Before previous value.
 1881:Generated_Source\PSoC5/CapSense_CSHL.c ****     *
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 55
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 55
 
 
 1882:Generated_Source\PSoC5/CapSense_CSHL.c ****     * Return:
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
 1919:Generated_Source\PSoC5/CapSense_CSHL.c ****         
 1920:Generated_Source\PSoC5/CapSense_CSHL.c ****         /* IIR = 1/2 Current Value+ 1/2 Previous Value */
 1921:Generated_Source\PSoC5/CapSense_CSHL.c ****         tmp = (uint32)x1 + (uint32)x2;
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 56
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 56
 
 
  1203              		.loc 1 1921 0
@@ -3345,8 +3345,8 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1240 000b 01       		.uleb128 0x1
  1241 000c 51000000 		.4byte	.LASF60
  1242 0010 0C       		.byte	0xc
- 1243 0011 C0040000 		.4byte	.LASF61
- 1244 0015 F4030000 		.4byte	.LASF62
+ 1243 0011 CF040000 		.4byte	.LASF61
+ 1244 0015 35040000 		.4byte	.LASF62
  1245 0019 00000000 		.4byte	.Ldebug_ranges0+0
  1246 001d 00000000 		.4byte	0
  1247 0021 00000000 		.4byte	.Ldebug_line0
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1253 002d 01       		.byte	0x1
  1254 002e 08       		.byte	0x8
  1255 002f 9F030000 		.4byte	.LASF1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 57
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 57
 
 
  1256 0033 02       		.uleb128 0x2
@@ -3418,11 +3418,11 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1310 0099 CF010000 		.4byte	.LASF13
  1311 009d 02       		.uleb128 0x2
  1312 009e 01       		.byte	0x1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 58
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 58
 
 
  1313 009f 08       		.byte	0x8
- 1314 00a0 AD040000 		.4byte	.LASF14
+ 1314 00a0 BC040000 		.4byte	.LASF14
  1315 00a4 02       		.uleb128 0x2
  1316 00a5 08       		.byte	0x8
  1317 00a6 04       		.byte	0x4
@@ -3432,7 +3432,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1321 00ad 07       		.byte	0x7
  1322 00ae C2020000 		.4byte	.LASF16
  1323 00b2 05       		.uleb128 0x5
- 1324 00b3 54040000 		.4byte	.LASF17
+ 1324 00b3 F4030000 		.4byte	.LASF17
  1325 00b7 01       		.byte	0x1
  1326 00b8 87       		.byte	0x87
  1327 00b9 00000000 		.4byte	.LFB0
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1367 0108 09       		.uleb128 0x9
  1368 0109 AD030000 		.4byte	.LASF20
  1369 010d 01       		.byte	0x1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 59
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 59
 
 
  1370 010e 0401     		.2byte	0x104
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1424 017a 64010000 		.4byte	.LFE4-.LFB4
  1425 017e 01       		.uleb128 0x1
  1426 017f 9C       		.byte	0x9c
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 60
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 60
 
 
  1427 0180 DF010000 		.4byte	0x1df
@@ -3559,7 +3559,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1442 01a0 91       		.byte	0x91
  1443 01a1 6C       		.sleb128 -20
  1444 01a2 0B       		.uleb128 0xb
- 1445 01a3 13050000 		.4byte	.LASF26
+ 1445 01a3 22050000 		.4byte	.LASF26
  1446 01a7 01       		.byte	0x1
  1447 01a8 6C01     		.2byte	0x16c
  1448 01aa 77000000 		.4byte	0x77
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1481 01e7 00000000 		.4byte	.LFB5
  1482 01eb 50000000 		.4byte	.LFE5-.LFB5
  1483 01ef 01       		.uleb128 0x1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 61
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 61
 
 
  1484 01f0 9C       		.byte	0x9c
@@ -3647,7 +3647,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1527 0248 91       		.byte	0x91
  1528 0249 67       		.sleb128 -25
  1529 024a 0B       		.uleb128 0xb
- 1530 024b B2040000 		.4byte	.LASF30
+ 1530 024b C1040000 		.4byte	.LASF30
  1531 024f 01       		.byte	0x1
  1532 0250 5202     		.2byte	0x252
  1533 0252 6B000000 		.4byte	0x6b
@@ -3658,7 +3658,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1538 025a 706F7300 		.ascii	"pos\000"
  1539 025e 01       		.byte	0x1
  1540 025f 5402     		.2byte	0x254
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 62
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 62
 
 
  1541 0261 6B000000 		.4byte	0x6b
@@ -3718,7 +3718,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1595 02ca 0B030000 		.4byte	0x30b
  1596 02ce 0C       		.uleb128 0xc
  1597 02cf E6030000 		.4byte	.LASF21
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 63
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 63
 
 
  1598 02d3 01       		.byte	0x1
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1652 033e 02       		.uleb128 0x2
  1653 033f 91       		.byte	0x91
  1654 0340 76       		.sleb128 -10
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 64
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 64
 
 
  1655 0341 00       		.byte	0
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1709 03aa 2303     		.2byte	0x323
  1710 03ac 00000000 		.4byte	.LFB10
  1711 03b0 6C000000 		.4byte	.LFE10-.LFB10
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 65
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 65
 
 
  1712 03b4 01       		.uleb128 0x1
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1766 0420 10       		.uleb128 0x10
  1767 0421 783100   		.ascii	"x1\000"
  1768 0424 01       		.byte	0x1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 66
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 66
 
 
  1769 0425 7B07     		.2byte	0x77b
@@ -3931,7 +3931,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1796 045a 07       		.byte	0x7
  1797 045b 00       		.byte	0
  1798 045c 13       		.uleb128 0x13
- 1799 045d E7040000 		.4byte	.LASF44
+ 1799 045d F6040000 		.4byte	.LASF44
  1800 0461 03       		.byte	0x3
  1801 0462 CE02     		.2byte	0x2ce
  1802 0464 4C040000 		.4byte	0x44c
@@ -3958,7 +3958,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1823 0495 11       		.uleb128 0x11
  1824 0496 A5040000 		.4byte	0x4a5
  1825 049a A5040000 		.4byte	0x4a5
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 67
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 67
 
 
  1826 049e 12       		.uleb128 0x12
@@ -3975,7 +3975,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1837 04b6 15       		.uleb128 0x15
  1838 04b7 95040000 		.4byte	0x495
  1839 04bb 14       		.uleb128 0x14
- 1840 04bc 95040000 		.4byte	.LASF48
+ 1840 04bc A4040000 		.4byte	.LASF48
  1841 04c0 01       		.byte	0x1
  1842 04c1 29       		.byte	0x29
  1843 04c2 4C040000 		.4byte	0x44c
@@ -4014,11 +4014,11 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1876 050a 03       		.byte	0x3
  1877 050b 00000000 		.4byte	CapSense_sensorOnMask
  1878 050f 14       		.uleb128 0x14
- 1879 0510 66040000 		.4byte	.LASF52
+ 1879 0510 06040000 		.4byte	.LASF52
  1880 0514 01       		.byte	0x1
  1881 0515 2E       		.byte	0x2e
  1882 0516 CC040000 		.4byte	0x4cc
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 68
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 68
 
 
  1883 051a 05       		.uleb128 0x5
@@ -4049,7 +4049,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1908 054e 03       		.byte	0x3
  1909 054f 00000000 		.4byte	CapSense_hysteresis
  1910 0553 14       		.uleb128 0x14
- 1911 0554 83040000 		.4byte	.LASF56
+ 1911 0554 23040000 		.4byte	.LASF56
  1912 0558 01       		.byte	0x1
  1913 0559 3C       		.byte	0x3c
  1914 055a CC040000 		.4byte	0x4cc
@@ -4064,7 +4064,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1923 0572 08       		.byte	0x8
  1924 0573 00       		.byte	0
  1925 0574 14       		.uleb128 0x14
- 1926 0575 FA040000 		.4byte	.LASF57
+ 1926 0575 09050000 		.4byte	.LASF57
  1927 0579 01       		.byte	0x1
  1928 057a 40       		.byte	0x40
  1929 057b 64050000 		.4byte	0x564
@@ -4078,14 +4078,14 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1937 058c 96050000 		.4byte	0x596
  1938 0590 05       		.uleb128 0x5
  1939 0591 03       		.byte	0x3
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 69
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 69
 
 
  1940 0592 00000000 		.4byte	CapSense_rawDataIndex
  1941 0596 15       		.uleb128 0x15
  1942 0597 95040000 		.4byte	0x495
  1943 059b 14       		.uleb128 0x14
- 1944 059c 1B050000 		.4byte	.LASF59
+ 1944 059c 2A050000 		.4byte	.LASF59
  1945 05a0 01       		.byte	0x1
  1946 05a1 50       		.byte	0x50
  1947 05a2 AC050000 		.4byte	0x5ac
@@ -4138,7 +4138,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  1994 0026 08       		.uleb128 0x8
  1995 0027 00       		.byte	0
  1996 0028 00       		.byte	0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 70
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 70
 
 
  1997 0029 04       		.uleb128 0x4
@@ -4198,7 +4198,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2051 0060 34       		.uleb128 0x34
  2052 0061 00       		.byte	0
  2053 0062 03       		.uleb128 0x3
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 71
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 71
 
 
  2054 0063 0E       		.uleb128 0xe
@@ -4258,7 +4258,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2108 009a 18       		.uleb128 0x18
  2109 009b 9642     		.uleb128 0x2116
  2110 009d 19       		.uleb128 0x19
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 72
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 72
 
 
  2111 009e 01       		.uleb128 0x1
@@ -4318,7 +4318,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2165 00d4 03       		.uleb128 0x3
  2166 00d5 0E       		.uleb128 0xe
  2167 00d6 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 73
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 73
 
 
  2168 00d7 0B       		.uleb128 0xb
@@ -4378,7 +4378,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2222 010f 0B       		.uleb128 0xb
  2223 0110 3B       		.uleb128 0x3b
  2224 0111 05       		.uleb128 0x5
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 74
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 74
 
 
  2225 0112 27       		.uleb128 0x27
@@ -4438,7 +4438,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2279 0149 3B       		.uleb128 0x3b
  2280 014a 05       		.uleb128 0x5
  2281 014b 49       		.uleb128 0x49
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 75
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 75
 
 
  2282 014c 13       		.uleb128 0x13
@@ -4498,7 +4498,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2336 0048 00000000 		.4byte	.LFB7
  2337 004c 54000000 		.4byte	.LFE7-.LFB7
  2338 0050 00000000 		.4byte	.LFB8
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 76
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 76
 
 
  2339 0054 38000000 		.4byte	.LFE8-.LFB8
@@ -4558,7 +4558,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2384      656E7365 
  2384      5F687973 
  2384      74657265 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 77
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 77
 
 
  2384      73697300 
@@ -4618,7 +4618,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2402      206C6F6E 
  2402      6720696E 
  2402      7400
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 78
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 78
 
 
  2403              	.LASF0:
@@ -4678,7 +4678,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2428      5F494952 
  2428      3246696C 
  2428      74657200 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 79
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 79
 
 
  2429              	.LASF8:
@@ -4738,7 +4738,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2450      00
  2451              	.LASF41:
  2452 02cb 43617053 		.ascii	"CapSense_EnableWidget\000"
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 80
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 80
 
 
  2452      656E7365 
@@ -4798,7 +4798,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2472      7200
  2473              	.LASF20:
  2474 03ad 43617053 		.ascii	"CapSense_InitializeAllBaselines\000"
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 81
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 81
 
 
  2474      656E7365 
@@ -4820,77 +4820,81 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 1
  2481              	.LASF31:
  2482 03ed 6F6E4D61 		.ascii	"onMask\000"
  2482      736B00
- 2483              	.LASF62:
- 2484 03f4 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Documents\\PSOC5_electrobass"
- 2484      73657273 
- 2484      5C4A6566 
- 2484      66536E79 
- 2484      6465725C 
- 2485 0423 5F737472 		.ascii	"_stringsensors\\CE210514_PSOC3_5_Thermistor.cydsn\000"
- 2485      696E6773 
- 2485      656E736F 
- 2485      72735C43 
- 2485      45323130 
- 2486              	.LASF17:
- 2487 0454 43617053 		.ascii	"CapSense_BaseInit\000"
- 2487      656E7365 
- 2487      5F426173 
- 2487      65496E69 
- 2487      7400
- 2488              	.LASF52:
- 2489 0466 43617053 		.ascii	"CapSense_lowBaselineResetCnt\000"
- 2489      656E7365 
- 2489      5F6C6F77 
- 2489      42617365 
- 2489      6C696E65 
- 2490              	.LASF56:
- 2491 0483 43617053 		.ascii	"CapSense_debounce\000"
- 2491      656E7365 
- 2491      5F646562 
- 2491      6F756E63 
- 2491      6500
- 2492              	.LASF48:
- 2493 0495 43617053 		.ascii	"CapSense_sensorBaseline\000"
- 2493      656E7365 
- 2493      5F73656E 
- 2493      736F7242 
- 2493      6173656C 
- 2494              	.LASF14:
- 2495 04ad 63686172 		.ascii	"char\000"
- 2495      00
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbtSDk4.s 			page 82
+ 2483              	.LASF17:
+ 2484 03f4 43617053 		.ascii	"CapSense_BaseInit\000"
+ 2484      656E7365 
+ 2484      5F426173 
+ 2484      65496E69 
+ 2484      7400
+ 2485              	.LASF52:
+ 2486 0406 43617053 		.ascii	"CapSense_lowBaselineResetCnt\000"
+ 2486      656E7365 
+ 2486      5F6C6F77 
+ 2486      42617365 
+ 2486      6C696E65 
+ 2487              	.LASF56:
+ 2488 0423 43617053 		.ascii	"CapSense_debounce\000"
+ 2488      656E7365 
+ 2488      5F646562 
+ 2488      6F756E63 
+ 2488      6500
+ 2489              	.LASF62:
+ 2490 0435 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 2490      73657273 
+ 2490      5C4A6566 
+ 2490      66536E79 
+ 2490      6465725C 
+ 2491 0463 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 2491      5F656C65 
+ 2491      6374726F 
+ 2491      62617373 
+ 2491      5F737472 
+ 2492 0495 65726D69 		.ascii	"ermistor.cydsn\000"
+ 2492      73746F72 
+ 2492      2E637964 
+ 2492      736E00
+ 2493              	.LASF48:
+ 2494 04a4 43617053 		.ascii	"CapSense_sensorBaseline\000"
+ 2494      656E7365 
+ 2494      5F73656E 
+ 2494      736F7242 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc6Stxse.s 			page 82
 
 
- 2496              	.LASF30:
- 2497 04b2 6465626F 		.ascii	"debounceIndex\000"
- 2497      756E6365 
- 2497      496E6465 
- 2497      7800
- 2498              	.LASF61:
- 2499 04c0 47656E65 		.ascii	"Generated_Source\\PSoC5\\CapSense_CSHL.c\000"
- 2499      72617465 
- 2499      645F536F 
- 2499      75726365 
- 2499      5C50536F 
- 2500              	.LASF44:
- 2501 04e7 43617053 		.ascii	"CapSense_sensorRaw\000"
- 2501      656E7365 
- 2501      5F73656E 
- 2501      736F7252 
- 2501      617700
- 2502              	.LASF57:
- 2503 04fa 43617053 		.ascii	"CapSense_debounceCounter\000"
- 2503      656E7365 
- 2503      5F646562 
- 2503      6F756E63 
- 2503      65436F75 
- 2504              	.LASF26:
- 2505 0513 74656D70 		.ascii	"tempRaw\000"
- 2505      52617700 
- 2506              	.LASF59:
- 2507 051b 43617053 		.ascii	"CapSense_numberOfSensors\000"
- 2507      656E7365 
- 2507      5F6E756D 
- 2507      6265724F 
- 2507      6653656E 
- 2508              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 2494      6173656C 
+ 2495              	.LASF14:
+ 2496 04bc 63686172 		.ascii	"char\000"
+ 2496      00
+ 2497              	.LASF30:
+ 2498 04c1 6465626F 		.ascii	"debounceIndex\000"
+ 2498      756E6365 
+ 2498      496E6465 
+ 2498      7800
+ 2499              	.LASF61:
+ 2500 04cf 47656E65 		.ascii	"Generated_Source\\PSoC5\\CapSense_CSHL.c\000"
+ 2500      72617465 
+ 2500      645F536F 
+ 2500      75726365 
+ 2500      5C50536F 
+ 2501              	.LASF44:
+ 2502 04f6 43617053 		.ascii	"CapSense_sensorRaw\000"
+ 2502      656E7365 
+ 2502      5F73656E 
+ 2502      736F7252 
+ 2502      617700
+ 2503              	.LASF57:
+ 2504 0509 43617053 		.ascii	"CapSense_debounceCounter\000"
+ 2504      656E7365 
+ 2504      5F646562 
+ 2504      6F756E63 
+ 2504      65436F75 
+ 2505              	.LASF26:
+ 2506 0522 74656D70 		.ascii	"tempRaw\000"
+ 2506      52617700 
+ 2507              	.LASF59:
+ 2508 052a 43617053 		.ascii	"CapSense_numberOfSensors\000"
+ 2508      656E7365 
+ 2508      5F6E756D 
+ 2508      6265724F 
+ 2508      6653656E 
+ 2509              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
   21:Generated_Source\PSoC5/I2C_1.c **** *      System variables
   22:Generated_Source\PSoC5/I2C_1.c **** **********************************/
   23:Generated_Source\PSoC5/I2C_1.c **** 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 2
 
 
   24:Generated_Source\PSoC5/I2C_1.c **** uint8 I2C_1_initVar = 0u; /* Defines if component was initialized */
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
   56:Generated_Source\PSoC5/I2C_1.c ****     I2C_1_CLKDIV1_REG = LO8(I2C_1_DEFAULT_DIVIDE_FACTOR);
   57              		.loc 1 56 0
   58 0016 134B     		ldr	r3, .L2+12
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 3
 
 
   59 0018 3122     		movs	r2, #49
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
   93:Generated_Source\PSoC5/I2C_1.c **** 
   94:Generated_Source\PSoC5/I2C_1.c ****     /* Set FSM to default state */
   95:Generated_Source\PSoC5/I2C_1.c ****     I2C_1_state = I2C_1_SM_IDLE;
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 4
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 4
 
 
   77              		.loc 1 95 0
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  113              		.section	.text.I2C_1_Enable,"ax",%progbits
  114              		.align	2
  115              		.global	I2C_1_Enable
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 5
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 5
 
 
  116              		.thumb
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  143 001a DBB2     		uxtb	r3, r3
  144 001c 1370     		strb	r3, [r2]
  141:Generated_Source\PSoC5/I2C_1.c ****     I2C_1_STBY_PWRMGR_REG |= I2C_1_STBY_PWR_EN;
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 6
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 6
 
 
  145              		.loc 1 141 0
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  160:Generated_Source\PSoC5/I2C_1.c **** 
  161:Generated_Source\PSoC5/I2C_1.c **** /*******************************************************************************
  162:Generated_Source\PSoC5/I2C_1.c **** * Function Name: I2C_1_Start
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 7
 
 
  163:Generated_Source\PSoC5/I2C_1.c **** ********************************************************************************
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  195:Generated_Source\PSoC5/I2C_1.c ****     }
  196:Generated_Source\PSoC5/I2C_1.c **** 
  197:Generated_Source\PSoC5/I2C_1.c ****     I2C_1_Enable();
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 8
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 8
 
 
  203              		.loc 1 197 0
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  236 0002 82B0     		sub	sp, sp, #8
  237              		.cfi_def_cfa_offset 16
  238 0004 00AF     		add	r7, sp, #0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 9
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 9
 
 
  239              		.cfi_def_cfa_register 7
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  275 0042 9BB2     		uxth	r3, r3
  276 0044 0133     		adds	r3, r3, #1
  277 0046 FB80     		strh	r3, [r7, #6]	@ movhi
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 10
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 10
 
 
  237:Generated_Source\PSoC5/I2C_1.c **** 
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  318 0096 DBB2     		uxtb	r3, r3
  319 0098 43F00203 		orr	r3, r3, #2
  320 009c DBB2     		uxtb	r3, r3
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 11
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 11
 
 
  321 009e 1370     		strb	r3, [r2]
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  348 00c8 23F01003 		bic	r3, r3, #16
  349 00cc DBB2     		uxtb	r3, r3
  350 00ce 1370     		strb	r3, [r2]
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 12
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 12
 
 
  278:Generated_Source\PSoC5/I2C_1.c ****     I2C_1_ClearPendingInt();
@@ -717,46 +717,46 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  394 000b 01       		.uleb128 0x1
  395 000c 1A000000 		.4byte	.LASF37
  396 0010 0C       		.byte	0xc
- 397 0011 91020000 		.4byte	.LASF38
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 13
+ 397 0011 A0020000 		.4byte	.LASF38
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 13
 
 
- 398 0015 F9000000 		.4byte	.LASF39
+ 398 0015 CA000000 		.4byte	.LASF39
  399 0019 00000000 		.4byte	.Ldebug_ranges0+0
  400 001d 00000000 		.4byte	0
  401 0021 00000000 		.4byte	.Ldebug_line0
  402 0025 02       		.uleb128 0x2
  403 0026 01       		.byte	0x1
  404 0027 06       		.byte	0x6
- 405 0028 B0020000 		.4byte	.LASF0
+ 405 0028 BF020000 		.4byte	.LASF0
  406 002c 02       		.uleb128 0x2
  407 002d 01       		.byte	0x1
  408 002e 08       		.byte	0x8
- 409 002f 5F010000 		.4byte	.LASF1
+ 409 002f 6E010000 		.4byte	.LASF1
  410 0033 02       		.uleb128 0x2
  411 0034 02       		.byte	0x2
  412 0035 05       		.byte	0x5
- 413 0036 57020000 		.4byte	.LASF2
+ 413 0036 66020000 		.4byte	.LASF2
  414 003a 02       		.uleb128 0x2
  415 003b 02       		.byte	0x2
  416 003c 07       		.byte	0x7
- 417 003d CA000000 		.4byte	.LASF3
+ 417 003d 39010000 		.4byte	.LASF3
  418 0041 02       		.uleb128 0x2
  419 0042 04       		.byte	0x4
  420 0043 05       		.byte	0x5
- 421 0044 7C020000 		.4byte	.LASF4
+ 421 0044 8B020000 		.4byte	.LASF4
  422 0048 02       		.uleb128 0x2
  423 0049 04       		.byte	0x4
  424 004a 07       		.byte	0x7
- 425 004b 72010000 		.4byte	.LASF5
+ 425 004b 81010000 		.4byte	.LASF5
  426 004f 02       		.uleb128 0x2
  427 0050 08       		.byte	0x8
  428 0051 05       		.byte	0x5
- 429 0052 26020000 		.4byte	.LASF6
+ 429 0052 35020000 		.4byte	.LASF6
  430 0056 02       		.uleb128 0x2
  431 0057 08       		.byte	0x8
  432 0058 07       		.byte	0x7
- 433 0059 D9010000 		.4byte	.LASF7
+ 433 0059 E8010000 		.4byte	.LASF7
  434 005d 03       		.uleb128 0x3
  435 005e 04       		.byte	0x4
  436 005f 05       		.byte	0x5
@@ -764,21 +764,21 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  438 0064 02       		.uleb128 0x2
  439 0065 04       		.byte	0x4
  440 0066 07       		.byte	0x7
- 441 0067 CC010000 		.4byte	.LASF8
+ 441 0067 DB010000 		.4byte	.LASF8
  442 006b 04       		.uleb128 0x4
- 443 006c 61020000 		.4byte	.LASF9
+ 443 006c 70020000 		.4byte	.LASF9
  444 0070 02       		.byte	0x2
  445 0071 E401     		.2byte	0x1e4
  446 0073 2C000000 		.4byte	0x2c
  447 0077 04       		.uleb128 0x4
- 448 0078 A9010000 		.4byte	.LASF10
+ 448 0078 B8010000 		.4byte	.LASF10
  449 007c 02       		.byte	0x2
  450 007d E501     		.2byte	0x1e5
  451 007f 3A000000 		.4byte	0x3a
  452 0083 04       		.uleb128 0x4
- 453 0084 B0010000 		.4byte	.LASF11
+ 453 0084 BF010000 		.4byte	.LASF11
  454 0088 02       		.byte	0x2
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 14
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 14
 
 
  455 0089 E601     		.2byte	0x1e6
@@ -786,17 +786,17 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  457 008f 02       		.uleb128 0x2
  458 0090 04       		.byte	0x4
  459 0091 04       		.byte	0x4
- 460 0092 59010000 		.4byte	.LASF12
+ 460 0092 68010000 		.4byte	.LASF12
  461 0096 02       		.uleb128 0x2
  462 0097 08       		.byte	0x8
  463 0098 04       		.byte	0x4
- 464 0099 97010000 		.4byte	.LASF13
+ 464 0099 A6010000 		.4byte	.LASF13
  465 009d 02       		.uleb128 0x2
  466 009e 01       		.byte	0x1
  467 009f 08       		.byte	0x8
- 468 00a0 34020000 		.4byte	.LASF14
+ 468 00a0 43020000 		.4byte	.LASF14
  469 00a4 04       		.uleb128 0x4
- 470 00a5 6D010000 		.4byte	.LASF15
+ 470 00a5 7C010000 		.4byte	.LASF15
  471 00a9 02       		.byte	0x2
  472 00aa 8E02     		.2byte	0x28e
  473 00ac B0000000 		.4byte	0xb0
@@ -812,24 +812,24 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  483 00c6 02       		.uleb128 0x2
  484 00c7 08       		.byte	0x8
  485 00c8 04       		.byte	0x4
- 486 00c9 11020000 		.4byte	.LASF17
+ 486 00c9 20020000 		.4byte	.LASF17
  487 00cd 02       		.uleb128 0x2
  488 00ce 04       		.byte	0x4
  489 00cf 07       		.byte	0x7
- 490 00d0 1D020000 		.4byte	.LASF18
+ 490 00d0 2C020000 		.4byte	.LASF18
  491 00d4 06       		.uleb128 0x6
  492 00d5 06       		.byte	0x6
  493 00d6 03       		.byte	0x3
  494 00d7 76       		.byte	0x76
  495 00d8 25010000 		.4byte	0x125
  496 00dc 07       		.uleb128 0x7
- 497 00dd 85020000 		.4byte	.LASF19
+ 497 00dd 94020000 		.4byte	.LASF19
  498 00e1 03       		.byte	0x3
  499 00e2 78       		.byte	0x78
  500 00e3 6B000000 		.4byte	0x6b
  501 00e7 00       		.byte	0
  502 00e8 07       		.uleb128 0x7
- 503 00e9 46020000 		.4byte	.LASF20
+ 503 00e9 55020000 		.4byte	.LASF20
  504 00ed 03       		.byte	0x3
  505 00ee 7B       		.byte	0x7b
  506 00ef 6B000000 		.4byte	0x6b
@@ -838,25 +838,25 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  509 00f5 63666700 		.ascii	"cfg\000"
  510 00f9 03       		.byte	0x3
  511 00fa 7C       		.byte	0x7c
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 15
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 15
 
 
  512 00fb 6B000000 		.4byte	0x6b
  513 00ff 02       		.byte	0x2
  514 0100 07       		.uleb128 0x7
- 515 0101 84010000 		.4byte	.LASF21
+ 515 0101 93010000 		.4byte	.LASF21
  516 0105 03       		.byte	0x3
  517 0106 7D       		.byte	0x7d
  518 0107 6B000000 		.4byte	0x6b
  519 010b 03       		.byte	0x3
  520 010c 07       		.uleb128 0x7
- 521 010d F0010000 		.4byte	.LASF22
+ 521 010d FF010000 		.4byte	.LASF22
  522 0111 03       		.byte	0x3
  523 0112 7E       		.byte	0x7e
  524 0113 6B000000 		.4byte	0x6b
  525 0117 04       		.byte	0x4
  526 0118 07       		.uleb128 0x7
- 527 0119 F8010000 		.4byte	.LASF23
+ 527 0119 07020000 		.4byte	.LASF23
  528 011d 03       		.byte	0x3
  529 011e 7F       		.byte	0x7f
  530 011f 6B000000 		.4byte	0x6b
@@ -868,7 +868,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  536 012b 89       		.byte	0x89
  537 012c D4000000 		.4byte	0xd4
  538 0130 0A       		.uleb128 0xa
- 539 0131 DD000000 		.4byte	.LASF25
+ 539 0131 4C010000 		.4byte	.LASF25
  540 0135 01       		.byte	0x1
  541 0136 31       		.byte	0x31
  542 0137 00000000 		.4byte	.LFB0
@@ -876,7 +876,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  544 013f 01       		.uleb128 0x1
  545 0140 9C       		.byte	0x9c
  546 0141 0B       		.uleb128 0xb
- 547 0142 39020000 		.4byte	.LASF27
+ 547 0142 48020000 		.4byte	.LASF27
  548 0146 01       		.byte	0x1
  549 0147 85       		.byte	0x85
  550 0148 00000000 		.4byte	.LFB1
@@ -885,7 +885,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  553 0151 9C       		.byte	0x9c
  554 0152 65010000 		.4byte	0x165
  555 0156 0C       		.uleb128 0xc
- 556 0157 C3010000 		.4byte	.LASF29
+ 556 0157 D2010000 		.4byte	.LASF29
  557 015b 01       		.byte	0x1
  558 015c 88       		.byte	0x88
  559 015d 6B000000 		.4byte	0x6b
@@ -894,18 +894,18 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  562 0163 77       		.sleb128 -9
  563 0164 00       		.byte	0
  564 0165 0A       		.uleb128 0xa
- 565 0166 4B020000 		.4byte	.LASF26
+ 565 0166 5A020000 		.4byte	.LASF26
  566 016a 01       		.byte	0x1
  567 016b BD       		.byte	0xbd
  568 016c 00000000 		.4byte	.LFB2
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 16
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 16
 
 
  569 0170 30000000 		.4byte	.LFE2-.LFB2
  570 0174 01       		.uleb128 0x1
  571 0175 9C       		.byte	0x9c
  572 0176 0B       		.uleb128 0xb
- 573 0177 9E010000 		.4byte	.LASF28
+ 573 0177 AD010000 		.4byte	.LASF28
  574 017b 01       		.byte	0x1
  575 017c D9       		.byte	0xd9
  576 017d 00000000 		.4byte	.LFB3
@@ -917,7 +917,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  582 018c 0E000000 		.4byte	.LBB2
  583 0190 B2000000 		.4byte	.LBE2-.LBB2
  584 0194 0C       		.uleb128 0xc
- 585 0195 C3010000 		.4byte	.LASF29
+ 585 0195 D2010000 		.4byte	.LASF29
  586 0199 01       		.byte	0x1
  587 019a E3       		.byte	0xe3
  588 019b 6B000000 		.4byte	0x6b
@@ -925,7 +925,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  590 01a0 91       		.byte	0x91
  591 01a1 75       		.sleb128 -11
  592 01a2 0C       		.uleb128 0xc
- 593 01a3 E8000000 		.4byte	.LASF30
+ 593 01a3 57010000 		.4byte	.LASF30
  594 01a7 01       		.byte	0x1
  595 01a8 E4       		.byte	0xe4
  596 01a9 77000000 		.4byte	0x77
@@ -935,7 +935,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  600 01b0 00       		.byte	0
  601 01b1 00       		.byte	0
  602 01b2 0E       		.uleb128 0xe
- 603 01b3 89010000 		.4byte	.LASF31
+ 603 01b3 98010000 		.4byte	.LASF31
  604 01b7 01       		.byte	0x1
  605 01b8 18       		.byte	0x18
  606 01b9 6B000000 		.4byte	0x6b
@@ -948,7 +948,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  613 01c9 21       		.byte	0x21
  614 01ca 25010000 		.4byte	0x125
  615 01ce 0E       		.uleb128 0xe
- 616 01cf B7010000 		.4byte	.LASF33
+ 616 01cf C6010000 		.4byte	.LASF33
  617 01d3 01       		.byte	0x1
  618 01d4 1A       		.byte	0x1a
  619 01d5 B0000000 		.4byte	0xb0
@@ -956,9 +956,9 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  621 01da 03       		.byte	0x3
  622 01db 00000000 		.4byte	I2C_1_state
  623 01df 0F       		.uleb128 0xf
- 624 01e0 00020000 		.4byte	.LASF34
+ 624 01e0 0F020000 		.4byte	.LASF34
  625 01e4 04       		.byte	0x4
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 17
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 17
 
 
  626 01e5 27       		.byte	0x27
@@ -969,7 +969,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  631 01f0 2D       		.byte	0x2d
  632 01f1 B0000000 		.4byte	0xb0
  633 01f5 0F       		.uleb128 0xf
- 634 01f6 67020000 		.4byte	.LASF36
+ 634 01f6 76020000 		.4byte	.LASF36
  635 01fa 04       		.byte	0x4
  636 01fb 32       		.byte	0x32
  637 01fc B0000000 		.4byte	0xb0
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  680 0027 00       		.byte	0
  681 0028 00       		.byte	0
  682 0029 04       		.uleb128 0x4
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 18
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 18
 
 
  683 002a 16       		.uleb128 0x16
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  737 0060 3B       		.uleb128 0x3b
  738 0061 0B       		.uleb128 0xb
  739 0062 49       		.uleb128 0x49
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 19
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 19
 
 
  740 0063 13       		.uleb128 0x13
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  794 009a 11       		.uleb128 0x11
  795 009b 01       		.uleb128 0x1
  796 009c 12       		.uleb128 0x12
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 20
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 20
 
 
  797 009d 06       		.uleb128 0x6
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  851 00d4 0E       		.uleb128 0xe
  852 00d5 3A       		.uleb128 0x3a
  853 00d6 0B       		.uleb128 0xb
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 21
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 21
 
 
  854 00d7 3B       		.uleb128 0x3b
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  901      434B5550 
  901      5F535452 
  901      55435400 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 22
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 22
 
 
  902              	.LASF37:
@@ -1288,168 +1288,172 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 1
  909      315F6261 
  909      636B7570 
  909      00
- 910              	.LASF3:
- 911 00ca 73686F72 		.ascii	"short unsigned int\000"
- 911      7420756E 
- 911      7369676E 
- 911      65642069 
- 911      6E7400
- 912              	.LASF25:
- 913 00dd 4932435F 		.ascii	"I2C_1_Init\000"
- 913      315F496E 
- 913      697400
- 914              	.LASF30:
- 915 00e8 626C6F63 		.ascii	"blockResetCycles\000"
- 915      6B526573 
- 915      65744379 
- 915      636C6573 
- 915      00
- 916              	.LASF39:
- 917 00f9 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Documents\\PSOC5_electrobass"
- 917      73657273 
- 917      5C4A6566 
- 917      66536E79 
- 917      6465725C 
- 918 0128 5F737472 		.ascii	"_stringsensors\\CE210514_PSOC3_5_Thermistor.cydsn\000"
- 918      696E6773 
- 918      656E736F 
- 918      72735C43 
- 918      45323130 
- 919              	.LASF12:
- 920 0159 666C6F61 		.ascii	"float\000"
- 920      7400
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 23
+ 910              	.LASF39:
+ 911 00ca 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 911      73657273 
+ 911      5C4A6566 
+ 911      66536E79 
+ 911      6465725C 
+ 912 00f8 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 912      5F656C65 
+ 912      6374726F 
+ 912      62617373 
+ 912      5F737472 
+ 913 012a 65726D69 		.ascii	"ermistor.cydsn\000"
+ 913      73746F72 
+ 913      2E637964 
+ 913      736E00
+ 914              	.LASF3:
+ 915 0139 73686F72 		.ascii	"short unsigned int\000"
+ 915      7420756E 
+ 915      7369676E 
+ 915      65642069 
+ 915      6E7400
+ 916              	.LASF25:
+ 917 014c 4932435F 		.ascii	"I2C_1_Init\000"
+ 917      315F496E 
+ 917      697400
+ 918              	.LASF30:
+ 919 0157 626C6F63 		.ascii	"blockResetCycles\000"
+ 919      6B526573 
+ 919      65744379 
+ 919      636C6573 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 23
 
 
- 921              	.LASF1:
- 922 015f 756E7369 		.ascii	"unsigned char\000"
- 922      676E6564 
- 922      20636861 
- 922      7200
- 923              	.LASF15:
- 924 016d 72656738 		.ascii	"reg8\000"
- 924      00
- 925              	.LASF5:
- 926 0172 6C6F6E67 		.ascii	"long unsigned int\000"
- 926      20756E73 
- 926      69676E65 
- 926      6420696E 
- 926      7400
- 927              	.LASF21:
- 928 0184 61646472 		.ascii	"addr\000"
- 928      00
- 929              	.LASF31:
- 930 0189 4932435F 		.ascii	"I2C_1_initVar\000"
- 930      315F696E 
- 930      69745661 
- 930      7200
- 931              	.LASF13:
- 932 0197 646F7562 		.ascii	"double\000"
- 932      6C6500
- 933              	.LASF28:
- 934 019e 4932435F 		.ascii	"I2C_1_Stop\000"
- 934      315F5374 
- 934      6F7000
- 935              	.LASF10:
- 936 01a9 75696E74 		.ascii	"uint16\000"
- 936      313600
- 937              	.LASF11:
- 938 01b0 75696E74 		.ascii	"uint32\000"
- 938      333200
- 939              	.LASF33:
- 940 01b7 4932435F 		.ascii	"I2C_1_state\000"
- 940      315F7374 
- 940      61746500 
- 941              	.LASF29:
- 942 01c3 696E7453 		.ascii	"intState\000"
- 942      74617465 
- 942      00
- 943              	.LASF8:
- 944 01cc 756E7369 		.ascii	"unsigned int\000"
- 944      676E6564 
- 944      20696E74 
- 944      00
- 945              	.LASF7:
- 946 01d9 6C6F6E67 		.ascii	"long long unsigned int\000"
- 946      206C6F6E 
- 946      6720756E 
- 946      7369676E 
- 946      65642069 
- 947              	.LASF22:
- 948 01f0 636C6B44 		.ascii	"clkDiv1\000"
- 948      69763100 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 24
+ 919      00
+ 920              	.LASF12:
+ 921 0168 666C6F61 		.ascii	"float\000"
+ 921      7400
+ 922              	.LASF1:
+ 923 016e 756E7369 		.ascii	"unsigned char\000"
+ 923      676E6564 
+ 923      20636861 
+ 923      7200
+ 924              	.LASF15:
+ 925 017c 72656738 		.ascii	"reg8\000"
+ 925      00
+ 926              	.LASF5:
+ 927 0181 6C6F6E67 		.ascii	"long unsigned int\000"
+ 927      20756E73 
+ 927      69676E65 
+ 927      6420696E 
+ 927      7400
+ 928              	.LASF21:
+ 929 0193 61646472 		.ascii	"addr\000"
+ 929      00
+ 930              	.LASF31:
+ 931 0198 4932435F 		.ascii	"I2C_1_initVar\000"
+ 931      315F696E 
+ 931      69745661 
+ 931      7200
+ 932              	.LASF13:
+ 933 01a6 646F7562 		.ascii	"double\000"
+ 933      6C6500
+ 934              	.LASF28:
+ 935 01ad 4932435F 		.ascii	"I2C_1_Stop\000"
+ 935      315F5374 
+ 935      6F7000
+ 936              	.LASF10:
+ 937 01b8 75696E74 		.ascii	"uint16\000"
+ 937      313600
+ 938              	.LASF11:
+ 939 01bf 75696E74 		.ascii	"uint32\000"
+ 939      333200
+ 940              	.LASF33:
+ 941 01c6 4932435F 		.ascii	"I2C_1_state\000"
+ 941      315F7374 
+ 941      61746500 
+ 942              	.LASF29:
+ 943 01d2 696E7453 		.ascii	"intState\000"
+ 943      74617465 
+ 943      00
+ 944              	.LASF8:
+ 945 01db 756E7369 		.ascii	"unsigned int\000"
+ 945      676E6564 
+ 945      20696E74 
+ 945      00
+ 946              	.LASF7:
+ 947 01e8 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 947      206C6F6E 
+ 947      6720756E 
+ 947      7369676E 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 24
 
 
- 949              	.LASF23:
- 950 01f8 636C6B44 		.ascii	"clkDiv2\000"
- 950      69763200 
- 951              	.LASF34:
- 952 0200 4932435F 		.ascii	"I2C_1_mstrStatus\000"
- 952      315F6D73 
- 952      74725374 
- 952      61747573 
- 952      00
- 953              	.LASF17:
- 954 0211 6C6F6E67 		.ascii	"long double\000"
- 954      20646F75 
- 954      626C6500 
- 955              	.LASF18:
- 956 021d 73697A65 		.ascii	"sizetype\000"
- 956      74797065 
- 956      00
- 957              	.LASF6:
- 958 0226 6C6F6E67 		.ascii	"long long int\000"
- 958      206C6F6E 
- 958      6720696E 
- 958      7400
- 959              	.LASF14:
- 960 0234 63686172 		.ascii	"char\000"
- 960      00
- 961              	.LASF27:
- 962 0239 4932435F 		.ascii	"I2C_1_Enable\000"
- 962      315F456E 
- 962      61626C65 
- 962      00
- 963              	.LASF20:
- 964 0246 78636667 		.ascii	"xcfg\000"
- 964      00
- 965              	.LASF26:
- 966 024b 4932435F 		.ascii	"I2C_1_Start\000"
- 966      315F5374 
- 966      61727400 
- 967              	.LASF2:
- 968 0257 73686F72 		.ascii	"short int\000"
- 968      7420696E 
- 968      7400
- 969              	.LASF9:
- 970 0261 75696E74 		.ascii	"uint8\000"
- 970      3800
- 971              	.LASF36:
- 972 0267 4932435F 		.ascii	"I2C_1_mstrWrBufIndex\000"
- 972      315F6D73 
- 972      74725772 
- 972      42756649 
- 972      6E646578 
- 973              	.LASF4:
- 974 027c 6C6F6E67 		.ascii	"long int\000"
- 974      20696E74 
- 974      00
- 975              	.LASF19:
- 976 0285 656E6162 		.ascii	"enableState\000"
- 976      6C655374 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccrMPnhB.s 			page 25
+ 947      65642069 
+ 948              	.LASF22:
+ 949 01ff 636C6B44 		.ascii	"clkDiv1\000"
+ 949      69763100 
+ 950              	.LASF23:
+ 951 0207 636C6B44 		.ascii	"clkDiv2\000"
+ 951      69763200 
+ 952              	.LASF34:
+ 953 020f 4932435F 		.ascii	"I2C_1_mstrStatus\000"
+ 953      315F6D73 
+ 953      74725374 
+ 953      61747573 
+ 953      00
+ 954              	.LASF17:
+ 955 0220 6C6F6E67 		.ascii	"long double\000"
+ 955      20646F75 
+ 955      626C6500 
+ 956              	.LASF18:
+ 957 022c 73697A65 		.ascii	"sizetype\000"
+ 957      74797065 
+ 957      00
+ 958              	.LASF6:
+ 959 0235 6C6F6E67 		.ascii	"long long int\000"
+ 959      206C6F6E 
+ 959      6720696E 
+ 959      7400
+ 960              	.LASF14:
+ 961 0243 63686172 		.ascii	"char\000"
+ 961      00
+ 962              	.LASF27:
+ 963 0248 4932435F 		.ascii	"I2C_1_Enable\000"
+ 963      315F456E 
+ 963      61626C65 
+ 963      00
+ 964              	.LASF20:
+ 965 0255 78636667 		.ascii	"xcfg\000"
+ 965      00
+ 966              	.LASF26:
+ 967 025a 4932435F 		.ascii	"I2C_1_Start\000"
+ 967      315F5374 
+ 967      61727400 
+ 968              	.LASF2:
+ 969 0266 73686F72 		.ascii	"short int\000"
+ 969      7420696E 
+ 969      7400
+ 970              	.LASF9:
+ 971 0270 75696E74 		.ascii	"uint8\000"
+ 971      3800
+ 972              	.LASF36:
+ 973 0276 4932435F 		.ascii	"I2C_1_mstrWrBufIndex\000"
+ 973      315F6D73 
+ 973      74725772 
+ 973      42756649 
+ 973      6E646578 
+ 974              	.LASF4:
+ 975 028b 6C6F6E67 		.ascii	"long int\000"
+ 975      20696E74 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccbVv5o6.s 			page 25
 
 
- 976      61746500 
- 977              	.LASF38:
- 978 0291 47656E65 		.ascii	"Generated_Source\\PSoC5\\I2C_1.c\000"
- 978      72617465 
- 978      645F536F 
- 978      75726365 
- 978      5C50536F 
- 979              	.LASF0:
- 980 02b0 7369676E 		.ascii	"signed char\000"
- 980      65642063 
- 980      68617200 
- 981              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 975      00
+ 976              	.LASF19:
+ 977 0294 656E6162 		.ascii	"enableState\000"
+ 977      6C655374 
+ 977      61746500 
+ 978              	.LASF38:
+ 979 02a0 47656E65 		.ascii	"Generated_Source\\PSoC5\\I2C_1.c\000"
+ 979      72617465 
+ 979      645F536F 
+ 979      75726365 
+ 979      5C50536F 
+ 980              	.LASF0:
+ 981 02bf 7369676E 		.ascii	"signed char\000"
+ 981      65642063 
+ 981      68617200 
+ 982              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

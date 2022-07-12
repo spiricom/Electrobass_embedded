@@ -59,6 +59,8 @@ uint16_t midiOverflow = 0;
 uint scanPart = 0;
 uint channel = 0;
 
+uint currentOutPointer = 0;
+uint outChanged = 0;
 
 void checkUSB_Vbus(void);
 void sendMIDIAllNotesOff(void);
@@ -147,6 +149,7 @@ void DmaRxConfiguration(void);
 #define DMA_RX_DST_BASE             (CYDEV_SRAM_BASE)
 
 #define BUFFER_SIZE                 (16u)
+#define BUFFER_2_SIZE               (16u)
 #define STORE_TD_CFG_ONCMPLT        (1u)
 
 /* Variable declarations for DMA_TX*/
@@ -157,6 +160,17 @@ volatile uint8 txBuffer[BUFFER_SIZE];
 volatile uint8 rxChannel;
 volatile uint8 rxTD;
 volatile uint8 rxBuffer[BUFFER_SIZE];
+
+/* Variable declarations for DMA_2*/
+volatile uint8 tx2Channel;
+volatile uint8 tx2TD;
+volatile uint8 tx2Buffer[BUFFER_2_SIZE];
+
+volatile uint8 rx2Channel;
+volatile uint8 rx2TD;
+volatile uint8 rx2Buffer[BUFFER_2_SIZE];
+
+volatile uint8 tx2BufferTemp[BUFFER_2_SIZE];
 
     static uint8 CYCODE eepromArray[]={ 0, 0 };
                                             
@@ -382,8 +396,7 @@ int main(void)
     ADC_SAR_Seq_1_Start();
     ADC_SAR_Seq_1_StartConvert();
     SPIM_1_Start();
-    
-    //SPIM_2_Start();
+    SPIM_2_Start();
     //I2C_1_Start();
     
 
@@ -416,7 +429,7 @@ int main(void)
         CapSense_ClearSensors();
         CapSense_UpdateEnabledBaselines();
         CapSense_ScanEnabledWidgets();  
-        
+        currentOutPointer = 1;
         if (scanPart == 0)
         {
 
@@ -617,12 +630,12 @@ int main(void)
             firPointer = (firPointer + 1) & KNOB_FIR_SIZE_MASK;
         }
         
-        //make sure previous SPI transmission has completed before checking the received SPI data
+        //make sure previous SPI1 transmission has completed before checking the received SPI data
         while (0u == ((SPIM_1_ReadTxStatus() & SPIM_1_STS_SPI_DONE) || (SPIM_1_ReadTxStatus() & SPIM_1_STS_SPI_IDLE )))
         {
             ;
         }
-        
+
         //handle string plucks/noteoffs
         for (int i = 0; i < 4; i++)
         {
@@ -671,11 +684,42 @@ int main(void)
             stringPlucksPrev[i] = stringPlucks[i];
             
         }
+        //make sure previous SPI2 transmission has completed before transferring the remaining midi date
+        while (0u == ((SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_DONE) || (SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_IDLE )))
+        {
+            ;
+        }
+        //send midi data to internal synth
+        //copy the temp buffer into the send buffer now that we are done filling it and sending the previous one
+        for (uint i = 0 ; i < BUFFER_2_SIZE; i++)
+        {
+            tx2Buffer[i] = tx2BufferTemp[i];
+            tx2BufferTemp[i] = 0;
+        }
+        if (outChanged)
+        {
+            tx2Buffer[0] = 1;
+        }
+        else
+        {
+            tx2Buffer[0] = 0;
+        }
+        outChanged = 0;
+        if (currentOutPointer > BUFFER_2_SIZE)
+        {
+            LED1_Write(1);
+            //overflow
+        }
+        currentOutPointer = 1;
+        CyDmaChEnable(rx2Channel, STORE_TD_CFG_ONCMPLT);
+        CyDmaChEnable(tx2Channel, STORE_TD_CFG_ONCMPLT);
         
+        //check if USB device has just been plugged in
         if (USB_check_flag)
         {
             checkUSB_Vbus();
         }
+        
         //only service the USB bus if there is a computer plugged in
         if ((USB_active) && (USB_VBusPresent()))
         {
@@ -686,7 +730,8 @@ int main(void)
             midiSent = 0;
             USB_service();
         }
-        
+               
+
         while(CapSense_IsBusy() != 0)  
         {
             ;//wait until scan is complete
@@ -713,18 +758,21 @@ int main(void)
         if (txBuffer[8] & 1)
         {
             blue_LED_Write(1);
-            LED1_Write(1);
+            
         }
         else
         {
             blue_LED_Write(0);
-            LED1_Write(0);
+           
         }
         SPIM_1_ClearRxBuffer();
+        SPIM_2_ClearRxBuffer();
         //CyDelay(1);
         //send SPI data
         CyDmaChEnable(rxChannel, STORE_TD_CFG_ONCMPLT);
         CyDmaChEnable(txChannel, STORE_TD_CFG_ONCMPLT);
+        
+
        //CyDelay(1);
 
         
@@ -858,6 +906,20 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
+    
+    tx2BufferTemp[currentOutPointer++] = midiMsg[0];
+    tx2BufferTemp[currentOutPointer++] = midiMsg[1];
+    tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    if (velocity > 0)
+    {
+        LED1_Write(1);
+    }
+    else
+    {
+        LED1_Write(0);
+    }
+    outChanged = 1;
+    
 }
 
 void sendMIDIPitchBend(int val, int channel)
@@ -873,6 +935,11 @@ void sendMIDIPitchBend(int val, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
+    
+    tx2BufferTemp[currentOutPointer++] = midiMsg[0];
+    tx2BufferTemp[currentOutPointer++] = midiMsg[1];
+    tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    outChanged = 1;
 }
 
 
@@ -888,6 +955,12 @@ void sendMIDIControlChange(int CCnum, int CCval, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
+    
+    tx2BufferTemp[currentOutPointer++] = midiMsg[0];
+    tx2BufferTemp[currentOutPointer++] = midiMsg[1];
+    tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    outChanged = 1;
+    
 }
 
 
@@ -959,6 +1032,25 @@ void DmaTxConfiguration()
     
     /* Associate the TD with the channel */
     CyDmaChSetInitialTd(txChannel, txTD); 
+    
+    ////
+    
+        /* Init DMA, 1 byte bursts, each burst requires a request */ 
+    tx2Channel = DMA_2_TX_DmaInitialize(DMA_TX_BYTES_PER_BURST, DMA_TX_REQUEST_PER_BURST, 
+                                        HI16(DMA_TX_SRC_BASE), HI16(DMA_TX_DST_BASE));
+
+    tx2TD = CyDmaTdAllocate();
+
+    /* Configure this Td as follows:
+    *  - Increment the source address, but not the destination address   
+    */
+    CyDmaTdSetConfiguration(tx2TD, BUFFER_2_SIZE, CY_DMA_DISABLE_TD, TD_INC_SRC_ADR);
+
+    /* From the memory to the SPIM */
+    CyDmaTdSetAddress(tx2TD, LO16((uint32)tx2Buffer), LO16((uint32) SPIM_2_TXDATA_PTR));
+    
+    /* Associate the TD with the channel */
+    CyDmaChSetInitialTd(tx2Channel, tx2TD); 
 }    
 
 void DmaRxConfiguration()
@@ -979,6 +1071,27 @@ void DmaRxConfiguration()
 
     /* Associate the TD with the channel */
     CyDmaChSetInitialTd(rxChannel, rxTD);
+    
+    
+    
+    ///
+    
+        /* Init DMA, 1 byte bursts, each burst requires a request */ 
+    rx2Channel = DMA_2_RX_DmaInitialize(DMA_RX_BYTES_PER_BURST, DMA_RX_REQUEST_PER_BURST,
+                                     HI16(DMA_RX_SRC_BASE), HI16(DMA_RX_DST_BASE));
+
+    rx2TD = CyDmaTdAllocate();
+    
+    /* Configure this Td as follows:
+    *  - Increment the destination address, but not the source address
+    */
+    CyDmaTdSetConfiguration(rx2TD, BUFFER_2_SIZE, CY_DMA_DISABLE_TD, TD_INC_DST_ADR);
+
+    /* From the SPIM to the memory */
+    CyDmaTdSetAddress(rx2TD, LO16((uint32)SPIM_2_RXDATA_PTR), LO16((uint32)rx2Buffer));
+
+    /* Associate the TD with the channel */
+    CyDmaChSetInitialTd(rx2Channel, rx2TD);
 }
 
 uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
@@ -1052,7 +1165,7 @@ void handleNotes(int note, int velocity, int string)
         int loudestSoundingNote = 0;
         if (velocity > 0)
         {
-            //turn off any currently sounding notes
+            // find the loudest currently sounding note
             for (int i = 0; i < 4; i++)
             {
                 if (stringStates[i][1] > loudestSoundingNote)
@@ -1063,7 +1176,7 @@ void handleNotes(int note, int velocity, int string)
             }
             //make sure if there is a sounding note that this one is not much lower velocity
             //(would maybe mean this is just sympathetic bridge resonance and shouldn't interrupt the monophonic handling)
-            // maybe need more complexity in time since attack?
+            // maybe need more complexity in time since attack? // or maybe do active suppression in the pluck detector board by summing strings with the inverse of the nearby strings
             if ((velocity >= (loudestSoundingNote - 25)) || (velocity > 35))
             {
                 for (int i = 0; i < 4; i++)

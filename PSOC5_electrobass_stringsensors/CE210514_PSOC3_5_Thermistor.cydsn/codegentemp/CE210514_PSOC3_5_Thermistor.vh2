@@ -2,7 +2,7 @@
 --	Conversion of CE210514_PSOC3_5_Thermistor.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Thu Jul 07 16:53:39 2022
+--	Sat Jul 09 13:33:11 2022
 --
 
 USE cypress.cypress.all;
@@ -1405,7 +1405,6 @@ SIGNAL \SPIM_2:Net_244\ : bit;
 SIGNAL \SPIM_2:BSPIM:mosi_after_ld\ : bit;
 SIGNAL \SPIM_2:BSPIM:so_send\ : bit;
 SIGNAL \SPIM_2:BSPIM:so_send_reg\ : bit;
-SIGNAL \SPIM_2:BSPIM:mosi_reg\ : bit;
 SIGNAL \SPIM_2:BSPIM:mosi_fin\ : bit;
 SIGNAL \SPIM_2:BSPIM:mosi_cpha_0\ : bit;
 SIGNAL \SPIM_2:BSPIM:state_2\ : bit;
@@ -1422,6 +1421,7 @@ SIGNAL \SPIM_2:BSPIM:count_2\ : bit;
 SIGNAL \SPIM_2:BSPIM:count_1\ : bit;
 SIGNAL \SPIM_2:BSPIM:count_0\ : bit;
 SIGNAL \SPIM_2:BSPIM:mosi_pre_reg\ : bit;
+SIGNAL \SPIM_2:BSPIM:mosi_reg\ : bit;
 SIGNAL \SPIM_2:BSPIM:dpcounter_zero\ : bit;
 SIGNAL \SPIM_2:BSPIM:load_cond\ : bit;
 SIGNAL \SPIM_2:BSPIM:dpcounter_one_reg\ : bit;
@@ -1634,12 +1634,13 @@ SIGNAL \ADC_SAR_Seq_1:bSAR_SEQ:bus_clk_nrq_reg\\D\ : bit;
 SIGNAL \ADC_SAR_Seq_1:bSAR_SEQ:nrq_reg\\D\ : bit;
 SIGNAL Net_1114D : bit;
 SIGNAL \SPIM_2:BSPIM:so_send_reg\\D\ : bit;
-SIGNAL \SPIM_2:BSPIM:mosi_reg\\D\ : bit;
 SIGNAL \SPIM_2:BSPIM:state_2\\D\ : bit;
 SIGNAL \SPIM_2:BSPIM:state_1\\D\ : bit;
 SIGNAL \SPIM_2:BSPIM:state_0\\D\ : bit;
 SIGNAL Net_1119D : bit;
+SIGNAL \SPIM_2:BSPIM:mosi_hs_reg\\D\ : bit;
 SIGNAL \SPIM_2:BSPIM:mosi_pre_reg\\D\ : bit;
+SIGNAL \SPIM_2:BSPIM:mosi_reg\\D\ : bit;
 SIGNAL \SPIM_2:BSPIM:load_cond\\D\ : bit;
 SIGNAL \SPIM_2:BSPIM:dpcounter_one_reg\\D\ : bit;
 SIGNAL \SPIM_2:BSPIM:mosi_from_dp_reg\\D\ : bit;
@@ -2049,6 +2050,10 @@ Net_415D <= ((Net_415 and \SPIM_1:BSPIM:state_2\ and \SPIM_1:BSPIM:state_1\)
 
 \SPIM_2:BSPIM:load_rx_data\ <= ((not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_2\ and not \SPIM_2:BSPIM:count_1\ and \SPIM_2:BSPIM:count_0\));
 
+Net_1113 <= ((not \SPIM_2:BSPIM:state_0\ and not Net_1119 and \SPIM_2:BSPIM:mosi_hs_reg\)
+	OR (not Net_1119 and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_hs_reg\)
+	OR (not \SPIM_2:BSPIM:state_2\ and not Net_1119 and \SPIM_2:BSPIM:mosi_hs_reg\));
+
 \SPIM_2:BSPIM:load_cond\\D\ <= ((not \SPIM_2:BSPIM:state_1\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\)
 	OR (\SPIM_2:BSPIM:count_0\ and \SPIM_2:BSPIM:load_cond\)
 	OR (\SPIM_2:BSPIM:count_1\ and \SPIM_2:BSPIM:load_cond\)
@@ -2062,61 +2067,73 @@ Net_415D <= ((Net_415 and \SPIM_1:BSPIM:state_2\ and \SPIM_1:BSPIM:state_1\)
 
 \SPIM_2:BSPIM:rx_status_6\ <= ((not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_2\ and not \SPIM_2:BSPIM:count_1\ and \SPIM_2:BSPIM:count_0\ and \SPIM_2:BSPIM:rx_status_4\));
 
-\SPIM_2:BSPIM:state_2\\D\ <= ((not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_2\ and not \SPIM_2:BSPIM:count_0\ and not \SPIM_2:BSPIM:ld_ident\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_1\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_1\ and not \SPIM_2:BSPIM:tx_status_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:count_0\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\));
-
-\SPIM_2:BSPIM:state_1\\D\ <= ((not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_0\)
-	OR (not \SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:count_1\ and not \SPIM_2:BSPIM:count_0\ and \SPIM_2:BSPIM:state_1\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:count_1\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:ld_ident\)
-	OR (\SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:tx_status_1\)
-	OR (not \SPIM_2:BSPIM:state_1\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\)
+\SPIM_2:BSPIM:state_2\\D\ <= ((not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_2\ and not \SPIM_2:BSPIM:count_0\ and not \SPIM_2:BSPIM:ld_ident\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:count_1\)
+	OR (not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_0\ and not \SPIM_2:BSPIM:tx_status_1\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:count_1\)
 	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\)
-	OR (\SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_3\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_4\));
+	OR (\SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\));
 
-\SPIM_2:BSPIM:state_0\\D\ <= ((not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and not \SPIM_2:BSPIM:tx_status_1\)
-	OR (\SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\)
-	OR (not \SPIM_2:BSPIM:state_1\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\)
+\SPIM_2:BSPIM:state_1\\D\ <= ((not \SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:ld_ident\)
+	OR (\SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:tx_status_1\)
+	OR (\SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_4\)
+	OR (\SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_3\)
+	OR (not \SPIM_2:BSPIM:count_1\ and \SPIM_2:BSPIM:state_1\)
+	OR (\SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_0\)
 	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\));
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\)
+	OR (\SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\));
+
+\SPIM_2:BSPIM:state_0\\D\ <= ((not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_2\ and not \SPIM_2:BSPIM:count_0\ and not \SPIM_2:BSPIM:ld_ident\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:count_1\)
+	OR (not \SPIM_2:BSPIM:state_0\ and not \SPIM_2:BSPIM:tx_status_1\)
+	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\));
 
 Net_1119D <= ((not \SPIM_2:BSPIM:state_0\ and Net_1119)
-	OR (not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\)
 	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_1\ and not \SPIM_2:BSPIM:state_0\)
-	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\)
+	OR (not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\)
 	OR (\SPIM_2:BSPIM:state_1\ and Net_1119));
 
-\SPIM_2:BSPIM:cnt_enable\\D\ <= ((not \SPIM_2:BSPIM:state_1\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:cnt_enable\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\)
-	OR (\SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:cnt_enable\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:cnt_enable\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:cnt_enable\));
+\SPIM_2:BSPIM:cnt_enable\\D\ <= ((not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:cnt_enable\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:cnt_enable\)
+	OR (\SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:cnt_enable\));
 
-\SPIM_2:BSPIM:mosi_reg\\D\ <= ((not \SPIM_2:BSPIM:state_1\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:mosi_from_dp\)
-	OR (\SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:mosi_from_dp\)
-	OR (not \SPIM_2:BSPIM:state_2\ and Net_1113 and \SPIM_2:BSPIM:state_0\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\ and \SPIM_2:BSPIM:ld_ident\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\ and \SPIM_2:BSPIM:count_0\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and not \SPIM_2:BSPIM:count_1\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\)
+\SPIM_2:BSPIM:mosi_pre_reg\\D\ <= ((not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_2\ and not \SPIM_2:BSPIM:count_1\ and not \SPIM_2:BSPIM:count_0\ and not \SPIM_2:BSPIM:ld_ident\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:mosi_from_dp\)
+	OR (not \SPIM_2:BSPIM:state_0\ and not \SPIM_2:BSPIM:count_4\ and not \SPIM_2:BSPIM:count_3\ and not \SPIM_2:BSPIM:count_2\ and not \SPIM_2:BSPIM:count_1\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:count_0\ and \SPIM_2:BSPIM:mosi_pre_reg\)
+	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\ and \SPIM_2:BSPIM:count_1\)
+	OR (not \SPIM_2:BSPIM:state_1\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:mosi_from_dp\)
+	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and not \SPIM_2:BSPIM:count_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\)
 	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\ and \SPIM_2:BSPIM:count_2\)
 	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\ and \SPIM_2:BSPIM:count_3\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\ and \SPIM_2:BSPIM:count_4\));
+	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_from_dp\ and \SPIM_2:BSPIM:count_4\)
+	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:mosi_pre_reg\ and \SPIM_2:BSPIM:ld_ident\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_pre_reg\)
+	OR (\SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:mosi_from_dp\)
+	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:count_0\ and \SPIM_2:BSPIM:mosi_pre_reg\)
+	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:mosi_pre_reg\)
+	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:count_3\ and \SPIM_2:BSPIM:mosi_pre_reg\)
+	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:count_4\ and \SPIM_2:BSPIM:mosi_pre_reg\)
+	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:mosi_pre_reg\));
 
-Net_1114D <= ((not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\)
-	OR (Net_1114 and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\));
+Net_1114D <= ((Net_1114 and \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_1\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\));
+
+\SPIM_2:BSPIM:mosi_hs_reg\\D\ <= ((not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:mosi_from_dp_reg\)
+	OR (\SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:mosi_from_dp\)
+	OR (not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:mosi_hs_reg\)
+	OR (not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:mosi_hs_reg\));
 
 \SPIM_2:BSPIM:ld_ident\\D\ <= ((not \SPIM_2:BSPIM:state_1\ and not \SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:state_2\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:count_0\ and \SPIM_2:BSPIM:ld_ident\)
-	OR (not \SPIM_2:BSPIM:state_2\ and not \SPIM_2:BSPIM:count_1\ and \SPIM_2:BSPIM:ld_ident\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:ld_ident\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:count_3\ and \SPIM_2:BSPIM:ld_ident\)
-	OR (not \SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:count_4\ and \SPIM_2:BSPIM:ld_ident\)
+	OR (not \SPIM_2:BSPIM:count_0\ and \SPIM_2:BSPIM:ld_ident\)
+	OR (\SPIM_2:BSPIM:count_1\ and \SPIM_2:BSPIM:ld_ident\)
+	OR (\SPIM_2:BSPIM:count_2\ and \SPIM_2:BSPIM:ld_ident\)
+	OR (\SPIM_2:BSPIM:count_3\ and \SPIM_2:BSPIM:ld_ident\)
+	OR (\SPIM_2:BSPIM:count_4\ and \SPIM_2:BSPIM:ld_ident\)
 	OR (\SPIM_2:BSPIM:state_0\ and \SPIM_2:BSPIM:ld_ident\)
-	OR (not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:ld_ident\));
+	OR (not \SPIM_2:BSPIM:state_1\ and \SPIM_2:BSPIM:ld_ident\)
+	OR (\SPIM_2:BSPIM:state_2\ and \SPIM_2:BSPIM:ld_ident\));
 
 MISO_1:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"1425177d-0d0e-4468-8bcc-e638e5509a9b",
@@ -6047,7 +6064,7 @@ SCLK_2:cy_psoc3_pins_v1_10
 		id=>"bf75c8d3-86a6-4706-8127-3c5800bbb553/426fcbe0-714d-4404-8fa8-581ff40c30f1",
 		source_clock_id=>"",
 		divisor=>0,
-		period=>"500000000",
+		period=>"100000000",
 		is_direct=>'0',
 		is_digital=>'1')
 	PORT MAP(clock_out=>\SPIM_2:Net_276\,
@@ -6813,10 +6830,6 @@ Net_1114:cy_dff
 	PORT MAP(d=>zero,
 		clk=>\SPIM_2:BSPIM:clk_fin\,
 		q=>\SPIM_2:BSPIM:so_send_reg\);
-\SPIM_2:BSPIM:mosi_reg\:cy_dff
-	PORT MAP(d=>\SPIM_2:BSPIM:mosi_reg\\D\,
-		clk=>\SPIM_2:BSPIM:clk_fin\,
-		q=>Net_1113);
 \SPIM_2:BSPIM:state_2\:cy_dff
 	PORT MAP(d=>\SPIM_2:BSPIM:state_2\\D\,
 		clk=>\SPIM_2:BSPIM:clk_fin\,
@@ -6833,10 +6846,18 @@ Net_1119:cy_dff
 	PORT MAP(d=>Net_1119D,
 		clk=>\SPIM_2:BSPIM:clk_fin\,
 		q=>Net_1119);
+\SPIM_2:BSPIM:mosi_hs_reg\:cy_dff
+	PORT MAP(d=>\SPIM_2:BSPIM:mosi_hs_reg\\D\,
+		clk=>\SPIM_2:BSPIM:clk_fin\,
+		q=>\SPIM_2:BSPIM:mosi_hs_reg\);
 \SPIM_2:BSPIM:mosi_pre_reg\:cy_dff
-	PORT MAP(d=>zero,
+	PORT MAP(d=>\SPIM_2:BSPIM:mosi_pre_reg\\D\,
 		clk=>\SPIM_2:BSPIM:clk_fin\,
 		q=>\SPIM_2:BSPIM:mosi_pre_reg\);
+\SPIM_2:BSPIM:mosi_reg\:cy_dff
+	PORT MAP(d=>\SPIM_2:BSPIM:mosi_pre_reg\,
+		clk=>\SPIM_2:BSPIM:clk_fin\,
+		q=>\SPIM_2:BSPIM:mosi_reg\);
 \SPIM_2:BSPIM:load_cond\:cy_dff
 	PORT MAP(d=>\SPIM_2:BSPIM:load_cond\\D\,
 		clk=>\SPIM_2:BSPIM:clk_fin\,

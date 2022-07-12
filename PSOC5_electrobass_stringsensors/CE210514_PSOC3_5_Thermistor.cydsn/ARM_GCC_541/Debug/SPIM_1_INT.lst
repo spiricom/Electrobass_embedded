@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
   28:Generated_Source\PSoC5/SPIM_1_INT.c **** /*******************************************************************************
   29:Generated_Source\PSoC5/SPIM_1_INT.c **** * Function Name: SPIM_1_TX_ISR
   30:Generated_Source\PSoC5/SPIM_1_INT.c **** ********************************************************************************
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 2
 
 
   31:Generated_Source\PSoC5/SPIM_1_INT.c **** *
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
   75:Generated_Source\PSoC5/SPIM_1_INT.c ****             {
   76:Generated_Source\PSoC5/SPIM_1_INT.c ****                 if(0u == SPIM_1_txBufferFull)
   77:Generated_Source\PSoC5/SPIM_1_INT.c ****                 {
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 3
 
 
   78:Generated_Source\PSoC5/SPIM_1_INT.c ****                    SPIM_1_txBufferRead++;
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
   53              		.thumb
   54              		.thumb_func
   55              		.type	SPIM_1_RX_ISR, %function
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 4
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 4
 
 
   56              	SPIM_1_RX_ISR:
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
  159:Generated_Source\PSoC5/SPIM_1_INT.c ****     #if(SPIM_1_RX_SOFTWARE_BUF_ENABLED)
  160:Generated_Source\PSoC5/SPIM_1_INT.c **** 
  161:Generated_Source\PSoC5/SPIM_1_INT.c ****         tmpStatus = SPIM_1_GET_STATUS_RX(SPIM_1_swStatusRx);
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 5
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 5
 
 
  162:Generated_Source\PSoC5/SPIM_1_INT.c ****         SPIM_1_swStatusRx = tmpStatus;
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
   79              		.size	SPIM_1_RX_ISR, .-SPIM_1_RX_ISR
   80              		.text
   81              	.Letext0:
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 6
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 6
 
 
   82              		.section	.debug_info,"",%progbits
@@ -310,15 +310,15 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
   88 000b 01       		.uleb128 0x1
   89 000c 66000000 		.4byte	.LASF16
   90 0010 0C       		.byte	0xc
-  91 0011 B5010000 		.4byte	.LASF17
-  92 0015 36010000 		.4byte	.LASF18
+  91 0011 C4010000 		.4byte	.LASF17
+  92 0015 02010000 		.4byte	.LASF18
   93 0019 00000000 		.4byte	.Ldebug_ranges0+0
   94 001d 00000000 		.4byte	0
   95 0021 00000000 		.4byte	.Ldebug_line0
   96 0025 02       		.uleb128 0x2
   97 0026 01       		.byte	0x1
   98 0027 06       		.byte	0x6
-  99 0028 2A010000 		.4byte	.LASF0
+  99 0028 99010000 		.4byte	.LASF0
  100 002c 02       		.uleb128 0x2
  101 002d 01       		.byte	0x1
  102 002e 08       		.byte	0x8
@@ -326,15 +326,15 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
  104 0033 02       		.uleb128 0x2
  105 0034 02       		.byte	0x2
  106 0035 05       		.byte	0x5
- 107 0036 A2010000 		.4byte	.LASF2
+ 107 0036 B1010000 		.4byte	.LASF2
  108 003a 02       		.uleb128 0x2
  109 003b 02       		.byte	0x2
  110 003c 07       		.byte	0x7
- 111 003d 17010000 		.4byte	.LASF3
+ 111 003d 86010000 		.4byte	.LASF3
  112 0041 02       		.uleb128 0x2
  113 0042 04       		.byte	0x4
  114 0043 05       		.byte	0x5
- 115 0044 07010000 		.4byte	.LASF4
+ 115 0044 76010000 		.4byte	.LASF4
  116 0048 02       		.uleb128 0x2
  117 0049 04       		.byte	0x4
  118 004a 07       		.byte	0x7
@@ -358,26 +358,26 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
  136 006b 02       		.uleb128 0x2
  137 006c 04       		.byte	0x4
  138 006d 04       		.byte	0x4
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 7
 
 
  139 006e 60000000 		.4byte	.LASF9
  140 0072 02       		.uleb128 0x2
  141 0073 08       		.byte	0x8
  142 0074 04       		.byte	0x4
- 143 0075 10010000 		.4byte	.LASF10
+ 143 0075 7F010000 		.4byte	.LASF10
  144 0079 02       		.uleb128 0x2
  145 007a 01       		.byte	0x1
  146 007b 08       		.byte	0x8
- 147 007c 02010000 		.4byte	.LASF11
+ 147 007c 71010000 		.4byte	.LASF11
  148 0080 02       		.uleb128 0x2
  149 0081 08       		.byte	0x8
  150 0082 04       		.byte	0x4
- 151 0083 96010000 		.4byte	.LASF12
+ 151 0083 A5010000 		.4byte	.LASF12
  152 0087 02       		.uleb128 0x2
  153 0088 04       		.byte	0x4
  154 0089 07       		.byte	0x7
- 155 008a AC010000 		.4byte	.LASF13
+ 155 008a BB010000 		.4byte	.LASF13
  156 008e 04       		.uleb128 0x4
  157 008f 1B000000 		.4byte	.LASF14
  158 0093 01       		.byte	0x1
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
  193 0012 00       		.byte	0
  194 0013 02       		.uleb128 0x2
  195 0014 24       		.uleb128 0x24
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 8
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 8
 
 
  196 0015 00       		.byte	0
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
  250 0018 00000000 		.4byte	.LFB1
  251 001c 0C000000 		.4byte	.LFE1-.LFB1
  252 0020 00000000 		.4byte	0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 9
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 9
 
 
  253 0024 00000000 		.4byte	0
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
  280      352E342E 
  280      31203230 
  280      31363036 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 10
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 10
 
 
  281 0099 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
@@ -556,56 +556,60 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 1
  284      676E6564 
  284      20636861 
  284      7200
- 285              	.LASF11:
- 286 0102 63686172 		.ascii	"char\000"
- 286      00
- 287              	.LASF4:
- 288 0107 6C6F6E67 		.ascii	"long int\000"
- 288      20696E74 
- 288      00
- 289              	.LASF10:
- 290 0110 646F7562 		.ascii	"double\000"
- 290      6C6500
- 291              	.LASF3:
- 292 0117 73686F72 		.ascii	"short unsigned int\000"
- 292      7420756E 
- 292      7369676E 
- 292      65642069 
- 292      6E7400
- 293              	.LASF0:
- 294 012a 7369676E 		.ascii	"signed char\000"
- 294      65642063 
- 294      68617200 
- 295              	.LASF18:
- 296 0136 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Documents\\PSOC5_electrobass"
- 296      73657273 
- 296      5C4A6566 
- 296      66536E79 
- 296      6465725C 
- 297 0165 5F737472 		.ascii	"_stringsensors\\CE210514_PSOC3_5_Thermistor.cydsn\000"
- 297      696E6773 
- 297      656E736F 
- 297      72735C43 
- 297      45323130 
- 298              	.LASF12:
- 299 0196 6C6F6E67 		.ascii	"long double\000"
- 299      20646F75 
- 299      626C6500 
- 300              	.LASF2:
- 301 01a2 73686F72 		.ascii	"short int\000"
- 301      7420696E 
- 301      7400
- 302              	.LASF13:
- 303 01ac 73697A65 		.ascii	"sizetype\000"
- 303      74797065 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccdwJkwg.s 			page 11
+ 285              	.LASF18:
+ 286 0102 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 286      73657273 
+ 286      5C4A6566 
+ 286      66536E79 
+ 286      6465725C 
+ 287 0130 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 287      5F656C65 
+ 287      6374726F 
+ 287      62617373 
+ 287      5F737472 
+ 288 0162 65726D69 		.ascii	"ermistor.cydsn\000"
+ 288      73746F72 
+ 288      2E637964 
+ 288      736E00
+ 289              	.LASF11:
+ 290 0171 63686172 		.ascii	"char\000"
+ 290      00
+ 291              	.LASF4:
+ 292 0176 6C6F6E67 		.ascii	"long int\000"
+ 292      20696E74 
+ 292      00
+ 293              	.LASF10:
+ 294 017f 646F7562 		.ascii	"double\000"
+ 294      6C6500
+ 295              	.LASF3:
+ 296 0186 73686F72 		.ascii	"short unsigned int\000"
+ 296      7420756E 
+ 296      7369676E 
+ 296      65642069 
+ 296      6E7400
+ 297              	.LASF0:
+ 298 0199 7369676E 		.ascii	"signed char\000"
+ 298      65642063 
+ 298      68617200 
+ 299              	.LASF12:
+ 300 01a5 6C6F6E67 		.ascii	"long double\000"
+ 300      20646F75 
+ 300      626C6500 
+ 301              	.LASF2:
+ 302 01b1 73686F72 		.ascii	"short int\000"
+ 302      7420696E 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc2qSt7n.s 			page 11
 
 
- 303      00
- 304              	.LASF17:
- 305 01b5 47656E65 		.ascii	"Generated_Source\\PSoC5\\SPIM_1_INT.c\000"
- 305      72617465 
- 305      645F536F 
- 305      75726365 
- 305      5C50536F 
- 306              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 302      7400
+ 303              	.LASF13:
+ 304 01bb 73697A65 		.ascii	"sizetype\000"
+ 304      74797065 
+ 304      00
+ 305              	.LASF17:
+ 306 01c4 47656E65 		.ascii	"Generated_Source\\PSoC5\\SPIM_1_INT.c\000"
+ 306      72617465 
+ 306      645F536F 
+ 306      75726365 
+ 306      5C50536F 
+ 307              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
