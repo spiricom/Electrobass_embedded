@@ -1,0 +1,639 @@
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"measurement.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.MeasureResistorVoltage,"ax",%progbits
+  20              		.align	2
+  21              		.global	MeasureResistorVoltage
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	MeasureResistorVoltage, %function
+  25              	MeasureResistorVoltage:
+  26              	.LFB63:
+  27              		.file 1 "measurement.c"
+   1:measurement.c **** /******************************************************************************
+   2:measurement.c **** * File Name: measurement.c
+   3:measurement.c **** *  Version 2.0
+   4:measurement.c **** *
+   5:measurement.c **** * Description:
+   6:measurement.c **** *  This file contains the function that are used find the voltage across the resistor
+   7:measurement.c **** * 
+   8:measurement.c **** * Note:
+   9:measurement.c **** *
+  10:measurement.c **** ********************************************************************************
+  11:measurement.c **** * Copyright (2015), Cypress Semiconductor Corporation. All Rights Reserved.
+  12:measurement.c **** ********************************************************************************
+  13:measurement.c **** * This software is owned by Cypress Semiconductor Corporation (Cypress)
+  14:measurement.c **** * and is protected by and subject to worldwide patent protection (United
+  15:measurement.c **** * States and foreign), United States copyright laws and international treaty
+  16:measurement.c **** * provisions. Cypress hereby grants to licensee a personal, non-exclusive,
+  17:measurement.c **** * non-transferable license to copy, use, modify, create derivative works of,
+  18:measurement.c **** * and compile the Cypress Source Code and derivative works for the sole
+  19:measurement.c **** * purpose of creating custom software in support of licensee product to be
+  20:measurement.c **** * used only in conjunction with a Cypress integrated circuit as specified in
+  21:measurement.c **** * the applicable agreement. Any reproduction, modification, translation,
+  22:measurement.c **** * compilation, or representation of this software except as specified above 
+  23:measurement.c **** * is prohibited without the express written permission of Cypress.
+  24:measurement.c **** *
+  25:measurement.c **** * Disclaimer: CYPRESS MAKES NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, WITH 
+  26:measurement.c **** * REGARD TO THIS MATERIAL, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+  27:measurement.c **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  28:measurement.c **** * Cypress reserves the right to make changes without further notice to the 
+  29:measurement.c **** * materials described herein. Cypress does not assume any liability arising out 
+  30:measurement.c **** * of the application or use of any product or circuit described herein. Cypress 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 2
+
+
+  31:measurement.c **** * does not authorize its products for use as critical components in life-support 
+  32:measurement.c **** * systems where a malfunction or failure may reasonably be expected to result in 
+  33:measurement.c **** * significant injury to the user. The inclusion of Cypress' product in a life-
+  34:measurement.c **** * support systems application implies that the manufacturer assumes all risk of 
+  35:measurement.c **** * such use and in doing so indemnifies Cypress against all charges. 
+  36:measurement.c **** *
+  37:measurement.c **** * Use of this Software may be limited by and subject to the applicable Cypress
+  38:measurement.c **** * software license agreement. 
+  39:measurement.c **** *******************************************************************************/
+  40:measurement.c **** #include "measurement.h"
+  41:measurement.c **** #include "removeOffsetNoise.h"
+  42:measurement.c **** #include <device.h>
+  43:measurement.c **** 
+  44:measurement.c **** /*******************************************************************************
+  45:measurement.c **** *  Function Name: MeasureResistorVoltage
+  46:measurement.c **** ********************************************************************************
+  47:measurement.c **** * Summary:
+  48:measurement.c **** * This functions returns the voltage across the resistor. Either Thermistor or Reference 
+  49:measurement.c **** *
+  50:measurement.c **** * Parameters:
+  51:measurement.c **** * none
+  52:measurement.c **** *
+  53:measurement.c **** * Return: 
+  54:measurement.c **** * resistor voltage in ADC counts
+  55:measurement.c **** 
+  56:measurement.c **** * Theory:
+  57:measurement.c **** * Measure voltage across the resistor. Subtract offset from value, and filter value
+  58:measurement.c **** *
+  59:measurement.c **** * Side Effects:
+  60:measurement.c **** * None
+  61:measurement.c **** *******************************************************************************/
+  62:measurement.c **** int32 MeasureResistorVoltage(uint8 channel)
+  63:measurement.c **** {
+  28              		.loc 1 63 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 84B0     		sub	sp, sp, #16
+  37              		.cfi_def_cfa_offset 24
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 0346     		mov	r3, r0
+  41 0008 FB71     		strb	r3, [r7, #7]
+  64:measurement.c **** 	
+  65:measurement.c ****     /* Voltage across resistor*/
+  66:measurement.c **** 	int32 result;
+  67:measurement.c **** 	
+  68:measurement.c **** 	/* Offset Voltage*/
+  69:measurement.c **** 	int32 offset;
+  70:measurement.c **** 
+  71:measurement.c **** 	/* Select correct AMUX channel*/	
+  72:measurement.c **** 	//AMux_FastSelect(channel);
+  73:measurement.c **** 	
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 3
+
+
+  74:measurement.c **** 	/* Read voltage across  resistor*/
+  75:measurement.c ****     //ADC_StartConvert();
+  76:measurement.c **** 	
+  77:measurement.c **** 	//ADC_IsEndConversion(ADC_WAIT_FOR_RESULT);
+  78:measurement.c **** 	//result = ADC_GetResult32();
+  79:measurement.c **** 	
+  80:measurement.c **** 	/* Get the offset voltage*/
+  81:measurement.c **** 	offset = GetOffset(); 
+  42              		.loc 1 81 0
+  43 000a FFF7FEFF 		bl	GetOffset
+  44 000e F860     		str	r0, [r7, #12]
+  82:measurement.c **** 	
+  83:measurement.c **** 	/* Get CDS difference*/
+  84:measurement.c **** 	result = result - offset;
+  45              		.loc 1 84 0
+  46 0010 BA68     		ldr	r2, [r7, #8]
+  47 0012 FB68     		ldr	r3, [r7, #12]
+  48 0014 D31A     		subs	r3, r2, r3
+  49 0016 BB60     		str	r3, [r7, #8]
+  85:measurement.c ****     
+  86:measurement.c **** 	/* Filter signal*/
+  87:measurement.c **** 	result = FilterSignal(result, channel);
+  50              		.loc 1 87 0
+  51 0018 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  52 001a 1946     		mov	r1, r3
+  53 001c B868     		ldr	r0, [r7, #8]
+  54 001e FFF7FEFF 		bl	FilterSignal
+  55 0022 B860     		str	r0, [r7, #8]
+  88:measurement.c **** 
+  89:measurement.c **** 	return result;
+  56              		.loc 1 89 0
+  57 0024 BB68     		ldr	r3, [r7, #8]
+  90:measurement.c **** 	
+  91:measurement.c **** }
+  58              		.loc 1 91 0
+  59 0026 1846     		mov	r0, r3
+  60 0028 1037     		adds	r7, r7, #16
+  61              		.cfi_def_cfa_offset 8
+  62 002a BD46     		mov	sp, r7
+  63              		.cfi_def_cfa_register 13
+  64              		@ sp needed
+  65 002c 80BD     		pop	{r7, pc}
+  66              		.cfi_endproc
+  67              	.LFE63:
+  68              		.size	MeasureResistorVoltage, .-MeasureResistorVoltage
+  69 002e 00BF     		.text
+  70              	.Letext0:
+  71              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  72              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  73              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+  74              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+  75              		.section	.debug_info,"",%progbits
+  76              	.Ldebug_info0:
+  77 0000 0E010000 		.4byte	0x10e
+  78 0004 0400     		.2byte	0x4
+  79 0006 00000000 		.4byte	.Ldebug_abbrev0
+  80 000a 04       		.byte	0x4
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 4
+
+
+  81 000b 01       		.uleb128 0x1
+  82 000c 7B000000 		.4byte	.LASF20
+  83 0010 0C       		.byte	0xc
+  84 0011 D0010000 		.4byte	.LASF21
+  85 0015 60010000 		.4byte	.LASF22
+  86 0019 00000000 		.4byte	.Ldebug_ranges0+0
+  87 001d 00000000 		.4byte	0
+  88 0021 00000000 		.4byte	.Ldebug_line0
+  89 0025 02       		.uleb128 0x2
+  90 0026 01       		.byte	0x1
+  91 0027 06       		.byte	0x6
+  92 0028 48010000 		.4byte	.LASF0
+  93 002c 02       		.uleb128 0x2
+  94 002d 01       		.byte	0x1
+  95 002e 08       		.byte	0x8
+  96 002f 09010000 		.4byte	.LASF1
+  97 0033 02       		.uleb128 0x2
+  98 0034 02       		.byte	0x2
+  99 0035 05       		.byte	0x5
+ 100 0036 DE010000 		.4byte	.LASF2
+ 101 003a 02       		.uleb128 0x2
+ 102 003b 02       		.byte	0x2
+ 103 003c 07       		.byte	0x7
+ 104 003d 0E000000 		.4byte	.LASF3
+ 105 0041 03       		.uleb128 0x3
+ 106 0042 C0010000 		.4byte	.LASF9
+ 107 0046 02       		.byte	0x2
+ 108 0047 3F       		.byte	0x3f
+ 109 0048 4C000000 		.4byte	0x4c
+ 110 004c 02       		.uleb128 0x2
+ 111 004d 04       		.byte	0x4
+ 112 004e 05       		.byte	0x5
+ 113 004f 23010000 		.4byte	.LASF4
+ 114 0053 02       		.uleb128 0x2
+ 115 0054 04       		.byte	0x4
+ 116 0055 07       		.byte	0x7
+ 117 0056 34000000 		.4byte	.LASF5
+ 118 005a 02       		.uleb128 0x2
+ 119 005b 08       		.byte	0x8
+ 120 005c 05       		.byte	0x5
+ 121 005d 00000000 		.4byte	.LASF6
+ 122 0061 02       		.uleb128 0x2
+ 123 0062 08       		.byte	0x8
+ 124 0063 07       		.byte	0x7
+ 125 0064 46000000 		.4byte	.LASF7
+ 126 0068 04       		.uleb128 0x4
+ 127 0069 04       		.byte	0x4
+ 128 006a 05       		.byte	0x5
+ 129 006b 696E7400 		.ascii	"int\000"
+ 130 006f 02       		.uleb128 0x2
+ 131 0070 04       		.byte	0x4
+ 132 0071 07       		.byte	0x7
+ 133 0072 21000000 		.4byte	.LASF8
+ 134 0076 03       		.uleb128 0x3
+ 135 0077 E8010000 		.4byte	.LASF10
+ 136 007b 03       		.byte	0x3
+ 137 007c 2C       		.byte	0x2c
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 5
+
+
+ 138 007d 41000000 		.4byte	0x41
+ 139 0081 05       		.uleb128 0x5
+ 140 0082 2E000000 		.4byte	.LASF11
+ 141 0086 04       		.byte	0x4
+ 142 0087 E401     		.2byte	0x1e4
+ 143 0089 2C000000 		.4byte	0x2c
+ 144 008d 05       		.uleb128 0x5
+ 145 008e F9010000 		.4byte	.LASF12
+ 146 0092 04       		.byte	0x4
+ 147 0093 E901     		.2byte	0x1e9
+ 148 0095 4C000000 		.4byte	0x4c
+ 149 0099 02       		.uleb128 0x2
+ 150 009a 04       		.byte	0x4
+ 151 009b 04       		.byte	0x4
+ 152 009c CA010000 		.4byte	.LASF13
+ 153 00a0 02       		.uleb128 0x2
+ 154 00a1 08       		.byte	0x8
+ 155 00a2 04       		.byte	0x4
+ 156 00a3 2C010000 		.4byte	.LASF14
+ 157 00a7 02       		.uleb128 0x2
+ 158 00a8 01       		.byte	0x1
+ 159 00a9 08       		.byte	0x8
+ 160 00aa 17010000 		.4byte	.LASF15
+ 161 00ae 02       		.uleb128 0x2
+ 162 00af 08       		.byte	0x8
+ 163 00b0 04       		.byte	0x4
+ 164 00b1 54010000 		.4byte	.LASF16
+ 165 00b5 02       		.uleb128 0x2
+ 166 00b6 04       		.byte	0x4
+ 167 00b7 07       		.byte	0x7
+ 168 00b8 F0010000 		.4byte	.LASF17
+ 169 00bc 06       		.uleb128 0x6
+ 170 00bd 5D000000 		.4byte	.LASF23
+ 171 00c1 01       		.byte	0x1
+ 172 00c2 3E       		.byte	0x3e
+ 173 00c3 8D000000 		.4byte	0x8d
+ 174 00c7 00000000 		.4byte	.LFB63
+ 175 00cb 2E000000 		.4byte	.LFE63-.LFB63
+ 176 00cf 01       		.uleb128 0x1
+ 177 00d0 9C       		.byte	0x9c
+ 178 00d1 00010000 		.4byte	0x100
+ 179 00d5 07       		.uleb128 0x7
+ 180 00d6 33010000 		.4byte	.LASF24
+ 181 00da 01       		.byte	0x1
+ 182 00db 3E       		.byte	0x3e
+ 183 00dc 81000000 		.4byte	0x81
+ 184 00e0 02       		.uleb128 0x2
+ 185 00e1 91       		.byte	0x91
+ 186 00e2 6F       		.sleb128 -17
+ 187 00e3 08       		.uleb128 0x8
+ 188 00e4 1C010000 		.4byte	.LASF18
+ 189 00e8 01       		.byte	0x1
+ 190 00e9 42       		.byte	0x42
+ 191 00ea 8D000000 		.4byte	0x8d
+ 192 00ee 02       		.uleb128 0x2
+ 193 00ef 91       		.byte	0x91
+ 194 00f0 70       		.sleb128 -16
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 6
+
+
+ 195 00f1 08       		.uleb128 0x8
+ 196 00f2 74000000 		.4byte	.LASF19
+ 197 00f6 01       		.byte	0x1
+ 198 00f7 45       		.byte	0x45
+ 199 00f8 8D000000 		.4byte	0x8d
+ 200 00fc 02       		.uleb128 0x2
+ 201 00fd 91       		.byte	0x91
+ 202 00fe 74       		.sleb128 -12
+ 203 00ff 00       		.byte	0
+ 204 0100 09       		.uleb128 0x9
+ 205 0101 3B010000 		.4byte	.LASF25
+ 206 0105 05       		.byte	0x5
+ 207 0106 1207     		.2byte	0x712
+ 208 0108 0C010000 		.4byte	0x10c
+ 209 010c 0A       		.uleb128 0xa
+ 210 010d 76000000 		.4byte	0x76
+ 211 0111 00       		.byte	0
+ 212              		.section	.debug_abbrev,"",%progbits
+ 213              	.Ldebug_abbrev0:
+ 214 0000 01       		.uleb128 0x1
+ 215 0001 11       		.uleb128 0x11
+ 216 0002 01       		.byte	0x1
+ 217 0003 25       		.uleb128 0x25
+ 218 0004 0E       		.uleb128 0xe
+ 219 0005 13       		.uleb128 0x13
+ 220 0006 0B       		.uleb128 0xb
+ 221 0007 03       		.uleb128 0x3
+ 222 0008 0E       		.uleb128 0xe
+ 223 0009 1B       		.uleb128 0x1b
+ 224 000a 0E       		.uleb128 0xe
+ 225 000b 55       		.uleb128 0x55
+ 226 000c 17       		.uleb128 0x17
+ 227 000d 11       		.uleb128 0x11
+ 228 000e 01       		.uleb128 0x1
+ 229 000f 10       		.uleb128 0x10
+ 230 0010 17       		.uleb128 0x17
+ 231 0011 00       		.byte	0
+ 232 0012 00       		.byte	0
+ 233 0013 02       		.uleb128 0x2
+ 234 0014 24       		.uleb128 0x24
+ 235 0015 00       		.byte	0
+ 236 0016 0B       		.uleb128 0xb
+ 237 0017 0B       		.uleb128 0xb
+ 238 0018 3E       		.uleb128 0x3e
+ 239 0019 0B       		.uleb128 0xb
+ 240 001a 03       		.uleb128 0x3
+ 241 001b 0E       		.uleb128 0xe
+ 242 001c 00       		.byte	0
+ 243 001d 00       		.byte	0
+ 244 001e 03       		.uleb128 0x3
+ 245 001f 16       		.uleb128 0x16
+ 246 0020 00       		.byte	0
+ 247 0021 03       		.uleb128 0x3
+ 248 0022 0E       		.uleb128 0xe
+ 249 0023 3A       		.uleb128 0x3a
+ 250 0024 0B       		.uleb128 0xb
+ 251 0025 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 7
+
+
+ 252 0026 0B       		.uleb128 0xb
+ 253 0027 49       		.uleb128 0x49
+ 254 0028 13       		.uleb128 0x13
+ 255 0029 00       		.byte	0
+ 256 002a 00       		.byte	0
+ 257 002b 04       		.uleb128 0x4
+ 258 002c 24       		.uleb128 0x24
+ 259 002d 00       		.byte	0
+ 260 002e 0B       		.uleb128 0xb
+ 261 002f 0B       		.uleb128 0xb
+ 262 0030 3E       		.uleb128 0x3e
+ 263 0031 0B       		.uleb128 0xb
+ 264 0032 03       		.uleb128 0x3
+ 265 0033 08       		.uleb128 0x8
+ 266 0034 00       		.byte	0
+ 267 0035 00       		.byte	0
+ 268 0036 05       		.uleb128 0x5
+ 269 0037 16       		.uleb128 0x16
+ 270 0038 00       		.byte	0
+ 271 0039 03       		.uleb128 0x3
+ 272 003a 0E       		.uleb128 0xe
+ 273 003b 3A       		.uleb128 0x3a
+ 274 003c 0B       		.uleb128 0xb
+ 275 003d 3B       		.uleb128 0x3b
+ 276 003e 05       		.uleb128 0x5
+ 277 003f 49       		.uleb128 0x49
+ 278 0040 13       		.uleb128 0x13
+ 279 0041 00       		.byte	0
+ 280 0042 00       		.byte	0
+ 281 0043 06       		.uleb128 0x6
+ 282 0044 2E       		.uleb128 0x2e
+ 283 0045 01       		.byte	0x1
+ 284 0046 3F       		.uleb128 0x3f
+ 285 0047 19       		.uleb128 0x19
+ 286 0048 03       		.uleb128 0x3
+ 287 0049 0E       		.uleb128 0xe
+ 288 004a 3A       		.uleb128 0x3a
+ 289 004b 0B       		.uleb128 0xb
+ 290 004c 3B       		.uleb128 0x3b
+ 291 004d 0B       		.uleb128 0xb
+ 292 004e 27       		.uleb128 0x27
+ 293 004f 19       		.uleb128 0x19
+ 294 0050 49       		.uleb128 0x49
+ 295 0051 13       		.uleb128 0x13
+ 296 0052 11       		.uleb128 0x11
+ 297 0053 01       		.uleb128 0x1
+ 298 0054 12       		.uleb128 0x12
+ 299 0055 06       		.uleb128 0x6
+ 300 0056 40       		.uleb128 0x40
+ 301 0057 18       		.uleb128 0x18
+ 302 0058 9642     		.uleb128 0x2116
+ 303 005a 19       		.uleb128 0x19
+ 304 005b 01       		.uleb128 0x1
+ 305 005c 13       		.uleb128 0x13
+ 306 005d 00       		.byte	0
+ 307 005e 00       		.byte	0
+ 308 005f 07       		.uleb128 0x7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 8
+
+
+ 309 0060 05       		.uleb128 0x5
+ 310 0061 00       		.byte	0
+ 311 0062 03       		.uleb128 0x3
+ 312 0063 0E       		.uleb128 0xe
+ 313 0064 3A       		.uleb128 0x3a
+ 314 0065 0B       		.uleb128 0xb
+ 315 0066 3B       		.uleb128 0x3b
+ 316 0067 0B       		.uleb128 0xb
+ 317 0068 49       		.uleb128 0x49
+ 318 0069 13       		.uleb128 0x13
+ 319 006a 02       		.uleb128 0x2
+ 320 006b 18       		.uleb128 0x18
+ 321 006c 00       		.byte	0
+ 322 006d 00       		.byte	0
+ 323 006e 08       		.uleb128 0x8
+ 324 006f 34       		.uleb128 0x34
+ 325 0070 00       		.byte	0
+ 326 0071 03       		.uleb128 0x3
+ 327 0072 0E       		.uleb128 0xe
+ 328 0073 3A       		.uleb128 0x3a
+ 329 0074 0B       		.uleb128 0xb
+ 330 0075 3B       		.uleb128 0x3b
+ 331 0076 0B       		.uleb128 0xb
+ 332 0077 49       		.uleb128 0x49
+ 333 0078 13       		.uleb128 0x13
+ 334 0079 02       		.uleb128 0x2
+ 335 007a 18       		.uleb128 0x18
+ 336 007b 00       		.byte	0
+ 337 007c 00       		.byte	0
+ 338 007d 09       		.uleb128 0x9
+ 339 007e 34       		.uleb128 0x34
+ 340 007f 00       		.byte	0
+ 341 0080 03       		.uleb128 0x3
+ 342 0081 0E       		.uleb128 0xe
+ 343 0082 3A       		.uleb128 0x3a
+ 344 0083 0B       		.uleb128 0xb
+ 345 0084 3B       		.uleb128 0x3b
+ 346 0085 05       		.uleb128 0x5
+ 347 0086 49       		.uleb128 0x49
+ 348 0087 13       		.uleb128 0x13
+ 349 0088 3F       		.uleb128 0x3f
+ 350 0089 19       		.uleb128 0x19
+ 351 008a 3C       		.uleb128 0x3c
+ 352 008b 19       		.uleb128 0x19
+ 353 008c 00       		.byte	0
+ 354 008d 00       		.byte	0
+ 355 008e 0A       		.uleb128 0xa
+ 356 008f 35       		.uleb128 0x35
+ 357 0090 00       		.byte	0
+ 358 0091 49       		.uleb128 0x49
+ 359 0092 13       		.uleb128 0x13
+ 360 0093 00       		.byte	0
+ 361 0094 00       		.byte	0
+ 362 0095 00       		.byte	0
+ 363              		.section	.debug_aranges,"",%progbits
+ 364 0000 1C000000 		.4byte	0x1c
+ 365 0004 0200     		.2byte	0x2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 9
+
+
+ 366 0006 00000000 		.4byte	.Ldebug_info0
+ 367 000a 04       		.byte	0x4
+ 368 000b 00       		.byte	0
+ 369 000c 0000     		.2byte	0
+ 370 000e 0000     		.2byte	0
+ 371 0010 00000000 		.4byte	.LFB63
+ 372 0014 2E000000 		.4byte	.LFE63-.LFB63
+ 373 0018 00000000 		.4byte	0
+ 374 001c 00000000 		.4byte	0
+ 375              		.section	.debug_ranges,"",%progbits
+ 376              	.Ldebug_ranges0:
+ 377 0000 00000000 		.4byte	.LFB63
+ 378 0004 2E000000 		.4byte	.LFE63
+ 379 0008 00000000 		.4byte	0
+ 380 000c 00000000 		.4byte	0
+ 381              		.section	.debug_line,"",%progbits
+ 382              	.Ldebug_line0:
+ 383 0000 6F010000 		.section	.debug_str,"MS",%progbits,1
+ 383      02005301 
+ 383      00000201 
+ 383      FB0E0D00 
+ 383      01010101 
+ 384              	.LASF6:
+ 385 0000 6C6F6E67 		.ascii	"long long int\000"
+ 385      206C6F6E 
+ 385      6720696E 
+ 385      7400
+ 386              	.LASF3:
+ 387 000e 73686F72 		.ascii	"short unsigned int\000"
+ 387      7420756E 
+ 387      7369676E 
+ 387      65642069 
+ 387      6E7400
+ 388              	.LASF8:
+ 389 0021 756E7369 		.ascii	"unsigned int\000"
+ 389      676E6564 
+ 389      20696E74 
+ 389      00
+ 390              	.LASF11:
+ 391 002e 75696E74 		.ascii	"uint8\000"
+ 391      3800
+ 392              	.LASF5:
+ 393 0034 6C6F6E67 		.ascii	"long unsigned int\000"
+ 393      20756E73 
+ 393      69676E65 
+ 393      6420696E 
+ 393      7400
+ 394              	.LASF7:
+ 395 0046 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 395      206C6F6E 
+ 395      6720756E 
+ 395      7369676E 
+ 395      65642069 
+ 396              	.LASF23:
+ 397 005d 4D656173 		.ascii	"MeasureResistorVoltage\000"
+ 397      75726552 
+ 397      65736973 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 10
+
+
+ 397      746F7256 
+ 397      6F6C7461 
+ 398              	.LASF19:
+ 399 0074 6F666673 		.ascii	"offset\000"
+ 399      657400
+ 400              	.LASF20:
+ 401 007b 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 401      43313120 
+ 401      352E342E 
+ 401      31203230 
+ 401      31363036 
+ 402 00ae 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 402      20726576 
+ 402      6973696F 
+ 402      6E203233 
+ 402      37373135 
+ 403 00e1 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 403      66756E63 
+ 403      74696F6E 
+ 403      2D736563 
+ 403      74696F6E 
+ 404              	.LASF1:
+ 405 0109 756E7369 		.ascii	"unsigned char\000"
+ 405      676E6564 
+ 405      20636861 
+ 405      7200
+ 406              	.LASF15:
+ 407 0117 63686172 		.ascii	"char\000"
+ 407      00
+ 408              	.LASF18:
+ 409 011c 72657375 		.ascii	"result\000"
+ 409      6C7400
+ 410              	.LASF4:
+ 411 0123 6C6F6E67 		.ascii	"long int\000"
+ 411      20696E74 
+ 411      00
+ 412              	.LASF14:
+ 413 012c 646F7562 		.ascii	"double\000"
+ 413      6C6500
+ 414              	.LASF24:
+ 415 0133 6368616E 		.ascii	"channel\000"
+ 415      6E656C00 
+ 416              	.LASF25:
+ 417 013b 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 417      52784275 
+ 417      66666572 
+ 417      00
+ 418              	.LASF0:
+ 419 0148 7369676E 		.ascii	"signed char\000"
+ 419      65642063 
+ 419      68617200 
+ 420              	.LASF16:
+ 421 0154 6C6F6E67 		.ascii	"long double\000"
+ 421      20646F75 
+ 421      626C6500 
+ 422              	.LASF22:
+ 423 0160 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Documents\\PSOC5_electrobass"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\cc9lVfbL.s 			page 11
+
+
+ 423      73657273 
+ 423      5C4A6566 
+ 423      66536E79 
+ 423      6465725C 
+ 424 018f 5F737472 		.ascii	"_stringsensors\\CE210514_PSOC3_5_Thermistor.cydsn\000"
+ 424      696E6773 
+ 424      656E736F 
+ 424      72735C43 
+ 424      45323130 
+ 425              	.LASF9:
+ 426 01c0 5F5F696E 		.ascii	"__int32_t\000"
+ 426      7433325F 
+ 426      7400
+ 427              	.LASF13:
+ 428 01ca 666C6F61 		.ascii	"float\000"
+ 428      7400
+ 429              	.LASF21:
+ 430 01d0 6D656173 		.ascii	"measurement.c\000"
+ 430      7572656D 
+ 430      656E742E 
+ 430      6300
+ 431              	.LASF2:
+ 432 01de 73686F72 		.ascii	"short int\000"
+ 432      7420696E 
+ 432      7400
+ 433              	.LASF10:
+ 434 01e8 696E7433 		.ascii	"int32_t\000"
+ 434      325F7400 
+ 435              	.LASF17:
+ 436 01f0 73697A65 		.ascii	"sizetype\000"
+ 436      74797065 
+ 436      00
+ 437              	.LASF12:
+ 438 01f9 696E7433 		.ascii	"int32\000"
+ 438      3200
+ 439              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

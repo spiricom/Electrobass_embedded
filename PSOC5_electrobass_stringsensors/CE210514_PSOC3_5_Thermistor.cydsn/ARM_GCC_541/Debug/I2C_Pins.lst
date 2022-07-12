@@ -1,0 +1,871 @@
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"I2C_Pins.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.I2C_Pins_Write,"ax",%progbits
+  20              		.align	2
+  21              		.global	I2C_Pins_Write
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	I2C_Pins_Write, %function
+  25              	I2C_Pins_Write:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\I2C_Pins.c"
+   1:Generated_Source\PSoC5/I2C_Pins.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/I2C_Pins.c **** * File Name: I2C_Pins.c  
+   3:Generated_Source\PSoC5/I2C_Pins.c **** * Version 2.20
+   4:Generated_Source\PSoC5/I2C_Pins.c **** *
+   5:Generated_Source\PSoC5/I2C_Pins.c **** * Description:
+   6:Generated_Source\PSoC5/I2C_Pins.c **** *  This file contains API to enable firmware control of a Pins component.
+   7:Generated_Source\PSoC5/I2C_Pins.c **** *
+   8:Generated_Source\PSoC5/I2C_Pins.c **** * Note:
+   9:Generated_Source\PSoC5/I2C_Pins.c **** *
+  10:Generated_Source\PSoC5/I2C_Pins.c **** ********************************************************************************
+  11:Generated_Source\PSoC5/I2C_Pins.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  12:Generated_Source\PSoC5/I2C_Pins.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  13:Generated_Source\PSoC5/I2C_Pins.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  14:Generated_Source\PSoC5/I2C_Pins.c **** * the software package with which this file was provided.
+  15:Generated_Source\PSoC5/I2C_Pins.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/I2C_Pins.c **** 
+  17:Generated_Source\PSoC5/I2C_Pins.c **** #include "cytypes.h"
+  18:Generated_Source\PSoC5/I2C_Pins.c **** #include "I2C_Pins.h"
+  19:Generated_Source\PSoC5/I2C_Pins.c **** 
+  20:Generated_Source\PSoC5/I2C_Pins.c **** /* APIs are not generated for P15[7:6] on PSoC 5 */
+  21:Generated_Source\PSoC5/I2C_Pins.c **** #if !(CY_PSOC5A &&\
+  22:Generated_Source\PSoC5/I2C_Pins.c **** 	 I2C_Pins__PORT == 15 && ((I2C_Pins__MASK & 0xC0) != 0))
+  23:Generated_Source\PSoC5/I2C_Pins.c **** 
+  24:Generated_Source\PSoC5/I2C_Pins.c **** 
+  25:Generated_Source\PSoC5/I2C_Pins.c **** /*******************************************************************************
+  26:Generated_Source\PSoC5/I2C_Pins.c **** * Function Name: I2C_Pins_Write
+  27:Generated_Source\PSoC5/I2C_Pins.c **** ****************************************************************************//**
+  28:Generated_Source\PSoC5/I2C_Pins.c **** *
+  29:Generated_Source\PSoC5/I2C_Pins.c **** * \brief Writes the value to the physical port (data output register), masking
+  30:Generated_Source\PSoC5/I2C_Pins.c **** *  and shifting the bits appropriately. 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 2
+
+
+  31:Generated_Source\PSoC5/I2C_Pins.c **** *
+  32:Generated_Source\PSoC5/I2C_Pins.c **** * The data output register controls the signal applied to the physical pin in 
+  33:Generated_Source\PSoC5/I2C_Pins.c **** * conjunction with the drive mode parameter. This function avoids changing 
+  34:Generated_Source\PSoC5/I2C_Pins.c **** * other bits in the port by using the appropriate method (read-modify-write or
+  35:Generated_Source\PSoC5/I2C_Pins.c **** * bit banding).
+  36:Generated_Source\PSoC5/I2C_Pins.c **** *
+  37:Generated_Source\PSoC5/I2C_Pins.c **** * <b>Note</b> This function should not be used on a hardware digital output pin 
+  38:Generated_Source\PSoC5/I2C_Pins.c **** * as it is driven by the hardware signal attached to it.
+  39:Generated_Source\PSoC5/I2C_Pins.c **** *
+  40:Generated_Source\PSoC5/I2C_Pins.c **** * \param value
+  41:Generated_Source\PSoC5/I2C_Pins.c **** *  Value to write to the component instance.
+  42:Generated_Source\PSoC5/I2C_Pins.c **** *
+  43:Generated_Source\PSoC5/I2C_Pins.c **** * \return 
+  44:Generated_Source\PSoC5/I2C_Pins.c **** *  None 
+  45:Generated_Source\PSoC5/I2C_Pins.c **** *
+  46:Generated_Source\PSoC5/I2C_Pins.c **** * \sideeffect
+  47:Generated_Source\PSoC5/I2C_Pins.c **** *  If you use read-modify-write operations that are not atomic; the Interrupt 
+  48:Generated_Source\PSoC5/I2C_Pins.c **** *  Service Routines (ISR) can cause corruption of this function. An ISR that 
+  49:Generated_Source\PSoC5/I2C_Pins.c **** *  interrupts this function and performs writes to the Pins component data 
+  50:Generated_Source\PSoC5/I2C_Pins.c **** *  register can cause corrupted port data. To avoid this issue, you should 
+  51:Generated_Source\PSoC5/I2C_Pins.c **** *  either use the Per-Pin APIs (primary method) or disable interrupts around 
+  52:Generated_Source\PSoC5/I2C_Pins.c **** *  this function.
+  53:Generated_Source\PSoC5/I2C_Pins.c **** *
+  54:Generated_Source\PSoC5/I2C_Pins.c **** * \funcusage
+  55:Generated_Source\PSoC5/I2C_Pins.c **** *  \snippet I2C_Pins_SUT.c usage_I2C_Pins_Write
+  56:Generated_Source\PSoC5/I2C_Pins.c **** *******************************************************************************/
+  57:Generated_Source\PSoC5/I2C_Pins.c **** void I2C_Pins_Write(uint8 value)
+  58:Generated_Source\PSoC5/I2C_Pins.c **** {
+  28              		.loc 1 58 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 16
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33 0000 80B4     		push	{r7}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 7, -4
+  36 0002 85B0     		sub	sp, sp, #20
+  37              		.cfi_def_cfa_offset 24
+  38 0004 00AF     		add	r7, sp, #0
+  39              		.cfi_def_cfa_register 7
+  40 0006 0346     		mov	r3, r0
+  41 0008 FB71     		strb	r3, [r7, #7]
+  59:Generated_Source\PSoC5/I2C_Pins.c ****     uint8 staticBits = (I2C_Pins_DR & (uint8)(~I2C_Pins_MASK));
+  42              		.loc 1 59 0
+  43 000a 0A4B     		ldr	r3, .L2
+  44 000c 1B78     		ldrb	r3, [r3]
+  45 000e DBB2     		uxtb	r3, r3
+  46 0010 23F00303 		bic	r3, r3, #3
+  47 0014 FB73     		strb	r3, [r7, #15]
+  60:Generated_Source\PSoC5/I2C_Pins.c ****     I2C_Pins_DR = staticBits | ((uint8)(value << I2C_Pins_SHIFT) & I2C_Pins_MASK);
+  48              		.loc 1 60 0
+  49 0016 0749     		ldr	r1, .L2
+  50 0018 FB79     		ldrb	r3, [r7, #7]
+  51 001a 03F00303 		and	r3, r3, #3
+  52 001e DAB2     		uxtb	r2, r3
+  53 0020 FB7B     		ldrb	r3, [r7, #15]
+  54 0022 1343     		orrs	r3, r3, r2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 3
+
+
+  55 0024 DBB2     		uxtb	r3, r3
+  56 0026 0B70     		strb	r3, [r1]
+  61:Generated_Source\PSoC5/I2C_Pins.c **** }
+  57              		.loc 1 61 0
+  58 0028 00BF     		nop
+  59 002a 1437     		adds	r7, r7, #20
+  60              		.cfi_def_cfa_offset 4
+  61 002c BD46     		mov	sp, r7
+  62              		.cfi_def_cfa_register 13
+  63              		@ sp needed
+  64 002e 80BC     		pop	{r7}
+  65              		.cfi_restore 7
+  66              		.cfi_def_cfa_offset 0
+  67 0030 7047     		bx	lr
+  68              	.L3:
+  69 0032 00BF     		.align	2
+  70              	.L2:
+  71 0034 C0510040 		.word	1073762752
+  72              		.cfi_endproc
+  73              	.LFE0:
+  74              		.size	I2C_Pins_Write, .-I2C_Pins_Write
+  75              		.section	.text.I2C_Pins_SetDriveMode,"ax",%progbits
+  76              		.align	2
+  77              		.global	I2C_Pins_SetDriveMode
+  78              		.thumb
+  79              		.thumb_func
+  80              		.type	I2C_Pins_SetDriveMode, %function
+  81              	I2C_Pins_SetDriveMode:
+  82              	.LFB1:
+  62:Generated_Source\PSoC5/I2C_Pins.c **** 
+  63:Generated_Source\PSoC5/I2C_Pins.c **** 
+  64:Generated_Source\PSoC5/I2C_Pins.c **** /*******************************************************************************
+  65:Generated_Source\PSoC5/I2C_Pins.c **** * Function Name: I2C_Pins_SetDriveMode
+  66:Generated_Source\PSoC5/I2C_Pins.c **** ****************************************************************************//**
+  67:Generated_Source\PSoC5/I2C_Pins.c **** *
+  68:Generated_Source\PSoC5/I2C_Pins.c **** * \brief Sets the drive mode for each of the Pins component's pins.
+  69:Generated_Source\PSoC5/I2C_Pins.c **** * 
+  70:Generated_Source\PSoC5/I2C_Pins.c **** * <b>Note</b> This affects all pins in the Pins component instance. Use the
+  71:Generated_Source\PSoC5/I2C_Pins.c **** * Per-Pin APIs if you wish to control individual pin's drive modes.
+  72:Generated_Source\PSoC5/I2C_Pins.c **** *
+  73:Generated_Source\PSoC5/I2C_Pins.c **** * \param mode
+  74:Generated_Source\PSoC5/I2C_Pins.c **** *  Mode for the selected signals. Valid options are documented in 
+  75:Generated_Source\PSoC5/I2C_Pins.c **** *  \ref driveMode.
+  76:Generated_Source\PSoC5/I2C_Pins.c **** *
+  77:Generated_Source\PSoC5/I2C_Pins.c **** * \return
+  78:Generated_Source\PSoC5/I2C_Pins.c **** *  None
+  79:Generated_Source\PSoC5/I2C_Pins.c **** *
+  80:Generated_Source\PSoC5/I2C_Pins.c **** * \sideeffect
+  81:Generated_Source\PSoC5/I2C_Pins.c **** *  If you use read-modify-write operations that are not atomic, the ISR can
+  82:Generated_Source\PSoC5/I2C_Pins.c **** *  cause corruption of this function. An ISR that interrupts this function 
+  83:Generated_Source\PSoC5/I2C_Pins.c **** *  and performs writes to the Pins component Drive Mode registers can cause 
+  84:Generated_Source\PSoC5/I2C_Pins.c **** *  corrupted port data. To avoid this issue, you should either use the Per-Pin
+  85:Generated_Source\PSoC5/I2C_Pins.c **** *  APIs (primary method) or disable interrupts around this function.
+  86:Generated_Source\PSoC5/I2C_Pins.c **** *
+  87:Generated_Source\PSoC5/I2C_Pins.c **** * \funcusage
+  88:Generated_Source\PSoC5/I2C_Pins.c **** *  \snippet I2C_Pins_SUT.c usage_I2C_Pins_SetDriveMode
+  89:Generated_Source\PSoC5/I2C_Pins.c **** *******************************************************************************/
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 4
+
+
+  90:Generated_Source\PSoC5/I2C_Pins.c **** void I2C_Pins_SetDriveMode(uint8 mode)
+  91:Generated_Source\PSoC5/I2C_Pins.c **** {
+  83              		.loc 1 91 0
+  84              		.cfi_startproc
+  85              		@ args = 0, pretend = 0, frame = 8
+  86              		@ frame_needed = 1, uses_anonymous_args = 0
+  87              		@ link register save eliminated.
+  88 0000 80B4     		push	{r7}
+  89              		.cfi_def_cfa_offset 4
+  90              		.cfi_offset 7, -4
+  91 0002 83B0     		sub	sp, sp, #12
+  92              		.cfi_def_cfa_offset 16
+  93 0004 00AF     		add	r7, sp, #0
+  94              		.cfi_def_cfa_register 7
+  95 0006 0346     		mov	r3, r0
+  96 0008 FB71     		strb	r3, [r7, #7]
+  92:Generated_Source\PSoC5/I2C_Pins.c **** 	CyPins_SetPinDriveMode(I2C_Pins_0, mode);
+  97              		.loc 1 92 0
+  98 000a 1349     		ldr	r1, .L5
+  99 000c 124B     		ldr	r3, .L5
+ 100 000e 1B78     		ldrb	r3, [r3]
+ 101 0010 DBB2     		uxtb	r3, r3
+ 102 0012 5BB2     		sxtb	r3, r3
+ 103 0014 23F00E03 		bic	r3, r3, #14
+ 104 0018 5AB2     		sxtb	r2, r3
+ 105 001a 97F90730 		ldrsb	r3, [r7, #7]
+ 106 001e 03F00E03 		and	r3, r3, #14
+ 107 0022 5BB2     		sxtb	r3, r3
+ 108 0024 1343     		orrs	r3, r3, r2
+ 109 0026 5BB2     		sxtb	r3, r3
+ 110 0028 DBB2     		uxtb	r3, r3
+ 111 002a 0B70     		strb	r3, [r1]
+  93:Generated_Source\PSoC5/I2C_Pins.c **** 	CyPins_SetPinDriveMode(I2C_Pins_1, mode);
+ 112              		.loc 1 93 0
+ 113 002c 0B49     		ldr	r1, .L5+4
+ 114 002e 0B4B     		ldr	r3, .L5+4
+ 115 0030 1B78     		ldrb	r3, [r3]
+ 116 0032 DBB2     		uxtb	r3, r3
+ 117 0034 5BB2     		sxtb	r3, r3
+ 118 0036 23F00E03 		bic	r3, r3, #14
+ 119 003a 5AB2     		sxtb	r2, r3
+ 120 003c 97F90730 		ldrsb	r3, [r7, #7]
+ 121 0040 03F00E03 		and	r3, r3, #14
+ 122 0044 5BB2     		sxtb	r3, r3
+ 123 0046 1343     		orrs	r3, r3, r2
+ 124 0048 5BB2     		sxtb	r3, r3
+ 125 004a DBB2     		uxtb	r3, r3
+ 126 004c 0B70     		strb	r3, [r1]
+  94:Generated_Source\PSoC5/I2C_Pins.c **** }
+ 127              		.loc 1 94 0
+ 128 004e 00BF     		nop
+ 129 0050 0C37     		adds	r7, r7, #12
+ 130              		.cfi_def_cfa_offset 4
+ 131 0052 BD46     		mov	sp, r7
+ 132              		.cfi_def_cfa_register 13
+ 133              		@ sp needed
+ 134 0054 80BC     		pop	{r7}
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 5
+
+
+ 135              		.cfi_restore 7
+ 136              		.cfi_def_cfa_offset 0
+ 137 0056 7047     		bx	lr
+ 138              	.L6:
+ 139              		.align	2
+ 140              	.L5:
+ 141 0058 60500040 		.word	1073762400
+ 142 005c 61500040 		.word	1073762401
+ 143              		.cfi_endproc
+ 144              	.LFE1:
+ 145              		.size	I2C_Pins_SetDriveMode, .-I2C_Pins_SetDriveMode
+ 146              		.section	.text.I2C_Pins_Read,"ax",%progbits
+ 147              		.align	2
+ 148              		.global	I2C_Pins_Read
+ 149              		.thumb
+ 150              		.thumb_func
+ 151              		.type	I2C_Pins_Read, %function
+ 152              	I2C_Pins_Read:
+ 153              	.LFB2:
+  95:Generated_Source\PSoC5/I2C_Pins.c **** 
+  96:Generated_Source\PSoC5/I2C_Pins.c **** 
+  97:Generated_Source\PSoC5/I2C_Pins.c **** /*******************************************************************************
+  98:Generated_Source\PSoC5/I2C_Pins.c **** * Function Name: I2C_Pins_Read
+  99:Generated_Source\PSoC5/I2C_Pins.c **** ****************************************************************************//**
+ 100:Generated_Source\PSoC5/I2C_Pins.c **** *
+ 101:Generated_Source\PSoC5/I2C_Pins.c **** * \brief Reads the associated physical port (pin status register) and masks 
+ 102:Generated_Source\PSoC5/I2C_Pins.c **** *  the required bits according to the width and bit position of the component
+ 103:Generated_Source\PSoC5/I2C_Pins.c **** *  instance. 
+ 104:Generated_Source\PSoC5/I2C_Pins.c **** *
+ 105:Generated_Source\PSoC5/I2C_Pins.c **** * The pin's status register returns the current logic level present on the 
+ 106:Generated_Source\PSoC5/I2C_Pins.c **** * physical pin.
+ 107:Generated_Source\PSoC5/I2C_Pins.c **** *
+ 108:Generated_Source\PSoC5/I2C_Pins.c **** * \return 
+ 109:Generated_Source\PSoC5/I2C_Pins.c **** *  The current value for the pins in the component as a right justified number.
+ 110:Generated_Source\PSoC5/I2C_Pins.c **** *
+ 111:Generated_Source\PSoC5/I2C_Pins.c **** * \funcusage
+ 112:Generated_Source\PSoC5/I2C_Pins.c **** *  \snippet I2C_Pins_SUT.c usage_I2C_Pins_Read  
+ 113:Generated_Source\PSoC5/I2C_Pins.c **** *******************************************************************************/
+ 114:Generated_Source\PSoC5/I2C_Pins.c **** uint8 I2C_Pins_Read(void)
+ 115:Generated_Source\PSoC5/I2C_Pins.c **** {
+ 154              		.loc 1 115 0
+ 155              		.cfi_startproc
+ 156              		@ args = 0, pretend = 0, frame = 0
+ 157              		@ frame_needed = 1, uses_anonymous_args = 0
+ 158              		@ link register save eliminated.
+ 159 0000 80B4     		push	{r7}
+ 160              		.cfi_def_cfa_offset 4
+ 161              		.cfi_offset 7, -4
+ 162 0002 00AF     		add	r7, sp, #0
+ 163              		.cfi_def_cfa_register 7
+ 116:Generated_Source\PSoC5/I2C_Pins.c ****     return (I2C_Pins_PS & I2C_Pins_MASK) >> I2C_Pins_SHIFT;
+ 164              		.loc 1 116 0
+ 165 0004 044B     		ldr	r3, .L9
+ 166 0006 1B78     		ldrb	r3, [r3]
+ 167 0008 DBB2     		uxtb	r3, r3
+ 168 000a 03F00303 		and	r3, r3, #3
+ 169 000e DBB2     		uxtb	r3, r3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 6
+
+
+ 117:Generated_Source\PSoC5/I2C_Pins.c **** }
+ 170              		.loc 1 117 0
+ 171 0010 1846     		mov	r0, r3
+ 172 0012 BD46     		mov	sp, r7
+ 173              		.cfi_def_cfa_register 13
+ 174              		@ sp needed
+ 175 0014 80BC     		pop	{r7}
+ 176              		.cfi_restore 7
+ 177              		.cfi_def_cfa_offset 0
+ 178 0016 7047     		bx	lr
+ 179              	.L10:
+ 180              		.align	2
+ 181              	.L9:
+ 182 0018 C1510040 		.word	1073762753
+ 183              		.cfi_endproc
+ 184              	.LFE2:
+ 185              		.size	I2C_Pins_Read, .-I2C_Pins_Read
+ 186              		.section	.text.I2C_Pins_ReadDataReg,"ax",%progbits
+ 187              		.align	2
+ 188              		.global	I2C_Pins_ReadDataReg
+ 189              		.thumb
+ 190              		.thumb_func
+ 191              		.type	I2C_Pins_ReadDataReg, %function
+ 192              	I2C_Pins_ReadDataReg:
+ 193              	.LFB3:
+ 118:Generated_Source\PSoC5/I2C_Pins.c **** 
+ 119:Generated_Source\PSoC5/I2C_Pins.c **** 
+ 120:Generated_Source\PSoC5/I2C_Pins.c **** /*******************************************************************************
+ 121:Generated_Source\PSoC5/I2C_Pins.c **** * Function Name: I2C_Pins_ReadDataReg
+ 122:Generated_Source\PSoC5/I2C_Pins.c **** ****************************************************************************//**
+ 123:Generated_Source\PSoC5/I2C_Pins.c **** *
+ 124:Generated_Source\PSoC5/I2C_Pins.c **** * \brief Reads the associated physical port's data output register and masks 
+ 125:Generated_Source\PSoC5/I2C_Pins.c **** *  the correct bits according to the width and bit position of the component 
+ 126:Generated_Source\PSoC5/I2C_Pins.c **** *  instance. 
+ 127:Generated_Source\PSoC5/I2C_Pins.c **** *
+ 128:Generated_Source\PSoC5/I2C_Pins.c **** * The data output register controls the signal applied to the physical pin in 
+ 129:Generated_Source\PSoC5/I2C_Pins.c **** * conjunction with the drive mode parameter. This is not the same as the 
+ 130:Generated_Source\PSoC5/I2C_Pins.c **** * preferred I2C_Pins_Read() API because the 
+ 131:Generated_Source\PSoC5/I2C_Pins.c **** * I2C_Pins_ReadDataReg() reads the data register instead of the status 
+ 132:Generated_Source\PSoC5/I2C_Pins.c **** * register. For output pins this is a useful function to determine the value 
+ 133:Generated_Source\PSoC5/I2C_Pins.c **** * just written to the pin.
+ 134:Generated_Source\PSoC5/I2C_Pins.c **** *
+ 135:Generated_Source\PSoC5/I2C_Pins.c **** * \return 
+ 136:Generated_Source\PSoC5/I2C_Pins.c **** *  The current value of the data register masked and shifted into a right 
+ 137:Generated_Source\PSoC5/I2C_Pins.c **** *  justified number for the component instance.
+ 138:Generated_Source\PSoC5/I2C_Pins.c **** *
+ 139:Generated_Source\PSoC5/I2C_Pins.c **** * \funcusage
+ 140:Generated_Source\PSoC5/I2C_Pins.c **** *  \snippet I2C_Pins_SUT.c usage_I2C_Pins_ReadDataReg 
+ 141:Generated_Source\PSoC5/I2C_Pins.c **** *******************************************************************************/
+ 142:Generated_Source\PSoC5/I2C_Pins.c **** uint8 I2C_Pins_ReadDataReg(void)
+ 143:Generated_Source\PSoC5/I2C_Pins.c **** {
+ 194              		.loc 1 143 0
+ 195              		.cfi_startproc
+ 196              		@ args = 0, pretend = 0, frame = 0
+ 197              		@ frame_needed = 1, uses_anonymous_args = 0
+ 198              		@ link register save eliminated.
+ 199 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 7
+
+
+ 200              		.cfi_def_cfa_offset 4
+ 201              		.cfi_offset 7, -4
+ 202 0002 00AF     		add	r7, sp, #0
+ 203              		.cfi_def_cfa_register 7
+ 144:Generated_Source\PSoC5/I2C_Pins.c ****     return (I2C_Pins_DR & I2C_Pins_MASK) >> I2C_Pins_SHIFT;
+ 204              		.loc 1 144 0
+ 205 0004 044B     		ldr	r3, .L13
+ 206 0006 1B78     		ldrb	r3, [r3]
+ 207 0008 DBB2     		uxtb	r3, r3
+ 208 000a 03F00303 		and	r3, r3, #3
+ 209 000e DBB2     		uxtb	r3, r3
+ 145:Generated_Source\PSoC5/I2C_Pins.c **** }
+ 210              		.loc 1 145 0
+ 211 0010 1846     		mov	r0, r3
+ 212 0012 BD46     		mov	sp, r7
+ 213              		.cfi_def_cfa_register 13
+ 214              		@ sp needed
+ 215 0014 80BC     		pop	{r7}
+ 216              		.cfi_restore 7
+ 217              		.cfi_def_cfa_offset 0
+ 218 0016 7047     		bx	lr
+ 219              	.L14:
+ 220              		.align	2
+ 221              	.L13:
+ 222 0018 C0510040 		.word	1073762752
+ 223              		.cfi_endproc
+ 224              	.LFE3:
+ 225              		.size	I2C_Pins_ReadDataReg, .-I2C_Pins_ReadDataReg
+ 226              		.text
+ 227              	.Letext0:
+ 228              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 229              		.section	.debug_info,"",%progbits
+ 230              	.Ldebug_info0:
+ 231 0000 1A010000 		.4byte	0x11a
+ 232 0004 0400     		.2byte	0x4
+ 233 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 234 000a 04       		.byte	0x4
+ 235 000b 01       		.uleb128 0x1
+ 236 000c A9000000 		.4byte	.LASF20
+ 237 0010 0C       		.byte	0xc
+ 238 0011 5E010000 		.4byte	.LASF21
+ 239 0015 0E000000 		.4byte	.LASF22
+ 240 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 241 001d 00000000 		.4byte	0
+ 242 0021 00000000 		.4byte	.Ldebug_line0
+ 243 0025 02       		.uleb128 0x2
+ 244 0026 01       		.byte	0x1
+ 245 0027 06       		.byte	0x6
+ 246 0028 2F020000 		.4byte	.LASF0
+ 247 002c 02       		.uleb128 0x2
+ 248 002d 01       		.byte	0x1
+ 249 002e 08       		.byte	0x8
+ 250 002f 86010000 		.4byte	.LASF1
+ 251 0033 02       		.uleb128 0x2
+ 252 0034 02       		.byte	0x2
+ 253 0035 05       		.byte	0x5
+ 254 0036 16020000 		.4byte	.LASF2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 8
+
+
+ 255 003a 02       		.uleb128 0x2
+ 256 003b 02       		.byte	0x2
+ 257 003c 07       		.byte	0x7
+ 258 003d AB010000 		.4byte	.LASF3
+ 259 0041 02       		.uleb128 0x2
+ 260 0042 04       		.byte	0x4
+ 261 0043 05       		.byte	0x5
+ 262 0044 26020000 		.4byte	.LASF4
+ 263 0048 02       		.uleb128 0x2
+ 264 0049 04       		.byte	0x4
+ 265 004a 07       		.byte	0x7
+ 266 004b 99010000 		.4byte	.LASF5
+ 267 004f 02       		.uleb128 0x2
+ 268 0050 08       		.byte	0x8
+ 269 0051 05       		.byte	0x5
+ 270 0052 EE010000 		.4byte	.LASF6
+ 271 0056 02       		.uleb128 0x2
+ 272 0057 08       		.byte	0x8
+ 273 0058 07       		.byte	0x7
+ 274 0059 D2010000 		.4byte	.LASF7
+ 275 005d 03       		.uleb128 0x3
+ 276 005e 04       		.byte	0x4
+ 277 005f 05       		.byte	0x5
+ 278 0060 696E7400 		.ascii	"int\000"
+ 279 0064 02       		.uleb128 0x2
+ 280 0065 04       		.byte	0x4
+ 281 0066 07       		.byte	0x7
+ 282 0067 C5010000 		.4byte	.LASF8
+ 283 006b 04       		.uleb128 0x4
+ 284 006c 20020000 		.4byte	.LASF12
+ 285 0070 02       		.byte	0x2
+ 286 0071 E401     		.2byte	0x1e4
+ 287 0073 2C000000 		.4byte	0x2c
+ 288 0077 02       		.uleb128 0x2
+ 289 0078 04       		.byte	0x4
+ 290 0079 04       		.byte	0x4
+ 291 007a 80010000 		.4byte	.LASF9
+ 292 007e 02       		.uleb128 0x2
+ 293 007f 08       		.byte	0x8
+ 294 0080 04       		.byte	0x4
+ 295 0081 BE010000 		.4byte	.LASF10
+ 296 0085 02       		.uleb128 0x2
+ 297 0086 01       		.byte	0x1
+ 298 0087 08       		.byte	0x8
+ 299 0088 FC010000 		.4byte	.LASF11
+ 300 008c 04       		.uleb128 0x4
+ 301 008d 94010000 		.4byte	.LASF13
+ 302 0091 02       		.byte	0x2
+ 303 0092 8E02     		.2byte	0x28e
+ 304 0094 98000000 		.4byte	0x98
+ 305 0098 05       		.uleb128 0x5
+ 306 0099 6B000000 		.4byte	0x6b
+ 307 009d 06       		.uleb128 0x6
+ 308 009e 9A000000 		.4byte	.LASF14
+ 309 00a2 01       		.byte	0x1
+ 310 00a3 39       		.byte	0x39
+ 311 00a4 00000000 		.4byte	.LFB0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 9
+
+
+ 312 00a8 38000000 		.4byte	.LFE0-.LFB0
+ 313 00ac 01       		.uleb128 0x1
+ 314 00ad 9C       		.byte	0x9c
+ 315 00ae CF000000 		.4byte	0xcf
+ 316 00b2 07       		.uleb128 0x7
+ 317 00b3 37010000 		.4byte	.LASF16
+ 318 00b7 01       		.byte	0x1
+ 319 00b8 39       		.byte	0x39
+ 320 00b9 6B000000 		.4byte	0x6b
+ 321 00bd 02       		.uleb128 0x2
+ 322 00be 91       		.byte	0x91
+ 323 00bf 6F       		.sleb128 -17
+ 324 00c0 08       		.uleb128 0x8
+ 325 00c1 3D010000 		.4byte	.LASF23
+ 326 00c5 01       		.byte	0x1
+ 327 00c6 3B       		.byte	0x3b
+ 328 00c7 6B000000 		.4byte	0x6b
+ 329 00cb 02       		.uleb128 0x2
+ 330 00cc 91       		.byte	0x91
+ 331 00cd 77       		.sleb128 -9
+ 332 00ce 00       		.byte	0
+ 333 00cf 06       		.uleb128 0x6
+ 334 00d0 48010000 		.4byte	.LASF15
+ 335 00d4 01       		.byte	0x1
+ 336 00d5 5A       		.byte	0x5a
+ 337 00d6 00000000 		.4byte	.LFB1
+ 338 00da 60000000 		.4byte	.LFE1-.LFB1
+ 339 00de 01       		.uleb128 0x1
+ 340 00df 9C       		.byte	0x9c
+ 341 00e0 F3000000 		.4byte	0xf3
+ 342 00e4 07       		.uleb128 0x7
+ 343 00e5 E9010000 		.4byte	.LASF17
+ 344 00e9 01       		.byte	0x1
+ 345 00ea 5A       		.byte	0x5a
+ 346 00eb 6B000000 		.4byte	0x6b
+ 347 00ef 02       		.uleb128 0x2
+ 348 00f0 91       		.byte	0x91
+ 349 00f1 77       		.sleb128 -9
+ 350 00f2 00       		.byte	0
+ 351 00f3 09       		.uleb128 0x9
+ 352 00f4 00000000 		.4byte	.LASF18
+ 353 00f8 01       		.byte	0x1
+ 354 00f9 72       		.byte	0x72
+ 355 00fa 6B000000 		.4byte	0x6b
+ 356 00fe 00000000 		.4byte	.LFB2
+ 357 0102 1C000000 		.4byte	.LFE2-.LFB2
+ 358 0106 01       		.uleb128 0x1
+ 359 0107 9C       		.byte	0x9c
+ 360 0108 09       		.uleb128 0x9
+ 361 0109 01020000 		.4byte	.LASF19
+ 362 010d 01       		.byte	0x1
+ 363 010e 8E       		.byte	0x8e
+ 364 010f 6B000000 		.4byte	0x6b
+ 365 0113 00000000 		.4byte	.LFB3
+ 366 0117 1C000000 		.4byte	.LFE3-.LFB3
+ 367 011b 01       		.uleb128 0x1
+ 368 011c 9C       		.byte	0x9c
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 10
+
+
+ 369 011d 00       		.byte	0
+ 370              		.section	.debug_abbrev,"",%progbits
+ 371              	.Ldebug_abbrev0:
+ 372 0000 01       		.uleb128 0x1
+ 373 0001 11       		.uleb128 0x11
+ 374 0002 01       		.byte	0x1
+ 375 0003 25       		.uleb128 0x25
+ 376 0004 0E       		.uleb128 0xe
+ 377 0005 13       		.uleb128 0x13
+ 378 0006 0B       		.uleb128 0xb
+ 379 0007 03       		.uleb128 0x3
+ 380 0008 0E       		.uleb128 0xe
+ 381 0009 1B       		.uleb128 0x1b
+ 382 000a 0E       		.uleb128 0xe
+ 383 000b 55       		.uleb128 0x55
+ 384 000c 17       		.uleb128 0x17
+ 385 000d 11       		.uleb128 0x11
+ 386 000e 01       		.uleb128 0x1
+ 387 000f 10       		.uleb128 0x10
+ 388 0010 17       		.uleb128 0x17
+ 389 0011 00       		.byte	0
+ 390 0012 00       		.byte	0
+ 391 0013 02       		.uleb128 0x2
+ 392 0014 24       		.uleb128 0x24
+ 393 0015 00       		.byte	0
+ 394 0016 0B       		.uleb128 0xb
+ 395 0017 0B       		.uleb128 0xb
+ 396 0018 3E       		.uleb128 0x3e
+ 397 0019 0B       		.uleb128 0xb
+ 398 001a 03       		.uleb128 0x3
+ 399 001b 0E       		.uleb128 0xe
+ 400 001c 00       		.byte	0
+ 401 001d 00       		.byte	0
+ 402 001e 03       		.uleb128 0x3
+ 403 001f 24       		.uleb128 0x24
+ 404 0020 00       		.byte	0
+ 405 0021 0B       		.uleb128 0xb
+ 406 0022 0B       		.uleb128 0xb
+ 407 0023 3E       		.uleb128 0x3e
+ 408 0024 0B       		.uleb128 0xb
+ 409 0025 03       		.uleb128 0x3
+ 410 0026 08       		.uleb128 0x8
+ 411 0027 00       		.byte	0
+ 412 0028 00       		.byte	0
+ 413 0029 04       		.uleb128 0x4
+ 414 002a 16       		.uleb128 0x16
+ 415 002b 00       		.byte	0
+ 416 002c 03       		.uleb128 0x3
+ 417 002d 0E       		.uleb128 0xe
+ 418 002e 3A       		.uleb128 0x3a
+ 419 002f 0B       		.uleb128 0xb
+ 420 0030 3B       		.uleb128 0x3b
+ 421 0031 05       		.uleb128 0x5
+ 422 0032 49       		.uleb128 0x49
+ 423 0033 13       		.uleb128 0x13
+ 424 0034 00       		.byte	0
+ 425 0035 00       		.byte	0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 11
+
+
+ 426 0036 05       		.uleb128 0x5
+ 427 0037 35       		.uleb128 0x35
+ 428 0038 00       		.byte	0
+ 429 0039 49       		.uleb128 0x49
+ 430 003a 13       		.uleb128 0x13
+ 431 003b 00       		.byte	0
+ 432 003c 00       		.byte	0
+ 433 003d 06       		.uleb128 0x6
+ 434 003e 2E       		.uleb128 0x2e
+ 435 003f 01       		.byte	0x1
+ 436 0040 3F       		.uleb128 0x3f
+ 437 0041 19       		.uleb128 0x19
+ 438 0042 03       		.uleb128 0x3
+ 439 0043 0E       		.uleb128 0xe
+ 440 0044 3A       		.uleb128 0x3a
+ 441 0045 0B       		.uleb128 0xb
+ 442 0046 3B       		.uleb128 0x3b
+ 443 0047 0B       		.uleb128 0xb
+ 444 0048 27       		.uleb128 0x27
+ 445 0049 19       		.uleb128 0x19
+ 446 004a 11       		.uleb128 0x11
+ 447 004b 01       		.uleb128 0x1
+ 448 004c 12       		.uleb128 0x12
+ 449 004d 06       		.uleb128 0x6
+ 450 004e 40       		.uleb128 0x40
+ 451 004f 18       		.uleb128 0x18
+ 452 0050 9742     		.uleb128 0x2117
+ 453 0052 19       		.uleb128 0x19
+ 454 0053 01       		.uleb128 0x1
+ 455 0054 13       		.uleb128 0x13
+ 456 0055 00       		.byte	0
+ 457 0056 00       		.byte	0
+ 458 0057 07       		.uleb128 0x7
+ 459 0058 05       		.uleb128 0x5
+ 460 0059 00       		.byte	0
+ 461 005a 03       		.uleb128 0x3
+ 462 005b 0E       		.uleb128 0xe
+ 463 005c 3A       		.uleb128 0x3a
+ 464 005d 0B       		.uleb128 0xb
+ 465 005e 3B       		.uleb128 0x3b
+ 466 005f 0B       		.uleb128 0xb
+ 467 0060 49       		.uleb128 0x49
+ 468 0061 13       		.uleb128 0x13
+ 469 0062 02       		.uleb128 0x2
+ 470 0063 18       		.uleb128 0x18
+ 471 0064 00       		.byte	0
+ 472 0065 00       		.byte	0
+ 473 0066 08       		.uleb128 0x8
+ 474 0067 34       		.uleb128 0x34
+ 475 0068 00       		.byte	0
+ 476 0069 03       		.uleb128 0x3
+ 477 006a 0E       		.uleb128 0xe
+ 478 006b 3A       		.uleb128 0x3a
+ 479 006c 0B       		.uleb128 0xb
+ 480 006d 3B       		.uleb128 0x3b
+ 481 006e 0B       		.uleb128 0xb
+ 482 006f 49       		.uleb128 0x49
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 12
+
+
+ 483 0070 13       		.uleb128 0x13
+ 484 0071 02       		.uleb128 0x2
+ 485 0072 18       		.uleb128 0x18
+ 486 0073 00       		.byte	0
+ 487 0074 00       		.byte	0
+ 488 0075 09       		.uleb128 0x9
+ 489 0076 2E       		.uleb128 0x2e
+ 490 0077 00       		.byte	0
+ 491 0078 3F       		.uleb128 0x3f
+ 492 0079 19       		.uleb128 0x19
+ 493 007a 03       		.uleb128 0x3
+ 494 007b 0E       		.uleb128 0xe
+ 495 007c 3A       		.uleb128 0x3a
+ 496 007d 0B       		.uleb128 0xb
+ 497 007e 3B       		.uleb128 0x3b
+ 498 007f 0B       		.uleb128 0xb
+ 499 0080 27       		.uleb128 0x27
+ 500 0081 19       		.uleb128 0x19
+ 501 0082 49       		.uleb128 0x49
+ 502 0083 13       		.uleb128 0x13
+ 503 0084 11       		.uleb128 0x11
+ 504 0085 01       		.uleb128 0x1
+ 505 0086 12       		.uleb128 0x12
+ 506 0087 06       		.uleb128 0x6
+ 507 0088 40       		.uleb128 0x40
+ 508 0089 18       		.uleb128 0x18
+ 509 008a 9742     		.uleb128 0x2117
+ 510 008c 19       		.uleb128 0x19
+ 511 008d 00       		.byte	0
+ 512 008e 00       		.byte	0
+ 513 008f 00       		.byte	0
+ 514              		.section	.debug_aranges,"",%progbits
+ 515 0000 34000000 		.4byte	0x34
+ 516 0004 0200     		.2byte	0x2
+ 517 0006 00000000 		.4byte	.Ldebug_info0
+ 518 000a 04       		.byte	0x4
+ 519 000b 00       		.byte	0
+ 520 000c 0000     		.2byte	0
+ 521 000e 0000     		.2byte	0
+ 522 0010 00000000 		.4byte	.LFB0
+ 523 0014 38000000 		.4byte	.LFE0-.LFB0
+ 524 0018 00000000 		.4byte	.LFB1
+ 525 001c 60000000 		.4byte	.LFE1-.LFB1
+ 526 0020 00000000 		.4byte	.LFB2
+ 527 0024 1C000000 		.4byte	.LFE2-.LFB2
+ 528 0028 00000000 		.4byte	.LFB3
+ 529 002c 1C000000 		.4byte	.LFE3-.LFB3
+ 530 0030 00000000 		.4byte	0
+ 531 0034 00000000 		.4byte	0
+ 532              		.section	.debug_ranges,"",%progbits
+ 533              	.Ldebug_ranges0:
+ 534 0000 00000000 		.4byte	.LFB0
+ 535 0004 38000000 		.4byte	.LFE0
+ 536 0008 00000000 		.4byte	.LFB1
+ 537 000c 60000000 		.4byte	.LFE1
+ 538 0010 00000000 		.4byte	.LFB2
+ 539 0014 1C000000 		.4byte	.LFE2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 13
+
+
+ 540 0018 00000000 		.4byte	.LFB3
+ 541 001c 1C000000 		.4byte	.LFE3
+ 542 0020 00000000 		.4byte	0
+ 543 0024 00000000 		.4byte	0
+ 544              		.section	.debug_line,"",%progbits
+ 545              	.Ldebug_line0:
+ 546 0000 96000000 		.section	.debug_str,"MS",%progbits,1
+ 546      02004500 
+ 546      00000201 
+ 546      FB0E0D00 
+ 546      01010101 
+ 547              	.LASF18:
+ 548 0000 4932435F 		.ascii	"I2C_Pins_Read\000"
+ 548      50696E73 
+ 548      5F526561 
+ 548      6400
+ 549              	.LASF22:
+ 550 000e 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\Downloads\\Electrobass_H7-ma"
+ 550      73657273 
+ 550      5C4A6566 
+ 550      66536E79 
+ 550      6465725C 
+ 551 003d 73746572 		.ascii	"ster\\Electrobass_H7-master\\PSOC5_electrobass_stri"
+ 551      5C456C65 
+ 551      6374726F 
+ 551      62617373 
+ 551      5F48372D 
+ 552 006e 6E677365 		.ascii	"ngsensors\\CE210514_PSOC3_5_Thermistor.cydsn\000"
+ 552      6E736F72 
+ 552      735C4345 
+ 552      32313035 
+ 552      31345F50 
+ 553              	.LASF14:
+ 554 009a 4932435F 		.ascii	"I2C_Pins_Write\000"
+ 554      50696E73 
+ 554      5F577269 
+ 554      746500
+ 555              	.LASF20:
+ 556 00a9 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 556      43313120 
+ 556      352E342E 
+ 556      31203230 
+ 556      31363036 
+ 557 00dc 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 557      20726576 
+ 557      6973696F 
+ 557      6E203233 
+ 557      37373135 
+ 558 010f 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 558      66756E63 
+ 558      74696F6E 
+ 558      2D736563 
+ 558      74696F6E 
+ 559              	.LASF16:
+ 560 0137 76616C75 		.ascii	"value\000"
+ 560      6500
+ 561              	.LASF23:
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 14
+
+
+ 562 013d 73746174 		.ascii	"staticBits\000"
+ 562      69634269 
+ 562      747300
+ 563              	.LASF15:
+ 564 0148 4932435F 		.ascii	"I2C_Pins_SetDriveMode\000"
+ 564      50696E73 
+ 564      5F536574 
+ 564      44726976 
+ 564      654D6F64 
+ 565              	.LASF21:
+ 566 015e 47656E65 		.ascii	"Generated_Source\\PSoC5\\I2C_Pins.c\000"
+ 566      72617465 
+ 566      645F536F 
+ 566      75726365 
+ 566      5C50536F 
+ 567              	.LASF9:
+ 568 0180 666C6F61 		.ascii	"float\000"
+ 568      7400
+ 569              	.LASF1:
+ 570 0186 756E7369 		.ascii	"unsigned char\000"
+ 570      676E6564 
+ 570      20636861 
+ 570      7200
+ 571              	.LASF13:
+ 572 0194 72656738 		.ascii	"reg8\000"
+ 572      00
+ 573              	.LASF5:
+ 574 0199 6C6F6E67 		.ascii	"long unsigned int\000"
+ 574      20756E73 
+ 574      69676E65 
+ 574      6420696E 
+ 574      7400
+ 575              	.LASF3:
+ 576 01ab 73686F72 		.ascii	"short unsigned int\000"
+ 576      7420756E 
+ 576      7369676E 
+ 576      65642069 
+ 576      6E7400
+ 577              	.LASF10:
+ 578 01be 646F7562 		.ascii	"double\000"
+ 578      6C6500
+ 579              	.LASF8:
+ 580 01c5 756E7369 		.ascii	"unsigned int\000"
+ 580      676E6564 
+ 580      20696E74 
+ 580      00
+ 581              	.LASF7:
+ 582 01d2 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 582      206C6F6E 
+ 582      6720756E 
+ 582      7369676E 
+ 582      65642069 
+ 583              	.LASF17:
+ 584 01e9 6D6F6465 		.ascii	"mode\000"
+ 584      00
+ 585              	.LASF6:
+ 586 01ee 6C6F6E67 		.ascii	"long long int\000"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccPiifqs.s 			page 15
+
+
+ 586      206C6F6E 
+ 586      6720696E 
+ 586      7400
+ 587              	.LASF11:
+ 588 01fc 63686172 		.ascii	"char\000"
+ 588      00
+ 589              	.LASF19:
+ 590 0201 4932435F 		.ascii	"I2C_Pins_ReadDataReg\000"
+ 590      50696E73 
+ 590      5F526561 
+ 590      64446174 
+ 590      61526567 
+ 591              	.LASF2:
+ 592 0216 73686F72 		.ascii	"short int\000"
+ 592      7420696E 
+ 592      7400
+ 593              	.LASF12:
+ 594 0220 75696E74 		.ascii	"uint8\000"
+ 594      3800
+ 595              	.LASF4:
+ 596 0226 6C6F6E67 		.ascii	"long int\000"
+ 596      20696E74 
+ 596      00
+ 597              	.LASF0:
+ 598 022f 7369676E 		.ascii	"signed char\000"
+ 598      65642063 
+ 598      68617200 
+ 599              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

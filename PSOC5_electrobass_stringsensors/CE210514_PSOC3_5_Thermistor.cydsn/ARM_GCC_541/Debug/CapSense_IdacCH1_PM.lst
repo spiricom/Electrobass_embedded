@@ -1,0 +1,934 @@
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"CapSense_IdacCH1_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.bss
+  20              		.align	2
+  21              	CapSense_IdacCH1_backup:
+  22 0000 0000     		.space	2
+  23              		.section	.text.CapSense_IdacCH1_SaveConfig,"ax",%progbits
+  24              		.align	2
+  25              		.global	CapSense_IdacCH1_SaveConfig
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	CapSense_IdacCH1_SaveConfig, %function
+  29              	CapSense_IdacCH1_SaveConfig:
+  30              	.LFB0:
+  31              		.file 1 "Generated_Source\\PSoC5\\CapSense_IdacCH1_PM.c"
+   1:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * File Name: CapSense_IdacCH1.c
+   3:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Version 2.0
+   4:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+   5:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Description:
+   6:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  This file provides the power management source code to API for the
+   7:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  IDAC8.
+   8:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+   9:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Note:
+  10:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  None
+  11:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  12:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** ********************************************************************************
+  13:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  15:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  16:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *******************************************************************************/
+  18:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  19:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  20:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** #include "CapSense_IdacCH1.h"
+  21:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  22:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** static CapSense_IdacCH1_backupStruct CapSense_IdacCH1_backup;
+  23:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  24:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  25:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** /*******************************************************************************
+  26:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Function Name: CapSense_IdacCH1_SaveConfig
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 2
+
+
+  27:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** ********************************************************************************
+  28:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Summary:
+  29:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  Save the current user configuration
+  30:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  31:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Parameters:
+  32:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  void
+  33:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  34:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Return:
+  35:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  void
+  36:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  37:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *******************************************************************************/
+  38:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** void CapSense_IdacCH1_SaveConfig(void) 
+  39:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** {
+  32              		.loc 1 39 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36              		@ link register save eliminated.
+  37 0000 80B4     		push	{r7}
+  38              		.cfi_def_cfa_offset 4
+  39              		.cfi_offset 7, -4
+  40 0002 00AF     		add	r7, sp, #0
+  41              		.cfi_def_cfa_register 7
+  40:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     if (!((CapSense_IdacCH1_CR1 & CapSense_IdacCH1_SRC_MASK) == CapSense_IdacCH1_SRC_UDB))
+  42              		.loc 1 40 0
+  43 0004 074B     		ldr	r3, .L4
+  44 0006 1B78     		ldrb	r3, [r3]
+  45 0008 DBB2     		uxtb	r3, r3
+  46 000a 03F02003 		and	r3, r3, #32
+  47 000e 002B     		cmp	r3, #0
+  48 0010 04D1     		bne	.L3
+  41:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     {
+  42:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         CapSense_IdacCH1_backup.data_value = CapSense_IdacCH1_Data;
+  49              		.loc 1 42 0
+  50 0012 054B     		ldr	r3, .L4+4
+  51 0014 1B78     		ldrb	r3, [r3]
+  52 0016 DAB2     		uxtb	r2, r3
+  53 0018 044B     		ldr	r3, .L4+8
+  54 001a 5A70     		strb	r2, [r3, #1]
+  55              	.L3:
+  43:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     }
+  44:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** }
+  56              		.loc 1 44 0
+  57 001c 00BF     		nop
+  58 001e BD46     		mov	sp, r7
+  59              		.cfi_def_cfa_register 13
+  60              		@ sp needed
+  61 0020 80BC     		pop	{r7}
+  62              		.cfi_restore 7
+  63              		.cfi_def_cfa_offset 0
+  64 0022 7047     		bx	lr
+  65              	.L5:
+  66              		.align	2
+  67              	.L4:
+  68 0024 25580040 		.word	1073764389
+  69 0028 815B0040 		.word	1073765249
+  70 002c 00000000 		.word	CapSense_IdacCH1_backup
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 3
+
+
+  71              		.cfi_endproc
+  72              	.LFE0:
+  73              		.size	CapSense_IdacCH1_SaveConfig, .-CapSense_IdacCH1_SaveConfig
+  74              		.section	.text.CapSense_IdacCH1_RestoreConfig,"ax",%progbits
+  75              		.align	2
+  76              		.global	CapSense_IdacCH1_RestoreConfig
+  77              		.thumb
+  78              		.thumb_func
+  79              		.type	CapSense_IdacCH1_RestoreConfig, %function
+  80              	CapSense_IdacCH1_RestoreConfig:
+  81              	.LFB1:
+  45:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  46:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  47:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** /*******************************************************************************
+  48:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Function Name: CapSense_IdacCH1_RestoreConfig
+  49:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** ********************************************************************************
+  50:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  51:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Summary:
+  52:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  Restores the current user configuration.
+  53:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  54:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Parameters:
+  55:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  void
+  56:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  57:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Return:
+  58:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  void
+  59:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  60:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *******************************************************************************/
+  61:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** void CapSense_IdacCH1_RestoreConfig(void) 
+  62:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** {
+  82              		.loc 1 62 0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 1, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+  87 0000 80B4     		push	{r7}
+  88              		.cfi_def_cfa_offset 4
+  89              		.cfi_offset 7, -4
+  90 0002 00AF     		add	r7, sp, #0
+  91              		.cfi_def_cfa_register 7
+  63:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     if (!((CapSense_IdacCH1_CR1 & CapSense_IdacCH1_SRC_MASK) == CapSense_IdacCH1_SRC_UDB))
+  92              		.loc 1 63 0
+  93 0004 154B     		ldr	r3, .L10
+  94 0006 1B78     		ldrb	r3, [r3]
+  95 0008 DBB2     		uxtb	r3, r3
+  96 000a 03F02003 		and	r3, r3, #32
+  97 000e 002B     		cmp	r3, #0
+  98 0010 1FD1     		bne	.L9
+  64:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     {
+  65:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         if((CapSense_IdacCH1_Strobe & CapSense_IdacCH1_STRB_MASK) == CapSense_IdacCH1_STRB_EN)
+  99              		.loc 1 65 0
+ 100 0012 134B     		ldr	r3, .L10+4
+ 101 0014 1B78     		ldrb	r3, [r3]
+ 102 0016 DBB2     		uxtb	r3, r3
+ 103 0018 03F00803 		and	r3, r3, #8
+ 104 001c 002B     		cmp	r3, #0
+ 105 001e 14D0     		beq	.L8
+  66:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         {
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 4
+
+
+  67:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****             CapSense_IdacCH1_Strobe &= (uint8)(~CapSense_IdacCH1_STRB_MASK);
+ 106              		.loc 1 67 0
+ 107 0020 0F4A     		ldr	r2, .L10+4
+ 108 0022 0F4B     		ldr	r3, .L10+4
+ 109 0024 1B78     		ldrb	r3, [r3]
+ 110 0026 DBB2     		uxtb	r3, r3
+ 111 0028 23F00803 		bic	r3, r3, #8
+ 112 002c DBB2     		uxtb	r3, r3
+ 113 002e 1370     		strb	r3, [r2]
+  68:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****             CapSense_IdacCH1_Data = CapSense_IdacCH1_backup.data_value;
+ 114              		.loc 1 68 0
+ 115 0030 0C4B     		ldr	r3, .L10+8
+ 116 0032 0D4A     		ldr	r2, .L10+12
+ 117 0034 5278     		ldrb	r2, [r2, #1]	@ zero_extendqisi2
+ 118 0036 1A70     		strb	r2, [r3]
+  69:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****             CapSense_IdacCH1_Strobe |= CapSense_IdacCH1_STRB_EN;
+ 119              		.loc 1 69 0
+ 120 0038 094A     		ldr	r2, .L10+4
+ 121 003a 094B     		ldr	r3, .L10+4
+ 122 003c 1B78     		ldrb	r3, [r3]
+ 123 003e DBB2     		uxtb	r3, r3
+ 124 0040 43F00803 		orr	r3, r3, #8
+ 125 0044 DBB2     		uxtb	r3, r3
+ 126 0046 1370     		strb	r3, [r2]
+  70:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         }
+  71:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         else
+  72:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         {
+  73:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****             CapSense_IdacCH1_Data = CapSense_IdacCH1_backup.data_value;
+  74:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         }
+  75:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     }
+  76:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** }
+ 127              		.loc 1 76 0
+ 128 0048 03E0     		b	.L9
+ 129              	.L8:
+  73:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         }
+ 130              		.loc 1 73 0
+ 131 004a 064B     		ldr	r3, .L10+8
+ 132 004c 064A     		ldr	r2, .L10+12
+ 133 004e 5278     		ldrb	r2, [r2, #1]	@ zero_extendqisi2
+ 134 0050 1A70     		strb	r2, [r3]
+ 135              	.L9:
+ 136              		.loc 1 76 0
+ 137 0052 00BF     		nop
+ 138 0054 BD46     		mov	sp, r7
+ 139              		.cfi_def_cfa_register 13
+ 140              		@ sp needed
+ 141 0056 80BC     		pop	{r7}
+ 142              		.cfi_restore 7
+ 143              		.cfi_def_cfa_offset 0
+ 144 0058 7047     		bx	lr
+ 145              	.L11:
+ 146 005a 00BF     		.align	2
+ 147              	.L10:
+ 148 005c 25580040 		.word	1073764389
+ 149 0060 8F5A0040 		.word	1073765007
+ 150 0064 815B0040 		.word	1073765249
+ 151 0068 00000000 		.word	CapSense_IdacCH1_backup
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 5
+
+
+ 152              		.cfi_endproc
+ 153              	.LFE1:
+ 154              		.size	CapSense_IdacCH1_RestoreConfig, .-CapSense_IdacCH1_RestoreConfig
+ 155              		.section	.text.CapSense_IdacCH1_Sleep,"ax",%progbits
+ 156              		.align	2
+ 157              		.global	CapSense_IdacCH1_Sleep
+ 158              		.thumb
+ 159              		.thumb_func
+ 160              		.type	CapSense_IdacCH1_Sleep, %function
+ 161              	CapSense_IdacCH1_Sleep:
+ 162              	.LFB2:
+  77:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  78:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+  79:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** /*******************************************************************************
+  80:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Function Name: CapSense_IdacCH1_Sleep
+  81:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** ********************************************************************************
+  82:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Summary:
+  83:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  Stop and Save the user configuration
+  84:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  85:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Parameters:
+  86:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  void:
+  87:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  88:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Return:
+  89:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  void
+  90:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  91:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Global variables:
+  92:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  CapSense_IdacCH1_backup.enableState: Is modified depending on the enable 
+  93:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  state of the block before entering sleep mode.
+  94:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+  95:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *******************************************************************************/
+  96:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** void CapSense_IdacCH1_Sleep(void) 
+  97:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** {
+ 163              		.loc 1 97 0
+ 164              		.cfi_startproc
+ 165              		@ args = 0, pretend = 0, frame = 0
+ 166              		@ frame_needed = 1, uses_anonymous_args = 0
+ 167 0000 80B5     		push	{r7, lr}
+ 168              		.cfi_def_cfa_offset 8
+ 169              		.cfi_offset 7, -8
+ 170              		.cfi_offset 14, -4
+ 171 0002 00AF     		add	r7, sp, #0
+ 172              		.cfi_def_cfa_register 7
+  98:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     if(CapSense_IdacCH1_ACT_PWR_EN == (CapSense_IdacCH1_PWRMGR & CapSense_IdacCH1_ACT_PWR_EN))
+ 173              		.loc 1 98 0
+ 174 0004 094B     		ldr	r3, .L15
+ 175 0006 1B78     		ldrb	r3, [r3]
+ 176 0008 DBB2     		uxtb	r3, r3
+ 177 000a 03F00203 		and	r3, r3, #2
+ 178 000e 002B     		cmp	r3, #0
+ 179 0010 03D0     		beq	.L13
+  99:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     {
+ 100:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         /* IDAC8 is enabled */
+ 101:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         CapSense_IdacCH1_backup.enableState = 1u;
+ 180              		.loc 1 101 0
+ 181 0012 074B     		ldr	r3, .L15+4
+ 182 0014 0122     		movs	r2, #1
+ 183 0016 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 6
+
+
+ 184 0018 02E0     		b	.L14
+ 185              	.L13:
+ 102:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     }
+ 103:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     else
+ 104:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     {
+ 105:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         /* IDAC8 is disabled */
+ 106:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         CapSense_IdacCH1_backup.enableState = 0u;
+ 186              		.loc 1 106 0
+ 187 001a 054B     		ldr	r3, .L15+4
+ 188 001c 0022     		movs	r2, #0
+ 189 001e 1A70     		strb	r2, [r3]
+ 190              	.L14:
+ 107:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     }
+ 108:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+ 109:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     CapSense_IdacCH1_Stop();
+ 191              		.loc 1 109 0
+ 192 0020 FFF7FEFF 		bl	CapSense_IdacCH1_Stop
+ 110:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     CapSense_IdacCH1_SaveConfig();
+ 193              		.loc 1 110 0
+ 194 0024 FFF7FEFF 		bl	CapSense_IdacCH1_SaveConfig
+ 111:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** }
+ 195              		.loc 1 111 0
+ 196 0028 00BF     		nop
+ 197 002a 80BD     		pop	{r7, pc}
+ 198              	.L16:
+ 199              		.align	2
+ 200              	.L15:
+ 201 002c A8430040 		.word	1073759144
+ 202 0030 00000000 		.word	CapSense_IdacCH1_backup
+ 203              		.cfi_endproc
+ 204              	.LFE2:
+ 205              		.size	CapSense_IdacCH1_Sleep, .-CapSense_IdacCH1_Sleep
+ 206              		.section	.text.CapSense_IdacCH1_Wakeup,"ax",%progbits
+ 207              		.align	2
+ 208              		.global	CapSense_IdacCH1_Wakeup
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.type	CapSense_IdacCH1_Wakeup, %function
+ 212              	CapSense_IdacCH1_Wakeup:
+ 213              	.LFB3:
+ 112:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+ 113:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** 
+ 114:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** /*******************************************************************************
+ 115:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Function Name: CapSense_IdacCH1_Wakeup
+ 116:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** ********************************************************************************
+ 117:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+ 118:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Summary:
+ 119:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  Restores and enables the user configuration
+ 120:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  
+ 121:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Parameters:
+ 122:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  void
+ 123:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+ 124:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Return:
+ 125:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  void
+ 126:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+ 127:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** * Global variables:
+ 128:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  CapSense_IdacCH1_backup.enableState: Is used to restore the enable state of 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 7
+
+
+ 129:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *  block on wakeup from sleep mode.
+ 130:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *
+ 131:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** *******************************************************************************/
+ 132:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** void CapSense_IdacCH1_Wakeup(void) 
+ 133:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** {
+ 214              		.loc 1 133 0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 1, uses_anonymous_args = 0
+ 218 0000 80B5     		push	{r7, lr}
+ 219              		.cfi_def_cfa_offset 8
+ 220              		.cfi_offset 7, -8
+ 221              		.cfi_offset 14, -4
+ 222 0002 00AF     		add	r7, sp, #0
+ 223              		.cfi_def_cfa_register 7
+ 134:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     CapSense_IdacCH1_RestoreConfig();
+ 224              		.loc 1 134 0
+ 225 0004 FFF7FEFF 		bl	CapSense_IdacCH1_RestoreConfig
+ 135:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     
+ 136:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     if(CapSense_IdacCH1_backup.enableState == 1u)
+ 226              		.loc 1 136 0
+ 227 0008 064B     		ldr	r3, .L20
+ 228 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 229 000c 012B     		cmp	r3, #1
+ 230 000e 07D1     		bne	.L19
+ 137:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     {
+ 138:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         /* Enable IDAC8's operation */
+ 139:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         CapSense_IdacCH1_Enable();
+ 231              		.loc 1 139 0
+ 232 0010 FFF7FEFF 		bl	CapSense_IdacCH1_Enable
+ 140:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         
+ 141:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         /* Set the data register */
+ 142:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****         CapSense_IdacCH1_SetValue(CapSense_IdacCH1_Data);
+ 233              		.loc 1 142 0
+ 234 0014 044B     		ldr	r3, .L20+4
+ 235 0016 1B78     		ldrb	r3, [r3]
+ 236 0018 DBB2     		uxtb	r3, r3
+ 237 001a 1846     		mov	r0, r3
+ 238 001c FFF7FEFF 		bl	CapSense_IdacCH1_SetValue
+ 239              	.L19:
+ 143:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c ****     } /* Do nothing if IDAC8 was disabled before */    
+ 144:Generated_Source\PSoC5/CapSense_IdacCH1_PM.c **** }
+ 240              		.loc 1 144 0
+ 241 0020 00BF     		nop
+ 242 0022 80BD     		pop	{r7, pc}
+ 243              	.L21:
+ 244              		.align	2
+ 245              	.L20:
+ 246 0024 00000000 		.word	CapSense_IdacCH1_backup
+ 247 0028 815B0040 		.word	1073765249
+ 248              		.cfi_endproc
+ 249              	.LFE3:
+ 250              		.size	CapSense_IdacCH1_Wakeup, .-CapSense_IdacCH1_Wakeup
+ 251              		.text
+ 252              	.Letext0:
+ 253              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 254              		.file 3 "Generated_Source\\PSoC5\\CapSense_IdacCH1.h"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 8
+
+
+ 255              		.section	.debug_info,"",%progbits
+ 256              	.Ldebug_info0:
+ 257 0000 1B010000 		.4byte	0x11b
+ 258 0004 0400     		.2byte	0x4
+ 259 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 260 000a 04       		.byte	0x4
+ 261 000b 01       		.uleb128 0x1
+ 262 000c 1E000000 		.4byte	.LASF21
+ 263 0010 0C       		.byte	0xc
+ 264 0011 32020000 		.4byte	.LASF22
+ 265 0015 9E010000 		.4byte	.LASF23
+ 266 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 267 001d 00000000 		.4byte	0
+ 268 0021 00000000 		.4byte	.Ldebug_line0
+ 269 0025 02       		.uleb128 0x2
+ 270 0026 01       		.byte	0x1
+ 271 0027 06       		.byte	0x6
+ 272 0028 5F020000 		.4byte	.LASF0
+ 273 002c 02       		.uleb128 0x2
+ 274 002d 01       		.byte	0x1
+ 275 002e 08       		.byte	0x8
+ 276 002f F4000000 		.4byte	.LASF1
+ 277 0033 02       		.uleb128 0x2
+ 278 0034 02       		.byte	0x2
+ 279 0035 05       		.byte	0x5
+ 280 0036 0D020000 		.4byte	.LASF2
+ 281 003a 02       		.uleb128 0x2
+ 282 003b 02       		.byte	0x2
+ 283 003c 07       		.byte	0x7
+ 284 003d 19010000 		.4byte	.LASF3
+ 285 0041 02       		.uleb128 0x2
+ 286 0042 04       		.byte	0x4
+ 287 0043 05       		.byte	0x5
+ 288 0044 1D020000 		.4byte	.LASF4
+ 289 0048 02       		.uleb128 0x2
+ 290 0049 04       		.byte	0x4
+ 291 004a 07       		.byte	0x7
+ 292 004b 07010000 		.4byte	.LASF5
+ 293 004f 02       		.uleb128 0x2
+ 294 0050 08       		.byte	0x8
+ 295 0051 05       		.byte	0x5
+ 296 0052 8B010000 		.4byte	.LASF6
+ 297 0056 02       		.uleb128 0x2
+ 298 0057 08       		.byte	0x8
+ 299 0058 07       		.byte	0x7
+ 300 0059 58010000 		.4byte	.LASF7
+ 301 005d 03       		.uleb128 0x3
+ 302 005e 04       		.byte	0x4
+ 303 005f 05       		.byte	0x5
+ 304 0060 696E7400 		.ascii	"int\000"
+ 305 0064 02       		.uleb128 0x2
+ 306 0065 04       		.byte	0x4
+ 307 0066 07       		.byte	0x7
+ 308 0067 4B010000 		.4byte	.LASF8
+ 309 006b 04       		.uleb128 0x4
+ 310 006c 17020000 		.4byte	.LASF12
+ 311 0070 02       		.byte	0x2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 9
+
+
+ 312 0071 E401     		.2byte	0x1e4
+ 313 0073 2C000000 		.4byte	0x2c
+ 314 0077 02       		.uleb128 0x2
+ 315 0078 04       		.byte	0x4
+ 316 0079 04       		.byte	0x4
+ 317 007a D6000000 		.4byte	.LASF9
+ 318 007e 02       		.uleb128 0x2
+ 319 007f 08       		.byte	0x8
+ 320 0080 04       		.byte	0x4
+ 321 0081 2C010000 		.4byte	.LASF10
+ 322 0085 02       		.uleb128 0x2
+ 323 0086 01       		.byte	0x1
+ 324 0087 08       		.byte	0x8
+ 325 0088 99010000 		.4byte	.LASF11
+ 326 008c 04       		.uleb128 0x4
+ 327 008d 02010000 		.4byte	.LASF13
+ 328 0091 02       		.byte	0x2
+ 329 0092 8E02     		.2byte	0x28e
+ 330 0094 98000000 		.4byte	0x98
+ 331 0098 05       		.uleb128 0x5
+ 332 0099 6B000000 		.4byte	0x6b
+ 333 009d 06       		.uleb128 0x6
+ 334 009e 02       		.byte	0x2
+ 335 009f 03       		.byte	0x3
+ 336 00a0 25       		.byte	0x25
+ 337 00a1 BE000000 		.4byte	0xbe
+ 338 00a5 07       		.uleb128 0x7
+ 339 00a6 26020000 		.4byte	.LASF14
+ 340 00aa 03       		.byte	0x3
+ 341 00ab 27       		.byte	0x27
+ 342 00ac 6B000000 		.4byte	0x6b
+ 343 00b0 00       		.byte	0
+ 344 00b1 07       		.uleb128 0x7
+ 345 00b2 CB000000 		.4byte	.LASF15
+ 346 00b6 03       		.byte	0x3
+ 347 00b7 28       		.byte	0x28
+ 348 00b8 6B000000 		.4byte	0x6b
+ 349 00bc 01       		.byte	0x1
+ 350 00bd 00       		.byte	0
+ 351 00be 08       		.uleb128 0x8
+ 352 00bf 00000000 		.4byte	.LASF16
+ 353 00c3 03       		.byte	0x3
+ 354 00c4 29       		.byte	0x29
+ 355 00c5 9D000000 		.4byte	0x9d
+ 356 00c9 09       		.uleb128 0x9
+ 357 00ca 6F010000 		.4byte	.LASF17
+ 358 00ce 01       		.byte	0x1
+ 359 00cf 26       		.byte	0x26
+ 360 00d0 00000000 		.4byte	.LFB0
+ 361 00d4 30000000 		.4byte	.LFE0-.LFB0
+ 362 00d8 01       		.uleb128 0x1
+ 363 00d9 9C       		.byte	0x9c
+ 364 00da 09       		.uleb128 0x9
+ 365 00db AC000000 		.4byte	.LASF18
+ 366 00df 01       		.byte	0x1
+ 367 00e0 3D       		.byte	0x3d
+ 368 00e1 00000000 		.4byte	.LFB1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 10
+
+
+ 369 00e5 6C000000 		.4byte	.LFE1-.LFB1
+ 370 00e9 01       		.uleb128 0x1
+ 371 00ea 9C       		.byte	0x9c
+ 372 00eb 0A       		.uleb128 0xa
+ 373 00ec 6B020000 		.4byte	.LASF19
+ 374 00f0 01       		.byte	0x1
+ 375 00f1 60       		.byte	0x60
+ 376 00f2 00000000 		.4byte	.LFB2
+ 377 00f6 34000000 		.4byte	.LFE2-.LFB2
+ 378 00fa 01       		.uleb128 0x1
+ 379 00fb 9C       		.byte	0x9c
+ 380 00fc 0A       		.uleb128 0xa
+ 381 00fd 33010000 		.4byte	.LASF20
+ 382 0101 01       		.byte	0x1
+ 383 0102 84       		.byte	0x84
+ 384 0103 00000000 		.4byte	.LFB3
+ 385 0107 2C000000 		.4byte	.LFE3-.LFB3
+ 386 010b 01       		.uleb128 0x1
+ 387 010c 9C       		.byte	0x9c
+ 388 010d 0B       		.uleb128 0xb
+ 389 010e DC000000 		.4byte	.LASF24
+ 390 0112 01       		.byte	0x1
+ 391 0113 16       		.byte	0x16
+ 392 0114 BE000000 		.4byte	0xbe
+ 393 0118 05       		.uleb128 0x5
+ 394 0119 03       		.byte	0x3
+ 395 011a 00000000 		.4byte	CapSense_IdacCH1_backup
+ 396 011e 00       		.byte	0
+ 397              		.section	.debug_abbrev,"",%progbits
+ 398              	.Ldebug_abbrev0:
+ 399 0000 01       		.uleb128 0x1
+ 400 0001 11       		.uleb128 0x11
+ 401 0002 01       		.byte	0x1
+ 402 0003 25       		.uleb128 0x25
+ 403 0004 0E       		.uleb128 0xe
+ 404 0005 13       		.uleb128 0x13
+ 405 0006 0B       		.uleb128 0xb
+ 406 0007 03       		.uleb128 0x3
+ 407 0008 0E       		.uleb128 0xe
+ 408 0009 1B       		.uleb128 0x1b
+ 409 000a 0E       		.uleb128 0xe
+ 410 000b 55       		.uleb128 0x55
+ 411 000c 17       		.uleb128 0x17
+ 412 000d 11       		.uleb128 0x11
+ 413 000e 01       		.uleb128 0x1
+ 414 000f 10       		.uleb128 0x10
+ 415 0010 17       		.uleb128 0x17
+ 416 0011 00       		.byte	0
+ 417 0012 00       		.byte	0
+ 418 0013 02       		.uleb128 0x2
+ 419 0014 24       		.uleb128 0x24
+ 420 0015 00       		.byte	0
+ 421 0016 0B       		.uleb128 0xb
+ 422 0017 0B       		.uleb128 0xb
+ 423 0018 3E       		.uleb128 0x3e
+ 424 0019 0B       		.uleb128 0xb
+ 425 001a 03       		.uleb128 0x3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 11
+
+
+ 426 001b 0E       		.uleb128 0xe
+ 427 001c 00       		.byte	0
+ 428 001d 00       		.byte	0
+ 429 001e 03       		.uleb128 0x3
+ 430 001f 24       		.uleb128 0x24
+ 431 0020 00       		.byte	0
+ 432 0021 0B       		.uleb128 0xb
+ 433 0022 0B       		.uleb128 0xb
+ 434 0023 3E       		.uleb128 0x3e
+ 435 0024 0B       		.uleb128 0xb
+ 436 0025 03       		.uleb128 0x3
+ 437 0026 08       		.uleb128 0x8
+ 438 0027 00       		.byte	0
+ 439 0028 00       		.byte	0
+ 440 0029 04       		.uleb128 0x4
+ 441 002a 16       		.uleb128 0x16
+ 442 002b 00       		.byte	0
+ 443 002c 03       		.uleb128 0x3
+ 444 002d 0E       		.uleb128 0xe
+ 445 002e 3A       		.uleb128 0x3a
+ 446 002f 0B       		.uleb128 0xb
+ 447 0030 3B       		.uleb128 0x3b
+ 448 0031 05       		.uleb128 0x5
+ 449 0032 49       		.uleb128 0x49
+ 450 0033 13       		.uleb128 0x13
+ 451 0034 00       		.byte	0
+ 452 0035 00       		.byte	0
+ 453 0036 05       		.uleb128 0x5
+ 454 0037 35       		.uleb128 0x35
+ 455 0038 00       		.byte	0
+ 456 0039 49       		.uleb128 0x49
+ 457 003a 13       		.uleb128 0x13
+ 458 003b 00       		.byte	0
+ 459 003c 00       		.byte	0
+ 460 003d 06       		.uleb128 0x6
+ 461 003e 13       		.uleb128 0x13
+ 462 003f 01       		.byte	0x1
+ 463 0040 0B       		.uleb128 0xb
+ 464 0041 0B       		.uleb128 0xb
+ 465 0042 3A       		.uleb128 0x3a
+ 466 0043 0B       		.uleb128 0xb
+ 467 0044 3B       		.uleb128 0x3b
+ 468 0045 0B       		.uleb128 0xb
+ 469 0046 01       		.uleb128 0x1
+ 470 0047 13       		.uleb128 0x13
+ 471 0048 00       		.byte	0
+ 472 0049 00       		.byte	0
+ 473 004a 07       		.uleb128 0x7
+ 474 004b 0D       		.uleb128 0xd
+ 475 004c 00       		.byte	0
+ 476 004d 03       		.uleb128 0x3
+ 477 004e 0E       		.uleb128 0xe
+ 478 004f 3A       		.uleb128 0x3a
+ 479 0050 0B       		.uleb128 0xb
+ 480 0051 3B       		.uleb128 0x3b
+ 481 0052 0B       		.uleb128 0xb
+ 482 0053 49       		.uleb128 0x49
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 12
+
+
+ 483 0054 13       		.uleb128 0x13
+ 484 0055 38       		.uleb128 0x38
+ 485 0056 0B       		.uleb128 0xb
+ 486 0057 00       		.byte	0
+ 487 0058 00       		.byte	0
+ 488 0059 08       		.uleb128 0x8
+ 489 005a 16       		.uleb128 0x16
+ 490 005b 00       		.byte	0
+ 491 005c 03       		.uleb128 0x3
+ 492 005d 0E       		.uleb128 0xe
+ 493 005e 3A       		.uleb128 0x3a
+ 494 005f 0B       		.uleb128 0xb
+ 495 0060 3B       		.uleb128 0x3b
+ 496 0061 0B       		.uleb128 0xb
+ 497 0062 49       		.uleb128 0x49
+ 498 0063 13       		.uleb128 0x13
+ 499 0064 00       		.byte	0
+ 500 0065 00       		.byte	0
+ 501 0066 09       		.uleb128 0x9
+ 502 0067 2E       		.uleb128 0x2e
+ 503 0068 00       		.byte	0
+ 504 0069 3F       		.uleb128 0x3f
+ 505 006a 19       		.uleb128 0x19
+ 506 006b 03       		.uleb128 0x3
+ 507 006c 0E       		.uleb128 0xe
+ 508 006d 3A       		.uleb128 0x3a
+ 509 006e 0B       		.uleb128 0xb
+ 510 006f 3B       		.uleb128 0x3b
+ 511 0070 0B       		.uleb128 0xb
+ 512 0071 27       		.uleb128 0x27
+ 513 0072 19       		.uleb128 0x19
+ 514 0073 11       		.uleb128 0x11
+ 515 0074 01       		.uleb128 0x1
+ 516 0075 12       		.uleb128 0x12
+ 517 0076 06       		.uleb128 0x6
+ 518 0077 40       		.uleb128 0x40
+ 519 0078 18       		.uleb128 0x18
+ 520 0079 9742     		.uleb128 0x2117
+ 521 007b 19       		.uleb128 0x19
+ 522 007c 00       		.byte	0
+ 523 007d 00       		.byte	0
+ 524 007e 0A       		.uleb128 0xa
+ 525 007f 2E       		.uleb128 0x2e
+ 526 0080 00       		.byte	0
+ 527 0081 3F       		.uleb128 0x3f
+ 528 0082 19       		.uleb128 0x19
+ 529 0083 03       		.uleb128 0x3
+ 530 0084 0E       		.uleb128 0xe
+ 531 0085 3A       		.uleb128 0x3a
+ 532 0086 0B       		.uleb128 0xb
+ 533 0087 3B       		.uleb128 0x3b
+ 534 0088 0B       		.uleb128 0xb
+ 535 0089 27       		.uleb128 0x27
+ 536 008a 19       		.uleb128 0x19
+ 537 008b 11       		.uleb128 0x11
+ 538 008c 01       		.uleb128 0x1
+ 539 008d 12       		.uleb128 0x12
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 13
+
+
+ 540 008e 06       		.uleb128 0x6
+ 541 008f 40       		.uleb128 0x40
+ 542 0090 18       		.uleb128 0x18
+ 543 0091 9642     		.uleb128 0x2116
+ 544 0093 19       		.uleb128 0x19
+ 545 0094 00       		.byte	0
+ 546 0095 00       		.byte	0
+ 547 0096 0B       		.uleb128 0xb
+ 548 0097 34       		.uleb128 0x34
+ 549 0098 00       		.byte	0
+ 550 0099 03       		.uleb128 0x3
+ 551 009a 0E       		.uleb128 0xe
+ 552 009b 3A       		.uleb128 0x3a
+ 553 009c 0B       		.uleb128 0xb
+ 554 009d 3B       		.uleb128 0x3b
+ 555 009e 0B       		.uleb128 0xb
+ 556 009f 49       		.uleb128 0x49
+ 557 00a0 13       		.uleb128 0x13
+ 558 00a1 02       		.uleb128 0x2
+ 559 00a2 18       		.uleb128 0x18
+ 560 00a3 00       		.byte	0
+ 561 00a4 00       		.byte	0
+ 562 00a5 00       		.byte	0
+ 563              		.section	.debug_aranges,"",%progbits
+ 564 0000 34000000 		.4byte	0x34
+ 565 0004 0200     		.2byte	0x2
+ 566 0006 00000000 		.4byte	.Ldebug_info0
+ 567 000a 04       		.byte	0x4
+ 568 000b 00       		.byte	0
+ 569 000c 0000     		.2byte	0
+ 570 000e 0000     		.2byte	0
+ 571 0010 00000000 		.4byte	.LFB0
+ 572 0014 30000000 		.4byte	.LFE0-.LFB0
+ 573 0018 00000000 		.4byte	.LFB1
+ 574 001c 6C000000 		.4byte	.LFE1-.LFB1
+ 575 0020 00000000 		.4byte	.LFB2
+ 576 0024 34000000 		.4byte	.LFE2-.LFB2
+ 577 0028 00000000 		.4byte	.LFB3
+ 578 002c 2C000000 		.4byte	.LFE3-.LFB3
+ 579 0030 00000000 		.4byte	0
+ 580 0034 00000000 		.4byte	0
+ 581              		.section	.debug_ranges,"",%progbits
+ 582              	.Ldebug_ranges0:
+ 583 0000 00000000 		.4byte	.LFB0
+ 584 0004 30000000 		.4byte	.LFE0
+ 585 0008 00000000 		.4byte	.LFB1
+ 586 000c 6C000000 		.4byte	.LFE1
+ 587 0010 00000000 		.4byte	.LFB2
+ 588 0014 34000000 		.4byte	.LFE2
+ 589 0018 00000000 		.4byte	.LFB3
+ 590 001c 2C000000 		.4byte	.LFE3
+ 591 0020 00000000 		.4byte	0
+ 592 0024 00000000 		.4byte	0
+ 593              		.section	.debug_line,"",%progbits
+ 594              	.Ldebug_line0:
+ 595 0000 C0000000 		.section	.debug_str,"MS",%progbits,1
+ 595      02006600 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 14
+
+
+ 595      00000201 
+ 595      FB0E0D00 
+ 595      01010101 
+ 596              	.LASF16:
+ 597 0000 43617053 		.ascii	"CapSense_IdacCH1_backupStruct\000"
+ 597      656E7365 
+ 597      5F496461 
+ 597      63434831 
+ 597      5F626163 
+ 598              	.LASF21:
+ 599 001e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 599      43313120 
+ 599      352E342E 
+ 599      31203230 
+ 599      31363036 
+ 600 0051 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 600      20726576 
+ 600      6973696F 
+ 600      6E203233 
+ 600      37373135 
+ 601 0084 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 601      66756E63 
+ 601      74696F6E 
+ 601      2D736563 
+ 601      74696F6E 
+ 602              	.LASF18:
+ 603 00ac 43617053 		.ascii	"CapSense_IdacCH1_RestoreConfig\000"
+ 603      656E7365 
+ 603      5F496461 
+ 603      63434831 
+ 603      5F526573 
+ 604              	.LASF15:
+ 605 00cb 64617461 		.ascii	"data_value\000"
+ 605      5F76616C 
+ 605      756500
+ 606              	.LASF9:
+ 607 00d6 666C6F61 		.ascii	"float\000"
+ 607      7400
+ 608              	.LASF24:
+ 609 00dc 43617053 		.ascii	"CapSense_IdacCH1_backup\000"
+ 609      656E7365 
+ 609      5F496461 
+ 609      63434831 
+ 609      5F626163 
+ 610              	.LASF1:
+ 611 00f4 756E7369 		.ascii	"unsigned char\000"
+ 611      676E6564 
+ 611      20636861 
+ 611      7200
+ 612              	.LASF13:
+ 613 0102 72656738 		.ascii	"reg8\000"
+ 613      00
+ 614              	.LASF5:
+ 615 0107 6C6F6E67 		.ascii	"long unsigned int\000"
+ 615      20756E73 
+ 615      69676E65 
+ 615      6420696E 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 15
+
+
+ 615      7400
+ 616              	.LASF3:
+ 617 0119 73686F72 		.ascii	"short unsigned int\000"
+ 617      7420756E 
+ 617      7369676E 
+ 617      65642069 
+ 617      6E7400
+ 618              	.LASF10:
+ 619 012c 646F7562 		.ascii	"double\000"
+ 619      6C6500
+ 620              	.LASF20:
+ 621 0133 43617053 		.ascii	"CapSense_IdacCH1_Wakeup\000"
+ 621      656E7365 
+ 621      5F496461 
+ 621      63434831 
+ 621      5F57616B 
+ 622              	.LASF8:
+ 623 014b 756E7369 		.ascii	"unsigned int\000"
+ 623      676E6564 
+ 623      20696E74 
+ 623      00
+ 624              	.LASF7:
+ 625 0158 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 625      206C6F6E 
+ 625      6720756E 
+ 625      7369676E 
+ 625      65642069 
+ 626              	.LASF17:
+ 627 016f 43617053 		.ascii	"CapSense_IdacCH1_SaveConfig\000"
+ 627      656E7365 
+ 627      5F496461 
+ 627      63434831 
+ 627      5F536176 
+ 628              	.LASF6:
+ 629 018b 6C6F6E67 		.ascii	"long long int\000"
+ 629      206C6F6E 
+ 629      6720696E 
+ 629      7400
+ 630              	.LASF11:
+ 631 0199 63686172 		.ascii	"char\000"
+ 631      00
+ 632              	.LASF23:
+ 633 019e 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 633      73657273 
+ 633      5C4A6566 
+ 633      66536E79 
+ 633      6465725C 
+ 634 01cc 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 634      5F656C65 
+ 634      6374726F 
+ 634      62617373 
+ 634      5F737472 
+ 635 01fe 65726D69 		.ascii	"ermistor.cydsn\000"
+ 635      73746F72 
+ 635      2E637964 
+ 635      736E00
+ 636              	.LASF2:
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccFZNUn8.s 			page 16
+
+
+ 637 020d 73686F72 		.ascii	"short int\000"
+ 637      7420696E 
+ 637      7400
+ 638              	.LASF12:
+ 639 0217 75696E74 		.ascii	"uint8\000"
+ 639      3800
+ 640              	.LASF4:
+ 641 021d 6C6F6E67 		.ascii	"long int\000"
+ 641      20696E74 
+ 641      00
+ 642              	.LASF14:
+ 643 0226 656E6162 		.ascii	"enableState\000"
+ 643      6C655374 
+ 643      61746500 
+ 644              	.LASF22:
+ 645 0232 47656E65 		.ascii	"Generated_Source\\PSoC5\\CapSense_IdacCH1_PM.c\000"
+ 645      72617465 
+ 645      645F536F 
+ 645      75726365 
+ 645      5C50536F 
+ 646              	.LASF0:
+ 647 025f 7369676E 		.ascii	"signed char\000"
+ 647      65642063 
+ 647      68617200 
+ 648              	.LASF19:
+ 649 026b 43617053 		.ascii	"CapSense_IdacCH1_Sleep\000"
+ 649      656E7365 
+ 649      5F496461 
+ 649      63434831 
+ 649      5F536C65 
+ 650              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
