@@ -82,6 +82,7 @@ void audioFrame(uint16_t buffer_offset)
 
 }
 
+uint16_t fullVel = 0;
 
 float audioTickL(float audioIn)
 {
@@ -96,6 +97,7 @@ float audioTickL(float audioIn)
 	float velocity = (float)vel;
     velocity = ((0.007685533519034f*velocity) + 0.0239372430f);
     velocity = velocity * velocity;
+    //fullVel = velocity * 65535.0f;
     sample *= velocity;
 	//sample *= ((float)vel) / 127.0f;;
 	//sample *= 0.33f; // drop the gain because we've got three full volume sine waves summing here
@@ -110,11 +112,18 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 	if (velocity > 0)
 	{
 		tSimplePoly_noteOn(&poly, note, velocity);
+
+
 	}
 	else
 	{
 		tSimplePoly_noteOff(&poly, note);
 	}
+
+	float velocity2 = (float)velocity;
+    velocity2 = ((0.007685533519034f*velocity2) + 0.0239372430f);
+    velocity2 = velocity2 * velocity2;
+    fullVel = velocity2 * 65535.0f;
 }
 void sendCtrl(uint8_t value, uint8_t ctrl)
 {
