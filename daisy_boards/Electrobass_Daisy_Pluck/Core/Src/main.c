@@ -45,8 +45,8 @@
 #define SDRECORD 0
 #define SAMPLE_RATE 48000
 
-#define MAPLE1
-
+//#define MAPLE1
+#define GREEN3
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -102,6 +102,7 @@ float Dsmoothed2;
 float dbSmoothed2;
 
 float stringScaling[4] = {2.0f, 1.3f, 0.9f, 0.4f};
+float stringScaling2[4] = {1.20f, 1.4f, 0.9f, 0.5f};
 int armed[NUM_STRINGS] = {0,0,0,0};
 float prevdbSmoothed2[NUM_STRINGS];
 int threshOut = 0;
@@ -457,6 +458,8 @@ int attackDetectPeak2 (int whichString, int tempInt)
 	float tempSamp = (((float)tempInt - TWO_TO_15) * INV_TWO_TO_15);
 #ifdef MAPLE1
 	tempSamp = tempSamp * stringScaling[whichString] * 2.0f;
+#elif defined GREEN3
+	tempSamp = tempSamp * stringScaling2[whichString] * 2.0f;
 #else
 	tempSamp = tempSamp;
 #endif
@@ -484,9 +487,9 @@ int attackDetectPeak2 (int whichString, int tempInt)
 	slopeStorage[whichString] = slope;
 	float integerVersion = Dsmoothed2 * (TWO_TO_16 - 1);
 
-	//if (whichString == 1)
+	if (whichString == 1)
 	{
-		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, (uint16_t)integerVersion >> 4);
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, (uint16_t)integerVersion >> 4);
 	}
 	threshOut = tThreshold_tick(&threshold[whichString], integerVersion);
 	if (threshOut > 0)
@@ -638,9 +641,9 @@ void ADC_Frame(int offset)
 			int tempInt = adcBytes[j];
 
 			didPlucked[j] = attackDetectPeak2(j, tempInt);
-			//if (j == 1)
+			if (j == 1)
 			{
-				//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)stringPressed[j] >>4);
+				HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)stringPressed[j] >>4);
 			}
 			//stringTouchRH[j] = (SPI_RX[(16*spiBuffer) + 8] >> (j+4)) & 1;
 			//stringTouchLH[j] = (SPI_RX[(16*spiBuffer) + 8] >> j) & 1;
@@ -700,21 +703,21 @@ void ADC_Frame(int offset)
 				{
 					if (LHmuted  > 0)
 					{
-						//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_SET);
+						HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_SET);
 					}
 					else
 					{
-						//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
+						HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
 					}
 
 
 					if (stringTouchRH[j]  > 0)
 					{
-						//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
+						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
 					}
 					else
 					{
-						//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
+						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);
 					}
 				}
 
@@ -817,7 +820,7 @@ void ADC_Frame(int offset)
 					stringSounding[j] = 0;
 					if (j == 1)
 					{
-						//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 0);
+						HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 0);
 					}
 				}
 
