@@ -47,4 +47,7 @@ float audioTickR(float audioIn);
 void DMA1_TransferCpltCallback(DMA_HandleTypeDef *hdma);
 void DMA1_HalfTransferCpltCallback(DMA_HandleTypeDef *hdma);
 
+extern void sendNoteOn(uint8_t note, uint8_t velocity);
+extern void sendCtrl(uint8_t value, uint8_t ctrl);
+extern void sendPitchBend(uint8_t value, uint8_t ctrl);
 #endif /* INC_AUDIO_H_ */
