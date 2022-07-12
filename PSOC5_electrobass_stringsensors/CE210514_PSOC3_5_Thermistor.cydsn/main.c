@@ -1139,16 +1139,17 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
     return status;
 }
 
-
+//velocity comes in as a 16 bit number from 0-65*** 
+//not in decibels, raw amplitude value
 void handleNotes(int note, int velocity, int string)
 {
     if (velocity > 0)
     {
         //velocity = (((sqrtf((float)velocity) * 0.00001525878903f) - .0239372430f) * 130.114584436252734f);
         float tempVel = (float)velocity;
-        tempVel = tempVel * 0.00001525878903f;
         tempVel = sqrtf(tempVel);
         tempVel = tempVel - 0.0239372430f;
+        tempVel = tempVel * 0.00001525878903f;
         tempVel = tempVel * 130.114584436252734f;
         velocity = (int)tempVel;
         if (velocity > 127)
