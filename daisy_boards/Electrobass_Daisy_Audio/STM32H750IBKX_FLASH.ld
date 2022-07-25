@@ -49,8 +49,10 @@ MEMORY
   RAM_D2 (xrw)   : ORIGIN = 0x30000000, LENGTH = 288K
   RAM_D3 (xrw)   : ORIGIN = 0x38000000, LENGTH = 64K
   ITCMRAM (xrw)  : ORIGIN = 0x00000000, LENGTH = 64K
+  SDRAM (RWX)   : ORIGIN = 0xc0000000, LENGTH = 64M
+  QSPIFLASH (RX)  : ORIGIN = 0x90000000, LENGTH = 8M 
 }
-
+ 
 /* Define output sections */
 SECTIONS
 {
@@ -181,6 +183,73 @@ SECTIONS
         KEEP(*(.RAM_D3)) /* ORIGIN = 0x38000000, LENGTH = 64K */
   } >RAM_D3
 
+
+    .qspiflash_text :
+	{
+		. = ALIGN(4);
+		_sqspiflash_text = .;
+
+		PROVIDE(__qspiflash_text_start = _sqspiflash_text);
+		*(.qspiflash_text)
+		*(.qspiflash_text*)
+		. = ALIGN(4);
+		_eqspiflash_text = .;
+
+		PROVIDE(__qspiflash_text_end = _eqspiflash_text);
+	} > QSPIFLASH
+
+	.qspiflash_data :
+	{
+		. = ALIGN(4);
+		_sqspiflash_data = .;
+
+		PROVIDE(__qspiflash_data_start = _sqspiflash_data);
+		*(.qspiflash_data)
+		*(.qspiflash_data*)
+		. = ALIGN(4);
+		_eqspiflash_data = .;
+
+		PROVIDE(__qspiflash_data_end = _eqspiflash_data);
+	} > QSPIFLASH
+
+	.qspiflash_bss (NOLOAD) :
+	{
+		. = ALIGN(4);
+		_sqspiflash_bss = .;
+
+		PROVIDE(__qspiflash_bss_start = _sqspiflash_bss);
+		*(.qspiflash_bss)
+		*(.qspiflash_bss*)
+		. = ALIGN(4);
+		_eqspiflash_bss = .;
+
+		PROVIDE(__qspiflash_bss_end = _eqspiflash_bss);
+	} > QSPIFLASH
+	
+
+    .sdram_data :
+    {
+        . = ALIGN(4);
+        _ssdram_data = .;
+        PROVIDE(__sdram_data_start = _ssdram_data);
+        *(.sdram_data)
+        *(.sdram_data*)
+        . = ALIGN(4);
+        _esdram_data = .;
+        PROVIDE(__sdram_data_end = _esdram_data);
+     } > SDRAM AT >FLASH
+     _sisdram_data = LOADADDR(.sdram_data);
+    .sdram_bss (NOLOAD):
+    {
+        . = ALIGN(4);
+        __ssdram_bss = .;
+        PROVIDE(__sdram_bss_start = _ssdram_bss);
+        *(.sdram_bss)
+        *(.sdram_bss*)
+        . = ALIGN(4);
+        _esdram_bss = .;
+        PROVIDE(__sdram_bss_end = _esdram_bss);
+     } > SDRAM
 
   /* Remove information from the standard libraries */
   /DISCARD/ :
