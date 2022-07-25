@@ -113,6 +113,7 @@
 #include "vBusPin_aliases.h"
 #include "vBusPin.h"
 #include "my_Vbus_ISR.h"
+#include "EEPROM_1.h"
 #include "ADC_1_Ext_CP_Clk.h"
 #include "ADC_1_Bypass_P03_aliases.h"
 #include "ADC_1_Bypass_P03.h"

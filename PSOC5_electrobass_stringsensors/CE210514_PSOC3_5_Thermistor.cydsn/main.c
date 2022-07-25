@@ -107,7 +107,25 @@ uint16_t fretMeasurements[4][2] = {
     #endif
 float fretRatios[2] = {0.94387439674627617953623675390268f,0.47193719837313808976811837695134f}; 
 
+uint8_t sysexBuffer[128];
+uint32_t sysexPointer = 0;
+uint8_t receivingSysex = 0;
+uint8_t parsingSysex = 0;
+volatile uint8_t presetArray[2048];
+uint8_t presetNumberToWrite = 0;
+uint8_t sendPresetEndAck = 0;
+enum presetArraySectionState
+{
+    initialVals = 0,
+    mapping = 1,
+    presetEnd = 2
+};
+uint8_t presetArraySection = initialVals;
 
+uint16_t presetArraySendCount = 0;
+uint16_t presetArraySize = 0;
+
+uint8_t sysexPresetInProgress = 0;
 
 int32_t linearPotValue32Bit[4];
 uint8_t i = 0;
@@ -310,6 +328,7 @@ int skippedNotes[32][5];
 int skipPointer = 0;
 
 uint8_t bufCount = 0;
+uint8_t sendingPreset = 0;
 
 CY_ISR(SleepIsr_function)
 {
@@ -691,20 +710,56 @@ int main(void)
         }
         //send midi data to internal synth
         //copy the temp buffer into the send buffer now that we are done filling it and sending the previous one
-        for (uint i = 0 ; i < BUFFER_2_SIZE; i++)
+        if (!sendingPreset)
         {
-            tx2Buffer[i] = tx2BufferTemp[i];
-            tx2BufferTemp[i] = 0;
-        }
-        if (outChanged)
-        {
-            tx2Buffer[0] = 1;
+            for (uint i = 0 ; i < BUFFER_2_SIZE; i++)
+            {
+                tx2Buffer[i] = tx2BufferTemp[i];
+                tx2BufferTemp[i] = 0;
+            }
+            if (outChanged)
+            {
+                tx2Buffer[0] = 1;
+            }
+            else
+            {
+                tx2Buffer[0] = 0;
+            }
+            outChanged = 0;
         }
         else
         {
-            tx2Buffer[0] = 0;
+            if (sendPresetEndAck)
+            {
+                tx2Buffer[0] = 3;
+                tx2Buffer[1] = presetNumberToWrite;
+                sendPresetEndAck = 0;
+                sendingPreset = 0;
+            }
+            else
+            {
+                //send the next preset Chunkkkkk
+                tx2Buffer[0] = 2;
+                tx2Buffer[1] = presetNumberToWrite;
+                for (uint i = 2 ; i < BUFFER_2_SIZE; i++)
+                {
+                    if (presetArraySendCount < presetArraySize)
+                    {
+                        tx2Buffer[i] = presetArray[presetArraySendCount++];
+                    }
+                    else
+                    {
+                        tx2Buffer[i] = 0xfe; // preset end ack   - done, next send a message that starts with 3 to end the transmission
+                        sendPresetEndAck = 1;
+                        sendMIDINoteOn(61,4,1);
+                    }
+                     //sendMIDINoteOn(61,3,1);
+                }
+            }
         }
-        outChanged = 0;
+
+        
+        
         if (currentOutPointer > BUFFER_2_SIZE)
         {
             LED1_Write(1);
@@ -879,15 +934,156 @@ void USB_service(void)
     }
         
 }
+
+uint32_t currentFloat = 0;
+        uint32_t mapCount = 0;
+
+void parseSysex(void)
+{
+    parsingSysex = 1;
+    #if 0
+    if (sysexBuffer[0] == 0)
+    {
+        testy = 1;
+        for(uint32_t i = 0; i < 72; i++)
+        {
+            if (i < sysexPointer)
+            {   
+                presetArray[i] = sysexBuffer[i];
+            }
+            else
+            {
+                presetArray[i] = 255;
+            }
+        }
+        presetArray[72] = 240;
+        presetArray[73] = 241;
+        
+        SPIM_1_WriteTxData(presetArray[i]);
+        
+    }
+    #endif
+    //0 = it's a preset
+    if (sysexBuffer[0] == 0)
+    {
+        if (sysexBuffer[2] == 0)
+        {
+            sysexPresetInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
+            currentFloat = 0;
+            presetArraySection = initialVals;
+            sendMIDINoteOn(61,0,1);
+        }
+        union breakFloat theVal;
+
+
+        
+        for (uint32_t i = 3; i < sysexPointer; i = i+5)
+        {
+            theVal.u32 = 0;
+            theVal.u32 |= ((sysexBuffer[i] &15) << 28);
+            theVal.u32 |= (sysexBuffer[i+1] << 21);
+            theVal.u32 |= (sysexBuffer[i+2] << 14);
+            theVal.u32 |= (sysexBuffer[i+3] << 7);
+            theVal.u32 |= (sysexBuffer[i+4] & 127);
+
+            if (presetArraySection == initialVals)
+            {
+                uint16_t intVal = (uint16_t)(theVal.f * 32767.0f);
+                presetArray[currentFloat++] = intVal >> 8;
+                presetArray[currentFloat++] = intVal & 0xff;
+                
+                if (theVal.f == -1.0f)
+                {
+                    presetArray[currentFloat++] = 0xff;
+                    presetArray[currentFloat++] = 0xff;
+                    presetArraySection = mapping;
+                    mapCount = 0;
+                    sendMIDINoteOn(61,1,1);
+                }
+            }
+            else if (presetArraySection == mapping)
+            {
+                // this is the order
+                // source (int), target (int), scalarSource (arrives as -1.0f if no scalar, send as 255 if no scalar)(int), range (float 0-1)
+                if ((mapCount % 4) != 3)
+                {
+                    if (theVal.f < 0.0f)
+                    {
+                        presetArray[currentFloat++] = 0xff;
+                        presetArray[currentFloat++] = 0xff;
+                        presetArraySection = presetEnd;
+                        sysexPresetInProgress = 0;
+                        sendingPreset = 1;
+                        sendMIDINoteOn(61,2,1);
+                        presetArraySize = currentFloat;
+                    }
+                    else
+                    {
+                        presetArray[currentFloat++] = (uint16_t)theVal.f;
+                        sendMIDINoteOn(61,5,mapCount);
+                    }
+                }
+                else
+                {
+                    uint16_t intVal = (uint16_t)(theVal.f * 32767.0f);
+                    presetArray[currentFloat++] = intVal >> 8;
+                    presetArray[currentFloat++] = intVal & 0xff;
+                    sendMIDINoteOn(61,6,mapCount);
+                }
+                mapCount++;
+            }
+            
+        }
+        
+
+
+        
+    }
+
+    parsingSysex = 0;
+
+}
+
+
+
 uint8_t tempMIDI[4];
+
+//data sent from computer
 void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
 {
-     tempMIDI[0] = midiMsg[0];
+    tempMIDI[0] = midiMsg[0];
     tempMIDI[1] = midiMsg[1];
-     tempMIDI[2] = midiMsg[2];
-     tempMIDI[3] = midiMsg[3];
+    tempMIDI[2] = midiMsg[2];
+    tempMIDI[3] = midiMsg[3];
     //check that we got here
-    
+    if (receivingSysex)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (midiMsg[i] < 128)
+            {
+                sysexBuffer[sysexPointer++] = midiMsg[i];
+            }
+            else
+            {
+                if (midiMsg[i] == USB_MIDI_EOSEX)
+                {
+                    receivingSysex = 0;
+                    parseSysex();
+                 }
+            }
+        }
+    }
+    if (midiMsg[USB_EVENT_BYTE0] == USB_MIDI_SYSEX)
+    {
+        if (!parsingSysex)
+        {
+            receivingSysex = 1;
+            sysexPointer = 0;
+            sysexBuffer[sysexPointer++] = midiMsg[1];
+            sysexBuffer[sysexPointer++] = midiMsg[2];
+        }
+    }
     if ((USB_active) && (USB_VBusPresent()))
     { 
     }
@@ -1141,21 +1337,28 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
 
 //velocity comes in as a 16 bit number from 0-65*** 
 //not in decibels, raw amplitude value
+int counter2 = 1;
 void handleNotes(int note, int velocity, int string)
 {
+    //static int counter = 1;
+    //velocity = (counter2 * 6553);
+    //counter2 = (counter2 + 1) % 10;
     if (velocity > 0)
     {
         //velocity = (((sqrtf((float)velocity) * 0.00001525878903f) - .0239372430f) * 130.114584436252734f);
         float tempVel = (float)velocity;
+        tempVel = tempVel * 0.00001525878903f;
         tempVel = sqrtf(tempVel);
         tempVel = tempVel - 0.0239372430f;
-        tempVel = tempVel * 0.00001525878903f;
         tempVel = tempVel * 130.114584436252734f;
         velocity = (int)tempVel;
+        
+
         if (velocity > 127)
         {
             velocity = 127;
         }
+        
     }
     if (polyMode)
     {

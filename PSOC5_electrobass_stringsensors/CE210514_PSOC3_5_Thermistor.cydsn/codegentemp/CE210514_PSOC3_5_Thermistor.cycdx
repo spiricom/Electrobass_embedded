@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <blockRegMap version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cypress.com/xsd/cyblockregmap cyblockregmap.xsd" xmlns="http://cypress.com/xsd/cyblockregmap">
+  <block name="fretted_momentary" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="fretted_latching" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="up" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="V_H" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="MOSI_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="MISO_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="DMA_2_RX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="fretted_momentary" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SCL_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="V_H" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SDA_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="CV_pedal_sense" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="I2C_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="BusClock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -92,10 +93,10 @@
       <field name="timeout_period_highnibble" from="3" to="0" access="RW" resetVal="" desc="The configuration of this register along with that in register TMOUT_CFG1 to define the number units before SCL or SDA stuck low timeout triggers the I2C interrupt. The one unit is equal to SYSCLK/1024. The TMOUT_CFG1 defines higher octet of the period." hidden="false" />
     </register>
   </block>
-  <block name="DMA_1_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SCL_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="V_T_1_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="vRef_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SDA_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="my_Vbus_ISR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="vBusPin" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SleepTimer" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="gsRef_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -129,11 +130,11 @@
       </field>
     </register>
   </block>
-  <block name="Sleep_isr" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="Em_EEPROM_Dynamic" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="cy_boot" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="my_Vbus_ISR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Em_EEPROM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="EEPROM_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="Sleep_isr" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SS_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SPIM_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="VirtualMux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="VirtualMux_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -143,10 +144,10 @@
     <block name="BSPIM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   </block>
   <block name="SCLK_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="MOSI_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="Em_EEPROM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="DMA_2_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="cv_pedal" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SS_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="DMA_1_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="joy_y_23" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="knob_1_01" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="V_T_1_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
