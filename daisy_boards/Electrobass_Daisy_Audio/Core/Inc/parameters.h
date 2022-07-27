@@ -17,9 +17,10 @@ typedef struct param
         scaler_t scaleFunc;
     } param;
 
-
-
+#define NUM_OSC_SHAPES 6
+#define NUM_FILTER_TYPES 9
 #define OSC_PARAMS_OFFSET 40
+#define FILTER_PARAMS_OFFSET 98
 
 enum OscParamNames
 {
@@ -34,6 +35,17 @@ enum OscParamNames
 	OscShapeSet,
 	OscFilterSend,
 	OscParamsNum
+};
+
+enum FilterParamNames
+{
+	FilterEnabled,
+	FilterType,
+	FilterCutoff,
+	FilterGain,
+	FilterResonance,
+	FilterKeyFollow,
+	FilterParamsNum
 };
 
 

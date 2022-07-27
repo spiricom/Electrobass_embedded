@@ -52,9 +52,45 @@ extern void sendCtrl(uint8_t value, uint8_t ctrl);
 extern void sendPitchBend(uint8_t value, uint8_t ctrl);
 
 /****************** Audio Params **********************/
-extern float oscAmp[3];
 
-extern float filtCutoff[2];
-extern float follow[2];
+#define NUM_OSC 3
+#define INV_NUM_OSCS 0.333333333f
+#define NUM_FILT 2
+#define NUM_SOURCES 33
+
+#define OSC_SOURCE_OFFSET 0
+
+void oscillator_tick(float note, float freq);
+
+typedef void (*shapeTick_t)(float*, int, float, float);
+
+void sawSquareTick(float* sample, int v, float freq, float shape);
+void sineTriTick(float* sample, int v, float freq, float shape);
+void sawTick(float* sample, int v, float freq, float shape);
+void pulseTick(float* sample, int v, float freq, float shape);
+void sineTick(float* sample, int v, float freq, float shape);
+void triTick(float* sample, int v, float freq, float shape);
+void userTick(float* sample, int v, float freq, float shape);
+
+extern shapeTick_t shapeTick[NUM_OSC];
+
+void filter_tick(float* samples, float note, float freq);
+
+typedef void (*filterTick_t)(float*, int, float, float, float, float);
+
+void lowpassTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+void highpassTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+void bandpassTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+void diodeLowpassTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+void LadderLowpassTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+void VZlowshelfTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+void VZhighshelfTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+void VZpeakTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+void VZbandrejectTick(float* sample, int v, float cutoff, float q, float morph, float gain);
+
+
+extern filterTick_t filterTick[NUM_FILT];
+
+
 
 #endif /* INC_AUDIO_H_ */

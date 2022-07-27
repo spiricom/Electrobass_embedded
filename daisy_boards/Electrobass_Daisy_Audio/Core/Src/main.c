@@ -82,7 +82,12 @@ uint32_t tooBigForScratch = 0;
 uint32_t memoryPointer = 0;
 uint8_t counter = 0;
 
+volatile uint8_t writingPreset = 0;
 
+FIL fdst;
+volatile uint8_t buffer[4096];
+volatile uint16_t bufferPos = 0;
+FRESULT res;
 
 
 param params[NUM_PARAMS];
@@ -100,27 +105,27 @@ float lfoRateTable[2048];
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  MPU_Conf();
+  //MPU_Conf();
 
   /* USER CODE END 1 */
 
   /* Enable I-Cache---------------------------------------------------------*/
-  SCB_EnableICache();
+  //SCB_EnableICache();
 
   /* Enable D-Cache---------------------------------------------------------*/
-  SCB_EnableDCache();
+  //SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+  //HAL_Init();
 
   /* USER CODE BEGIN Init */
 
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  SystemClock_Config();
+  //SystemClock_Config();
 
 /* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
@@ -133,27 +138,40 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_DAC1_Init();
-  MX_FMC_Init();
-  MX_I2C2_Init();
-  MX_QUADSPI_Init();
-  MX_SAI1_Init();
-  MX_SDMMC1_SD_Init();
+  //MX_FMC_Init();
+  //MX_I2C2_Init();
+  //MX_QUADSPI_Init();
+ // MX_SAI1_Init();
+  //MX_SDMMC1_SD_Init();
   MX_SPI1_Init();
   MX_I2C1_Init();
   MX_RNG_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
-
+  /*
+  while(1)
+  {
+	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+	  HAL_Delay(200);
+  }
+  */
   uint32_t tempFPURegisterVal = __get_FPSCR();
   tempFPURegisterVal |= (1<<24); // set the FTZ (flush-to-zero) bit in the FPU control register
   __set_FPSCR(tempFPURegisterVal);
 
-
+/*
   while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
    {
  	  ;
    }
+*/
 
+  for (int i = 0; i < 4096; i++)
+  {
+	  buffer[i] = 0;
+  }
+
+  parse_preset();
 
   codec_init(&hi2c2);
 
@@ -164,9 +182,13 @@ int main(void)
 	  SPI_TX[i] = counter++;
   }
 
+
+
   LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
   LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
+
+
   HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
 
 
@@ -195,7 +217,7 @@ int main(void)
   {
 
 	  //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-	  //HAL_Delay(100);
+	  //HAL_Delay(200);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -545,12 +567,7 @@ void MPU_Conf(void)
 	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
 
-volatile uint8_t writingPreset = 0;
 
-FIL fdst;
-volatile uint8_t buffer[4096];
-volatile uint16_t bufferPos = 0;
-FRESULT res;
 
 void handleSPI(uint8_t offset)
 {
@@ -558,7 +575,7 @@ void handleSPI(uint8_t offset)
 	if (SPI_RX[offset] == 1)
 	{
 		//got a change!
-		 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+		 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 
 		 uint8_t currentByte = offset+1;
 
@@ -578,7 +595,7 @@ void handleSPI(uint8_t offset)
 			 }
 			 currentByte = currentByte+3;
 		 }
-		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 	}
 	// if the first number is a 2 then it's a preset write
 	else if (SPI_RX[offset] == 2)
@@ -608,7 +625,7 @@ void handleSPI(uint8_t offset)
 			 //f_putc(SPI_RX[currentByte + i], &fdst);
 
 		 }
-		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 
 
 
@@ -669,7 +686,7 @@ void handleSPI(uint8_t offset)
 			 /* Parse into Audio Params */
 			 parse_preset();
 
-			 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+			 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 		}
 }
 
@@ -710,7 +727,7 @@ float scalePitchBend(float input)
 
 float scaleFilterCutoff(float input)
 {
-	return (input * 127.0f) -  63.5f;
+	return (input * 127.0f);
 }
 
 float scaleFilterResonance(float input)
@@ -810,8 +827,150 @@ void parse_preset()
 		params[i].realVal = params[i].scaleFunc(params[i].zeroToOneVal);
 	}
 
+	int osc1shape = roundf(params[Osc1ShapeSet].realVal * NUM_OSC_SHAPES);
+	switch (osc1shape){
+				  case 0:
+					  shapeTick[0] = &sawSquareTick;
+					  break;
+				  case 1:
+					  shapeTick[0] = &sineTriTick;
+					  break;
+				  case 2:
+					  shapeTick[0] = &sawTick;
+					  break;
+				  case 3:
+					  shapeTick[0] = &pulseTick;
+					  break;
+				  case 4:
+					  shapeTick[0] = &sineTick;
+					  break;
+				  case 5:
+					  shapeTick[0] = &triTick;
+					  break;
+				  case 6:
+					  shapeTick[0] = &userTick;
+					  break;
+				  default:
+					  break;
+	}
+	int osc2shape = roundf(params[Osc2ShapeSet].realVal * NUM_OSC_SHAPES);
+	switch (osc2shape){
+				  case 0:
+					  shapeTick[1] = &sawSquareTick;
+					  break;
+				  case 1:
+					  shapeTick[1] = &sineTriTick;
+					  break;
+				  case 2:
+					  shapeTick[1] = &sawTick;
+					  break;
+				  case 3:
+					  shapeTick[1] = &pulseTick;
+					  break;
+				  case 4:
+					  shapeTick[1] = &sineTick;
+					  break;
+				  case 5:
+					  shapeTick[1] = &triTick;
+					  break;
+				  case 6:
+					  shapeTick[1] = &userTick;
+					  break;
+				  default:
+					  break;
+	}
+	int osc3shape = roundf(params[Osc3ShapeSet].realVal * NUM_OSC_SHAPES);
+	switch (osc3shape){
+				  case 0:
+					  shapeTick[2] = &sawSquareTick;
+					  break;
+				  case 1:
+					  shapeTick[2] = &sineTriTick;
+					  break;
+				  case 2:
+					  shapeTick[2] = &sawTick;
+					  break;
+				  case 3:
+					  shapeTick[2] = &pulseTick;
+					  break;
+				  case 4:
+					  shapeTick[2] = &sineTick;
+					  break;
+				  case 5:
+					  shapeTick[2] = &triTick;
+					  break;
+				  case 6:
+					  shapeTick[2] = &userTick;
+					  break;
+				  default:
+					  break;
+	}
 
+	int filter1Type = roundf(params[Filter1Type].realVal * NUM_FILTER_TYPES);
+	switch (filter1Type){
+				  case 0:
+					  filterTick[0] = &lowpassTick;
+					  break;
+				  case 1:
+					  filterTick[0] = &highpassTick;
+					  break;
+				  case 2:
+					  filterTick[0] = &bandpassTick;
+					  break;
+				  case 3:
+					  filterTick[0] = &diodeLowpassTick;
+					  break;
+				  case 4:
+					  filterTick[0] = &VZpeakTick;
+					  break;
+				  case 5:
+					  filterTick[0] = &VZlowshelfTick;
+					  break;
+				  case 6:
+					  filterTick[0] = &VZhighshelfTick;
+					  break;
+				  case 7:
+					  filterTick[0] = &VZbandrejectTick;
+					  break;
+				  case 8:
+					  filterTick[0] = &LadderLowpassTick;
+					  break;
+				  default:
+					  break;
+	}
 
+	int filter2Type = roundf(params[Filter2Type].realVal * NUM_FILTER_TYPES);
+	switch (filter2Type){
+				  case 0:
+					  filterTick[1] = &lowpassTick;
+					  break;
+				  case 1:
+					  filterTick[1] = &highpassTick;
+					  break;
+				  case 2:
+					  filterTick[1] = &bandpassTick;
+					  break;
+				  case 3:
+					  filterTick[1] = &diodeLowpassTick;
+					  break;
+				  case 4:
+					  filterTick[1] = &VZpeakTick;
+					  break;
+				  case 5:
+					  filterTick[1] = &VZlowshelfTick;
+					  break;
+				  case 6:
+					  filterTick[1] = &VZhighshelfTick;
+					  break;
+				  case 7:
+					  filterTick[1] = &VZbandrejectTick;
+					  break;
+				  case 8:
+					  filterTick[1] = &LadderLowpassTick;
+					  break;
+				  default:
+					  break;
+	}
 
 }
 
