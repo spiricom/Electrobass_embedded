@@ -83,7 +83,7 @@ uint32_t memoryPointer = 0;
 uint8_t counter = 0;
 
 volatile uint8_t writingPreset = 0;
-
+volatile uint8_t muteAudio = 0;
 FIL fdst;
 volatile uint8_t buffer[4096];
 volatile uint16_t bufferPos = 0;
@@ -105,7 +105,7 @@ float lfoRateTable[2048];
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  //MPU_Conf();
+  MPU_Conf();
 
   /* USER CODE END 1 */
 
@@ -113,19 +113,19 @@ int main(void)
   //SCB_EnableICache();
 
   /* Enable D-Cache---------------------------------------------------------*/
-  //SCB_EnableDCache();
+  SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  //HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  __enable_irq();
   /* USER CODE END Init */
 
   /* Configure the system clock */
-  //SystemClock_Config();
+  SystemClock_Config();
 
 /* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
@@ -138,38 +138,37 @@ int main(void)
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_DAC1_Init();
-  //MX_FMC_Init();
-  //MX_I2C2_Init();
-  //MX_QUADSPI_Init();
- // MX_SAI1_Init();
-  //MX_SDMMC1_SD_Init();
+  MX_FMC_Init();
+  MX_I2C2_Init();
+  MX_QUADSPI_Init();
+  MX_SAI1_Init();
+  MX_SDMMC1_SD_Init();
   MX_SPI1_Init();
   MX_I2C1_Init();
   MX_RNG_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
-  /*
-  while(1)
-  {
-	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-	  HAL_Delay(200);
-  }
-  */
+
+
+
   uint32_t tempFPURegisterVal = __get_FPSCR();
   tempFPURegisterVal |= (1<<24); // set the FTZ (flush-to-zero) bit in the FPU control register
   __set_FPSCR(tempFPURegisterVal);
 
-/*
+
   while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
    {
  	  ;
    }
-*/
+
 
   for (int i = 0; i < 4096; i++)
   {
 	  buffer[i] = 0;
   }
+  LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
+  LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
+  LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
 
   parse_preset();
 
@@ -183,10 +182,6 @@ int main(void)
   }
 
 
-
-  LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
-  LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
-  LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
 
 
   HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
@@ -215,7 +210,13 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
+	  /*
+	  while(1)
+	  {
+		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+		  HAL_Delay(100);
+	  }
+	  */
 	  //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 	  //HAL_Delay(200);
     /* USER CODE END WHILE */
@@ -607,6 +608,7 @@ void handleSPI(uint8_t offset)
 		 if (!writingPreset)
 		 {
 			 writingPreset = 1; // set the flag to let the mcu know that a preset write is in progress
+			 muteAudio = 1;
 			 //write the raw data as a preset number on the SD card
 			 bufferPos = 0;
 			 /*
@@ -773,6 +775,7 @@ float scaleLFORates(float input)
 
 void parse_preset()
 {
+
 	//osc params
 	for (int i = 0; i < NUM_PARAMS; i++)
 	{
@@ -971,7 +974,7 @@ void parse_preset()
 				  default:
 					  break;
 	}
-
+	muteAudio = 0;
 }
 
 

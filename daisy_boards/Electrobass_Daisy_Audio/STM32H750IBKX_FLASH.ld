@@ -105,21 +105,21 @@ SECTIONS
 
 		PROVIDE(__sram1_bss_end__ = _esram1_bss);
 	} > RAM_D2_DMA
-	
-		.sramd2_bss (NOLOAD) :
+
+
+	.sram2_bss (NOLOAD) :
 	{
 		. = ALIGN(4);
-		_sramd2_bss = .;
+		_ssram2_bss = .;
 
-		PROVIDE(__sramd2_bss_start__ = _sramd2_bss);
-		*(.sramd2_bss)
-		*(.sramd2_bss*)
+		PROVIDE(__sram2_bss_start__ = _sram2_bss);
+		*(.sram2_bss)
+		*(.sram2_bss*)
 		. = ALIGN(4);
-		_esramd2_bss = .;
+		_esram2_bss = .;
 
-		PROVIDE(__sramd2_bss_end__ = _esramd2_bss);
+		PROVIDE(__sram2_bss_end__ = _esram2_bss);
 	} > RAM_D2
-
 	.data :
 	{
 		. = ALIGN(4);

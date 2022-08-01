@@ -36,9 +36,9 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-#define __ATTR_RAM_D1	__attribute__ ((section(".sramd2_bss"))) __attribute__ ((aligned (32)))
+#define __ATTR_RAM_D1	__attribute__ ((section(".sram2_bss"))) __attribute__ ((aligned (32)))
 #define __ATTR_RAM_D2	__attribute__ ((section(".sram1_bss"))) __attribute__ ((aligned (32)))
-#define __ATTR_RAM_D3	__attribute__ ((section(".sramd3_bss"))) __attribute__ ((aligned (32)))
+//#define __ATTR_RAM_D3	__attribute__ ((section(".sramd3_bss"))) __attribute__ ((aligned (32)))
 #define __ATTR_SDRAM	__attribute__ ((section(".sdram_bss"))) __attribute__ ((aligned (32)))
 #define __ATTR_DTCMRAM	__attribute__ ((section(".dtcmram_bss"))) __attribute__ ((aligned (32)))
 /* USER CODE END ET */
@@ -49,6 +49,7 @@ extern "C" {
 
 #define NUM_PARAMS 156
 extern param params[NUM_PARAMS];
+extern volatile uint8_t muteAudio;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

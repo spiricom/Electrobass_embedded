@@ -345,40 +345,38 @@ float audioTickL(float audioIn)
 
 	sample = 0.0f;
 
-/*
-	float note = bend + (float)tSimplePoly_getPitch(&poly, 0);
-	//float cutoff[2];
-	//cutoff[0] = fabsf(mtof(LEAF_clip(0.0f, (params[Filter1Cutoff].zeroToOneVal * 127.0f) + note * params[Filter1KeyFollow].zeroToOneVal, 127.0f)));
-	//cutoff[1] = fabsf(mtof(LEAF_clip(0.0f, (params[Filter2Cutoff].zeroToOneVal * 127.0f) + note * params[Filter2KeyFollow].zeroToOneVal, 127.0f)));
-	float freq = mtof(note);
-
-	oscillator_tick(note, freq);
-	sample = oscOuts[0][0];
-
-	float filterSamps[2] = {0.0f, 0.0f};
-	for (int i = 0; i < NUM_OSC; i++)
+	if (!muteAudio)
 	{
-		filterSamps[0] += oscOuts[0][i];
-		filterSamps[1] += oscOuts[1][i];
+
+		float note = bend + (float)tSimplePoly_getPitch(&poly, 0);
+
+		float freq = mtof(note);
+
+		oscillator_tick(note, freq);
+
+		float filterSamps[2] = {0.0f, 0.0f};
+		for (int i = 0; i < NUM_OSC; i++)
+		{
+			filterSamps[0] += oscOuts[0][i];
+			filterSamps[1] += oscOuts[1][i];
+		}
+
+		filter_tick(&filterSamps[0], note, freq);
+
+
+
+		for (int i = 0; i < NUM_FILT; i++)
+		{
+			sample += filterSamps[i];
+		}
+
+		uint8_t vel = tSimplePoly_getVelocity(&poly, 0);
+		float velocity = (float)vel;
+		velocity = ((0.007685533519034f*velocity) + 0.0239372430f);
+		velocity = velocity * velocity;
+		sample *= velocity;
+
 	}
-
-	filter_tick(&filterSamps, note, freq);
-
-
-
-	for (int i = 0; i < NUM_FILT; i++)
-	{
-		sample += filterSamps[i];
-	}
-
-	uint8_t vel = tSimplePoly_getVelocity(&poly, 0);
-	float velocity = (float)vel;
-    velocity = ((0.007685533519034f*velocity) + 0.0239372430f);
-    velocity = velocity * velocity;
-    sample *= velocity;
-*/
-    tMBSaw_setFreq(&saw[0], 440.0f);
-    sample = tMBSaw_tick(&saw[0]);
 	return sample;
 }
 

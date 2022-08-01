@@ -483,7 +483,7 @@ int attackDetectPeak2 (int whichString, int tempInt)
 #ifdef MAPLE1
 	tempSamp = tempSamp * stringScaling[whichString] * 2.0f;
 #elif defined GREEN3
-	//tempSamp = tempSamp * stringScaling2[whichString] * 2.0f;
+	tempSamp = tempSamp * stringScaling2[whichString] * 2.0f;
 #else
 	tempSamp = tempSamp;
 #endif
@@ -542,7 +542,7 @@ int attackDetectPeak2 (int whichString, int tempInt)
 			//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
 		}
 	}
-	if ((slope > 0.5f) && (threshOut > 0) && (!armed[whichString]) && (!stringStates[whichString]))
+	if ((slope > 0.1f) && (threshOut > 0) && (!armed[whichString]) && (!stringStates[whichString]))
 	{
 		armed[whichString] = 1;
 		pickupMaximums[whichString] = 0.0f;
@@ -641,9 +641,9 @@ int attackDetectPeak2 (int whichString, int tempInt)
 			//output = (float)stringMaxes[whichString];
 			output = TWO_TO_16 * (maxFlo[whichString] - minFlo[whichString]);
 
-			if (output < 600.0f)
+			if (output < 400.0f)
 			{
-				if (numQuietFails[whichString] = 0)
+				if (numQuietFails[whichString] == 0)
 				{
 					outcountdown[whichString] = 140;
 					numQuietFails[whichString] = 1;
@@ -679,7 +679,7 @@ int attackDetectPeak2 (int whichString, int tempInt)
 	#ifdef MAPLE1
 				output = LEAF_clip(0.0f, output * 4.0f, 65535.0f);
 	#else
-				output = LEAF_clip(0.0f, output, 65535.0f);
+				output = LEAF_clip(0.0f, output * 2.0f, 65535.0f);
 	#endif
 				testAnalog = output;
 				if (whichString == 0)

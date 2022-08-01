@@ -1555,9 +1555,9 @@ void __attribute__((naked, noreturn)) Reset_Handler()
 	for (pDest = &_sbss; pDest != &_ebss; pDest++)
 		*pDest = 0;
 
-	#ifndef BOOT_APP
+	//#ifndef BOOT_APP
 	SystemInit();
-	#endif
+	//#endif
 	__libc_init_array();
 
 
