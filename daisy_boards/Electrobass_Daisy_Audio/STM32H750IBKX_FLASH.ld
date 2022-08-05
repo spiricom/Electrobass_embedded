@@ -120,6 +120,7 @@ SECTIONS
 
 		PROVIDE(__sram2_bss_end__ = _esram2_bss);
 	} > RAM_D2
+	
 	.data :
 	{
 		. = ALIGN(4);

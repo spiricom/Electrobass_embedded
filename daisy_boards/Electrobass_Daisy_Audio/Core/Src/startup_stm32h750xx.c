@@ -1363,6 +1363,7 @@ void SAI4_IRQHandler()                __attribute__ ((weak, alias ("Default_Hand
 void WAKEUP_PIN_IRQHandler()          __attribute__ ((weak, alias ("Default_Handler")));
 #endif
 
+//VTOR register needs to be updated so that all handlers are found by the debugger
 void * g_pfnVectors[0xa6] __attribute__ ((section (".isr_vector"), used)) =
 {
 	&_estack,

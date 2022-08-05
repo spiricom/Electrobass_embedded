@@ -18,10 +18,12 @@ HAL_StatusTypeDef transmit_status;
 HAL_StatusTypeDef receive_status;
 
 
-
+//function pointers
 shapeTick_t shapeTick[NUM_OSC];
 filterTick_t filterTick[NUM_FILT];
 
+
+//oscillators
 tMBSaw saw[NUM_OSC];
 tMBPulse pulse[NUM_OSC];
 tCycle sine[NUM_OSC];
@@ -35,11 +37,14 @@ tMBTriangle triPaired[NUM_OSC];
 
 tWaveOscS wave[NUM_OSC];
 
+//oscillator outputs
 float outSamples[2][NUM_OSC];
-
+//source vals
 float sourceValues[NUM_SOURCES];
 
+float freqMult[NUM_OSC];
 
+//filters
 tDiodeFilter diodeFilters[NUM_FILT];
 tVZFilter VZfilterPeak[NUM_FILT];
 tVZFilter VZfilterLS[NUM_FILT];
@@ -50,12 +55,27 @@ tSVF highpass[NUM_FILT];
 tSVF bandpass[NUM_FILT];
 tLadderFilter Ladderfilter[NUM_FILT];
 
+float midiCutoff[NUM_FILT];
+float filterGain[NUM_FILT];
 
+//envelopes
+tADSRT envs[NUM_ENV];
+float expBuffer[EXP_BUFFER_SIZE];
+float expBufferSizeMinusOne;
+float decayExpBuffer[DECAY_EXP_BUFFER_SIZE];
+float decayExpBufferSizeMinusOne;
+
+
+//master
+float amplitude = 0.0f;
 
 float sample = 0.0f;
 tSimplePoly poly;
 float bend;
 tNoise noise;
+
+
+uint8_t voiceSounding = 0;
 
 //MEMPOOLS
 //#define SMALL_MEM_SIZE 50000
@@ -105,6 +125,17 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 		tLadderFilter_init(&Ladderfilter[i], 2000.f, 1.0f, &leaf);
 	}
 
+    // exponential decay buffer falling from 1 to
+    LEAF_generate_exp(decayExpBuffer, 0.001f, 0.0f, 1.0f, -0.0008f, DECAY_EXP_BUFFER_SIZE);
+
+    expBufferSizeMinusOne = EXP_BUFFER_SIZE - 1;
+    decayExpBufferSizeMinusOne = DECAY_EXP_BUFFER_SIZE - 1;
+
+    for (int i = 0; i < NUM_ENV; i++)
+    {
+        tADSRT_init(&envs[i], 0.1f,10.f,0.5f,1.0f,decayExpBuffer, DECAY_EXP_BUFFER_SIZE, &leaf);
+        tADSRT_setLeakFactor(&envs[i], ((1.0f - 0.1f) * 0.00005f) + 0.99995f);
+    }
 
 
 	tSimplePoly_init(&poly, 1, &leaf);
@@ -128,6 +159,7 @@ void audioFrame(uint16_t buffer_offset)
 	int i;
 	int32_t current_sample = 0;
 
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 	for (i = 0; i < (HALF_BUFFER_SIZE); i++)
 	{
 		if ((i & 1) == 0)
@@ -141,6 +173,7 @@ void audioFrame(uint16_t buffer_offset)
 
 		audioOutBuffer[buffer_offset + i] = current_sample;
 	}
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 
 }
 
@@ -153,37 +186,22 @@ void oscillator_tick(float note, float freq)
 	{
 		param* oscParams = &params[OSC_PARAMS_OFFSET + osc * OscParamsNum];
 
-
-		float harm_pitch = oscParams[OscPitch].realVal;
 		float fine = oscParams[OscFine].realVal;
 		float freqOffset= oscParams[OscFreq].realVal;
 		float shape = oscParams[OscShape].realVal;
 		float amp = oscParams[OscAmp].realVal;
 		float filterSend = oscParams[OscFilterSend].realVal;
 
-		amp = amp < 0.f ? 0.f : amp;
-		if (oscParams[OscisStepped].realVal > 0.5f) ///check for value of 1 since this is a float
-		{
-			harm_pitch = round(harm_pitch);
-		}
-		if (oscParams[OscisHarmonic].realVal > 0.5f)
-		{
-			note = harm_pitch >= 0 ? ftom(freq * (harm_pitch + 1)) : ftom(freq / abs((harm_pitch - 1)));
-			harm_pitch = 0.0f;
-		}
-
-		float finalFreq = mtof(LEAF_clip(0.0f, note + harm_pitch + fine*0.01f, 127.0f)) + freqOffset;
+		float finalFreq = mtof(note + (fine*0.01f)) + freqOffset * freqMult[osc];
 
 		float sample = 0.0f;
 
-		shape = LEAF_clip(0.f, shape, 1.f);
 		shapeTick[osc](&sample, osc, finalFreq, shape);
 
 		sample *= amp;
 
 		float normSample = (sample + 1.f) * 0.5f;
 		sourceValues[OSC_SOURCE_OFFSET + osc] = normSample; // the define of zero may be wasteful
-
 
 		sample *= INV_NUM_OSCS;
 
@@ -245,100 +263,290 @@ void userTick(float* sample, int v, float freq, float shape)
 
 
 
-void filter_tick(float* samples, float note, float freq)
+float filter_tick(float* samples, float note)
 {
+	float cutoff[2];
+	uint8_t enabledFilt[2] = {0,0};
 	for (int f = 0; f < NUM_FILT; f++)
 	{
 		param* filtParams = &params[FILTER_PARAMS_OFFSET + f * FilterParamsNum];
-		float midiCutoff = filtParams[FilterCutoff].realVal;
 		float keyFollow = filtParams[FilterKeyFollow].realVal;
-		float q= filtParams[FilterResonance].realVal;
-		float gain = filtParams[FilterGain].realVal;
 		float enabled = filtParams[FilterEnabled].realVal;
+		enabledFilt[f] = (enabled > 0.5f);
+		if (!enabledFilt[f]) continue;
 
-
-
-		if (!enabled) continue;
-
-		LEAF_clip(0.f, keyFollow, 1.f);
 
 		if (isnan(note))
 		{
-			note = 0.0f;
+			note = 0.0f; //is this necessary?
 		}
 
-		float cutoff = midiCutoff + (note * keyFollow);
-		cutoff = LEAF_clip(0.1f, fabsf(mtof(cutoff)), 19000.0f);
+		cutoff[f] = midiCutoff[f] + (note * keyFollow);
+		cutoff[f] = LEAF_clip(0.1f, fabsf(faster_mtof(cutoff[f])), 19000.0f);
+	}
 
-		q = q < 0.1f ? 0.1f : q;
+	float  sp = params[FilterSeriesParallelMix].realVal;
 
-		filterTick[f](&samples[f], f, cutoff, q, keyFollow, gain);
+	if (enabledFilt[0])
+	{
+		filterTick[0](&samples[0], 0, cutoff[0]);
+	}
+	float sendToFilter2 = samples[0] * (1.0f - sp);
+	samples[1] += sendToFilter2;
+	//compute what gets sent to the second filter
+	if (enabledFilt[1])
+	{
+		filterTick[1](&samples[1], 1, cutoff[1]);
+	}
+	return samples[1] + (samples[0] * sp);
+}
 
+
+void lowpassTick(float* sample, int v, float cutoff)
+{
+	tSVF_setFreq(&lowpass[v], cutoff);
+	*sample = tSVF_tick(&lowpass[v], *sample);
+    *sample *= filterGain[v];
+}
+
+void highpassTick(float* sample, int v, float cutoff)
+{
+	tSVF_setFreq(&highpass[v], cutoff);
+	*sample = tSVF_tick(&highpass[v], *sample);
+    *sample *= filterGain[v];
+}
+
+void bandpassTick(float* sample, int v, float cutoff)
+{
+	tSVF_setFreq(&bandpass[v], cutoff);
+	*sample = tSVF_tick(&bandpass[v], *sample);
+    *sample *= filterGain[v];
+}
+
+void diodeLowpassTick(float* sample, int v, float cutoff)
+{
+	tDiodeFilter_setFreq(&diodeFilters[v], cutoff);
+	*sample = tDiodeFilter_tick(&diodeFilters[v], *sample);
+    *sample *= filterGain[v];
+}
+
+void VZpeakTick(float* sample, int v, float cutoff)
+{
+	tVZFilter_setFreq(&VZfilterPeak[v], cutoff);
+	*sample = tVZFilter_tickEfficient(&VZfilterPeak[v], *sample);
+}
+
+void VZlowshelfTick(float* sample, int v, float cutoff)
+{
+	tVZFilter_setFreq(&VZfilterLS[v], cutoff);
+	*sample = tVZFilter_tickEfficient(&VZfilterLS[v], *sample);
+}
+void VZhighshelfTick(float* sample, int v, float cutoff)
+{
+	tVZFilter_setFreq(&VZfilterHS[v], cutoff);
+	*sample = tVZFilter_tickEfficient(&VZfilterHS[v], *sample);
+}
+void VZbandrejectTick(float* sample, int v, float cutoff)
+{
+	tVZFilter_setFreq(&VZfilterBR[v], cutoff);
+	*sample = tVZFilter_tickEfficient(&VZfilterBR[v], *sample);
+    *sample *= filterGain[v];
+}
+
+void LadderLowpassTick(float* sample, int v, float cutoff)
+{
+	tLadderFilter_setFreq(&Ladderfilter[v], cutoff);
+	*sample = tLadderFilter_tick(&Ladderfilter[v], *sample);
+    *sample *= filterGain[v];
+}
+
+
+
+
+void setFreqMult(float harm_pitch, int osc)
+{
+	if (params[OSC_PARAMS_OFFSET + osc * OscParamsNum + OscisStepped].realVal > 0.5f) ///check for value of 1 since this is a float
+	{
+		harm_pitch = roundf(harm_pitch);
+	}
+	if (params[OSC_PARAMS_OFFSET + osc * OscParamsNum + OscisHarmonic].realVal > 0.5f)
+	{
+		harm_pitch >= 0 ? freqMult[osc] = (harm_pitch + 1) : (1.0f / fabsf((harm_pitch - 1)));
+	}
+	else
+	{
+		freqMult[osc] = powf(1.059463094359295f, harm_pitch);
 	}
 }
 
-
-void lowpassTick(float* sample, int v, float cutoff, float q, float morph, float gain)
+void filterSetCutoff(float cutoff, int v)
 {
-    tSVF_setFreqAndQ(&lowpass[v], cutoff, q);
-    *sample = tSVF_tick(&lowpass[v], *sample);
-    *sample *= dbtoa((gain * 24.0f) - 12.0f);
-}
-
-void highpassTick(float* sample, int v, float cutoff, float q, float morph, float gain)
-{
-    tSVF_setFreqAndQ(&highpass[v], cutoff, q);
-    *sample = tSVF_tick(&highpass[v], *sample);
-    *sample *= fasterdbtoa((gain * 24.0f) - 12.0f);
-}
-
-void bandpassTick(float* sample, int v, float cutoff, float q, float morph, float gain)
-{
-    tSVF_setFreqAndQ(&bandpass[v], cutoff, q);
-    *sample = tSVF_tick(&bandpass[v], *sample);
-    *sample *= fasterdbtoa((gain * 24.0f) - 12.0f);
-}
-
-void diodeLowpassTick(float* sample, int v, float cutoff, float q, float morph, float gain)
-{
-    tDiodeFilter_setFreq(&diodeFilters[v], cutoff);
-    tDiodeFilter_setQ(&diodeFilters[v], q);
-    *sample = tDiodeFilter_tick(&diodeFilters[v], *sample);
-    *sample *= fasterdbtoa((gain * 24.0f) - 12.0f);
-}
-
-void VZpeakTick(float* sample, int v, float cutoff, float q, float morph, float gain)
-{
-    tVZFilter_setFrequencyAndBandwidthAndGain(&VZfilterPeak[v], cutoff, q, dbtoa((gain * 50.f) - 25.f));
-    *sample = tVZFilter_tickEfficient(&VZfilterPeak[v], *sample);
-}
-
-void VZlowshelfTick(float* sample, int v, float cutoff, float q, float morph, float gain)
-{
-    tVZFilter_setFrequencyAndResonanceAndGain(&VZfilterLS[v], cutoff, q, fasterdbtoa((gain * 50.f) - 25.0f));
-    *sample = tVZFilter_tickEfficient(&VZfilterLS[v], *sample);
-}
-void VZhighshelfTick(float* sample, int v, float cutoff, float q, float morph, float gain)
-{
-    tVZFilter_setFrequencyAndResonanceAndGain(&VZfilterHS[v], cutoff, q, fasterdbtoa((gain * 50.0f) - 25.0f));
-    *sample = tVZFilter_tickEfficient(&VZfilterHS[v], *sample);
-}
-void VZbandrejectTick(float* sample, int v, float cutoff, float q, float morph, float gain)
-{
-    tVZFilter_setFrequencyAndResonanceAndGain(&VZfilterBR[v], cutoff, q, 1);
-    *sample = tVZFilter_tickEfficient(&VZfilterBR[v], *sample);
-    *sample *= fasterdbtoa(gain);
-}
-
-void LadderLowpassTick(float* sample, int v, float cutoff, float q, float morph, float gain)
-{
-    tLadderFilter_setFreq(&Ladderfilter[v], cutoff);
-    tLadderFilter_setQ(&Ladderfilter[v], q);
-    *sample = tLadderFilter_tick(&Ladderfilter[v], *sample);
-    *sample *= fasterdbtoa(gain);
+	midiCutoff[v] = cutoff;
 }
 
 
+void lowpassSetQ(float q, int v)
+{
+    tSVF_setQ(&lowpass[v], q);
+}
+
+void highpassSetQ(float q, int v)
+{
+    tSVF_setQ(&highpass[v], q);
+}
+
+void bandpassSetQ(float q, int v)
+{
+    tSVF_setQ(&bandpass[v], q);
+}
+
+void diodeLowpassSetQ(float q, int v)
+{
+	tDiodeFilter_setQ(&diodeFilters[v], q);
+}
+
+void VZpeakSetQ(float bw, int v)
+{
+	tVZFilter_setBandwidth(&VZfilterPeak[v], bw);
+}
+
+void VZlowshelfSetQ(float bw, int v)
+{
+	 tVZFilter_setBandwidth(&VZfilterLS[v], bw);
+}
+
+void VZhighshelfSetQ(float bw, int v)
+{
+	 tVZFilter_setBandwidth(&VZfilterHS[v], bw);
+}
+
+void VZbandrejectSetQ(float bw, int v)
+{
+	tVZFilter_setBandwidth(&VZfilterBR[v], bw);
+}
+
+void LadderLowpassSetQ(float q, int v)
+{
+	tLadderFilter_setQ(&Ladderfilter[v], q);
+}
+
+void lowpassSetGain(float gain, int v)
+{
+    filterGain[v] = fasterdbtoa((gain * 24.0f) - 12.0f);
+}
+
+void highpassSetGain(float gain, int v)
+{
+	filterGain[v] = fasterdbtoa((gain * 24.0f) - 12.0f);
+}
+
+void bandpassSetGain(float gain, int v)
+{
+	filterGain[v] = fasterdbtoa((gain * 24.0f) - 12.0f);
+}
+
+void diodeLowpassSetGain(float gain, int v)
+{
+	filterGain[v] = fasterdbtoa((gain * 24.0f) - 12.0f);
+}
+
+void VZpeakSetGain(float gain, int v)
+{
+	 tVZFilter_setGain(&VZfilterPeak[v], fasterdbtoa((gain * 50.f) - 25.f));
+}
+
+void VZlowshelfSetGain(float gain, int v)
+{
+	tVZFilter_setGain(&VZfilterLS[v], fasterdbtoa((gain * 50.f) - 25.f));
+}
+
+void VZhighshelfSetGain(float gain, int v)
+{
+	tVZFilter_setGain(&VZfilterLS[v], fasterdbtoa((gain * 50.f) - 25.f));
+}
+
+void VZbandrejectSetGain(float gain, int v)
+{
+	filterGain[v] = fasterdbtoa((gain * 24.0f) - 12.0f);
+}
+
+void LadderLowpassSetGain(float gain, int v)
+{
+	filterGain[v] = fasterdbtoa((gain * 24.0f) - 12.0f);
+}
+
+
+void envelope_tick(void)
+{
+	for (int v = 0; v < NUM_ENV; v++)
+	{
+		float value = tADSRT_tickNoInterp(&envs[v]);
+		sourceValues[ENV_SOURCE_OFFSET + v] = value;
+	}
+
+	if (poly->voices[0][0] == -2)
+	{
+	    if (envs[0]->whichStage == env_idle)
+	    {
+	          tSimplePoly_deactivateVoice(&poly, 0);  //remove this since we're monophonic - should check if that will break anything
+	          voiceSounding = false;
+	    }
+	}
+
+}
+
+
+void setEnvelopeAttack(float a, int v)
+{
+	tADSRT_setAttack(&envs[v], a);
+}
+
+void setEnvelopeDecay(float d, int v)
+{
+	tADSRT_setDecay(&envs[v], d);
+}
+
+void setEnvelopeSustain(float s, int v)
+{
+	tADSRT_setSustain(&envs[v], s);
+}
+
+void setEnvelopeRelease(float r, int v)
+{
+	tADSRT_setRelease(&envs[v], r);
+}
+
+void setEnvelopeLeak(float leak, int v)
+{
+	tADSRT_setLeakFactor(&envs[v], 0.99995f + 0.00005f*(1.f-leak));
+}
+
+void setAmp(float amp, int v)
+{
+	amplitude = amp;
+}
+
+
+void tickMappings(void)
+{
+	for (int i = 0; i < numMappings; i++)
+	{
+		float value = 0.0f;
+		for (int j = 0; j < mappings[i].numHooks; j++)
+		{
+			float sum = *mappings[i].sourceValPtr[j] * mappings[i].amount[j]; // *mappings[i].scalarSourceValPtr[j]
+			value += sum;
+		}
+		//sources are now summed - let's add the initial value
+		value += mappings[i].dest.zeroToOneVal;
+
+		//now scale the value with the correct scaling function
+		mappings[i].dest.realVal = mappings[i].dest.scaleFunc(value);
+
+		//and pop that value where it belongs by setting the actual parameter
+		mappings[i].dest.setParam(mappings[i].dest.realVal, mappings[i].dest.objectNumber);
+	}
+}
 
 float audioTickL(float audioIn)
 {
@@ -348,9 +556,16 @@ float audioTickL(float audioIn)
 	if (!muteAudio)
 	{
 
+		//run mapping ticks
+		tickMappings();
+
 		float note = bend + (float)tSimplePoly_getPitch(&poly, 0);
 
 		float freq = mtof(note);
+
+
+		envelope_tick();
+
 
 		oscillator_tick(note, freq);
 
@@ -361,20 +576,9 @@ float audioTickL(float audioIn)
 			filterSamps[1] += oscOuts[1][i];
 		}
 
-		filter_tick(&filterSamps[0], note, freq);
+		sample = filter_tick(&filterSamps[0], note);
 
-
-
-		for (int i = 0; i < NUM_FILT; i++)
-		{
-			sample += filterSamps[i];
-		}
-
-		uint8_t vel = tSimplePoly_getVelocity(&poly, 0);
-		float velocity = (float)vel;
-		velocity = ((0.007685533519034f*velocity) + 0.0239372430f);
-		velocity = velocity * velocity;
-		sample *= velocity;
+		sample *= amplitude;
 
 	}
 	return sample;
@@ -387,23 +591,37 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 	if (velocity > 0)
 	{
 		tSimplePoly_noteOn(&poly, note, velocity);
-
-
+		for (int v = 0; v < NUM_ENV; v++)
+		{
+			param* envParams = &params[ENVELOPE_PARAMS_OFFSET + v * EnvelopeParamsNum];
+			float useVelocity = envParams[EnvelopeVelocity].realVal;
+			if (useVelocity == 0) velocity = 127.f;
+			float fvelocity = (float)velocity;
+			fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
+			fvelocity = fvelocity * fvelocity;
+		    tADSRT_on(&envs[v], fvelocity);
+		    voiceSounding = 1;
+		}
 	}
 	else
 	{
 		tSimplePoly_noteOff(&poly, note);
+		for (int v = 0; v < NUM_ENV; v++)
+		{
+			tADSRT_off(&envs[v]);
+		}
 	}
-
-	float velocity2 = (float)velocity;
-    velocity2 = ((0.007685533519034f*velocity2) + 0.0239372430f);
-    velocity2 = velocity2 * velocity2;
-
 }
-void sendCtrl(uint8_t value, uint8_t ctrl)
+
+
+void sendCtrl(uint8_t ctrl, uint8_t value)
 {
 	//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+
+	sourceValues[CTRL_SOURCE_OFFSET + (ctrl - CTRL_MIDI_START)] = (float)value * INV_TWO_TO_7;
 }
+
+
 void sendPitchBend(uint8_t value, uint8_t ctrl)
 {
 	int bendInt = value + (ctrl << 7);

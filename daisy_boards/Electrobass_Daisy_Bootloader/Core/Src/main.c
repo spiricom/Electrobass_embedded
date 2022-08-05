@@ -156,10 +156,6 @@ int main(void)
   SysTick->CTRL = 0;
   SysTick->LOAD = 0;
   SysTick->VAL  = 0;
-  //MX_GPIO_Init();
-  //MX_QUADSPI_DeInit();
-  //MX_SDMMC1_SD_DeInit();
-  //MX_FATFS_DeInit();
 
   JumpToApplication = (pFunction) (*(__IO uint32_t*) (APPLICATION_ADDRESS+4));
   __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);

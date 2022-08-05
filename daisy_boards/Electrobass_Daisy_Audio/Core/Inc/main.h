@@ -47,9 +47,12 @@ extern "C" {
 /* USER CODE BEGIN EC */
 
 
-#define NUM_PARAMS 156
+#define NUM_PARAMS numParams
+#define MAX_NUM_MAPPINGS 32
 extern param params[NUM_PARAMS];
+extern mapping mappings[MAX_NUM_MAPPINGS];
 extern volatile uint8_t muteAudio;
+extern uint8_t numMappings;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

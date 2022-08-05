@@ -63,7 +63,7 @@ void PeriphCommonClock_Config(void);
 /* USER CODE BEGIN PFP */
 void MPU_Conf(void);
 static void FS_FileOperations(void);
-void parse_preset(void);
+void parse_preset(int size);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -91,6 +91,11 @@ FRESULT res;
 
 
 param params[NUM_PARAMS];
+mapping mappings[MAX_NUM_MAPPINGS];
+uint8_t numMappings = 0;
+
+filterSetter filterSetters[NUM_FILT];
+float defaultScaling = 1.0f;
 
 float resTable[2048];
 float envTimeTable[2048];
@@ -170,7 +175,7 @@ int main(void)
   LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
 
-  parse_preset();
+  parse_preset(320); //default large preset binary
 
   codec_init(&hi2c2);
 
@@ -576,7 +581,7 @@ void handleSPI(uint8_t offset)
 	if (SPI_RX[offset] == 1)
 	{
 		//got a change!
-		 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+		 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 
 		 uint8_t currentByte = offset+1;
 
@@ -686,7 +691,7 @@ void handleSPI(uint8_t offset)
 			 */
 
 			 /* Parse into Audio Params */
-			 parse_preset();
+			 parse_preset(bufferPos);
 
 			 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 		}
@@ -694,48 +699,56 @@ void handleSPI(uint8_t offset)
 
 float scaleDefault(float input)
 {
+	input = LEAF_clip(0.f, input, 1.f);
 	return input;
 }
 
 float scaleTwo(float input)
 {
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 2.0f);
 }
 
 float scaleOscPitch(float input)
 {
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 48.0f) - 24.0f;
 }
 
 float scaleOscFine(float input)
 {
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 200.0f) - 100.0f;
 }
 
 float scaleOscFreq(float input)
 {
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 4000.0f) - 2000.0f;
 }
 
 float scaleTranspose(float input)
 {
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 96.0f) - 48.0f;
 }
 
 float scalePitchBend(float input)
 {
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 24.0f);
 }
 
 float scaleFilterCutoff(float input)
 {
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 127.0f);
 }
 
 float scaleFilterResonance(float input)
 {
 	//lookup table for filter res
-
+	input = LEAF_clip(0.0f, input, 1.0f);
 	//scale to lookup range
 	input *= 2047.0f;
 	int inputInt = (int)input;
@@ -748,7 +761,7 @@ float scaleFilterResonance(float input)
 float scaleEnvTimes(float input)
 {
 	//lookup table for env times
-
+	input = LEAF_clip(0.0f, input, 1.0f);
 	//scale to lookup range
 	input *= 2047.0f;
 	int inputInt = (int)input;
@@ -762,7 +775,7 @@ float scaleEnvTimes(float input)
 float scaleLFORates(float input)
 {
 	//lookup table for LFO rates
-
+	input = LEAF_clip(0.0f, input, 1.0f);
 	//scale to lookup range
 	input *= 2047.0f;
 	int inputInt = (int)input;
@@ -771,9 +784,13 @@ float scaleLFORates(float input)
 	return (lfoRateTable[inputInt] * (1.0f - inputFloat)) + (lfoRateTable[nextPos] * inputFloat);
 	//return
 }
+void blankFunction(float a, int b)
+{
+	;
+}
 
 
-void parse_preset()
+void parse_preset(int size)
 {
 
 	//osc params
@@ -782,7 +799,12 @@ void parse_preset()
 		params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
 		//need to map all of the params to their scaled parameters and set them to the realVals
 		params[i].scaleFunc = &scaleDefault;
+
+		//blank function means that it doesn't actually set a final value, we will read directly from the realVals when we need it
+		params[i].setParam = &blankFunction;
 	}
+
+
 
 
 	//params[i].realVal = params[i].zeroToOneVal;
@@ -830,152 +852,256 @@ void parse_preset()
 		params[i].realVal = params[i].scaleFunc(params[i].zeroToOneVal);
 	}
 
-	int osc1shape = roundf(params[Osc1ShapeSet].realVal * NUM_OSC_SHAPES);
-	switch (osc1shape){
+	for (int i = 0; i < NUM_OSC; i++)
+	{
+		int oscshape = roundf(params[Osc1ShapeSet + (OscParamsNum * i)].realVal * NUM_OSC_SHAPES);
+		switch (oscshape){
 				  case 0:
-					  shapeTick[0] = &sawSquareTick;
+					  shapeTick[i] = &sawSquareTick;
 					  break;
 				  case 1:
-					  shapeTick[0] = &sineTriTick;
+					  shapeTick[i] = &sineTriTick;
 					  break;
 				  case 2:
-					  shapeTick[0] = &sawTick;
+					  shapeTick[i] = &sawTick;
 					  break;
 				  case 3:
-					  shapeTick[0] = &pulseTick;
+					  shapeTick[i] = &pulseTick;
 					  break;
 				  case 4:
-					  shapeTick[0] = &sineTick;
+					  shapeTick[i] = &sineTick;
 					  break;
 				  case 5:
-					  shapeTick[0] = &triTick;
+					  shapeTick[i] = &triTick;
 					  break;
 				  case 6:
-					  shapeTick[0] = &userTick;
-					  break;
-				  default:
-					  break;
-	}
-	int osc2shape = roundf(params[Osc2ShapeSet].realVal * NUM_OSC_SHAPES);
-	switch (osc2shape){
-				  case 0:
-					  shapeTick[1] = &sawSquareTick;
-					  break;
-				  case 1:
-					  shapeTick[1] = &sineTriTick;
-					  break;
-				  case 2:
-					  shapeTick[1] = &sawTick;
-					  break;
-				  case 3:
-					  shapeTick[1] = &pulseTick;
-					  break;
-				  case 4:
-					  shapeTick[1] = &sineTick;
-					  break;
-				  case 5:
-					  shapeTick[1] = &triTick;
-					  break;
-				  case 6:
-					  shapeTick[1] = &userTick;
-					  break;
-				  default:
-					  break;
-	}
-	int osc3shape = roundf(params[Osc3ShapeSet].realVal * NUM_OSC_SHAPES);
-	switch (osc3shape){
-				  case 0:
-					  shapeTick[2] = &sawSquareTick;
-					  break;
-				  case 1:
-					  shapeTick[2] = &sineTriTick;
-					  break;
-				  case 2:
-					  shapeTick[2] = &sawTick;
-					  break;
-				  case 3:
-					  shapeTick[2] = &pulseTick;
-					  break;
-				  case 4:
-					  shapeTick[2] = &sineTick;
-					  break;
-				  case 5:
-					  shapeTick[2] = &triTick;
-					  break;
-				  case 6:
-					  shapeTick[2] = &userTick;
+					  shapeTick[i] = &userTick;
 					  break;
 				  default:
 					  break;
 	}
 
-	int filter1Type = roundf(params[Filter1Type].realVal * NUM_FILTER_TYPES);
-	switch (filter1Type){
+
+	for (int i = 0; i < NUM_FILT; i++)
+	{
+		int filterType = roundf(params[Filter1Type + (i * FilterParamsNum)].realVal * NUM_FILTER_TYPES);
+		switch (filterType){
 				  case 0:
-					  filterTick[0] = &lowpassTick;
+					  filterTick[i] = &lowpassTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &lowpassSetQ;
+					  filterSetters[i].setGain = &lowpassSetGain;
 					  break;
 				  case 1:
-					  filterTick[0] = &highpassTick;
+					  filterTick[i] = &highpassTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &highpassSetQ;
+					  filterSetters[i].setGain = &highpassSetGain;
 					  break;
 				  case 2:
-					  filterTick[0] = &bandpassTick;
+					  filterTick[i] = &bandpassTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &bandpassSetQ;
+					  filterSetters[i].setGain = &bandpassSetGain;
 					  break;
 				  case 3:
-					  filterTick[0] = &diodeLowpassTick;
+					  filterTick[i] = &diodeLowpassTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &diodeLowpassSetQ;
+					  filterSetters[i].setGain = &diodeLowpassSetGain;
 					  break;
 				  case 4:
-					  filterTick[0] = &VZpeakTick;
+					  filterTick[i] = &VZpeakTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &VZpeakSetQ;
+					  filterSetters[i].setGain = &VZpeakSetGain;
 					  break;
 				  case 5:
-					  filterTick[0] = &VZlowshelfTick;
+					  filterTick[i] = &VZlowshelfTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &VZlowshelfSetQ;
+					  filterSetters[i].setGain = &VZlowshelfSetGain;
 					  break;
 				  case 6:
-					  filterTick[0] = &VZhighshelfTick;
+					  filterTick[i] = &VZhighshelfTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &VZhighshelfSetQ;
+					  filterSetters[i].setGain = &VZhighshelfSetGain;
 					  break;
 				  case 7:
-					  filterTick[0] = &VZbandrejectTick;
+					  filterTick[i] = &VZbandrejectTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &VZbandrejectSetQ;
+					  filterSetters[i].setGain = &VZbandrejectSetGain;
 					  break;
 				  case 8:
-					  filterTick[0] = &LadderLowpassTick;
+					  filterTick[i] = &LadderLowpassTick;
+					  filterSetters[i].setCutoff = &filterSetCutoff;
+					  filterSetters[i].setQ = &LadderLowpassSetQ;
+					  filterSetters[i].setGain = &LadderLowpassSetGain;
 					  break;
 				  default:
 					  break;
+			}
+		}
 	}
 
-	int filter2Type = roundf(params[Filter2Type].realVal * NUM_FILTER_TYPES);
-	switch (filter2Type){
-				  case 0:
-					  filterTick[1] = &lowpassTick;
-					  break;
-				  case 1:
-					  filterTick[1] = &highpassTick;
-					  break;
-				  case 2:
-					  filterTick[1] = &bandpassTick;
-					  break;
-				  case 3:
-					  filterTick[1] = &diodeLowpassTick;
-					  break;
-				  case 4:
-					  filterTick[1] = &VZpeakTick;
-					  break;
-				  case 5:
-					  filterTick[1] = &VZlowshelfTick;
-					  break;
-				  case 6:
-					  filterTick[1] = &VZhighshelfTick;
-					  break;
-				  case 7:
-					  filterTick[1] = &VZbandrejectTick;
-					  break;
-				  case 8:
-					  filterTick[1] = &LadderLowpassTick;
-					  break;
-				  default:
-					  break;
+	//params[Master].setParam = &scaleTwo;
+	//params[Transpose].setParam = &scaleTranspose;
+	//params[PitchBendRangeUp].setParam = &scalePitchBend;
+	//params[PitchBendRangeDown].setParam = &scalePitchBend;
+	//params[NoiseAmp].setParam = &scaleTwo;
+	params[Osc1Pitch].setParam = &setFreqMult;
+	params[Osc2Pitch].setParam = &setFreqMult;
+	params[Osc3Pitch].setParam = &setFreqMult;
+	params[Filter1Cutoff].setParam = filterSetters[0].setCutoff;
+	params[Filter1Resonance].setParam = filterSetters[0].setQ;
+	params[Filter1Gain].setParam = filterSetters[0].setGain; //gain is a special case for set params where the scaling function leaves it alone because it's different based on filter type
+	params[Filter2Cutoff].setParam = filterSetters[1].setCutoff;
+	params[Filter2Resonance].setParam = filterSetters[1].setQ;
+	params[Filter2Gain].setParam = filterSetters[1].setGain;
+	params[Envelope1Attack].setParam = &setEnvelopeAttack;
+	params[Envelope1Decay].setParam = &setEnvelopeDecay;
+	params[Envelope1Sustain].setParam = &setEnvelopeSustain;
+	params[Envelope1Release].setParam = &setEnvelopeRelease;
+	params[Envelope1Leak].setParam = &setEnvelopeLeak;
+	params[Envelope2Attack].setParam = &setEnvelopeAttack;
+	params[Envelope2Decay].setParam = &setEnvelopeDecay;
+	params[Envelope2Sustain].setParam = &setEnvelopeSustain;
+	params[Envelope2Release].setParam = &setEnvelopeRelease;
+	params[Envelope2Leak].setParam = &setEnvelopeLeak;
+	params[Envelope3Attack].setParam = &setEnvelopeAttack;
+	params[Envelope3Decay].setParam = &setEnvelopeDecay;
+	params[Envelope3Sustain].setParam = &setEnvelopeSustain;
+	params[Envelope3Release].setParam = &setEnvelopeRelease;
+	params[Envelope3Leak].setParam = &setEnvelopeLeak;
+	params[Envelope4Attack].setParam = &setEnvelopeAttack;
+	params[Envelope4Decay].setParam = &setEnvelopeDecay;
+	params[Envelope4Sustain].setParam = &setEnvelopeSustain;
+	params[Envelope4Release].setParam = &setEnvelopeRelease;
+	params[Envelope4Leak].setParam = &setEnvelopeLeak;
+	//params[LFO1Rate].setParam = &scaleLFORates;
+	//params[LFO2Rate].setParam = &scaleLFORates;
+	//params[LFO3Rate].setParam = &scaleLFORates;
+	//params[LFO4Rate].setParam = &scaleLFORates;
+	params[OutputAmp].setParam = &setAmp;
+
+
+
+	for (int i = 0; i < NUM_PARAMS; i++)
+	{
+		params[i].objectNumber = 0;
+		//oscillators
+		if ((i >= Osc1) && (i < Osc2))
+		{
+			params[i].objectNumber = 0;
+		}
+		else if ((i >= Osc2) && (i < Osc3))
+		{
+			params[i].objectNumber = 1;
+		}
+		else if ((i >= Osc3) && (i < Effect1FXType))
+		{
+			params[i].objectNumber = 2;
+		}
+		//effects
+		//filters
+		else if ((i >= Filter1) && (i < Filter2))
+		{
+			params[i].objectNumber = 0;
+		}
+		else if ((i >= Filter2) && (i < Envelope1Attack))
+		{
+			params[i].objectNumber = 1;
+		}
+		//envelopes
+		else if ((i >= Envelope1Attack) && (i < Envelope2Attack))
+		{
+			params[i].objectNumber = 0;
+		}
+		else if ((i >= Envelope2Attack) && (i < Envelope3Attack))
+		{
+			params[i].objectNumber = 1;
+		}
+		else if ((i >= Envelope3Attack) && (i < Envelope4Attack))
+		{
+			params[i].objectNumber = 2;
+		}
+		else if ((i >= Envelope4Attack) && (i < LFO1Rate))
+		{
+			params[i].objectNumber = 3;
+		}
+		//lfos
+		//other
+
+
+		params[i].setParam(params[i].realVal, params[i].objectNumber);
+
 	}
+
+	//mappings parsing
+	numMappings = 0;
+
+	for (int i = 0; i < MAX_NUM_MAPPINGS; i++)
+	{
+		mappings[i].destNumber = 255;
+		mappings[i].numHooks = 0;
+	}
+	for (int i = (NUM_PARAMS * 2) + 4; i < size; i+=5)
+	{
+		if ((buffer[i] != 255) && (buffer[i] != 254))
+		{
+			uint8_t destNumber = buffer[i+1];
+			uint8_t whichMapping = 0;
+			uint8_t whichHook = 0;
+			uint8_t foundOne = 0;
+			//search to see if this destination already has other mappings
+			for (int j = 0; j < MAX_NUM_MAPPINGS; j++)
+			{
+				if (mappings[j].destNumber == destNumber)
+				{
+					//found one, use this mapping and add another hook to it
+					whichMapping = j;
+					whichHook = mappings[j].numHooks;
+					foundOne = 1;
+				}
+			}
+			if (foundOne == 0)
+			{
+				//didn't find another mapping with this destination, start a new mapping
+				whichMapping = numMappings;
+
+				numMappings++;
+				whichHook = 0;
+				mappings[whichMapping].destNumber = destNumber;
+				mappings[whichMapping].dest = params[destNumber];
+
+			}
+
+			mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[buffer[i]];
+			int scalar = buffer[i+2];
+			if (scalar == 0xff)
+			{
+				mappings[whichMapping].scalarSourceValPtr[whichHook] = &defaultScaling;
+			}
+			else
+			{
+				mappings[whichMapping].scalarSourceValPtr[whichHook] = &sourceValues[buffer[i+2]];
+			}
+			float amountFloat = ((buffer[i+3] << 8) + buffer[i+4]) * INV_TWO_TO_15;
+			mappings[whichMapping].amount[whichHook] = amountFloat;
+			mappings[whichMapping].numHooks++;
+		}
+	}
+
+	//params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
+
 	muteAudio = 0;
 }
+
+
+
+/////
 
 
 

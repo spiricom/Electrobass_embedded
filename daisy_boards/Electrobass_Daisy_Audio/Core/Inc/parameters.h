@@ -9,18 +9,51 @@
 #define INC_PARAMETERS_H_
 
 typedef float (*scaler_t)(float);
-//struct for every parameter
-typedef struct param
-    {
-        float zeroToOneVal;
-        float realVal;
-        scaler_t scaleFunc;
-    } param;
+typedef void (*setParam_t)(float, int);
+
+typedef void (*setCutoff_t)(float, int);
+typedef void (*setQ_t)(float, int);
+typedef void (*setGain_t)(float, int);
 
 #define NUM_OSC_SHAPES 6
 #define NUM_FILTER_TYPES 9
 #define OSC_PARAMS_OFFSET 40
-#define FILTER_PARAMS_OFFSET 98
+#define EFFECTS_PARAMS_OFFSET 73
+#define FILTER_PARAMS_OFFSET 101
+#define ENVELOPE_PARAMS_OFFSET 114
+#define LFO_PARAMS_OFFSET 138
+#define NUM_POSSIBLE_HOOKS 3
+
+//struct for every parameter
+typedef struct param
+{
+	float zeroToOneVal;
+	float realVal;
+	scaler_t scaleFunc;
+	setParam_t setParam; //setting the actual backend audio parameter (i.e. calling leaf library filter cutoff set code)
+	uint8_t objectNumber;
+} param;
+
+
+typedef struct filterSetter
+{
+	setCutoff_t setCutoff;
+	setQ_t	setQ;
+	setGain_t setGain;
+} filterSetter;
+
+
+typedef struct mapping
+{
+	uint8_t destNumber;
+	param dest;
+	float* sourceValPtr[NUM_POSSIBLE_HOOKS];
+	float* scalarSourceValPtr[NUM_POSSIBLE_HOOKS];
+	float amount[NUM_POSSIBLE_HOOKS];
+	uint8_t numHooks;
+} mapping;
+
+
 
 enum OscParamNames
 {
@@ -32,6 +65,7 @@ enum OscParamNames
 	OscAmp,
 	OscisHarmonic,
 	OscisStepped,
+	OscisSync,
 	OscShapeSet,
 	OscFilterSend,
 	OscParamsNum
@@ -48,7 +82,16 @@ enum FilterParamNames
 	FilterParamsNum
 };
 
-
+enum EnvelopeParamNames
+{
+	EnvelopeAttack,
+	EnvelopeDecay,
+	EnvelopeSustain,
+	EnvelopeRelease,
+	EnvelopeLeak,
+	EnvelopeVelocity,
+	EnvelopeParamsNum
+};
 
 
 enum ParamNames
@@ -101,6 +144,7 @@ enum ParamNames
 	Osc1Amp,
 	Osc1isHarmonic,
 	Osc1isStepped,
+	Osc1isSync,
 	Osc1ShapeSet,
 	Osc1FilterSend,
 	Osc2,
@@ -111,6 +155,7 @@ enum ParamNames
 	Osc2Amp,
 	Osc2isHarmonic,
 	Osc2isStepped,
+	Osc2isSync,
 	Osc2ShapeSet,
 	Osc2FilterSend,
 	Osc3,
@@ -121,6 +166,7 @@ enum ParamNames
 	Osc3Amp,
 	Osc3isHarmonic,
 	Osc3isStepped,
+	Osc3isSync,
 	Osc3ShapeSet,
 	Osc3FilterSend,
 	Effect1FXType,
@@ -209,6 +255,7 @@ enum ParamNames
 	LFO4ShapeSet,
 	LFO4Sync,
 	OutputAmp,
+	numParams
 };
 
 
