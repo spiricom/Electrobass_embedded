@@ -62,12 +62,35 @@ void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 /* USER CODE BEGIN PFP */
 void MPU_Conf(void);
+static void FS_FileOperations(void);
+void parse_preset(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 uint8_t SPI_TX[32] __ATTR_RAM_D2;
 uint8_t SPI_RX[32] __ATTR_RAM_D2;
+
+#define MAX_WAV_FILES 8
+FILINFO fno __ATTR_RAM_D1;
+DIR dir __ATTR_RAM_D1;
+const TCHAR path = 0;
+uint32_t waves[MAX_WAV_FILES][4];
+uint32_t numWaves = 0;
+uint32_t OutOfSpace = 0;
+uint32_t tooBigForScratch = 0;
+uint32_t memoryPointer = 0;
+uint8_t counter = 0;
+
+
+
+
+param params[NUM_PARAMS];
+
+float resTable[2048];
+float envTimeTable[2048];
+float lfoRateTable[2048];
+
 /* USER CODE END 0 */
 
 /**
@@ -125,11 +148,45 @@ int main(void)
   tempFPURegisterVal |= (1<<24); // set the FTZ (flush-to-zero) bit in the FPU control register
   __set_FPSCR(tempFPURegisterVal);
 
+
+  while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+   {
+ 	  ;
+   }
+
+
   codec_init(&hi2c2);
 
   audio_init(&hsai_BlockB1, &hsai_BlockA1);
 
+  for (int i = 0; i < 32; i++)
+  {
+	  SPI_TX[i] = counter++;
+  }
+
+  LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
+  LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
+  LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
   HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
+
+
+
+  HAL_Delay(10);
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+/*
+	 if(BSP_SD_IsDetected())
+	 {
+
+		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	     FS_FileOperations();
+
+	 }
+	 else
+	 {
+		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+	 }
+
+*/
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -138,7 +195,7 @@ int main(void)
   {
 
 	  //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-	  HAL_Delay(100);
+	  //HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -260,6 +317,146 @@ float randomNumber(void) {
 	return num;
 }
 
+
+static void FS_FileOperations(void)
+{
+	HAL_Delay(300);
+	disk_initialize(0);
+
+    disk_status(0);
+    //if (statusH != RES_OK)
+    //{
+      //ShowDiskStatus(status);
+    //}
+
+
+	if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
+	{
+
+		FRESULT res;
+
+		uint32_t fileIndex = 0;
+
+		/* Start to search for wave files */
+
+		res = f_findfirst(&dir, &fno, SDPath, "*.wav");
+
+		/* Repeat while an item is found */
+		while (fno.fname[0])
+		{
+		  if(res == FR_OK)
+		  {
+			if((fileIndex < MAX_WAV_FILES) && (OutOfSpace == 0))
+			{
+				if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
+				{
+
+					waves[fileIndex][0] = (uint32_t)memoryPointer;
+
+					//if (readWave(&SDFile) == 1)
+					{
+
+						//waves[fileIndex][1] = header.channels;
+						//waves[fileIndex][2] = header.sample_rate;
+						//uint32_t LengthInFloats = (uint32_t)memoryPointer - waves[fileIndex][0];
+						//waves[fileIndex][3] = LengthInFloats;
+						fileIndex++;
+						numWaves++;
+					}
+
+
+					f_close(&SDFile);
+
+					/* Search for next item */
+
+
+					res = f_findnext(&dir, &fno);
+				}
+			}
+			else
+			{
+				break;
+			}
+
+		  }
+		  else
+		  {
+			break;
+		  }
+		}
+		f_closedir(&dir);
+
+	}
+	f_mount(0, "", 0); //unmount
+}
+
+#define SDRAM_MODEREG_BURST_LENGTH_2 ((1 << 0))
+#define SDRAM_MODEREG_BURST_LENGTH_4 ((1 << 1))
+
+#define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL ((0 << 3))
+
+#define SDRAM_MODEREG_CAS_LATENCY_3 ((1 << 4) | (1 << 5))
+
+#define SDRAM_MODEREG_OPERATING_MODE_STANDARD ()
+
+#define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE ((1 << 9))
+#define SDRAM_MODEREG_WRITEBURST_MODE_PROG_BURST ((0 << 9))
+
+void SDRAM_init()
+{
+	    	FMC_SDRAM_CommandTypeDef Command;
+
+	        __IO uint32_t tmpmrd = 0;
+	        /* Step 3:  Configure a clock configuration enable command */
+	        Command.CommandMode            = FMC_SDRAM_CMD_CLK_ENABLE;
+	        Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+	        Command.AutoRefreshNumber      = 1;
+	        Command.ModeRegisterDefinition = 0;
+
+	        /* Send the command */
+	        HAL_SDRAM_SendCommand(&hsdram1, &Command, 0x1000);
+
+	        /* Step 4: Insert 100 ms delay */
+	        HAL_Delay(100);
+
+
+	        /* Step 5: Configure a PALL (precharge all) command */
+	        Command.CommandMode            = FMC_SDRAM_CMD_PALL;
+	        Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+	        Command.AutoRefreshNumber      = 1;
+	        Command.ModeRegisterDefinition = 0;
+
+	        /* Send the command */
+	        HAL_SDRAM_SendCommand(&hsdram1, &Command, 0x1000);
+
+	        /* Step 6 : Configure a Auto-Refresh command */
+	        Command.CommandMode            = FMC_SDRAM_CMD_AUTOREFRESH_MODE;
+	        Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+	        Command.AutoRefreshNumber      = 4;
+	        Command.ModeRegisterDefinition = 0;
+
+	        /* Send the command */
+	        HAL_SDRAM_SendCommand(&hsdram1, &Command, 0x1000);
+
+	        /* Step 7: Program the external memory mode register */
+	        tmpmrd = (uint32_t)SDRAM_MODEREG_BURST_LENGTH_4
+	                 | SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL | SDRAM_MODEREG_CAS_LATENCY_3
+	                 | SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;
+	        //SDRAM_MODEREG_OPERATING_MODE_STANDARD | // Used in example, but can't find reference except for "Test Mode"
+
+	        Command.CommandMode            = FMC_SDRAM_CMD_LOAD_MODE;
+	        Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
+	        Command.AutoRefreshNumber      = 1;
+	        Command.ModeRegisterDefinition = tmpmrd;
+
+	        /* Send the command */
+	        HAL_SDRAM_SendCommand(&hsdram1, &Command, 0x1000);
+
+	        //HAL_SDRAM_ProgramRefreshRate(hsdram, 0x56A - 20);
+	        HAL_SDRAM_ProgramRefreshRate(&hsdram1, 0x81A - 20);
+
+}
+
 void MPU_Conf(void)
 {
 	//code from Keshikan https://github.com/keshikan/STM32H7_DMA_sample
@@ -348,71 +545,313 @@ void MPU_Conf(void)
 	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
 
+volatile uint8_t writingPreset = 0;
+
+FIL fdst;
+volatile uint8_t buffer[4096];
+volatile uint16_t bufferPos = 0;
+FRESULT res;
+
+void handleSPI(uint8_t offset)
+{
+	// if the first number is a 1 then it's a midi note/ctrl/bend message
+	if (SPI_RX[offset] == 1)
+	{
+		//got a change!
+		 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+
+		 uint8_t currentByte = offset+1;
+
+		 while (SPI_RX[currentByte] != 0)
+		 {
+			 if (SPI_RX[currentByte] == 0x90)
+			 {
+				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 else if (SPI_RX[currentByte] == 0xb0)
+			 {
+				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 else if (SPI_RX[currentByte] == 0xe0)
+			 {
+				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 currentByte = currentByte+3;
+		 }
+		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	}
+	// if the first number is a 2 then it's a preset write
+	else if (SPI_RX[offset] == 2)
+	{
+		//got a new preset to write to memory
+		 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+
+		 //if you aren't already writing a preset to memory, start the process
+		 if (!writingPreset)
+		 {
+			 writingPreset = 1; // set the flag to let the mcu know that a preset write is in progress
+			 //write the raw data as a preset number on the SD card
+			 bufferPos = 0;
+			 /*
+			 if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
+			 {
+				 res = f_open(&fdst, "P1.txt", FA_CREATE_ALWAYS | FA_WRITE);
+			 }
+			 */
+		 }
+
+		 uint8_t currentByte = offset+2;
+
+		 for (int i = 0; i < 14; i++)
+		 {
+			 buffer[bufferPos++] = SPI_RX[currentByte + i];
+			 //f_putc(SPI_RX[currentByte + i], &fdst);
+
+		 }
+		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+
+
+
+		 /*
+		 while (SPI_RX[currentByte] != 0)
+		 {
+			 if (SPI_RX[currentByte] == 0x90)
+			 {
+				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 else if (SPI_RX[currentByte] == 0xb0)
+			 {
+				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 else if (SPI_RX[currentByte] == 0xe0)
+			 {
+				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+			 }
+			 currentByte = currentByte+3;
+		 }
+		 */
+	}
+
+	else if (SPI_RX[offset] == 3)
+		{
+			//end writing preset to the SD card and close the file
+			 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+
+			 writingPreset = 0;
+
+			 uint8_t currentByte = offset+1;
+
+			 //write the raw data as a preset number on the SD card
+
+
+			 //res = f_close(&fdst);
+			 //f_mount(0, "", 0); //unmount
+
+			 	/*
+			 while (SPI_RX[currentByte] != 0)
+			 {
+				 if (SPI_RX[currentByte] == 0x90)
+				 {
+					 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 }
+				 else if (SPI_RX[currentByte] == 0xb0)
+				 {
+					 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 }
+				 else if (SPI_RX[currentByte] == 0xe0)
+				 {
+					 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 }
+				 currentByte = currentByte+3;
+			 }
+			 */
+
+			 /* Parse into Audio Params */
+			 parse_preset();
+
+			 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+		}
+}
+
+float scaleDefault(float input)
+{
+	return input;
+}
+
+float scaleTwo(float input)
+{
+	return (input * 2.0f);
+}
+
+float scaleOscPitch(float input)
+{
+	return (input * 48.0f) - 24.0f;
+}
+
+float scaleOscFine(float input)
+{
+	return (input * 200.0f) - 100.0f;
+}
+
+float scaleOscFreq(float input)
+{
+	return (input * 4000.0f) - 2000.0f;
+}
+
+float scaleTranspose(float input)
+{
+	return (input * 96.0f) - 48.0f;
+}
+
+float scalePitchBend(float input)
+{
+	return (input * 24.0f);
+}
+
+float scaleFilterCutoff(float input)
+{
+	return (input * 127.0f) -  63.5f;
+}
+
+float scaleFilterResonance(float input)
+{
+	//lookup table for filter res
+
+	//scale to lookup range
+	input *= 2047.0f;
+	int inputInt = (int)input;
+	float inputFloat = (float)inputInt - input;
+	int nextPos = LEAF_clip(0, inputInt + 1, 2047);
+	return (resTable[inputInt] * (1.0f - inputFloat)) + (resTable[nextPos] * inputFloat);
+	//return
+}
+
+float scaleEnvTimes(float input)
+{
+	//lookup table for env times
+
+	//scale to lookup range
+	input *= 2047.0f;
+	int inputInt = (int)input;
+	float inputFloat = (float)inputInt - input;
+	int nextPos = LEAF_clip(0, inputInt + 1, 2047);
+	return (envTimeTable[inputInt] * (1.0f - inputFloat)) + (envTimeTable[nextPos] * inputFloat);
+
+	//return
+}
+
+float scaleLFORates(float input)
+{
+	//lookup table for LFO rates
+
+	//scale to lookup range
+	input *= 2047.0f;
+	int inputInt = (int)input;
+	float inputFloat = (float)inputInt - input;
+	int nextPos = LEAF_clip(0, inputInt + 1, 2047);
+	return (lfoRateTable[inputInt] * (1.0f - inputFloat)) + (lfoRateTable[nextPos] * inputFloat);
+	//return
+}
+
+
+void parse_preset()
+{
+	//osc params
+	for (int i = 0; i < NUM_PARAMS; i++)
+	{
+		params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
+		//need to map all of the params to their scaled parameters and set them to the realVals
+		params[i].scaleFunc = &scaleDefault;
+	}
+
+
+	//params[i].realVal = params[i].zeroToOneVal;
+	params[Master].scaleFunc = &scaleTwo;
+	params[Transpose].scaleFunc = &scaleTranspose;
+	params[PitchBendRangeUp].scaleFunc = &scalePitchBend;
+	params[PitchBendRangeDown].scaleFunc = &scalePitchBend;
+	params[NoiseAmp].scaleFunc = &scaleTwo;
+	params[Osc1Pitch].scaleFunc = &scaleOscPitch;
+	params[Osc1Fine].scaleFunc = &scaleOscFine;
+	params[Osc1Freq].scaleFunc = &scaleOscFreq;
+	params[Osc1Amp].scaleFunc = &scaleTwo;
+	params[Osc2Pitch].scaleFunc = &scaleOscPitch;
+	params[Osc2Fine].scaleFunc = &scaleOscFine;
+	params[Osc2Freq].scaleFunc = &scaleOscFreq;
+	params[Osc2Amp].scaleFunc = &scaleTwo;
+	params[Osc3Pitch].scaleFunc = &scaleOscPitch;
+	params[Osc3Fine].scaleFunc = &scaleOscFine;
+	params[Osc3Freq].scaleFunc = &scaleOscFreq;
+	params[Osc3Amp].scaleFunc = &scaleTwo;
+	params[Filter1Cutoff].scaleFunc = &scaleFilterCutoff;
+	params[Filter1Resonance].scaleFunc = &scaleFilterResonance;
+	params[Filter2Cutoff].scaleFunc = &scaleFilterCutoff;
+	params[Filter2Resonance].scaleFunc = &scaleFilterResonance;
+	params[Envelope1Attack].scaleFunc = &scaleEnvTimes;
+	params[Envelope1Decay].scaleFunc = &scaleEnvTimes;
+	params[Envelope1Release].scaleFunc = &scaleEnvTimes;
+	params[Envelope2Attack].scaleFunc = &scaleEnvTimes;
+	params[Envelope2Decay].scaleFunc = &scaleEnvTimes;
+	params[Envelope2Release].scaleFunc = &scaleEnvTimes;
+	params[Envelope3Attack].scaleFunc = &scaleEnvTimes;
+	params[Envelope3Decay].scaleFunc = &scaleEnvTimes;
+	params[Envelope3Release].scaleFunc = &scaleEnvTimes;
+	params[Envelope4Attack].scaleFunc = &scaleEnvTimes;
+	params[Envelope4Decay].scaleFunc = &scaleEnvTimes;
+	params[Envelope4Release].scaleFunc = &scaleEnvTimes;
+	params[LFO1Rate].scaleFunc = &scaleLFORates;
+	params[LFO2Rate].scaleFunc = &scaleLFORates;
+	params[LFO3Rate].scaleFunc = &scaleLFORates;
+	params[LFO4Rate].scaleFunc = &scaleLFORates;
+	params[OutputAmp].scaleFunc = &scaleTwo;
+
+	for (int i = 0; i < NUM_PARAMS; i++)
+	{
+		params[i].realVal = params[i].scaleFunc(params[i].zeroToOneVal);
+	}
+
+
+
+
+}
+
 
 
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	//spiBuffer = 1;
-    uint8_t offset = 16;
-    if (SPI_RX[offset] == 1)
-    {
-    	//got a change!
-    	 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-
-    	 uint8_t currentByte = offset+1;
-
-    	 while (SPI_RX[currentByte] != 0)
-    	 {
-			 if (SPI_RX[currentByte] == 0x90)
-			 {
-				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xb0)
-			 {
-				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xe0)
-			 {
-				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 currentByte = currentByte+3;
-    	 }
-
-    }
+	handleSPI(16);
 }
 
 void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	//spiBuffer = 0;
-    uint8_t offset = 0;
-
-    if (SPI_RX[offset] == 1)
-    {
-    	//got a change!
-    	 HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-    	 uint8_t currentByte = offset+1;
-
-    	 while (SPI_RX[currentByte] != 0)
-    	 {
-			 if (SPI_RX[currentByte] == 0x90)
-			 {
-				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xb0)
-			 {
-				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xe0)
-			 {
-				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 currentByte = currentByte+3;
-    	 }
-    }
+	handleSPI(0);
 }
 
 
 
+// EXTI Line12 External Interrupt ISR Handler CallBackFun
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if(GPIO_Pin == GPIO_PIN_12) // If The INT Source Is EXTI Line12
+    {
+
+
+    	  if(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+    	  {
+    		  HAL_SPI_Abort(&hspi1);
+    		  __HAL_SPI_CLEAR_OVRFLAG(&hspi1);
+    	  }
+    	  else
+    	  {
+    		  for (int i = 0; i < 32; i++)
+			  {
+				  SPI_TX[i] = i;
+			  }
+
+			  HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
+    	  }
+    }
+}
 /* USER CODE END 4 */
 
 /**

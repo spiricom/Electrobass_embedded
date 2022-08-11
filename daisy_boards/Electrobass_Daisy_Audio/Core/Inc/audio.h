@@ -50,4 +50,11 @@ void DMA1_HalfTransferCpltCallback(DMA_HandleTypeDef *hdma);
 extern void sendNoteOn(uint8_t note, uint8_t velocity);
 extern void sendCtrl(uint8_t value, uint8_t ctrl);
 extern void sendPitchBend(uint8_t value, uint8_t ctrl);
+
+/****************** Audio Params **********************/
+extern float oscAmp[3];
+
+extern float filtCutoff[2];
+extern float follow[2];
+
 #endif /* INC_AUDIO_H_ */
