@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 1
 
 
    1              		.syntax unified
@@ -10,7 +10,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
    7              		.eabi_attribute 24, 1
    8              		.eabi_attribute 25, 1
    9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 30, 2
   11              		.eabi_attribute 34, 1
   12              		.eabi_attribute 18, 4
   13              		.thumb
@@ -18,20 +18,871 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
   15              		.file	"CapSense_CompCH0_PM.c"
   16              		.text
   17              	.Ltext0:
-  18              		.cfi_sections	.debug_frame
-  19              		.bss
-  20              		.align	2
-  21              	CapSense_CompCH0_backup:
-  22 0000 00       		.space	1
-  23              		.section	.text.CapSense_CompCH0_SaveConfig,"ax",%progbits
-  24              		.align	2
-  25              		.global	CapSense_CompCH0_SaveConfig
-  26              		.thumb
-  27              		.thumb_func
-  28              		.type	CapSense_CompCH0_SaveConfig, %function
-  29              	CapSense_CompCH0_SaveConfig:
-  30              	.LFB0:
-  31              		.file 1 "Generated_Source\\PSoC5\\CapSense_CompCH0_PM.c"
+  18              		.section	.gnu.lto_.profile.807cfced,"",%progbits
+  19 0000 789C6361 		.ascii	"x\234ca`d`a`\000\222\252\374\000\000\303\000?"
+  19      60646061 
+  19      600092AA 
+  19      FC0000C3 
+  19      003F
+  20              		.text
+  21              		.section	.gnu.lto_.icf.807cfced,"",%progbits
+  22 0000 789C6361 		.ascii	"x\234ca`d\000\001\005\006\004`eX?\363A\013\023#\230"
+  22      60640001 
+  22      05060460 
+  22      65583FF3 
+  22      410B1323 
+  23 0015 645AB9E5 		.ascii	"dZ\271\345\313$n\346I\333\027\337ef\371\265xV\027+\003"
+  23      CB246EE6 
+  23      49DB17DF 
+  23      6566F9B5 
+  23      7856172B 
+  24 002a 00EAFB0E 		.ascii	"\000\352\373\016\021"
+  24      11
+  25              		.text
+  26              		.section	.gnu.lto_.jmpfuncs.807cfced,"",%progbits
+  27 0000 789C6361 		.ascii	"x\234ca`d\000\001\001\006\004`\001b\240(\023\224\311"
+  27      60640001 
+  27      01060460 
+  27      0162A028 
+  27      1394C9
+  28 0013 00000308 		.ascii	"\000\000\003\010\000!"
+  28      0021
+  29              		.text
+  30              		.section	.gnu.lto_.inline.807cfced,"",%progbits
+  31 0000 789C6361 		.ascii	"x\234ca`d\000\2010\006\004`a``fbd`\0022\331\026\310"
+  31      60640081 
+  31      30060460 
+  31      61606066 
+  31      62646002 
+  32 0018 8328A022 		.ascii	"\203(\240\"t\021&\006.A\240\010\317\004?\204\".\260"
+  32      74112606 
+  32      2E41A008 
+  32      CF043F84 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 2
+
+
+  32      222EB0
+  33 002b 667676A0 		.ascii	"fvv\2408\333\007=Tq\006\000\366\220\005\346"
+  33      38DB073D 
+  33      54710600 
+  33      F69005E6 
+  34              		.text
+  35              		.section	.gnu.lto_.pureconst.807cfced,"",%progbits
+  36 0000 789C6361 		.ascii	"x\234ca`d\340d```a\0002\230\244X$\000\001y\000L"
+  36      6064E064 
+  36      60606061 
+  36      003298A4 
+  36      58240001 
+  37              		.text
+  38              		.section	.gnu.lto_CapSense_CompCH0_SaveConfig.807cfced,"",%progbits
+  39 0000 789C6361 		.ascii	"x\234ca`d\000\201j \326\007bi fdf`d\232p\216\201\241"
+  39      60640081 
+  39      6A20D607 
+  39      62692066 
+  39      64666064 
+  40 0019 91838991 		.ascii	"\221\203\211\221\021\304h\340`d\250gb\254g\374\312\364"
+  40      11C468E0 
+  40      6064A867 
+  40      62AC67FC 
+  40      CAF4
+  41 002b 9789F150 		.ascii	"\227\211\361P\373\263\235L\232\313\033\200\340\301\321"
+  41      FBB39D4C 
+  41      9ACB1B80 
+  41      E0C1D1
+  42 003a C9CC0D2B 		.ascii	"\311\314\015+\0160\266230\374g\002\233\304\300\270\234"
+  42      0E30B632 
+  42      3330FC67 
+  42      029BC4C0 
+  42      B89C
+  43 004c 519301A8 		.ascii	"Q\223\001\250\354\321\306\177Sy\331Z@\312\024 \222\214"
+  43      ECD1C67F 
+  43      5379D95A 
+  43      40CA1420 
+  43      928C
+  44 005e 2B18D940 		.ascii	"+\030\331@\326\255\017:\320\360\377\177s\303\201\371"
+  44      D6AD0F3A 
+  44      D0F0FF7F 
+  44      73C381F9 
+  45 006e AC4F9980 		.ascii	"\254O\231\200\022\037\200\030d\315G \007H3\277bd\002"
+  45      121F8018 
+  45      64CD4720 
+  45      074833BF 
+  45      626402
+  46 0081 29059BF6 		.ascii	")\005\233\366\201\211\021$\006T\241\353\236\232\227"
+  46      81891124 
+  46      0654A1EB 
+  46      9E9A97
+  47 0090 5A945892 		.ascii	"Z\224X\222\232\022\037\234_Z\224\234\032\023\020\234"
+  47      9A121F9C 
+  47      5F5A949C 
+  47      1A13109C 
+  48 00a0 EF6C1AE3 		.ascii	"\357l\032\343\234X\020\234\232W\234\032\357\234\237"
+  48      9C58109C 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 3
+
+
+  48      9A579C1A 
+  48      EF9C9F
+  49 00af 5BE0EC61 		.ascii	"[\340\354a\020\037\340\253\227\314\000\000g\315<\240"
+  49      101FE0AB 
+  49      97CC0000 
+  49      67CD3CA0 
+  50              		.text
+  51              		.section	.gnu.lto_CapSense_CompCH0_RestoreConfig.807cfced,"",%progbits
+  52 0000 789C6361 		.ascii	"x\234ca`d\000\201j \326\007bi fdf`d\232p\216\201\241"
+  52      60640081 
+  52      6A20D607 
+  52      62692066 
+  52      64666064 
+  53 0019 91838991 		.ascii	"\221\203\211\221\021\304h\340`d\250gb\254g\374\312\364"
+  53      11C468E0 
+  53      6064A867 
+  53      62AC67FC 
+  53      CAF4
+  54 002b 9789F150 		.ascii	"\227\211\361P\373\263\235L\232\313\033\200\340\301\321"
+  54      FBB39D4C 
+  54      9ACB1B80 
+  54      E0C1D1
+  55 003a 79CC0D2B 		.ascii	"y\314\015+\0160\266230\374g\002\233\304\300\270\234"
+  55      0E30B632 
+  55      3330FC67 
+  55      029BC4C0 
+  55      B89C
+  56 004c 519301A8 		.ascii	"Q\223\001\250\354\321\306\177Sy\331Z@\312\024 \222\214"
+  56      ECD1C67F 
+  56      5379D95A 
+  56      40CA1420 
+  56      928C
+  57 005e 2B18D940 		.ascii	"+\030\331@\326\255\017:\320\360\377\177s\303\201\357"
+  57      D6AD0F3A 
+  57      D0F0FF7F 
+  57      73C381EF 
+  58 006e AC5F9981 		.ascii	"\254_\231\201\022\037\200\030d\315G&&\020\315\374\212"
+  58      121F8018 
+  58      64CD4726 
+  58      2610CDFC 
+  58      8A
+  59 007f 9109A414 		.ascii	"\221\011\244\024l\332\007&F\220\030P\205\256{j^jQbI"
+  59      6CDA0726 
+  59      46901850 
+  59      85AE7B6A 
+  59      5E6A5162 
+  60 0094 6A4A7C70 		.ascii	"jJ|p~iQrjL@p\276\263i\214sbApj^qj\274s~n\201\263\207"
+  60      7E695172 
+  60      6A4C4070 
+  60      BEB3698C 
+  60      73624170 
+  61 00b3 417C80AF 		.ascii	"A|\200\257^2\003\000\223\205=\024"
+  61      5E320300 
+  61      93853D14 
+  62              		.text
+  63              		.section	.gnu.lto_CapSense_CompCH0_Sleep.807cfced,"",%progbits
+  64 0000 789C8D91 		.ascii	"x\234\215\221\317k\023Q\020\307\347\373\336\356f\211"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 4
+
+
+  64      CF6B1351 
+  64      10C7E7FB 
+  64      DEEE6689 
+  65 0010 0DF80794 		.ascii	"\015\370\007\224\340\265\007M/^\275\004\254\027\241"
+  65      E0B5074D 
+  65      2F5EBD04 
+  65      AC17A1
+  66 001f 986B2194 		.ascii	"\230k!\224v\2176\245\3529/\335\304X\017b\305z\020\244"
+  66      768F36A5 
+  66      EA392FDD 
+  66      C4580F62 
+  66      C57A10A4 
+  67 0033 C7D41F31 		.ascii	"\307\324\0371\211\266j\240\207\030*\275\024E\250x\250"
+  67      89B66AA0 
+  67      87182ABD 
+  67      1445A878 
+  67      A8
+  68 0044 887A8812 		.ascii	"\210z\210\022\212\244\320\036\374\221\304\231]\255\202"
+  68      8AA4D01E 
+  68      FC91C499 
+  68      5DAD82
+  69 0053 503AB0FB 		.ascii	"P:\260\373\336\316\373\276\371|w\306\"\220\304\244\""
+  69      DECEFBBE 
+  69      F97C77C6 
+  69      2290C4A4 
+  69      22
+  70 0064 4AF07A8A 		.ascii	"J\360z\212\0378\004u\375%Q\316UJ\257\306\311D\255\315"
+  70      1F380475 
+  70      FD2551CE 
+  70      554AAFC6 
+  70      C944ADCD 
+  71 0078 0499010D 		.ascii	"\004\231\001\015;L[\17766 \033\343\202\262J[6\262\330"
+  71      3B4C5B7F 
+  71      3636201B 
+  71      E382B24A 
+  71      5B36B2D8 
+  72 008c 535D8566 		.ascii	"S]\205f\261UWC%\303\361\341E{\330,5P\320D}\025\300\010"
+  72      B1555743 
+  72      25C3F1E1 
+  72      457BD82C 
+  72      3550D044 
+  73 00a4 250C11CB 		.ascii	"%\014\021\313>\325z\0131'/\262c\341!\226\340\210\243"
+  73      3ED57A0B 
+  73      31272FB2 
+  73      63E12196 
+  73      E088A3
+  74 00b7 CAB986E9 		.ascii	"\312\271\206\351\367}\323x\353<\277\031q\025\0254,y"
+  74      F77DD378 
+  74      EB3CBF19 
+  74      71151534 
+  74      2C79
+  75 00c9 11755827 		.ascii	"\021uX'\320\035\245d\325-4\277_\375z\273\012\271\353"
+  75      D01DA564 
+  75      D52D34BF 
+  75      5FFD7ABB 
+  75      0AB9EB
+  76 00dc 6B8BEBDE 		.ascii	"k\213\353\336*4_EvUA+\010\346\306\217\317\225X\370Y"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 5
+
+
+  76      2A345F45 
+  76      7655412B 
+  76      08E6C68F 
+  76      CF9558F8 
+  77 00f1 2AE68C28 		.ascii	"*\346\214(\366z\335\362\300\"\356\344\362lL\343\036"
+  77      F67ADDF2 
+  77      C022EEE4 
+  77      F26C4CE3 
+  77      1E
+  78 0102 06711783 		.ascii	"\006q\027\203\314\277\217EP\013\376\317\323\344k\025"
+  78      CCBF8F45 
+  78      500BFECF 
+  78      D3E46B15 
+  79 0112 965B5E5B 		.ascii	"\226[^[\277\354\312}p<`\331G\344\267\374x\310\223\337"
+  79      BFECCA7D 
+  79      703C60D9 
+  79      47E4B7FC 
+  79      78C893DF 
+  80 0126 AD6CD7BF 		.ascii	"\255l\327\277\305B\001\241,uH\374iZ\215\263\275\331"
+  80      C54201A1 
+  80      2C7548FC 
+  80      695A8DB3 
+  80      BDD9
+  81 0138 DDEABBD7 		.ascii	"\335\352\273\327GD\375\2575+\260V\257ooE\262]s\305\230"
+  81      4744FDAF 
+  81      352BB056 
+  81      AF6F6F45 
+  81      B25D73C5 
+  82 014d A39C9BE3 		.ascii	"\243\234\233\343&I\272\275\361f-*\366L\220\267Q\341"
+  82      2649BABD 
+  82      F1662D2A 
+  82      F64C90B7 
+  82      51E1
+  83 015f CE3E94C2 		.ascii	"\316>\224\302|x\355Yu\316M\224\245kf\236\355;\250\262"
+  83      7C78ED59 
+  83      75CE4D94 
+  83      A56B669E 
+  83      ED3BA8B2 
+  84 0173 E95ED05B 		.ascii	"\351^\320[\324\220`\311Jq\243\026\025\212\303\216\037"
+  84      D49060C9 
+  84      4A71A316 
+  84      158AC38E 
+  84      1F
+  85 0184 05867694 		.ascii	"\005\206v\224E\233\211\300N\347\375\276\235\303\362"
+  85      459B89C0 
+  85      4EE7FDBE 
+  85      9DC3F2
+  86 0193 1F1FC85F 		.ascii	"\037\037\310_\376\313_\011\370\373\177\311\303\304\223"
+  86      FECB5F09 
+  86      F8FB7FC9 
+  86      C3C493
+  87 01a2 DF7C3B18 		.ascii	"\337|;\030\327\027\370\215\371u%\374\377\033\020\351"
+  87      D717F88D 
+  87      F97525FC 
+  87      FF1B10E9 
+  88 01b2 F3C4084F 		.ascii	"\363\304\010O\221\345Y\273\324\306lca$\220Jt\370\220"
+  88      91E559BB 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 6
+
+
+  88      D4C66C63 
+  88      6124904A 
+  88      74F890
+  89 01c5 4B30E8F8 		.ascii	"K0\350\370\2107\345\315\214_\364&\323\251\314\245\231"
+  89      8837E5CD 
+  89      8C5FF426 
+  89      D3A9CCA5 
+  89      99
+  90 01d6 096F6C34 		.ascii	"\011ol4\225I\236\034K\216O\247\274\251\013^:\2319?\235"
+  90      95499E1C 
+  90      4B8E4FA7 
+  90      BCA90B5E 
+  90      3A99393F 
+  91 01eb 3C339C1E 		.ascii	"<3\234\036={b\202~\001R~\351p"
+  91      3D7B6282 
+  91      7E01527E 
+  91      E970
+  92              		.text
+  93              		.section	.gnu.lto_CapSense_CompCH0_Wakeup.807cfced,"",%progbits
+  94 0000 789C654F 		.ascii	"x\234eO\277KBQ\030\375\276{\237?\020\303\376\200\210"
+  94      BF4B4251 
+  94      18FDBE7B 
+  94      9F3F10C3 
+  94      FE8088
+  95 0013 5607D3A1 		.ascii	"V\007\323\241\326\026\207\"\010$i\023D\354\215\251X"
+  95      D6168722 
+  95      08246913 
+  95      44EC8DA9 
+  95      58
+  96 0024 CDEFFAE3 		.ascii	"\315\357\372\343U.\021Em\341\250\375.h\310\246\227\210"
+  96      552E1145 
+  96      6DE1A8FD 
+  96      2E68C8A6 
+  96      9788
+  97 0036 42444D2D 		.ascii	"BDM-\265T\220\2044(\324\024\317\327w\237CC\007.\337"
+  97      B5549084 
+  97      3428D414 
+  97      CFD7779F 
+  97      4343072E 
+  98 004b E5DC73EE 		.ascii	"\345\334s\3569\237\002\010\022\0134\2024'\350\240\003"
+  98      399F0208 
+  98      120B3482 
+  98      3427E8A0 
+  98      03
+  99 005c 906DDD03 		.ascii	"\220m\335\003\344\334\214\361\246\017\204G\271\235\002"
+  99      E4DC8CF1 
+  99      A60F8447 
+  99      B99D02
+ 100 006b E1E5A80C 		.ascii	"\341\345\250\014h\005Q^\204\033Ac\\A\015\277\231\311"
+ 100      6805515E 
+ 100      841B4163 
+ 100      5C410DBF 
+ 100      99C9
+ 101 007d B0BEDEAE 		.ascii	"\260\276\336\2561\177E\020^\336\177B\242j\240\316\001"
+ 101      317F4510 
+ 101      5EDE7F42 
+ 101      A26AA0CE 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 7
+
+
+ 101      01
+ 102 008e 2C664700 		.ascii	",fG\000V\320\017${\273\350\357\0169\213R66x\304*:e\217"
+ 102      56D00F24 
+ 102      7BBBE8EF 
+ 102      0E398B52 
+ 102      363678C4 
+ 103 00a6 B3794358 		.ascii	"\263yCXVA\030=\327\315\266\307\301A\347DwI\"\343z\214"
+ 103      5641183D 
+ 103      D7CDB6C7 
+ 103      C141E744 
+ 103      774922E3 
+ 104 00bc C9C9DB98 		.ascii	"\311\311\333\230\277\356\231=\227t\0258\247\037\367"
+ 104      BFEE993D 
+ 104      97741538 
+ 104      A71FF7
+ 105 00cb F4FA83EB 		.ascii	"\364\372\203\353\213\351\234\241\014\250\325>\237]\232"
+ 105      8BE99CA1 
+ 105      0CA8D53E 
+ 105      9F5D9A
+ 106 00da 29368418 		.ascii	")6\204\030&\256D\035$\335\271{lx\312\270\237\0236\317"
+ 106      26AE441D 
+ 106      24DDB97B 
+ 106      6C78CAB8 
+ 106      9F1336CF 
+ 107 00ee F1908A1F 		.ascii	"\361\220\212\037\340\210\375\270yu^r\007\003:ms\204"
+ 107      E088FDB8 
+ 107      79755E72 
+ 107      07033A6D 
+ 107      7384
+ 108 0100 65ECDB9D 		.ascii	"e\354\333\235\361\030\203\360\212\305\247\302\350_\330"
+ 108      F11883F0 
+ 108      8AC5A7C2 
+ 108      E85FD8
+ 109 010f 65A3B5E6 		.ascii	"e\243\265\346\226aH8\221v\220\33584}\374\003\013\206"
+ 109      96614838 
+ 109      917690DD 
+ 109      38347DFC 
+ 109      030B86
+ 110 0122 D9F24AF1 		.ascii	"\331\362J\361\377\"\016\213\352\001\236\242F{9m\223"
+ 110      FF220E8B 
+ 110      EA019EA2 
+ 110      467B396D 
+ 110      93
+ 111 0133 622FD4C1 		.ascii	"b/\324\301\274\2613k\233$\272$#\232\032\004\246\325"
+ 111      BCB1336B 
+ 111      9B24BA24 
+ 111      239A1A04 
+ 111      A6D5
+ 112 0145 949A4DAC 		.ascii	"\224\232M\254\250\213\361hz5\233Tc\221h:<\031\013'2"
+ 112      A88BF168 
+ 112      7A359B54 
+ 112      6391683A 
+ 112      3C190B27 
+ 113 015a 5135B5AC 		.ascii	"Q5\265\254\306\303\351\245Lx&\024\217\314\215'\341\027"
+ 113      C6C3E9A5 
+ 113      4C782614 
+ 113      8FCC8D27 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 8
+
+
+ 113      E117
+ 114 016c 717789F9 		.ascii	"qw\211\371"
+ 115              		.text
+ 116              		.section	.gnu.lto_.symbol_nodes.807cfced,"",%progbits
+ 117 0000 789C558A 		.ascii	"x\234U\212\271\015\2000\020\004\347\036\273\000b\002"
+ 117      B90D8030 
+ 117      1004E71E 
+ 117      BB006202 
+ 118 0010 28149D4B 		.ascii	"(\024\235K\240\036DHL\017H\324\2018\021\341MV3\273\216"
+ 118      A01E4448 
+ 118      4C0F48D4 
+ 118      813811E1 
+ 118      4D5633BB 
+ 119 0025 B0905109 		.ascii	"\260\220Q\011XO\310\332\332\234BCza\241\235(\320\006"
+ 119      584FC8DA 
+ 119      DA9C4243 
+ 119      7A61A19D 
+ 119      28D006
+ 120 0038 30F5B06E 		.ascii	"0\365\260n\220\022\376\211<\264)\271F\371\263i\341\270"
+ 120      9012FE89 
+ 120      3CB429B9 
+ 120      46F9B369 
+ 120      E1B8
+ 121 004a 1E31AFDC 		.ascii	"\0361\257\334\373\310\013\200\236\032\230"
+ 121      FBC80B80 
+ 121      9E1A98
+ 122              		.text
+ 123              		.section	.gnu.lto_.refs.807cfced,"",%progbits
+ 124 0000 789C05C1 		.ascii	"x\234\005\301\261\001\000\000\010\303\240\304\326\325"
+ 124      B1010000 
+ 124      08C3A0C4 
+ 124      D6D5
+ 125 000e FFCF158A 		.ascii	"\377\317\025\212\0340cj\326\022y\002r\0002"
+ 125      1C30636A 
+ 125      D6127902 
+ 125      720032
+ 126              		.text
+ 127              		.section	.gnu.lto_.decls.807cfced,"",%progbits
+ 128 0000 789C8D94 		.ascii	"x\234\215\224\177LSW\024\307\357y\257\024x\355\372\207"
+ 128      7F4C5357 
+ 128      14C7EF79 
+ 128      AF1478ED 
+ 128      FA87
+ 129 0012 6C4AB26E 		.ascii	"lJ\262naF\223f\211\010[L\374kY\322m\372\3176\263F\367"
+ 129      61469366 
+ 129      89085B4C 
+ 129      FC6B59D2 
+ 129      6DFACF36 
+ 130 0029 8F0929F5 		.ascii	"\217\011)\365\351\234\256\255\245]\342\177\227\037c"
+ 130      E99CAEAD 
+ 130      A55DE27F 
+ 130      971F63
+ 131 0038 2A7F0CA6 		.ascii	"*\177\014\246\262\024d0\311\020'\264h\251\300P\250\200"
+ 131      B2146430 
+ 131      C91027B4 
+ 131      68A9C050 
+ 131      A880
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 9
+
+
+ 132 004a 5845B391 		.ascii	"XE\263\221\221%\004\2035\250\323\271E\026\232,f`w\356"
+ 132      91250483 
+ 132      35A8D3B9 
+ 132      45169A2C 
+ 132      666077EE 
+ 133 005e 7DEFF98A 		.ascii	"}\357\371\212-\2337\234\307=\367}\317\347\234{\356}"
+ 133      2D9B379C 
+ 133      C73DF77D 
+ 133      CFE79C7B 
+ 133      EE7D
+ 134 0070 3510206C 		.ascii	"5\020 l\014\346\020\362)NK\320R8\320%;\210>\214h\335"
+ 134      0CE610F2 
+ 134      294E4BD0 
+ 134      5238D025 
+ 134      3B883E8C 
+ 135 0086 6861B4B3 		.ascii	"ha\264\263h\021\264(Z\037\032#\\&\313G\267\272\2561"
+ 135      6811B428 
+ 135      5A1F1A23 
+ 135      5C26CB47 
+ 135      B7BAAE31 
+ 136 009a 405D7B76 		.ascii	"@]{v\204\263\350\302Yt,g\276\252\263\242]C\213\243M"
+ 136      84B3E8C2 
+ 136      59742C67 
+ 136      BEAAB3A2 
+ 136      5D438BA3 
+ 137 00af A08DA20D 		.ascii	"\240\215\242\015\241]G\353R\031\303h\202\032\027]\241"
+ 137      A15D47EB 
+ 137      5219C368 
+ 137      821A175D 
+ 137      A1
+ 138 00c0 46B687DC 		.ascii	"F\266\207\3344\346\377\261\"\377\261\337%\001R\255\275"
+ 138      34E6FFB1 
+ 138      22FFB1DF 
+ 138      250152AD 
+ 138      BD
+ 139 00d1 5FE5CDC0 		.ascii	"_\345\315\3004\210Dm*\001P\236\300\215(\306]\234\010"
+ 139      3488446D 
+ 139      2A01509E 
+ 139      C08D28C6 
+ 139      5D9C08
+ 140 00e4 4499684B 		.ascii	"D\231hKO\007Q%\2026\325a\374O\215\207\22468D\247\203"
+ 140      4F075125 
+ 140      8236D561 
+ 140      FC4F8D87 
+ 140      94363844 
+ 141 00fa 1AA4F85A 		.ascii	"\032\244\370Z_\325 \020\364\004\240\270ZD\032\357\231"
+ 141      5FD52010 
+ 141      F404A0B8 
+ 141      5A441AEF 
+ 141      99
+ 142 010b 8AB49AB5 		.ascii	"\212\264\232\2654\274\035|\323\217\016U\327\232D\001"
+ 142      34BC1D7C 
+ 142      D38F0E55 
+ 142      D79A4401 
+ 143 011b D8FCD6E3 		.ascii	"\330\374\326\343\316\367\212\273(\216zJ\205\267\364"
+ 143      CEF78ABB 
+ 143      288E7A4A 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 10
+
+
+ 143      85B7F4
+ 144 012a CE4CD6F4 		.ascii	"\316L\326\364\234\020\223\002\254\222\300\200\356_7"
+ 144      9C109302 
+ 144      AC92C080 
+ 144      EE5F37
+ 145 0139 9AE62CE8 		.ascii	"\232\346,\350\276(A\021\272KW\233\233\204\302F\036W"
+ 145      BE284111 
+ 145      BA4B579B 
+ 145      9B84C246 
+ 145      1E57
+ 146 014b 4D8B0CB0 		.ascii	"M\213\014\260c5\234\001+\374\000x(\320\005\205\370,"
+ 146      63359C01 
+ 146      2BFC0078 
+ 146      28D00585 
+ 146      F82C
+ 147 015d 3728A4D1 		.ascii	"7(\244\321\206G\017\215k\333\350|\017M\264\016\274\021"
+ 147      86470F8D 
+ 147      6BDBE87C 
+ 147      0F4DB40E 
+ 147      BC11
+ 148 016f A4B11A4A 		.ascii	"\244\261\032J+\005\246\202N\020\3414\024\263\";\331"
+ 148      2B05A682 
+ 148      4E10E134 
+ 148      14B3223B 
+ 148      D9
+ 149 0180 19103805 		.ascii	"\031\0208\0053Xo7\254\305\310\331\303\1777\347\213\333"
+ 149      33586F37 
+ 149      ACC5C8D9 
+ 149      C37F37E7 
+ 149      8BDB
+ 150 0192 79A11763 		.ascii	"y\241\027c\223\303\026\205\022K\312\3640\245U\006\216"
+ 150      93C31685 
+ 150      124BCAF4 
+ 150      30A55506 
+ 150      8E
+ 151 01a3 08E98850 		.ascii	"\010\351\210P:\"\314\021\355\035\301E\263\350\347\210"
+ 151      3A22CC11 
+ 151      ED1DC145 
+ 151      B3E8E788 
+ 152 01b3 F854B0C3 		.ascii	"\370T\260\303\200\2106DL\215\233i}%\245osF\217\316\350"
+ 152      80883644 
+ 152      4C8D9B69 
+ 152      7D25A56F 
+ 152      73468FCE 
+ 153 01c8 49679CE5 		.ascii	"Ig\234\345\214\321\207s\225 \326\001\2074\366\207gA"
+ 153      8CD18773 
+ 153      9520D601 
+ 153      8734F687 
+ 153      6741
+ 154 01da 85CC5E49 		.ascii	"\205\314^I\207\234\323!\347\322!\021\016\251\033\213"
+ 154      879CD321 
+ 154      E7D22111 
+ 154      0EA91B8B 
+ 155 01ea DEB488ED 		.ascii	"\336\264\210\355\012dh\262\3766\253$Aib\241\356\235"
+ 155      0A6468B2 
+ 155      FE36AB24 
+ 155      416962A1 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 11
+
+
+ 155      EE9D
+ 156 01fc 86F6DA58 		.ascii	"\206\366\332X=\360\276A\257N\351\345\024\234D9\341X"
+ 156      3DF0BE41 
+ 156      AF4EE9E5 
+ 156      149C4439 
+ 156      E158
+ 157 020e A8654010 		.ascii	"\250e@\020\357(\204\351\261\373\267\314\012!\326R+\006"
+ 157      EF2884E9 
+ 157      B1FBB7CC 
+ 157      0A21D652 
+ 157      2B06
+ 158 0220 E988D28D 		.ascii	"\351\210\322\215\363z\370y-\274\217\207\177{aq\321\""
+ 158      F37AF879 
+ 158      2DBC8F87 
+ 158      7F7B6171 
+ 158      D122
+ 159 0232 2E2AE123 		.ascii	".*\341#\2157\247\314\3421\345\016\204\277\270s:\017"
+ 159      8D37A7CC 
+ 159      E231E50E 
+ 159      84BFB873 
+ 159      3A0F
+ 160 0244 CFD62A41 		.ascii	"\317\326*A\012\230\377\307\300\343\027\024\237\275\016"
+ 160      0A98FFC7 
+ 160      C0E31714 
+ 160      9FBD0E
+ 161 0253 36CC3D31 		.ascii	"6\314=1\211m\\+\3742w\346\201\001lR\007;\372D\313\321"
+ 161      896D5C2B 
+ 161      FC3277E6 
+ 161      81016C52 
+ 161      073BFA44 
+ 162 0269 DDDF7C89 		.ascii	"\335\337|\211\367\006\206@\202\013zj\253\204\317CxD"
+ 162      F7068640 
+ 162      820B7A6A 
+ 162      AB84CF43 
+ 162      7844
+ 163 027b 74FE2435 		.ascii	"t\376$5\026\022x\323\012%V\002\027\301\306\250L\005"
+ 163      161278D3 
+ 163      0A255602 
+ 163      17C1C6A8 
+ 163      4C05
+ 164 028d 83785D7E 		.ascii	"\203x]~\304\353\262$\210S\343}\337\233`]\201\355$\013"
+ 164      C4EBB224 
+ 164      8853E37D 
+ 164      DF9B605D 
+ 164      81ED240B 
+ 165 02a1 492C4C6C 		.ascii	"I,Llh\016QZm\344\330\001\304\306\240@Cld\027\254\224"
+ 165      680E515A 
+ 165      6DE4D801 
+ 165      C4C6A040 
+ 165      436C6417 
+ 166 02b7 7DFA0DAC 		.ascii	"}\372\015\254\204\371*J\341\200\226\200p%\342\341\022"
+ 166      84F92A4A 
+ 166      E1809680 
+ 166      7025E2E1 
+ 166      12
+ 167 02c8 661A8675 		.ascii	"f\032\206u\274\001\274\326XD\2464\217\275'j\225\352"
+ 167      BC01BCD6 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 12
+
+
+ 167      5844A634 
+ 167      8FBD276A 
+ 167      95EA
+ 168 02da 450F3D39 		.ascii	"E\017=9\321g\026\343\312\366~\377\351n\322\004\005\266"
+ 168      D16716E3 
+ 168      CAF67EFF 
+ 168      E96ED204 
+ 168      05B6
+ 169 02ec 2C6C1843 		.ascii	",l\030C\344\312\370\301|l\303(\276\036\321\333\300\222"
+ 169      E4CAF8C1 
+ 169      7C6CC328 
+ 169      BE1ED1DB 
+ 169      C092
+ 170 02fe F11CB7A7 		.ascii	"\361\034\267\247O\035\311]\337N)\036Xk\364@\262\212"
+ 170      4F1DC95D 
+ 170      DF4E291E 
+ 170      586BF440 
+ 170      B28A
+ 171 0310 6EE5DA7E 		.ascii	"n\345\332~E\373\264\372~\376;t\031\326cL\262f\341W\243"
+ 171      45FBB4FA 
+ 171      7EFE3B74 
+ 171      19D6634C 
+ 171      B266E157 
+ 172 0325 844DAC7E 		.ascii	"\204M\254~\256&\302\215\007\337\245r\305{\312>\"\307"
+ 172      AE26C28D 
+ 172      07DFA572 
+ 172      C57BCA3E 
+ 172      22C7
+ 173 0337 83C77341 		.ascii	"\203\307sA\262e\011\277\232%\\;\315\017\233\276\256"
+ 173      B26509BF 
+ 173      9A255C3B 
+ 173      CD0F9BBE 
+ 173      AE
+ 174 0348 A44510C7 		.ascii	"\244E\020\307\266_\321\2671\016\222\262\215\336\237"
+ 174      B65FD1B7 
+ 174      310E92B2 
+ 174      8DDE9F
+ 175 0357 FF0CE798 		.ascii	"\377\014\347\230\217\260C\302\257~U\334\302\225\372"
+ 175      8FB043C2 
+ 175      AF7E55DC 
+ 175      C295FA
+ 176 0366 777F0DCC 		.ascii	"w\177\015\314\374\302\341\177T/\314\317\034\025\226"
+ 176      FCC2E17F 
+ 176      542FCCCF 
+ 176      1C1596
+ 177 0375 A9D99675 		.ascii	"\251\331\226u\365\204\252\236\340\352\177\356\206\177"
+ 177      F584AA9E 
+ 177      E0EA7FEE 
+ 177      867F
+ 178 0383 332F53B3 		.ascii	"3/S\263\353\254\253\257\203Y\253\007\247\344e\273\323"
+ 178      EBACABAF 
+ 178      8359AB07 
+ 178      A7E465BB 
+ 178      D3
+ 179 0394 EB90DD15 		.ascii	"\353\220\335\025r\231\335\363\231\327\276\265\244\314"
+ 179      7299DDF3 
+ 179      99D7BEB5 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 13
+
+
+ 179      A4CC
+ 180 03a2 E1FC5CB6 		.ascii	"\341\374\\\266{\334\273\367\356\311\333\362\301\366"
+ 180      7BDCBBF7 
+ 180      EEC9DBF2 
+ 180      C1F6
+ 181 03b0 227B6929 		.ascii	"\"{i)\331\260Ev\313>\247_\336U\346\360\004|.y\3476\207"
+ 181      D9B04576 
+ 181      CB3EA75F 
+ 181      DE55E6F0 
+ 181      047C2E79 
+ 182 03c7 C7BE6967 		.ascii	"\307\276igF\354\266\367\213]\344\325\214\345\217\344"
+ 182      46ECB6F7 
+ 182      8B5DE4D5 
+ 182      8CE58FE4 
+ 183 03d7 0ABFC7A7 		.ascii	"\012\277\307\247RWgf\334/\313\3365\031\313\037;\367"
+ 183      52576766 
+ 183      DC2FCBDE 
+ 183      3519CB1F 
+ 183      3BF7
+ 184 03e9 C901EF4B 		.ascii	"\311\001\357K\231r\277\307\373\372sVT\374\011\311\004"
+ 184      9972BFC7 
+ 184      FBFA7356 
+ 184      54FC09C9 
+ 184      04
+ 185 03fa BFEB7696 		.ascii	"\277\353v\226\357\2273\327\313\235\256}\001\257I\346"
+ 185      EF9733D7 
+ 185      CB9DAE7D 
+ 185      01AF49E6 
+ 186 040a AF1D7EA4 		.ascii	"\257\035~\244\347\004\366\272\375\233_[!\231\353\240"
+ 186      E704F6BA 
+ 186      FD9B5F5B 
+ 186      2199EBA0 
+ 187 041a FFA057AE 		.ascii	"\377\240W\256\300\034\257\254\300r\370}\001\227\337"
+ 187      C01CAFAC 
+ 187      C072F87D 
+ 187      0197DF
+ 188 0429 E093F76C 		.ascii	"\340\223\367l\376\027\011j)\202"
+ 188      FE17096A 
+ 188      2982
+ 189              		.text
+ 190              		.section	.gnu.lto_.symtab.807cfced,"",%progbits
+ 191 0000 43617053 		.ascii	"CapSense_CompCH0_SaveConfig\000"
+ 191      656E7365 
+ 191      5F436F6D 
+ 191      70434830 
+ 191      5F536176 
+ 192 001c 00       		.ascii	"\000"
+ 193 001d 00       		.ascii	"\000"
+ 194 001e 00       		.ascii	"\000"
+ 195 001f 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 195      00000000 
+ 196 0027 AD000000 		.ascii	"\255\000\000\000"
+ 197 002b 43617053 		.ascii	"CapSense_CompCH0_RestoreConfig\000"
+ 197      656E7365 
+ 197      5F436F6D 
+ 197      70434830 
+ 197      5F526573 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 14
+
+
+ 198 004a 00       		.ascii	"\000"
+ 199 004b 00       		.ascii	"\000"
+ 200 004c 00       		.ascii	"\000"
+ 201 004d 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 201      00000000 
+ 202 0055 AF000000 		.ascii	"\257\000\000\000"
+ 203 0059 43617053 		.ascii	"CapSense_CompCH0_Sleep\000"
+ 203      656E7365 
+ 203      5F436F6D 
+ 203      70434830 
+ 203      5F536C65 
+ 204 0070 00       		.ascii	"\000"
+ 205 0071 00       		.ascii	"\000"
+ 206 0072 00       		.ascii	"\000"
+ 207 0073 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 207      00000000 
+ 208 007b B1000000 		.ascii	"\261\000\000\000"
+ 209 007f 43617053 		.ascii	"CapSense_CompCH0_Wakeup\000"
+ 209      656E7365 
+ 209      5F436F6D 
+ 209      70434830 
+ 209      5F57616B 
+ 210 0097 00       		.ascii	"\000"
+ 211 0098 00       		.ascii	"\000"
+ 212 0099 00       		.ascii	"\000"
+ 213 009a 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 213      00000000 
+ 214 00a2 B3000000 		.ascii	"\263\000\000\000"
+ 215 00a6 43617053 		.ascii	"CapSense_CompCH0_Stop\000"
+ 215      656E7365 
+ 215      5F436F6D 
+ 215      70434830 
+ 215      5F53746F 
+ 216 00bc 00       		.ascii	"\000"
+ 217 00bd 02       		.ascii	"\002"
+ 218 00be 00       		.ascii	"\000"
+ 219 00bf 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 219      00000000 
+ 220 00c7 B5000000 		.ascii	"\265\000\000\000"
+ 221 00cb 43617053 		.ascii	"CapSense_CompCH0_Enable\000"
+ 221      656E7365 
+ 221      5F436F6D 
+ 221      70434830 
+ 221      5F456E61 
+ 222 00e3 00       		.ascii	"\000"
+ 223 00e4 02       		.ascii	"\002"
+ 224 00e5 00       		.ascii	"\000"
+ 225 00e6 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 225      00000000 
+ 226 00ee B7000000 		.ascii	"\267\000\000\000"
+ 227              		.text
+ 228              		.section	.gnu.lto_.opts,"",%progbits
+ 229 0000 272D666D 		.ascii	"'-fmath-errno' '-fsigned-zeros' '-ftrapping-math' '"
+ 229      6174682D 
+ 229      6572726E 
+ 229      6F272027 
+ 229      2D667369 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 15
+
+
+ 230 0033 2D666E6F 		.ascii	"-fno-trapv' '-fno-openmp' '-fno-openacc' '-mcpu=cor"
+ 230      2D747261 
+ 230      70762720 
+ 230      272D666E 
+ 230      6F2D6F70 
+ 231 0066 7465782D 		.ascii	"tex-m3' '-mthumb' '-g' '-O3' '-ffunction-sections' "
+ 231      6D332720 
+ 231      272D6D74 
+ 231      68756D62 
+ 231      2720272D 
+ 232 0099 272D6666 		.ascii	"'-ffat-lto-objects' '-finline-functions' '-flto'\000"
+ 232      61742D6C 
+ 232      746F2D6F 
+ 232      626A6563 
+ 232      74732720 
+ 233              		.text
+ 234              		.cfi_sections	.debug_frame
+ 235              		.section	.text.CapSense_CompCH0_SaveConfig,"ax",%progbits
+ 236              		.align	2
+ 237              		.global	CapSense_CompCH0_SaveConfig
+ 238              		.thumb
+ 239              		.thumb_func
+ 240              		.type	CapSense_CompCH0_SaveConfig, %function
+ 241              	CapSense_CompCH0_SaveConfig:
+ 242              	.LFB5:
+ 243              		.cfi_startproc
+ 244              		@ args = 0, pretend = 0, frame = 0
+ 245              		@ frame_needed = 0, uses_anonymous_args = 0
+ 246              		@ link register save eliminated.
+ 247 0000 7047     		bx	lr
+ 248              		.cfi_endproc
+ 249              	.LFE5:
+ 250              		.size	CapSense_CompCH0_SaveConfig, .-CapSense_CompCH0_SaveConfig
+ 251 0002 00BF     		.section	.text.CapSense_CompCH0_RestoreConfig,"ax",%progbits
+ 252              		.align	2
+ 253              		.global	CapSense_CompCH0_RestoreConfig
+ 254              		.thumb
+ 255              		.thumb_func
+ 256              		.type	CapSense_CompCH0_RestoreConfig, %function
+ 257              	CapSense_CompCH0_RestoreConfig:
+ 258              	.LFB1:
+ 259              		.file 1 "Generated_Source\\PSoC5\\CapSense_CompCH0_PM.c"
    1:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** /*******************************************************************************
    2:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * File Name: CapSense_CompCH0.c
    3:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * Version 2.0
@@ -47,6 +898,9 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
   13:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
   14:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * You may use this file only in accordance with the license, terms, conditions, 
   15:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 16
+
+
   16:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * the software package with which this file was provided.
   17:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *******************************************************************************/
   18:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** 
@@ -58,9 +912,6 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
   24:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** /*******************************************************************************
   25:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * Function Name: CapSense_CompCH0_SaveConfig
   26:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** ********************************************************************************
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 2
-
-
   27:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *
   28:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * Summary:
   29:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *  Save the current user configuration
@@ -74,38 +925,8 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
   37:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *******************************************************************************/
   38:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** void CapSense_CompCH0_SaveConfig(void) 
   39:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** {
-  32              		.loc 1 39 0
-  33              		.cfi_startproc
-  34              		@ args = 0, pretend = 0, frame = 0
-  35              		@ frame_needed = 1, uses_anonymous_args = 0
-  36              		@ link register save eliminated.
-  37 0000 80B4     		push	{r7}
-  38              		.cfi_def_cfa_offset 4
-  39              		.cfi_offset 7, -4
-  40 0002 00AF     		add	r7, sp, #0
-  41              		.cfi_def_cfa_register 7
   40:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     /* Empty since all are system reset for retention flops */
   41:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** }
-  42              		.loc 1 41 0
-  43 0004 00BF     		nop
-  44 0006 BD46     		mov	sp, r7
-  45              		.cfi_def_cfa_register 13
-  46              		@ sp needed
-  47 0008 80BC     		pop	{r7}
-  48              		.cfi_restore 7
-  49              		.cfi_def_cfa_offset 0
-  50 000a 7047     		bx	lr
-  51              		.cfi_endproc
-  52              	.LFE0:
-  53              		.size	CapSense_CompCH0_SaveConfig, .-CapSense_CompCH0_SaveConfig
-  54              		.section	.text.CapSense_CompCH0_RestoreConfig,"ax",%progbits
-  55              		.align	2
-  56              		.global	CapSense_CompCH0_RestoreConfig
-  57              		.thumb
-  58              		.thumb_func
-  59              		.type	CapSense_CompCH0_RestoreConfig, %function
-  60              	CapSense_CompCH0_RestoreConfig:
-  61              	.LFB1:
   42:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** 
   43:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** 
   44:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** /*******************************************************************************
@@ -118,47 +939,34 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
   51:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * Parameters:
   52:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *  void
   53:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 3
-
-
   54:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** * Return:
   55:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *  void
   56:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *
   57:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** ********************************************************************************/
   58:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** void CapSense_CompCH0_RestoreConfig(void) 
   59:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** {
-  62              		.loc 1 59 0
-  63              		.cfi_startproc
-  64              		@ args = 0, pretend = 0, frame = 0
-  65              		@ frame_needed = 1, uses_anonymous_args = 0
-  66              		@ link register save eliminated.
-  67 0000 80B4     		push	{r7}
-  68              		.cfi_def_cfa_offset 4
-  69              		.cfi_offset 7, -4
-  70 0002 00AF     		add	r7, sp, #0
-  71              		.cfi_def_cfa_register 7
+ 260              		.loc 1 59 0
+ 261              		.cfi_startproc
+ 262              		@ args = 0, pretend = 0, frame = 0
+ 263              		@ frame_needed = 0, uses_anonymous_args = 0
+ 264              		@ link register save eliminated.
+ 265 0000 7047     		bx	lr
+ 266              		.cfi_endproc
+ 267              	.LFE1:
+ 268              		.size	CapSense_CompCH0_RestoreConfig, .-CapSense_CompCH0_RestoreConfig
+ 269 0002 00BF     		.section	.text.CapSense_CompCH0_Sleep,"ax",%progbits
+ 270              		.align	2
+ 271              		.global	CapSense_CompCH0_Sleep
+ 272              		.thumb
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 17
+
+
+ 273              		.thumb_func
+ 274              		.type	CapSense_CompCH0_Sleep, %function
+ 275              	CapSense_CompCH0_Sleep:
+ 276              	.LFB2:
   60:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     /* Empty since all are system reset for retention flops */    
   61:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** }
-  72              		.loc 1 61 0
-  73 0004 00BF     		nop
-  74 0006 BD46     		mov	sp, r7
-  75              		.cfi_def_cfa_register 13
-  76              		@ sp needed
-  77 0008 80BC     		pop	{r7}
-  78              		.cfi_restore 7
-  79              		.cfi_def_cfa_offset 0
-  80 000a 7047     		bx	lr
-  81              		.cfi_endproc
-  82              	.LFE1:
-  83              		.size	CapSense_CompCH0_RestoreConfig, .-CapSense_CompCH0_RestoreConfig
-  84              		.section	.text.CapSense_CompCH0_Sleep,"ax",%progbits
-  85              		.align	2
-  86              		.global	CapSense_CompCH0_Sleep
-  87              		.thumb
-  88              		.thumb_func
-  89              		.type	CapSense_CompCH0_Sleep, %function
-  90              	CapSense_CompCH0_Sleep:
-  91              	.LFB2:
   62:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** 
   63:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** 
   64:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** /*******************************************************************************
@@ -178,81 +986,57 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
   78:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *  CapSense_CompCH0_backup.enableState:  Is modified depending on the enable 
   79:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *   state of the block before entering sleep mode.
   80:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 4
-
-
   81:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *******************************************************************************/
   82:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** void CapSense_CompCH0_Sleep(void) 
   83:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** {
-  92              		.loc 1 83 0
-  93              		.cfi_startproc
-  94              		@ args = 0, pretend = 0, frame = 0
-  95              		@ frame_needed = 1, uses_anonymous_args = 0
-  96 0000 80B5     		push	{r7, lr}
-  97              		.cfi_def_cfa_offset 8
-  98              		.cfi_offset 7, -8
-  99              		.cfi_offset 14, -4
- 100 0002 00AF     		add	r7, sp, #0
- 101              		.cfi_def_cfa_register 7
+ 277              		.loc 1 83 0
+ 278              		.cfi_startproc
+ 279              		@ args = 0, pretend = 0, frame = 0
+ 280              		@ frame_needed = 0, uses_anonymous_args = 0
+ 281              		@ link register save eliminated.
   84:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     /* Save Comp's enable state */    
   85:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     if(CapSense_CompCH0_ACT_PWR_EN == (CapSense_CompCH0_PWRMGR & CapSense_CompCH0_ACT_PWR_EN))
- 102              		.loc 1 85 0
- 103 0004 094B     		ldr	r3, .L6
- 104 0006 1B78     		ldrb	r3, [r3]
- 105 0008 DBB2     		uxtb	r3, r3
- 106 000a 03F00103 		and	r3, r3, #1
- 107 000e 002B     		cmp	r3, #0
- 108 0010 03D0     		beq	.L4
+ 282              		.loc 1 85 0
+ 283 0000 034B     		ldr	r3, .L4
+ 284 0002 044A     		ldr	r2, .L4+4
+ 285 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 286 0006 03F00103 		and	r3, r3, #1
+ 287 000a 1370     		strb	r3, [r2]
   86:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     {
   87:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****         /* Comp is enabled */
   88:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****         CapSense_CompCH0_backup.enableState = 1u;
- 109              		.loc 1 88 0
- 110 0012 074B     		ldr	r3, .L6+4
- 111 0014 0122     		movs	r2, #1
- 112 0016 1A70     		strb	r2, [r3]
- 113 0018 02E0     		b	.L5
- 114              	.L4:
   89:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     }
   90:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     else
   91:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     {
   92:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****         /* Comp is disabled */
   93:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****         CapSense_CompCH0_backup.enableState = 0u;
- 115              		.loc 1 93 0
- 116 001a 054B     		ldr	r3, .L6+4
- 117 001c 0022     		movs	r2, #0
- 118 001e 1A70     		strb	r2, [r3]
- 119              	.L5:
   94:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     }    
   95:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     
   96:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     CapSense_CompCH0_Stop();
- 120              		.loc 1 96 0
- 121 0020 FFF7FEFF 		bl	CapSense_CompCH0_Stop
+ 288              		.loc 1 96 0
+ 289 000c FFF7FEBF 		b	CapSense_CompCH0_Stop
+ 290              	.LVL0:
+ 291              	.L5:
+ 292              		.align	2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 18
+
+
+ 293              	.L4:
+ 294 0010 A7430040 		.word	1073759143
+ 295 0014 00000000 		.word	.LANCHOR0
+ 296              		.cfi_endproc
+ 297              	.LFE2:
+ 298              		.size	CapSense_CompCH0_Sleep, .-CapSense_CompCH0_Sleep
+ 299              		.section	.text.CapSense_CompCH0_Wakeup,"ax",%progbits
+ 300              		.align	2
+ 301              		.global	CapSense_CompCH0_Wakeup
+ 302              		.thumb
+ 303              		.thumb_func
+ 304              		.type	CapSense_CompCH0_Wakeup, %function
+ 305              	CapSense_CompCH0_Wakeup:
+ 306              	.LFB3:
   97:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     CapSense_CompCH0_SaveConfig();
- 122              		.loc 1 97 0
- 123 0024 FFF7FEFF 		bl	CapSense_CompCH0_SaveConfig
   98:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** }
- 124              		.loc 1 98 0
- 125 0028 00BF     		nop
- 126 002a 80BD     		pop	{r7, pc}
- 127              	.L7:
- 128              		.align	2
- 129              	.L6:
- 130 002c A7430040 		.word	1073759143
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 5
-
-
- 131 0030 00000000 		.word	CapSense_CompCH0_backup
- 132              		.cfi_endproc
- 133              	.LFE2:
- 134              		.size	CapSense_CompCH0_Sleep, .-CapSense_CompCH0_Sleep
- 135              		.section	.text.CapSense_CompCH0_Wakeup,"ax",%progbits
- 136              		.align	2
- 137              		.global	CapSense_CompCH0_Wakeup
- 138              		.thumb
- 139              		.thumb_func
- 140              		.type	CapSense_CompCH0_Wakeup, %function
- 141              	CapSense_CompCH0_Wakeup:
- 142              	.LFB3:
   99:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** 
  100:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** 
  101:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** /*******************************************************************************
@@ -275,569 +1059,640 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 1
  118:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** *******************************************************************************/
  119:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** void CapSense_CompCH0_Wakeup(void) 
  120:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** {
- 143              		.loc 1 120 0
- 144              		.cfi_startproc
- 145              		@ args = 0, pretend = 0, frame = 0
- 146              		@ frame_needed = 1, uses_anonymous_args = 0
- 147 0000 80B5     		push	{r7, lr}
- 148              		.cfi_def_cfa_offset 8
- 149              		.cfi_offset 7, -8
- 150              		.cfi_offset 14, -4
- 151 0002 00AF     		add	r7, sp, #0
- 152              		.cfi_def_cfa_register 7
+ 307              		.loc 1 120 0
+ 308              		.cfi_startproc
+ 309              		@ args = 0, pretend = 0, frame = 0
+ 310              		@ frame_needed = 0, uses_anonymous_args = 0
+ 311              		@ link register save eliminated.
  121:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     CapSense_CompCH0_RestoreConfig();
- 153              		.loc 1 121 0
- 154 0004 FFF7FEFF 		bl	CapSense_CompCH0_RestoreConfig
  122:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     
  123:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     if(CapSense_CompCH0_backup.enableState == 1u)
- 155              		.loc 1 123 0
- 156 0008 034B     		ldr	r3, .L11
- 157 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 158 000c 012B     		cmp	r3, #1
- 159 000e 01D1     		bne	.L10
+ 312              		.loc 1 123 0
+ 313 0000 034B     		ldr	r3, .L10
+ 314 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 315 0004 012B     		cmp	r3, #1
+ 316 0006 00D0     		beq	.L9
+ 317 0008 7047     		bx	lr
+ 318              	.L9:
  124:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     {
  125:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****         /* Enable Comp's operation */
  126:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****         CapSense_CompCH0_Enable();
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 6
+ 319              		.loc 1 126 0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 19
 
 
- 160              		.loc 1 126 0
- 161 0010 FFF7FEFF 		bl	CapSense_CompCH0_Enable
- 162              	.L10:
- 127:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** 
- 128:Generated_Source\PSoC5/CapSense_CompCH0_PM.c ****     } /* Do nothing if Comp was disabled before */ 
- 129:Generated_Source\PSoC5/CapSense_CompCH0_PM.c **** }
- 163              		.loc 1 129 0
- 164 0014 00BF     		nop
- 165 0016 80BD     		pop	{r7, pc}
- 166              	.L12:
- 167              		.align	2
- 168              	.L11:
- 169 0018 00000000 		.word	CapSense_CompCH0_backup
- 170              		.cfi_endproc
- 171              	.LFE3:
- 172              		.size	CapSense_CompCH0_Wakeup, .-CapSense_CompCH0_Wakeup
- 173              		.text
- 174              	.Letext0:
- 175              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
- 176              		.file 3 "Generated_Source\\PSoC5\\CapSense_CompCH0.h"
- 177              		.section	.debug_info,"",%progbits
- 178              	.Ldebug_info0:
- 179 0000 1D010000 		.4byte	0x11d
- 180 0004 0400     		.2byte	0x4
- 181 0006 00000000 		.4byte	.Ldebug_abbrev0
- 182 000a 04       		.byte	0x4
- 183 000b 01       		.uleb128 0x1
- 184 000c A9000000 		.4byte	.LASF21
- 185 0010 0C       		.byte	0xc
- 186 0011 B9010000 		.4byte	.LASF22
- 187 0015 45010000 		.4byte	.LASF23
- 188 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 189 001d 00000000 		.4byte	0
- 190 0021 00000000 		.4byte	.Ldebug_line0
- 191 0025 02       		.uleb128 0x2
- 192 0026 01       		.byte	0x1
- 193 0027 06       		.byte	0x6
- 194 0028 21020000 		.4byte	.LASF0
- 195 002c 02       		.uleb128 0x2
- 196 002d 01       		.byte	0x1
- 197 002e 08       		.byte	0x8
- 198 002f 37010000 		.4byte	.LASF1
- 199 0033 02       		.uleb128 0x2
- 200 0034 02       		.byte	0x2
- 201 0035 05       		.byte	0x5
- 202 0036 39020000 		.4byte	.LASF2
- 203 003a 02       		.uleb128 0x2
- 204 003b 02       		.byte	0x2
- 205 003c 07       		.byte	0x7
- 206 003d 0E020000 		.4byte	.LASF3
- 207 0041 02       		.uleb128 0x2
- 208 0042 04       		.byte	0x4
- 209 0043 05       		.byte	0x5
- 210 0044 E6010000 		.4byte	.LASF4
- 211 0048 02       		.uleb128 0x2
- 212 0049 04       		.byte	0x4
- 213 004a 07       		.byte	0x7
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 7
+ 320 000a FFF7FEBF 		b	CapSense_CompCH0_Enable
+ 321              	.LVL1:
+ 322              	.L11:
+ 323 000e 00BF     		.align	2
+ 324              	.L10:
+ 325 0010 00000000 		.word	.LANCHOR0
+ 326              		.cfi_endproc
+ 327              	.LFE3:
+ 328              		.size	CapSense_CompCH0_Wakeup, .-CapSense_CompCH0_Wakeup
+ 329              		.bss
+ 330              		.align	2
+ 331              		.set	.LANCHOR0,. + 0
+ 332              		.type	CapSense_CompCH0_backup, %object
+ 333              		.size	CapSense_CompCH0_backup, 1
+ 334              	CapSense_CompCH0_backup:
+ 335 0000 00       		.space	1
+ 336              		.text
+ 337              	.Letext0:
+ 338              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 339              		.file 3 "Generated_Source\\PSoC5\\CapSense_CompCH0.h"
+ 340              		.section	.debug_info,"",%progbits
+ 341              	.Ldebug_info0:
+ 342 0000 4C010000 		.4byte	0x14c
+ 343 0004 0400     		.2byte	0x4
+ 344 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 345 000a 04       		.byte	0x4
+ 346 000b 01       		.uleb128 0x1
+ 347 000c 2C020000 		.4byte	.LASF23
+ 348 0010 0C       		.byte	0xc
+ 349 0011 69010000 		.4byte	.LASF24
+ 350 0015 F5000000 		.4byte	.LASF25
+ 351 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 352 001d 00000000 		.4byte	0
+ 353 0021 00000000 		.4byte	.Ldebug_line0
+ 354 0025 02       		.uleb128 0x2
+ 355 0026 01       		.byte	0x1
+ 356 0027 06       		.byte	0x6
+ 357 0028 D1010000 		.4byte	.LASF0
+ 358 002c 02       		.uleb128 0x2
+ 359 002d 01       		.byte	0x1
+ 360 002e 08       		.byte	0x8
+ 361 002f E7000000 		.4byte	.LASF1
+ 362 0033 02       		.uleb128 0x2
+ 363 0034 02       		.byte	0x2
+ 364 0035 05       		.byte	0x5
+ 365 0036 F5010000 		.4byte	.LASF2
+ 366 003a 02       		.uleb128 0x2
+ 367 003b 02       		.byte	0x2
+ 368 003c 07       		.byte	0x7
+ 369 003d BE010000 		.4byte	.LASF3
+ 370 0041 02       		.uleb128 0x2
+ 371 0042 04       		.byte	0x4
+ 372 0043 05       		.byte	0x5
+ 373 0044 96010000 		.4byte	.LASF4
+ 374 0048 02       		.uleb128 0x2
+ 375 0049 04       		.byte	0x4
+ 376 004a 07       		.byte	0x7
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 20
 
 
- 214 004b 62000000 		.4byte	.LASF5
- 215 004f 02       		.uleb128 0x2
- 216 0050 08       		.byte	0x8
- 217 0051 05       		.byte	0x5
- 218 0052 00000000 		.4byte	.LASF6
- 219 0056 02       		.uleb128 0x2
- 220 0057 08       		.byte	0x8
- 221 0058 07       		.byte	0x7
- 222 0059 74000000 		.4byte	.LASF7
- 223 005d 03       		.uleb128 0x3
- 224 005e 04       		.byte	0x4
- 225 005f 05       		.byte	0x5
- 226 0060 696E7400 		.ascii	"int\000"
- 227 0064 02       		.uleb128 0x2
- 228 0065 04       		.byte	0x4
- 229 0066 07       		.byte	0x7
- 230 0067 1A000000 		.4byte	.LASF8
- 231 006b 04       		.uleb128 0x4
- 232 006c 5C000000 		.4byte	.LASF12
- 233 0070 02       		.byte	0x2
- 234 0071 E401     		.2byte	0x1e4
- 235 0073 2C000000 		.4byte	0x2c
- 236 0077 02       		.uleb128 0x2
- 237 0078 04       		.byte	0x4
- 238 0079 04       		.byte	0x4
- 239 007a A3000000 		.4byte	.LASF9
- 240 007e 02       		.uleb128 0x2
- 241 007f 08       		.byte	0x8
- 242 0080 04       		.byte	0x4
- 243 0081 07020000 		.4byte	.LASF10
- 244 0085 02       		.uleb128 0x2
- 245 0086 01       		.byte	0x1
- 246 0087 08       		.byte	0x8
- 247 0088 B4010000 		.4byte	.LASF11
- 248 008c 04       		.uleb128 0x4
- 249 008d 43020000 		.4byte	.LASF13
- 250 0091 02       		.byte	0x2
- 251 0092 8E02     		.2byte	0x28e
- 252 0094 98000000 		.4byte	0x98
- 253 0098 05       		.uleb128 0x5
- 254 0099 6B000000 		.4byte	0x6b
- 255 009d 02       		.uleb128 0x2
- 256 009e 08       		.byte	0x8
- 257 009f 04       		.byte	0x4
- 258 00a0 2D020000 		.4byte	.LASF14
- 259 00a4 02       		.uleb128 0x2
- 260 00a5 04       		.byte	0x4
- 261 00a6 07       		.byte	0x7
- 262 00a7 48020000 		.4byte	.LASF15
- 263 00ab 06       		.uleb128 0x6
- 264 00ac 01       		.byte	0x1
- 265 00ad 03       		.byte	0x3
- 266 00ae 29       		.byte	0x29
- 267 00af C0000000 		.4byte	0xc0
- 268 00b3 07       		.uleb128 0x7
- 269 00b4 0E000000 		.4byte	.LASF24
- 270 00b8 03       		.byte	0x3
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 8
+ 377 004b 84000000 		.4byte	.LASF5
+ 378 004f 02       		.uleb128 0x2
+ 379 0050 08       		.byte	0x8
+ 380 0051 05       		.byte	0x5
+ 381 0052 00000000 		.4byte	.LASF6
+ 382 0056 02       		.uleb128 0x2
+ 383 0057 08       		.byte	0x8
+ 384 0058 07       		.byte	0x7
+ 385 0059 96000000 		.4byte	.LASF7
+ 386 005d 03       		.uleb128 0x3
+ 387 005e 04       		.byte	0x4
+ 388 005f 05       		.byte	0x5
+ 389 0060 696E7400 		.ascii	"int\000"
+ 390 0064 02       		.uleb128 0x2
+ 391 0065 04       		.byte	0x4
+ 392 0066 07       		.byte	0x7
+ 393 0067 26000000 		.4byte	.LASF8
+ 394 006b 04       		.uleb128 0x4
+ 395 006c 7E000000 		.4byte	.LASF12
+ 396 0070 02       		.byte	0x2
+ 397 0071 E401     		.2byte	0x1e4
+ 398 0073 2C000000 		.4byte	0x2c
+ 399 0077 02       		.uleb128 0x2
+ 400 0078 04       		.byte	0x4
+ 401 0079 04       		.byte	0x4
+ 402 007a C5000000 		.4byte	.LASF9
+ 403 007e 02       		.uleb128 0x2
+ 404 007f 08       		.byte	0x8
+ 405 0080 04       		.byte	0x4
+ 406 0081 B7010000 		.4byte	.LASF10
+ 407 0085 02       		.uleb128 0x2
+ 408 0086 01       		.byte	0x1
+ 409 0087 08       		.byte	0x8
+ 410 0088 64010000 		.4byte	.LASF11
+ 411 008c 04       		.uleb128 0x4
+ 412 008d FF010000 		.4byte	.LASF13
+ 413 0091 02       		.byte	0x2
+ 414 0092 8E02     		.2byte	0x28e
+ 415 0094 98000000 		.4byte	0x98
+ 416 0098 05       		.uleb128 0x5
+ 417 0099 6B000000 		.4byte	0x6b
+ 418 009d 02       		.uleb128 0x2
+ 419 009e 08       		.byte	0x8
+ 420 009f 04       		.byte	0x4
+ 421 00a0 E9010000 		.4byte	.LASF14
+ 422 00a4 02       		.uleb128 0x2
+ 423 00a5 04       		.byte	0x4
+ 424 00a6 07       		.byte	0x7
+ 425 00a7 04020000 		.4byte	.LASF15
+ 426 00ab 06       		.uleb128 0x6
+ 427 00ac 01       		.byte	0x1
+ 428 00ad 03       		.byte	0x3
+ 429 00ae 29       		.byte	0x29
+ 430 00af C0000000 		.4byte	0xc0
+ 431 00b3 07       		.uleb128 0x7
+ 432 00b4 DD010000 		.4byte	.LASF26
+ 433 00b8 03       		.byte	0x3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 21
 
 
- 271 00b9 2B       		.byte	0x2b
- 272 00ba 6B000000 		.4byte	0x6b
- 273 00be 00       		.byte	0
- 274 00bf 00       		.byte	0
- 275 00c0 08       		.uleb128 0x8
- 276 00c1 27000000 		.4byte	.LASF16
- 277 00c5 03       		.byte	0x3
- 278 00c6 2D       		.byte	0x2d
- 279 00c7 AB000000 		.4byte	0xab
- 280 00cb 09       		.uleb128 0x9
- 281 00cc 70020000 		.4byte	.LASF17
- 282 00d0 01       		.byte	0x1
- 283 00d1 26       		.byte	0x26
- 284 00d2 00000000 		.4byte	.LFB0
- 285 00d6 0C000000 		.4byte	.LFE0-.LFB0
- 286 00da 01       		.uleb128 0x1
- 287 00db 9C       		.byte	0x9c
- 288 00dc 09       		.uleb128 0x9
- 289 00dd 51020000 		.4byte	.LASF18
- 290 00e1 01       		.byte	0x1
- 291 00e2 3A       		.byte	0x3a
- 292 00e3 00000000 		.4byte	.LFB1
- 293 00e7 0C000000 		.4byte	.LFE1-.LFB1
- 294 00eb 01       		.uleb128 0x1
- 295 00ec 9C       		.byte	0x9c
- 296 00ed 0A       		.uleb128 0xa
- 297 00ee 45000000 		.4byte	.LASF19
- 298 00f2 01       		.byte	0x1
- 299 00f3 52       		.byte	0x52
- 300 00f4 00000000 		.4byte	.LFB2
- 301 00f8 34000000 		.4byte	.LFE2-.LFB2
- 302 00fc 01       		.uleb128 0x1
- 303 00fd 9C       		.byte	0x9c
- 304 00fe 0A       		.uleb128 0xa
- 305 00ff 8B000000 		.4byte	.LASF20
- 306 0103 01       		.byte	0x1
- 307 0104 77       		.byte	0x77
- 308 0105 00000000 		.4byte	.LFB3
- 309 0109 1C000000 		.4byte	.LFE3-.LFB3
- 310 010d 01       		.uleb128 0x1
- 311 010e 9C       		.byte	0x9c
- 312 010f 0B       		.uleb128 0xb
- 313 0110 EF010000 		.4byte	.LASF25
- 314 0114 01       		.byte	0x1
- 315 0115 15       		.byte	0x15
- 316 0116 C0000000 		.4byte	0xc0
- 317 011a 05       		.uleb128 0x5
- 318 011b 03       		.byte	0x3
- 319 011c 00000000 		.4byte	CapSense_CompCH0_backup
- 320 0120 00       		.byte	0
- 321              		.section	.debug_abbrev,"",%progbits
- 322              	.Ldebug_abbrev0:
- 323 0000 01       		.uleb128 0x1
- 324 0001 11       		.uleb128 0x11
- 325 0002 01       		.byte	0x1
- 326 0003 25       		.uleb128 0x25
- 327 0004 0E       		.uleb128 0xe
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 9
+ 434 00b9 2B       		.byte	0x2b
+ 435 00ba 6B000000 		.4byte	0x6b
+ 436 00be 00       		.byte	0
+ 437 00bf 00       		.byte	0
+ 438 00c0 08       		.uleb128 0x8
+ 439 00c1 33000000 		.4byte	.LASF16
+ 440 00c5 03       		.byte	0x3
+ 441 00c6 2D       		.byte	0x2d
+ 442 00c7 AB000000 		.4byte	0xab
+ 443 00cb 09       		.uleb128 0x9
+ 444 00cc CB000000 		.4byte	.LASF17
+ 445 00d0 01       		.byte	0x1
+ 446 00d1 26       		.byte	0x26
+ 447 00d2 01       		.byte	0x1
+ 448 00d3 09       		.uleb128 0x9
+ 449 00d4 0D020000 		.4byte	.LASF18
+ 450 00d8 01       		.byte	0x1
+ 451 00d9 3A       		.byte	0x3a
+ 452 00da 01       		.byte	0x1
+ 453 00db 0A       		.uleb128 0xa
+ 454 00dc D3000000 		.4byte	0xd3
+ 455 00e0 00000000 		.4byte	.LFB1
+ 456 00e4 02000000 		.4byte	.LFE1-.LFB1
+ 457 00e8 01       		.uleb128 0x1
+ 458 00e9 9C       		.byte	0x9c
+ 459 00ea 0B       		.uleb128 0xb
+ 460 00eb 67000000 		.4byte	.LASF19
+ 461 00ef 01       		.byte	0x1
+ 462 00f0 52       		.byte	0x52
+ 463 00f1 00000000 		.4byte	.LFB2
+ 464 00f5 18000000 		.4byte	.LFE2-.LFB2
+ 465 00f9 01       		.uleb128 0x1
+ 466 00fa 9C       		.byte	0x9c
+ 467 00fb 09010000 		.4byte	0x109
+ 468 00ff 0C       		.uleb128 0xc
+ 469 0100 10000000 		.4byte	.LVL0
+ 470 0104 39010000 		.4byte	0x139
+ 471 0108 00       		.byte	0
+ 472 0109 0B       		.uleb128 0xb
+ 473 010a 0E000000 		.4byte	.LASF20
+ 474 010e 01       		.byte	0x1
+ 475 010f 77       		.byte	0x77
+ 476 0110 00000000 		.4byte	.LFB3
+ 477 0114 14000000 		.4byte	.LFE3-.LFB3
+ 478 0118 01       		.uleb128 0x1
+ 479 0119 9C       		.byte	0x9c
+ 480 011a 28010000 		.4byte	0x128
+ 481 011e 0C       		.uleb128 0xc
+ 482 011f 0E000000 		.4byte	.LVL1
+ 483 0123 44010000 		.4byte	0x144
+ 484 0127 00       		.byte	0
+ 485 0128 0D       		.uleb128 0xd
+ 486 0129 9F010000 		.4byte	.LASF27
+ 487 012d 01       		.byte	0x1
+ 488 012e 15       		.byte	0x15
+ 489 012f C0000000 		.4byte	0xc0
+ 490 0133 05       		.uleb128 0x5
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 22
 
 
- 328 0005 13       		.uleb128 0x13
- 329 0006 0B       		.uleb128 0xb
- 330 0007 03       		.uleb128 0x3
- 331 0008 0E       		.uleb128 0xe
- 332 0009 1B       		.uleb128 0x1b
- 333 000a 0E       		.uleb128 0xe
- 334 000b 55       		.uleb128 0x55
- 335 000c 17       		.uleb128 0x17
- 336 000d 11       		.uleb128 0x11
- 337 000e 01       		.uleb128 0x1
- 338 000f 10       		.uleb128 0x10
- 339 0010 17       		.uleb128 0x17
- 340 0011 00       		.byte	0
- 341 0012 00       		.byte	0
- 342 0013 02       		.uleb128 0x2
- 343 0014 24       		.uleb128 0x24
- 344 0015 00       		.byte	0
- 345 0016 0B       		.uleb128 0xb
- 346 0017 0B       		.uleb128 0xb
- 347 0018 3E       		.uleb128 0x3e
- 348 0019 0B       		.uleb128 0xb
- 349 001a 03       		.uleb128 0x3
- 350 001b 0E       		.uleb128 0xe
- 351 001c 00       		.byte	0
- 352 001d 00       		.byte	0
- 353 001e 03       		.uleb128 0x3
- 354 001f 24       		.uleb128 0x24
- 355 0020 00       		.byte	0
- 356 0021 0B       		.uleb128 0xb
- 357 0022 0B       		.uleb128 0xb
- 358 0023 3E       		.uleb128 0x3e
- 359 0024 0B       		.uleb128 0xb
- 360 0025 03       		.uleb128 0x3
- 361 0026 08       		.uleb128 0x8
- 362 0027 00       		.byte	0
- 363 0028 00       		.byte	0
- 364 0029 04       		.uleb128 0x4
- 365 002a 16       		.uleb128 0x16
- 366 002b 00       		.byte	0
- 367 002c 03       		.uleb128 0x3
- 368 002d 0E       		.uleb128 0xe
- 369 002e 3A       		.uleb128 0x3a
- 370 002f 0B       		.uleb128 0xb
- 371 0030 3B       		.uleb128 0x3b
- 372 0031 05       		.uleb128 0x5
- 373 0032 49       		.uleb128 0x49
- 374 0033 13       		.uleb128 0x13
- 375 0034 00       		.byte	0
- 376 0035 00       		.byte	0
- 377 0036 05       		.uleb128 0x5
- 378 0037 35       		.uleb128 0x35
- 379 0038 00       		.byte	0
- 380 0039 49       		.uleb128 0x49
- 381 003a 13       		.uleb128 0x13
- 382 003b 00       		.byte	0
- 383 003c 00       		.byte	0
- 384 003d 06       		.uleb128 0x6
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 10
+ 491 0134 03       		.byte	0x3
+ 492 0135 00000000 		.4byte	CapSense_CompCH0_backup
+ 493 0139 0E       		.uleb128 0xe
+ 494 013a 51000000 		.4byte	.LASF21
+ 495 013e 51000000 		.4byte	.LASF21
+ 496 0142 03       		.byte	0x3
+ 497 0143 40       		.byte	0x40
+ 498 0144 0E       		.uleb128 0xe
+ 499 0145 AD000000 		.4byte	.LASF22
+ 500 0149 AD000000 		.4byte	.LASF22
+ 501 014d 03       		.byte	0x3
+ 502 014e 46       		.byte	0x46
+ 503 014f 00       		.byte	0
+ 504              		.section	.debug_abbrev,"",%progbits
+ 505              	.Ldebug_abbrev0:
+ 506 0000 01       		.uleb128 0x1
+ 507 0001 11       		.uleb128 0x11
+ 508 0002 01       		.byte	0x1
+ 509 0003 25       		.uleb128 0x25
+ 510 0004 0E       		.uleb128 0xe
+ 511 0005 13       		.uleb128 0x13
+ 512 0006 0B       		.uleb128 0xb
+ 513 0007 03       		.uleb128 0x3
+ 514 0008 0E       		.uleb128 0xe
+ 515 0009 1B       		.uleb128 0x1b
+ 516 000a 0E       		.uleb128 0xe
+ 517 000b 55       		.uleb128 0x55
+ 518 000c 17       		.uleb128 0x17
+ 519 000d 11       		.uleb128 0x11
+ 520 000e 01       		.uleb128 0x1
+ 521 000f 10       		.uleb128 0x10
+ 522 0010 17       		.uleb128 0x17
+ 523 0011 00       		.byte	0
+ 524 0012 00       		.byte	0
+ 525 0013 02       		.uleb128 0x2
+ 526 0014 24       		.uleb128 0x24
+ 527 0015 00       		.byte	0
+ 528 0016 0B       		.uleb128 0xb
+ 529 0017 0B       		.uleb128 0xb
+ 530 0018 3E       		.uleb128 0x3e
+ 531 0019 0B       		.uleb128 0xb
+ 532 001a 03       		.uleb128 0x3
+ 533 001b 0E       		.uleb128 0xe
+ 534 001c 00       		.byte	0
+ 535 001d 00       		.byte	0
+ 536 001e 03       		.uleb128 0x3
+ 537 001f 24       		.uleb128 0x24
+ 538 0020 00       		.byte	0
+ 539 0021 0B       		.uleb128 0xb
+ 540 0022 0B       		.uleb128 0xb
+ 541 0023 3E       		.uleb128 0x3e
+ 542 0024 0B       		.uleb128 0xb
+ 543 0025 03       		.uleb128 0x3
+ 544 0026 08       		.uleb128 0x8
+ 545 0027 00       		.byte	0
+ 546 0028 00       		.byte	0
+ 547 0029 04       		.uleb128 0x4
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 23
 
 
- 385 003e 13       		.uleb128 0x13
- 386 003f 01       		.byte	0x1
- 387 0040 0B       		.uleb128 0xb
- 388 0041 0B       		.uleb128 0xb
- 389 0042 3A       		.uleb128 0x3a
- 390 0043 0B       		.uleb128 0xb
- 391 0044 3B       		.uleb128 0x3b
- 392 0045 0B       		.uleb128 0xb
- 393 0046 01       		.uleb128 0x1
- 394 0047 13       		.uleb128 0x13
- 395 0048 00       		.byte	0
- 396 0049 00       		.byte	0
- 397 004a 07       		.uleb128 0x7
- 398 004b 0D       		.uleb128 0xd
- 399 004c 00       		.byte	0
- 400 004d 03       		.uleb128 0x3
- 401 004e 0E       		.uleb128 0xe
- 402 004f 3A       		.uleb128 0x3a
- 403 0050 0B       		.uleb128 0xb
- 404 0051 3B       		.uleb128 0x3b
- 405 0052 0B       		.uleb128 0xb
- 406 0053 49       		.uleb128 0x49
- 407 0054 13       		.uleb128 0x13
- 408 0055 38       		.uleb128 0x38
- 409 0056 0B       		.uleb128 0xb
- 410 0057 00       		.byte	0
- 411 0058 00       		.byte	0
- 412 0059 08       		.uleb128 0x8
- 413 005a 16       		.uleb128 0x16
- 414 005b 00       		.byte	0
- 415 005c 03       		.uleb128 0x3
- 416 005d 0E       		.uleb128 0xe
- 417 005e 3A       		.uleb128 0x3a
- 418 005f 0B       		.uleb128 0xb
- 419 0060 3B       		.uleb128 0x3b
- 420 0061 0B       		.uleb128 0xb
- 421 0062 49       		.uleb128 0x49
- 422 0063 13       		.uleb128 0x13
- 423 0064 00       		.byte	0
- 424 0065 00       		.byte	0
- 425 0066 09       		.uleb128 0x9
- 426 0067 2E       		.uleb128 0x2e
- 427 0068 00       		.byte	0
- 428 0069 3F       		.uleb128 0x3f
- 429 006a 19       		.uleb128 0x19
- 430 006b 03       		.uleb128 0x3
- 431 006c 0E       		.uleb128 0xe
- 432 006d 3A       		.uleb128 0x3a
- 433 006e 0B       		.uleb128 0xb
- 434 006f 3B       		.uleb128 0x3b
- 435 0070 0B       		.uleb128 0xb
- 436 0071 27       		.uleb128 0x27
- 437 0072 19       		.uleb128 0x19
- 438 0073 11       		.uleb128 0x11
- 439 0074 01       		.uleb128 0x1
- 440 0075 12       		.uleb128 0x12
- 441 0076 06       		.uleb128 0x6
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 11
+ 548 002a 16       		.uleb128 0x16
+ 549 002b 00       		.byte	0
+ 550 002c 03       		.uleb128 0x3
+ 551 002d 0E       		.uleb128 0xe
+ 552 002e 3A       		.uleb128 0x3a
+ 553 002f 0B       		.uleb128 0xb
+ 554 0030 3B       		.uleb128 0x3b
+ 555 0031 05       		.uleb128 0x5
+ 556 0032 49       		.uleb128 0x49
+ 557 0033 13       		.uleb128 0x13
+ 558 0034 00       		.byte	0
+ 559 0035 00       		.byte	0
+ 560 0036 05       		.uleb128 0x5
+ 561 0037 35       		.uleb128 0x35
+ 562 0038 00       		.byte	0
+ 563 0039 49       		.uleb128 0x49
+ 564 003a 13       		.uleb128 0x13
+ 565 003b 00       		.byte	0
+ 566 003c 00       		.byte	0
+ 567 003d 06       		.uleb128 0x6
+ 568 003e 13       		.uleb128 0x13
+ 569 003f 01       		.byte	0x1
+ 570 0040 0B       		.uleb128 0xb
+ 571 0041 0B       		.uleb128 0xb
+ 572 0042 3A       		.uleb128 0x3a
+ 573 0043 0B       		.uleb128 0xb
+ 574 0044 3B       		.uleb128 0x3b
+ 575 0045 0B       		.uleb128 0xb
+ 576 0046 01       		.uleb128 0x1
+ 577 0047 13       		.uleb128 0x13
+ 578 0048 00       		.byte	0
+ 579 0049 00       		.byte	0
+ 580 004a 07       		.uleb128 0x7
+ 581 004b 0D       		.uleb128 0xd
+ 582 004c 00       		.byte	0
+ 583 004d 03       		.uleb128 0x3
+ 584 004e 0E       		.uleb128 0xe
+ 585 004f 3A       		.uleb128 0x3a
+ 586 0050 0B       		.uleb128 0xb
+ 587 0051 3B       		.uleb128 0x3b
+ 588 0052 0B       		.uleb128 0xb
+ 589 0053 49       		.uleb128 0x49
+ 590 0054 13       		.uleb128 0x13
+ 591 0055 38       		.uleb128 0x38
+ 592 0056 0B       		.uleb128 0xb
+ 593 0057 00       		.byte	0
+ 594 0058 00       		.byte	0
+ 595 0059 08       		.uleb128 0x8
+ 596 005a 16       		.uleb128 0x16
+ 597 005b 00       		.byte	0
+ 598 005c 03       		.uleb128 0x3
+ 599 005d 0E       		.uleb128 0xe
+ 600 005e 3A       		.uleb128 0x3a
+ 601 005f 0B       		.uleb128 0xb
+ 602 0060 3B       		.uleb128 0x3b
+ 603 0061 0B       		.uleb128 0xb
+ 604 0062 49       		.uleb128 0x49
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 24
 
 
- 442 0077 40       		.uleb128 0x40
- 443 0078 18       		.uleb128 0x18
- 444 0079 9742     		.uleb128 0x2117
- 445 007b 19       		.uleb128 0x19
- 446 007c 00       		.byte	0
- 447 007d 00       		.byte	0
- 448 007e 0A       		.uleb128 0xa
- 449 007f 2E       		.uleb128 0x2e
- 450 0080 00       		.byte	0
- 451 0081 3F       		.uleb128 0x3f
- 452 0082 19       		.uleb128 0x19
- 453 0083 03       		.uleb128 0x3
- 454 0084 0E       		.uleb128 0xe
- 455 0085 3A       		.uleb128 0x3a
- 456 0086 0B       		.uleb128 0xb
- 457 0087 3B       		.uleb128 0x3b
- 458 0088 0B       		.uleb128 0xb
- 459 0089 27       		.uleb128 0x27
- 460 008a 19       		.uleb128 0x19
- 461 008b 11       		.uleb128 0x11
- 462 008c 01       		.uleb128 0x1
- 463 008d 12       		.uleb128 0x12
- 464 008e 06       		.uleb128 0x6
- 465 008f 40       		.uleb128 0x40
- 466 0090 18       		.uleb128 0x18
- 467 0091 9642     		.uleb128 0x2116
- 468 0093 19       		.uleb128 0x19
- 469 0094 00       		.byte	0
- 470 0095 00       		.byte	0
- 471 0096 0B       		.uleb128 0xb
- 472 0097 34       		.uleb128 0x34
- 473 0098 00       		.byte	0
- 474 0099 03       		.uleb128 0x3
- 475 009a 0E       		.uleb128 0xe
- 476 009b 3A       		.uleb128 0x3a
- 477 009c 0B       		.uleb128 0xb
- 478 009d 3B       		.uleb128 0x3b
- 479 009e 0B       		.uleb128 0xb
- 480 009f 49       		.uleb128 0x49
- 481 00a0 13       		.uleb128 0x13
- 482 00a1 02       		.uleb128 0x2
- 483 00a2 18       		.uleb128 0x18
- 484 00a3 00       		.byte	0
- 485 00a4 00       		.byte	0
- 486 00a5 00       		.byte	0
- 487              		.section	.debug_aranges,"",%progbits
- 488 0000 34000000 		.4byte	0x34
- 489 0004 0200     		.2byte	0x2
- 490 0006 00000000 		.4byte	.Ldebug_info0
- 491 000a 04       		.byte	0x4
- 492 000b 00       		.byte	0
- 493 000c 0000     		.2byte	0
- 494 000e 0000     		.2byte	0
- 495 0010 00000000 		.4byte	.LFB0
- 496 0014 0C000000 		.4byte	.LFE0-.LFB0
- 497 0018 00000000 		.4byte	.LFB1
- 498 001c 0C000000 		.4byte	.LFE1-.LFB1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 12
+ 605 0063 13       		.uleb128 0x13
+ 606 0064 00       		.byte	0
+ 607 0065 00       		.byte	0
+ 608 0066 09       		.uleb128 0x9
+ 609 0067 2E       		.uleb128 0x2e
+ 610 0068 00       		.byte	0
+ 611 0069 3F       		.uleb128 0x3f
+ 612 006a 19       		.uleb128 0x19
+ 613 006b 03       		.uleb128 0x3
+ 614 006c 0E       		.uleb128 0xe
+ 615 006d 3A       		.uleb128 0x3a
+ 616 006e 0B       		.uleb128 0xb
+ 617 006f 3B       		.uleb128 0x3b
+ 618 0070 0B       		.uleb128 0xb
+ 619 0071 27       		.uleb128 0x27
+ 620 0072 19       		.uleb128 0x19
+ 621 0073 20       		.uleb128 0x20
+ 622 0074 0B       		.uleb128 0xb
+ 623 0075 00       		.byte	0
+ 624 0076 00       		.byte	0
+ 625 0077 0A       		.uleb128 0xa
+ 626 0078 2E       		.uleb128 0x2e
+ 627 0079 00       		.byte	0
+ 628 007a 31       		.uleb128 0x31
+ 629 007b 13       		.uleb128 0x13
+ 630 007c 11       		.uleb128 0x11
+ 631 007d 01       		.uleb128 0x1
+ 632 007e 12       		.uleb128 0x12
+ 633 007f 06       		.uleb128 0x6
+ 634 0080 40       		.uleb128 0x40
+ 635 0081 18       		.uleb128 0x18
+ 636 0082 9742     		.uleb128 0x2117
+ 637 0084 19       		.uleb128 0x19
+ 638 0085 00       		.byte	0
+ 639 0086 00       		.byte	0
+ 640 0087 0B       		.uleb128 0xb
+ 641 0088 2E       		.uleb128 0x2e
+ 642 0089 01       		.byte	0x1
+ 643 008a 3F       		.uleb128 0x3f
+ 644 008b 19       		.uleb128 0x19
+ 645 008c 03       		.uleb128 0x3
+ 646 008d 0E       		.uleb128 0xe
+ 647 008e 3A       		.uleb128 0x3a
+ 648 008f 0B       		.uleb128 0xb
+ 649 0090 3B       		.uleb128 0x3b
+ 650 0091 0B       		.uleb128 0xb
+ 651 0092 27       		.uleb128 0x27
+ 652 0093 19       		.uleb128 0x19
+ 653 0094 11       		.uleb128 0x11
+ 654 0095 01       		.uleb128 0x1
+ 655 0096 12       		.uleb128 0x12
+ 656 0097 06       		.uleb128 0x6
+ 657 0098 40       		.uleb128 0x40
+ 658 0099 18       		.uleb128 0x18
+ 659 009a 9742     		.uleb128 0x2117
+ 660 009c 19       		.uleb128 0x19
+ 661 009d 01       		.uleb128 0x1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 25
 
 
- 499 0020 00000000 		.4byte	.LFB2
- 500 0024 34000000 		.4byte	.LFE2-.LFB2
- 501 0028 00000000 		.4byte	.LFB3
- 502 002c 1C000000 		.4byte	.LFE3-.LFB3
- 503 0030 00000000 		.4byte	0
- 504 0034 00000000 		.4byte	0
- 505              		.section	.debug_ranges,"",%progbits
- 506              	.Ldebug_ranges0:
- 507 0000 00000000 		.4byte	.LFB0
- 508 0004 0C000000 		.4byte	.LFE0
- 509 0008 00000000 		.4byte	.LFB1
- 510 000c 0C000000 		.4byte	.LFE1
- 511 0010 00000000 		.4byte	.LFB2
- 512 0014 34000000 		.4byte	.LFE2
- 513 0018 00000000 		.4byte	.LFB3
- 514 001c 1C000000 		.4byte	.LFE3
- 515 0020 00000000 		.4byte	0
- 516 0024 00000000 		.4byte	0
- 517              		.section	.debug_line,"",%progbits
- 518              	.Ldebug_line0:
- 519 0000 B6000000 		.section	.debug_str,"MS",%progbits,1
- 519      02006600 
- 519      00000201 
- 519      FB0E0D00 
- 519      01010101 
- 520              	.LASF6:
- 521 0000 6C6F6E67 		.ascii	"long long int\000"
- 521      206C6F6E 
- 521      6720696E 
- 521      7400
- 522              	.LASF24:
- 523 000e 656E6162 		.ascii	"enableState\000"
- 523      6C655374 
- 523      61746500 
- 524              	.LASF8:
- 525 001a 756E7369 		.ascii	"unsigned int\000"
- 525      676E6564 
- 525      20696E74 
- 525      00
- 526              	.LASF16:
- 527 0027 43617053 		.ascii	"CapSense_CompCH0_backupStruct\000"
- 527      656E7365 
- 527      5F436F6D 
- 527      70434830 
- 527      5F626163 
- 528              	.LASF19:
- 529 0045 43617053 		.ascii	"CapSense_CompCH0_Sleep\000"
- 529      656E7365 
- 529      5F436F6D 
- 529      70434830 
- 529      5F536C65 
- 530              	.LASF12:
- 531 005c 75696E74 		.ascii	"uint8\000"
- 531      3800
- 532              	.LASF5:
- 533 0062 6C6F6E67 		.ascii	"long unsigned int\000"
- 533      20756E73 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 13
+ 662 009e 13       		.uleb128 0x13
+ 663 009f 00       		.byte	0
+ 664 00a0 00       		.byte	0
+ 665 00a1 0C       		.uleb128 0xc
+ 666 00a2 898201   		.uleb128 0x4109
+ 667 00a5 00       		.byte	0
+ 668 00a6 11       		.uleb128 0x11
+ 669 00a7 01       		.uleb128 0x1
+ 670 00a8 9542     		.uleb128 0x2115
+ 671 00aa 19       		.uleb128 0x19
+ 672 00ab 31       		.uleb128 0x31
+ 673 00ac 13       		.uleb128 0x13
+ 674 00ad 00       		.byte	0
+ 675 00ae 00       		.byte	0
+ 676 00af 0D       		.uleb128 0xd
+ 677 00b0 34       		.uleb128 0x34
+ 678 00b1 00       		.byte	0
+ 679 00b2 03       		.uleb128 0x3
+ 680 00b3 0E       		.uleb128 0xe
+ 681 00b4 3A       		.uleb128 0x3a
+ 682 00b5 0B       		.uleb128 0xb
+ 683 00b6 3B       		.uleb128 0x3b
+ 684 00b7 0B       		.uleb128 0xb
+ 685 00b8 49       		.uleb128 0x49
+ 686 00b9 13       		.uleb128 0x13
+ 687 00ba 02       		.uleb128 0x2
+ 688 00bb 18       		.uleb128 0x18
+ 689 00bc 00       		.byte	0
+ 690 00bd 00       		.byte	0
+ 691 00be 0E       		.uleb128 0xe
+ 692 00bf 2E       		.uleb128 0x2e
+ 693 00c0 00       		.byte	0
+ 694 00c1 3F       		.uleb128 0x3f
+ 695 00c2 19       		.uleb128 0x19
+ 696 00c3 3C       		.uleb128 0x3c
+ 697 00c4 19       		.uleb128 0x19
+ 698 00c5 6E       		.uleb128 0x6e
+ 699 00c6 0E       		.uleb128 0xe
+ 700 00c7 03       		.uleb128 0x3
+ 701 00c8 0E       		.uleb128 0xe
+ 702 00c9 3A       		.uleb128 0x3a
+ 703 00ca 0B       		.uleb128 0xb
+ 704 00cb 3B       		.uleb128 0x3b
+ 705 00cc 0B       		.uleb128 0xb
+ 706 00cd 00       		.byte	0
+ 707 00ce 00       		.byte	0
+ 708 00cf 00       		.byte	0
+ 709              		.section	.debug_aranges,"",%progbits
+ 710 0000 2C000000 		.4byte	0x2c
+ 711 0004 0200     		.2byte	0x2
+ 712 0006 00000000 		.4byte	.Ldebug_info0
+ 713 000a 04       		.byte	0x4
+ 714 000b 00       		.byte	0
+ 715 000c 0000     		.2byte	0
+ 716 000e 0000     		.2byte	0
+ 717 0010 00000000 		.4byte	.LFB1
+ 718 0014 02000000 		.4byte	.LFE1-.LFB1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 26
 
 
- 533      69676E65 
- 533      6420696E 
- 533      7400
- 534              	.LASF7:
- 535 0074 6C6F6E67 		.ascii	"long long unsigned int\000"
- 535      206C6F6E 
- 535      6720756E 
- 535      7369676E 
- 535      65642069 
- 536              	.LASF20:
- 537 008b 43617053 		.ascii	"CapSense_CompCH0_Wakeup\000"
- 537      656E7365 
- 537      5F436F6D 
- 537      70434830 
- 537      5F57616B 
- 538              	.LASF9:
- 539 00a3 666C6F61 		.ascii	"float\000"
- 539      7400
- 540              	.LASF21:
- 541 00a9 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 541      43313120 
- 541      352E342E 
- 541      31203230 
- 541      31363036 
- 542 00dc 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 542      20726576 
- 542      6973696F 
- 542      6E203233 
- 542      37373135 
- 543 010f 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
- 543      66756E63 
- 543      74696F6E 
- 543      2D736563 
- 543      74696F6E 
- 544              	.LASF1:
- 545 0137 756E7369 		.ascii	"unsigned char\000"
- 545      676E6564 
- 545      20636861 
- 545      7200
- 546              	.LASF23:
- 547 0145 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
- 547      73657273 
- 547      5C4A6566 
- 547      66536E79 
- 547      6465725C 
- 548 0173 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
- 548      5F656C65 
- 548      6374726F 
- 548      62617373 
- 548      5F737472 
- 549 01a5 65726D69 		.ascii	"ermistor.cydsn\000"
- 549      73746F72 
- 549      2E637964 
- 549      736E00
- 550              	.LASF11:
- 551 01b4 63686172 		.ascii	"char\000"
- 551      00
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 14
+ 719 0018 00000000 		.4byte	.LFB2
+ 720 001c 18000000 		.4byte	.LFE2-.LFB2
+ 721 0020 00000000 		.4byte	.LFB3
+ 722 0024 14000000 		.4byte	.LFE3-.LFB3
+ 723 0028 00000000 		.4byte	0
+ 724 002c 00000000 		.4byte	0
+ 725              		.section	.debug_ranges,"",%progbits
+ 726              	.Ldebug_ranges0:
+ 727 0000 00000000 		.4byte	.LFB1
+ 728 0004 02000000 		.4byte	.LFE1
+ 729 0008 00000000 		.4byte	.LFB2
+ 730 000c 18000000 		.4byte	.LFE2
+ 731 0010 00000000 		.4byte	.LFB3
+ 732 0014 14000000 		.4byte	.LFE3
+ 733 0018 00000000 		.4byte	0
+ 734 001c 00000000 		.4byte	0
+ 735              		.section	.debug_line,"",%progbits
+ 736              	.Ldebug_line0:
+ 737 0000 A1000000 		.section	.debug_str,"MS",%progbits,1
+ 737      02006600 
+ 737      00000201 
+ 737      FB0E0D00 
+ 737      01010101 
+ 738              	.LASF6:
+ 739 0000 6C6F6E67 		.ascii	"long long int\000"
+ 739      206C6F6E 
+ 739      6720696E 
+ 739      7400
+ 740              	.LASF20:
+ 741 000e 43617053 		.ascii	"CapSense_CompCH0_Wakeup\000"
+ 741      656E7365 
+ 741      5F436F6D 
+ 741      70434830 
+ 741      5F57616B 
+ 742              	.LASF8:
+ 743 0026 756E7369 		.ascii	"unsigned int\000"
+ 743      676E6564 
+ 743      20696E74 
+ 743      00
+ 744              	.LASF16:
+ 745 0033 43617053 		.ascii	"CapSense_CompCH0_backupStruct\000"
+ 745      656E7365 
+ 745      5F436F6D 
+ 745      70434830 
+ 745      5F626163 
+ 746              	.LASF21:
+ 747 0051 43617053 		.ascii	"CapSense_CompCH0_Stop\000"
+ 747      656E7365 
+ 747      5F436F6D 
+ 747      70434830 
+ 747      5F53746F 
+ 748              	.LASF19:
+ 749 0067 43617053 		.ascii	"CapSense_CompCH0_Sleep\000"
+ 749      656E7365 
+ 749      5F436F6D 
+ 749      70434830 
+ 749      5F536C65 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 27
 
 
- 552              	.LASF22:
- 553 01b9 47656E65 		.ascii	"Generated_Source\\PSoC5\\CapSense_CompCH0_PM.c\000"
- 553      72617465 
- 553      645F536F 
- 553      75726365 
- 553      5C50536F 
- 554              	.LASF4:
- 555 01e6 6C6F6E67 		.ascii	"long int\000"
- 555      20696E74 
- 555      00
- 556              	.LASF25:
- 557 01ef 43617053 		.ascii	"CapSense_CompCH0_backup\000"
- 557      656E7365 
- 557      5F436F6D 
- 557      70434830 
- 557      5F626163 
- 558              	.LASF10:
- 559 0207 646F7562 		.ascii	"double\000"
- 559      6C6500
- 560              	.LASF3:
- 561 020e 73686F72 		.ascii	"short unsigned int\000"
- 561      7420756E 
- 561      7369676E 
- 561      65642069 
- 561      6E7400
- 562              	.LASF0:
- 563 0221 7369676E 		.ascii	"signed char\000"
- 563      65642063 
- 563      68617200 
- 564              	.LASF14:
- 565 022d 6C6F6E67 		.ascii	"long double\000"
- 565      20646F75 
- 565      626C6500 
- 566              	.LASF2:
- 567 0239 73686F72 		.ascii	"short int\000"
- 567      7420696E 
- 567      7400
- 568              	.LASF13:
- 569 0243 72656738 		.ascii	"reg8\000"
- 569      00
- 570              	.LASF15:
- 571 0248 73697A65 		.ascii	"sizetype\000"
- 571      74797065 
- 571      00
- 572              	.LASF18:
- 573 0251 43617053 		.ascii	"CapSense_CompCH0_RestoreConfig\000"
- 573      656E7365 
- 573      5F436F6D 
- 573      70434830 
- 573      5F526573 
- 574              	.LASF17:
- 575 0270 43617053 		.ascii	"CapSense_CompCH0_SaveConfig\000"
- 575      656E7365 
- 575      5F436F6D 
- 575      70434830 
- 575      5F536176 
- 576              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccOAvJhu.s 			page 15
+ 750              	.LASF12:
+ 751 007e 75696E74 		.ascii	"uint8\000"
+ 751      3800
+ 752              	.LASF5:
+ 753 0084 6C6F6E67 		.ascii	"long unsigned int\000"
+ 753      20756E73 
+ 753      69676E65 
+ 753      6420696E 
+ 753      7400
+ 754              	.LASF7:
+ 755 0096 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 755      206C6F6E 
+ 755      6720756E 
+ 755      7369676E 
+ 755      65642069 
+ 756              	.LASF22:
+ 757 00ad 43617053 		.ascii	"CapSense_CompCH0_Enable\000"
+ 757      656E7365 
+ 757      5F436F6D 
+ 757      70434830 
+ 757      5F456E61 
+ 758              	.LASF9:
+ 759 00c5 666C6F61 		.ascii	"float\000"
+ 759      7400
+ 760              	.LASF17:
+ 761 00cb 43617053 		.ascii	"CapSense_CompCH0_SaveConfig\000"
+ 761      656E7365 
+ 761      5F436F6D 
+ 761      70434830 
+ 761      5F536176 
+ 762              	.LASF1:
+ 763 00e7 756E7369 		.ascii	"unsigned char\000"
+ 763      676E6564 
+ 763      20636861 
+ 763      7200
+ 764              	.LASF25:
+ 765 00f5 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 765      73657273 
+ 765      5C4A6566 
+ 765      66536E79 
+ 765      6465725C 
+ 766 0123 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 766      5F656C65 
+ 766      6374726F 
+ 766      62617373 
+ 766      5F737472 
+ 767 0155 65726D69 		.ascii	"ermistor.cydsn\000"
+ 767      73746F72 
+ 767      2E637964 
+ 767      736E00
+ 768              	.LASF11:
+ 769 0164 63686172 		.ascii	"char\000"
+ 769      00
+ 770              	.LASF24:
+ 771 0169 47656E65 		.ascii	"Generated_Source\\PSoC5\\CapSense_CompCH0_PM.c\000"
+ 771      72617465 
+ 771      645F536F 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 28
 
 
+ 771      75726365 
+ 771      5C50536F 
+ 772              	.LASF4:
+ 773 0196 6C6F6E67 		.ascii	"long int\000"
+ 773      20696E74 
+ 773      00
+ 774              	.LASF27:
+ 775 019f 43617053 		.ascii	"CapSense_CompCH0_backup\000"
+ 775      656E7365 
+ 775      5F436F6D 
+ 775      70434830 
+ 775      5F626163 
+ 776              	.LASF10:
+ 777 01b7 646F7562 		.ascii	"double\000"
+ 777      6C6500
+ 778              	.LASF3:
+ 779 01be 73686F72 		.ascii	"short unsigned int\000"
+ 779      7420756E 
+ 779      7369676E 
+ 779      65642069 
+ 779      6E7400
+ 780              	.LASF0:
+ 781 01d1 7369676E 		.ascii	"signed char\000"
+ 781      65642063 
+ 781      68617200 
+ 782              	.LASF26:
+ 783 01dd 656E6162 		.ascii	"enableState\000"
+ 783      6C655374 
+ 783      61746500 
+ 784              	.LASF14:
+ 785 01e9 6C6F6E67 		.ascii	"long double\000"
+ 785      20646F75 
+ 785      626C6500 
+ 786              	.LASF2:
+ 787 01f5 73686F72 		.ascii	"short int\000"
+ 787      7420696E 
+ 787      7400
+ 788              	.LASF13:
+ 789 01ff 72656738 		.ascii	"reg8\000"
+ 789      00
+ 790              	.LASF15:
+ 791 0204 73697A65 		.ascii	"sizetype\000"
+ 791      74797065 
+ 791      00
+ 792              	.LASF18:
+ 793 020d 43617053 		.ascii	"CapSense_CompCH0_RestoreConfig\000"
+ 793      656E7365 
+ 793      5F436F6D 
+ 793      70434830 
+ 793      5F526573 
+ 794              	.LASF23:
+ 795 022c 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 795      43313120 
+ 795      352E342E 
+ 795      31203230 
+ 795      31363036 
+ 796 025f 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccIRfv6V.s 			page 29
+
+
+ 796      20726576 
+ 796      6973696F 
+ 796      6E203233 
+ 796      37373135 
+ 797 0292 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects -finline-fu"
+ 797      66756E63 
+ 797      74696F6E 
+ 797      2D736563 
+ 797      74696F6E 
+ 798 02c5 6E637469 		.ascii	"nctions -flto\000"
+ 798      6F6E7320 
+ 798      2D666C74 
+ 798      6F00
+ 799              		.comm	__gnu_lto_v1,1,1
+ 800              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

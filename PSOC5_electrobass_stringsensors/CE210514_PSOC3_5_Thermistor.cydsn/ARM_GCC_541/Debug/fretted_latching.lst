@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 1
 
 
    1              		.syntax unified
@@ -10,7 +10,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 1
    7              		.eabi_attribute 24, 1
    8              		.eabi_attribute 25, 1
    9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 30, 2
   11              		.eabi_attribute 34, 1
   12              		.eabi_attribute 18, 4
   13              		.thumb
@@ -18,16 +18,850 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 1
   15              		.file	"fretted_latching.c"
   16              		.text
   17              	.Ltext0:
-  18              		.cfi_sections	.debug_frame
-  19              		.section	.text.fretted_latching_Write,"ax",%progbits
-  20              		.align	2
-  21              		.global	fretted_latching_Write
-  22              		.thumb
-  23              		.thumb_func
-  24              		.type	fretted_latching_Write, %function
-  25              	fretted_latching_Write:
-  26              	.LFB0:
-  27              		.file 1 "Generated_Source\\PSoC5\\fretted_latching.c"
+  18              		.section	.gnu.lto_.profile.807d5be2,"",%progbits
+  19 0000 789C6361 		.ascii	"x\234ca`d`a`\000\222\222\242\000\000\261\0009"
+  19      60646061 
+  19      60009292 
+  19      A20000B1 
+  19      0039
+  20              		.text
+  21              		.section	.gnu.lto_.icf.807d5be2,"",%progbits
+  22 0000 789C6361 		.ascii	"x\234ca`d\000\001)\006\004`a\350\3706\363/?\343\255"
+  22      60640001 
+  22      29060460 
+  22      61E8F836 
+  22      F32F3FE3 
+  23 0015 DDCD8B59 		.ascii	"\335\315\213Y\230\372\273\237^fg\376\374\342\377Fv\006"
+  23      98FABB9F 
+  23      5E6667FE 
+  23      FCE2FF46 
+  23      7606
+  24 0027 00A6D20C 		.ascii	"\000\246\322\014w"
+  24      77
+  25              		.text
+  26              		.section	.gnu.lto_.jmpfuncs.807d5be2,"",%progbits
+  27 0000 789C6361 		.ascii	"x\234ca`d\000\001!\006\004`a`dd\254g\004\021L\014\014"
+  27      60640001 
+  27      21060460 
+  27      61606464 
+  27      AC670411 
+  28 0017 CC401100 		.ascii	"\314@\021\000\016\"\001&"
+  28      0E220126 
+  29              		.text
+  30              		.section	.gnu.lto_.inline.807d5be2,"",%progbits
+  31 0000 789C6361 		.ascii	"x\234ca`d\000\201$\006\004`a`\340\344`dd\340\000J1s"
+  31      60640081 
+  31      24060460 
+  31      6160E0E4 
+  31      606464E0 
+  32 0018 1CB06360 		.ascii	"\034\260c`[ \317\304\300\262@\236\005$\013\024g\307"
+  32      5B20CFC4 
+  32      C0B2409E 
+  32      05240B14 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 2
+
+
+  32      67C7
+  33 002a 9064BAC0 		.ascii	"\220d\272\300\017\226db`ced`b\373\240\007\021\007\002"
+  33      0F966462 
+  33      60636564 
+  33      6062FBA0 
+  33      07110702 
+  34 003e 664C2106 		.ascii	"fL!\006\000\346\332\011\346"
+  34      00E6DA09 
+  34      E6
+  35              		.text
+  36              		.section	.gnu.lto_.pureconst.807d5be2,"",%progbits
+  37 0000 789C6361 		.ascii	"x\234ca`d\340d```a\220b\224b\222b\226\002\000\002\261"
+  37      6064E064 
+  37      60606061 
+  37      90629462 
+  37      92629602 
+  38 0017 0081     		.ascii	"\000\201"
+  39              		.text
+  40              		.section	.gnu.lto_fretted_latching_Write.807d5be2,"",%progbits
+  41 0000 789C5551 		.ascii	"x\234UQMk\023Q\024\275\347\275\231I4\261\177\300,\272"
+  41      4D6B1351 
+  41      14BDE7BD 
+  41      994934B1 
+  41      7FC02CBA 
+  42 0014 29A50545 		.ascii	")\245\005E(.\335\350\302\255\330m\213\204t\324@m!\235"
+  42      282EDDE8 
+  42      C2ADD86D 
+  42      8B8474D4 
+  42      406D219D 
+  43 0028 BAED9BA6 		.ascii	"\272\355\233\246I\261\013\351\246\235E\321BKI\254\232"
+  43      49B10BE9 
+  43      A69D45D1 
+  43      424B49AC 
+  43      9A
+  44 0039 B60A82E0 		.ascii	"\266\012\202\340b\230\265(BA\020?J\027#\010B\024CK\375"
+  44      6298B528 
+  44      4241103F 
+  44      4A172308 
+  44      4214434B 
+  45 004e 88F7CEB8 		.ascii	"\210\367\316\270\260\027\336\307\3349\347\334s\357\263"
+  45      B017DEC7 
+  45      DC39E7DC 
+  45      73EFB3
+  46 005d 082431A8 		.ascii	"\010$1\250\210.\360y\232\0274A-\276\"\362\263\012\220"
+  46      882EF079 
+  46      9A173441 
+  46      2DBE22F2 
+  46      B30A90
+  47 0070 8BC98266 		.ascii	"\213\311\202f\024f\320Q\277\025\242\371\370\271\032"
+  47      1466D051 
+  47      BF15A2F9 
+  47      F8B91A
+  48 007f 68188EBD 		.ascii	"h\030\216\275\215\373\3324C\3244QW%J\204\006\006\030"
+  48      8DFBDA34 
+  48      43D43451 
+  48      57254A84 
+  48      060618
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 3
+
+
+  49 0092 F5F9C5FC 		.ascii	"\365\371\305\374.\364\031\020\337\353Q\247\235\353\337"
+  49      2EF41910 
+  49      DFEB51A7 
+  49      9DEBDF
+  50 00a1 3066D698 		.ascii	"0f\326\230`\324\350\232\006\232\320\314\300P\001\347"
+  50      60D4E89A 
+  50      069AD0CC 
+  50      C05001E7 
+  51 00b1 0AC409C2 		.ascii	"\012\304\011\302\003\364\013\370\360\335n\253G\017%"
+  51      03F40BF8 
+  51      F0DD6EAB 
+  51      470F25
+  52 00c0 C44513AF 		.ascii	"\304E\023\257\345\373\326\205\030\036\334\012L\350\367"
+  52      E5FBD685 
+  52      181EDC0A 
+  52      4CE8F7
+  53 00cf 0A77F37F 		.ascii	"\012w\363\177\256\004C\367w\376,\235r\346\304U/\036"
+  53      AE0443F7 
+  53      77FE2C9D 
+  53      72E6C455 
+  53      2F1E
+  54 00e1 A22FF583 		.ascii	"\242/\365\203Gp\270CHf\353jh\272\335\252\011;vG\237"
+  54      4770B843 
+  54      4866EB6A 
+  54      68BADDAA 
+  54      093B7647 
+  55 00f6 505C5471 		.ascii	"P\\Tq\247\374\303\202\324\266%\341\310\226\221\215\250"
+  55      A7FCC382 
+  55      D4B625E1 
+  55      C896918D 
+  55      A8
+  56 0107 CD4BBAFF 		.ascii	"\315K\272\377\246\224\234:Ft\264\3601\310\210fU\313"
+  56      A6949C3A 
+  56      4674B4F0 
+  56      31C88866 
+  56      55CB
+  57 0119 24966BD1 		.ascii	"$\226k\321\353\314\017U\323:q\373\246\371!\370\367\031"
+  57      EBCC0F55 
+  57      D33A71FB 
+  57      A6F921F8 
+  57      F719
+  58 012b AEFBC6E2 		.ascii	"\256\373\306\342T\353\331\336\235\374*\356\371s<#\013"
+  58      54EBD9DE 
+  58      9DFC2AEE 
+  58      F9733C23 
+  58      0B
+  59 013c 2D14F018 		.ascii	"-\024\360\030\354\031[X\005\305\250\376\252\277G*\250"
+  59      EC195B58 
+  59      05C5A8FE 
+  59      AABF472A 
+  59      A8
+  60 014d 53CD954F 		.ascii	"S\315\225O_\343\036\021\001\016\200m\006\357C%m\260"
+  60      5FE31E11 
+  60      010E806D 
+  60      06EF4325 
+  60      6DB0
+  61 015f 534609A9 		.ascii	"SF\011\251]\217\203\\\312\262\253Z\352D\337\267\033"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 4
+
+
+  61      5D8F835C 
+  61      CAB2AB5A 
+  61      EA44DFB7 
+  61      1B
+  62 0170 7961D9D0 		.ascii	"ya\331\320\330aR\"\375R\247 \3011h\341\350\355\335\254"
+  62      D8615222 
+  62      FD52A720 
+  62      C13168E1 
+  62      E8EDDDAC 
+  63 0184 802C64F1 		.ascii	"\200,d\361$\005\035:)$\223\030p8\025-'\206\216\231\367"
+  63      24051D3A 
+  63      29249318 
+  63      7038152D 
+  63      27868E99 
+  64 0199 8DC91DF7 		.ascii	"\215\311\035\367\377\224\3753\213\276`6\374i\013!y\210"
+  64      FF94FD33 
+  64      8BBE6036 
+  64      FC690B21 
+  64      7988
+  65 01ab B682CC8A 		.ascii	"\266\202\314\212'7x\331\235p+E\317\035\2736<9])\271"
+  65      273778D9 
+  65      9D702B45 
+  65      CF1DBB36 
+  65      3C395D29 
+  66 01c0 23578627 		.ascii	"#W\206'/\235\037\271^q=I\216\027\275\322\315\362\304"
+  66      2F9D1FB9 
+  66      5E713D49 
+  66      8E17BDD2 
+  66      CDF2C4
+  67 01d3 8DB325B2 		.ascii	"\215\263%\262o\027\307\247\335\223S^\321+\227.\226\275"
+  67      6F17C7A7 
+  67      DD93535E 
+  67      D12B972E 
+  67      96BD
+  68 01e5 A9BFA584 		.ascii	"\251\277\245\204\306\376"
+  68      C6FE
+  69              		.text
+  70              		.section	.gnu.lto_fretted_latching_SetDriveMode.807d5be2,"",%progbits
+  71 0000 789C7D51 		.ascii	"x\234}Q;K#Q\024>\337\275\223\231D\321?`\012;qAQ\304"
+  71      3B4B2351 
+  71      143EDFBD 
+  71      939944D1 
+  71      3F600A3B 
+  72 0018 5F20682B 		.ascii	"_ h+\332*\"q\366\001j0\304\332\233\214A\320F\020mD\264"
+  72      DA2A2271 
+  72      F6016A30 
+  72      C4DA9B8C 
+  72      41D04610 
+  73 002f 119FBBD9 		.ascii	"\021\237\273\331e\331ba\213l\300G\345\026\013\026\026"
+  73      65D96261 
+  73      8B6CC047 
+  73      E5160B16 
+  73      16
+  74 0040 220A4104 		.ascii	"\"\012A\004%\276P|\305sf,Ry\231{\036\037\337\367q\316"
+  74      25BE507C 
+  74      C573662C 
+  74      5279997B 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 5
+
+
+  74      1E1FDFF7 
+  75 0056 1D8B4072 		.ascii	"\035\213@rN95s\256\341\013MP\323{D\251\260\002\2440"
+  75      4E393573 
+  75      AEE10B4D 
+  75      50D37B44 
+  75      A9B002A4 
+  76 006b 61D098C2 		.ascii	"a\320\230\302\030n\325\263B~\242\360[\325\257\030>G"
+  76      186ED5B3 
+  76      427EA2F0 
+  76      5BD5AF18 
+  76      3E47
+  77 007d 5B174D66 		.ascii	"[\027Mf5\207\214&*)\337\211\260\202zf]\377\\\236\251"
+  77      35878C26 
+  77      2A29DF89 
+  77      B0827A66 
+  77      5DFF5C9E 
+  78 0092 D40D20AE 		.ascii	"\324\015 \256/\367\212\207\325u\313\306\244\215\371"
+  78      2FF78A87 
+  78      D575CBC6 
+  78      A48DF9
+  79 00a1 D56B7446 		.ascii	"\325ktF\003\253\320\254@K\024MQb\200\260\206:!\037\377"
+  79      03ABD0AC 
+  79      404B144D 
+  79      516280B0 
+  79      863A211F 
+  80 00b6 7899ADB2 		.ascii	"x\231\255\262\307\305\27660\305:l\0313\333\2253\245"
+  80      C7C5BE36 
+  80      30C53A6C 
+  80      1933DB95 
+  80      33A5
+  81 00c8 92677277 		.ascii	"\222grw\366\337\007\273R\261Li\016\332\222\020\2028"
+  81      F6DF07BB 
+  81      52B14C69 
+  81      0EDA9210 
+  81      8238
+  82 00da D8523A12 		.ascii	"\330R:\022\302\022\"\302!*\362\225E.\225\222\254\013"
+  82      C21222C2 
+  82      212AF295 
+  82      452E9592 
+  82      AC0B
+  83 00ec C83F4C16 		.ascii	"\310?L\026\346-q\366\264,5\227\311\377snTF[\376\304"
+  83      E62D71F6 
+  83      B42C3597 
+  83      C9FF736E 
+  83      54465BFE 
+  84 0101 DEFF9B05 		.ascii	"\336\377\233\005;hO\226R\306b(\273\373g\247b\021\013"
+  84      3B684F96 
+  84      52C66228 
+  84      BBFB67A7 
+  84      62110B
+  85 0114 A9715E37 		.ascii	"\251q^7\204MD\261\201(O\367\025\213\240\002\322WN`\247"
+  85      844D44B1 
+  85      81284FF7 
+  85      158BA002 
+  85      D2574E60 
+  86 0129 D9917BEF 		.ascii	"\331\221{\357\311\016z\213!\326\037lO=G\304Rc\004\337"
+  86      C90E7A8B 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 6
+
+
+  86      21D61F6C 
+  86      4F3D47C4 
+  86      526304DF 
+  87 013d 585926E1 		.ascii	"XY&\341/T.q\030b\311\371\376\306\246\016$\325\310\372"
+  87      2F542E71 
+  87      1862C9F9 
+  87      FEC6A60E 
+  87      24D5C8FA 
+  88 0151 12EFFE8D 		.ascii	"\022\357\376\215\022\366\215\235r\227\010\243\334\347"
+  88      12F68D9D 
+  88      729708A3 
+  88      DCE7
+  89 015f E720FD7B 		.ascii	"\347 \375{#\177\347\221\231OgH\347\036\333\205\355\377"
+  89      237FE791 
+  89      994F6748 
+  89      E71EDB85 
+  89      EDFF
+  90 0171 BAA2823C 		.ascii	"\272\242\202<\017?\326\207\016w\330M\364'\335\201\276"
+  90      0F3FD687 
+  90      0E77D84D 
+  90      F427DD81 
+  90      BE
+  91 0182 EEF86822 		.ascii	"\356\370h\"\346\366tv\307\333Z{>&\334\244\200\203\375"
+  91      E6F67476 
+  91      C7DB5A7B 
+  91      3E26DCA4 
+  91      8083FD
+  92 0195 C9D8E72F 		.ascii	"\311\330\347/\303\237\032cd\015\305\007\334W\177 \252"
+  92      C39F1A63 
+  92      640DC507 
+  92      DC577F20 
+  92      AA
+  93 01a6 8C       		.ascii	"\214"
+  94              		.text
+  95              		.section	.gnu.lto_fretted_latching_Read.807d5be2,"",%progbits
+  96 0000 789C354F 		.ascii	"x\2345O\277K\202Q\024\275\347\275O?\211\372\013rh5\""
+  96      BF4B8251 
+  96      14BDE7BD 
+  96      4F3F89FA 
+  96      0B726835 
+  97 0015 8208A235 		.ascii	"\202\010\2425\2505\022\232\204\020\373\372\001\241 "
+  97      A835129A 
+  97      8410FBFA 
+  97      01A120
+  98 0024 36FBE9A7 		.ascii	"6\373\351\247\005\321PC\005A9D\250\225T\223C\213\272"
+  98      05D15043 
+  98      05413944 
+  98      A8955493 
+  98      438BBA
+  99 0037 1415B514 		.ascii	"\024\025\265\0244ED84\225\030\201Tvo\326\205w\357{\347"
+  99      34454438 
+  99      34951881 
+  99      54766FD6 
+  99      8577EF7B 
+ 100 004c 9D73CFBD 		.ascii	"\235s\317\275\006\201$&\270\364p\355\344\003MP\253\327"
+ 100      06812426 
+ 100      B8F470ED 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 7
+
+
+ 100      E4034D50 
+ 100      ABD7
+ 101 005e 44098F02 		.ascii	"D\011\217\002\344b{@q\2058\336\325\227\302\345\307\371"
+ 101      E4627B40 
+ 101      718538DE 
+ 101      D597C2E5 
+ 101      C7F9
+ 102 0070 4A9B2F6B 		.ascii	"J\233/k\333I\373q\2571\270\231+!\255\211\232\212\320"
+ 102      DB49FB71 
+ 102      AF31B899 
+ 102      2B21AD89 
+ 102      9A8AD0
+ 103 0083 EF459F57 		.ascii	"\357E\237WZd\341#\246>\235|\257w\270S6G\227\020\370"
+ 103      5A64E123 
+ 103      A63E9D7C 
+ 103      AF77B853 
+ 103      36479710 
+ 104 0098 2707B758 		.ascii	"'\007\267X\036\215\227\354f\323\261Kwf\371\3364Ai\315"
+ 104      1E8D97EC 
+ 104      66D3B14B 
+ 104      7766F9DE 
+ 104      344169CD 
+ 105 00ac BE9C0C4E 		.ascii	"\276\234\014N\312%\311M\322\226^Y&C\274)%UWQi,?\354"
+ 105      CA25C94D 
+ 105      D2965E59 
+ 105      2643BC29 
+ 105      25555751 
+ 106 00c4 0C492747 		.ascii	"\014I'Gkv\331HWn\314\272Jk\0151\315\257\025k\177\317"
+ 106      6B76D948 
+ 106      576ECCBA 
+ 106      4A6B0D31 
+ 106      CDAF156B 
+ 107 00da F26EC236 		.ascii	"\362n\3026\030J\024\013gf\006\333\211\024\217j`\037"
+ 107      184A140B 
+ 107      676606DB 
+ 107      89148F6A 
+ 107      601F
+ 108 00ec 5EE4C183 		.ascii	"^\344\301\203\342\000\031P\025\316\347\0109\032\255"
+ 108      E2001950 
+ 108      15CEE708 
+ 108      391AAD
+ 109 00fb 765BA7F5 		.ascii	"v[\247\365\013\227\350\001\017\016\231VE\262\266te\264"
+ 109      0B97E801 
+ 109      0F0E9956 
+ 109      45B2B674 
+ 109      65B4
+ 110 010d 0C0DE689 		.ascii	"\014\015\346\211\242\266xk\266\020\027\203,\253\324"
+ 110      A2B6786B 
+ 110      B6101783 
+ 110      2CABD4
+ 111 011c 8EB3ED22 		.ascii	"\216\263\355\"S\320(\374\313\236\321\"\011\217^\240"
+ 111      53D028FC 
+ 111      CB9ED122 
+ 111      098F5EA0 
+ 112 012c FE5EF4BB 		.ascii	"\376^\364\273\030d!^\257{\324\012[\321`\314\232\232"
+ 112      1864215E 
+ 112      AF7BD40A 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 8
+
+
+ 112      5BD160CC 
+ 112      9A9A
+ 113 013e F44716A2 		.ascii	"\364G\026\242!+0\346\217\014\017\004\246\243VL\300\371"
+ 113      212B30E6 
+ 113      8F0C0F04 
+ 113      A6A3564C 
+ 113      C0F9
+ 114 0150 602C343B 		.ascii	"`,4;\027\236\351\015\321\017\376\253\177\224"
+ 114      179EE90D 
+ 114      D10FFEAB 
+ 114      7F94
+ 115              		.text
+ 116              		.section	.gnu.lto_fretted_latching_ReadDataReg.807d5be2,"",%progbits
+ 117 0000 789C354F 		.ascii	"x\2345OKK\202Q\020\235s\357\347\003\261_\220\213\266"
+ 117      4B4B8251 
+ 117      109D73EF 
+ 117      E703B15F 
+ 117      908BB6
+ 118 0013 4644102D 		.ascii	"FD\020-j\033\3246\022Z\011!\366\365\200P\020[\373\371"
+ 118      6A1BD436 
+ 118      125A0921 
+ 118      F6F58050 
+ 118      105BFBF9 
+ 119 0027 2A8A166D 		.ascii	"*\212\026mJ\010\302E\204\332\273M\233\010\276\\EE\017"
+ 119      4A08C245 
+ 119      84DABB4D 
+ 119      9B08BE5C 
+ 119      45450F
+ 120 003a 681B4884 		.ascii	"h\033H\204\213V%F\020\245\315\244\015\334\231{\317="
+ 120      8B562546 
+ 120      10A5CDA4 
+ 120      0DDC997B 
+ 120      CF3D
+ 121 004c 67CE8C41 		.ascii	"g\316\214A \211\011.=\\;\371@\023\324\332-Q\322\255"
+ 121      2089092E 
+ 121      3D5C3BF9 
+ 121      4013D4DA 
+ 121      2D51D2AD 
+ 122 0060 00B9586E 		.ascii	"\000\271XnPB!\201\017\365\243p\375y\271\352\361\027"
+ 122      50422181 
+ 122      0FF5A370 
+ 122      FD79B9EA 
+ 122      F117
+ 123 0072 2C2B6555 		.ascii	",+eUv\012\203\271\242\215\254&j*B\277\017}>iQ\200\237"
+ 123      760A83B9 
+ 123      A28DAC26 
+ 123      6A2A42BF 
+ 123      0F7D3E69 
+ 124 0089 98FA7CD2 		.ascii	"\230\372|\322X\357pf,\216.!\360O\021N\261<\032\267\255"
+ 124      58EF7066 
+ 124      2C8E2E21 
+ 124      F04F114E 
+ 124      B13C1AB7 
+ 125 009e 66336DD9 		.ascii	"f3m\331\347\236\213{\217\013\224\325\354\313\311\340"
+ 125      E79E8B7B 
+ 125      8F0B94D5 
+ 125      ECCBC9E0 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 9
+
+
+ 126 00ae A41C929C 		.ascii	"\244\034\222\234$m\351\215e2\304\273RRu\025\345\257"
+ 126      246DE98D 
+ 126      6532C4BB 
+ 126      52527515 
+ 126      E5AF
+ 127 00c0 95466948 		.ascii	"\225FiH:\245\265f\227\215l\371\316UWY\255!\246\017\305"
+ 127      3AA5B566 
+ 127      978D6CF9 
+ 127      CE555759 
+ 127      AD21A60F 
+ 128 00d5 A75CFB69 		.ascii	"\247\\\373io'-\203\241\303\323\312\2627\217\255d\206"
+ 128      6F272D83 
+ 128      A1C3D3CA 
+ 128      B2378FAD 
+ 128      6486
+ 129 00e7 4735B00B 		.ascii	"G5\260\013\037J\340A\261\207<\250\212\364\367\010\245"
+ 129      1F4AE041 
+ 129      B1873CA8 
+ 129      8AF4F708 
+ 129      A5
+ 130 00f8 355AED36 		.ascii	"5Z\3556\317\352W\016\321\003n\3543\255\212Tm\351\306"
+ 130      CFEA570E 
+ 130      D1036EEC 
+ 130      33AD8A54 
+ 130      6DE9C6
+ 131 010b 68191ACC 		.ascii	"h\031\032\314\023Em\361\321\325B\034\014\262\254\\;"
+ 131      13456DF1 
+ 131      D1D5421C 
+ 131      0CB2AC5C 
+ 131      3B
+ 132 011c 2E7845A6 		.ascii	".xE\246\240q\360/{A\213$<z\205j\277\350o1\310B\274^"
+ 132      A071F02F 
+ 132      7B418B24 
+ 132      3C7A856A 
+ 132      BFE86F31 
+ 133 0134 F7A81931 		.ascii	"\367\250\0311c\241\27095\031\210.\304\302fp,\020\035"
+ 133      63A1B839 
+ 133      3519882E 
+ 133      C4C26670 
+ 133      2C101D
+ 134 0147 1E084EC7 		.ascii	"\036\010N\307\314\270\200\363\241xxv.2\323\033\246_"
+ 134      CCB880F3 
+ 134      A1787876 
+ 134      2E32D31B 
+ 134      A65F
+ 135 0159 BA907F82 		.ascii	"\272\220\177\202"
+ 136              		.text
+ 137              		.section	.gnu.lto_.symbol_nodes.807d5be2,"",%progbits
+ 138 0000 789C6361 		.ascii	"x\234ca`dpc\000\002&\206z\006\206\011\347\030@\324\256"
+ 138      60647063 
+ 138      00022686 
+ 138      7A068609 
+ 138      E71840D4 
+ 139 0015 0645A000 		.ascii	"\006E\240\000c=#\252\000S=\023\252\000s=3\212\000\003"
+ 139      633D23AA 
+ 139      00533D13 
+ 139      AA00733D 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 10
+
+
+ 139      338A0003 
+ 140 0029 0026B60F 		.ascii	"\000&\266\017<"
+ 140      3C
+ 141              		.text
+ 142              		.section	.gnu.lto_.refs.807d5be2,"",%progbits
+ 143 0000 789C6361 		.ascii	"x\234ca`\004B \000\000\0009\000\007"
+ 143      60044220 
+ 143      00000039 
+ 143      0007
+ 144              		.text
+ 145              		.section	.gnu.lto_.decls.807d5be2,"",%progbits
+ 146 0000 789C8D53 		.ascii	"x\234\215S]H\024Q\024\276gf\\m\3225\244\304\207\015"
+ 146      5D481451 
+ 146      14BE6766 
+ 146      5C6DD235 
+ 146      A4C4870D 
+ 147 0014 CC27E941 		.ascii	"\314'\351A\222\010\014\242\004%\237\312\320\262\027"
+ 147      92080CA2 
+ 147      04259FCA 
+ 147      D0B217
+ 148 0023 41D675D2 		.ascii	"A\326u\322\205\320\330\306\300\267\233\332\217\375*"
+ 148      85D0D8C6 
+ 148      C0B79BDA 
+ 148      8FFD2A
+ 149 0032 A5A519FE 		.ascii	"\245\245\031\376<\224\233\346O\356\232n\232&d\"\010"
+ 149      3C949BE6 
+ 149      4FEE9A6E 
+ 149      9A266422 
+ 149      08
+ 150 0043 8A218451 		.ascii	"\212!\204Q\226\365 \031(Y d\333\271wf\232E'\3600g\346"
+ 150      96F52019 
+ 150      28592064 
+ 150      DBB97766 
+ 150      9A4527F0 
+ 151 005a 9C7BCFF7 		.ascii	"\234{\317\367\235\357\236\231\221\010\020f\251\022!"
+ 151      9DEF9E99 
+ 151      91081066 
+ 151      A91221
+ 152 0069 13F87460 		.ascii	"\023\370t`\032D\013\3038\207\230\206\333\244\027\335"
+ 152      1A440BC3 
+ 152      38879886 
+ 152      DBA417DD 
+ 153 0079 8FDE8F1E 		.ascii	"\217\336\217\036 \233\215\355\333t\\'\343B\037F\037"
+ 153      209B8DED 
+ 153      DB745C27 
+ 153      E3421F46 
+ 153      1F
+ 154 008a 42CFD46B 		.ascii	"B\317\324k@\257\333h~\013\354h\010\336\300\372-\260"
+ 154      40AFDB68 
+ 154      7E0BEC68 
+ 154      08DEC0FA 
+ 154      2DB0
+ 155 009c 4C4F5808 		.ascii	"LOX\010.\323\002\327o\201\013l\001gu\316u\001\202M\276"
+ 155      2ED302D7 
+ 155      6F810B6C 
+ 155      016775CE 
+ 155      7501824D 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 11
+
+
+ 156 00b1 DB1173F0 		.ascii	"\333\021s\360\016D\242\017\220\000hw\340N4\347)\006"
+ 156      0E44A20F 
+ 156      90006877 
+ 156      E04E34E7 
+ 156      2906
+ 157 00c3 02D10263 		.ascii	"\002\321\002c\351\237\021\275D0B\223\214_:\036\202\206"
+ 157      E99F11BD 
+ 157      44304293 
+ 157      8C5F3A1E 
+ 157      8286
+ 158 00d5 7112931D 		.ascii	"q\022\223\035t\220\226\033\272u\020\010f\003\320R\003"
+ 158      7490961B 
+ 158      BA751008 
+ 158      6603D052 
+ 158      03
+ 159 00e6 11C2B741 		.ascii	"\021\302\267A\221\241\331hC\004\343\320\277>\335\\\215"
+ 159      91A1D968 
+ 159      4304E3D0 
+ 159      BF3EDD5C 
+ 159      8D
+ 160 00f7 120560F1 		.ascii	"\022\005`\361\307\265\266\243I\035\024\255\232R\341"
+ 160      C7B5B6A3 
+ 160      491D14AD 
+ 160      9A52E1
+ 161 0106 A03999AE 		.ascii	"\2409\231\256K_\274\021\253\0028d\010\002\313\227\006"
+ 161      4B5FBC11 
+ 161      AB023864 
+ 161      0802CB97 
+ 161      06
+ 162 0117 D6A2B49C 		.ascii	"\326\242\264\234m\327\327,\374\331.&\260X\230Yh_\224"
+ 162      6DD7D72C 
+ 162      FCD92E26 
+ 162      B0589859 
+ 162      685F94
+ 163 012a 20517EC4 		.ascii	" Q~\304h\346{z\016\017P\272\003:A\206\016\020\301\013"
+ 163      68E67B7A 
+ 163      0E0F50BA 
+ 163      033A4186 
+ 163      0E10C10B 
+ 164 013e 494C8343 		.ascii	"IL\203C\306\373UJ\313\351r+\265\305\021\330\357\200"
+ 164      C6FB554A 
+ 164      CBE9722B 
+ 164      B5C511D8 
+ 164      EF80
+ 165 0150 7D0E024F 		.ascii	"}\016\002O!\221q\262*h\007\007<\001\007\343\377z\257"
+ 165      219171B2 
+ 165      2A680707 
+ 165      3C0107E3 
+ 165      FF7AAF
+ 166 0163 E99B4D42 		.ascii	"\351\233MB\311\234'_bk\323\225\335\215\"J\210\221A\302"
+ 166      C99C275F 
+ 166      626BD395 
+ 166      DD8D224A 
+ 166      889141C2 
+ 167 0177 7465B261 		.ascii	"te\262a\301\216\351N\031\3421\355\010\274_\262\305\325"
+ 167      C18EE94E 
+ 167      19E231ED 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 12
+
+
+ 167      08BC5FB2 
+ 167      C5D5
+ 168 0189 F1A354D0 		.ascii	"\361\243T\320x\011rb\241\007\011\273\221\220\3003\210"
+ 168      78097262 
+ 168      A10709BB 
+ 168      9190C033 
+ 168      88
+ 169 019a C37B1748 		.ascii	"\303{\027H\332\351\256\334\372\374\301\226\320L\233"
+ 169      DAE9AEDC 
+ 169      FAFCC196 
+ 169      D04C9B
+ 170 01a9 BBE9BC7F 		.ascii	"\273\351\274\177\354P]\005\035G\\<+\2036St\033\373."
+ 170      EC505D05 
+ 170      1D475C3C 
+ 170      2B833653 
+ 170      741BFB2E 
+ 171 01bd 083C8639 		.ascii	"\010<\2069\234a/$ \262\356\241\267\305.\226\362!\334"
+ 171      9C612F24 
+ 171      20B2EEA1 
+ 171      B7C52E96 
+ 171      F221DC
+ 172 01d0 787BF9A7 		.ascii	"x{\371\247\250\261\214\254\216E\322\352\213\224\246"
+ 172      A8B18CAC 
+ 172      8E45D2EA 
+ 172      8B94A6
+ 173 01df 720E9FC9 		.ascii	"r\016\237\311\341\013\345\360s\216\331\273\243\343\333"
+ 173      E10BE5F0 
+ 173      738ED9BB 
+ 173      A3E3DB
+ 174 01ee C43BC049 		.ascii	"\304;\300I\246\256\277\256\210\016\325\315\016l\012"
+ 174      A6AEBFAE 
+ 174      880ED5CD 
+ 174      0E6C0A
+ 175 01fd 7FCE85E7 		.ascii	"\177\316\205\347\353\272\333~\323\361h\275\343\314\033"
+ 175      EBBADB7E 
+ 175      D3F168BD 
+ 175      E3CC1B
+ 176 020c B19E8E54 		.ascii	"\261\236\216T\"N`U\320g\366\354\013\355\331\317{V5\256"
+ 176      224E6055 
+ 176      D067F6EC 
+ 176      0BEDD9CF 
+ 176      7B5635AE 
+ 177 0220 B48AA257 		.ascii	"\264\212\242W\353\271\330R\333`\320\004&\014\341\214"
+ 177      EBB9D852 
+ 177      DB60D004 
+ 177      260CE18C 
+ 178 0230 64C02419 		.ascii	"d\300$\031\010%\011p\222\325\312\037\2636\031\337b\305"
+ 178      08250970 
+ 178      92D5CA1F 
+ 178      B33619DF 
+ 178      62C5
+ 179 0242 D6DEE2E4 		.ascii	"\326\336\342\344bK0\\\034\343M\205\336\332\372\332p"
+ 179      624B305C 
+ 179      1CE34D85 
+ 179      DEDAFADA 
+ 179      70
+ 180 0253 90132DE0 		.ascii	"\220\023-\340/-\340\372\327\264v\262\246\212\235p\010"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 13
+
+
+ 180      2F2DE0FA 
+ 180      D7B476B2 
+ 180      A68A9D70 
+ 180      08
+ 181 0264 A732688A 		.ascii	"\2472h\212{\001\2626\021\337\324\367\256\260\310k\354"
+ 181      7B01B236 
+ 181      11DFD4F7 
+ 181      AEB0C86B 
+ 181      EC
+ 182 0275 C3C2F1C5 		.ascii	"\303\302\361\305\214\333y\2459\277a\210\344\377\000"
+ 182      8CDB79A5 
+ 182      39BF6188 
+ 182      E4FF00
+ 183 0284 3ED70571 		.ascii	">\327\005qp\366A\243\210{\354\222\033(J\241\323\000"
+ 183      70F641A3 
+ 183      887BEC92 
+ 183      1B284AA1 
+ 183      D300
+ 184 0296 A348C693 		.ascii	"\243H\306\223\345#<f\313t\271\234\332\356\333\015\211"
+ 184      E5233C66 
+ 184      CB74B99C 
+ 184      DAEEDB0D 
+ 184      89
+ 185 02a7 846F1018 		.ascii	"\204o\020\030A\344+$\346i\354\031\217\242\252JA\336"
+ 185      41E42B24 
+ 185      E669EC19 
+ 185      8FA2AA4A 
+ 185      41DE
+ 186 02b9 59A7EA2A 		.ascii	"Y\247\352*r\027\027\346\235\366\270U%\"\343\370\251"
+ 186      721717E6 
+ 186      9DF6B855 
+ 186      2522E3F8 
+ 186      A9
+ 187 02ca F8B4E464 		.ascii	"\370\264\344d\022V\352.VS\366d(\305\212\307\311\352"
+ 187      1256EA2E 
+ 187      5653F664 
+ 187      28C58AC7 
+ 187      C9EA
+ 188 02dc B24B4A3D 		.ascii	"\262KJ=.%\367DvI\332\201\\W\231ZvN9\237TD\366\376\247"
+ 188      2E25F744 
+ 188      7649DA81 
+ 188      5C57995A 
+ 188      764E399F 
+ 189 02f5 62237D92 		.ascii	"b#}\222\213\354\336\3242[Q\323=\356\013\312\261\222"
+ 189      8BECDED4 
+ 189      325B51D3 
+ 189      3DEE0BCA 
+ 189      B192
+ 190 0307 0265D7A6 		.ascii	"\002e\327\246\335,\305Y\340\260\\Mw\252\316,\245P\362"
+ 190      DD2CC559 
+ 190      E0B05C4D 
+ 190      77AACE2C 
+ 190      A550F2
+ 191 031a 2885297F 		.ascii	"(\205)\177\001\373\222yV"
+ 191      01FB9279 
+ 191      56
+ 192              		.text
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 14
+
+
+ 193              		.section	.gnu.lto_.symtab.807d5be2,"",%progbits
+ 194 0000 66726574 		.ascii	"fretted_latching_Write\000"
+ 194      7465645F 
+ 194      6C617463 
+ 194      68696E67 
+ 194      5F577269 
+ 195 0017 00       		.ascii	"\000"
+ 196 0018 00       		.ascii	"\000"
+ 197 0019 00       		.ascii	"\000"
+ 198 001a 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 198      00000000 
+ 199 0022 B3000000 		.ascii	"\263\000\000\000"
+ 200 0026 66726574 		.ascii	"fretted_latching_SetDriveMode\000"
+ 200      7465645F 
+ 200      6C617463 
+ 200      68696E67 
+ 200      5F536574 
+ 201 0044 00       		.ascii	"\000"
+ 202 0045 00       		.ascii	"\000"
+ 203 0046 00       		.ascii	"\000"
+ 204 0047 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 204      00000000 
+ 205 004f B5000000 		.ascii	"\265\000\000\000"
+ 206 0053 66726574 		.ascii	"fretted_latching_Read\000"
+ 206      7465645F 
+ 206      6C617463 
+ 206      68696E67 
+ 206      5F526561 
+ 207 0069 00       		.ascii	"\000"
+ 208 006a 00       		.ascii	"\000"
+ 209 006b 00       		.ascii	"\000"
+ 210 006c 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 210      00000000 
+ 211 0074 B8000000 		.ascii	"\270\000\000\000"
+ 212 0078 66726574 		.ascii	"fretted_latching_ReadDataReg\000"
+ 212      7465645F 
+ 212      6C617463 
+ 212      68696E67 
+ 212      5F526561 
+ 213 0095 00       		.ascii	"\000"
+ 214 0096 00       		.ascii	"\000"
+ 215 0097 00       		.ascii	"\000"
+ 216 0098 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 216      00000000 
+ 217 00a0 BA000000 		.ascii	"\272\000\000\000"
+ 218              		.text
+ 219              		.section	.gnu.lto_.opts,"",%progbits
+ 220 0000 272D666D 		.ascii	"'-fmath-errno' '-fsigned-zeros' '-ftrapping-math' '"
+ 220      6174682D 
+ 220      6572726E 
+ 220      6F272027 
+ 220      2D667369 
+ 221 0033 2D666E6F 		.ascii	"-fno-trapv' '-fno-openmp' '-fno-openacc' '-mcpu=cor"
+ 221      2D747261 
+ 221      70762720 
+ 221      272D666E 
+ 221      6F2D6F70 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 15
+
+
+ 222 0066 7465782D 		.ascii	"tex-m3' '-mthumb' '-g' '-O3' '-ffunction-sections' "
+ 222      6D332720 
+ 222      272D6D74 
+ 222      68756D62 
+ 222      2720272D 
+ 223 0099 272D6666 		.ascii	"'-ffat-lto-objects' '-finline-functions' '-flto'\000"
+ 223      61742D6C 
+ 223      746F2D6F 
+ 223      626A6563 
+ 223      74732720 
+ 224              		.text
+ 225              		.cfi_sections	.debug_frame
+ 226              		.section	.text.fretted_latching_Write,"ax",%progbits
+ 227              		.align	2
+ 228              		.global	fretted_latching_Write
+ 229              		.thumb
+ 230              		.thumb_func
+ 231              		.type	fretted_latching_Write, %function
+ 232              	fretted_latching_Write:
+ 233              	.LFB0:
+ 234              		.file 1 "Generated_Source\\PSoC5\\fretted_latching.c"
    1:Generated_Source\PSoC5/fretted_latching.c **** /*******************************************************************************
    2:Generated_Source\PSoC5/fretted_latching.c **** * File Name: fretted_latching.c  
    3:Generated_Source\PSoC5/fretted_latching.c **** * Version 2.20
@@ -58,15 +892,15 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 1
   28:Generated_Source\PSoC5/fretted_latching.c **** *
   29:Generated_Source\PSoC5/fretted_latching.c **** * \brief Writes the value to the physical port (data output register), masking
   30:Generated_Source\PSoC5/fretted_latching.c **** *  and shifting the bits appropriately. 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 2
-
-
   31:Generated_Source\PSoC5/fretted_latching.c **** *
   32:Generated_Source\PSoC5/fretted_latching.c **** * The data output register controls the signal applied to the physical pin in 
   33:Generated_Source\PSoC5/fretted_latching.c **** * conjunction with the drive mode parameter. This function avoids changing 
   34:Generated_Source\PSoC5/fretted_latching.c **** * other bits in the port by using the appropriate method (read-modify-write or
   35:Generated_Source\PSoC5/fretted_latching.c **** * bit banding).
   36:Generated_Source\PSoC5/fretted_latching.c **** *
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 16
+
+
   37:Generated_Source\PSoC5/fretted_latching.c **** * <b>Note</b> This function should not be used on a hardware digital output pin 
   38:Generated_Source\PSoC5/fretted_latching.c **** * as it is driven by the hardware signal attached to it.
   39:Generated_Source\PSoC5/fretted_latching.c **** *
@@ -89,69 +923,49 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 1
   56:Generated_Source\PSoC5/fretted_latching.c **** *******************************************************************************/
   57:Generated_Source\PSoC5/fretted_latching.c **** void fretted_latching_Write(uint8 value)
   58:Generated_Source\PSoC5/fretted_latching.c **** {
-  28              		.loc 1 58 0
-  29              		.cfi_startproc
-  30              		@ args = 0, pretend = 0, frame = 16
-  31              		@ frame_needed = 1, uses_anonymous_args = 0
-  32              		@ link register save eliminated.
-  33 0000 80B4     		push	{r7}
-  34              		.cfi_def_cfa_offset 4
-  35              		.cfi_offset 7, -4
-  36 0002 85B0     		sub	sp, sp, #20
-  37              		.cfi_def_cfa_offset 24
-  38 0004 00AF     		add	r7, sp, #0
-  39              		.cfi_def_cfa_register 7
-  40 0006 0346     		mov	r3, r0
-  41 0008 FB71     		strb	r3, [r7, #7]
+ 235              		.loc 1 58 0
+ 236              		.cfi_startproc
+ 237              		@ args = 0, pretend = 0, frame = 0
+ 238              		@ frame_needed = 0, uses_anonymous_args = 0
+ 239              		@ link register save eliminated.
+ 240              	.LVL0:
   59:Generated_Source\PSoC5/fretted_latching.c ****     uint8 staticBits = (fretted_latching_DR & (uint8)(~fretted_latching_MASK));
-  42              		.loc 1 59 0
-  43 000a 0B4B     		ldr	r3, .L2
-  44 000c 1B78     		ldrb	r3, [r3]
-  45 000e DBB2     		uxtb	r3, r3
-  46 0010 23F00803 		bic	r3, r3, #8
-  47 0014 FB73     		strb	r3, [r7, #15]
+ 241              		.loc 1 59 0
+ 242 0000 044A     		ldr	r2, .L2
   60:Generated_Source\PSoC5/fretted_latching.c ****     fretted_latching_DR = staticBits | ((uint8)(value << fretted_latching_SHIFT) & fretted_latching
-  48              		.loc 1 60 0
-  49 0016 0849     		ldr	r1, .L2
-  50 0018 FB79     		ldrb	r3, [r7, #7]
-  51 001a DB00     		lsls	r3, r3, #3
-  52 001c DBB2     		uxtb	r3, r3
-  53 001e 03F00803 		and	r3, r3, #8
-  54 0022 DAB2     		uxtb	r2, r3
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 3
+ 243              		.loc 1 60 0
+ 244 0002 C000     		lsls	r0, r0, #3
+ 245              	.LVL1:
+  59:Generated_Source\PSoC5/fretted_latching.c ****     uint8 staticBits = (fretted_latching_DR & (uint8)(~fretted_latching_MASK));
+ 246              		.loc 1 59 0
+ 247 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 248              	.LVL2:
+ 249              		.loc 1 60 0
+ 250 0006 00F00800 		and	r0, r0, #8
+ 251 000a 03F0F703 		and	r3, r3, #247
+ 252              	.LVL3:
+ 253 000e 1843     		orrs	r0, r0, r3
+ 254 0010 1070     		strb	r0, [r2]
+ 255 0012 7047     		bx	lr
+ 256              	.L3:
+ 257              		.align	2
+ 258              	.L2:
+ 259 0014 C0510040 		.word	1073762752
+ 260              		.cfi_endproc
+ 261              	.LFE0:
+ 262              		.size	fretted_latching_Write, .-fretted_latching_Write
+ 263              		.section	.text.fretted_latching_SetDriveMode,"ax",%progbits
+ 264              		.align	2
+ 265              		.global	fretted_latching_SetDriveMode
+ 266              		.thumb
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 17
 
 
-  55 0024 FB7B     		ldrb	r3, [r7, #15]
-  56 0026 1343     		orrs	r3, r3, r2
-  57 0028 DBB2     		uxtb	r3, r3
-  58 002a 0B70     		strb	r3, [r1]
+ 267              		.thumb_func
+ 268              		.type	fretted_latching_SetDriveMode, %function
+ 269              	fretted_latching_SetDriveMode:
+ 270              	.LFB1:
   61:Generated_Source\PSoC5/fretted_latching.c **** }
-  59              		.loc 1 61 0
-  60 002c 00BF     		nop
-  61 002e 1437     		adds	r7, r7, #20
-  62              		.cfi_def_cfa_offset 4
-  63 0030 BD46     		mov	sp, r7
-  64              		.cfi_def_cfa_register 13
-  65              		@ sp needed
-  66 0032 80BC     		pop	{r7}
-  67              		.cfi_restore 7
-  68              		.cfi_def_cfa_offset 0
-  69 0034 7047     		bx	lr
-  70              	.L3:
-  71 0036 00BF     		.align	2
-  72              	.L2:
-  73 0038 C0510040 		.word	1073762752
-  74              		.cfi_endproc
-  75              	.LFE0:
-  76              		.size	fretted_latching_Write, .-fretted_latching_Write
-  77              		.section	.text.fretted_latching_SetDriveMode,"ax",%progbits
-  78              		.align	2
-  79              		.global	fretted_latching_SetDriveMode
-  80              		.thumb
-  81              		.thumb_func
-  82              		.type	fretted_latching_SetDriveMode, %function
-  83              	fretted_latching_SetDriveMode:
-  84              	.LFB1:
   62:Generated_Source\PSoC5/fretted_latching.c **** 
   63:Generated_Source\PSoC5/fretted_latching.c **** 
   64:Generated_Source\PSoC5/fretted_latching.c **** /*******************************************************************************
@@ -178,73 +992,45 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 1
   85:Generated_Source\PSoC5/fretted_latching.c **** *  APIs (primary method) or disable interrupts around this function.
   86:Generated_Source\PSoC5/fretted_latching.c **** *
   87:Generated_Source\PSoC5/fretted_latching.c **** * \funcusage
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 4
-
-
   88:Generated_Source\PSoC5/fretted_latching.c **** *  \snippet fretted_latching_SUT.c usage_fretted_latching_SetDriveMode
   89:Generated_Source\PSoC5/fretted_latching.c **** *******************************************************************************/
   90:Generated_Source\PSoC5/fretted_latching.c **** void fretted_latching_SetDriveMode(uint8 mode)
   91:Generated_Source\PSoC5/fretted_latching.c **** {
-  85              		.loc 1 91 0
-  86              		.cfi_startproc
-  87              		@ args = 0, pretend = 0, frame = 8
-  88              		@ frame_needed = 1, uses_anonymous_args = 0
-  89              		@ link register save eliminated.
-  90 0000 80B4     		push	{r7}
-  91              		.cfi_def_cfa_offset 4
-  92              		.cfi_offset 7, -4
-  93 0002 83B0     		sub	sp, sp, #12
-  94              		.cfi_def_cfa_offset 16
-  95 0004 00AF     		add	r7, sp, #0
-  96              		.cfi_def_cfa_register 7
-  97 0006 0346     		mov	r3, r0
-  98 0008 FB71     		strb	r3, [r7, #7]
+ 271              		.loc 1 91 0
+ 272              		.cfi_startproc
+ 273              		@ args = 0, pretend = 0, frame = 0
+ 274              		@ frame_needed = 0, uses_anonymous_args = 0
+ 275              		@ link register save eliminated.
+ 276              	.LVL4:
   92:Generated_Source\PSoC5/fretted_latching.c **** 	CyPins_SetPinDriveMode(fretted_latching_0, mode);
-  99              		.loc 1 92 0
- 100 000a 0B49     		ldr	r1, .L5
- 101 000c 0A4B     		ldr	r3, .L5
- 102 000e 1B78     		ldrb	r3, [r3]
- 103 0010 DBB2     		uxtb	r3, r3
- 104 0012 5BB2     		sxtb	r3, r3
- 105 0014 23F00E03 		bic	r3, r3, #14
- 106 0018 5AB2     		sxtb	r2, r3
- 107 001a 97F90730 		ldrsb	r3, [r7, #7]
- 108 001e 03F00E03 		and	r3, r3, #14
- 109 0022 5BB2     		sxtb	r3, r3
- 110 0024 1343     		orrs	r3, r3, r2
- 111 0026 5BB2     		sxtb	r3, r3
- 112 0028 DBB2     		uxtb	r3, r3
- 113 002a 0B70     		strb	r3, [r1]
+ 277              		.loc 1 92 0
+ 278 0000 044A     		ldr	r2, .L5
+ 279 0002 00F00E00 		and	r0, r0, #14
+ 280              	.LVL5:
+ 281 0006 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 282 0008 03F0F103 		and	r3, r3, #241
+ 283 000c 1843     		orrs	r0, r0, r3
+ 284 000e 1070     		strb	r0, [r2]
+ 285 0010 7047     		bx	lr
+ 286              	.L6:
+ 287 0012 00BF     		.align	2
+ 288              	.L5:
+ 289 0014 63500040 		.word	1073762403
+ 290              		.cfi_endproc
+ 291              	.LFE1:
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 18
+
+
+ 292              		.size	fretted_latching_SetDriveMode, .-fretted_latching_SetDriveMode
+ 293              		.section	.text.fretted_latching_Read,"ax",%progbits
+ 294              		.align	2
+ 295              		.global	fretted_latching_Read
+ 296              		.thumb
+ 297              		.thumb_func
+ 298              		.type	fretted_latching_Read, %function
+ 299              	fretted_latching_Read:
+ 300              	.LFB2:
   93:Generated_Source\PSoC5/fretted_latching.c **** }
- 114              		.loc 1 93 0
- 115 002c 00BF     		nop
- 116 002e 0C37     		adds	r7, r7, #12
- 117              		.cfi_def_cfa_offset 4
- 118 0030 BD46     		mov	sp, r7
- 119              		.cfi_def_cfa_register 13
- 120              		@ sp needed
- 121 0032 80BC     		pop	{r7}
- 122              		.cfi_restore 7
- 123              		.cfi_def_cfa_offset 0
- 124 0034 7047     		bx	lr
- 125              	.L6:
- 126 0036 00BF     		.align	2
- 127              	.L5:
- 128 0038 63500040 		.word	1073762403
- 129              		.cfi_endproc
- 130              	.LFE1:
- 131              		.size	fretted_latching_SetDriveMode, .-fretted_latching_SetDriveMode
- 132              		.section	.text.fretted_latching_Read,"ax",%progbits
- 133              		.align	2
- 134              		.global	fretted_latching_Read
- 135              		.thumb
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 5
-
-
- 136              		.thumb_func
- 137              		.type	fretted_latching_Read, %function
- 138              	fretted_latching_Read:
- 139              	.LFB2:
   94:Generated_Source\PSoC5/fretted_latching.c **** 
   95:Generated_Source\PSoC5/fretted_latching.c **** 
   96:Generated_Source\PSoC5/fretted_latching.c **** /*******************************************************************************
@@ -266,52 +1052,37 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 1
  112:Generated_Source\PSoC5/fretted_latching.c **** *******************************************************************************/
  113:Generated_Source\PSoC5/fretted_latching.c **** uint8 fretted_latching_Read(void)
  114:Generated_Source\PSoC5/fretted_latching.c **** {
- 140              		.loc 1 114 0
- 141              		.cfi_startproc
- 142              		@ args = 0, pretend = 0, frame = 0
- 143              		@ frame_needed = 1, uses_anonymous_args = 0
- 144              		@ link register save eliminated.
- 145 0000 80B4     		push	{r7}
- 146              		.cfi_def_cfa_offset 4
- 147              		.cfi_offset 7, -4
- 148 0002 00AF     		add	r7, sp, #0
- 149              		.cfi_def_cfa_register 7
+ 301              		.loc 1 114 0
+ 302              		.cfi_startproc
+ 303              		@ args = 0, pretend = 0, frame = 0
+ 304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 305              		@ link register save eliminated.
  115:Generated_Source\PSoC5/fretted_latching.c ****     return (fretted_latching_PS & fretted_latching_MASK) >> fretted_latching_SHIFT;
- 150              		.loc 1 115 0
- 151 0004 054B     		ldr	r3, .L9
- 152 0006 1B78     		ldrb	r3, [r3]
- 153 0008 DBB2     		uxtb	r3, r3
- 154 000a 03F00803 		and	r3, r3, #8
- 155 000e DB08     		lsrs	r3, r3, #3
- 156 0010 DBB2     		uxtb	r3, r3
+ 306              		.loc 1 115 0
+ 307 0000 024B     		ldr	r3, .L8
+ 308 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
  116:Generated_Source\PSoC5/fretted_latching.c **** }
- 157              		.loc 1 116 0
- 158 0012 1846     		mov	r0, r3
- 159 0014 BD46     		mov	sp, r7
- 160              		.cfi_def_cfa_register 13
- 161              		@ sp needed
- 162 0016 80BC     		pop	{r7}
- 163              		.cfi_restore 7
- 164              		.cfi_def_cfa_offset 0
- 165 0018 7047     		bx	lr
- 166              	.L10:
- 167 001a 00BF     		.align	2
- 168              	.L9:
- 169 001c C1510040 		.word	1073762753
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 6
+ 309              		.loc 1 116 0
+ 310 0004 C0F3C000 		ubfx	r0, r0, #3, #1
+ 311 0008 7047     		bx	lr
+ 312              	.L9:
+ 313 000a 00BF     		.align	2
+ 314              	.L8:
+ 315 000c C1510040 		.word	1073762753
+ 316              		.cfi_endproc
+ 317              	.LFE2:
+ 318              		.size	fretted_latching_Read, .-fretted_latching_Read
+ 319              		.section	.text.fretted_latching_ReadDataReg,"ax",%progbits
+ 320              		.align	2
+ 321              		.global	fretted_latching_ReadDataReg
+ 322              		.thumb
+ 323              		.thumb_func
+ 324              		.type	fretted_latching_ReadDataReg, %function
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 19
 
 
- 170              		.cfi_endproc
- 171              	.LFE2:
- 172              		.size	fretted_latching_Read, .-fretted_latching_Read
- 173              		.section	.text.fretted_latching_ReadDataReg,"ax",%progbits
- 174              		.align	2
- 175              		.global	fretted_latching_ReadDataReg
- 176              		.thumb
- 177              		.thumb_func
- 178              		.type	fretted_latching_ReadDataReg, %function
- 179              	fretted_latching_ReadDataReg:
- 180              	.LFB3:
+ 325              	fretted_latching_ReadDataReg:
+ 326              	.LFB3:
  117:Generated_Source\PSoC5/fretted_latching.c **** 
  118:Generated_Source\PSoC5/fretted_latching.c **** 
  119:Generated_Source\PSoC5/fretted_latching.c **** /*******************************************************************************
@@ -338,522 +1109,548 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 1
  140:Generated_Source\PSoC5/fretted_latching.c **** *******************************************************************************/
  141:Generated_Source\PSoC5/fretted_latching.c **** uint8 fretted_latching_ReadDataReg(void)
  142:Generated_Source\PSoC5/fretted_latching.c **** {
- 181              		.loc 1 142 0
- 182              		.cfi_startproc
- 183              		@ args = 0, pretend = 0, frame = 0
- 184              		@ frame_needed = 1, uses_anonymous_args = 0
- 185              		@ link register save eliminated.
- 186 0000 80B4     		push	{r7}
- 187              		.cfi_def_cfa_offset 4
- 188              		.cfi_offset 7, -4
- 189 0002 00AF     		add	r7, sp, #0
- 190              		.cfi_def_cfa_register 7
+ 327              		.loc 1 142 0
+ 328              		.cfi_startproc
+ 329              		@ args = 0, pretend = 0, frame = 0
+ 330              		@ frame_needed = 0, uses_anonymous_args = 0
+ 331              		@ link register save eliminated.
  143:Generated_Source\PSoC5/fretted_latching.c ****     return (fretted_latching_DR & fretted_latching_MASK) >> fretted_latching_SHIFT;
- 191              		.loc 1 143 0
- 192 0004 054B     		ldr	r3, .L13
- 193 0006 1B78     		ldrb	r3, [r3]
- 194 0008 DBB2     		uxtb	r3, r3
- 195 000a 03F00803 		and	r3, r3, #8
- 196 000e DB08     		lsrs	r3, r3, #3
- 197 0010 DBB2     		uxtb	r3, r3
+ 332              		.loc 1 143 0
+ 333 0000 024B     		ldr	r3, .L11
+ 334 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
  144:Generated_Source\PSoC5/fretted_latching.c **** }
- 198              		.loc 1 144 0
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 7
+ 335              		.loc 1 144 0
+ 336 0004 C0F3C000 		ubfx	r0, r0, #3, #1
+ 337 0008 7047     		bx	lr
+ 338              	.L12:
+ 339 000a 00BF     		.align	2
+ 340              	.L11:
+ 341 000c C0510040 		.word	1073762752
+ 342              		.cfi_endproc
+ 343              	.LFE3:
+ 344              		.size	fretted_latching_ReadDataReg, .-fretted_latching_ReadDataReg
+ 345              		.text
+ 346              	.Letext0:
+ 347              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 348              		.section	.debug_info,"",%progbits
+ 349              	.Ldebug_info0:
+ 350 0000 1D010000 		.4byte	0x11d
+ 351 0004 0400     		.2byte	0x4
+ 352 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 353 000a 04       		.byte	0x4
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 20
 
 
- 199 0012 1846     		mov	r0, r3
- 200 0014 BD46     		mov	sp, r7
- 201              		.cfi_def_cfa_register 13
- 202              		@ sp needed
- 203 0016 80BC     		pop	{r7}
- 204              		.cfi_restore 7
- 205              		.cfi_def_cfa_offset 0
- 206 0018 7047     		bx	lr
- 207              	.L14:
- 208 001a 00BF     		.align	2
- 209              	.L13:
- 210 001c C0510040 		.word	1073762752
- 211              		.cfi_endproc
- 212              	.LFE3:
- 213              		.size	fretted_latching_ReadDataReg, .-fretted_latching_ReadDataReg
- 214              		.text
- 215              	.Letext0:
- 216              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
- 217              		.section	.debug_info,"",%progbits
- 218              	.Ldebug_info0:
- 219 0000 1A010000 		.4byte	0x11a
- 220 0004 0400     		.2byte	0x4
- 221 0006 00000000 		.4byte	.Ldebug_abbrev0
- 222 000a 04       		.byte	0x4
- 223 000b 01       		.uleb128 0x1
- 224 000c 2A000000 		.4byte	.LASF20
- 225 0010 0C       		.byte	0xc
- 226 0011 00000000 		.4byte	.LASF21
- 227 0015 61010000 		.4byte	.LASF22
- 228 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 229 001d 00000000 		.4byte	0
- 230 0021 00000000 		.4byte	.Ldebug_line0
- 231 0025 02       		.uleb128 0x2
- 232 0026 01       		.byte	0x1
- 233 0027 06       		.byte	0x6
- 234 0028 3A020000 		.4byte	.LASF0
- 235 002c 02       		.uleb128 0x2
- 236 002d 01       		.byte	0x1
- 237 002e 08       		.byte	0x8
- 238 002f CF000000 		.4byte	.LASF1
- 239 0033 02       		.uleb128 0x2
- 240 0034 02       		.byte	0x2
- 241 0035 05       		.byte	0x5
- 242 0036 D0010000 		.4byte	.LASF2
- 243 003a 02       		.uleb128 0x2
- 244 003b 02       		.byte	0x2
- 245 003c 07       		.byte	0x7
- 246 003d F4000000 		.4byte	.LASF3
- 247 0041 02       		.uleb128 0x2
- 248 0042 04       		.byte	0x4
- 249 0043 05       		.byte	0x5
- 250 0044 1B020000 		.4byte	.LASF4
- 251 0048 02       		.uleb128 0x2
- 252 0049 04       		.byte	0x4
- 253 004a 07       		.byte	0x7
- 254 004b E2000000 		.4byte	.LASF5
- 255 004f 02       		.uleb128 0x2
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 8
+ 354 000b 01       		.uleb128 0x1
+ 355 000c 4F000000 		.4byte	.LASF20
+ 356 0010 0C       		.byte	0xc
+ 357 0011 00000000 		.4byte	.LASF21
+ 358 0015 7A010000 		.4byte	.LASF22
+ 359 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 360 001d 00000000 		.4byte	0
+ 361 0021 00000000 		.4byte	.Ldebug_line0
+ 362 0025 02       		.uleb128 0x2
+ 363 0026 01       		.byte	0x1
+ 364 0027 06       		.byte	0x6
+ 365 0028 53020000 		.4byte	.LASF0
+ 366 002c 02       		.uleb128 0x2
+ 367 002d 01       		.byte	0x1
+ 368 002e 08       		.byte	0x8
+ 369 002f 41000000 		.4byte	.LASF1
+ 370 0033 02       		.uleb128 0x2
+ 371 0034 02       		.byte	0x2
+ 372 0035 05       		.byte	0x5
+ 373 0036 E9010000 		.4byte	.LASF2
+ 374 003a 02       		.uleb128 0x2
+ 375 003b 02       		.byte	0x2
+ 376 003c 07       		.byte	0x7
+ 377 003d 08010000 		.4byte	.LASF3
+ 378 0041 02       		.uleb128 0x2
+ 379 0042 04       		.byte	0x4
+ 380 0043 05       		.byte	0x5
+ 381 0044 34020000 		.4byte	.LASF4
+ 382 0048 02       		.uleb128 0x2
+ 383 0049 04       		.byte	0x4
+ 384 004a 07       		.byte	0x7
+ 385 004b F6000000 		.4byte	.LASF5
+ 386 004f 02       		.uleb128 0x2
+ 387 0050 08       		.byte	0x8
+ 388 0051 05       		.byte	0x5
+ 389 0052 67010000 		.4byte	.LASF6
+ 390 0056 02       		.uleb128 0x2
+ 391 0057 08       		.byte	0x8
+ 392 0058 07       		.byte	0x7
+ 393 0059 46010000 		.4byte	.LASF7
+ 394 005d 03       		.uleb128 0x3
+ 395 005e 04       		.byte	0x4
+ 396 005f 05       		.byte	0x5
+ 397 0060 696E7400 		.ascii	"int\000"
+ 398 0064 02       		.uleb128 0x2
+ 399 0065 04       		.byte	0x4
+ 400 0066 07       		.byte	0x7
+ 401 0067 39010000 		.4byte	.LASF8
+ 402 006b 04       		.uleb128 0x4
+ 403 006c F3010000 		.4byte	.LASF12
+ 404 0070 02       		.byte	0x2
+ 405 0071 E401     		.2byte	0x1e4
+ 406 0073 2C000000 		.4byte	0x2c
+ 407 0077 02       		.uleb128 0x2
+ 408 0078 04       		.byte	0x4
+ 409 0079 04       		.byte	0x4
+ 410 007a 3B000000 		.4byte	.LASF9
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 21
 
 
- 256 0050 08       		.byte	0x8
- 257 0051 05       		.byte	0x5
- 258 0052 4E010000 		.4byte	.LASF6
- 259 0056 02       		.uleb128 0x2
- 260 0057 08       		.byte	0x8
- 261 0058 07       		.byte	0x7
- 262 0059 32010000 		.4byte	.LASF7
- 263 005d 03       		.uleb128 0x3
- 264 005e 04       		.byte	0x4
- 265 005f 05       		.byte	0x5
- 266 0060 696E7400 		.ascii	"int\000"
- 267 0064 02       		.uleb128 0x2
- 268 0065 04       		.byte	0x4
- 269 0066 07       		.byte	0x7
- 270 0067 25010000 		.4byte	.LASF8
- 271 006b 04       		.uleb128 0x4
- 272 006c DA010000 		.4byte	.LASF12
- 273 0070 02       		.byte	0x2
- 274 0071 E401     		.2byte	0x1e4
- 275 0073 2C000000 		.4byte	0x2c
- 276 0077 02       		.uleb128 0x2
- 277 0078 04       		.byte	0x4
- 278 0079 04       		.byte	0x4
- 279 007a C9000000 		.4byte	.LASF9
- 280 007e 02       		.uleb128 0x2
- 281 007f 08       		.byte	0x8
- 282 0080 04       		.byte	0x4
- 283 0081 1E010000 		.4byte	.LASF10
- 284 0085 02       		.uleb128 0x2
- 285 0086 01       		.byte	0x1
- 286 0087 08       		.byte	0x8
- 287 0088 5C010000 		.4byte	.LASF11
- 288 008c 04       		.uleb128 0x4
- 289 008d DD000000 		.4byte	.LASF13
- 290 0091 02       		.byte	0x2
- 291 0092 8E02     		.2byte	0x28e
- 292 0094 98000000 		.4byte	0x98
- 293 0098 05       		.uleb128 0x5
- 294 0099 6B000000 		.4byte	0x6b
- 295 009d 06       		.uleb128 0x6
- 296 009e 07010000 		.4byte	.LASF14
- 297 00a2 01       		.byte	0x1
- 298 00a3 39       		.byte	0x39
- 299 00a4 00000000 		.4byte	.LFB0
- 300 00a8 3C000000 		.4byte	.LFE0-.LFB0
- 301 00ac 01       		.uleb128 0x1
- 302 00ad 9C       		.byte	0x9c
- 303 00ae CF000000 		.4byte	0xcf
- 304 00b2 07       		.uleb128 0x7
- 305 00b3 B8000000 		.4byte	.LASF16
- 306 00b7 01       		.byte	0x1
- 307 00b8 39       		.byte	0x39
- 308 00b9 6B000000 		.4byte	0x6b
- 309 00bd 02       		.uleb128 0x2
- 310 00be 91       		.byte	0x91
- 311 00bf 6F       		.sleb128 -17
- 312 00c0 08       		.uleb128 0x8
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 9
+ 411 007e 02       		.uleb128 0x2
+ 412 007f 08       		.byte	0x8
+ 413 0080 04       		.byte	0x4
+ 414 0081 32010000 		.4byte	.LASF10
+ 415 0085 02       		.uleb128 0x2
+ 416 0086 01       		.byte	0x1
+ 417 0087 08       		.byte	0x8
+ 418 0088 75010000 		.4byte	.LASF11
+ 419 008c 04       		.uleb128 0x4
+ 420 008d 62010000 		.4byte	.LASF13
+ 421 0091 02       		.byte	0x2
+ 422 0092 8E02     		.2byte	0x28e
+ 423 0094 98000000 		.4byte	0x98
+ 424 0098 05       		.uleb128 0x5
+ 425 0099 6B000000 		.4byte	0x6b
+ 426 009d 06       		.uleb128 0x6
+ 427 009e 1B010000 		.4byte	.LASF14
+ 428 00a2 01       		.byte	0x1
+ 429 00a3 39       		.byte	0x39
+ 430 00a4 00000000 		.4byte	.LFB0
+ 431 00a8 18000000 		.4byte	.LFE0-.LFB0
+ 432 00ac 01       		.uleb128 0x1
+ 433 00ad 9C       		.byte	0x9c
+ 434 00ae D1000000 		.4byte	0xd1
+ 435 00b2 07       		.uleb128 0x7
+ 436 00b3 2A000000 		.4byte	.LASF16
+ 437 00b7 01       		.byte	0x1
+ 438 00b8 39       		.byte	0x39
+ 439 00b9 6B000000 		.4byte	0x6b
+ 440 00bd 00000000 		.4byte	.LLST0
+ 441 00c1 08       		.uleb128 0x8
+ 442 00c2 30000000 		.4byte	.LASF23
+ 443 00c6 01       		.byte	0x1
+ 444 00c7 3B       		.byte	0x3b
+ 445 00c8 6B000000 		.4byte	0x6b
+ 446 00cc 21000000 		.4byte	.LLST1
+ 447 00d0 00       		.byte	0
+ 448 00d1 06       		.uleb128 0x6
+ 449 00d2 16020000 		.4byte	.LASF15
+ 450 00d6 01       		.byte	0x1
+ 451 00d7 5A       		.byte	0x5a
+ 452 00d8 00000000 		.4byte	.LFB1
+ 453 00dc 18000000 		.4byte	.LFE1-.LFB1
+ 454 00e0 01       		.uleb128 0x1
+ 455 00e1 9C       		.byte	0x9c
+ 456 00e2 F6000000 		.4byte	0xf6
+ 457 00e6 07       		.uleb128 0x7
+ 458 00e7 5D010000 		.4byte	.LASF17
+ 459 00eb 01       		.byte	0x1
+ 460 00ec 5A       		.byte	0x5a
+ 461 00ed 6B000000 		.4byte	0x6b
+ 462 00f1 39000000 		.4byte	.LLST2
+ 463 00f5 00       		.byte	0
+ 464 00f6 09       		.uleb128 0x9
+ 465 00f7 3D020000 		.4byte	.LASF18
+ 466 00fb 01       		.byte	0x1
+ 467 00fc 71       		.byte	0x71
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 22
 
 
- 313 00c1 BE000000 		.4byte	.LASF23
- 314 00c5 01       		.byte	0x1
- 315 00c6 3B       		.byte	0x3b
- 316 00c7 6B000000 		.4byte	0x6b
- 317 00cb 02       		.uleb128 0x2
- 318 00cc 91       		.byte	0x91
- 319 00cd 77       		.sleb128 -9
- 320 00ce 00       		.byte	0
- 321 00cf 06       		.uleb128 0x6
- 322 00d0 FD010000 		.4byte	.LASF15
- 323 00d4 01       		.byte	0x1
- 324 00d5 5A       		.byte	0x5a
- 325 00d6 00000000 		.4byte	.LFB1
- 326 00da 3C000000 		.4byte	.LFE1-.LFB1
- 327 00de 01       		.uleb128 0x1
- 328 00df 9C       		.byte	0x9c
- 329 00e0 F3000000 		.4byte	0xf3
- 330 00e4 07       		.uleb128 0x7
- 331 00e5 49010000 		.4byte	.LASF17
- 332 00e9 01       		.byte	0x1
- 333 00ea 5A       		.byte	0x5a
- 334 00eb 6B000000 		.4byte	0x6b
- 335 00ef 02       		.uleb128 0x2
- 336 00f0 91       		.byte	0x91
- 337 00f1 77       		.sleb128 -9
- 338 00f2 00       		.byte	0
- 339 00f3 09       		.uleb128 0x9
- 340 00f4 24020000 		.4byte	.LASF18
- 341 00f8 01       		.byte	0x1
- 342 00f9 71       		.byte	0x71
- 343 00fa 6B000000 		.4byte	0x6b
- 344 00fe 00000000 		.4byte	.LFB2
- 345 0102 20000000 		.4byte	.LFE2-.LFB2
- 346 0106 01       		.uleb128 0x1
- 347 0107 9C       		.byte	0x9c
- 348 0108 09       		.uleb128 0x9
- 349 0109 E0010000 		.4byte	.LASF19
- 350 010d 01       		.byte	0x1
- 351 010e 8D       		.byte	0x8d
- 352 010f 6B000000 		.4byte	0x6b
- 353 0113 00000000 		.4byte	.LFB3
- 354 0117 20000000 		.4byte	.LFE3-.LFB3
- 355 011b 01       		.uleb128 0x1
- 356 011c 9C       		.byte	0x9c
- 357 011d 00       		.byte	0
- 358              		.section	.debug_abbrev,"",%progbits
- 359              	.Ldebug_abbrev0:
- 360 0000 01       		.uleb128 0x1
- 361 0001 11       		.uleb128 0x11
- 362 0002 01       		.byte	0x1
- 363 0003 25       		.uleb128 0x25
- 364 0004 0E       		.uleb128 0xe
- 365 0005 13       		.uleb128 0x13
- 366 0006 0B       		.uleb128 0xb
- 367 0007 03       		.uleb128 0x3
- 368 0008 0E       		.uleb128 0xe
- 369 0009 1B       		.uleb128 0x1b
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 10
+ 468 00fd 6B000000 		.4byte	0x6b
+ 469 0101 00000000 		.4byte	.LFB2
+ 470 0105 10000000 		.4byte	.LFE2-.LFB2
+ 471 0109 01       		.uleb128 0x1
+ 472 010a 9C       		.byte	0x9c
+ 473 010b 09       		.uleb128 0x9
+ 474 010c F9010000 		.4byte	.LASF19
+ 475 0110 01       		.byte	0x1
+ 476 0111 8D       		.byte	0x8d
+ 477 0112 6B000000 		.4byte	0x6b
+ 478 0116 00000000 		.4byte	.LFB3
+ 479 011a 10000000 		.4byte	.LFE3-.LFB3
+ 480 011e 01       		.uleb128 0x1
+ 481 011f 9C       		.byte	0x9c
+ 482 0120 00       		.byte	0
+ 483              		.section	.debug_abbrev,"",%progbits
+ 484              	.Ldebug_abbrev0:
+ 485 0000 01       		.uleb128 0x1
+ 486 0001 11       		.uleb128 0x11
+ 487 0002 01       		.byte	0x1
+ 488 0003 25       		.uleb128 0x25
+ 489 0004 0E       		.uleb128 0xe
+ 490 0005 13       		.uleb128 0x13
+ 491 0006 0B       		.uleb128 0xb
+ 492 0007 03       		.uleb128 0x3
+ 493 0008 0E       		.uleb128 0xe
+ 494 0009 1B       		.uleb128 0x1b
+ 495 000a 0E       		.uleb128 0xe
+ 496 000b 55       		.uleb128 0x55
+ 497 000c 17       		.uleb128 0x17
+ 498 000d 11       		.uleb128 0x11
+ 499 000e 01       		.uleb128 0x1
+ 500 000f 10       		.uleb128 0x10
+ 501 0010 17       		.uleb128 0x17
+ 502 0011 00       		.byte	0
+ 503 0012 00       		.byte	0
+ 504 0013 02       		.uleb128 0x2
+ 505 0014 24       		.uleb128 0x24
+ 506 0015 00       		.byte	0
+ 507 0016 0B       		.uleb128 0xb
+ 508 0017 0B       		.uleb128 0xb
+ 509 0018 3E       		.uleb128 0x3e
+ 510 0019 0B       		.uleb128 0xb
+ 511 001a 03       		.uleb128 0x3
+ 512 001b 0E       		.uleb128 0xe
+ 513 001c 00       		.byte	0
+ 514 001d 00       		.byte	0
+ 515 001e 03       		.uleb128 0x3
+ 516 001f 24       		.uleb128 0x24
+ 517 0020 00       		.byte	0
+ 518 0021 0B       		.uleb128 0xb
+ 519 0022 0B       		.uleb128 0xb
+ 520 0023 3E       		.uleb128 0x3e
+ 521 0024 0B       		.uleb128 0xb
+ 522 0025 03       		.uleb128 0x3
+ 523 0026 08       		.uleb128 0x8
+ 524 0027 00       		.byte	0
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 23
 
 
- 370 000a 0E       		.uleb128 0xe
- 371 000b 55       		.uleb128 0x55
- 372 000c 17       		.uleb128 0x17
- 373 000d 11       		.uleb128 0x11
- 374 000e 01       		.uleb128 0x1
- 375 000f 10       		.uleb128 0x10
- 376 0010 17       		.uleb128 0x17
- 377 0011 00       		.byte	0
- 378 0012 00       		.byte	0
- 379 0013 02       		.uleb128 0x2
- 380 0014 24       		.uleb128 0x24
- 381 0015 00       		.byte	0
- 382 0016 0B       		.uleb128 0xb
- 383 0017 0B       		.uleb128 0xb
- 384 0018 3E       		.uleb128 0x3e
- 385 0019 0B       		.uleb128 0xb
- 386 001a 03       		.uleb128 0x3
- 387 001b 0E       		.uleb128 0xe
- 388 001c 00       		.byte	0
- 389 001d 00       		.byte	0
- 390 001e 03       		.uleb128 0x3
- 391 001f 24       		.uleb128 0x24
- 392 0020 00       		.byte	0
- 393 0021 0B       		.uleb128 0xb
- 394 0022 0B       		.uleb128 0xb
- 395 0023 3E       		.uleb128 0x3e
- 396 0024 0B       		.uleb128 0xb
- 397 0025 03       		.uleb128 0x3
- 398 0026 08       		.uleb128 0x8
- 399 0027 00       		.byte	0
- 400 0028 00       		.byte	0
- 401 0029 04       		.uleb128 0x4
- 402 002a 16       		.uleb128 0x16
- 403 002b 00       		.byte	0
- 404 002c 03       		.uleb128 0x3
- 405 002d 0E       		.uleb128 0xe
- 406 002e 3A       		.uleb128 0x3a
- 407 002f 0B       		.uleb128 0xb
- 408 0030 3B       		.uleb128 0x3b
- 409 0031 05       		.uleb128 0x5
- 410 0032 49       		.uleb128 0x49
- 411 0033 13       		.uleb128 0x13
- 412 0034 00       		.byte	0
- 413 0035 00       		.byte	0
- 414 0036 05       		.uleb128 0x5
- 415 0037 35       		.uleb128 0x35
- 416 0038 00       		.byte	0
- 417 0039 49       		.uleb128 0x49
- 418 003a 13       		.uleb128 0x13
- 419 003b 00       		.byte	0
- 420 003c 00       		.byte	0
- 421 003d 06       		.uleb128 0x6
- 422 003e 2E       		.uleb128 0x2e
- 423 003f 01       		.byte	0x1
- 424 0040 3F       		.uleb128 0x3f
- 425 0041 19       		.uleb128 0x19
- 426 0042 03       		.uleb128 0x3
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 11
+ 525 0028 00       		.byte	0
+ 526 0029 04       		.uleb128 0x4
+ 527 002a 16       		.uleb128 0x16
+ 528 002b 00       		.byte	0
+ 529 002c 03       		.uleb128 0x3
+ 530 002d 0E       		.uleb128 0xe
+ 531 002e 3A       		.uleb128 0x3a
+ 532 002f 0B       		.uleb128 0xb
+ 533 0030 3B       		.uleb128 0x3b
+ 534 0031 05       		.uleb128 0x5
+ 535 0032 49       		.uleb128 0x49
+ 536 0033 13       		.uleb128 0x13
+ 537 0034 00       		.byte	0
+ 538 0035 00       		.byte	0
+ 539 0036 05       		.uleb128 0x5
+ 540 0037 35       		.uleb128 0x35
+ 541 0038 00       		.byte	0
+ 542 0039 49       		.uleb128 0x49
+ 543 003a 13       		.uleb128 0x13
+ 544 003b 00       		.byte	0
+ 545 003c 00       		.byte	0
+ 546 003d 06       		.uleb128 0x6
+ 547 003e 2E       		.uleb128 0x2e
+ 548 003f 01       		.byte	0x1
+ 549 0040 3F       		.uleb128 0x3f
+ 550 0041 19       		.uleb128 0x19
+ 551 0042 03       		.uleb128 0x3
+ 552 0043 0E       		.uleb128 0xe
+ 553 0044 3A       		.uleb128 0x3a
+ 554 0045 0B       		.uleb128 0xb
+ 555 0046 3B       		.uleb128 0x3b
+ 556 0047 0B       		.uleb128 0xb
+ 557 0048 27       		.uleb128 0x27
+ 558 0049 19       		.uleb128 0x19
+ 559 004a 11       		.uleb128 0x11
+ 560 004b 01       		.uleb128 0x1
+ 561 004c 12       		.uleb128 0x12
+ 562 004d 06       		.uleb128 0x6
+ 563 004e 40       		.uleb128 0x40
+ 564 004f 18       		.uleb128 0x18
+ 565 0050 9742     		.uleb128 0x2117
+ 566 0052 19       		.uleb128 0x19
+ 567 0053 01       		.uleb128 0x1
+ 568 0054 13       		.uleb128 0x13
+ 569 0055 00       		.byte	0
+ 570 0056 00       		.byte	0
+ 571 0057 07       		.uleb128 0x7
+ 572 0058 05       		.uleb128 0x5
+ 573 0059 00       		.byte	0
+ 574 005a 03       		.uleb128 0x3
+ 575 005b 0E       		.uleb128 0xe
+ 576 005c 3A       		.uleb128 0x3a
+ 577 005d 0B       		.uleb128 0xb
+ 578 005e 3B       		.uleb128 0x3b
+ 579 005f 0B       		.uleb128 0xb
+ 580 0060 49       		.uleb128 0x49
+ 581 0061 13       		.uleb128 0x13
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 24
 
 
- 427 0043 0E       		.uleb128 0xe
- 428 0044 3A       		.uleb128 0x3a
- 429 0045 0B       		.uleb128 0xb
- 430 0046 3B       		.uleb128 0x3b
- 431 0047 0B       		.uleb128 0xb
- 432 0048 27       		.uleb128 0x27
- 433 0049 19       		.uleb128 0x19
- 434 004a 11       		.uleb128 0x11
- 435 004b 01       		.uleb128 0x1
- 436 004c 12       		.uleb128 0x12
- 437 004d 06       		.uleb128 0x6
- 438 004e 40       		.uleb128 0x40
- 439 004f 18       		.uleb128 0x18
- 440 0050 9742     		.uleb128 0x2117
- 441 0052 19       		.uleb128 0x19
- 442 0053 01       		.uleb128 0x1
- 443 0054 13       		.uleb128 0x13
- 444 0055 00       		.byte	0
- 445 0056 00       		.byte	0
- 446 0057 07       		.uleb128 0x7
- 447 0058 05       		.uleb128 0x5
- 448 0059 00       		.byte	0
- 449 005a 03       		.uleb128 0x3
- 450 005b 0E       		.uleb128 0xe
- 451 005c 3A       		.uleb128 0x3a
- 452 005d 0B       		.uleb128 0xb
- 453 005e 3B       		.uleb128 0x3b
- 454 005f 0B       		.uleb128 0xb
- 455 0060 49       		.uleb128 0x49
- 456 0061 13       		.uleb128 0x13
- 457 0062 02       		.uleb128 0x2
- 458 0063 18       		.uleb128 0x18
- 459 0064 00       		.byte	0
- 460 0065 00       		.byte	0
- 461 0066 08       		.uleb128 0x8
- 462 0067 34       		.uleb128 0x34
- 463 0068 00       		.byte	0
- 464 0069 03       		.uleb128 0x3
- 465 006a 0E       		.uleb128 0xe
- 466 006b 3A       		.uleb128 0x3a
- 467 006c 0B       		.uleb128 0xb
- 468 006d 3B       		.uleb128 0x3b
- 469 006e 0B       		.uleb128 0xb
- 470 006f 49       		.uleb128 0x49
- 471 0070 13       		.uleb128 0x13
- 472 0071 02       		.uleb128 0x2
- 473 0072 18       		.uleb128 0x18
- 474 0073 00       		.byte	0
- 475 0074 00       		.byte	0
- 476 0075 09       		.uleb128 0x9
- 477 0076 2E       		.uleb128 0x2e
- 478 0077 00       		.byte	0
- 479 0078 3F       		.uleb128 0x3f
- 480 0079 19       		.uleb128 0x19
- 481 007a 03       		.uleb128 0x3
- 482 007b 0E       		.uleb128 0xe
- 483 007c 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 12
+ 582 0062 02       		.uleb128 0x2
+ 583 0063 17       		.uleb128 0x17
+ 584 0064 00       		.byte	0
+ 585 0065 00       		.byte	0
+ 586 0066 08       		.uleb128 0x8
+ 587 0067 34       		.uleb128 0x34
+ 588 0068 00       		.byte	0
+ 589 0069 03       		.uleb128 0x3
+ 590 006a 0E       		.uleb128 0xe
+ 591 006b 3A       		.uleb128 0x3a
+ 592 006c 0B       		.uleb128 0xb
+ 593 006d 3B       		.uleb128 0x3b
+ 594 006e 0B       		.uleb128 0xb
+ 595 006f 49       		.uleb128 0x49
+ 596 0070 13       		.uleb128 0x13
+ 597 0071 02       		.uleb128 0x2
+ 598 0072 17       		.uleb128 0x17
+ 599 0073 00       		.byte	0
+ 600 0074 00       		.byte	0
+ 601 0075 09       		.uleb128 0x9
+ 602 0076 2E       		.uleb128 0x2e
+ 603 0077 00       		.byte	0
+ 604 0078 3F       		.uleb128 0x3f
+ 605 0079 19       		.uleb128 0x19
+ 606 007a 03       		.uleb128 0x3
+ 607 007b 0E       		.uleb128 0xe
+ 608 007c 3A       		.uleb128 0x3a
+ 609 007d 0B       		.uleb128 0xb
+ 610 007e 3B       		.uleb128 0x3b
+ 611 007f 0B       		.uleb128 0xb
+ 612 0080 27       		.uleb128 0x27
+ 613 0081 19       		.uleb128 0x19
+ 614 0082 49       		.uleb128 0x49
+ 615 0083 13       		.uleb128 0x13
+ 616 0084 11       		.uleb128 0x11
+ 617 0085 01       		.uleb128 0x1
+ 618 0086 12       		.uleb128 0x12
+ 619 0087 06       		.uleb128 0x6
+ 620 0088 40       		.uleb128 0x40
+ 621 0089 18       		.uleb128 0x18
+ 622 008a 9742     		.uleb128 0x2117
+ 623 008c 19       		.uleb128 0x19
+ 624 008d 00       		.byte	0
+ 625 008e 00       		.byte	0
+ 626 008f 00       		.byte	0
+ 627              		.section	.debug_loc,"",%progbits
+ 628              	.Ldebug_loc0:
+ 629              	.LLST0:
+ 630 0000 00000000 		.4byte	.LVL0
+ 631 0004 04000000 		.4byte	.LVL1
+ 632 0008 0100     		.2byte	0x1
+ 633 000a 50       		.byte	0x50
+ 634 000b 04000000 		.4byte	.LVL1
+ 635 000f 18000000 		.4byte	.LFE0
+ 636 0013 0400     		.2byte	0x4
+ 637 0015 F3       		.byte	0xf3
+ 638 0016 01       		.uleb128 0x1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 25
 
 
- 484 007d 0B       		.uleb128 0xb
- 485 007e 3B       		.uleb128 0x3b
- 486 007f 0B       		.uleb128 0xb
- 487 0080 27       		.uleb128 0x27
- 488 0081 19       		.uleb128 0x19
- 489 0082 49       		.uleb128 0x49
- 490 0083 13       		.uleb128 0x13
- 491 0084 11       		.uleb128 0x11
- 492 0085 01       		.uleb128 0x1
- 493 0086 12       		.uleb128 0x12
- 494 0087 06       		.uleb128 0x6
- 495 0088 40       		.uleb128 0x40
- 496 0089 18       		.uleb128 0x18
- 497 008a 9742     		.uleb128 0x2117
- 498 008c 19       		.uleb128 0x19
- 499 008d 00       		.byte	0
- 500 008e 00       		.byte	0
- 501 008f 00       		.byte	0
- 502              		.section	.debug_aranges,"",%progbits
- 503 0000 34000000 		.4byte	0x34
- 504 0004 0200     		.2byte	0x2
- 505 0006 00000000 		.4byte	.Ldebug_info0
- 506 000a 04       		.byte	0x4
- 507 000b 00       		.byte	0
- 508 000c 0000     		.2byte	0
- 509 000e 0000     		.2byte	0
- 510 0010 00000000 		.4byte	.LFB0
- 511 0014 3C000000 		.4byte	.LFE0-.LFB0
- 512 0018 00000000 		.4byte	.LFB1
- 513 001c 3C000000 		.4byte	.LFE1-.LFB1
- 514 0020 00000000 		.4byte	.LFB2
- 515 0024 20000000 		.4byte	.LFE2-.LFB2
- 516 0028 00000000 		.4byte	.LFB3
- 517 002c 20000000 		.4byte	.LFE3-.LFB3
- 518 0030 00000000 		.4byte	0
- 519 0034 00000000 		.4byte	0
- 520              		.section	.debug_ranges,"",%progbits
- 521              	.Ldebug_ranges0:
- 522 0000 00000000 		.4byte	.LFB0
- 523 0004 3C000000 		.4byte	.LFE0
- 524 0008 00000000 		.4byte	.LFB1
- 525 000c 3C000000 		.4byte	.LFE1
- 526 0010 00000000 		.4byte	.LFB2
- 527 0014 20000000 		.4byte	.LFE2
- 528 0018 00000000 		.4byte	.LFB3
- 529 001c 20000000 		.4byte	.LFE3
- 530 0020 00000000 		.4byte	0
- 531 0024 00000000 		.4byte	0
- 532              		.section	.debug_line,"",%progbits
- 533              	.Ldebug_line0:
- 534 0000 9C000000 		.section	.debug_str,"MS",%progbits,1
- 534      02004D00 
- 534      00000201 
- 534      FB0E0D00 
- 534      01010101 
- 535              	.LASF21:
- 536 0000 47656E65 		.ascii	"Generated_Source\\PSoC5\\fretted_latching.c\000"
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 13
+ 639 0017 50       		.byte	0x50
+ 640 0018 9F       		.byte	0x9f
+ 641 0019 00000000 		.4byte	0
+ 642 001d 00000000 		.4byte	0
+ 643              	.LLST1:
+ 644 0021 06000000 		.4byte	.LVL2
+ 645 0025 0E000000 		.4byte	.LVL3
+ 646 0029 0600     		.2byte	0x6
+ 647 002b 73       		.byte	0x73
+ 648 002c 00       		.sleb128 0
+ 649 002d 09       		.byte	0x9
+ 650 002e F7       		.byte	0xf7
+ 651 002f 1A       		.byte	0x1a
+ 652 0030 9F       		.byte	0x9f
+ 653 0031 00000000 		.4byte	0
+ 654 0035 00000000 		.4byte	0
+ 655              	.LLST2:
+ 656 0039 00000000 		.4byte	.LVL4
+ 657 003d 06000000 		.4byte	.LVL5
+ 658 0041 0100     		.2byte	0x1
+ 659 0043 50       		.byte	0x50
+ 660 0044 06000000 		.4byte	.LVL5
+ 661 0048 18000000 		.4byte	.LFE1
+ 662 004c 0400     		.2byte	0x4
+ 663 004e F3       		.byte	0xf3
+ 664 004f 01       		.uleb128 0x1
+ 665 0050 50       		.byte	0x50
+ 666 0051 9F       		.byte	0x9f
+ 667 0052 00000000 		.4byte	0
+ 668 0056 00000000 		.4byte	0
+ 669              		.section	.debug_aranges,"",%progbits
+ 670 0000 34000000 		.4byte	0x34
+ 671 0004 0200     		.2byte	0x2
+ 672 0006 00000000 		.4byte	.Ldebug_info0
+ 673 000a 04       		.byte	0x4
+ 674 000b 00       		.byte	0
+ 675 000c 0000     		.2byte	0
+ 676 000e 0000     		.2byte	0
+ 677 0010 00000000 		.4byte	.LFB0
+ 678 0014 18000000 		.4byte	.LFE0-.LFB0
+ 679 0018 00000000 		.4byte	.LFB1
+ 680 001c 18000000 		.4byte	.LFE1-.LFB1
+ 681 0020 00000000 		.4byte	.LFB2
+ 682 0024 10000000 		.4byte	.LFE2-.LFB2
+ 683 0028 00000000 		.4byte	.LFB3
+ 684 002c 10000000 		.4byte	.LFE3-.LFB3
+ 685 0030 00000000 		.4byte	0
+ 686 0034 00000000 		.4byte	0
+ 687              		.section	.debug_ranges,"",%progbits
+ 688              	.Ldebug_ranges0:
+ 689 0000 00000000 		.4byte	.LFB0
+ 690 0004 18000000 		.4byte	.LFE0
+ 691 0008 00000000 		.4byte	.LFB1
+ 692 000c 18000000 		.4byte	.LFE1
+ 693 0010 00000000 		.4byte	.LFB2
+ 694 0014 10000000 		.4byte	.LFE2
+ 695 0018 00000000 		.4byte	.LFB3
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 26
 
 
- 536      72617465 
- 536      645F536F 
- 536      75726365 
- 536      5C50536F 
- 537              	.LASF20:
- 538 002a 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 538      43313120 
- 538      352E342E 
- 538      31203230 
- 538      31363036 
- 539 005d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 539      20726576 
- 539      6973696F 
- 539      6E203233 
- 539      37373135 
- 540 0090 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
- 540      66756E63 
- 540      74696F6E 
- 540      2D736563 
- 540      74696F6E 
- 541              	.LASF16:
- 542 00b8 76616C75 		.ascii	"value\000"
- 542      6500
- 543              	.LASF23:
- 544 00be 73746174 		.ascii	"staticBits\000"
- 544      69634269 
- 544      747300
- 545              	.LASF9:
- 546 00c9 666C6F61 		.ascii	"float\000"
- 546      7400
- 547              	.LASF1:
- 548 00cf 756E7369 		.ascii	"unsigned char\000"
- 548      676E6564 
- 548      20636861 
- 548      7200
- 549              	.LASF13:
- 550 00dd 72656738 		.ascii	"reg8\000"
- 550      00
- 551              	.LASF5:
- 552 00e2 6C6F6E67 		.ascii	"long unsigned int\000"
- 552      20756E73 
- 552      69676E65 
- 552      6420696E 
- 552      7400
- 553              	.LASF3:
- 554 00f4 73686F72 		.ascii	"short unsigned int\000"
- 554      7420756E 
- 554      7369676E 
- 554      65642069 
- 554      6E7400
- 555              	.LASF14:
- 556 0107 66726574 		.ascii	"fretted_latching_Write\000"
- 556      7465645F 
- 556      6C617463 
- 556      68696E67 
- 556      5F577269 
- 557              	.LASF10:
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 14
+ 696 001c 10000000 		.4byte	.LFE3
+ 697 0020 00000000 		.4byte	0
+ 698 0024 00000000 		.4byte	0
+ 699              		.section	.debug_line,"",%progbits
+ 700              	.Ldebug_line0:
+ 701 0000 9B000000 		.section	.debug_str,"MS",%progbits,1
+ 701      02004D00 
+ 701      00000201 
+ 701      FB0E0D00 
+ 701      01010101 
+ 702              	.LASF21:
+ 703 0000 47656E65 		.ascii	"Generated_Source\\PSoC5\\fretted_latching.c\000"
+ 703      72617465 
+ 703      645F536F 
+ 703      75726365 
+ 703      5C50536F 
+ 704              	.LASF16:
+ 705 002a 76616C75 		.ascii	"value\000"
+ 705      6500
+ 706              	.LASF23:
+ 707 0030 73746174 		.ascii	"staticBits\000"
+ 707      69634269 
+ 707      747300
+ 708              	.LASF9:
+ 709 003b 666C6F61 		.ascii	"float\000"
+ 709      7400
+ 710              	.LASF1:
+ 711 0041 756E7369 		.ascii	"unsigned char\000"
+ 711      676E6564 
+ 711      20636861 
+ 711      7200
+ 712              	.LASF20:
+ 713 004f 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 713      43313120 
+ 713      352E342E 
+ 713      31203230 
+ 713      31363036 
+ 714 0082 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 714      20726576 
+ 714      6973696F 
+ 714      6E203233 
+ 714      37373135 
+ 715 00b5 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects -finline-fu"
+ 715      66756E63 
+ 715      74696F6E 
+ 715      2D736563 
+ 715      74696F6E 
+ 716 00e8 6E637469 		.ascii	"nctions -flto\000"
+ 716      6F6E7320 
+ 716      2D666C74 
+ 716      6F00
+ 717              	.LASF5:
+ 718 00f6 6C6F6E67 		.ascii	"long unsigned int\000"
+ 718      20756E73 
+ 718      69676E65 
+ 718      6420696E 
+ 718      7400
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 27
 
 
- 558 011e 646F7562 		.ascii	"double\000"
- 558      6C6500
- 559              	.LASF8:
- 560 0125 756E7369 		.ascii	"unsigned int\000"
- 560      676E6564 
- 560      20696E74 
- 560      00
- 561              	.LASF7:
- 562 0132 6C6F6E67 		.ascii	"long long unsigned int\000"
- 562      206C6F6E 
- 562      6720756E 
- 562      7369676E 
- 562      65642069 
- 563              	.LASF17:
- 564 0149 6D6F6465 		.ascii	"mode\000"
- 564      00
- 565              	.LASF6:
- 566 014e 6C6F6E67 		.ascii	"long long int\000"
- 566      206C6F6E 
- 566      6720696E 
- 566      7400
- 567              	.LASF11:
- 568 015c 63686172 		.ascii	"char\000"
- 568      00
- 569              	.LASF22:
- 570 0161 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
- 570      73657273 
- 570      5C4A6566 
- 570      66536E79 
- 570      6465725C 
- 571 018f 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
- 571      5F656C65 
- 571      6374726F 
- 571      62617373 
- 571      5F737472 
- 572 01c1 65726D69 		.ascii	"ermistor.cydsn\000"
- 572      73746F72 
- 572      2E637964 
- 572      736E00
- 573              	.LASF2:
- 574 01d0 73686F72 		.ascii	"short int\000"
- 574      7420696E 
- 574      7400
- 575              	.LASF12:
- 576 01da 75696E74 		.ascii	"uint8\000"
- 576      3800
- 577              	.LASF19:
- 578 01e0 66726574 		.ascii	"fretted_latching_ReadDataReg\000"
- 578      7465645F 
- 578      6C617463 
- 578      68696E67 
- 578      5F526561 
- 579              	.LASF15:
- 580 01fd 66726574 		.ascii	"fretted_latching_SetDriveMode\000"
- 580      7465645F 
- 580      6C617463 
- 580      68696E67 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccSpZGQg.s 			page 15
+ 719              	.LASF3:
+ 720 0108 73686F72 		.ascii	"short unsigned int\000"
+ 720      7420756E 
+ 720      7369676E 
+ 720      65642069 
+ 720      6E7400
+ 721              	.LASF14:
+ 722 011b 66726574 		.ascii	"fretted_latching_Write\000"
+ 722      7465645F 
+ 722      6C617463 
+ 722      68696E67 
+ 722      5F577269 
+ 723              	.LASF10:
+ 724 0132 646F7562 		.ascii	"double\000"
+ 724      6C6500
+ 725              	.LASF8:
+ 726 0139 756E7369 		.ascii	"unsigned int\000"
+ 726      676E6564 
+ 726      20696E74 
+ 726      00
+ 727              	.LASF7:
+ 728 0146 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 728      206C6F6E 
+ 728      6720756E 
+ 728      7369676E 
+ 728      65642069 
+ 729              	.LASF17:
+ 730 015d 6D6F6465 		.ascii	"mode\000"
+ 730      00
+ 731              	.LASF13:
+ 732 0162 72656738 		.ascii	"reg8\000"
+ 732      00
+ 733              	.LASF6:
+ 734 0167 6C6F6E67 		.ascii	"long long int\000"
+ 734      206C6F6E 
+ 734      6720696E 
+ 734      7400
+ 735              	.LASF11:
+ 736 0175 63686172 		.ascii	"char\000"
+ 736      00
+ 737              	.LASF22:
+ 738 017a 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 738      73657273 
+ 738      5C4A6566 
+ 738      66536E79 
+ 738      6465725C 
+ 739 01a8 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 739      5F656C65 
+ 739      6374726F 
+ 739      62617373 
+ 739      5F737472 
+ 740 01da 65726D69 		.ascii	"ermistor.cydsn\000"
+ 740      73746F72 
+ 740      2E637964 
+ 740      736E00
+ 741              	.LASF2:
+ 742 01e9 73686F72 		.ascii	"short int\000"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccRwahjl.s 			page 28
 
 
- 580      5F536574 
- 581              	.LASF4:
- 582 021b 6C6F6E67 		.ascii	"long int\000"
- 582      20696E74 
- 582      00
- 583              	.LASF18:
- 584 0224 66726574 		.ascii	"fretted_latching_Read\000"
- 584      7465645F 
- 584      6C617463 
- 584      68696E67 
- 584      5F526561 
- 585              	.LASF0:
- 586 023a 7369676E 		.ascii	"signed char\000"
- 586      65642063 
- 586      68617200 
- 587              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 742      7420696E 
+ 742      7400
+ 743              	.LASF12:
+ 744 01f3 75696E74 		.ascii	"uint8\000"
+ 744      3800
+ 745              	.LASF19:
+ 746 01f9 66726574 		.ascii	"fretted_latching_ReadDataReg\000"
+ 746      7465645F 
+ 746      6C617463 
+ 746      68696E67 
+ 746      5F526561 
+ 747              	.LASF15:
+ 748 0216 66726574 		.ascii	"fretted_latching_SetDriveMode\000"
+ 748      7465645F 
+ 748      6C617463 
+ 748      68696E67 
+ 748      5F536574 
+ 749              	.LASF4:
+ 750 0234 6C6F6E67 		.ascii	"long int\000"
+ 750      20696E74 
+ 750      00
+ 751              	.LASF18:
+ 752 023d 66726574 		.ascii	"fretted_latching_Read\000"
+ 752      7465645F 
+ 752      6C617463 
+ 752      68696E67 
+ 752      5F526561 
+ 753              	.LASF0:
+ 754 0253 7369676E 		.ascii	"signed char\000"
+ 754      65642063 
+ 754      68617200 
+ 755              		.comm	__gnu_lto_v1,1,1
+ 756              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
