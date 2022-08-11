@@ -62,25 +62,28 @@ void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 /* USER CODE BEGIN PFP */
 void MPU_Conf(void);
-static void FS_FileOperations(void);
-void parse_preset(int size);
+static int checkForSDCardPreset(void);
+static void writePresetToSDCard(int fileSize);
+void parsePreset(int size);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t SPI_TX[32] __ATTR_RAM_D2;
-uint8_t SPI_RX[32] __ATTR_RAM_D2;
 
-#define MAX_WAV_FILES 8
-FILINFO fno __ATTR_RAM_D1;
-DIR dir __ATTR_RAM_D1;
+#define SPI_BUFFER_SIZE 32
+#define SPI_FRAME_SIZE 16
+uint8_t SPI_TX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
+uint8_t SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
+
+uint8_t volatile bootloaderFlag[32] __ATTR_USER_FLASH;
+uint8_t resetFlag = 0;
+
+uint8_t diskBusy = 0;
+uint8_t buttonPressed = 0;
+FILINFO fno;
+DIR dir;
 const TCHAR path = 0;
-uint32_t waves[MAX_WAV_FILES][4];
-uint32_t numWaves = 0;
-uint32_t OutOfSpace = 0;
-uint32_t tooBigForScratch = 0;
-uint32_t memoryPointer = 0;
-uint8_t counter = 0;
+
 
 volatile uint8_t writingPreset = 0;
 volatile uint8_t muteAudio = 0;
@@ -88,6 +91,9 @@ FIL fdst;
 volatile uint8_t buffer[4096];
 volatile uint16_t bufferPos = 0;
 FRESULT res;
+
+uint32_t presetWaitingToParse = 0;
+uint32_t presetWaitingToWrite = 0;
 
 
 param params[NUM_PARAMS];
@@ -101,6 +107,9 @@ float resTable[2048];
 float envTimeTable[2048];
 float lfoRateTable[2048];
 
+//uint8_t bootloadFlag __ATTR_RAM_D3;
+
+uint8_t volatile foundOne = 0;
 /* USER CODE END 0 */
 
 /**
@@ -113,9 +122,6 @@ int main(void)
   MPU_Conf();
 
   /* USER CODE END 1 */
-
-  /* Enable I-Cache---------------------------------------------------------*/
-  //SCB_EnableICache();
 
   /* Enable D-Cache---------------------------------------------------------*/
   SCB_EnableDCache();
@@ -145,7 +151,7 @@ int main(void)
   MX_DAC1_Init();
   MX_FMC_Init();
   MX_I2C2_Init();
-  MX_QUADSPI_Init();
+  //MX_QUADSPI_Init();
   MX_SAI1_Init();
   MX_SDMMC1_SD_Init();
   MX_SPI1_Init();
@@ -153,7 +159,14 @@ int main(void)
   MX_RNG_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
-
+  /* Enable write access to Backup domain */
+   PWR->CR1 |= PWR_CR1_DBP;
+   while((PWR->CR1 & PWR_CR1_DBP) == RESET)
+   {
+	   ;
+   }
+   /*Enable BKPRAM clock*/
+   __HAL_RCC_BKPRAM_CLK_ENABLE();
 
 
   uint32_t tempFPURegisterVal = __get_FPSCR();
@@ -161,10 +174,7 @@ int main(void)
   __set_FPSCR(tempFPURegisterVal);
 
 
-  while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
-   {
- 	  ;
-   }
+
 
 
   for (int i = 0; i < 4096; i++)
@@ -174,53 +184,60 @@ int main(void)
   LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
   LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
+  parsePreset(320); //default preset binary
 
-  parse_preset(320); //default large preset binary
 
   codec_init(&hi2c2);
 
   audio_init(&hsai_BlockB1, &hsai_BlockA1);
-
-  for (int i = 0; i < 32; i++)
+  int counter = 0;
+  for (int i = 0; i < SPI_BUFFER_SIZE; i++)
   {
 	  SPI_TX[i] = counter++;
   }
 
-
-
-
-  HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
+  while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
+   {
+ 	  ;
+   }
+   HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, SPI_BUFFER_SIZE);
 
 
 
   HAL_Delay(10);
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-/*
-	 if(BSP_SD_IsDetected())
-	 {
 
-		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
-	     FS_FileOperations();
 
-	 }
-	 else
-	 {
-		 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-	 }
 
-*/
+foundOne  = checkForSDCardPreset();
+
+
+
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  /*
-	  while(1)
+	  if (presetWaitingToParse > 0)
 	  {
-		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-		  HAL_Delay(100);
+		  parsePreset(presetWaitingToParse);
 	  }
+
+	  else if (presetWaitingToWrite > 0)
+	  {
+		  writePresetToSDCard(presetWaitingToWrite);
+	  }
+
+	  if (resetFlag == 1)
+	  {
+		  HAL_Delay(100);
+		  HAL_NVIC_SystemReset();
+	  }
+
+	  /*
+
 	  */
 	  //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 	  //HAL_Delay(200);
@@ -346,76 +363,67 @@ float randomNumber(void) {
 }
 
 
-static void FS_FileOperations(void)
+static int checkForSDCardPreset(void)
 {
-	HAL_Delay(300);
-	disk_initialize(0);
-
-    disk_status(0);
-    //if (statusH != RES_OK)
-    //{
-      //ShowDiskStatus(status);
-    //}
-
-
-	if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
+	int found = 0;
+	if(BSP_SD_IsDetected())
 	{
+		diskBusy = 1;
+		HAL_Delay(300);
 
-		FRESULT res;
+		disk_initialize(0);
 
-		uint32_t fileIndex = 0;
+	    disk_status(0);
 
-		/* Start to search for wave files */
-
-		res = f_findfirst(&dir, &fno, SDPath, "*.wav");
-
-		/* Repeat while an item is found */
-		while (fno.fname[0])
+		if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
 		{
-		  if(res == FR_OK)
-		  {
-			if((fileIndex < MAX_WAV_FILES) && (OutOfSpace == 0))
+
+			FRESULT res;
+			/* Start to search for preset files */
+			res = f_findfirst(&dir, &fno, SDPath, "1.ebp");
+			uint bytesRead;
+			if(res == FR_OK)
 			{
 				if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
 				{
-
-					waves[fileIndex][0] = (uint32_t)memoryPointer;
-
-					//if (readWave(&SDFile) == 1)
-					{
-
-						//waves[fileIndex][1] = header.channels;
-						//waves[fileIndex][2] = header.sample_rate;
-						//uint32_t LengthInFloats = (uint32_t)memoryPointer - waves[fileIndex][0];
-						//waves[fileIndex][3] = LengthInFloats;
-						fileIndex++;
-						numWaves++;
-					}
-
-
+					f_read(&SDFile, &buffer, f_size(&SDFile), &bytesRead);
+					presetWaitingToParse = bytesRead;
 					f_close(&SDFile);
-
-					/* Search for next item */
-
-
-					res = f_findnext(&dir, &fno);
+					found = 1;
 				}
 			}
-			else
-			{
-				break;
-			}
-
-		  }
-		  else
-		  {
-			break;
-		  }
+			//f_closedir(&dir);
+			//f_mount(0, "", 0); //unmount
 		}
-		f_closedir(&dir);
 
 	}
-	f_mount(0, "", 0); //unmount
+	diskBusy = 0;
+	return found;
+}
+
+
+static void writePresetToSDCard(int fileSize)
+{
+	if(BSP_SD_IsDetected())
+	{
+		//if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
+		{
+			//if(res == FR_OK)
+			{
+				diskBusy = 1;
+				if(f_open(&SDFile, "1.ebp", FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
+				{
+					uint bytesRead;
+					f_write(&SDFile, &buffer, fileSize, &bytesRead);
+					f_close(&SDFile);
+				}
+
+			}
+			//f_mount(0, "", 0); //unmount
+		}
+	}
+	presetWaitingToWrite = 0;
+	diskBusy = 0;
 }
 
 #define SDRAM_MODEREG_BURST_LENGTH_2 ((1 << 0))
@@ -570,6 +578,46 @@ void MPU_Conf(void)
 	 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 
+
+	 	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+
+	 		  //D2 Domain�SRAM1
+	 		  MPU_InitStruct.BaseAddress = 0x38800000;
+	 		  // Increased region size to 256k. In Keshikan's code, this was 512 bytes (that's all that application needed).
+	 		  // Each audio buffer takes up the frame size * 8 (16 bits makes it *2 and stereo makes it *2 and double buffering makes it *2)
+	 		  // So a buffer size for read/write of 4096 would take up 64k = 4096*8 * 2 (read and write).
+	 		  // I increased that to 256k so that there would be room for the ADC knob inputs and other peripherals that might require DMA access.
+	 		  // we have a total of 256k in SRAM1 (128k, 0x30000000-0x30020000) and SRAM2 (128k, 0x30020000-0x3004000) of D2 domain.
+	 		  // There is an SRAM3 in D2 domain as well (32k, 0x30040000-0x3004800) that is currently not mapped by the MPU (memory protection unit) controller.
+
+	 		  MPU_InitStruct.Size = MPU_REGION_SIZE_4KB;
+
+	 		  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+
+	 		  //AN4838
+	 		  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+	 		  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	 		  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+	 		  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+
+	 		  //Shared Device
+	 	//	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	 	//	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	 	//	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+	 	//	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+
+
+	 		  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+
+	 		  MPU_InitStruct.SubRegionDisable = 0x00;
+
+
+	 		  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+
+
+	 		  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+
 	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
 
@@ -585,7 +633,7 @@ void handleSPI(uint8_t offset)
 
 		 uint8_t currentByte = offset+1;
 
-		 while (SPI_RX[currentByte] != 0)
+		 while ((SPI_RX[currentByte] != 0) && ((currentByte % 16) < SPI_FRAME_SIZE))
 		 {
 			 if (SPI_RX[currentByte] == 0x90)
 			 {
@@ -616,12 +664,6 @@ void handleSPI(uint8_t offset)
 			 muteAudio = 1;
 			 //write the raw data as a preset number on the SD card
 			 bufferPos = 0;
-			 /*
-			 if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
-			 {
-				 res = f_open(&fdst, "P1.txt", FA_CREATE_ALWAYS | FA_WRITE);
-			 }
-			 */
 		 }
 
 		 uint8_t currentByte = offset+2;
@@ -629,7 +671,6 @@ void handleSPI(uint8_t offset)
 		 for (int i = 0; i < 14; i++)
 		 {
 			 buffer[bufferPos++] = SPI_RX[currentByte + i];
-			 //f_putc(SPI_RX[currentByte + i], &fdst);
 
 		 }
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
@@ -657,44 +698,12 @@ void handleSPI(uint8_t offset)
 	}
 
 	else if (SPI_RX[offset] == 3)
-		{
-			//end writing preset to the SD card and close the file
-			 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-
-			 writingPreset = 0;
-
-			 uint8_t currentByte = offset+1;
-
-			 //write the raw data as a preset number on the SD card
-
-
-			 //res = f_close(&fdst);
-			 //f_mount(0, "", 0); //unmount
-
-			 	/*
-			 while (SPI_RX[currentByte] != 0)
-			 {
-				 if (SPI_RX[currentByte] == 0x90)
-				 {
-					 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-				 }
-				 else if (SPI_RX[currentByte] == 0xb0)
-				 {
-					 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-				 }
-				 else if (SPI_RX[currentByte] == 0xe0)
-				 {
-					 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-				 }
-				 currentByte = currentByte+3;
-			 }
-			 */
-
-			 /* Parse into Audio Params */
-			 parse_preset(bufferPos);
-
-			 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-		}
+	{
+		 writingPreset = 0;
+		 /* Parse into Audio Params */
+		 presetWaitingToParse = bufferPos;
+		 presetWaitingToWrite = bufferPos;
+	}
 }
 
 float scaleDefault(float input)
@@ -790,7 +799,7 @@ void blankFunction(float a, int b)
 }
 
 
-void parse_preset(int size)
+void parsePreset(int size)
 {
 
 	//osc params
@@ -1097,6 +1106,7 @@ void parse_preset(int size)
 	//params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
 
 	muteAudio = 0;
+	presetWaitingToParse = 0;
 }
 
 
@@ -1115,7 +1125,35 @@ void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 	handleSPI(0);
 }
 
+void FlushECC(void *ptr, int bytes)
+{
 
+	uint32_t addr = (uint32_t)ptr;
+	/* Check if accessing AXI SRAM => 64-bit words*/
+	if(addr >= 0x24000000 && addr < 0x24080000){
+		volatile uint64_t temp;
+		volatile uint64_t* flush_ptr = (uint64_t*) (addr & 0xFFFFFFF8);
+		uint64_t *end_ptr = (uint64_t*) ((addr+bytes) & 0xFFFFFFF8);
+
+		do{
+			temp = *flush_ptr;
+			*flush_ptr = temp;
+			flush_ptr++;
+		}while(flush_ptr != end_ptr);
+	}
+	/* Otherwise 32-bit words */
+	else {
+		volatile uint32_t temp;
+		volatile uint32_t* flush_ptr = (uint32_t*) (addr & 0xFFFFFFFC);
+		uint32_t *end_ptr = (uint32_t*) ((addr+bytes) & 0xFFFFFFFC);
+
+		do{
+			temp = *flush_ptr;
+			*flush_ptr = temp;
+			flush_ptr++;
+		}while(flush_ptr != end_ptr);
+	}
+}
 
 // EXTI Line12 External Interrupt ISR Handler CallBackFun
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -1139,7 +1177,36 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			  HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
     	  }
     }
+    if(GPIO_Pin == GPIO_PIN_3) // If The INT Source Is EXTI Line3
+    {
+    	  if(HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_3) == 1) //button is pressed, wait
+    	  {
+    		  buttonPressed = 1;
+    		  //bootloadFlag = 231;
+    		  //*(__IO uint32_t*)(0x38800000+36) = 12345678;
+    		  //SCB_CleanDCache_by_Addr (*(__IO uint32_t*)0x38800000+36, 1); //maybe needs different
+    	  }
+    	  else //button went up
+    	  {
+    		  if (buttonPressed == 1)
+    		  {
+    			  for (int i = 0; i < 32; i++)
+    			  {
+    				  bootloaderFlag[i] = 231;
+    			  }
+    			  FlushECC(&bootloaderFlag,  32);
+
+				  buttonPressed = 0;
+				  resetFlag = 1;
+
+    		  }
+    	  }
+    }
 }
+
+
+
+
 /* USER CODE END 4 */
 
 /**

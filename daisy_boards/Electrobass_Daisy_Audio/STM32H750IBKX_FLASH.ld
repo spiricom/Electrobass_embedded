@@ -13,9 +13,11 @@ MEMORY
 	RAM_D2_DMA (RWX) : ORIGIN = 0x30000000, LENGTH = 32K
 	RAM_D2 (RWX)  : ORIGIN = 0x30008000, LENGTH = 256K
 	RAM_D3 (RWX)  : ORIGIN = 0x38000000, LENGTH = 64K
+	BACKUP_SRAM (RWX)  : ORIGIN = 0x38800000, LENGTH = 4K
 	ITCMRAM (RWX) : ORIGIN = 0x00000000, LENGTH = 64K
 	SDRAM (RWX)   : ORIGIN = 0xc0000000, LENGTH = 64M
   QSPIFLASH (RX): ORIGIN = 0x90040000, LENGTH = 7936K
+
 }
 
 _estack = 0x20020000;
@@ -120,6 +122,13 @@ SECTIONS
 
 		PROVIDE(__sram2_bss_end__ = _esram2_bss);
 	} > RAM_D2
+	
+	.userflash (NOLOAD) :
+	{    
+        . = ALIGN(4);
+        KEEP(*(.userflash))
+        . = ALIGN(4);
+	} > BACKUP_SRAM
 	
 	.data :
 	{
@@ -247,7 +256,7 @@ SECTIONS
 		KEEP(*(.heap))
 		. = ALIGN(4);
 		PROVIDE(__heap_end__ = .);
-	} > RAM_D2
+	} > DTCMRAM
 
 	PROVIDE(end = .);
 

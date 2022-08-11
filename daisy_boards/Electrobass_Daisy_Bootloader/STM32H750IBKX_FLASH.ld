@@ -12,6 +12,7 @@ MEMORY
 	SRAM (RWX)    : ORIGIN = 0x24000000, LENGTH = 512K
 	RAM_D2 (RWX)  : ORIGIN = 0x30000000, LENGTH = 288K
 	RAM_D3 (RWX)  : ORIGIN = 0x38000000, LENGTH = 64K
+	BACKUP_SRAM (RWX)  : ORIGIN = 0x38800000, LENGTH = 4K
 	ITCMRAM (RWX) : ORIGIN = 0x00000000, LENGTH = 64K
 	SDRAM (RWX)   : ORIGIN = 0xc0000000, LENGTH = 64M
     QSPIFLASH (RX)  : ORIGIN = 0x90000000, LENGTH = 8M
@@ -151,7 +152,16 @@ SECTIONS
 
 		PROVIDE(__sram1_bss_end__ = _esram1_bss);
 	} > SRAM
-
+	
+	
+	
+	.userflash (NOLOAD) :
+	{    
+        . = ALIGN(4);
+        KEEP(*(.userflash))
+        . = ALIGN(4);
+	} > BACKUP_SRAM
+	
 	/*
 	.sdram_text :
 	{

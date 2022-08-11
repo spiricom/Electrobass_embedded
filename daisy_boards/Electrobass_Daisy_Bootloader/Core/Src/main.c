@@ -68,7 +68,7 @@ uint8_t tempBinaryBuffer[500000] __ATTR_SRAM;
 UINT bytesRead = 0;
 uint32_t binSize = 4000;
 uint8_t flash_mem[500000] __ATTR_QSPI;
-
+uint8_t volatile bootloaderFlag[32] __ATTR_USER_FLASH;
 
 /* Private typedef -----------------------------------------------------------*/
 typedef  void (*pFunction)(void);
@@ -78,8 +78,40 @@ typedef  void (*pFunction)(void);
 pFunction JumpToApplication;
 
 
+
 #define APPLICATION_ADDRESS (uint32_t)0x24000000
 uint8_t memory_already_mapped = 0;
+
+void FlushECC(void *ptr, int bytes)
+{
+
+	uint32_t addr = (uint32_t)ptr;
+	/* Check if accessing AXI SRAM => 64-bit words*/
+	if(addr >= 0x24000000 && addr < 0x24080000){
+		volatile uint64_t temp;
+		volatile uint64_t* flush_ptr = (uint64_t*) (addr & 0xFFFFFFF8);
+		uint64_t *end_ptr = (uint64_t*) ((addr+bytes) & 0xFFFFFFF8);
+
+		do{
+			temp = *flush_ptr;
+			*flush_ptr = temp;
+			flush_ptr++;
+		}while(flush_ptr != end_ptr);
+	}
+	/* Otherwise 32-bit words */
+	else {
+		volatile uint32_t temp;
+		volatile uint32_t* flush_ptr = (uint32_t*) (addr & 0xFFFFFFFC);
+		uint32_t *end_ptr = (uint32_t*) ((addr+bytes) & 0xFFFFFFFC);
+
+		do{
+			temp = *flush_ptr;
+			*flush_ptr = temp;
+			flush_ptr++;
+		}while(flush_ptr != end_ptr);
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -94,10 +126,10 @@ int main(void)
   /* USER CODE END 1 */
 
   /* Enable I-Cache---------------------------------------------------------*/
-  SCB_EnableICache();
+  //SCB_EnableICache();
 
   /* Enable D-Cache---------------------------------------------------------*/
-  SCB_EnableDCache();
+  //SCB_EnableDCache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -117,50 +149,112 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_QUADSPI_Init();
-  MX_SDMMC1_SD_Init();
-  MX_FATFS_Init();
-  /* USER CODE BEGIN 2 */
-  qspi_initialize(INDIRECT_POLLING);
-  if(BSP_SD_IsDetected())
+  //
+  /* Disable I-Cache */
+  //SCB_DisableICache();
+
+  ///* Disable D-Cache */
+  //SCB_DisableDCache();
+  /* Enable write access to Backup domain */
+   PWR->CR1 |= PWR_CR1_DBP;
+   while((PWR->CR1 & PWR_CR1_DBP) == RESET)
+   {
+	   ;
+   }
+   /*Enable BKPRAM clock*/
+   __HAL_RCC_BKPRAM_CLK_ENABLE();
+
+  //if (*(__IO uint32_t*)(0x38800000+36) != 12345678)
+  if (bootloaderFlag[0] == 232)
   {
-	 // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
-	  FS_FileOperations();
+	  int i = 8;
+	  while(i--)
+	  {
+		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+		  HAL_Delay(100);
+	  }
+	  MX_QUADSPI_Init();
+	  qspi_initialize(INDIRECT_POLLING);
+	  if (!memory_already_mapped)
+	  {
+		  qspi_enable_memory_mapped();
+	  }
+	  //copy qspi flash code into SRAM location on every boot.
+	  for (int i = 0; i < 500000; i++)
+	  {
+		  tempBinaryBuffer[i] = flash_mem[i];
+	  }
+
+
+
+	  JumpToApplication = (pFunction) (*(__IO uint32_t*) (APPLICATION_ADDRESS+4));
+	  __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
+	  __disable_irq();
+
+
+	  HAL_RCC_DeInit();
+	  HAL_DeInit();
+	  SysTick->CTRL = 0;
+	  SysTick->LOAD = 0;
+	  SysTick->VAL  = 0;
+	  JumpToApplication();
   }
   else
   {
+	  int i = 4;
+	  while(i--)
+	  {
+		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+		  HAL_Delay(200);
+	  }
+	  MX_QUADSPI_Init();
+	  MX_SDMMC1_SD_Init();
+	  MX_FATFS_Init();
+	  /* USER CODE BEGIN 2 */
+	  qspi_initialize(INDIRECT_POLLING);
+	  if(BSP_SD_IsDetected())
+	  {
+		 // HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+		  FS_FileOperations();
+	  }
+	  else
+	  {
 
-	  //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+		  //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+	  }
+
+	  if (!memory_already_mapped)
+	  {
+		  qspi_enable_memory_mapped();
+	  }
+	  //copy qspi flash code into SRAM location on every boot.
+	  for (int i = 0; i < 500000; i++)
+	  {
+		  tempBinaryBuffer[i] = flash_mem[i];
+	  }
+	  HAL_QSPI_MspDeInit(&hqspi);
+	  HAL_SD_MspDeInit(&hsd1);
+	  HAL_RCC_DeInit();
+	  HAL_DeInit();
+	  SysTick->CTRL = 0;
+	  SysTick->LOAD = 0;
+	  SysTick->VAL  = 0;
+
+
+
+	  for (int i = 0; i < 32; i++)
+	  {
+		  bootloaderFlag[i] = 232;
+	  }
+	  FlushECC(&bootloaderFlag,  32);
+
+	  HAL_NVIC_SystemReset();
+	  //JumpToApplication = (pFunction) (*(__IO uint32_t*) (APPLICATION_ADDRESS+4));
+	  //__set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
+	  //*(__IO uint32_t*)(0x38800000+36) = 0;
+	  //__disable_irq();
+	  //JumpToApplication();
   }
-
-  if (!memory_already_mapped)
-  {
-	  qspi_enable_memory_mapped();
-  }
-  //copy qspi flash code into SRAM location on every boot.
-  for (int i = 0; i < 500000; i++)
-  {
-	  tempBinaryBuffer[i] = flash_mem[i];
-  }
-
-
-  MPU_Config();
-  /* Disable I-Cache */
-  SCB_DisableICache();
-
-  ///* Disable D-Cache */
-  SCB_DisableDCache();
-
-  HAL_RCC_DeInit();
-  HAL_DeInit();
-  SysTick->CTRL = 0;
-  SysTick->LOAD = 0;
-  SysTick->VAL  = 0;
-
-  JumpToApplication = (pFunction) (*(__IO uint32_t*) (APPLICATION_ADDRESS+4));
-  __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
-  __disable_irq();
-  JumpToApplication();
 
   /* USER CODE END 2 */
 
@@ -811,18 +905,6 @@ static void FS_FileOperations(void)
 						memory_already_mapped = 1;
 					}
 
-					//waves[fileIndex][0] = (uint32_t)memoryPointer;
-
-					//if (readWave(&SDFile) == 1)
-					{
-
-						//waves[fileIndex][1] = header.channels;
-						//waves[fileIndex][2] = header.sample_rate;
-						//uint32_t LengthInFloats = (uint32_t)memoryPointer - waves[fileIndex][0];
-						//waves[fileIndex][3] = LengthInFloats;
-
-					}
-
 					f_close(&SDFile);
 
 				}
@@ -832,9 +914,10 @@ static void FS_FileOperations(void)
 		  }
 
 		f_closedir(&dir);
-
+		f_mount(0, "", 0); //unmount
 	}
-	f_mount(0, "", 0); //unmount
+
+
 }
 
 
@@ -849,14 +932,14 @@ static void MPU_Config (void)
   MPU_InitStruct.Enable = MPU_REGION_ENABLE;
   MPU_InitStruct.BaseAddress = 0x00;
   MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
-  MPU_InitStruct.AccessPermission = MPU_REGION_NO_ACCESS;
+  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
   MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
   MPU_InitStruct.Number = MPU_REGION_NUMBER0;
   MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
   MPU_InitStruct.SubRegionDisable = 0x87;
-  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
 
   HAL_MPU_ConfigRegion(&MPU_InitStruct);
 

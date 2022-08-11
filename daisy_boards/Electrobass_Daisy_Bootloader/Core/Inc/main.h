@@ -50,6 +50,7 @@ extern "C" {
 /* USER CODE BEGIN EM */
 #define __ATTR_QSPI	__attribute__ ((section(".qspiflash_bss"))) __attribute__ ((aligned (32)))
 #define __ATTR_SRAM	__attribute__ ((section(".sram1_bss"))) __attribute__ ((aligned (32)))
+#define __ATTR_USER_FLASH	__attribute__ ((section(".userflash"))) __attribute__ ((aligned (32)))
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/

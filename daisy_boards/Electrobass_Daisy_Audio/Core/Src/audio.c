@@ -78,11 +78,11 @@ tNoise noise;
 uint8_t voiceSounding = 0;
 
 //MEMPOOLS
-//#define SMALL_MEM_SIZE 50000
-//char smallMemory[SMALL_MEM_SIZE] __ATTR_DTCMRAM;
+#define SMALL_MEM_SIZE 80000
+char smallMemory[SMALL_MEM_SIZE];
 
-#define MEDIUM_MEM_SIZE 100000
-char mediumMemory[MEDIUM_MEM_SIZE] __ATTR_RAM_D1;
+//#define MEDIUM_MEM_SIZE 100000
+//char mediumMemory[MEDIUM_MEM_SIZE] __ATTR_RAM_D1;
 
 //#define LARGE_MEM_SIZE 33554432 //32 MBytes - size of SDRAM IC
 //char largeMemory[LARGE_MEM_SIZE] __ATTR_SDRAM;
@@ -95,7 +95,7 @@ tMempool largePool;
 
 void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 {
-	LEAF_init(&leaf, SAMPLE_RATE, mediumMemory, MEDIUM_MEM_SIZE, &randomNumber);
+	LEAF_init(&leaf, SAMPLE_RATE, smallMemory, SMALL_MEM_SIZE, &randomNumber);
 	//tMempool_init (&smallPool, smallMemory, SMALL_MEM_SIZE, &leaf);
 	//tMempool_init (&largePool, largeMemory, LARGE_MEM_SIZE, &leaf);
 	for(int i = 0; i < NUM_OSC; i++)
@@ -555,7 +555,6 @@ float audioTickL(float audioIn)
 
 	if (!muteAudio)
 	{
-
 		//run mapping ticks
 		tickMappings();
 
@@ -563,9 +562,7 @@ float audioTickL(float audioIn)
 
 		float freq = mtof(note);
 
-
 		envelope_tick();
-
 
 		oscillator_tick(note, freq);
 
@@ -591,15 +588,16 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 	if (velocity > 0)
 	{
 		tSimplePoly_noteOn(&poly, note, velocity);
+		float fvelocity = (float)velocity;
+		fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
+		fvelocity = fvelocity * fvelocity;
 		for (int v = 0; v < NUM_ENV; v++)
 		{
 			param* envParams = &params[ENVELOPE_PARAMS_OFFSET + v * EnvelopeParamsNum];
 			float useVelocity = envParams[EnvelopeVelocity].realVal;
-			if (useVelocity == 0) velocity = 127.f;
-			float fvelocity = (float)velocity;
-			fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
-			fvelocity = fvelocity * fvelocity;
-		    tADSRT_on(&envs[v], fvelocity);
+			float envVel = fvelocity;
+			if (useVelocity == 0) envVel = 1.f;
+		    tADSRT_on(&envs[v], envVel);
 		    voiceSounding = 1;
 		}
 	}
@@ -633,11 +631,13 @@ void sendPitchBend(uint8_t value, uint8_t ctrl)
 
 void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hsai)
 {
+	if (!diskBusy)
 	audioFrame(HALF_BUFFER_SIZE);
 }
 
 void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 {
+	if (!diskBusy)
 	audioFrame(0);
 }
 
