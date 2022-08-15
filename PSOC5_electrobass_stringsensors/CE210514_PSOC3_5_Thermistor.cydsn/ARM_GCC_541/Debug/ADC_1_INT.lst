@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 1
 
 
    1              		.syntax unified
@@ -10,7 +10,7 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
    7              		.eabi_attribute 24, 1
    8              		.eabi_attribute 25, 1
    9              		.eabi_attribute 26, 1
-  10              		.eabi_attribute 30, 6
+  10              		.eabi_attribute 30, 2
   11              		.eabi_attribute 34, 1
   12              		.eabi_attribute 18, 4
   13              		.thumb
@@ -18,18 +18,529 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
   15              		.file	"ADC_1_INT.c"
   16              		.text
   17              	.Ltext0:
-  18              		.cfi_sections	.debug_frame
-  19              		.section	.text.ADC_1_ISR1,"ax",%progbits
-  20              		.align	2
-  21              		.global	ADC_1_ISR1
-  22              		.thumb
-  23              		.thumb_func
-  24              		.type	ADC_1_ISR1, %function
-  25              	ADC_1_ISR1:
-  26              	.LFB0:
-  27              		.file 1 "Generated_Source\\PSoC5\\ADC_1_INT.c"
+  18              		.section	.gnu.lto_.profile.807c9f68,"",%progbits
+  19 0000 789C6361 		.ascii	"x\234ca`d`a`\000\222\034,\000\000~\000\027"
+  19      60646061 
+  19      6000921C 
+  19      2C00007E 
+  19      0017
+  20              		.text
+  21              		.section	.gnu.lto_.icf.807c9f68,"",%progbits
+  22 0000 789C6361 		.ascii	"x\234ca`d\000\001)\006\004`aX?\363A\013\023#\230d\002"
+  22      60640001 
+  22      29060460 
+  22      61583FF3 
+  22      410B1323 
+  23 0017 93CC6092 		.ascii	"\223\314`\222\001\000\226\254\012\342"
+  23      010096AC 
+  23      0AE2
+  24              		.text
+  25              		.section	.gnu.lto_.jmpfuncs.807c9f68,"",%progbits
+  26 0000 789C6361 		.ascii	"x\234ca`d\000\001>\006\004`\001b\240(\023\003\0033\220"
+  26      60640001 
+  26      3E060460 
+  26      0162A028 
+  26      13030333 
+  27 0015 05000292 		.ascii	"\005\000\002\222\000\036"
+  27      001E
+  28              		.text
+  29              		.section	.gnu.lto_.inline.807c9f68,"",%progbits
+  30 0000 789C6361 		.ascii	"x\234ca`d\000\001/\006\004`a``fbd`\0022\331\026\310"
+  30      60640001 
+  30      2F060460 
+  30      61606066 
+  30      62646002 
+  31 0018 8328A022 		.ascii	"\203(\240\"t\021&\014\021f\014\021\006\000\216\240\003"
+  31      7411260C 
+  31      11660C11 
+  31      06008EA0 
+  31      03
+  32 0029 96       		.ascii	"\226"
+  33              		.text
+  34              		.section	.gnu.lto_.pureconst.807c9f68,"",%progbits
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 2
+
+
+  35 0000 789C6361 		.ascii	"x\234ca`d\340d```a\0002\230\030\230\031\000\001\021"
+  35      6064E064 
+  35      60606061 
+  35      00329818 
+  35      98190001 
+  36 0015 0019     		.ascii	"\000\031"
+  37              		.text
+  38              		.section	.gnu.lto_ADC_1_ISR1.807c9f68,"",%progbits
+  39 0000 789C6361 		.ascii	"x\234ca`d\000\201j V\005bi fdf`d\232p\216\201\241\221"
+  39      60640081 
+  39      6A205605 
+  39      62692066 
+  39      64666064 
+  40 001a 83899111 		.ascii	"\203\211\221\021\304h\340`d\250gb\254g\374\312\364\227"
+  40      C468E060 
+  40      64A86762 
+  40      AC67FCCA 
+  40      F497
+  41 002c 89F150FB 		.ascii	"\211\361P\373\263\235L\232\313\033\200\340\301\323["
+  41      B39D4C9A 
+  41      CB1B80E0 
+  41      C1D35B
+  42 003b 4C0D2B0E 		.ascii	"L\015+\0160\266230\374g\002\233\304\300\270\234Q\223"
+  42      30B63233 
+  42      30FC6702 
+  42      9BC4C0B8 
+  42      9C5193
+  43 004e 01A8ECD1 		.ascii	"\001\250\354\321\306\177Sy\331Z@\312\024 \222\214+\030"
+  43      C67F5379 
+  43      D95A40CA 
+  43      1420928C 
+  43      2B18
+  44 0060 D940D6AD 		.ascii	"\331@\326\255\017:\320\360\377\177s\303\201\033\202"
+  44      0F3AD0F0 
+  44      FF7F73C3 
+  44      811B82
+  45 006f 2B998112 		.ascii	"+\231\201\022\037\200\030d\315G&&\020\315\374\212\221"
+  45      1F801864 
+  45      CD472626 
+  45      10CDFC8A 
+  45      91
+  46 0080 09A4146C 		.ascii	"\011\244\024l\332\007&F\220\030P\205\262{j^jQbIjJ|p"
+  46      DA072646 
+  46      90185085 
+  46      B27B6A5E 
+  46      6A516249 
+  47 0098 7E695172 		.ascii	"~iQrjL@p\276\263i\214\243\213s\274a\274\247_\210^2\003"
+  47      6A4C4070 
+  47      BEB3698C 
+  47      A38B73BC 
+  47      61BCA75F 
+  48 00b0 00403338 		.ascii	"\000@38\347"
+  48      E7
+  49              		.text
+  50              		.section	.gnu.lto_ADC_1_ISR2.807c9f68,"",%progbits
+  51 0000 789C6361 		.ascii	"x\234ca`d\000\201j V\005bi fdf`d\232p\216\201\241\221"
+  51      60640081 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 3
+
+
+  51      6A205605 
+  51      62692066 
+  51      64666064 
+  52 001a 83899111 		.ascii	"\203\211\221\021\304h\340`d\250gb\254g\374\312\364\227"
+  52      C468E060 
+  52      64A86762 
+  52      AC67FCCA 
+  52      F497
+  53 002c 89F150FB 		.ascii	"\211\361P\373\263\235L\232\313\033\200\340\301\322\317"
+  53      B39D4C9A 
+  53      CB1B80E0 
+  53      C1D2CF
+  54 003b 1A0D2B0E 		.ascii	"\032\015+\0160\266230\374g\002\233\304\300\270\234Q"
+  54      30B63233 
+  54      30FC6702 
+  54      9BC4C0B8 
+  54      9C51
+  55 004d 9301A8EC 		.ascii	"\223\001\250\354\321\306\177Sy\331Z@\312\024 \222\214"
+  55      D1C67F53 
+  55      79D95A40 
+  55      CA142092 
+  55      8C
+  56 005e 2B18D940 		.ascii	"+\030\331@\326\255\017:\320\360\377\177s\303\2019\354"
+  56      D6AD0F3A 
+  56      D0F0FF7F 
+  56      73C38139 
+  56      EC
+  57 006f 6B458012 		.ascii	"kE\200\022\037\200\030d\315G&&\020\315\374\212\221\011"
+  57      1F801864 
+  57      CD472626 
+  57      10CDFC8A 
+  57      9109
+  58 0081 A4146CDA 		.ascii	"\244\024l\332\007&F\220\030P\205\262{j^jQbIjJ|p~iQr"
+  58      07264690 
+  58      185085B2 
+  58      7B6A5E6A 
+  58      5162496A 
+  59 009c 6A4C4070 		.ascii	"jL@p\276\263i\214\243\213s\274a\274\247_\210^2\003\000"
+  59      BEB3698C 
+  59      A38B73BC 
+  59      61BCA75F 
+  59      885E3203 
+  60 00b1 2F8D38B5 		.ascii	"/\2158\265"
+  61              		.text
+  62              		.section	.gnu.lto_ADC_1_ISR3.807c9f68,"",%progbits
+  63 0000 789C6361 		.ascii	"x\234ca`d\000\201j V\005bi fdf`d\232p\216\201\241\221"
+  63      60640081 
+  63      6A205605 
+  63      62692066 
+  63      64666064 
+  64 001a 83899111 		.ascii	"\203\211\221\021\304h\340`d\250gb\254g\374\312\364\227"
+  64      C468E060 
+  64      64A86762 
+  64      AC67FCCA 
+  64      F497
+  65 002c 89F150FB 		.ascii	"\211\361P\373\263\235L\232\313\033\200\340\301\323\325"
+  65      B39D4C9A 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 4
+
+
+  65      CB1B80E0 
+  65      C1D3D5
+  66 003b 9A0D2B0E 		.ascii	"\232\015+\0160\266230\374g\002\233\304\300\270\234Q"
+  66      30B63233 
+  66      30FC6702 
+  66      9BC4C0B8 
+  66      9C51
+  67 004d 9301A8EC 		.ascii	"\223\001\250\354\321\306\177Sy\331Z@\312\024 \222\214"
+  67      D1C67F53 
+  67      79D95A40 
+  67      CA142092 
+  67      8C
+  68 005e 2B18D940 		.ascii	"+\030\331@\326\255\017:\320\360\377\177s\303\201\017"
+  68      D6AD0F3A 
+  68      D0F0FF7F 
+  68      73C3810F 
+  69 006e 5C5BC581 		.ascii	"\\[\305\201\022\037\200\030d\315G&&\020\315\374\212"
+  69      121F8018 
+  69      64CD4726 
+  69      2610CDFC 
+  69      8A
+  70 007f 9109A414 		.ascii	"\221\011\244\024l\332\007&F\220\030P\205\262{j^jQbI"
+  70      6CDA0726 
+  70      46901850 
+  70      85B27B6A 
+  70      5E6A5162 
+  71 0094 6A4A7C70 		.ascii	"jJ|p~iQrjL@p\276\263i\214\243\213s\274a\274\247_\210"
+  71      7E695172 
+  71      6A4C4070 
+  71      BEB3698C 
+  71      A38B73BC 
+  72 00ad 5E320300 		.ascii	"^2\003\000J\3209\020"
+  72      4AD03910 
+  73              		.text
+  74              		.section	.gnu.lto_ADC_1_ISR4.807c9f68,"",%progbits
+  75 0000 789C6361 		.ascii	"x\234ca`d\000\201j V\005bi fdf`d\232p\216\201\241\221"
+  75      60640081 
+  75      6A205605 
+  75      62692066 
+  75      64666064 
+  76 001a 83899111 		.ascii	"\203\211\221\021\304h\340`d\250gb\254g\374\312\364\227"
+  76      C468E060 
+  76      64A86762 
+  76      AC67FCCA 
+  76      F497
+  77 002c 89F150FB 		.ascii	"\211\361P\373\263\235L\232\313\033\200\340\301\322g"
+  77      B39D4C9A 
+  77      CB1B80E0 
+  77      C1D267
+  78 003b 9A0D2B0E 		.ascii	"\232\015+\0160\266230\374g\002\233\304\300\270\234Q"
+  78      30B63233 
+  78      30FC6702 
+  78      9BC4C0B8 
+  78      9C51
+  79 004d 9301A8EC 		.ascii	"\223\001\250\354\321\306\177Sy\331Z@\312\024 \222\214"
+  79      D1C67F53 
+  79      79D95A40 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 5
+
+
+  79      CA142092 
+  79      8C
+  80 005e 2B18D940 		.ascii	"+\030\331@\326\255\017:\320\360\377\177s\303\201-|{"
+  80      D6AD0F3A 
+  80      D0F0FF7F 
+  80      73C3812D 
+  80      7C7B
+  81 0070 E580121F 		.ascii	"\345\200\022\037\200\030d\315G&&\020\315\374\212\221"
+  81      801864CD 
+  81      47262610 
+  81      CDFC8A91 
+  82 0080 09A4146C 		.ascii	"\011\244\024l\332\007&F\220\030P\205\262{j^jQbIjJ|p"
+  82      DA072646 
+  82      90185085 
+  82      B27B6A5E 
+  82      6A516249 
+  83 0098 7E695172 		.ascii	"~iQrjL@p\276\263i\214\243\213s\274a\274\247_\210^2\003"
+  83      6A4C4070 
+  83      BEB3698C 
+  83      A38B73BC 
+  83      61BCA75F 
+  84 00b0 003AA838 		.ascii	"\000:\2508\342"
+  84      E2
+  85              		.text
+  86              		.section	.gnu.lto_.symbol_nodes.807c9f68,"",%progbits
+  87 0000 789C6361 		.ascii	"x\234ca`dpc\000\002&\206z\006\206\011\347\030@\324\256"
+  87      60647063 
+  87      00022686 
+  87      7A068609 
+  87      E71840D4 
+  88 0015 0645A000 		.ascii	"\006E\240\000c=#\252\000S=\023\252\000s=3\212\000\003"
+  88      633D23AA 
+  88      00533D13 
+  88      AA00733D 
+  88      338A0003 
+  89 0029 0026B60F 		.ascii	"\000&\266\017<"
+  89      3C
+  90              		.text
+  91              		.section	.gnu.lto_.refs.807c9f68,"",%progbits
+  92 0000 789C6361 		.ascii	"x\234ca`\004B \000\000\0009\000\007"
+  92      60044220 
+  92      00000039 
+  92      0007
+  93              		.text
+  94              		.section	.gnu.lto_.decls.807c9f68,"",%progbits
+  95 0000 789C6D91 		.ascii	"x\234m\221\317+DQ\024\307\357\271\357\021\223,$YP\323"
+  95      CF2B4451 
+  95      14C7EFB9 
+  95      EF11932C 
+  95      245950D3 
+  96 0014 58AAA9F1 		.ascii	"X\252\251\361ccE\343G6\222\301BS\223\037#+J\354/\306"
+  96      636345E3 
+  96      473692C1 
+  96      4253931F 
+  96      232B4AEC 
+  97 002a 4EB1A10C 		.ascii	"N\261\241\014\205\"\203\031\363f\306\037@\221\250Q~"
+  97      85228319 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 6
+
+
+  97      F366C61F 
+  97      4091A851 
+  97      7E
+  98 003b 2C487E25 		.ascii	",H~%\311\302BXXh\234w\337}\356\213wz\347\335s\336\373"
+  98      C9C24258 
+  98      58689C77 
+  98      DF7DEE8B 
+  98      777AE7DD 
+  99 0052 7E3FF7DC 		.ascii	"~?\367\334\367T\002D\217\001JH\027\256\027\230\031\214"
+  99      F7540244 
+  99      8F014A48 
+  99      17AE1798 
+  99      198C
+ 100 0064 2C5C3B89 		.ascii	",\\;\211\014\0253\206\031\307L`\246\310\377\320\337"
+ 100      0C153386 
+ 100      19C74C60 
+ 100      A6C8FFD0 
+ 100      DF
+ 101 0075 83C507E2 		.ascii	"\203\305\007\342\331\337\210\333\350\3426\272\204\215"
+ 101      D9DF88DB 
+ 101      E8E236BA 
+ 101      848D
+ 102 0083 2E61A34B 		.ascii	".a\243K\331\350\354\346\373\246\220Y\332\231\316\271"
+ 102      D9E8ECE6 
+ 102      FBA69059 
+ 102      DA99CEB9 
+ 103 0093 862B5088 		.ascii	"\206+P\21088\0010\356\300\223\030\311[,(1\012\363\321"
+ 103      38380130 
+ 103      EEC09318 
+ 103      C95B2C28 
+ 103      310AF3D1 
+ 104 00a7 6F1021A1 		.ascii	"o\020!\241f)a\374\022~\310\230\301!\222\016\302d\364"
+ 104      662961FC 
+ 104      127EC898 
+ 104      C121920E 
+ 104      C264F4
+ 105 00ba E6DCC204 		.ascii	"\346\334\302\004Tn\000Fk:,\274?\023\2313\233\333\020"
+ 105      546E0046 
+ 105      6B3A2CBC 
+ 105      3F139933 
+ 105      9BDB10
+ 106 00cd 6A1EFAF0 		.ascii	"j\036\372\360\205\255\200BA\257\357\276\"\215\356(\303"
+ 106      85AD8042 
+ 106      41AFEFBE 
+ 106      228DEE28 
+ 106      C3
+ 107 00de 98618C96 		.ascii	"\230a\214\226\312/s\032\322\026\225\017\012\005\016"
+ 107      CA2F731A 
+ 107      D216950F 
+ 107      0A050E
+ 108 00ed 50B17D4B 		.ascii	"P\261}K\207\037\363\261-t\200\023\333\357\243\2050-"
+ 108      871FF3B1 
+ 108      2D748013 
+ 108      DBEFA385 
+ 108      302D
+ 109 00ff 9EE3BE09 		.ascii	"\236\343\276\011\346T\241\263\010\266\240\0046\241\004"
+ 109      E654A1B3 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 7
+
+
+ 109      08B6A004 
+ 109      36A104
+ 110 010e F78B4231 		.ascii	"\367\213B1\336{T\203t\366\372>\236\353Zf\232\306\356"
+ 110      DE7B5483 
+ 110      74F6FA3E 
+ 110      9EEB5A66 
+ 110      9AC6EE
+ 111 0121 6FA2E5F3 		.ascii	"o\242\345\363l7\2046\252\253 \002\012l\200[\0372\242"
+ 111      6C378436 
+ 111      AAAB2002 
+ 111      0A6C805B 
+ 111      1F32A2
+ 112 0134 FF0302EB 		.ascii	"\377\003\002\353p\215\363\306\300\205\316\317\364\224"
+ 112      708DF3C6 
+ 112      C085CECF 
+ 112      F494
+ 113 0142 5FA9E173 		.ascii	"_\251\341s\316\336\356\237\347\031\220\335\360a\036"
+ 113      CEDEEE9F 
+ 113      E71990DD 
+ 113      F0611E
+ 114 0151 9B1963AC 		.ascii	"\233\031c\254\226#\266%b\333\212\210s\304CdmRQ\0328"
+ 114      9623B625 
+ 114      62DB8A88 
+ 114      73C44364 
+ 114      6D52511A 
+ 115 0166 E3FCE062 		.ascii	"\343\374\340b\225\012\306\355\261\225\241I\206fe$8\343"
+ 115      950AC6ED 
+ 115      B195A149 
+ 115      86666524 
+ 115      38E3
+ 116 0178 EA29D6AF 		.ascii	"\352)\326\257\264r\304sz\3572[ \222'VDR\"\222VD\012"
+ 116      B472C473 
+ 116      7AEF325B 
+ 116      20922756 
+ 116      44522292 
+ 117 018f 5CC45157 		.ascii	"\\\304QW\357\015x\002\315\2766ONSK\207\323\353\361\220"
+ 117      EF0D7802 
+ 117      CDBE364F 
+ 117      4E534B87 
+ 117      D3EBF190 
+ 118 01a3 B2A6E060 		.ascii	"\262\246\340`p\270{$\330\027\360\015\215\016\367\006"
+ 118      70B87B24 
+ 118      D817F00D 
+ 118      8D0EF706 
+ 119 01b3 FDADBE21 		.ascii	"\375\255\276!o\265_H[\332\335\275\026_\205,+eY\365\003"
+ 119      6FB55F48 
+ 119      5BDADDBD 
+ 119      165F852C 
+ 119      2B6559F5 
+ 120 01c8 DD4AB768 		.ascii	"\335J\267h"
+ 121              		.text
+ 122              		.section	.gnu.lto_.symtab.807c9f68,"",%progbits
+ 123 0000 4144435F 		.ascii	"ADC_1_ISR1\000"
+ 123      315F4953 
+ 123      523100
+ 124 000b 00       		.ascii	"\000"
+ 125 000c 00       		.ascii	"\000"
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 8
+
+
+ 126 000d 00       		.ascii	"\000"
+ 127 000e 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 127      00000000 
+ 128 0016 AD000000 		.ascii	"\255\000\000\000"
+ 129 001a 4144435F 		.ascii	"ADC_1_ISR2\000"
+ 129      315F4953 
+ 129      523200
+ 130 0025 00       		.ascii	"\000"
+ 131 0026 00       		.ascii	"\000"
+ 132 0027 00       		.ascii	"\000"
+ 133 0028 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 133      00000000 
+ 134 0030 AF000000 		.ascii	"\257\000\000\000"
+ 135 0034 4144435F 		.ascii	"ADC_1_ISR3\000"
+ 135      315F4953 
+ 135      523300
+ 136 003f 00       		.ascii	"\000"
+ 137 0040 00       		.ascii	"\000"
+ 138 0041 00       		.ascii	"\000"
+ 139 0042 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 139      00000000 
+ 140 004a B1000000 		.ascii	"\261\000\000\000"
+ 141 004e 4144435F 		.ascii	"ADC_1_ISR4\000"
+ 141      315F4953 
+ 141      523400
+ 142 0059 00       		.ascii	"\000"
+ 143 005a 00       		.ascii	"\000"
+ 144 005b 00       		.ascii	"\000"
+ 145 005c 00000000 		.ascii	"\000\000\000\000\000\000\000\000"
+ 145      00000000 
+ 146 0064 B3000000 		.ascii	"\263\000\000\000"
+ 147              		.text
+ 148              		.section	.gnu.lto_.opts,"",%progbits
+ 149 0000 272D666D 		.ascii	"'-fmath-errno' '-fsigned-zeros' '-ftrapping-math' '"
+ 149      6174682D 
+ 149      6572726E 
+ 149      6F272027 
+ 149      2D667369 
+ 150 0033 2D666E6F 		.ascii	"-fno-trapv' '-fno-openmp' '-fno-openacc' '-mcpu=cor"
+ 150      2D747261 
+ 150      70762720 
+ 150      272D666E 
+ 150      6F2D6F70 
+ 151 0066 7465782D 		.ascii	"tex-m3' '-mthumb' '-g' '-O3' '-ffunction-sections' "
+ 151      6D332720 
+ 151      272D6D74 
+ 151      68756D62 
+ 151      2720272D 
+ 152 0099 272D6666 		.ascii	"'-ffat-lto-objects' '-finline-functions' '-flto'\000"
+ 152      61742D6C 
+ 152      746F2D6F 
+ 152      626A6563 
+ 152      74732720 
+ 153              		.text
+ 154              		.cfi_sections	.debug_frame
+ 155              		.section	.text.ADC_1_ISR1,"ax",%progbits
+ 156              		.align	2
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 9
+
+
+ 157              		.global	ADC_1_ISR1
+ 158              		.thumb
+ 159              		.thumb_func
+ 160              		.type	ADC_1_ISR1, %function
+ 161              	ADC_1_ISR1:
+ 162              	.LFB9:
+ 163              		.cfi_startproc
+ 164              		@ args = 0, pretend = 0, frame = 0
+ 165              		@ frame_needed = 0, uses_anonymous_args = 0
+ 166              		@ link register save eliminated.
+ 167 0000 7047     		bx	lr
+ 168              		.cfi_endproc
+ 169              	.LFE9:
+ 170              		.size	ADC_1_ISR1, .-ADC_1_ISR1
+ 171 0002 00BF     		.section	.text.ADC_1_ISR2,"ax",%progbits
+ 172              		.align	2
+ 173              		.global	ADC_1_ISR2
+ 174              		.thumb
+ 175              		.thumb_func
+ 176              		.type	ADC_1_ISR2, %function
+ 177              	ADC_1_ISR2:
+ 178              	.LFB7:
+ 179              		.cfi_startproc
+ 180              		@ args = 0, pretend = 0, frame = 0
+ 181              		@ frame_needed = 0, uses_anonymous_args = 0
+ 182              		@ link register save eliminated.
+ 183 0000 7047     		bx	lr
+ 184              		.cfi_endproc
+ 185              	.LFE7:
+ 186              		.size	ADC_1_ISR2, .-ADC_1_ISR2
+ 187 0002 00BF     		.section	.text.ADC_1_ISR3,"ax",%progbits
+ 188              		.align	2
+ 189              		.global	ADC_1_ISR3
+ 190              		.thumb
+ 191              		.thumb_func
+ 192              		.type	ADC_1_ISR3, %function
+ 193              	ADC_1_ISR3:
+ 194              	.LFB5:
+ 195              		.cfi_startproc
+ 196              		@ args = 0, pretend = 0, frame = 0
+ 197              		@ frame_needed = 0, uses_anonymous_args = 0
+ 198              		@ link register save eliminated.
+ 199 0000 7047     		bx	lr
+ 200              		.cfi_endproc
+ 201              	.LFE5:
+ 202              		.size	ADC_1_ISR3, .-ADC_1_ISR3
+ 203 0002 00BF     		.section	.text.ADC_1_ISR4,"ax",%progbits
+ 204              		.align	2
+ 205              		.global	ADC_1_ISR4
+ 206              		.thumb
+ 207              		.thumb_func
+ 208              		.type	ADC_1_ISR4, %function
+ 209              	ADC_1_ISR4:
+ 210              	.LFB3:
+ 211              		.file 1 "Generated_Source\\PSoC5\\ADC_1_INT.c"
    1:Generated_Source\PSoC5/ADC_1_INT.c **** /*******************************************************************************
    2:Generated_Source\PSoC5/ADC_1_INT.c **** * File Name: ADC_1_INT.c
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 10
+
+
    3:Generated_Source\PSoC5/ADC_1_INT.c **** * Version 3.30
    4:Generated_Source\PSoC5/ADC_1_INT.c **** *
    5:Generated_Source\PSoC5/ADC_1_INT.c **** * Description:
@@ -58,9 +569,6 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
   28:Generated_Source\PSoC5/ADC_1_INT.c **** 
   29:Generated_Source\PSoC5/ADC_1_INT.c **** /* `#END`  */
   30:Generated_Source\PSoC5/ADC_1_INT.c **** 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 2
-
-
   31:Generated_Source\PSoC5/ADC_1_INT.c **** #if(ADC_1_IRQ_REMOVE == 0u)
   32:Generated_Source\PSoC5/ADC_1_INT.c **** 
   33:Generated_Source\PSoC5/ADC_1_INT.c **** 
@@ -83,16 +591,6 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
   50:Generated_Source\PSoC5/ADC_1_INT.c ****     *****************************************************************************/
   51:Generated_Source\PSoC5/ADC_1_INT.c ****     CY_ISR( ADC_1_ISR1)
   52:Generated_Source\PSoC5/ADC_1_INT.c ****     {
-  28              		.loc 1 52 0
-  29              		.cfi_startproc
-  30              		@ args = 0, pretend = 0, frame = 0
-  31              		@ frame_needed = 1, uses_anonymous_args = 0
-  32              		@ link register save eliminated.
-  33 0000 80B4     		push	{r7}
-  34              		.cfi_def_cfa_offset 4
-  35              		.cfi_offset 7, -4
-  36 0002 00AF     		add	r7, sp, #0
-  37              		.cfi_def_cfa_register 7
   53:Generated_Source\PSoC5/ADC_1_INT.c ****         #ifdef ADC_1_ISR1_ENTRY_CALLBACK
   54:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_ISR1_EntryCallback();
   55:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* ADC_1_ISR1_ENTRY_CALLBACK */
@@ -100,6 +598,9 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
   57:Generated_Source\PSoC5/ADC_1_INT.c **** 
   58:Generated_Source\PSoC5/ADC_1_INT.c ****         /**************************************************************************
   59:Generated_Source\PSoC5/ADC_1_INT.c ****         *  Custom Code
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 11
+
+
   60:Generated_Source\PSoC5/ADC_1_INT.c ****         *  - add user ISR code between the following #START and #END tags
   61:Generated_Source\PSoC5/ADC_1_INT.c ****         **************************************************************************/
   62:Generated_Source\PSoC5/ADC_1_INT.c ****         /* `#START MAIN_ADC_ISR1`  */
@@ -118,33 +619,10 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
   75:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_convDone = ADC_1_DEC_CONV_DONE;
   76:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* Single sample conversion mode with resolution above 16 bits */
   77:Generated_Source\PSoC5/ADC_1_INT.c **** 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 3
-
-
   78:Generated_Source\PSoC5/ADC_1_INT.c ****         #ifdef ADC_1_ISR1_EXIT_CALLBACK
   79:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_ISR1_ExitCallback();
   80:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* ADC_1_ISR1_EXIT_CALLBACK */
   81:Generated_Source\PSoC5/ADC_1_INT.c ****     }
-  38              		.loc 1 81 0
-  39 0004 00BF     		nop
-  40 0006 BD46     		mov	sp, r7
-  41              		.cfi_def_cfa_register 13
-  42              		@ sp needed
-  43 0008 80BC     		pop	{r7}
-  44              		.cfi_restore 7
-  45              		.cfi_def_cfa_offset 0
-  46 000a 7047     		bx	lr
-  47              		.cfi_endproc
-  48              	.LFE0:
-  49              		.size	ADC_1_ISR1, .-ADC_1_ISR1
-  50              		.section	.text.ADC_1_ISR2,"ax",%progbits
-  51              		.align	2
-  52              		.global	ADC_1_ISR2
-  53              		.thumb
-  54              		.thumb_func
-  55              		.type	ADC_1_ISR2, %function
-  56              	ADC_1_ISR2:
-  57              	.LFB1:
   82:Generated_Source\PSoC5/ADC_1_INT.c **** 
   83:Generated_Source\PSoC5/ADC_1_INT.c **** 
   84:Generated_Source\PSoC5/ADC_1_INT.c ****     /*****************************************************************************
@@ -166,21 +644,8 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
  100:Generated_Source\PSoC5/ADC_1_INT.c ****     *****************************************************************************/
  101:Generated_Source\PSoC5/ADC_1_INT.c ****     CY_ISR( ADC_1_ISR2)
  102:Generated_Source\PSoC5/ADC_1_INT.c ****     {
-  58              		.loc 1 102 0
-  59              		.cfi_startproc
-  60              		@ args = 0, pretend = 0, frame = 0
-  61              		@ frame_needed = 1, uses_anonymous_args = 0
-  62              		@ link register save eliminated.
-  63 0000 80B4     		push	{r7}
-  64              		.cfi_def_cfa_offset 4
-  65              		.cfi_offset 7, -4
-  66 0002 00AF     		add	r7, sp, #0
-  67              		.cfi_def_cfa_register 7
  103:Generated_Source\PSoC5/ADC_1_INT.c ****         #ifdef ADC_1_ISR2_ENTRY_CALLBACK
  104:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_ISR2_EntryCallback();
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 4
-
-
  105:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* ADC_1_ISR2_ENTRY_CALLBACK */
  106:Generated_Source\PSoC5/ADC_1_INT.c ****         
  107:Generated_Source\PSoC5/ADC_1_INT.c ****         
@@ -193,6 +658,9 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
  114:Generated_Source\PSoC5/ADC_1_INT.c ****         /* `#END`  */
  115:Generated_Source\PSoC5/ADC_1_INT.c **** 
  116:Generated_Source\PSoC5/ADC_1_INT.c ****         /* Stop the conversion conversion mode is single sample and resolution
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 12
+
+
  117:Generated_Source\PSoC5/ADC_1_INT.c ****         *  is above 16 bits.
  118:Generated_Source\PSoC5/ADC_1_INT.c ****         */
  119:Generated_Source\PSoC5/ADC_1_INT.c ****         #if(ADC_1_CFG2_RESOLUTION > 16 && \
@@ -208,26 +676,6 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
  129:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_ISR2_ExitCallback();
  130:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* ADC_1_ISR2_EXIT_CALLBACK */
  131:Generated_Source\PSoC5/ADC_1_INT.c ****     }
-  68              		.loc 1 131 0
-  69 0004 00BF     		nop
-  70 0006 BD46     		mov	sp, r7
-  71              		.cfi_def_cfa_register 13
-  72              		@ sp needed
-  73 0008 80BC     		pop	{r7}
-  74              		.cfi_restore 7
-  75              		.cfi_def_cfa_offset 0
-  76 000a 7047     		bx	lr
-  77              		.cfi_endproc
-  78              	.LFE1:
-  79              		.size	ADC_1_ISR2, .-ADC_1_ISR2
-  80              		.section	.text.ADC_1_ISR3,"ax",%progbits
-  81              		.align	2
-  82              		.global	ADC_1_ISR3
-  83              		.thumb
-  84              		.thumb_func
-  85              		.type	ADC_1_ISR3, %function
-  86              	ADC_1_ISR3:
-  87              	.LFB2:
  132:Generated_Source\PSoC5/ADC_1_INT.c **** 
  133:Generated_Source\PSoC5/ADC_1_INT.c **** 
  134:Generated_Source\PSoC5/ADC_1_INT.c ****     /*****************************************************************************
@@ -238,9 +686,6 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
  139:Generated_Source\PSoC5/ADC_1_INT.c ****     *  Handle Interrupt Service Routine.
  140:Generated_Source\PSoC5/ADC_1_INT.c ****     *
  141:Generated_Source\PSoC5/ADC_1_INT.c ****     * Parameters:
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 5
-
-
  142:Generated_Source\PSoC5/ADC_1_INT.c ****     *  None
  143:Generated_Source\PSoC5/ADC_1_INT.c ****     *
  144:Generated_Source\PSoC5/ADC_1_INT.c ****     * Return:
@@ -252,16 +697,6 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
  150:Generated_Source\PSoC5/ADC_1_INT.c ****     *****************************************************************************/
  151:Generated_Source\PSoC5/ADC_1_INT.c ****     CY_ISR( ADC_1_ISR3)
  152:Generated_Source\PSoC5/ADC_1_INT.c ****     {
-  88              		.loc 1 152 0
-  89              		.cfi_startproc
-  90              		@ args = 0, pretend = 0, frame = 0
-  91              		@ frame_needed = 1, uses_anonymous_args = 0
-  92              		@ link register save eliminated.
-  93 0000 80B4     		push	{r7}
-  94              		.cfi_def_cfa_offset 4
-  95              		.cfi_offset 7, -4
-  96 0002 00AF     		add	r7, sp, #0
-  97              		.cfi_def_cfa_register 7
  153:Generated_Source\PSoC5/ADC_1_INT.c ****         #ifdef ADC_1_ISR3_ENTRY_CALLBACK
  154:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_ISR3_EntryCallback();
  155:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* ADC_1_ISR3_ENTRY_CALLBACK */        
@@ -283,6 +718,9 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
  171:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_StopConvert();
  172:Generated_Source\PSoC5/ADC_1_INT.c ****             /* Software flag for checking conversion complete or not. Will be used when
  173:Generated_Source\PSoC5/ADC_1_INT.c ****             *  resolution is above 16 bits and conversion mode is single sample 
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 13
+
+
  174:Generated_Source\PSoC5/ADC_1_INT.c **** 			*/
  175:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_convDone = ADC_1_DEC_CONV_DONE;
  176:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* Single sample conversion mode with resolution above 16 bits */
@@ -291,29 +729,6 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
  179:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_ISR3_ExitCallback();
  180:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* ADC_1_ISR3_EXIT_CALLBACK */        
  181:Generated_Source\PSoC5/ADC_1_INT.c ****     }
-  98              		.loc 1 181 0
-  99 0004 00BF     		nop
- 100 0006 BD46     		mov	sp, r7
- 101              		.cfi_def_cfa_register 13
- 102              		@ sp needed
- 103 0008 80BC     		pop	{r7}
- 104              		.cfi_restore 7
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 6
-
-
- 105              		.cfi_def_cfa_offset 0
- 106 000a 7047     		bx	lr
- 107              		.cfi_endproc
- 108              	.LFE2:
- 109              		.size	ADC_1_ISR3, .-ADC_1_ISR3
- 110              		.section	.text.ADC_1_ISR4,"ax",%progbits
- 111              		.align	2
- 112              		.global	ADC_1_ISR4
- 113              		.thumb
- 114              		.thumb_func
- 115              		.type	ADC_1_ISR4, %function
- 116              	ADC_1_ISR4:
- 117              	.LFB3:
  182:Generated_Source\PSoC5/ADC_1_INT.c **** 
  183:Generated_Source\PSoC5/ADC_1_INT.c **** 
  184:Generated_Source\PSoC5/ADC_1_INT.c ****     /*****************************************************************************
@@ -335,404 +750,325 @@ ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 1
  200:Generated_Source\PSoC5/ADC_1_INT.c ****     *****************************************************************************/
  201:Generated_Source\PSoC5/ADC_1_INT.c ****     CY_ISR( ADC_1_ISR4)
  202:Generated_Source\PSoC5/ADC_1_INT.c ****     {
- 118              		.loc 1 202 0
- 119              		.cfi_startproc
- 120              		@ args = 0, pretend = 0, frame = 0
- 121              		@ frame_needed = 1, uses_anonymous_args = 0
- 122              		@ link register save eliminated.
- 123 0000 80B4     		push	{r7}
- 124              		.cfi_def_cfa_offset 4
- 125              		.cfi_offset 7, -4
- 126 0002 00AF     		add	r7, sp, #0
- 127              		.cfi_def_cfa_register 7
- 203:Generated_Source\PSoC5/ADC_1_INT.c ****         #ifdef ADC_1_ISR4_ENTRY_CALLBACK
- 204:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_ISR4_EntryCallback();
- 205:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* ADC_1_ISR4_ENTRY_CALLBACK */            
- 206:Generated_Source\PSoC5/ADC_1_INT.c **** 
- 207:Generated_Source\PSoC5/ADC_1_INT.c ****         
- 208:Generated_Source\PSoC5/ADC_1_INT.c ****         /***************************************************************************
- 209:Generated_Source\PSoC5/ADC_1_INT.c ****         *  Custom Code
- 210:Generated_Source\PSoC5/ADC_1_INT.c ****         *  - add user ISR code between the following #START and #END tags
- 211:Generated_Source\PSoC5/ADC_1_INT.c ****         **************************************************************************/
- 212:Generated_Source\PSoC5/ADC_1_INT.c ****         /* `#START MAIN_ADC_ISR4`  */
- 213:Generated_Source\PSoC5/ADC_1_INT.c **** 
- 214:Generated_Source\PSoC5/ADC_1_INT.c ****         /* `#END`  */
- 215:Generated_Source\PSoC5/ADC_1_INT.c **** 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 7
+ 212              		.loc 1 202 0
+ 213              		.cfi_startproc
+ 214              		@ args = 0, pretend = 0, frame = 0
+ 215              		@ frame_needed = 0, uses_anonymous_args = 0
+ 216              		@ link register save eliminated.
+ 217 0000 7047     		bx	lr
+ 218              		.cfi_endproc
+ 219              	.LFE3:
+ 220              		.size	ADC_1_ISR4, .-ADC_1_ISR4
+ 221 0002 00BF     		.text
+ 222              	.Letext0:
+ 223              		.section	.debug_info,"",%progbits
+ 224              	.Ldebug_info0:
+ 225 0000 A2000000 		.4byte	0xa2
+ 226 0004 0400     		.2byte	0x4
+ 227 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 228 000a 04       		.byte	0x4
+ 229 000b 01       		.uleb128 0x1
+ 230 000c 48010000 		.4byte	.LASF14
+ 231 0010 0C       		.byte	0xc
+ 232 0011 1B000000 		.4byte	.LASF15
+ 233 0015 7B000000 		.4byte	.LASF16
+ 234 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 235 001d 00000000 		.4byte	0
+ 236 0021 00000000 		.4byte	.Ldebug_line0
+ 237 0025 02       		.uleb128 0x2
+ 238 0026 01       		.byte	0x1
+ 239 0027 06       		.byte	0x6
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 14
 
 
- 216:Generated_Source\PSoC5/ADC_1_INT.c ****         /* Stop the conversion if conversion mode is set to single sample and
- 217:Generated_Source\PSoC5/ADC_1_INT.c ****         *  resolution is above 16 bits.
- 218:Generated_Source\PSoC5/ADC_1_INT.c ****         */
- 219:Generated_Source\PSoC5/ADC_1_INT.c ****         #if(ADC_1_CFG4_RESOLUTION > 16 && \
- 220:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_CFG4_CONVMODE == ADC_1_MODE_SINGLE_SAMPLE)
- 221:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_StopConvert();
- 222:Generated_Source\PSoC5/ADC_1_INT.c ****             /* Software flag for checking conversion complete or not. Will be used when
- 223:Generated_Source\PSoC5/ADC_1_INT.c ****             *  resolution is above 16 bits and conversion mode is single sample 
- 224:Generated_Source\PSoC5/ADC_1_INT.c **** 			*/
- 225:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_convDone = ADC_1_DEC_CONV_DONE;
- 226:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* Single sample conversion mode with resolution above 16 bits */
- 227:Generated_Source\PSoC5/ADC_1_INT.c ****         
- 228:Generated_Source\PSoC5/ADC_1_INT.c ****         #ifdef ADC_1_ISR4_EXIT_CALLBACK
- 229:Generated_Source\PSoC5/ADC_1_INT.c ****             ADC_1_ISR4_ExitCallback();
- 230:Generated_Source\PSoC5/ADC_1_INT.c ****         #endif /* ADC_1_ISR4_EXIT_CALLBACK */            
- 231:Generated_Source\PSoC5/ADC_1_INT.c ****     }
- 128              		.loc 1 231 0
- 129 0004 00BF     		nop
- 130 0006 BD46     		mov	sp, r7
- 131              		.cfi_def_cfa_register 13
- 132              		@ sp needed
- 133 0008 80BC     		pop	{r7}
- 134              		.cfi_restore 7
- 135              		.cfi_def_cfa_offset 0
- 136 000a 7047     		bx	lr
- 137              		.cfi_endproc
- 138              	.LFE3:
- 139              		.size	ADC_1_ISR4, .-ADC_1_ISR4
- 140              		.text
- 141              	.Letext0:
- 142              		.section	.debug_info,"",%progbits
- 143              	.Ldebug_info0:
- 144 0000 CF000000 		.4byte	0xcf
- 145 0004 0400     		.2byte	0x4
- 146 0006 00000000 		.4byte	.Ldebug_abbrev0
- 147 000a 04       		.byte	0x4
- 148 000b 01       		.uleb128 0x1
- 149 000c 6D000000 		.4byte	.LASF18
- 150 0010 0C       		.byte	0xc
- 151 0011 1B000000 		.4byte	.LASF19
- 152 0015 09010000 		.4byte	.LASF20
- 153 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 154 001d 00000000 		.4byte	0
- 155 0021 00000000 		.4byte	.Ldebug_line0
- 156 0025 02       		.uleb128 0x2
- 157 0026 01       		.byte	0x1
- 158 0027 06       		.byte	0x6
- 159 0028 CC010000 		.4byte	.LASF0
- 160 002c 02       		.uleb128 0x2
- 161 002d 01       		.byte	0x1
- 162 002e 08       		.byte	0x8
- 163 002f FB000000 		.4byte	.LASF1
- 164 0033 02       		.uleb128 0x2
- 165 0034 02       		.byte	0x2
- 166 0035 05       		.byte	0x5
- 167 0036 E4010000 		.4byte	.LASF2
- 168 003a 02       		.uleb128 0x2
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 8
+ 240 0028 1D010000 		.4byte	.LASF0
+ 241 002c 02       		.uleb128 0x2
+ 242 002d 01       		.byte	0x1
+ 243 002e 08       		.byte	0x8
+ 244 002f 6D000000 		.4byte	.LASF1
+ 245 0033 02       		.uleb128 0x2
+ 246 0034 02       		.byte	0x2
+ 247 0035 05       		.byte	0x5
+ 248 0036 35010000 		.4byte	.LASF2
+ 249 003a 02       		.uleb128 0x2
+ 250 003b 02       		.byte	0x2
+ 251 003c 07       		.byte	0x7
+ 252 003d 0A010000 		.4byte	.LASF3
+ 253 0041 02       		.uleb128 0x2
+ 254 0042 04       		.byte	0x4
+ 255 0043 05       		.byte	0x5
+ 256 0044 EF000000 		.4byte	.LASF4
+ 257 0048 02       		.uleb128 0x2
+ 258 0049 04       		.byte	0x4
+ 259 004a 07       		.byte	0x7
+ 260 004b 3E000000 		.4byte	.LASF5
+ 261 004f 02       		.uleb128 0x2
+ 262 0050 08       		.byte	0x8
+ 263 0051 05       		.byte	0x5
+ 264 0052 00000000 		.4byte	.LASF6
+ 265 0056 02       		.uleb128 0x2
+ 266 0057 08       		.byte	0x8
+ 267 0058 07       		.byte	0x7
+ 268 0059 50000000 		.4byte	.LASF7
+ 269 005d 03       		.uleb128 0x3
+ 270 005e 04       		.byte	0x4
+ 271 005f 05       		.byte	0x5
+ 272 0060 696E7400 		.ascii	"int\000"
+ 273 0064 02       		.uleb128 0x2
+ 274 0065 04       		.byte	0x4
+ 275 0066 07       		.byte	0x7
+ 276 0067 0E000000 		.4byte	.LASF8
+ 277 006b 02       		.uleb128 0x2
+ 278 006c 04       		.byte	0x4
+ 279 006d 04       		.byte	0x4
+ 280 006e 67000000 		.4byte	.LASF9
+ 281 0072 02       		.uleb128 0x2
+ 282 0073 08       		.byte	0x8
+ 283 0074 04       		.byte	0x4
+ 284 0075 03010000 		.4byte	.LASF10
+ 285 0079 02       		.uleb128 0x2
+ 286 007a 01       		.byte	0x1
+ 287 007b 08       		.byte	0x8
+ 288 007c EA000000 		.4byte	.LASF11
+ 289 0080 02       		.uleb128 0x2
+ 290 0081 08       		.byte	0x8
+ 291 0082 04       		.byte	0x4
+ 292 0083 29010000 		.4byte	.LASF12
+ 293 0087 02       		.uleb128 0x2
+ 294 0088 04       		.byte	0x4
+ 295 0089 07       		.byte	0x7
+ 296 008a 3F010000 		.4byte	.LASF13
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 15
 
 
- 169 003b 02       		.byte	0x2
- 170 003c 07       		.byte	0x7
- 171 003d B9010000 		.4byte	.LASF3
- 172 0041 02       		.uleb128 0x2
- 173 0042 04       		.byte	0x4
- 174 0043 05       		.byte	0x5
- 175 0044 7D010000 		.4byte	.LASF4
- 176 0048 02       		.uleb128 0x2
- 177 0049 04       		.byte	0x4
- 178 004a 07       		.byte	0x7
- 179 004b 3E000000 		.4byte	.LASF5
- 180 004f 02       		.uleb128 0x2
- 181 0050 08       		.byte	0x8
- 182 0051 05       		.byte	0x5
- 183 0052 00000000 		.4byte	.LASF6
- 184 0056 02       		.uleb128 0x2
- 185 0057 08       		.byte	0x8
- 186 0058 07       		.byte	0x7
- 187 0059 50000000 		.4byte	.LASF7
- 188 005d 03       		.uleb128 0x3
- 189 005e 04       		.byte	0x4
- 190 005f 05       		.byte	0x5
- 191 0060 696E7400 		.ascii	"int\000"
- 192 0064 02       		.uleb128 0x2
- 193 0065 04       		.byte	0x4
- 194 0066 07       		.byte	0x7
- 195 0067 0E000000 		.4byte	.LASF8
- 196 006b 02       		.uleb128 0x2
- 197 006c 04       		.byte	0x4
- 198 006d 04       		.byte	0x4
- 199 006e 67000000 		.4byte	.LASF9
- 200 0072 02       		.uleb128 0x2
- 201 0073 08       		.byte	0x8
- 202 0074 04       		.byte	0x4
- 203 0075 B2010000 		.4byte	.LASF10
- 204 0079 02       		.uleb128 0x2
- 205 007a 01       		.byte	0x1
- 206 007b 08       		.byte	0x8
- 207 007c 78010000 		.4byte	.LASF11
- 208 0080 02       		.uleb128 0x2
- 209 0081 08       		.byte	0x8
- 210 0082 04       		.byte	0x4
- 211 0083 D8010000 		.4byte	.LASF12
- 212 0087 02       		.uleb128 0x2
- 213 0088 04       		.byte	0x4
- 214 0089 07       		.byte	0x7
- 215 008a EE010000 		.4byte	.LASF13
- 216 008e 04       		.uleb128 0x4
- 217 008f 86010000 		.4byte	.LASF14
- 218 0093 01       		.byte	0x1
- 219 0094 33       		.byte	0x33
- 220 0095 00000000 		.4byte	.LFB0
- 221 0099 0C000000 		.4byte	.LFE0-.LFB0
- 222 009d 01       		.uleb128 0x1
- 223 009e 9C       		.byte	0x9c
- 224 009f 04       		.uleb128 0x4
- 225 00a0 91010000 		.4byte	.LASF15
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 9
+ 297 008e 04       		.uleb128 0x4
+ 298 008f F8000000 		.4byte	.LASF17
+ 299 0093 01       		.byte	0x1
+ 300 0094 C9       		.byte	0xc9
+ 301 0095 01       		.byte	0x1
+ 302 0096 05       		.uleb128 0x5
+ 303 0097 8E000000 		.4byte	0x8e
+ 304 009b 00000000 		.4byte	.LFB3
+ 305 009f 02000000 		.4byte	.LFE3-.LFB3
+ 306 00a3 01       		.uleb128 0x1
+ 307 00a4 9C       		.byte	0x9c
+ 308 00a5 00       		.byte	0
+ 309              		.section	.debug_abbrev,"",%progbits
+ 310              	.Ldebug_abbrev0:
+ 311 0000 01       		.uleb128 0x1
+ 312 0001 11       		.uleb128 0x11
+ 313 0002 01       		.byte	0x1
+ 314 0003 25       		.uleb128 0x25
+ 315 0004 0E       		.uleb128 0xe
+ 316 0005 13       		.uleb128 0x13
+ 317 0006 0B       		.uleb128 0xb
+ 318 0007 03       		.uleb128 0x3
+ 319 0008 0E       		.uleb128 0xe
+ 320 0009 1B       		.uleb128 0x1b
+ 321 000a 0E       		.uleb128 0xe
+ 322 000b 55       		.uleb128 0x55
+ 323 000c 17       		.uleb128 0x17
+ 324 000d 11       		.uleb128 0x11
+ 325 000e 01       		.uleb128 0x1
+ 326 000f 10       		.uleb128 0x10
+ 327 0010 17       		.uleb128 0x17
+ 328 0011 00       		.byte	0
+ 329 0012 00       		.byte	0
+ 330 0013 02       		.uleb128 0x2
+ 331 0014 24       		.uleb128 0x24
+ 332 0015 00       		.byte	0
+ 333 0016 0B       		.uleb128 0xb
+ 334 0017 0B       		.uleb128 0xb
+ 335 0018 3E       		.uleb128 0x3e
+ 336 0019 0B       		.uleb128 0xb
+ 337 001a 03       		.uleb128 0x3
+ 338 001b 0E       		.uleb128 0xe
+ 339 001c 00       		.byte	0
+ 340 001d 00       		.byte	0
+ 341 001e 03       		.uleb128 0x3
+ 342 001f 24       		.uleb128 0x24
+ 343 0020 00       		.byte	0
+ 344 0021 0B       		.uleb128 0xb
+ 345 0022 0B       		.uleb128 0xb
+ 346 0023 3E       		.uleb128 0x3e
+ 347 0024 0B       		.uleb128 0xb
+ 348 0025 03       		.uleb128 0x3
+ 349 0026 08       		.uleb128 0x8
+ 350 0027 00       		.byte	0
+ 351 0028 00       		.byte	0
+ 352 0029 04       		.uleb128 0x4
+ 353 002a 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 16
 
 
- 226 00a4 01       		.byte	0x1
- 227 00a5 65       		.byte	0x65
- 228 00a6 00000000 		.4byte	.LFB1
- 229 00aa 0C000000 		.4byte	.LFE1-.LFB1
- 230 00ae 01       		.uleb128 0x1
- 231 00af 9C       		.byte	0x9c
- 232 00b0 04       		.uleb128 0x4
- 233 00b1 9C010000 		.4byte	.LASF16
- 234 00b5 01       		.byte	0x1
- 235 00b6 97       		.byte	0x97
- 236 00b7 00000000 		.4byte	.LFB2
- 237 00bb 0C000000 		.4byte	.LFE2-.LFB2
- 238 00bf 01       		.uleb128 0x1
- 239 00c0 9C       		.byte	0x9c
- 240 00c1 04       		.uleb128 0x4
- 241 00c2 A7010000 		.4byte	.LASF17
- 242 00c6 01       		.byte	0x1
- 243 00c7 C9       		.byte	0xc9
- 244 00c8 00000000 		.4byte	.LFB3
- 245 00cc 0C000000 		.4byte	.LFE3-.LFB3
- 246 00d0 01       		.uleb128 0x1
- 247 00d1 9C       		.byte	0x9c
- 248 00d2 00       		.byte	0
- 249              		.section	.debug_abbrev,"",%progbits
- 250              	.Ldebug_abbrev0:
- 251 0000 01       		.uleb128 0x1
- 252 0001 11       		.uleb128 0x11
- 253 0002 01       		.byte	0x1
- 254 0003 25       		.uleb128 0x25
- 255 0004 0E       		.uleb128 0xe
- 256 0005 13       		.uleb128 0x13
- 257 0006 0B       		.uleb128 0xb
- 258 0007 03       		.uleb128 0x3
- 259 0008 0E       		.uleb128 0xe
- 260 0009 1B       		.uleb128 0x1b
- 261 000a 0E       		.uleb128 0xe
- 262 000b 55       		.uleb128 0x55
- 263 000c 17       		.uleb128 0x17
- 264 000d 11       		.uleb128 0x11
- 265 000e 01       		.uleb128 0x1
- 266 000f 10       		.uleb128 0x10
- 267 0010 17       		.uleb128 0x17
- 268 0011 00       		.byte	0
- 269 0012 00       		.byte	0
- 270 0013 02       		.uleb128 0x2
- 271 0014 24       		.uleb128 0x24
- 272 0015 00       		.byte	0
- 273 0016 0B       		.uleb128 0xb
- 274 0017 0B       		.uleb128 0xb
- 275 0018 3E       		.uleb128 0x3e
- 276 0019 0B       		.uleb128 0xb
- 277 001a 03       		.uleb128 0x3
- 278 001b 0E       		.uleb128 0xe
- 279 001c 00       		.byte	0
- 280 001d 00       		.byte	0
- 281 001e 03       		.uleb128 0x3
- 282 001f 24       		.uleb128 0x24
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 10
+ 354 002b 00       		.byte	0
+ 355 002c 3F       		.uleb128 0x3f
+ 356 002d 19       		.uleb128 0x19
+ 357 002e 03       		.uleb128 0x3
+ 358 002f 0E       		.uleb128 0xe
+ 359 0030 3A       		.uleb128 0x3a
+ 360 0031 0B       		.uleb128 0xb
+ 361 0032 3B       		.uleb128 0x3b
+ 362 0033 0B       		.uleb128 0xb
+ 363 0034 27       		.uleb128 0x27
+ 364 0035 19       		.uleb128 0x19
+ 365 0036 20       		.uleb128 0x20
+ 366 0037 0B       		.uleb128 0xb
+ 367 0038 00       		.byte	0
+ 368 0039 00       		.byte	0
+ 369 003a 05       		.uleb128 0x5
+ 370 003b 2E       		.uleb128 0x2e
+ 371 003c 00       		.byte	0
+ 372 003d 31       		.uleb128 0x31
+ 373 003e 13       		.uleb128 0x13
+ 374 003f 11       		.uleb128 0x11
+ 375 0040 01       		.uleb128 0x1
+ 376 0041 12       		.uleb128 0x12
+ 377 0042 06       		.uleb128 0x6
+ 378 0043 40       		.uleb128 0x40
+ 379 0044 18       		.uleb128 0x18
+ 380 0045 9742     		.uleb128 0x2117
+ 381 0047 19       		.uleb128 0x19
+ 382 0048 00       		.byte	0
+ 383 0049 00       		.byte	0
+ 384 004a 00       		.byte	0
+ 385              		.section	.debug_aranges,"",%progbits
+ 386 0000 1C000000 		.4byte	0x1c
+ 387 0004 0200     		.2byte	0x2
+ 388 0006 00000000 		.4byte	.Ldebug_info0
+ 389 000a 04       		.byte	0x4
+ 390 000b 00       		.byte	0
+ 391 000c 0000     		.2byte	0
+ 392 000e 0000     		.2byte	0
+ 393 0010 00000000 		.4byte	.LFB3
+ 394 0014 02000000 		.4byte	.LFE3-.LFB3
+ 395 0018 00000000 		.4byte	0
+ 396 001c 00000000 		.4byte	0
+ 397              		.section	.debug_ranges,"",%progbits
+ 398              	.Ldebug_ranges0:
+ 399 0000 00000000 		.4byte	.LFB3
+ 400 0004 02000000 		.4byte	.LFE3
+ 401 0008 00000000 		.4byte	0
+ 402 000c 00000000 		.4byte	0
+ 403              		.section	.debug_line,"",%progbits
+ 404              	.Ldebug_line0:
+ 405 0000 4F000000 		.section	.debug_str,"MS",%progbits,1
+ 405      02003900 
+ 405      00000201 
+ 405      FB0E0D00 
+ 405      01010101 
+ 406              	.LASF6:
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 17
 
 
- 283 0020 00       		.byte	0
- 284 0021 0B       		.uleb128 0xb
- 285 0022 0B       		.uleb128 0xb
- 286 0023 3E       		.uleb128 0x3e
- 287 0024 0B       		.uleb128 0xb
- 288 0025 03       		.uleb128 0x3
- 289 0026 08       		.uleb128 0x8
- 290 0027 00       		.byte	0
- 291 0028 00       		.byte	0
- 292 0029 04       		.uleb128 0x4
- 293 002a 2E       		.uleb128 0x2e
- 294 002b 00       		.byte	0
- 295 002c 3F       		.uleb128 0x3f
- 296 002d 19       		.uleb128 0x19
- 297 002e 03       		.uleb128 0x3
- 298 002f 0E       		.uleb128 0xe
- 299 0030 3A       		.uleb128 0x3a
- 300 0031 0B       		.uleb128 0xb
- 301 0032 3B       		.uleb128 0x3b
- 302 0033 0B       		.uleb128 0xb
- 303 0034 27       		.uleb128 0x27
- 304 0035 19       		.uleb128 0x19
- 305 0036 11       		.uleb128 0x11
- 306 0037 01       		.uleb128 0x1
- 307 0038 12       		.uleb128 0x12
- 308 0039 06       		.uleb128 0x6
- 309 003a 40       		.uleb128 0x40
- 310 003b 18       		.uleb128 0x18
- 311 003c 9742     		.uleb128 0x2117
- 312 003e 19       		.uleb128 0x19
- 313 003f 00       		.byte	0
- 314 0040 00       		.byte	0
- 315 0041 00       		.byte	0
- 316              		.section	.debug_aranges,"",%progbits
- 317 0000 34000000 		.4byte	0x34
- 318 0004 0200     		.2byte	0x2
- 319 0006 00000000 		.4byte	.Ldebug_info0
- 320 000a 04       		.byte	0x4
- 321 000b 00       		.byte	0
- 322 000c 0000     		.2byte	0
- 323 000e 0000     		.2byte	0
- 324 0010 00000000 		.4byte	.LFB0
- 325 0014 0C000000 		.4byte	.LFE0-.LFB0
- 326 0018 00000000 		.4byte	.LFB1
- 327 001c 0C000000 		.4byte	.LFE1-.LFB1
- 328 0020 00000000 		.4byte	.LFB2
- 329 0024 0C000000 		.4byte	.LFE2-.LFB2
- 330 0028 00000000 		.4byte	.LFB3
- 331 002c 0C000000 		.4byte	.LFE3-.LFB3
- 332 0030 00000000 		.4byte	0
- 333 0034 00000000 		.4byte	0
- 334              		.section	.debug_ranges,"",%progbits
- 335              	.Ldebug_ranges0:
- 336 0000 00000000 		.4byte	.LFB0
- 337 0004 0C000000 		.4byte	.LFE0
- 338 0008 00000000 		.4byte	.LFB1
- 339 000c 0C000000 		.4byte	.LFE1
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 11
+ 407 0000 6C6F6E67 		.ascii	"long long int\000"
+ 407      206C6F6E 
+ 407      6720696E 
+ 407      7400
+ 408              	.LASF8:
+ 409 000e 756E7369 		.ascii	"unsigned int\000"
+ 409      676E6564 
+ 409      20696E74 
+ 409      00
+ 410              	.LASF15:
+ 411 001b 47656E65 		.ascii	"Generated_Source\\PSoC5\\ADC_1_INT.c\000"
+ 411      72617465 
+ 411      645F536F 
+ 411      75726365 
+ 411      5C50536F 
+ 412              	.LASF5:
+ 413 003e 6C6F6E67 		.ascii	"long unsigned int\000"
+ 413      20756E73 
+ 413      69676E65 
+ 413      6420696E 
+ 413      7400
+ 414              	.LASF7:
+ 415 0050 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 415      206C6F6E 
+ 415      6720756E 
+ 415      7369676E 
+ 415      65642069 
+ 416              	.LASF9:
+ 417 0067 666C6F61 		.ascii	"float\000"
+ 417      7400
+ 418              	.LASF1:
+ 419 006d 756E7369 		.ascii	"unsigned char\000"
+ 419      676E6564 
+ 419      20636861 
+ 419      7200
+ 420              	.LASF16:
+ 421 007b 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
+ 421      73657273 
+ 421      5C4A6566 
+ 421      66536E79 
+ 421      6465725C 
+ 422 00a9 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
+ 422      5F656C65 
+ 422      6374726F 
+ 422      62617373 
+ 422      5F737472 
+ 423 00db 65726D69 		.ascii	"ermistor.cydsn\000"
+ 423      73746F72 
+ 423      2E637964 
+ 423      736E00
+ 424              	.LASF11:
+ 425 00ea 63686172 		.ascii	"char\000"
+ 425      00
+ 426              	.LASF4:
+ 427 00ef 6C6F6E67 		.ascii	"long int\000"
+ 427      20696E74 
+ 427      00
+ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccucGPE6.s 			page 18
 
 
- 340 0010 00000000 		.4byte	.LFB2
- 341 0014 0C000000 		.4byte	.LFE2
- 342 0018 00000000 		.4byte	.LFB3
- 343 001c 0C000000 		.4byte	.LFE3
- 344 0020 00000000 		.4byte	0
- 345 0024 00000000 		.4byte	0
- 346              		.section	.debug_line,"",%progbits
- 347              	.Ldebug_line0:
- 348 0000 8A000000 		.section	.debug_str,"MS",%progbits,1
- 348      02003900 
- 348      00000201 
- 348      FB0E0D00 
- 348      01010101 
- 349              	.LASF6:
- 350 0000 6C6F6E67 		.ascii	"long long int\000"
- 350      206C6F6E 
- 350      6720696E 
- 350      7400
- 351              	.LASF8:
- 352 000e 756E7369 		.ascii	"unsigned int\000"
- 352      676E6564 
- 352      20696E74 
- 352      00
- 353              	.LASF19:
- 354 001b 47656E65 		.ascii	"Generated_Source\\PSoC5\\ADC_1_INT.c\000"
- 354      72617465 
- 354      645F536F 
- 354      75726365 
- 354      5C50536F 
- 355              	.LASF5:
- 356 003e 6C6F6E67 		.ascii	"long unsigned int\000"
- 356      20756E73 
- 356      69676E65 
- 356      6420696E 
- 356      7400
- 357              	.LASF7:
- 358 0050 6C6F6E67 		.ascii	"long long unsigned int\000"
- 358      206C6F6E 
- 358      6720756E 
- 358      7369676E 
- 358      65642069 
- 359              	.LASF9:
- 360 0067 666C6F61 		.ascii	"float\000"
- 360      7400
- 361              	.LASF18:
- 362 006d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 362      43313120 
- 362      352E342E 
- 362      31203230 
- 362      31363036 
- 363 00a0 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 363      20726576 
- 363      6973696F 
- 363      6E203233 
- 363      37373135 
- 364 00d3 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
- 364      66756E63 
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 12
-
-
- 364      74696F6E 
- 364      2D736563 
- 364      74696F6E 
- 365              	.LASF1:
- 366 00fb 756E7369 		.ascii	"unsigned char\000"
- 366      676E6564 
- 366      20636861 
- 366      7200
- 367              	.LASF20:
- 368 0109 433A5C55 		.ascii	"C:\\Users\\JeffSnyder\\dev\\Electrobass_embedded\\P"
- 368      73657273 
- 368      5C4A6566 
- 368      66536E79 
- 368      6465725C 
- 369 0137 534F4335 		.ascii	"SOC5_electrobass_stringsensors\\CE210514_PSOC3_5_Th"
- 369      5F656C65 
- 369      6374726F 
- 369      62617373 
- 369      5F737472 
- 370 0169 65726D69 		.ascii	"ermistor.cydsn\000"
- 370      73746F72 
- 370      2E637964 
- 370      736E00
- 371              	.LASF11:
- 372 0178 63686172 		.ascii	"char\000"
- 372      00
- 373              	.LASF4:
- 374 017d 6C6F6E67 		.ascii	"long int\000"
- 374      20696E74 
- 374      00
- 375              	.LASF14:
- 376 0186 4144435F 		.ascii	"ADC_1_ISR1\000"
- 376      315F4953 
- 376      523100
- 377              	.LASF15:
- 378 0191 4144435F 		.ascii	"ADC_1_ISR2\000"
- 378      315F4953 
- 378      523200
- 379              	.LASF16:
- 380 019c 4144435F 		.ascii	"ADC_1_ISR3\000"
- 380      315F4953 
- 380      523300
- 381              	.LASF17:
- 382 01a7 4144435F 		.ascii	"ADC_1_ISR4\000"
- 382      315F4953 
- 382      523400
- 383              	.LASF10:
- 384 01b2 646F7562 		.ascii	"double\000"
- 384      6C6500
- 385              	.LASF3:
- 386 01b9 73686F72 		.ascii	"short unsigned int\000"
- 386      7420756E 
- 386      7369676E 
- 386      65642069 
- 386      6E7400
- 387              	.LASF0:
- 388 01cc 7369676E 		.ascii	"signed char\000"
-ARM GAS  C:\Users\JEFFSN~1\AppData\Local\Temp\ccU71D5a.s 			page 13
-
-
- 388      65642063 
- 388      68617200 
- 389              	.LASF12:
- 390 01d8 6C6F6E67 		.ascii	"long double\000"
- 390      20646F75 
- 390      626C6500 
- 391              	.LASF2:
- 392 01e4 73686F72 		.ascii	"short int\000"
- 392      7420696E 
- 392      7400
- 393              	.LASF13:
- 394 01ee 73697A65 		.ascii	"sizetype\000"
- 394      74797065 
- 394      00
- 395              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 428              	.LASF17:
+ 429 00f8 4144435F 		.ascii	"ADC_1_ISR4\000"
+ 429      315F4953 
+ 429      523400
+ 430              	.LASF10:
+ 431 0103 646F7562 		.ascii	"double\000"
+ 431      6C6500
+ 432              	.LASF3:
+ 433 010a 73686F72 		.ascii	"short unsigned int\000"
+ 433      7420756E 
+ 433      7369676E 
+ 433      65642069 
+ 433      6E7400
+ 434              	.LASF0:
+ 435 011d 7369676E 		.ascii	"signed char\000"
+ 435      65642063 
+ 435      68617200 
+ 436              	.LASF12:
+ 437 0129 6C6F6E67 		.ascii	"long double\000"
+ 437      20646F75 
+ 437      626C6500 
+ 438              	.LASF2:
+ 439 0135 73686F72 		.ascii	"short int\000"
+ 439      7420696E 
+ 439      7400
+ 440              	.LASF13:
+ 441 013f 73697A65 		.ascii	"sizetype\000"
+ 441      74797065 
+ 441      00
+ 442              	.LASF14:
+ 443 0148 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 443      43313120 
+ 443      352E342E 
+ 443      31203230 
+ 443      31363036 
+ 444 017b 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 444      20726576 
+ 444      6973696F 
+ 444      6E203233 
+ 444      37373135 
+ 445 01ae 33202D66 		.ascii	"3 -ffunction-sections -ffat-lto-objects -finline-fu"
+ 445      66756E63 
+ 445      74696F6E 
+ 445      2D736563 
+ 445      74696F6E 
+ 446 01e1 6E637469 		.ascii	"nctions -flto\000"
+ 446      6F6E7320 
+ 446      2D666C74 
+ 446      6F00
+ 447              		.comm	__gnu_lto_v1,1,1
+ 448              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

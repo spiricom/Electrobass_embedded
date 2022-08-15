@@ -43,8 +43,8 @@
 #include <stdio.h>
 #include "math.h"
 
-//#define MAPLE1 1
-#define GREEN3 1
+#define MAPLE1 1
+//#define GREEN3 1
 
 volatile uint8 usbActivityCounter = 0u;
  uint8 midiMsg[4];
@@ -111,7 +111,7 @@ uint8_t sysexBuffer[128];
 uint32_t sysexPointer = 0;
 uint8_t receivingSysex = 0;
 uint8_t parsingSysex = 0;
-volatile uint8_t presetArray[2048];
+volatile uint8_t presetArray[1024];
 uint8_t presetNumberToWrite = 0;
 uint8_t sendPresetEndAck = 0;
 enum presetArraySectionState
@@ -283,7 +283,7 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode);
 
 volatile int testVar = 0;
 int lastNotes[4] = {0,0,0,0};
-int frettedState = 1;
+int frettedState = 0;
 int polyMode = 0;
 
 float pitchBendsPerString[4];
@@ -727,16 +727,17 @@ int main(void)
             }
             outChanged = 0;
         }
-        else
+        else //sending preset to audio chip
         {
-            if (sendPresetEndAck)
+            if (sendPresetEndAck) //send end message
             {
                 tx2Buffer[0] = 3;
                 tx2Buffer[1] = presetNumberToWrite;
                 sendPresetEndAck = 0;
                 sendingPreset = 0;
+                presetArraySendCount = 0;
             }
-            else
+            else //send chunksf
             {
                 //send the next preset Chunkkkkk
                 tx2Buffer[0] = 2;
@@ -749,9 +750,9 @@ int main(void)
                     }
                     else
                     {
-                        tx2Buffer[i] = 0xfe; // preset end ack   - done, next send a message that starts with 3 to end the transmission
+                        tx2Buffer[i] = 0xfe; // preset end ack   - done, next send a message that s
                         sendPresetEndAck = 1;
-                        sendMIDINoteOn(61,4,1);
+                        //sendMIDINoteOn(61,4,1);
                     }
                      //sendMIDINoteOn(61,3,1);
                 }
@@ -766,9 +767,12 @@ int main(void)
             //overflow
         }
         currentOutPointer = 1;
+        if (tx2Buffer[0] > 0 )
+        {
+        SPIM_2_ClearRxBuffer();
         CyDmaChEnable(rx2Channel, STORE_TD_CFG_ONCMPLT);
         CyDmaChEnable(tx2Channel, STORE_TD_CFG_ONCMPLT);
-        
+        }
         //check if USB device has just been plugged in
         if (USB_check_flag)
         {
@@ -821,7 +825,7 @@ int main(void)
            
         }
         SPIM_1_ClearRxBuffer();
-        SPIM_2_ClearRxBuffer();
+
         //CyDelay(1);
         //send SPI data
         CyDmaChEnable(rxChannel, STORE_TD_CFG_ONCMPLT);
@@ -971,7 +975,7 @@ void parseSysex(void)
             sysexPresetInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
             currentFloat = 0;
             presetArraySection = initialVals;
-            sendMIDINoteOn(61,0,1);
+            //sendMIDINoteOn(61,0,1);
         }
         union breakFloat theVal;
 
@@ -998,14 +1002,14 @@ void parseSysex(void)
                     presetArray[currentFloat++] = 0xff;
                     presetArraySection = mapping;
                     mapCount = 0;
-                    sendMIDINoteOn(61,1,1);
+                   // sendMIDINoteOn(61,1,1);
                 }
             }
             else if (presetArraySection == mapping)
             {
                 // this is the order
                 // source (int), target (int), scalarSource (arrives as -1.0f if no scalar, send as 255 if no scalar)(int), range (float 0-1)
-                if ((mapCount % 4) != 3)
+                if ((mapCount % 4) == 0)
                 {
                     if (theVal.f < 0.0f)
                     {
@@ -1014,21 +1018,25 @@ void parseSysex(void)
                         presetArraySection = presetEnd;
                         sysexPresetInProgress = 0;
                         sendingPreset = 1;
-                        sendMIDINoteOn(61,2,1);
+                       // sendMIDINoteOn(61,2,1);
                         presetArraySize = currentFloat;
                     }
                     else
                     {
                         presetArray[currentFloat++] = (uint16_t)theVal.f;
-                        sendMIDINoteOn(61,5,mapCount);
+                        //sendMIDINoteOn(61,5,mapCount);
                     }
+                }
+                else if ( (mapCount % 4 == 1) || (mapCount % 4 == 2) )
+                {
+                    presetArray[currentFloat++] = (uint16_t)theVal.f;
                 }
                 else
                 {
                     uint16_t intVal = (uint16_t)(theVal.f * 32767.0f);
                     presetArray[currentFloat++] = intVal >> 8;
                     presetArray[currentFloat++] = intVal & 0xff;
-                    sendMIDINoteOn(61,6,mapCount);
+                    //sendMIDINoteOn(61,6,mapCount);
                 }
                 mapCount++;
             }
@@ -1102,10 +1110,12 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
-    
-    tx2BufferTemp[currentOutPointer++] = midiMsg[0];
-    tx2BufferTemp[currentOutPointer++] = midiMsg[1];
-    tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    if (currentOutPointer < (BUFFER_2_SIZE - 4))
+    {
+        tx2BufferTemp[currentOutPointer++] = midiMsg[0];
+        tx2BufferTemp[currentOutPointer++] = midiMsg[1];
+        tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    }
     if (velocity > 0)
     {
         LED1_Write(1);
@@ -1131,10 +1141,12 @@ void sendMIDIPitchBend(int val, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
-    
-    tx2BufferTemp[currentOutPointer++] = midiMsg[0];
-    tx2BufferTemp[currentOutPointer++] = midiMsg[1];
-    tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    if (currentOutPointer < (BUFFER_2_SIZE - 4))
+    {
+        tx2BufferTemp[currentOutPointer++] = midiMsg[0];
+        tx2BufferTemp[currentOutPointer++] = midiMsg[1];
+        tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    }
     outChanged = 1;
 }
 
@@ -1151,10 +1163,12 @@ void sendMIDIControlChange(int CCnum, int CCval, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
-    
-    tx2BufferTemp[currentOutPointer++] = midiMsg[0];
-    tx2BufferTemp[currentOutPointer++] = midiMsg[1];
-    tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    if (currentOutPointer < (BUFFER_2_SIZE - 4))
+    {
+        tx2BufferTemp[currentOutPointer++] = midiMsg[0];
+        tx2BufferTemp[currentOutPointer++] = midiMsg[1];
+        tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+    }
     outChanged = 1;
     
 }
@@ -1381,7 +1395,17 @@ void handleNotes(int note, int velocity, int string)
             //make sure if there is a sounding note that this one is not much lower velocity
             //(would maybe mean this is just sympathetic bridge resonance and shouldn't interrupt the monophonic handling)
             // maybe need more complexity in time since attack? // or maybe do active suppression in the pluck detector board by summing strings with the inverse of the nearby strings
-            if ((velocity >= (loudestSoundingNote - 25)) || (velocity > 35))
+            uint8_t ignore = 0;
+            if (velocity < 25)
+            {
+                ignore = 1;   
+            }
+            else if ((loudestSoundingNote >=25) && (velocity <= loudestSoundingNote -25))
+            {
+                //ignore = 1;
+            }
+            
+            if (!ignore)
             {
                 for (int i = 0; i < 4; i++)
                 {
