@@ -86,7 +86,7 @@ const TCHAR path = 0;
 
 
 volatile uint8_t writingPreset = 0;
-volatile uint8_t muteAudio = 0;
+volatile float 	audioMasterLevel = 1.0f;
 FIL fdst;
 volatile uint8_t buffer[4096];
 volatile uint16_t bufferPos = 0;
@@ -147,11 +147,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
   MX_DMA_Init();
   MX_DAC1_Init();
   MX_FMC_Init();
   MX_I2C2_Init();
-  //MX_QUADSPI_Init();
+  MX_QUADSPI_Init();
   MX_SAI1_Init();
   MX_SDMMC1_SD_Init();
   MX_SPI1_Init();
@@ -196,20 +197,20 @@ int main(void)
 	  SPI_TX[i] = counter++;
   }
 
-  while(HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12) == 0)
-   {
- 	  ;
-   }
-   HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, SPI_BUFFER_SIZE);
 
-
+  foundOne  = checkForSDCardPreset();
 
   HAL_Delay(10);
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 
+  HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, SPI_BUFFER_SIZE);
+
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
 
 
-foundOne  = checkForSDCardPreset();
+
+
+
 
 
 
@@ -369,7 +370,7 @@ static int checkForSDCardPreset(void)
 	if(BSP_SD_IsDetected())
 	{
 		diskBusy = 1;
-		HAL_Delay(300);
+		//HAL_Delay(300);
 
 		disk_initialize(0);
 
@@ -637,15 +638,15 @@ void handleSPI(uint8_t offset)
 		 {
 			 if (SPI_RX[currentByte] == 0x90)
 			 {
-				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 storeNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
 			 }
 			 else if (SPI_RX[currentByte] == 0xb0)
 			 {
-				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 storeCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
 			 }
 			 else if (SPI_RX[currentByte] == 0xe0)
 			 {
-				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 storePitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
 			 }
 			 currentByte = currentByte+3;
 		 }
@@ -661,7 +662,7 @@ void handleSPI(uint8_t offset)
 		 if (!writingPreset)
 		 {
 			 writingPreset = 1; // set the flag to let the mcu know that a preset write is in progress
-			 muteAudio = 1;
+			 audioMasterLevel = 0.0f;
 			 //write the raw data as a preset number on the SD card
 			 bufferPos = 0;
 		 }
@@ -801,7 +802,7 @@ void blankFunction(float a, int b)
 
 void parsePreset(int size)
 {
-
+	audioMasterLevel = 0.0f;
 	//osc params
 	for (int i = 0; i < NUM_PARAMS; i++)
 	{
@@ -1105,7 +1106,7 @@ void parsePreset(int size)
 
 	//params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
 
-	muteAudio = 0;
+	audioMasterLevel = 1.0f;
 	presetWaitingToParse = 0;
 }
 
@@ -1158,7 +1159,8 @@ void FlushECC(void *ptr, int bytes)
 // EXTI Line12 External Interrupt ISR Handler CallBackFun
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-    if(GPIO_Pin == GPIO_PIN_12) // If The INT Source Is EXTI Line12
+
+	/*if(GPIO_Pin == GPIO_PIN_12) // If The INT Source Is EXTI Line12
     {
 
 
@@ -1177,6 +1179,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 			  HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
     	  }
     }
+    */
     if(GPIO_Pin == GPIO_PIN_3) // If The INT Source Is EXTI Line3
     {
     	  if(HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_3) == 1) //button is pressed, wait

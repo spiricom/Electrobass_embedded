@@ -44,6 +44,14 @@ float sourceValues[NUM_SOURCES];
 
 float freqMult[NUM_OSC];
 
+uint8_t noteOns[64][2];
+uint8_t ctrlMsgs[64][2];
+uint8_t pitchBends[64][2];
+
+uint8_t numNoteOns = 0;
+uint8_t numCtrlMsgs = 0;
+uint8_t numPitchBends = 0;
+
 //filters
 tDiodeFilter diodeFilters[NUM_FILT];
 tVZFilter VZfilterPeak[NUM_FILT];
@@ -156,11 +164,43 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 
 void audioFrame(uint16_t buffer_offset)
 {
-	int i;
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+
+	//take care of MIDI messages that came in
+	while(numNoteOns > 0)
+	{
+		sendNoteOn(noteOns[0][0], noteOns[0][1]);
+		for (int i = 0; i < numNoteOns-1; i++)
+		{
+			noteOns[i][0] = noteOns[i+1][0];
+			noteOns[i][1] = noteOns[i+1][1];
+		}
+		numNoteOns--;
+	}
+	while(numCtrlMsgs > 0)
+	{
+		sendCtrl(ctrlMsgs[0][0], ctrlMsgs[0][1]);
+		for (int i = 0; i < numCtrlMsgs-1; i++)
+		{
+			ctrlMsgs[i][0] = ctrlMsgs[i+1][0];
+			ctrlMsgs[i][1] = ctrlMsgs[i+1][1];
+		}
+		numCtrlMsgs--;
+	}
+	while(numPitchBends > 0)
+	{
+		sendPitchBend(pitchBends[0][0], pitchBends[0][1]);
+		for (int i = 0; i < numPitchBends-1; i++)
+		{
+			pitchBends[i][0] = pitchBends[i+1][0];
+			pitchBends[i][1] = pitchBends[i+1][1];
+		}
+		numPitchBends--;
+	}
+
 	int32_t current_sample = 0;
 
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
-	for (i = 0; i < (HALF_BUFFER_SIZE); i++)
+	for (int i = 0; i < (HALF_BUFFER_SIZE); i++)
 	{
 		if ((i & 1) == 0)
 		{
@@ -192,7 +232,7 @@ void oscillator_tick(float note, float freq)
 		float amp = oscParams[OscAmp].realVal;
 		float filterSend = oscParams[OscFilterSend].realVal;
 
-		float finalFreq = mtof(note + (fine*0.01f)) + freqOffset * freqMult[osc];
+		float finalFreq = (mtof(note + (fine*0.01f)) * freqMult[osc]) + freqOffset ;
 
 		float sample = 0.0f;
 
@@ -256,9 +296,9 @@ void triTick(float* sample, int v, float freq, float shape)
 
 void userTick(float* sample, int v, float freq, float shape)
 {
-    tWaveOscS_setFreq(&wave[v], freq);
-    tWaveOscS_setIndex(&wave[v], shape);
-    *sample += tWaveOscS_tick(&wave[v]);
+    //tWaveOscS_setFreq(&wave[v], freq);
+    //tWaveOscS_setIndex(&wave[v], shape);
+    //*sample += tWaveOscS_tick(&wave[v]);
 }
 
 
@@ -553,8 +593,6 @@ float audioTickL(float audioIn)
 
 	sample = 0.0f;
 
-	if (!muteAudio)
-	{
 		//run mapping ticks
 		tickMappings();
 
@@ -577,8 +615,8 @@ float audioTickL(float audioIn)
 
 		sample *= amplitude;
 
-	}
-	return sample;
+
+	return sample * audioMasterLevel;
 }
 
 
@@ -627,6 +665,31 @@ void sendPitchBend(uint8_t value, uint8_t ctrl)
 	bend = bendInt * 0.002929866324849f; //divide by (16383 / 48 semitones)
 
 }
+
+
+void storeNoteOn(uint8_t note, uint8_t velocity)
+{
+	noteOns[numNoteOns][0] = note;
+	noteOns[numNoteOns][1] = velocity;
+	numNoteOns++;
+}
+
+
+void storeCtrl(uint8_t ctrl, uint8_t value)
+{
+	ctrlMsgs[numCtrlMsgs][0] = ctrl;
+	ctrlMsgs[numCtrlMsgs][1] = value;
+	numCtrlMsgs++;
+}
+
+
+void storePitchBend(uint8_t value, uint8_t ctrl)
+{
+	pitchBends[numPitchBends][0] = value;
+	pitchBends[numPitchBends][1] = ctrl;
+	numPitchBends++;
+}
+
 
 
 void HAL_SAI_RxCpltCallback(SAI_HandleTypeDef *hsai)

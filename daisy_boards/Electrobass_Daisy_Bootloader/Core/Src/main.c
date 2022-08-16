@@ -165,14 +165,10 @@ int main(void)
    __HAL_RCC_BKPRAM_CLK_ENABLE();
 
   //if (*(__IO uint32_t*)(0x38800000+36) != 12345678)
-  if (bootloaderFlag[0] == 232)
+  if ((bootloaderFlag[0] == 232) || (bootloaderFlag[0] == 0))
   {
 	  int i = 8;
-	  while(i--)
-	  {
-		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-		  HAL_Delay(100);
-	  }
+
 	  MX_QUADSPI_Init();
 	  qspi_initialize(INDIRECT_POLLING);
 	  if (!memory_already_mapped)

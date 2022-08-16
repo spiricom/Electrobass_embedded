@@ -52,7 +52,7 @@ extern "C" {
 #define MAX_NUM_MAPPINGS 32
 extern param params[NUM_PARAMS];
 extern mapping mappings[MAX_NUM_MAPPINGS];
-extern volatile uint8_t muteAudio;
+extern volatile float audioMasterLevel;
 extern uint8_t numMappings;
 extern uint8_t diskBusy;
 /* USER CODE END EC */
