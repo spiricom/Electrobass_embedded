@@ -43,8 +43,8 @@
 #include <stdio.h>
 #include "math.h"
 
-#define MAPLE1 1
-//#define GREEN3 1
+//#define MAPLE1 1
+#define GREEN3 1
 
 volatile uint8 usbActivityCounter = 0u;
  uint8 midiMsg[4];
@@ -389,7 +389,10 @@ int main(void)
 {
 
 	CYGlobalIntEnable; 
-    SPI_ready_Write(0);
+    while (SPI_ready_Read() == 0)
+    {
+        ;
+    }
     
     //EEPROM_Start();
     
@@ -427,7 +430,7 @@ int main(void)
     CyDelay(10);
     CapSense_InitializeAllBaselines() ;
     
-    SPI_ready_Write(1);
+    //SPI_ready_Write(1);
     CyDelay(10);
 
     //tSimplePoly_init(&myPoly);
@@ -1115,6 +1118,7 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+            outChanged = 1;
     }
     if (velocity > 0)
     {
@@ -1124,7 +1128,7 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
     {
         LED1_Write(0);
     }
-    outChanged = 1;
+
     
 }
 
@@ -1146,8 +1150,9 @@ void sendMIDIPitchBend(int val, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+            outChanged = 1;
     }
-    outChanged = 1;
+
 }
 
 
@@ -1168,8 +1173,9 @@ void sendMIDIControlChange(int CCnum, int CCval, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
+            outChanged = 1;
     }
-    outChanged = 1;
+
     
 }
 

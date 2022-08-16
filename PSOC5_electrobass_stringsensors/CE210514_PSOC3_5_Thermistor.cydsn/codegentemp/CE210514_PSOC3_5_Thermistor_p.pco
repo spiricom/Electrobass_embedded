@@ -191,6 +191,7 @@ set_io "fretted_momentary(0)" iocell 12 2
 # Note: port 12 is the logical name for port 7
 set_io "SCLK_2(0)" iocell 12 5
 set_location "\IDAC8_1:viDAC8\" vidaccell -1 -1 2
+set_io "SPI_ready(0)" iocell 0 6
 set_location "\USB:ep2\" drqcell -1 -1 1
 # Note: port 12 is the logical name for port 7
 set_io "vBusPin(0)" iocell 12 7
@@ -233,11 +234,10 @@ set_location "my_Vbus_ISR" interrupt -1 -1 11
 set_location "\ADC_1:IRQ\" interrupt -1 -1 29
 set_location "\USB:EP_DMA_Done_isr\" interrupt -1 -1 4
 set_location "\ADC_SAR_Seq_1:SAR:ADC_SAR\" sarcell -1 -1 1
-set_io "LED1(0)" iocell 0 2
-set_io "V_T_1_1(0)" iocell 0 5
 set_io "\ADC_1:Bypass_P03(0)\" iocell 0 3
 # Note: port 15 is the logical name for port 8
 set_io "ExtMUXS0(0)" iocell 15 0
+set_io "V_T_1_1(0)" iocell 0 5
 # Note: port 15 is the logical name for port 8
 set_io "\CapSense:CmodCH0(0)\" iocell 15 4
 set_io "\CapSense:PortCH0(0)\" iocell 2 0
@@ -247,11 +247,11 @@ set_io "IDAC_OUT(0)" iocell 0 7
 # Note: port 15 is the logical name for port 8
 set_io "\USB:Dm(0)\" iocell 15 7
 set_io "blue_LED(0)" iocell 2 1
+set_io "LED1(0)" iocell 0 2
 # Note: port 15 is the logical name for port 8
 set_io "ExtMUX_EN(0)" iocell 15 5
 # Note: port 15 is the logical name for port 8
 set_io "ExtMUXS1(0)" iocell 15 1
-set_io "SPI_ready(0)" iocell 0 6
 set_io "V_T_1_2(0)" iocell 0 0
 set_io "V_H(0)" iocell 0 4
 set_location "\ADC_1:DEC\" decimatorcell -1 -1 0

@@ -1,6 +1,6 @@
 // ======================================================================
 // CE210514_PSOC3_5_Thermistor.v generated from TopDesign.cysch
-// 08/08/2022 at 22:17
+// 08/15/2022 at 19:17
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -2850,7 +2850,6 @@ module top ;
           wire  Net_1129;
           wire  Net_1130;
           wire  Net_1118;
-          wire  Net_1116;
           wire  Net_1115;
           wire  Net_1126;
           wire  Net_1127;
@@ -2968,7 +2967,6 @@ module top ;
           wire  Net_984;
           wire  Net_981;
           wire  Net_435;
-          wire  Net_433;
           wire  Net_432;
     electrical  Net_990;
     electrical  Net_296;
@@ -2988,6 +2986,7 @@ module top ;
           wire [7:0] Net_961;
     electrical  Net_952;
     electrical  Net_1105;
+          wire  Net_433;
           wire  Net_1125;
           wire  Net_1178;
           wire  Net_1177;
@@ -3826,7 +3825,7 @@ module top ;
         .clock(1'b0),
         .miso(Net_19),
         .mosi(Net_23),
-        .reset(1'b0),
+        .reset(Net_433),
         .rx_interrupt(Net_922),
         .sclk(Net_415),
         .sdat(Net_435),
@@ -4396,18 +4395,17 @@ module top ;
 	assign tmpOE__ExtMUXS1_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
 
 	wire [0:0] tmpOE__SPI_ready_net;
-	wire [0:0] tmpFB_0__SPI_ready_net;
 	wire [0:0] tmpIO_0__SPI_ready_net;
 	wire [0:0] tmpINTERRUPT_0__SPI_ready_net;
 	electrical [0:0] tmpSIOVREF__SPI_ready_net;
 
 	cy_psoc3_pins_v1_10
 		#(.id("f141244e-61d2-4d35-82dd-43f91ff7a36e"),
-		  .drive_mode(3'b110),
+		  .drive_mode(3'b011),
 		  .ibuf_enabled(1'b1),
 		  .init_dr_st(1'b0),
 		  .input_clk_en(0),
-		  .input_sync(1'b1),
+		  .input_sync(1'b0),
 		  .input_sync_mode(1'b0),
 		  .intr_mode(2'b00),
 		  .invert_in_clock(0),
@@ -4434,7 +4432,7 @@ module top ;
 		  .pa_out_clock_en(-1),
 		  .pa_out_reset(-1),
 		  .pin_aliases(""),
-		  .pin_mode("O"),
+		  .pin_mode("I"),
 		  .por_state(4),
 		  .sio_group_cnt(0),
 		  .sio_hyst(1'b1),
@@ -4448,7 +4446,7 @@ module top ;
 		  .slew_rate(1'b0),
 		  .spanning(0),
 		  .use_annotation(1'b0),
-		  .vtrip(2'b10),
+		  .vtrip(2'b00),
 		  .width(1),
 		  .ovt_hyst_trim(1'b0),
 		  .ovt_needed(1'b0),
@@ -4457,7 +4455,7 @@ module top ;
 		SPI_ready
 		 (.oe(tmpOE__SPI_ready_net),
 		  .y({1'b0}),
-		  .fb({tmpFB_0__SPI_ready_net[0:0]}),
+		  .fb({Net_433}),
 		  .io({tmpIO_0__SPI_ready_net[0:0]}),
 		  .siovref(tmpSIOVREF__SPI_ready_net),
 		  .interrupt({tmpINTERRUPT_0__SPI_ready_net[0:0]}),
@@ -5422,7 +5420,7 @@ module top ;
         .clock(1'b0),
         .miso(Net_1112),
         .mosi(Net_1113),
-        .reset(1'b0),
+        .reset(Net_433),
         .rx_interrupt(Net_1125),
         .sclk(Net_1114),
         .sdat(Net_1118),
