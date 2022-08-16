@@ -36,18 +36,25 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-#define __ATTR_RAM_D1	__attribute__ ((section(".RAM_D1"))) __attribute__ ((aligned (32)))
-#define __ATTR_RAM_D2	__attribute__ ((section(".RAM_D2"))) __attribute__ ((aligned (32)))
-#define __ATTR_RAM_D3	__attribute__ ((section(".RAM_D3"))) __attribute__ ((aligned (32)))
-#define __ATTR_SDRAM	__attribute__ ((section(".SDRAM"))) __attribute__ ((aligned (32)))
+#define __ATTR_RAM_D1	__attribute__ ((section(".sram2_bss"))) __attribute__ ((aligned (32)))
+#define __ATTR_RAM_D2	__attribute__ ((section(".sram1_bss"))) __attribute__ ((aligned (32)))
+#define __ATTR_USER_FLASH	__attribute__ ((section(".userflash"))) __attribute__ ((aligned (32)))
+#define __ATTR_SDRAM	__attribute__ ((section(".sdram_bss"))) __attribute__ ((aligned (32)))
+#define __ATTR_DTCMRAM	__attribute__ ((section(".dtcmram_bss"))) __attribute__ ((aligned (32)))
+
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 
 
-#define NUM_PARAMS 155
+#define NUM_PARAMS numParams
+#define MAX_NUM_MAPPINGS 32
 extern param params[NUM_PARAMS];
+extern mapping mappings[MAX_NUM_MAPPINGS];
+extern volatile float audioMasterLevel;
+extern uint8_t numMappings;
+extern uint8_t diskBusy;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

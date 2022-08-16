@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScratchFile FileVersion="3.0">
+  <FileVersion>3.0</FileVersion>
+  <Workspace>
+    <WorkspaceType>Single-project</WorkspaceType>
+    <WorkspacePath>/Users/jeffsnyder/dev/Electrobass_embedded/daisy_boards/Electrobass_Daisy_Bootloader/</WorkspacePath>
+    <underRoot>true</underRoot>
+    <TrustZone>0</TrustZone>
+    <HAL_Driver>/Users/jeffsnyder/STM32Cube/Repository//STM32Cube_FW_H7_V1.10.0</HAL_Driver>
+    <CMSIS>Drivers/CMSIS</CMSIS>
+    <Toolchain>STM32CubeIDE</Toolchain>
+    <IocFile>Electrobass_Daisy_Bootloader.ioc</IocFile>
+    <Project>
+      <ProjectName>Electrobass_Daisy_Bootloader</ProjectName>
+      <ProjectNature>C</ProjectNature>
+      <Secure />
+      <filestoremove>
+        <file>
+          <name>Core/Src/dac.c</name>
+        </file>
+        <file>
+          <name>../Src/custom.c</name>
+        </file>
+        <file>
+          <name>Core/Src/dma.c</name>
+        </file>
+        <file>
+          <name>Core/Src/fmc.c</name>
+        </file>
+        <file>
+          <name>Core/Src/i2c.c</name>
+        </file>
+        <file>
+          <name>Core/Src/rng.c</name>
+        </file>
+        <file>
+          <name>Core/Src/sai.c</name>
+        </file>
+        <file>
+          <name>Core/Src/spi.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_fmc.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sdram.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rng.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rng_ex.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_sai_ex.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c</name>
+        </file>
+        <file>
+          <name>Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex.c</name>
+        </file>
+      </filestoremove>
+      <sourceEntriesToRemove>
+        <sourceEntry />
+      </sourceEntriesToRemove>
+      <configs>
+        <config>
+          <name>Electrobass_Daisy_Bootloader</name>
+          <mainSourceRepo>Core</mainSourceRepo>
+          <sourceStructure>Advanced</sourceStructure>
+          <device>STM32H750IBKx</device>
+          <cpucore>ARM Cortex-M7</cpucore>
+          <fpu>DP</fpu>
+          <memories>
+            <memory access="xrw" name="DTCMRAM" size="128" start="0x20000000" />
+            <memory access="xrw" name="RAM_D1" size="512" start="0x24000000" />
+            <memory access="xrw" name="RAM_D2" size="288" start="0x30000000" />
+            <memory access="xrw" name="RAM_D3" size="64" start="0x38000000" />
+            <memory access="xrw" name="ITCMRAM" size="64" start="0x00000000" />
+            <memory access="rx" name="FLASH" size="128" start="0x8000000" />
+          </memories>
+          <startup>/Users/jeffsnyder/STM32Cube/Repository/STM32Cube_FW_H7_V1.10.0/Drivers/CMSIS/Device\ST\STM32H7xx\Source\Templates\gcc\startup_stm32h750xx.s</startup>
+          <LinkSettings>
+            <LinkAdditionalLibs />
+          </LinkSettings>
+          <heapSize>0x2000</heapSize>
+          <stackSize>0x4000</stackSize>
+          <board>custom</board>
+          <debugprobe>swd</debugprobe>
+          <optimization />
+          <Aincludes>
+            <include />
+          </Aincludes>
+          <Adefines />
+          <Cdefines>
+            <define>USE_HAL_DRIVER</define>
+            <define>STM32H750xx</define>
+          </Cdefines>
+          <Ldefines />
+          <Cincludes>
+            <include>Core/Inc</include>
+            <include>FATFS/Target</include>
+            <include>FATFS/App</include>
+            <include>Drivers/STM32H7xx_HAL_Driver/Inc</include>
+            <include>Drivers/STM32H7xx_HAL_Driver/Inc/Legacy</include>
+            <include>Middlewares/Third_Party/FatFs/src</include>
+            <include>Drivers/CMSIS/Device/ST/STM32H7xx/Include</include>
+            <include>Drivers/CMSIS/Include</include>
+          </Cincludes>
+          <definestoremove>
+            <Adefines />
+            <Cdefines>
+              <define>USE_FULL_LL_DRIVER</define>
+              <define>MBEDTLS_CONFIG_FILE="mbedtls_config.h"</define>
+              <define>USE_FULL_ASSERT=1U</define>
+            </Cdefines>
+            <Ldefines />
+          </definestoremove>
+          <inctoremove>
+            <Aincludes>
+              <include />
+            </Aincludes>
+            <Cincludes />
+          </inctoremove>
+        </config>
+      </configs>
+      <copyAsReference>false</copyAsReference>
+      <sourceEntries>
+        <sourceEntry>
+          <name>Core</name>
+        </sourceEntry>
+        <sourceEntry>
+          <name>FATFS</name>
+        </sourceEntry>
+        <sourceEntry>
+          <name>Drivers</name>
+        </sourceEntry>
+        <sourceEntry>
+          <name>Middlewares</name>
+        </sourceEntry>
+      </sourceEntries>
+      <Groups />
+    </Project>
+  </Workspace>
+</ScratchFile>
+
