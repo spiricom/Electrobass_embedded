@@ -76,7 +76,7 @@ void setPitchBendRangeUp(float in, int v);
 void setPitchBendRangeDown(float in, int v);
 void setNoiseAmp(float in, int v);
 
-void oscillator_tick(float note, float freq);
+void oscillator_tick(float note);
 
 typedef void (*shapeTick_t)(float*, int, float, float);
 

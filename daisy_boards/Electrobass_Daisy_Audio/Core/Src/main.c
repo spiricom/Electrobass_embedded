@@ -108,6 +108,7 @@ float envTimeTable[2048];
 float lfoRateTable[2048];
 
 //uint8_t bootloadFlag __ATTR_RAM_D3;
+uint8_t volatile interruptChecker = 0;
 
 uint8_t volatile foundOne = 0;
 
@@ -122,7 +123,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-
+  //SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -240,11 +241,7 @@ int main(void)
 		  writePresetToSDCard(presetWaitingToWrite);
 	  }
 
-	  if (resetFlag == 1)
-	  {
-		  HAL_Delay(100);
-		  HAL_NVIC_SystemReset();
-	  }
+
 
 	  /*
 
@@ -379,7 +376,7 @@ static int checkForSDCardPreset(void)
 	if(BSP_SD_IsDetected())
 	{
 		diskBusy = 1;
-		//HAL_Delay(300);
+		HAL_Delay(300);
 
 		disk_initialize(0);
 
@@ -640,6 +637,7 @@ void MPU_Conf(void)
 
 void handleSPI(uint8_t offset)
 {
+	interruptChecker = 1;
 	// if the first number is a 1 then it's a midi note/ctrl/bend message
 	if (SPI_RX[offset] == 1)
 	{
@@ -676,6 +674,7 @@ void handleSPI(uint8_t offset)
 		 if (!writingPreset)
 		 {
 			 writingPreset = 1; // set the flag to let the mcu know that a preset write is in progress
+			 diskBusy = 1;
 			 audioMasterLevel = 0.0f;
 			 //write the raw data as a preset number on the SD card
 			 bufferPos = 0;
@@ -735,25 +734,25 @@ float scaleTwo(float input)
 
 float scaleOscPitch(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.0f, input, 1.0f);
 	return (input * 48.0f) - 24.0f;
 }
 
 float scaleOscFine(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 200.0f) - 100.0f;
 }
 
 float scaleOscFreq(float input)
 {
-	//input = LEAF_clip(0.f, input, 1.f); //don't clip input because we may want large gain oscillators to go through
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 4000.0f) - 2000.0f;
 }
 
 float scaleTranspose(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 96.0f) - 48.0f;
 }
 
@@ -772,7 +771,7 @@ float scaleFilterCutoff(float input)
 float scaleFilterResonance(float input)
 {
 	//lookup table for filter res
-	input = LEAF_clip(0.0f, input, 1.0f);
+	input = LEAF_clip(0.1f, input, 1.0f);
 	//scale to lookup range
 	input *= 2047.0f;
 	int inputInt = (int)input;
@@ -838,7 +837,7 @@ void parsePreset(int size)
 	params[Osc1Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc1Fine].scaleFunc = &scaleOscFine;
 	params[Osc1Freq].scaleFunc = &scaleOscFreq;
-	params[Osc1Amp].scaleFunc = &scaleTwo; // changed to scale from 0-1 instead of 0-2 to avoid FM issues when clipping range CHANGE IN PLUGIN TOO!
+	//params[Osc1Amp].scaleFunc = &scaleTwo; // changed to scale from 0-1 instead of 0-2 to avoid FM issues when clipping range CHANGE IN PLUGIN TOO!
 	params[Osc2Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc2Fine].scaleFunc = &scaleOscFine;
 	params[Osc2Freq].scaleFunc = &scaleOscFreq;
@@ -872,12 +871,11 @@ void parsePreset(int size)
 	for (int i = 0; i < NUM_PARAMS; i++)
 	{
 		params[i].realVal = params[i].scaleFunc(params[i].zeroToOneVal);
-		params[i].initRealVal = params[i].realVal;
 	}
 
 	for (int i = 0; i < NUM_OSC; i++)
 	{
-		int oscshape = roundf(params[Osc1ShapeSet + (OscParamsNum * i)].realVal * NUM_OSC_SHAPES);
+		int oscshape = roundf(params[Osc1ShapeSet + (OscParamsNum * i)].realVal * (NUM_OSC_SHAPES-1));
 		switch (oscshape){
 				  case 0:
 					  shapeTick[i] = &sawSquareTick;
@@ -907,7 +905,7 @@ void parsePreset(int size)
 
 	for (int i = 0; i < NUM_FILT; i++)
 	{
-		int filterType = roundf(params[Filter1Type + (i * FilterParamsNum)].realVal * NUM_FILTER_TYPES);
+		int filterType = roundf(params[Filter1Type + (i * FilterParamsNum)].realVal * (NUM_FILTER_TYPES-1));
 		//filterSetters[i].setCutoff = &filterSetCutoff;
 		//filterSetters[i].setKeyfollow = &filterSetKeyfollow;
 		switch (filterType){
@@ -1225,7 +1223,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     			  FlushECC(&bootloaderFlag,  32);
 
 				  buttonPressed = 0;
-				  resetFlag = 1;
+
+				  HAL_Delay(100);
+				  HAL_NVIC_SystemReset();
+
 
     		  }
     	  }

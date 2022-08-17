@@ -245,16 +245,17 @@ void audioFrame(uint16_t buffer_offset)
 
 		audioOutBuffer[buffer_offset + i] = current_sample;
 	}
-
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 
 }
 
 float oscOuts[2][NUM_OSC];
+uint32_t timeOsc = 0;
 
-void oscillator_tick(float note, float freq)
+void oscillator_tick(float note)
 {
     //if (loadingTables || !enabled) return;
+	interruptChecker = 0;
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int osc = 0; osc < NUM_OSC; osc++)
 	{
@@ -267,15 +268,15 @@ void oscillator_tick(float note, float freq)
 		float filterSend = oscParams[OscFilterSend].realVal;
 
 		float finalFreq = (mtof(note + (fine*0.01f)) * freqMult[osc]) + freqOffset ;
-
+		LEAF_clip(-19000.0f, finalFreq, 19000.0f);
 		float sample = 0.0f;
 
 		shapeTick[osc](&sample, osc, finalFreq, shape);
 
 		sample *= amp;
 
-		float normSample = (sample + 1.f) * 0.5f;
-		sourceValues[OSC_SOURCE_OFFSET + osc] = normSample; // the define of zero may be wasteful
+		//float normSample = (sample + 1.f) * 0.5f;
+		sourceValues[OSC_SOURCE_OFFSET + osc] = sample; // the define of zero may be wasteful
 
 		sample *= INV_NUM_OSCS;
 
@@ -284,7 +285,11 @@ void oscillator_tick(float note, float freq)
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
 
-	cycleCount[4] = tempCount2-tempCount1;
+	timeOsc = tempCount2-tempCount1;
+	if (timeOsc > 3000)
+	{
+		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+	}
 
 }
 
@@ -338,10 +343,11 @@ void userTick(float* sample, int v, float freq, float shape)
     //*sample += tWaveOscS_tick(&wave[v]);
 }
 
-
+uint32_t timeFilt = 0;
 
 float filter_tick(float* samples, float note)
 {
+	interruptChecker = 0;
 	uint32_t tempCount1 = DWT->CYCCNT;
 	float cutoff[2];
 	uint8_t enabledFilt[2] = {0,0};
@@ -355,13 +361,13 @@ float filter_tick(float* samples, float note)
 		if (!enabledFilt[f]) continue;
 
 
-		//if (isnan(note))
-		//{
-		///	note = 0.0f; //is this necessary?
-		//}
+		if (isnan(note))
+		{
+			note = 0.0f; //is this necessary?
+		}
 
 		cutoff[f] = MIDIcutoff + (note * keyFollow);
-		cutoff[f] = LEAF_clip(0.1f, fabsf(faster_mtof(cutoff[f])), 19000.0f);
+		cutoff[f] = LEAF_clip(0.0f, (cutoff[f]-16.0f) * 35.929824561403509f, 4095.0f);
 	}
 
 	float  sp = params[FilterSeriesParallelMix].realVal;
@@ -379,65 +385,66 @@ float filter_tick(float* samples, float note)
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
 
-	cycleCount[3] = tempCount2-tempCount1;
+	timeFilt = tempCount2-tempCount1;
 	return samples[1] + (samples[0] * sp);
 }
 
 
 void lowpassTick(float* sample, int v, float cutoff)
 {
-	tSVF_setFreq(&lowpass[v], cutoff);
+	tSVF_setFreqFast(&lowpass[v], cutoff);
 	*sample = tSVF_tick(&lowpass[v], *sample);
     *sample *= filterGain[v];
 }
 
 void highpassTick(float* sample, int v, float cutoff)
 {
-	tSVF_setFreq(&highpass[v], cutoff);
+	tSVF_setFreqFast(&highpass[v], cutoff);
 	*sample = tSVF_tick(&highpass[v], *sample);
     *sample *= filterGain[v];
 }
 
 void bandpassTick(float* sample, int v, float cutoff)
 {
-	tSVF_setFreq(&bandpass[v], cutoff);
+	tSVF_setFreqFast(&bandpass[v], cutoff);
 	*sample = tSVF_tick(&bandpass[v], *sample);
     *sample *= filterGain[v];
 }
 
 void diodeLowpassTick(float* sample, int v, float cutoff)
 {
-	tDiodeFilter_setFreq(&diodeFilters[v], cutoff);
+	//tDiodeFilter_setFreq(&diodeFilters[v], mtof(cutoff/32.0f));
+	tDiodeFilter_setFreqFast(&diodeFilters[v], cutoff);
 	*sample = tDiodeFilter_tick(&diodeFilters[v], *sample);
     *sample *= filterGain[v];
 }
 
 void VZpeakTick(float* sample, int v, float cutoff)
 {
-	tVZFilter_setFreq(&VZfilterPeak[v], cutoff);
+	tVZFilter_setFreqFast(&VZfilterPeak[v], cutoff);
 	*sample = tVZFilter_tickEfficient(&VZfilterPeak[v], *sample);
 }
 
 void VZlowshelfTick(float* sample, int v, float cutoff)
 {
-	tVZFilter_setFreq(&VZfilterLS[v], cutoff);
+	tVZFilter_setFreqFast(&VZfilterLS[v], cutoff);
 	*sample = tVZFilter_tickEfficient(&VZfilterLS[v], *sample);
 }
 void VZhighshelfTick(float* sample, int v, float cutoff)
 {
-	tVZFilter_setFreq(&VZfilterHS[v], cutoff);
+	tVZFilter_setFreqFast(&VZfilterHS[v], cutoff);
 	*sample = tVZFilter_tickEfficient(&VZfilterHS[v], *sample);
 }
 void VZbandrejectTick(float* sample, int v, float cutoff)
 {
-	tVZFilter_setFreq(&VZfilterBR[v], cutoff);
+	tVZFilter_setFreqFast(&VZfilterBR[v], cutoff);
 	*sample = tVZFilter_tickEfficient(&VZfilterBR[v], *sample);
     *sample *= filterGain[v];
 }
 
 void LadderLowpassTick(float* sample, int v, float cutoff)
 {
-	tLadderFilter_setFreq(&Ladderfilter[v], cutoff);
+	tLadderFilter_setFreqFast(&Ladderfilter[v], cutoff);
 	*sample = tLadderFilter_tick(&Ladderfilter[v], *sample);
     *sample *= filterGain[v];
 }
@@ -553,9 +560,10 @@ void LadderLowpassSetGain(float gain, int v)
 	filterGain[v] = fasterdbtoa((gain * 24.0f) - 12.0f);
 }
 
-
+uint32_t timeEnv = 0;
 void envelope_tick(void)
 {
+	interruptChecker = 0;
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int v = 0; v < NUM_ENV; v++)
 	{
@@ -563,7 +571,7 @@ void envelope_tick(void)
 		sourceValues[ENV_SOURCE_OFFSET + v] = value;
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
-	cycleCount[2] = tempCount2-tempCount1;
+	timeEnv = tempCount2-tempCount1;
 //	if (poly->voices[0][0] == -2)
 //	{
 //	    if (envs[0]->whichStage == env_idle)
@@ -626,40 +634,38 @@ void setPitchBendRangeDown(float in, int v)
 	//bendRangeDown = in; //ignored for now
 }
 
-
+uint32_t timeMap = 0;
 void tickMappings(void)
 {
+	interruptChecker = 0;
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int i = 0; i < numMappings; i++)
 	{
 		float value = 0.0f;
 		for (int j = 0; j < mappings[i].numHooks; j++)
 		{
-			float sum = mappings[i].dest->scaleFunc(*mappings[i].sourceValPtr[j]) * mappings[i].amount[j] * *mappings[i].scalarSourceValPtr[j];
+			float sum = *mappings[i].sourceValPtr[j] * mappings[i].amount[j] * *mappings[i].scalarSourceValPtr[j];
 			value += sum;
 		}
 		//sources are now summed - let's add the initial value
-		value += mappings[i].dest->initRealVal;
+		value += mappings[i].dest->zeroToOneVal;
 
 		//now scale the value with the correct scaling function
-		mappings[i].dest->realVal = value;
+		mappings[i].dest->realVal = mappings[i].dest->scaleFunc(value);
 
 		//and pop that value where it belongs by setting the actual parameter
 		mappings[i].dest->setParam(mappings[i].dest->realVal, mappings[i].dest->objectNumber);
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
-	cycleCount[1] = tempCount2-tempCount1;
+	timeMap = tempCount2-tempCount1;
 
 }
+uint32_t timeTick = 0;
 
 
 float audioTickL(float audioIn)
 {
 	uint32_t tempCount5 = DWT->CYCCNT;
-
-
-
-
 	sample = 0.0f;
 
 		//run mapping ticks
@@ -667,11 +673,11 @@ float audioTickL(float audioIn)
 
 		float note = bend + transpose + (float)tSimplePoly_getPitch(&myPoly, 0);
 
-		float freq = mtof(note);
+
 
 		envelope_tick();
 
-		oscillator_tick(note, freq);
+		oscillator_tick(note);
 
 		float filterSamps[2] = {0.0f, 0.0f};
 		for (int i = 0; i < NUM_OSC; i++)
@@ -720,7 +726,7 @@ float audioTickL(float audioIn)
 		sample *= finalMaster;
 
 		uint32_t tempCount6 = DWT->CYCCNT;
-		cycleCount[0] = tempCount6-tempCount5;
+		timeTick = tempCount6-tempCount5;
 	return sample * audioMasterLevel;
 }
 
