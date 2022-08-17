@@ -71,6 +71,11 @@ void sendPitchBend(uint8_t value, uint8_t ctrl);
 #define CTRL_MIDI_START 17
 
 
+void setTranspose(float in, int v);
+void setPitchBendRangeUp(float in, int v);
+void setPitchBendRangeDown(float in, int v);
+void setNoiseAmp(float in, int v);
+
 void oscillator_tick(float note, float freq);
 
 typedef void (*shapeTick_t)(float*, int, float, float);
@@ -101,6 +106,7 @@ void VZpeakTick(float* sample, int v, float cutoff);
 void VZbandrejectTick(float* sample, int v, float cutoff);
 
 void filterSetCutoff(float cutoff, int v);
+void filterSetKeyfollow(float keyfollow, int v);
 void lowpassSetQ(float q, int v);
 void highpassSetQ(float q, int v);
 void bandpassSetQ(float q, int v);
@@ -116,9 +122,9 @@ void bandpassSetGain(float gain, int v);
 void diodeLowpassSetGain(float gain, int v);
 void VZpeakSetGain(float gain, int v);
 void VZlowshelfSetGain(float gain, int v);
-void VZhighshelfSetGain(float bw, int v);
-void VZbandrejectSetGain(float bw, int v);
-void LadderLowpassSetGain(float q, int v);
+void VZhighshelfSetGain(float gain, int v);
+void VZbandrejectSetGain(float gain, int v);
+void LadderLowpassSetGain(float gain, int v);
 extern filterTick_t filterTick[NUM_FILT];
 
 //envelope functions
@@ -129,7 +135,8 @@ void setEnvelopeRelease(float r, int v);
 void setEnvelopeLeak(float leak, int v);
 
 //master functions
-void setAmp(float leak, int v);
+void setAmp(float amp, int v);
+void setMaster(float amp, int v);
 
 
 

@@ -67,6 +67,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
 float randomNumber(void);
+static void CycleCounterInit( void );
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

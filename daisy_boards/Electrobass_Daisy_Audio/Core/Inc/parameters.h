@@ -14,6 +14,7 @@ typedef void (*setParam_t)(float, int);
 typedef void (*setCutoff_t)(float, int);
 typedef void (*setQ_t)(float, int);
 typedef void (*setGain_t)(float, int);
+typedef void (*setKeyfollow_t)(float, int);
 
 #define NUM_OSC_SHAPES 6
 #define NUM_FILTER_TYPES 9
@@ -40,13 +41,14 @@ typedef struct filterSetter
 	setCutoff_t setCutoff;
 	setQ_t	setQ;
 	setGain_t setGain;
+	setKeyfollow_t setKeyfollow;
 } filterSetter;
 
 
 typedef struct mapping
 {
 	uint8_t destNumber;
-	param dest;
+	param* dest;
 	float* sourceValPtr[NUM_POSSIBLE_HOOKS];
 	float* scalarSourceValPtr[NUM_POSSIBLE_HOOKS];
 	float amount[NUM_POSSIBLE_HOOKS];

@@ -110,6 +110,8 @@ float lfoRateTable[2048];
 //uint8_t bootloadFlag __ATTR_RAM_D3;
 
 uint8_t volatile foundOne = 0;
+
+
 /* USER CODE END 0 */
 
 /**
@@ -174,7 +176,7 @@ int main(void)
   tempFPURegisterVal |= (1<<24); // set the FTZ (flush-to-zero) bit in the FPU control register
   __set_FPSCR(tempFPURegisterVal);
 
-
+  CycleCounterInit();
 
 
 
@@ -802,6 +804,8 @@ void blankFunction(float a, int b)
 
 void parsePreset(int size)
 {
+	//turn off the volume while changing parameters
+
 	audioMasterLevel = 0.0f;
 	//osc params
 	for (int i = 0; i < NUM_PARAMS; i++)
@@ -814,10 +818,6 @@ void parsePreset(int size)
 		params[i].setParam = &blankFunction;
 	}
 
-
-
-
-	//params[i].realVal = params[i].zeroToOneVal;
 	params[Master].scaleFunc = &scaleTwo;
 	params[Transpose].scaleFunc = &scaleTranspose;
 	params[PitchBendRangeUp].scaleFunc = &scalePitchBend;
@@ -895,58 +895,51 @@ void parsePreset(int size)
 	for (int i = 0; i < NUM_FILT; i++)
 	{
 		int filterType = roundf(params[Filter1Type + (i * FilterParamsNum)].realVal * NUM_FILTER_TYPES);
+		//filterSetters[i].setCutoff = &filterSetCutoff;
+		//filterSetters[i].setKeyfollow = &filterSetKeyfollow;
 		switch (filterType){
 				  case 0:
 					  filterTick[i] = &lowpassTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &lowpassSetQ;
 					  filterSetters[i].setGain = &lowpassSetGain;
 					  break;
 				  case 1:
 					  filterTick[i] = &highpassTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &highpassSetQ;
 					  filterSetters[i].setGain = &highpassSetGain;
 					  break;
 				  case 2:
 					  filterTick[i] = &bandpassTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &bandpassSetQ;
 					  filterSetters[i].setGain = &bandpassSetGain;
 					  break;
 				  case 3:
 					  filterTick[i] = &diodeLowpassTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &diodeLowpassSetQ;
 					  filterSetters[i].setGain = &diodeLowpassSetGain;
 					  break;
 				  case 4:
 					  filterTick[i] = &VZpeakTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &VZpeakSetQ;
 					  filterSetters[i].setGain = &VZpeakSetGain;
 					  break;
 				  case 5:
 					  filterTick[i] = &VZlowshelfTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &VZlowshelfSetQ;
 					  filterSetters[i].setGain = &VZlowshelfSetGain;
 					  break;
 				  case 6:
 					  filterTick[i] = &VZhighshelfTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &VZhighshelfSetQ;
 					  filterSetters[i].setGain = &VZhighshelfSetGain;
 					  break;
 				  case 7:
 					  filterTick[i] = &VZbandrejectTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &VZbandrejectSetQ;
 					  filterSetters[i].setGain = &VZbandrejectSetGain;
 					  break;
 				  case 8:
 					  filterTick[i] = &LadderLowpassTick;
-					  filterSetters[i].setCutoff = &filterSetCutoff;
 					  filterSetters[i].setQ = &LadderLowpassSetQ;
 					  filterSetters[i].setGain = &LadderLowpassSetGain;
 					  break;
@@ -956,20 +949,22 @@ void parsePreset(int size)
 		}
 	}
 
-	//params[Master].setParam = &scaleTwo;
-	//params[Transpose].setParam = &scaleTranspose;
-	//params[PitchBendRangeUp].setParam = &scalePitchBend;
-	//params[PitchBendRangeDown].setParam = &scalePitchBend;
-	//params[NoiseAmp].setParam = &scaleTwo;
+	params[Master].setParam = &setMaster;
+	params[Transpose].setParam = &setTranspose;
+	params[PitchBendRangeUp].setParam = &setPitchBendRangeUp;
+	params[PitchBendRangeDown].setParam = &setPitchBendRangeDown;
+	//params[NoiseAmp].setParam = &setNoiseAmp;
 	params[Osc1Pitch].setParam = &setFreqMult;
 	params[Osc2Pitch].setParam = &setFreqMult;
 	params[Osc3Pitch].setParam = &setFreqMult;
-	params[Filter1Cutoff].setParam = filterSetters[0].setCutoff;
+	//params[Filter1Cutoff].setParam = filterSetters[0].setCutoff;
 	params[Filter1Resonance].setParam = filterSetters[0].setQ;
 	params[Filter1Gain].setParam = filterSetters[0].setGain; //gain is a special case for set params where the scaling function leaves it alone because it's different based on filter type
-	params[Filter2Cutoff].setParam = filterSetters[1].setCutoff;
+	//params[Filter1KeyFollow].setParam = filterSetters[0].setKeyfollow;
+	//params[Filter2Cutoff].setParam = filterSetters[1].setCutoff;
 	params[Filter2Resonance].setParam = filterSetters[1].setQ;
 	params[Filter2Gain].setParam = filterSetters[1].setGain;
+	//params[Filter2KeyFollow].setParam = filterSetters[1].setKeyfollow;
 	params[Envelope1Attack].setParam = &setEnvelopeAttack;
 	params[Envelope1Decay].setParam = &setEnvelopeDecay;
 	params[Envelope1Sustain].setParam = &setEnvelopeSustain;
@@ -1084,7 +1079,7 @@ void parsePreset(int size)
 				numMappings++;
 				whichHook = 0;
 				mappings[whichMapping].destNumber = destNumber;
-				mappings[whichMapping].dest = params[destNumber];
+				mappings[whichMapping].dest = &params[destNumber];
 
 			}
 
@@ -1154,6 +1149,23 @@ void FlushECC(void *ptr, int bytes)
 			flush_ptr++;
 		}while(flush_ptr != end_ptr);
 	}
+}
+// helper function to initialize measuring unit (cycle counter) */
+static void CycleCounterInit( void )
+{
+  /* Enable TRC */
+  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+
+  /* Unlock DWT registers */
+  if ((*(uint32_t*)0xE0001FB4) & 1)
+    *(uint32_t*)0xE0001FB0 = 0xC5ACCE55;
+
+  /* clear the cycle counter */
+  DWT->CYCCNT = 0;
+
+  /* start the cycle counter */
+  DWT->CTRL = 0x40000001;
+
 }
 
 // EXTI Line12 External Interrupt ISR Handler CallBackFun

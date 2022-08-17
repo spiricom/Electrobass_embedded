@@ -8,6 +8,7 @@
 #include "leaf.h"
 #include "parameters.h"
 #include "audio.h"
+#include "arm_math.h"
 
 //the audio buffers are put in the D2 RAM area because that is a memory location that the DMA has access to.
 int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
@@ -17,11 +18,14 @@ int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 HAL_StatusTypeDef transmit_status;
 HAL_StatusTypeDef receive_status;
 
+volatile uint32_t cycleCount[10];
 
 //function pointers
 shapeTick_t shapeTick[NUM_OSC];
 filterTick_t filterTick[NUM_FILT];
 
+arm_fir_decimate_instance_f32 osD;
+arm_fir_interpolate_instance_f32 osI;
 
 //oscillators
 tMBSaw saw[NUM_OSC];
@@ -43,6 +47,7 @@ float outSamples[2][NUM_OSC];
 float sourceValues[NUM_SOURCES];
 
 float freqMult[NUM_OSC];
+float bendRangeMultiplier = 0.002929866324849f; //default to divide by 48
 
 uint8_t noteOns[64][2];
 uint8_t ctrlMsgs[64][2];
@@ -63,7 +68,6 @@ tSVF highpass[NUM_FILT];
 tSVF bandpass[NUM_FILT];
 tLadderFilter Ladderfilter[NUM_FILT];
 
-float midiCutoff[NUM_FILT];
 float filterGain[NUM_FILT];
 
 //envelopes
@@ -76,12 +80,20 @@ float decayExpBufferSizeMinusOne;
 
 //master
 float amplitude = 0.0f;
+float finalMaster = 1.0f;
 
 float sample = 0.0f;
 tSimplePoly poly;
 float bend;
+float transpose = 0.0f;
 tNoise noise;
 
+#define OVERSAMPLE 2
+tOversampler os;
+float oversamplerArray[OVERSAMPLE];
+
+float upState1[128];
+float downState1[128];
 
 uint8_t voiceSounding = 0;
 
@@ -149,6 +161,26 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	tSimplePoly_init(&poly, 1, &leaf);
 	tNoise_init(&noise, WhiteNoise, &leaf);
 
+	tOversampler_init(&os, OVERSAMPLE, 0, &leaf);
+
+    int idx = (int)(log2f(OVERSAMPLE))-1;
+    int numTaps = __leaf_tablesize_firNumTaps[idx];
+
+	arm_fir_decimate_init_f32(
+	        &osD,
+			numTaps,
+			OVERSAMPLE,
+			(float*) &__leaf_table_fir2XLow,
+			(float*) &downState1,
+	        OVERSAMPLE);
+
+	arm_fir_interpolate_init_f32(
+	        &osI,
+			OVERSAMPLE,
+			numTaps,
+			(float*) &__leaf_table_fir2XLow,
+			(float*) &upState1,
+	        1);
 
 	HAL_Delay(10);
 	for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
@@ -222,6 +254,7 @@ float oscOuts[2][NUM_OSC];
 void oscillator_tick(float note, float freq)
 {
     //if (loadingTables || !enabled) return;
+	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int osc = 0; osc < NUM_OSC; osc++)
 	{
 		param* oscParams = &params[OSC_PARAMS_OFFSET + osc * OscParamsNum];
@@ -248,6 +281,9 @@ void oscillator_tick(float note, float freq)
 		oscOuts[0][osc] = sample * filterSend * oscParams[OscEnabled].realVal;
 		oscOuts[1][osc] = sample * (1.f-filterSend) * oscParams[OscEnabled].realVal;
 	}
+	uint32_t tempCount2 = DWT->CYCCNT;
+
+	cycleCount[4] = tempCount2-tempCount1;
 
 }
 
@@ -305,11 +341,13 @@ void userTick(float* sample, int v, float freq, float shape)
 
 float filter_tick(float* samples, float note)
 {
+	uint32_t tempCount1 = DWT->CYCCNT;
 	float cutoff[2];
 	uint8_t enabledFilt[2] = {0,0};
 	for (int f = 0; f < NUM_FILT; f++)
 	{
 		param* filtParams = &params[FILTER_PARAMS_OFFSET + f * FilterParamsNum];
+		float MIDIcutoff = filtParams[FilterCutoff].realVal;
 		float keyFollow = filtParams[FilterKeyFollow].realVal;
 		float enabled = filtParams[FilterEnabled].realVal;
 		enabledFilt[f] = (enabled > 0.5f);
@@ -321,7 +359,7 @@ float filter_tick(float* samples, float note)
 			note = 0.0f; //is this necessary?
 		}
 
-		cutoff[f] = midiCutoff[f] + (note * keyFollow);
+		cutoff[f] = MIDIcutoff + (note * keyFollow);
 		cutoff[f] = LEAF_clip(0.1f, fabsf(faster_mtof(cutoff[f])), 19000.0f);
 	}
 
@@ -338,6 +376,9 @@ float filter_tick(float* samples, float note)
 	{
 		filterTick[1](&samples[1], 1, cutoff[1]);
 	}
+	uint32_t tempCount2 = DWT->CYCCNT;
+
+	cycleCount[3] = tempCount2-tempCount1;
 	return samples[1] + (samples[0] * sp);
 }
 
@@ -419,10 +460,6 @@ void setFreqMult(float harm_pitch, int osc)
 	}
 }
 
-void filterSetCutoff(float cutoff, int v)
-{
-	midiCutoff[v] = cutoff;
-}
 
 
 void lowpassSetQ(float q, int v)
@@ -518,20 +555,22 @@ void LadderLowpassSetGain(float gain, int v)
 
 void envelope_tick(void)
 {
+	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int v = 0; v < NUM_ENV; v++)
 	{
 		float value = tADSRT_tickNoInterp(&envs[v]);
 		sourceValues[ENV_SOURCE_OFFSET + v] = value;
 	}
-
-	if (poly->voices[0][0] == -2)
-	{
-	    if (envs[0]->whichStage == env_idle)
-	    {
-	          tSimplePoly_deactivateVoice(&poly, 0);  //remove this since we're monophonic - should check if that will break anything
-	          voiceSounding = false;
-	    }
-	}
+	uint32_t tempCount2 = DWT->CYCCNT;
+	cycleCount[2] = tempCount2-tempCount1;
+//	if (poly->voices[0][0] == -2)
+//	{
+//	    if (envs[0]->whichStage == env_idle)
+//	    {
+//	          tSimplePoly_deactivateVoice(&poly, 0);  //remove this since we're monophonic - should check if that will break anything
+//	          voiceSounding = false;
+//	    }
+//	}
 
 }
 
@@ -566,37 +605,66 @@ void setAmp(float amp, int v)
 	amplitude = amp;
 }
 
+void setMaster(float amp, int v)
+{
+	finalMaster = amp;
+}
+
+void setTranspose(float in, int v)
+{
+	transpose = in;
+}
+
+void setPitchBendRangeUp(float in, int v)
+{
+	bendRangeMultiplier = 1.0f / (16383.0f / (in * 2.0f));
+}
+
+void setPitchBendRangeDown(float in, int v)
+{
+	//bendRangeDown = in; //ignored for now
+}
+
 
 void tickMappings(void)
 {
+	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int i = 0; i < numMappings; i++)
 	{
 		float value = 0.0f;
 		for (int j = 0; j < mappings[i].numHooks; j++)
 		{
-			float sum = *mappings[i].sourceValPtr[j] * mappings[i].amount[j]; // *mappings[i].scalarSourceValPtr[j]
+			float sum = *mappings[i].sourceValPtr[j] * mappings[i].amount[j] * *mappings[i].scalarSourceValPtr[j];
 			value += sum;
 		}
 		//sources are now summed - let's add the initial value
-		value += mappings[i].dest.zeroToOneVal;
+		value += mappings[i].dest->zeroToOneVal;
 
 		//now scale the value with the correct scaling function
-		mappings[i].dest.realVal = mappings[i].dest.scaleFunc(value);
+		mappings[i].dest->realVal = mappings[i].dest->scaleFunc(value);
 
 		//and pop that value where it belongs by setting the actual parameter
-		mappings[i].dest.setParam(mappings[i].dest.realVal, mappings[i].dest.objectNumber);
+		mappings[i].dest->setParam(mappings[i].dest->realVal, mappings[i].dest->objectNumber);
 	}
+	uint32_t tempCount2 = DWT->CYCCNT;
+	cycleCount[1] = tempCount2-tempCount1;
+
 }
+
 
 float audioTickL(float audioIn)
 {
+	uint32_t tempCount5 = DWT->CYCCNT;
+
+
+
 
 	sample = 0.0f;
 
 		//run mapping ticks
 		tickMappings();
 
-		float note = bend + (float)tSimplePoly_getPitch(&poly, 0);
+		float note = bend + transpose + (float)tSimplePoly_getPitch(&poly, 0);
 
 		float freq = mtof(note);
 
@@ -610,12 +678,48 @@ float audioTickL(float audioIn)
 			filterSamps[0] += oscOuts[0][i];
 			filterSamps[1] += oscOuts[1][i];
 		}
-
+		//sample = filterSamps[0];
 		sample = filter_tick(&filterSamps[0], note);
 
 		sample *= amplitude;
 
+		uint32_t tempCount1 = DWT->CYCCNT;
 
+		//oversample for non-linear effects (distortion, etc)
+        //tOversampler_upsample(&os, sample, oversamplerArray);
+
+		arm_fir_interpolate_f32(
+		  &osI,
+		  &sample,
+		  (float*)&oversamplerArray,
+		  1);
+/*
+        for (int i = 0; i < fx.size(); i++) {
+            fx[i]->oversample_tick(oversamplerArray, v);
+        }
+*/
+        //hard clip before downsampling to get a little more antialiasing from clipped signal.
+        for (int i = 0; i < (OVERSAMPLE); i++)
+        {
+            oversamplerArray[i] = LEAF_clip(-1.0f, oversamplerArray[i], 1.0f);
+        }
+        //downsample to get back to normal sample rate
+        //sample = tOversampler_downsample(&os, oversamplerArray);
+
+        arm_fir_decimate_f32(
+          &osD,
+		  (float*)&oversamplerArray,
+          &sample,
+          OVERSAMPLE);
+
+    	uint32_t tempCount2 = DWT->CYCCNT;
+
+    	cycleCount[5] = tempCount2-tempCount1;
+
+		sample *= finalMaster;
+
+		uint32_t tempCount6 = DWT->CYCCNT;
+		cycleCount[0] = tempCount6-tempCount5;
 	return sample * audioMasterLevel;
 }
 
@@ -662,7 +766,7 @@ void sendPitchBend(uint8_t value, uint8_t ctrl)
 {
 	int bendInt = value + (ctrl << 7);
 	bendInt = bendInt - 8192;
-	bend = bendInt * 0.002929866324849f; //divide by (16383 / 48 semitones)
+	bend = bendInt * bendRangeMultiplier; //by default, divide by (16383 / 48 semitones)
 
 }
 
