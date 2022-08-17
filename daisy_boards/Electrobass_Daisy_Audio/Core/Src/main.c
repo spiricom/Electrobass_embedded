@@ -176,7 +176,9 @@ int main(void)
   __set_FPSCR(tempFPURegisterVal);
 
   CycleCounterInit();
-
+  cStack_init(&noteStack);
+  cStack_init(&ctrlStack);
+  cStack_init(&pBendStack);
 
 
   for (int i = 0; i < 4096; i++)
@@ -652,15 +654,15 @@ void handleSPI(uint8_t offset)
 		 {
 			 if (SPI_RX[currentByte] == 0x90)
 			 {
-				 storeNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 cStack_push(&noteStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
 			 }
 			 else if (SPI_RX[currentByte] == 0xb0)
 			 {
-				 storeCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 cStack_push(&ctrlStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
 			 }
 			 else if (SPI_RX[currentByte] == 0xe0)
 			 {
-				 storePitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 cStack_push(&pBendStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
 			 }
 			 currentByte = currentByte+3;
 		 }

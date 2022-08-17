@@ -14,6 +14,9 @@
 int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 
+cStack noteStack;
+cStack ctrlStack;
+cStack pBendStack;
 
 HAL_StatusTypeDef transmit_status;
 HAL_StatusTypeDef receive_status;
@@ -49,13 +52,6 @@ float sourceValues[NUM_SOURCES];
 float freqMult[NUM_OSC];
 float bendRangeMultiplier = 0.002929866324849f; //default to divide by 48
 
-uint8_t noteOns[64][2];
-uint8_t ctrlMsgs[64][2];
-uint8_t pitchBends[64][2];
-
-uint8_t numNoteOns = 0;
-uint8_t numCtrlMsgs = 0;
-uint8_t numPitchBends = 0;
 
 //filters
 tDiodeFilter diodeFilters[NUM_FILT];
@@ -196,40 +192,50 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 
 void audioFrame(uint16_t buffer_offset)
 {
+	volatile uint32_t tmpCnt = 0;
+	uint8_t output[2];
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 
 	//take care of MIDI messages that came in
-	while(numNoteOns > 0)
+	tmpCnt = DWT->CYCCNT;
+	while(noteStack.size > 0)
 	{
-		sendNoteOn(noteOns[0][0], noteOns[0][1]);
-		for (int i = 0; i < numNoteOns-1; i++)
-		{
-			noteOns[i][0] = noteOns[i+1][0];
-			noteOns[i][1] = noteOns[i+1][1];
-		}
-		numNoteOns--;
+		//pop code to avoid function overhead
+		sendNoteOn(noteStack.buffer[noteStack.readCnt][0], noteStack.buffer[noteStack.readCnt][1]);
+		//noteStack.buffer[noteStack.readCnt][0] = -1;
+		//noteStack.buffer[noteStack.readCnt][1] = -1;
+		noteStack.readCnt = (noteStack.readCnt + 1) % 64;
+		noteStack.size--;
 	}
-	while(numCtrlMsgs > 0)
+	tmpCnt = DWT->CYCCNT - tmpCnt;
+	cycleCount[6] = tmpCnt;
+	tmpCnt = DWT->CYCCNT;
+	while(ctrlStack.size > 0)
 	{
-		sendCtrl(ctrlMsgs[0][0], ctrlMsgs[0][1]);
-		for (int i = 0; i < numCtrlMsgs-1; i++)
-		{
-			ctrlMsgs[i][0] = ctrlMsgs[i+1][0];
-			ctrlMsgs[i][1] = ctrlMsgs[i+1][1];
-		}
-		numCtrlMsgs--;
-	}
-	while(numPitchBends > 0)
-	{
-		sendPitchBend(pitchBends[0][0], pitchBends[0][1]);
-		for (int i = 0; i < numPitchBends-1; i++)
-		{
-			pitchBends[i][0] = pitchBends[i+1][0];
-			pitchBends[i][1] = pitchBends[i+1][1];
-		}
-		numPitchBends--;
-	}
+		//pop code to avoid function overhead
+		sendCtrl(ctrlStack.buffer[ctrlStack.readCnt][0], ctrlStack.buffer[ctrlStack.readCnt][1]);
+		//ctrlStack.buffer[ctrlStack.readCnt][0] = -1;
+		//ctrlStack.buffer[ctrlStack.readCnt][1] = -1;
+		ctrlStack.readCnt = (ctrlStack.readCnt + 1) % 64;
+		ctrlStack.size--;
 
+	}
+	tmpCnt = DWT->CYCCNT - tmpCnt;
+	cycleCount[7] = tmpCnt;
+	tmpCnt = DWT->CYCCNT;
+	while(pBendStack.size > 0)
+	{
+		//pop code to avoid function overhead
+		cStack_pop(&pBendStack, output);
+		sendPitchBend(output[0], output[1]);
+		sendPitchBend(pBendStack.buffer[pBendStack.readCnt][0], pBendStack.buffer[pBendStack.readCnt][1]);
+		//pBendStack.buffer[pBendStack.readCnt][0] = -1;
+		//pBendStack.buffer[pBendStack.readCnt][1] = -1;
+		pBendStack.readCnt = (pBendStack.readCnt + 1) % 64;
+		pBendStack.size--;
+	}
+	tmpCnt = DWT->CYCCNT - tmpCnt;
+	cycleCount[8] = tmpCnt;
 	int32_t current_sample = 0;
 
 	for (int i = 0; i < (HALF_BUFFER_SIZE); i++)
@@ -772,28 +778,8 @@ void sendPitchBend(uint8_t value, uint8_t ctrl)
 }
 
 
-void storeNoteOn(uint8_t note, uint8_t velocity)
-{
-	noteOns[numNoteOns][0] = note;
-	noteOns[numNoteOns][1] = velocity;
-	numNoteOns++;
-}
 
 
-void storeCtrl(uint8_t ctrl, uint8_t value)
-{
-	ctrlMsgs[numCtrlMsgs][0] = ctrl;
-	ctrlMsgs[numCtrlMsgs][1] = value;
-	numCtrlMsgs++;
-}
-
-
-void storePitchBend(uint8_t value, uint8_t ctrl)
-{
-	pitchBends[numPitchBends][0] = value;
-	pitchBends[numPitchBends][1] = ctrl;
-	numPitchBends++;
-}
 
 
 
@@ -807,6 +793,45 @@ void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 {
 	if (!diskBusy)
 	audioFrame(0);
+}
+
+
+void cStack_init(cStack* stack)
+{
+    stack->writeCnt = 0;
+    stack->readCnt = 0;
+    for (int i = 0; i < 64; i++)
+    {
+        stack->buffer[i][0] = -1;
+        stack->buffer[i][1] = -1;
+    }
+    stack->size = 0;
+}
+
+int cStack_size(cStack* stack)
+{
+    if (stack->writeCnt >= stack->readCnt)
+        return stack->writeCnt - stack->readCnt;
+    else
+        return 10 - (stack->readCnt - stack->writeCnt);
+}
+void cStack_push(cStack* stack, int8_t val, int8_t val1)
+{
+	//not doing size cehecking for speeed
+    stack->buffer[stack->writeCnt][0] = val;
+    stack->buffer[stack->writeCnt][1] = val1;
+    stack->writeCnt = (stack->writeCnt + 1 ) % 64;
+    stack->size++;
+}
+
+void cStack_pop(cStack* stack, int8_t output[2])
+{
+    output[0] = stack->buffer[stack->readCnt][0];
+    output[1] = stack->buffer[stack->readCnt][1];
+    stack->buffer[stack->readCnt][0] = -1;
+    stack->buffer[stack->readCnt][1] = -1;
+    stack->readCnt = (stack->readCnt + 1) % 64;
+    stack->size--;
 }
 
 

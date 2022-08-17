@@ -31,7 +31,21 @@
 #define SAMPLE_RATE_DIV_PARAMS_MS (SAMPLE_RATE_DIV_PARAMS / 1000.f)
 #define INV_SR_DIV_PARAMS_MS 1.f/SAMPLE_RATE_DIV_PARAMS_MS
 
+typedef struct cStack {
+    int8_t buffer[64][2];
+    int8_t writeCnt;
+    int8_t readCnt;
+    int8_t size;
+} cStack;
 
+void cStack_init(cStack* stack);
+int cStack_size(cStack* stack);
+void cStack_push(cStack* stack, int8_t val, int8_t val1);
+void cStack_pop(cStack* stack, int8_t output[2]);
+
+extern cStack noteStack;
+extern cStack ctrlStack;
+extern cStack pBendStack;
 typedef enum
 {
   BUFFER_OFFSET_NONE = 0,
