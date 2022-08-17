@@ -149,7 +149,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
   MX_DMA_Init();
   MX_DAC1_Init();
   MX_FMC_Init();
@@ -187,8 +186,16 @@ int main(void)
   LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
   LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
-  parsePreset(320); //default preset binary
 
+  foundOne  = checkForSDCardPreset();
+  if (foundOne == 0)
+  {
+	  parsePreset(320); //default preset binary
+  }
+  else
+  {
+	  parsePreset(presetWaitingToParse);
+  }
 
   codec_init(&hi2c2);
 
@@ -200,7 +207,7 @@ int main(void)
   }
 
 
-  foundOne  = checkForSDCardPreset();
+
 
   HAL_Delay(10);
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
@@ -393,6 +400,11 @@ static int checkForSDCardPreset(void)
 					presetWaitingToParse = bytesRead;
 					f_close(&SDFile);
 					found = 1;
+					for (int i = 0; i < 4; i++)
+					{
+						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+						HAL_Delay(50);
+					}
 				}
 			}
 			//f_closedir(&dir);
@@ -735,7 +747,7 @@ float scaleOscFine(float input)
 
 float scaleOscFreq(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	//input = LEAF_clip(0.f, input, 1.f); //don't clip input because we may want large gain oscillators to go through
 	return (input * 4000.0f) - 2000.0f;
 }
 
@@ -826,7 +838,7 @@ void parsePreset(int size)
 	params[Osc1Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc1Fine].scaleFunc = &scaleOscFine;
 	params[Osc1Freq].scaleFunc = &scaleOscFreq;
-	params[Osc1Amp].scaleFunc = &scaleTwo;
+	params[Osc1Amp].scaleFunc = &scaleTwo; // changed to scale from 0-1 instead of 0-2 to avoid FM issues when clipping range CHANGE IN PLUGIN TOO!
 	params[Osc2Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc2Fine].scaleFunc = &scaleOscFine;
 	params[Osc2Freq].scaleFunc = &scaleOscFreq;
@@ -860,6 +872,7 @@ void parsePreset(int size)
 	for (int i = 0; i < NUM_PARAMS; i++)
 	{
 		params[i].realVal = params[i].scaleFunc(params[i].zeroToOneVal);
+		params[i].initRealVal = params[i].realVal;
 	}
 
 	for (int i = 0; i < NUM_OSC; i++)

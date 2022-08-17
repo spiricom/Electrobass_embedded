@@ -83,7 +83,7 @@ float amplitude = 0.0f;
 float finalMaster = 1.0f;
 
 float sample = 0.0f;
-tSimplePoly poly;
+tSimplePoly myPoly;
 float bend;
 float transpose = 0.0f;
 tNoise noise;
@@ -158,7 +158,7 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
     }
 
 
-	tSimplePoly_init(&poly, 1, &leaf);
+	tSimplePoly_init(&myPoly, 1, &leaf);
 	tNoise_init(&noise, WhiteNoise, &leaf);
 
 	tOversampler_init(&os, OVERSAMPLE, 0, &leaf);
@@ -245,6 +245,7 @@ void audioFrame(uint16_t buffer_offset)
 
 		audioOutBuffer[buffer_offset + i] = current_sample;
 	}
+
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 
 }
@@ -354,10 +355,10 @@ float filter_tick(float* samples, float note)
 		if (!enabledFilt[f]) continue;
 
 
-		if (isnan(note))
-		{
-			note = 0.0f; //is this necessary?
-		}
+		//if (isnan(note))
+		//{
+		///	note = 0.0f; //is this necessary?
+		//}
 
 		cutoff[f] = MIDIcutoff + (note * keyFollow);
 		cutoff[f] = LEAF_clip(0.1f, fabsf(faster_mtof(cutoff[f])), 19000.0f);
@@ -634,14 +635,14 @@ void tickMappings(void)
 		float value = 0.0f;
 		for (int j = 0; j < mappings[i].numHooks; j++)
 		{
-			float sum = *mappings[i].sourceValPtr[j] * mappings[i].amount[j] * *mappings[i].scalarSourceValPtr[j];
+			float sum = mappings[i].dest->scaleFunc(*mappings[i].sourceValPtr[j]) * mappings[i].amount[j] * *mappings[i].scalarSourceValPtr[j];
 			value += sum;
 		}
 		//sources are now summed - let's add the initial value
-		value += mappings[i].dest->zeroToOneVal;
+		value += mappings[i].dest->initRealVal;
 
 		//now scale the value with the correct scaling function
-		mappings[i].dest->realVal = mappings[i].dest->scaleFunc(value);
+		mappings[i].dest->realVal = value;
 
 		//and pop that value where it belongs by setting the actual parameter
 		mappings[i].dest->setParam(mappings[i].dest->realVal, mappings[i].dest->objectNumber);
@@ -664,7 +665,7 @@ float audioTickL(float audioIn)
 		//run mapping ticks
 		tickMappings();
 
-		float note = bend + transpose + (float)tSimplePoly_getPitch(&poly, 0);
+		float note = bend + transpose + (float)tSimplePoly_getPitch(&myPoly, 0);
 
 		float freq = mtof(note);
 
@@ -729,7 +730,7 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 {
 	if (velocity > 0)
 	{
-		tSimplePoly_noteOn(&poly, note, velocity);
+		tSimplePoly_noteOn(&myPoly, note, velocity);
 		float fvelocity = (float)velocity;
 		fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
 		fvelocity = fvelocity * fvelocity;
@@ -745,7 +746,7 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 	}
 	else
 	{
-		tSimplePoly_noteOff(&poly, note);
+		tSimplePoly_noteOff(&myPoly, note);
 		for (int v = 0; v < NUM_ENV; v++)
 		{
 			tADSRT_off(&envs[v]);

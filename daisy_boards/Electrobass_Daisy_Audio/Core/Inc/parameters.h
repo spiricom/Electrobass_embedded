@@ -30,6 +30,7 @@ typedef struct param
 {
 	float zeroToOneVal;
 	float realVal;
+	float initRealVal;
 	scaler_t scaleFunc;
 	setParam_t setParam; //setting the actual backend audio parameter (i.e. calling leaf library filter cutoff set code)
 	uint8_t objectNumber;
