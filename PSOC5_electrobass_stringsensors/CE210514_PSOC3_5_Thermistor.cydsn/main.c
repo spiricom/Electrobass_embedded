@@ -1030,9 +1030,20 @@ void parseSysex(void)
                         //sendMIDINoteOn(61,5,mapCount);
                     }
                 }
-                else if ( (mapCount % 4 == 1) || (mapCount % 4 == 2) )
+                else if  (mapCount % 4 == 1 )
                 {
                     presetArray[currentFloat++] = (uint16_t)theVal.f;
+                }
+                 else if (mapCount % 4 == 2) //check if the scalar source is -1 (if so send 255 instead of a valid source number)
+                {
+                    if (theVal.f < 0.0f)
+                    {
+                         presetArray[currentFloat++] = 0xff;
+                    }
+                    else
+                    {
+                         presetArray[currentFloat++] = (uint16_t)theVal.f;
+                    }
                 }
                 else
                 {
