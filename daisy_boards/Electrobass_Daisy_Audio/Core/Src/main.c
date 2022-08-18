@@ -123,7 +123,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  //SCB_EnableICache();
+  SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -189,6 +189,11 @@ int main(void)
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
 
   foundOne  = checkForSDCardPreset();
+
+  codec_init(&hi2c2);
+
+  audio_init();
+
   if (foundOne == 0)
   {
 	  parsePreset(320); //default preset binary
@@ -198,9 +203,7 @@ int main(void)
 	  parsePreset(presetWaitingToParse);
   }
 
-  codec_init(&hi2c2);
-
-  audio_init(&hsai_BlockB1, &hsai_BlockA1);
+  audio_start(&hsai_BlockB1, &hsai_BlockA1);
   int counter = 0;
   for (int i = 0; i < SPI_BUFFER_SIZE; i++)
   {
@@ -239,6 +242,7 @@ int main(void)
 	  else if (presetWaitingToWrite > 0)
 	  {
 		  writePresetToSDCard(presetWaitingToWrite);
+
 	  }
 
 
@@ -416,6 +420,11 @@ static int checkForSDCardPreset(void)
 
 static void writePresetToSDCard(int fileSize)
 {
+	__disable_irq();
+	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
+	 {
+		 audioOutBuffer[i] = 0;
+	 }
 	if(BSP_SD_IsDetected())
 	{
 		//if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
@@ -423,6 +432,7 @@ static void writePresetToSDCard(int fileSize)
 			//if(res == FR_OK)
 			{
 				diskBusy = 1;
+
 				if(f_open(&SDFile, "1.ebp", FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
 				{
 					uint bytesRead;
@@ -436,6 +446,7 @@ static void writePresetToSDCard(int fileSize)
 	}
 	presetWaitingToWrite = 0;
 	diskBusy = 0;
+	__enable_irq();
 }
 
 #define SDRAM_MODEREG_BURST_LENGTH_2 ((1 << 0))
@@ -816,7 +827,11 @@ void blankFunction(float a, int b)
 void parsePreset(int size)
 {
 	//turn off the volume while changing parameters
-
+	 __disable_irq();
+	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
+	 {
+		 audioOutBuffer[i] = 0;
+	 }
 	audioMasterLevel = 0.0f;
 	//osc params
 	for (int i = 0; i < NUM_PARAMS; i++)
@@ -1114,6 +1129,7 @@ void parsePreset(int size)
 
 	audioMasterLevel = 1.0f;
 	presetWaitingToParse = 0;
+	__enable_irq();
 }
 
 

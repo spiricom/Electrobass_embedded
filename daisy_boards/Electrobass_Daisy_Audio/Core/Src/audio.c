@@ -98,7 +98,7 @@ float downState1[128];
 uint8_t voiceSounding = 0;
 
 //MEMPOOLS
-#define SMALL_MEM_SIZE 80000
+#define SMALL_MEM_SIZE 70000
 char smallMemory[SMALL_MEM_SIZE];
 
 //#define MEDIUM_MEM_SIZE 100000
@@ -112,8 +112,9 @@ LEAF leaf;
 tMempool smallPool;
 tMempool largePool;
 
+int MBoffset = 0;
 
-void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
+void audio_init(void)
 {
 	LEAF_init(&leaf, SAMPLE_RATE, smallMemory, SMALL_MEM_SIZE, &randomNumber);
 	//tMempool_init (&smallPool, smallMemory, SMALL_MEM_SIZE, &leaf);
@@ -121,15 +122,33 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	for(int i = 0; i < NUM_OSC; i++)
 	{
 		tMBSaw_init(&saw[i], &leaf);
+		tMBSaw_setBufferOffset(&saw[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 		tMBPulse_init(&pulse[i], &leaf);
+		tMBPulse_setBufferOffset(&pulse[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 		tCycle_init(&sine[i], &leaf);
+
 		tMBTriangle_init(&tri[i], &leaf);
+		tMBTriangle_setBufferOffset(&tri[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		// Using seperate objects for pairs to easily maintain phase relation
 		tMBSaw_init(&sawPaired[i], &leaf);
+		tMBSaw_setBufferOffset(&sawPaired[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 		tMBPulse_init(&pulsePaired[i], &leaf);
+		tMBPulse_setBufferOffset(&pulsePaired[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 		tCycle_init(&sinePaired[i], &leaf);
+
 		tMBTriangle_init(&triPaired[i], &leaf);
+		tMBTriangle_setBufferOffset(&triPaired[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 	}
 
 	for (int i = 0; i < NUM_FILT; i++)
@@ -187,8 +206,12 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	{
 		audioOutBuffer[i] = 0;
 	}
-	HAL_Delay(1);
+}
+
+void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
+{
 	// set up the I2S driver to send audio data to the codec (and retrieve input as well)
+	HAL_Delay(1);
 	transmit_status = HAL_SAI_Transmit_DMA(hsaiOut, (uint8_t *)&audioOutBuffer[0], AUDIO_BUFFER_SIZE);
 	receive_status = HAL_SAI_Receive_DMA(hsaiIn, (uint8_t *)&audioInBuffer[0], AUDIO_BUFFER_SIZE);
 }
@@ -268,7 +291,7 @@ void oscillator_tick(float note)
 		float filterSend = oscParams[OscFilterSend].realVal;
 
 		float finalFreq = (mtof(note + (fine*0.01f)) * freqMult[osc]) + freqOffset ;
-		LEAF_clip(-19000.0f, finalFreq, 19000.0f);
+		finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
 		float sample = 0.0f;
 
 		shapeTick[osc](&sample, osc, finalFreq, shape);
