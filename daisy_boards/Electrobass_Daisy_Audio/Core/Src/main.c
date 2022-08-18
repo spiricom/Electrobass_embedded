@@ -177,10 +177,7 @@ int main(void)
   __set_FPSCR(tempFPURegisterVal);
 
   CycleCounterInit();
-  cStack_init(&noteStack);
-  cStack_init(&ctrlStack);
-  cStack_init(&pBendStack);
-
+  cStack_init(&midiStack);
 
   for (int i = 0; i < 4096; i++)
   {
@@ -661,6 +658,7 @@ void handleSPI(uint8_t offset)
 
 		 while ((SPI_RX[currentByte] != 0) && ((currentByte % 16) < SPI_FRAME_SIZE))
 		 {
+			 /*
 			 if (SPI_RX[currentByte] == 0x90)
 			 {
 				 cStack_push(&noteStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
@@ -673,6 +671,8 @@ void handleSPI(uint8_t offset)
 			 {
 				 cStack_push(&pBendStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
 			 }
+			 */
+			 cStack_push(&midiStack,SPI_RX[currentByte],SPI_RX[currentByte+1],SPI_RX[currentByte+2]);
 			 currentByte = currentByte+3;
 		 }
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);

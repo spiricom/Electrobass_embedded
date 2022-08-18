@@ -14,9 +14,7 @@
 int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 
-cStack noteStack;
-cStack ctrlStack;
-cStack pBendStack;
+cStack midiStack;
 
 HAL_StatusTypeDef transmit_status;
 HAL_StatusTypeDef receive_status;
@@ -216,49 +214,33 @@ void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 void audioFrame(uint16_t buffer_offset)
 {
 	volatile uint32_t tmpCnt = 0;
-	uint8_t output[2];
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 
 	//take care of MIDI messages that came in
 	tmpCnt = DWT->CYCCNT;
-	while(noteStack.size > 0)
+	while(midiStack.size > 0)
 	{
-		//pop code to avoid function overhead
-		sendNoteOn(noteStack.buffer[noteStack.readCnt][0], noteStack.buffer[noteStack.readCnt][1]);
-		//noteStack.buffer[noteStack.readCnt][0] = -1;
-		//noteStack.buffer[noteStack.readCnt][1] = -1;
-		noteStack.readCnt = (noteStack.readCnt + 1) % 64;
-		noteStack.size--;
+		uint8_t firstByte = midiStack.buffer[midiStack.readCnt][0];
+		int8_t readCount = midiStack.readCnt;
+		if (firstByte == 0x90)
+		{
+			sendNoteOn(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
+		}
+		else if (firstByte == 0xb0)
+		{
+			sendCtrl(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
+		}
+		else if (firstByte == 0xe0)
+		{
+			sendPitchBend(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
+		}
+		midiStack.readCnt = (midiStack.readCnt + 1) & 63;
+		midiStack.size--;
 	}
 	tmpCnt = DWT->CYCCNT - tmpCnt;
 	cycleCount[6] = tmpCnt;
 	tmpCnt = DWT->CYCCNT;
-	while(ctrlStack.size > 0)
-	{
-		//pop code to avoid function overhead
-		sendCtrl(ctrlStack.buffer[ctrlStack.readCnt][0], ctrlStack.buffer[ctrlStack.readCnt][1]);
-		//ctrlStack.buffer[ctrlStack.readCnt][0] = -1;
-		//ctrlStack.buffer[ctrlStack.readCnt][1] = -1;
-		ctrlStack.readCnt = (ctrlStack.readCnt + 1) % 64;
-		ctrlStack.size--;
 
-	}
-	tmpCnt = DWT->CYCCNT - tmpCnt;
-	cycleCount[7] = tmpCnt;
-	tmpCnt = DWT->CYCCNT;
-	while(pBendStack.size > 0)
-	{
-		//pop code to avoid function overhead
-		cStack_pop(&pBendStack, output);
-		sendPitchBend(output[0], output[1]);
-		sendPitchBend(pBendStack.buffer[pBendStack.readCnt][0], pBendStack.buffer[pBendStack.readCnt][1]);
-		//pBendStack.buffer[pBendStack.readCnt][0] = -1;
-		//pBendStack.buffer[pBendStack.readCnt][1] = -1;
-		pBendStack.readCnt = (pBendStack.readCnt + 1) % 64;
-		pBendStack.size--;
-	}
-	tmpCnt = DWT->CYCCNT - tmpCnt;
-	cycleCount[8] = tmpCnt;
 	int32_t current_sample = 0;
 
 	for (int i = 0; i < (HALF_BUFFER_SIZE); i++)
@@ -833,6 +815,7 @@ void cStack_init(cStack* stack)
     {
         stack->buffer[i][0] = -1;
         stack->buffer[i][1] = -1;
+        stack->buffer[i][2] = -1;
     }
     stack->size = 0;
 }
@@ -844,22 +827,22 @@ int cStack_size(cStack* stack)
     else
         return 10 - (stack->readCnt - stack->writeCnt);
 }
-void cStack_push(cStack* stack, int8_t val, int8_t val1)
+void cStack_push(cStack* stack, uint8_t val, uint8_t val1, uint8_t val2)
 {
-	//not doing size cehecking for speeed
+	//not doing size checking for speeed
     stack->buffer[stack->writeCnt][0] = val;
     stack->buffer[stack->writeCnt][1] = val1;
-    stack->writeCnt = (stack->writeCnt + 1 ) % 64;
+    stack->buffer[stack->writeCnt][2] = val2;
+    stack->writeCnt = (stack->writeCnt + 1 ) & 63;
     stack->size++;
 }
 
-void cStack_pop(cStack* stack, int8_t output[2])
+void cStack_pop(cStack* stack, uint8_t* output)
 {
     output[0] = stack->buffer[stack->readCnt][0];
     output[1] = stack->buffer[stack->readCnt][1];
-    stack->buffer[stack->readCnt][0] = -1;
-    stack->buffer[stack->readCnt][1] = -1;
-    stack->readCnt = (stack->readCnt + 1) % 64;
+    output[2] = stack->buffer[stack->readCnt][2];
+    stack->readCnt = (stack->readCnt + 1) & 63;
     stack->size--;
 }
 
