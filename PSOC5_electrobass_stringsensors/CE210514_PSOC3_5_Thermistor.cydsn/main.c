@@ -893,13 +893,14 @@ void USB_service(void)
          /* Reinitialize after SET_CONFIGURATION or SET_INTERFACE Requests */
         if(USB_IsConfigurationChanged() != 0x00)
         {
-            USB_LoadInEP(USB_midi_in_ep, USB_midiInBuffer,(uint16) USB_midiInPointer);
+            //USB_LoadInEP(USB_midi_in_ep, USB_midiInBuffer,(uint16) USB_midiInPointer);
+            USB_LoadInEP(USB_midi_in_ep, USB_midiInBuffer, 64);
             USB_ReadOutEP(USB_midi_out_ep,USB_midiOutBuffer, 64);
                                              /* configuring the DMAs for the first time only, the data as soon as received
                                              in the EP buffer is Transferred by DMA to the buffer as defined here with no CPU intervention */
             USB_EnableOutEP(USB_midi_out_ep);       /* Note 3.*/
         }
-#if 0
+
          /* Check that all data has been transfered and IN Buffer is empty */
          if (USB_GetEPState(USB_midi_in_ep) == USB_IN_BUFFER_EMPTY)
          {
@@ -911,8 +912,38 @@ void USB_service(void)
          {
             USB_EnableOutEP(USB_midi_out_ep);       /* Note 3.*/
          }
- #endif
+ #if 0
+        if(USBFS_IsConfigurationChanged())   /* Will be entered the first time a setconfiguration is received. 
+                                               Note : 2 */
+        {
+            USBFS_LoadInEP(IN_EP,&BufferIn[0],MAX_BUF);
+            USBFS_ReadOutEP(OUT_EP,&BufferOut[0],MAX_BUF);
+                                             /* configuring the DMAs for the first time only, the data as soon as received
+                                             in the EP buffer is Transferred by DMA to the buffer as defined here with no CPU intervention */
+            USBFS_EnableOutEP(OUT_EP);       /* Note 3.
+                                
+        }
+        
+        /* If content is there in Out endpoint,dump the content and enable the endpoint again.*/
+        if(USBFS_GetEPState(OUT_EP)==USBFS_OUT_BUFFER_FULL)
+        {   
+            //USBFS_ReadOutEP(OUT_EP,&Buffernew[0],MAX_BUF);  /* Use this API again, to initialize the DMAs again to point to a new buffer
+                                                              /* where the data should be stored.can now read the data available in the 
+                                                              buffer - BufferOut */
+            USBFS_EnableOutEP(OUT_EP);
+        }
+        /* Maximum throughput for an out endpoint is 600-700 KB/sec - When you are not reading the endpoint, Simply arming it. (128pxfer - 64xfers/queue)*/ 
 
+        /* If In endpoint is empty, fill it with data*/
+        if(USBFS_GetEPState(IN_EP)== USBFS_IN_BUFFER_EMPTY)
+        {   
+            //USBFS_LoadInEP(IN_EP,&BufferIn[0],MAX_BUF);     /* Use this API again to point to a new memory from where data should be */
+                                                              /*   copied and stored. */
+            /* The DMAs are already configured to point to the buffer. Simply pass a null argument to send the data to the endpoint. As 
+            soon as the Host issues a request, a Packet is received.*/
+            USBFS_LoadInEP(IN_EP,NULL,MAX_BUF);               /* Note 4, Note 5. */
+        }
+#endif
             if ((USB_active) && (USB_VBusPresent()))
             {
                 USB_MIDI_IN_Service();
@@ -1091,6 +1122,7 @@ void parseSysex(void)
 
 volatile uint8_t tempMIDI[4];
 volatile uint8_t firstSysex = 0;
+const uint16_t sysexPointerMask = 1023;
 
 //data sent from computer
 void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
@@ -1106,7 +1138,7 @@ void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
         {
             if (midiMsg[i] < 128)
             {
-                sysexBuffer[sysexPointer++] = midiMsg[i];
+                sysexBuffer[(sysexPointer++) & sysexPointerMask] = midiMsg[i];
             }
             else
             {
@@ -1138,14 +1170,16 @@ void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
                 if (sysexPointer == 0)
                 {
 
-                    sysexBuffer[sysexPointer++] = midiMsg[1];
-                    sysexBuffer[sysexPointer++] = midiMsg[2];
+                    sysexBuffer[sysexPointer++ & sysexPointerMask] = midiMsg[1];
+                    sysexBuffer[sysexPointer++ & sysexPointerMask] = midiMsg[2];
                 }
             }
         }
     }
     cable = cable;
 }
+
+volatile uint16_t missedNotes = 0;
 
 void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
 {  
@@ -1163,7 +1197,11 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
-            outChanged = 1;
+        outChanged = 1;
+    }
+    else 
+    {
+        missedNotes++;
     }
     if (velocity > 0)
     {
@@ -1197,6 +1235,10 @@ void sendMIDIPitchBend(int val, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
             outChanged = 1;
     }
+    else
+    {
+        missedNotes++;
+    }
 
 }
 
@@ -1220,7 +1262,10 @@ void sendMIDIControlChange(int CCnum, int CCval, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
             outChanged = 1;
     }
-
+    else
+    {
+        missedNotes++;
+    }
     
 }
 

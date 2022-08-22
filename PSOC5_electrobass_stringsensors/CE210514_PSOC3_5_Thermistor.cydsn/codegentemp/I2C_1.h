@@ -944,7 +944,7 @@ extern uint8 I2C_1_initVar;
                                              I2C_1_ENABLE_SLAVE)
 
     /*I2C_1_DEFAULT_DIVIDE_FACTOR_REG */
-    #define I2C_1_DEFAULT_DIVIDE_FACTOR  ((uint16) 49u)
+    #define I2C_1_DEFAULT_DIVIDE_FACTOR  ((uint16) 46u)
 
 #else
     /* I2C_1_CFG_REG: bits definition  */
