@@ -16,7 +16,7 @@ typedef void (*setQ_t)(float, int);
 typedef void (*setGain_t)(float, int);
 typedef void (*setKeyfollow_t)(float, int);
 
-#define NUM_OSC_SHAPES 6
+#define NUM_OSC_SHAPES 7
 #define NUM_FILTER_TYPES 9
 #define OSC_PARAMS_OFFSET 40
 #define EFFECTS_PARAMS_OFFSET 73

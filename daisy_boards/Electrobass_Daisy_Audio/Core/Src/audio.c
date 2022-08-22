@@ -14,6 +14,7 @@
 int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 
+cStack midiStack;
 
 HAL_StatusTypeDef transmit_status;
 HAL_StatusTypeDef receive_status;
@@ -49,13 +50,6 @@ float sourceValues[NUM_SOURCES];
 float freqMult[NUM_OSC];
 float bendRangeMultiplier = 0.002929866324849f; //default to divide by 48
 
-uint8_t noteOns[64][2];
-uint8_t ctrlMsgs[64][2];
-uint8_t pitchBends[64][2];
-
-uint8_t numNoteOns = 0;
-uint8_t numCtrlMsgs = 0;
-uint8_t numPitchBends = 0;
 
 //filters
 tDiodeFilter diodeFilters[NUM_FILT];
@@ -83,7 +77,7 @@ float amplitude = 0.0f;
 float finalMaster = 1.0f;
 
 float sample = 0.0f;
-tSimplePoly poly;
+tSimplePoly myPoly;
 float bend;
 float transpose = 0.0f;
 tNoise noise;
@@ -98,7 +92,7 @@ float downState1[128];
 uint8_t voiceSounding = 0;
 
 //MEMPOOLS
-#define SMALL_MEM_SIZE 80000
+#define SMALL_MEM_SIZE 70000
 char smallMemory[SMALL_MEM_SIZE];
 
 //#define MEDIUM_MEM_SIZE 100000
@@ -112,8 +106,9 @@ LEAF leaf;
 tMempool smallPool;
 tMempool largePool;
 
+int MBoffset = 0;
 
-void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
+void audio_init(void)
 {
 	LEAF_init(&leaf, SAMPLE_RATE, smallMemory, SMALL_MEM_SIZE, &randomNumber);
 	//tMempool_init (&smallPool, smallMemory, SMALL_MEM_SIZE, &leaf);
@@ -121,15 +116,33 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	for(int i = 0; i < NUM_OSC; i++)
 	{
 		tMBSaw_init(&saw[i], &leaf);
+		tMBSaw_setBufferOffset(&saw[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 		tMBPulse_init(&pulse[i], &leaf);
+		tMBPulse_setBufferOffset(&pulse[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 		tCycle_init(&sine[i], &leaf);
+
 		tMBTriangle_init(&tri[i], &leaf);
+		tMBTriangle_setBufferOffset(&tri[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		// Using seperate objects for pairs to easily maintain phase relation
 		tMBSaw_init(&sawPaired[i], &leaf);
+		tMBSaw_setBufferOffset(&sawPaired[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 		tMBPulse_init(&pulsePaired[i], &leaf);
+		tMBPulse_setBufferOffset(&pulsePaired[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 		tCycle_init(&sinePaired[i], &leaf);
+
 		tMBTriangle_init(&triPaired[i], &leaf);
+		tMBTriangle_setBufferOffset(&triPaired[i], MBoffset);
+		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 	}
 
 	for (int i = 0; i < NUM_FILT; i++)
@@ -158,7 +171,7 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
     }
 
 
-	tSimplePoly_init(&poly, 1, &leaf);
+	tSimplePoly_init(&myPoly, 1, &leaf);
 	tNoise_init(&noise, WhiteNoise, &leaf);
 
 	tOversampler_init(&os, OVERSAMPLE, 0, &leaf);
@@ -187,8 +200,12 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	{
 		audioOutBuffer[i] = 0;
 	}
-	HAL_Delay(1);
+}
+
+void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
+{
 	// set up the I2S driver to send audio data to the codec (and retrieve input as well)
+	HAL_Delay(1);
 	transmit_status = HAL_SAI_Transmit_DMA(hsaiOut, (uint8_t *)&audioOutBuffer[0], AUDIO_BUFFER_SIZE);
 	receive_status = HAL_SAI_Receive_DMA(hsaiIn, (uint8_t *)&audioInBuffer[0], AUDIO_BUFFER_SIZE);
 }
@@ -196,39 +213,33 @@ void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 
 void audioFrame(uint16_t buffer_offset)
 {
+	volatile uint32_t tmpCnt = 0;
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 
 	//take care of MIDI messages that came in
-	while(numNoteOns > 0)
+	tmpCnt = DWT->CYCCNT;
+	while(midiStack.size > 0)
 	{
-		sendNoteOn(noteOns[0][0], noteOns[0][1]);
-		for (int i = 0; i < numNoteOns-1; i++)
+		uint8_t firstByte = midiStack.buffer[midiStack.readCnt][0];
+		int8_t readCount = midiStack.readCnt;
+		if (firstByte == 0x90)
 		{
-			noteOns[i][0] = noteOns[i+1][0];
-			noteOns[i][1] = noteOns[i+1][1];
+			sendNoteOn(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
 		}
-		numNoteOns--;
-	}
-	while(numCtrlMsgs > 0)
-	{
-		sendCtrl(ctrlMsgs[0][0], ctrlMsgs[0][1]);
-		for (int i = 0; i < numCtrlMsgs-1; i++)
+		else if (firstByte == 0xb0)
 		{
-			ctrlMsgs[i][0] = ctrlMsgs[i+1][0];
-			ctrlMsgs[i][1] = ctrlMsgs[i+1][1];
+			sendCtrl(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
 		}
-		numCtrlMsgs--;
-	}
-	while(numPitchBends > 0)
-	{
-		sendPitchBend(pitchBends[0][0], pitchBends[0][1]);
-		for (int i = 0; i < numPitchBends-1; i++)
+		else if (firstByte == 0xe0)
 		{
-			pitchBends[i][0] = pitchBends[i+1][0];
-			pitchBends[i][1] = pitchBends[i+1][1];
+			sendPitchBend(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
 		}
-		numPitchBends--;
+		midiStack.readCnt = (midiStack.readCnt + 1) & 63;
+		midiStack.size--;
 	}
+	tmpCnt = DWT->CYCCNT - tmpCnt;
+	cycleCount[6] = tmpCnt;
+	tmpCnt = DWT->CYCCNT;
 
 	int32_t current_sample = 0;
 
@@ -250,10 +261,12 @@ void audioFrame(uint16_t buffer_offset)
 }
 
 float oscOuts[2][NUM_OSC];
+uint32_t timeOsc = 0;
 
-void oscillator_tick(float note, float freq)
+void oscillator_tick(float note)
 {
     //if (loadingTables || !enabled) return;
+	interruptChecker = 0;
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int osc = 0; osc < NUM_OSC; osc++)
 	{
@@ -266,15 +279,15 @@ void oscillator_tick(float note, float freq)
 		float filterSend = oscParams[OscFilterSend].realVal;
 
 		float finalFreq = (mtof(note + (fine*0.01f)) * freqMult[osc]) + freqOffset ;
-
+		finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
 		float sample = 0.0f;
 
 		shapeTick[osc](&sample, osc, finalFreq, shape);
 
 		sample *= amp;
 
-		float normSample = (sample + 1.f) * 0.5f;
-		sourceValues[OSC_SOURCE_OFFSET + osc] = normSample; // the define of zero may be wasteful
+		//float normSample = (sample + 1.f) * 0.5f;
+		sourceValues[OSC_SOURCE_OFFSET + osc] = sample; // the define of zero may be wasteful
 
 		sample *= INV_NUM_OSCS;
 
@@ -283,7 +296,11 @@ void oscillator_tick(float note, float freq)
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
 
-	cycleCount[4] = tempCount2-tempCount1;
+	timeOsc = tempCount2-tempCount1;
+	if (timeOsc > 3000)
+	{
+		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+	}
 
 }
 
@@ -337,10 +354,11 @@ void userTick(float* sample, int v, float freq, float shape)
     //*sample += tWaveOscS_tick(&wave[v]);
 }
 
-
+uint32_t timeFilt = 0;
 
 float filter_tick(float* samples, float note)
 {
+	interruptChecker = 0;
 	uint32_t tempCount1 = DWT->CYCCNT;
 	float cutoff[2];
 	uint8_t enabledFilt[2] = {0,0};
@@ -360,7 +378,7 @@ float filter_tick(float* samples, float note)
 		}
 
 		cutoff[f] = MIDIcutoff + (note * keyFollow);
-		cutoff[f] = LEAF_clip(0.1f, fabsf(faster_mtof(cutoff[f])), 19000.0f);
+		cutoff[f] = LEAF_clip(0.0f, (cutoff[f]-16.0f) * 35.929824561403509f, 4095.0f);
 	}
 
 	float  sp = params[FilterSeriesParallelMix].realVal;
@@ -378,65 +396,66 @@ float filter_tick(float* samples, float note)
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
 
-	cycleCount[3] = tempCount2-tempCount1;
+	timeFilt = tempCount2-tempCount1;
 	return samples[1] + (samples[0] * sp);
 }
 
 
 void lowpassTick(float* sample, int v, float cutoff)
 {
-	tSVF_setFreq(&lowpass[v], cutoff);
+	tSVF_setFreqFast(&lowpass[v], cutoff);
 	*sample = tSVF_tick(&lowpass[v], *sample);
     *sample *= filterGain[v];
 }
 
 void highpassTick(float* sample, int v, float cutoff)
 {
-	tSVF_setFreq(&highpass[v], cutoff);
+	tSVF_setFreqFast(&highpass[v], cutoff);
 	*sample = tSVF_tick(&highpass[v], *sample);
     *sample *= filterGain[v];
 }
 
 void bandpassTick(float* sample, int v, float cutoff)
 {
-	tSVF_setFreq(&bandpass[v], cutoff);
+	tSVF_setFreqFast(&bandpass[v], cutoff);
 	*sample = tSVF_tick(&bandpass[v], *sample);
     *sample *= filterGain[v];
 }
 
 void diodeLowpassTick(float* sample, int v, float cutoff)
 {
-	tDiodeFilter_setFreq(&diodeFilters[v], cutoff);
+	//tDiodeFilter_setFreq(&diodeFilters[v], mtof(cutoff/32.0f));
+	tDiodeFilter_setFreqFast(&diodeFilters[v], cutoff);
 	*sample = tDiodeFilter_tick(&diodeFilters[v], *sample);
     *sample *= filterGain[v];
 }
 
 void VZpeakTick(float* sample, int v, float cutoff)
 {
-	tVZFilter_setFreq(&VZfilterPeak[v], cutoff);
+	tVZFilter_setFreqFast(&VZfilterPeak[v], cutoff);
 	*sample = tVZFilter_tickEfficient(&VZfilterPeak[v], *sample);
 }
 
 void VZlowshelfTick(float* sample, int v, float cutoff)
 {
-	tVZFilter_setFreq(&VZfilterLS[v], cutoff);
+	tVZFilter_setFreqFast(&VZfilterLS[v], cutoff);
 	*sample = tVZFilter_tickEfficient(&VZfilterLS[v], *sample);
 }
 void VZhighshelfTick(float* sample, int v, float cutoff)
 {
-	tVZFilter_setFreq(&VZfilterHS[v], cutoff);
+	tVZFilter_setFreqFast(&VZfilterHS[v], cutoff);
 	*sample = tVZFilter_tickEfficient(&VZfilterHS[v], *sample);
 }
 void VZbandrejectTick(float* sample, int v, float cutoff)
 {
-	tVZFilter_setFreq(&VZfilterBR[v], cutoff);
+	tVZFilter_setFreqFast(&VZfilterBR[v], cutoff);
 	*sample = tVZFilter_tickEfficient(&VZfilterBR[v], *sample);
     *sample *= filterGain[v];
 }
 
 void LadderLowpassTick(float* sample, int v, float cutoff)
 {
-	tLadderFilter_setFreq(&Ladderfilter[v], cutoff);
+	tLadderFilter_setFreqFast(&Ladderfilter[v], cutoff);
 	*sample = tLadderFilter_tick(&Ladderfilter[v], *sample);
     *sample *= filterGain[v];
 }
@@ -552,9 +571,10 @@ void LadderLowpassSetGain(float gain, int v)
 	filterGain[v] = fasterdbtoa((gain * 24.0f) - 12.0f);
 }
 
-
+uint32_t timeEnv = 0;
 void envelope_tick(void)
 {
+	interruptChecker = 0;
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int v = 0; v < NUM_ENV; v++)
 	{
@@ -562,7 +582,7 @@ void envelope_tick(void)
 		sourceValues[ENV_SOURCE_OFFSET + v] = value;
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
-	cycleCount[2] = tempCount2-tempCount1;
+	timeEnv = tempCount2-tempCount1;
 //	if (poly->voices[0][0] == -2)
 //	{
 //	    if (envs[0]->whichStage == env_idle)
@@ -625,9 +645,10 @@ void setPitchBendRangeDown(float in, int v)
 	//bendRangeDown = in; //ignored for now
 }
 
-
+uint32_t timeMap = 0;
 void tickMappings(void)
 {
+	interruptChecker = 0;
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int i = 0; i < numMappings; i++)
 	{
@@ -647,30 +668,27 @@ void tickMappings(void)
 		mappings[i].dest->setParam(mappings[i].dest->realVal, mappings[i].dest->objectNumber);
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
-	cycleCount[1] = tempCount2-tempCount1;
+	timeMap = tempCount2-tempCount1;
 
 }
+uint32_t timeTick = 0;
 
 
 float audioTickL(float audioIn)
 {
 	uint32_t tempCount5 = DWT->CYCCNT;
-
-
-
-
 	sample = 0.0f;
 
 		//run mapping ticks
 		tickMappings();
 
-		float note = bend + transpose + (float)tSimplePoly_getPitch(&poly, 0);
+		float note = bend + transpose + (float)tSimplePoly_getPitch(&myPoly, 0);
 
-		float freq = mtof(note);
+
 
 		envelope_tick();
 
-		oscillator_tick(note, freq);
+		oscillator_tick(note);
 
 		float filterSamps[2] = {0.0f, 0.0f};
 		for (int i = 0; i < NUM_OSC; i++)
@@ -719,7 +737,7 @@ float audioTickL(float audioIn)
 		sample *= finalMaster;
 
 		uint32_t tempCount6 = DWT->CYCCNT;
-		cycleCount[0] = tempCount6-tempCount5;
+		timeTick = tempCount6-tempCount5;
 	return sample * audioMasterLevel;
 }
 
@@ -729,7 +747,7 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 {
 	if (velocity > 0)
 	{
-		tSimplePoly_noteOn(&poly, note, velocity);
+		tSimplePoly_noteOn(&myPoly, note, velocity);
 		float fvelocity = (float)velocity;
 		fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
 		fvelocity = fvelocity * fvelocity;
@@ -745,7 +763,7 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 	}
 	else
 	{
-		tSimplePoly_noteOff(&poly, note);
+		tSimplePoly_noteOff(&myPoly, note);
 		for (int v = 0; v < NUM_ENV; v++)
 		{
 			tADSRT_off(&envs[v]);
@@ -771,28 +789,8 @@ void sendPitchBend(uint8_t value, uint8_t ctrl)
 }
 
 
-void storeNoteOn(uint8_t note, uint8_t velocity)
-{
-	noteOns[numNoteOns][0] = note;
-	noteOns[numNoteOns][1] = velocity;
-	numNoteOns++;
-}
 
 
-void storeCtrl(uint8_t ctrl, uint8_t value)
-{
-	ctrlMsgs[numCtrlMsgs][0] = ctrl;
-	ctrlMsgs[numCtrlMsgs][1] = value;
-	numCtrlMsgs++;
-}
-
-
-void storePitchBend(uint8_t value, uint8_t ctrl)
-{
-	pitchBends[numPitchBends][0] = value;
-	pitchBends[numPitchBends][1] = ctrl;
-	numPitchBends++;
-}
 
 
 
@@ -806,6 +804,46 @@ void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 {
 	if (!diskBusy)
 	audioFrame(0);
+}
+
+
+void cStack_init(cStack* stack)
+{
+    stack->writeCnt = 0;
+    stack->readCnt = 0;
+    for (int i = 0; i < 64; i++)
+    {
+        stack->buffer[i][0] = -1;
+        stack->buffer[i][1] = -1;
+        stack->buffer[i][2] = -1;
+    }
+    stack->size = 0;
+}
+
+int cStack_size(cStack* stack)
+{
+    if (stack->writeCnt >= stack->readCnt)
+        return stack->writeCnt - stack->readCnt;
+    else
+        return 10 - (stack->readCnt - stack->writeCnt);
+}
+void cStack_push(cStack* stack, uint8_t val, uint8_t val1, uint8_t val2)
+{
+	//not doing size checking for speeed
+    stack->buffer[stack->writeCnt][0] = val;
+    stack->buffer[stack->writeCnt][1] = val1;
+    stack->buffer[stack->writeCnt][2] = val2;
+    stack->writeCnt = (stack->writeCnt + 1 ) & 63;
+    stack->size++;
+}
+
+void cStack_pop(cStack* stack, uint8_t* output)
+{
+    output[0] = stack->buffer[stack->readCnt][0];
+    output[1] = stack->buffer[stack->readCnt][1];
+    output[2] = stack->buffer[stack->readCnt][2];
+    stack->readCnt = (stack->readCnt + 1) & 63;
+    stack->size--;
 }
 
 

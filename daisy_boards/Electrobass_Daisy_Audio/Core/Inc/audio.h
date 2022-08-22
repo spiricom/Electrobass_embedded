@@ -31,6 +31,19 @@
 #define SAMPLE_RATE_DIV_PARAMS_MS (SAMPLE_RATE_DIV_PARAMS / 1000.f)
 #define INV_SR_DIV_PARAMS_MS 1.f/SAMPLE_RATE_DIV_PARAMS_MS
 
+typedef struct cStack {
+    uint8_t buffer[64][3];
+    int8_t writeCnt;
+    int8_t readCnt;
+    int8_t size;
+} cStack;
+
+void cStack_init(cStack* stack);
+int cStack_size(cStack* stack);
+void cStack_push(cStack* stack, uint8_t val, uint8_t val1, uint8_t val2);
+void cStack_pop(cStack* stack, uint8_t* output);
+
+extern cStack midiStack;
 
 typedef enum
 {
@@ -39,7 +52,10 @@ typedef enum
   BUFFER_OFFSET_FULL,
 }BUFFER_StateTypeDef;
 
-void audio_init(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn);
+
+extern int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
+void audio_init(void);
+void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn);
 void audioFrame(uint16_t buffer_offset);
 float audioTickL(float audioIn);
 float audioTickR(float audioIn);
@@ -62,7 +78,7 @@ void sendPitchBend(uint8_t value, uint8_t ctrl);
 #define NUM_ENV 4
 #define NUM_SOURCES 33
 #define EXP_BUFFER_SIZE 2048
-#define DECAY_EXP_BUFFER_SIZE 2048
+#define DECAY_EXP_BUFFER_SIZE 4096
 #define OSC_SOURCE_OFFSET 0
 #define CTRL_SOURCE_OFFSET 20
 #define ENV_SOURCE_OFFSET 25
@@ -76,7 +92,7 @@ void setPitchBendRangeUp(float in, int v);
 void setPitchBendRangeDown(float in, int v);
 void setNoiseAmp(float in, int v);
 
-void oscillator_tick(float note, float freq);
+void oscillator_tick(float note);
 
 typedef void (*shapeTick_t)(float*, int, float, float);
 

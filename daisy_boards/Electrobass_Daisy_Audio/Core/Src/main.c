@@ -108,6 +108,7 @@ float envTimeTable[2048];
 float lfoRateTable[2048];
 
 //uint8_t bootloadFlag __ATTR_RAM_D3;
+uint8_t volatile interruptChecker = 0;
 
 uint8_t volatile foundOne = 0;
 
@@ -122,7 +123,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-
+  SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -149,7 +150,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
   MX_DMA_Init();
   MX_DAC1_Init();
   MX_FMC_Init();
@@ -177,8 +177,7 @@ int main(void)
   __set_FPSCR(tempFPURegisterVal);
 
   CycleCounterInit();
-
-
+  cStack_init(&midiStack);
 
   for (int i = 0; i < 4096; i++)
   {
@@ -187,12 +186,23 @@ int main(void)
   LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
   LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
-  parsePreset(320); //default preset binary
 
+  foundOne  = checkForSDCardPreset();
 
   codec_init(&hi2c2);
 
-  audio_init(&hsai_BlockB1, &hsai_BlockA1);
+  audio_init();
+
+  if (foundOne == 0)
+  {
+	  parsePreset(320); //default preset binary
+  }
+  else
+  {
+	  parsePreset(presetWaitingToParse);
+  }
+
+  audio_start(&hsai_BlockB1, &hsai_BlockA1);
   int counter = 0;
   for (int i = 0; i < SPI_BUFFER_SIZE; i++)
   {
@@ -200,7 +210,7 @@ int main(void)
   }
 
 
-  foundOne  = checkForSDCardPreset();
+
 
   HAL_Delay(10);
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
@@ -231,13 +241,10 @@ int main(void)
 	  else if (presetWaitingToWrite > 0)
 	  {
 		  writePresetToSDCard(presetWaitingToWrite);
+
 	  }
 
-	  if (resetFlag == 1)
-	  {
-		  HAL_Delay(100);
-		  HAL_NVIC_SystemReset();
-	  }
+
 
 	  /*
 
@@ -372,7 +379,7 @@ static int checkForSDCardPreset(void)
 	if(BSP_SD_IsDetected())
 	{
 		diskBusy = 1;
-		//HAL_Delay(300);
+		HAL_Delay(300);
 
 		disk_initialize(0);
 
@@ -393,6 +400,11 @@ static int checkForSDCardPreset(void)
 					presetWaitingToParse = bytesRead;
 					f_close(&SDFile);
 					found = 1;
+					for (int i = 0; i < 4; i++)
+					{
+						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+						HAL_Delay(50);
+					}
 				}
 			}
 			//f_closedir(&dir);
@@ -407,6 +419,11 @@ static int checkForSDCardPreset(void)
 
 static void writePresetToSDCard(int fileSize)
 {
+	__disable_irq();
+	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
+	 {
+		 audioOutBuffer[i] = 0;
+	 }
 	if(BSP_SD_IsDetected())
 	{
 		//if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
@@ -414,6 +431,7 @@ static void writePresetToSDCard(int fileSize)
 			//if(res == FR_OK)
 			{
 				diskBusy = 1;
+
 				if(f_open(&SDFile, "1.ebp", FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
 				{
 					uint bytesRead;
@@ -427,6 +445,7 @@ static void writePresetToSDCard(int fileSize)
 	}
 	presetWaitingToWrite = 0;
 	diskBusy = 0;
+	__enable_irq();
 }
 
 #define SDRAM_MODEREG_BURST_LENGTH_2 ((1 << 0))
@@ -628,6 +647,7 @@ void MPU_Conf(void)
 
 void handleSPI(uint8_t offset)
 {
+	interruptChecker = 1;
 	// if the first number is a 1 then it's a midi note/ctrl/bend message
 	if (SPI_RX[offset] == 1)
 	{
@@ -638,18 +658,21 @@ void handleSPI(uint8_t offset)
 
 		 while ((SPI_RX[currentByte] != 0) && ((currentByte % 16) < SPI_FRAME_SIZE))
 		 {
+			 /*
 			 if (SPI_RX[currentByte] == 0x90)
 			 {
-				 storeNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 cStack_push(&noteStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
 			 }
 			 else if (SPI_RX[currentByte] == 0xb0)
 			 {
-				 storeCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 cStack_push(&ctrlStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
 			 }
 			 else if (SPI_RX[currentByte] == 0xe0)
 			 {
-				 storePitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
+				 cStack_push(&pBendStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
 			 }
+			 */
+			 cStack_push(&midiStack,SPI_RX[currentByte],SPI_RX[currentByte+1],SPI_RX[currentByte+2]);
 			 currentByte = currentByte+3;
 		 }
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
@@ -664,6 +687,7 @@ void handleSPI(uint8_t offset)
 		 if (!writingPreset)
 		 {
 			 writingPreset = 1; // set the flag to let the mcu know that a preset write is in progress
+			 diskBusy = 1;
 			 audioMasterLevel = 0.0f;
 			 //write the raw data as a preset number on the SD card
 			 bufferPos = 0;
@@ -723,13 +747,13 @@ float scaleTwo(float input)
 
 float scaleOscPitch(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.0f, input, 1.0f);
 	return (input * 48.0f) - 24.0f;
 }
 
 float scaleOscFine(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 200.0f) - 100.0f;
 }
 
@@ -741,7 +765,7 @@ float scaleOscFreq(float input)
 
 float scaleTranspose(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 96.0f) - 48.0f;
 }
 
@@ -760,7 +784,7 @@ float scaleFilterCutoff(float input)
 float scaleFilterResonance(float input)
 {
 	//lookup table for filter res
-	input = LEAF_clip(0.0f, input, 1.0f);
+	input = LEAF_clip(0.1f, input, 1.0f);
 	//scale to lookup range
 	input *= 2047.0f;
 	int inputInt = (int)input;
@@ -805,7 +829,11 @@ void blankFunction(float a, int b)
 void parsePreset(int size)
 {
 	//turn off the volume while changing parameters
-
+	 __disable_irq();
+	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
+	 {
+		 audioOutBuffer[i] = 0;
+	 }
 	audioMasterLevel = 0.0f;
 	//osc params
 	for (int i = 0; i < NUM_PARAMS; i++)
@@ -826,7 +854,7 @@ void parsePreset(int size)
 	params[Osc1Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc1Fine].scaleFunc = &scaleOscFine;
 	params[Osc1Freq].scaleFunc = &scaleOscFreq;
-	params[Osc1Amp].scaleFunc = &scaleTwo;
+	//params[Osc1Amp].scaleFunc = &scaleTwo; // changed to scale from 0-1 instead of 0-2 to avoid FM issues when clipping range CHANGE IN PLUGIN TOO!
 	params[Osc2Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc2Fine].scaleFunc = &scaleOscFine;
 	params[Osc2Freq].scaleFunc = &scaleOscFreq;
@@ -864,7 +892,7 @@ void parsePreset(int size)
 
 	for (int i = 0; i < NUM_OSC; i++)
 	{
-		int oscshape = roundf(params[Osc1ShapeSet + (OscParamsNum * i)].realVal * NUM_OSC_SHAPES);
+		int oscshape = roundf(params[Osc1ShapeSet + (OscParamsNum * i)].realVal * (NUM_OSC_SHAPES-1));
 		switch (oscshape){
 				  case 0:
 					  shapeTick[i] = &sawSquareTick;
@@ -894,7 +922,7 @@ void parsePreset(int size)
 
 	for (int i = 0; i < NUM_FILT; i++)
 	{
-		int filterType = roundf(params[Filter1Type + (i * FilterParamsNum)].realVal * NUM_FILTER_TYPES);
+		int filterType = roundf(params[Filter1Type + (i * FilterParamsNum)].realVal * (NUM_FILTER_TYPES-1));
 		//filterSetters[i].setCutoff = &filterSetCutoff;
 		//filterSetters[i].setKeyfollow = &filterSetKeyfollow;
 		switch (filterType){
@@ -1103,6 +1131,7 @@ void parsePreset(int size)
 
 	audioMasterLevel = 1.0f;
 	presetWaitingToParse = 0;
+	__enable_irq();
 }
 
 
@@ -1212,7 +1241,10 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     			  FlushECC(&bootloaderFlag,  32);
 
 				  buttonPressed = 0;
-				  resetFlag = 1;
+
+				  HAL_Delay(100);
+				  HAL_NVIC_SystemReset();
+
 
     		  }
     	  }
