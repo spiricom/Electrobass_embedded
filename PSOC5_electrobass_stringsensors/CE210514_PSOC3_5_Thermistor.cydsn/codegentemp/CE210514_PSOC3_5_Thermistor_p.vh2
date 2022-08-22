@@ -1,5 +1,5 @@
 -- Project:   CE210514_PSOC3_5_Thermistor
--- Generated: 08/16/2022 15:06:41
+-- Generated: 08/22/2022 17:16:29
 -- PSoC Creator  4.4
 
 ENTITY CE210514_PSOC3_5_Thermistor IS
@@ -315,6 +315,11 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     SIGNAL \SPIM_1:BSPIM:load_cond\ : bit;
     SIGNAL \SPIM_1:BSPIM:load_rx_data\ : bit;
     SIGNAL \SPIM_1:BSPIM:mosi_from_dp\ : bit;
+    SIGNAL \SPIM_1:BSPIM:mosi_from_dp_reg\ : bit;
+    SIGNAL \SPIM_1:BSPIM:mosi_hs_reg\ : bit;
+    SIGNAL \SPIM_1:BSPIM:mosi_pre_reg\ : bit;
+    SIGNAL \SPIM_1:BSPIM:mosi_pre_reg_split\ : bit;
+    SIGNAL \SPIM_1:BSPIM:mosi_pre_reg_split_1\ : bit;
     SIGNAL \SPIM_1:BSPIM:rx_status_4\ : bit;
     SIGNAL \SPIM_1:BSPIM:rx_status_5\ : bit;
     SIGNAL \SPIM_1:BSPIM:rx_status_6\ : bit;
@@ -342,6 +347,11 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     SIGNAL \SPIM_2:BSPIM:load_cond\ : bit;
     SIGNAL \SPIM_2:BSPIM:load_rx_data\ : bit;
     SIGNAL \SPIM_2:BSPIM:mosi_from_dp\ : bit;
+    SIGNAL \SPIM_2:BSPIM:mosi_from_dp_reg\ : bit;
+    SIGNAL \SPIM_2:BSPIM:mosi_hs_reg\ : bit;
+    SIGNAL \SPIM_2:BSPIM:mosi_pre_reg\ : bit;
+    SIGNAL \SPIM_2:BSPIM:mosi_pre_reg_split\ : bit;
+    SIGNAL \SPIM_2:BSPIM:mosi_pre_reg_split_1\ : bit;
     SIGNAL \SPIM_2:BSPIM:rx_status_4\ : bit;
     SIGNAL \SPIM_2:BSPIM:rx_status_5\ : bit;
     SIGNAL \SPIM_2:BSPIM:rx_status_6\ : bit;
@@ -532,18 +542,24 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE lib_model OF \CapSense:MeasureCH0:cs_addr_cnt_0\ : LABEL IS "macrocell13";
     ATTRIBUTE lib_model OF \CapSense:PreChargeClk\ : LABEL IS "macrocell14";
     ATTRIBUTE lib_model OF \SPIM_1:BSPIM:load_rx_data\ : LABEL IS "macrocell15";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:tx_status_0\ : LABEL IS "macrocell16";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:tx_status_4\ : LABEL IS "macrocell17";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:rx_status_6\ : LABEL IS "macrocell18";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_is_active\ : LABEL IS "macrocell19";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:cnt_enable\ : LABEL IS "macrocell20";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:load_rx_data\ : LABEL IS "macrocell21";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:tx_status_0\ : LABEL IS "macrocell22";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:tx_status_4\ : LABEL IS "macrocell23";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:rx_status_6\ : LABEL IS "macrocell24";
+    ATTRIBUTE lib_model OF Net_23 : LABEL IS "macrocell16";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:tx_status_0\ : LABEL IS "macrocell17";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:tx_status_4\ : LABEL IS "macrocell18";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:rx_status_6\ : LABEL IS "macrocell19";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_is_active\ : LABEL IS "macrocell20";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:cnt_enable\ : LABEL IS "macrocell21";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:load_rx_data\ : LABEL IS "macrocell22";
+    ATTRIBUTE lib_model OF Net_1113 : LABEL IS "macrocell23";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:tx_status_0\ : LABEL IS "macrocell24";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:tx_status_4\ : LABEL IS "macrocell25";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:rx_status_6\ : LABEL IS "macrocell26";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg_split_1\ : LABEL IS "macrocell27";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg_split\ : LABEL IS "macrocell28";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg_split_1\ : LABEL IS "macrocell29";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg_split\ : LABEL IS "macrocell30";
     ATTRIBUTE Location OF \IDAC8_1:viDAC8\ : LABEL IS "F(VIDAC,2)";
     ATTRIBUTE Location OF \ADC_1:DSM\ : LABEL IS "F(DSM,0)";
-    ATTRIBUTE lib_model OF __ONE__ : LABEL IS "macrocell25";
+    ATTRIBUTE lib_model OF __ONE__ : LABEL IS "macrocell31";
     ATTRIBUTE Location OF \CapSense:BufCH0\ : LABEL IS "F(CsAbuf,0)";
     ATTRIBUTE Location OF \CapSense:CompCH0:ctComp\ : LABEL IS "F(Comparator,0)";
     ATTRIBUTE Location OF \CapSense:IdacCH0:viDAC8\ : LABEL IS "F(VIDAC,0)";
@@ -579,111 +595,115 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE lib_model OF \SPIM_2:BSPIM:RxStsReg\ : LABEL IS "statusicell6";
     ATTRIBUTE lib_model OF \SPIM_2:BSPIM:sR8:Dp:u0\ : LABEL IS "datapathcell9";
     ATTRIBUTE lib_model OF DMA_2_TX : LABEL IS "drqcell8";
-    ATTRIBUTE lib_model OF Net_415 : LABEL IS "macrocell26";
-    ATTRIBUTE lib_model OF \CapSense:Net_372\ : LABEL IS "macrocell27";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_2\ : LABEL IS "macrocell28";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_1\ : LABEL IS "macrocell29";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_0\ : LABEL IS "macrocell30";
-    ATTRIBUTE lib_model OF \CapSense:Net_1603\ : LABEL IS "macrocell31";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_2\ : LABEL IS "macrocell32";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_1\ : LABEL IS "macrocell33";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_0\ : LABEL IS "macrocell34";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:clock_detect_reg\ : LABEL IS "macrocell35";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:tmp_ppulse_reg\ : LABEL IS "macrocell36";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:tmp_ppulse_dly\ : LABEL IS "macrocell37";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:cstate_2\ : LABEL IS "macrocell38";
-    ATTRIBUTE lib_model OF \CapSense:mrst\ : LABEL IS "macrocell39";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:inter_reset\ : LABEL IS "macrocell40";
-    ATTRIBUTE lib_model OF Net_23 : LABEL IS "macrocell41";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_2\ : LABEL IS "macrocell42";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_1\ : LABEL IS "macrocell43";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_0\ : LABEL IS "macrocell44";
-    ATTRIBUTE lib_model OF Net_437 : LABEL IS "macrocell45";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:load_cond\ : LABEL IS "macrocell46";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:ld_ident\ : LABEL IS "macrocell47";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:cnt_enable\ : LABEL IS "macrocell48";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_5\ : LABEL IS "macrocell49";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_4\ : LABEL IS "macrocell50";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_3\ : LABEL IS "macrocell51";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_2\ : LABEL IS "macrocell52";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_1\ : LABEL IS "macrocell53";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_0\ : LABEL IS "macrocell54";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_0\ : LABEL IS "macrocell55";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_1\ : LABEL IS "macrocell56";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_2\ : LABEL IS "macrocell57";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_3\ : LABEL IS "macrocell58";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_4\ : LABEL IS "macrocell59";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_5\ : LABEL IS "macrocell60";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_6\ : LABEL IS "macrocell61";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_7\ : LABEL IS "macrocell62";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_8\ : LABEL IS "macrocell63";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_9\ : LABEL IS "macrocell64";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_10\ : LABEL IS "macrocell65";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_11\ : LABEL IS "macrocell66";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_12\ : LABEL IS "macrocell67";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_13\ : LABEL IS "macrocell68";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_14\ : LABEL IS "macrocell69";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_15\ : LABEL IS "macrocell70";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_16\ : LABEL IS "macrocell71";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_17\ : LABEL IS "macrocell72";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_18\ : LABEL IS "macrocell73";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_19\ : LABEL IS "macrocell74";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_20\ : LABEL IS "macrocell75";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_21\ : LABEL IS "macrocell76";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_22\ : LABEL IS "macrocell77";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_23\ : LABEL IS "macrocell78";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_24\ : LABEL IS "macrocell79";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_25\ : LABEL IS "macrocell80";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_26\ : LABEL IS "macrocell81";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_27\ : LABEL IS "macrocell82";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_28\ : LABEL IS "macrocell83";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_29\ : LABEL IS "macrocell84";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_30\ : LABEL IS "macrocell85";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_31\ : LABEL IS "macrocell86";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_32\ : LABEL IS "macrocell87";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_33\ : LABEL IS "macrocell88";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_34\ : LABEL IS "macrocell89";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_35\ : LABEL IS "macrocell90";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_36\ : LABEL IS "macrocell91";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_37\ : LABEL IS "macrocell92";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_38\ : LABEL IS "macrocell93";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_39\ : LABEL IS "macrocell94";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_40\ : LABEL IS "macrocell95";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_41\ : LABEL IS "macrocell96";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_42\ : LABEL IS "macrocell97";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_43\ : LABEL IS "macrocell98";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_44\ : LABEL IS "macrocell99";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_45\ : LABEL IS "macrocell100";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_46\ : LABEL IS "macrocell101";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_47\ : LABEL IS "macrocell102";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_48\ : LABEL IS "macrocell103";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_49\ : LABEL IS "macrocell104";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_50\ : LABEL IS "macrocell105";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_51\ : LABEL IS "macrocell106";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_52\ : LABEL IS "macrocell107";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_53\ : LABEL IS "macrocell108";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_54\ : LABEL IS "macrocell109";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_55\ : LABEL IS "macrocell110";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_56\ : LABEL IS "macrocell111";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_57\ : LABEL IS "macrocell112";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_58\ : LABEL IS "macrocell113";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_59\ : LABEL IS "macrocell114";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_60\ : LABEL IS "macrocell115";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_61\ : LABEL IS "macrocell116";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_62\ : LABEL IS "macrocell117";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_63\ : LABEL IS "macrocell118";
-    ATTRIBUTE lib_model OF Net_986 : LABEL IS "macrocell119";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:bus_clk_nrq_reg\ : LABEL IS "macrocell120";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:nrq_reg\ : LABEL IS "macrocell121";
-    ATTRIBUTE lib_model OF Net_1114 : LABEL IS "macrocell122";
-    ATTRIBUTE lib_model OF Net_1113 : LABEL IS "macrocell123";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_2\ : LABEL IS "macrocell124";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_1\ : LABEL IS "macrocell125";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_0\ : LABEL IS "macrocell126";
-    ATTRIBUTE lib_model OF Net_1119 : LABEL IS "macrocell127";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:load_cond\ : LABEL IS "macrocell128";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:ld_ident\ : LABEL IS "macrocell129";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:cnt_enable\ : LABEL IS "macrocell130";
+    ATTRIBUTE lib_model OF Net_415 : LABEL IS "macrocell32";
+    ATTRIBUTE lib_model OF \CapSense:Net_372\ : LABEL IS "macrocell33";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_2\ : LABEL IS "macrocell34";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_1\ : LABEL IS "macrocell35";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_0\ : LABEL IS "macrocell36";
+    ATTRIBUTE lib_model OF \CapSense:Net_1603\ : LABEL IS "macrocell37";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_2\ : LABEL IS "macrocell38";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_1\ : LABEL IS "macrocell39";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_0\ : LABEL IS "macrocell40";
+    ATTRIBUTE lib_model OF \CapSense:ClockGen:clock_detect_reg\ : LABEL IS "macrocell41";
+    ATTRIBUTE lib_model OF \CapSense:ClockGen:tmp_ppulse_reg\ : LABEL IS "macrocell42";
+    ATTRIBUTE lib_model OF \CapSense:ClockGen:tmp_ppulse_dly\ : LABEL IS "macrocell43";
+    ATTRIBUTE lib_model OF \CapSense:ClockGen:cstate_2\ : LABEL IS "macrocell44";
+    ATTRIBUTE lib_model OF \CapSense:mrst\ : LABEL IS "macrocell45";
+    ATTRIBUTE lib_model OF \CapSense:ClockGen:inter_reset\ : LABEL IS "macrocell46";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_2\ : LABEL IS "macrocell47";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_1\ : LABEL IS "macrocell48";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_0\ : LABEL IS "macrocell49";
+    ATTRIBUTE lib_model OF Net_437 : LABEL IS "macrocell50";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_hs_reg\ : LABEL IS "macrocell51";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg\ : LABEL IS "macrocell52";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:load_cond\ : LABEL IS "macrocell53";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_from_dp_reg\ : LABEL IS "macrocell54";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:ld_ident\ : LABEL IS "macrocell55";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:cnt_enable\ : LABEL IS "macrocell56";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_5\ : LABEL IS "macrocell57";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_4\ : LABEL IS "macrocell58";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_3\ : LABEL IS "macrocell59";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_2\ : LABEL IS "macrocell60";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_1\ : LABEL IS "macrocell61";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_0\ : LABEL IS "macrocell62";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_0\ : LABEL IS "macrocell63";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_1\ : LABEL IS "macrocell64";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_2\ : LABEL IS "macrocell65";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_3\ : LABEL IS "macrocell66";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_4\ : LABEL IS "macrocell67";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_5\ : LABEL IS "macrocell68";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_6\ : LABEL IS "macrocell69";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_7\ : LABEL IS "macrocell70";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_8\ : LABEL IS "macrocell71";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_9\ : LABEL IS "macrocell72";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_10\ : LABEL IS "macrocell73";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_11\ : LABEL IS "macrocell74";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_12\ : LABEL IS "macrocell75";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_13\ : LABEL IS "macrocell76";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_14\ : LABEL IS "macrocell77";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_15\ : LABEL IS "macrocell78";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_16\ : LABEL IS "macrocell79";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_17\ : LABEL IS "macrocell80";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_18\ : LABEL IS "macrocell81";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_19\ : LABEL IS "macrocell82";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_20\ : LABEL IS "macrocell83";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_21\ : LABEL IS "macrocell84";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_22\ : LABEL IS "macrocell85";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_23\ : LABEL IS "macrocell86";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_24\ : LABEL IS "macrocell87";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_25\ : LABEL IS "macrocell88";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_26\ : LABEL IS "macrocell89";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_27\ : LABEL IS "macrocell90";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_28\ : LABEL IS "macrocell91";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_29\ : LABEL IS "macrocell92";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_30\ : LABEL IS "macrocell93";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_31\ : LABEL IS "macrocell94";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_32\ : LABEL IS "macrocell95";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_33\ : LABEL IS "macrocell96";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_34\ : LABEL IS "macrocell97";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_35\ : LABEL IS "macrocell98";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_36\ : LABEL IS "macrocell99";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_37\ : LABEL IS "macrocell100";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_38\ : LABEL IS "macrocell101";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_39\ : LABEL IS "macrocell102";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_40\ : LABEL IS "macrocell103";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_41\ : LABEL IS "macrocell104";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_42\ : LABEL IS "macrocell105";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_43\ : LABEL IS "macrocell106";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_44\ : LABEL IS "macrocell107";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_45\ : LABEL IS "macrocell108";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_46\ : LABEL IS "macrocell109";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_47\ : LABEL IS "macrocell110";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_48\ : LABEL IS "macrocell111";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_49\ : LABEL IS "macrocell112";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_50\ : LABEL IS "macrocell113";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_51\ : LABEL IS "macrocell114";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_52\ : LABEL IS "macrocell115";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_53\ : LABEL IS "macrocell116";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_54\ : LABEL IS "macrocell117";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_55\ : LABEL IS "macrocell118";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_56\ : LABEL IS "macrocell119";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_57\ : LABEL IS "macrocell120";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_58\ : LABEL IS "macrocell121";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_59\ : LABEL IS "macrocell122";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_60\ : LABEL IS "macrocell123";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_61\ : LABEL IS "macrocell124";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_62\ : LABEL IS "macrocell125";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_63\ : LABEL IS "macrocell126";
+    ATTRIBUTE lib_model OF Net_986 : LABEL IS "macrocell127";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:bus_clk_nrq_reg\ : LABEL IS "macrocell128";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:nrq_reg\ : LABEL IS "macrocell129";
+    ATTRIBUTE lib_model OF Net_1114 : LABEL IS "macrocell130";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_2\ : LABEL IS "macrocell131";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_1\ : LABEL IS "macrocell132";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_0\ : LABEL IS "macrocell133";
+    ATTRIBUTE lib_model OF Net_1119 : LABEL IS "macrocell134";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_hs_reg\ : LABEL IS "macrocell135";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg\ : LABEL IS "macrocell136";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:load_cond\ : LABEL IS "macrocell137";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_from_dp_reg\ : LABEL IS "macrocell138";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:ld_ident\ : LABEL IS "macrocell139";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:cnt_enable\ : LABEL IS "macrocell140";
     COMPONENT capsensecell
         PORT (
             lft : IN std_ulogic;
@@ -5020,6 +5040,19 @@ BEGIN
             main_3 => \SPIM_1:BSPIM:count_1\,
             main_4 => \SPIM_1:BSPIM:count_0\);
 
+    Net_23:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * !main_3 * main_4) + (main_1 * !main_3 * main_4) + (!main_2 * !main_3 * main_4)",
+            regmode => 0,
+            clken_mode => 1)
+        PORT MAP(
+            q => Net_23,
+            main_0 => \SPIM_1:BSPIM:state_2\,
+            main_1 => \SPIM_1:BSPIM:state_1\,
+            main_2 => \SPIM_1:BSPIM:state_0\,
+            main_3 => Net_437,
+            main_4 => \SPIM_1:BSPIM:mosi_hs_reg\);
+
     \SPIM_1:BSPIM:tx_status_0\:macrocell
         GENERIC MAP(
             eqn_main => "(main_0 * !main_1 * main_2)",
@@ -5097,6 +5130,19 @@ BEGIN
             main_3 => \SPIM_2:BSPIM:count_1\,
             main_4 => \SPIM_2:BSPIM:count_0\);
 
+    Net_1113:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * !main_3 * main_4) + (main_1 * !main_3 * main_4) + (!main_2 * !main_3 * main_4)",
+            regmode => 0,
+            clken_mode => 1)
+        PORT MAP(
+            q => Net_1113,
+            main_0 => \SPIM_2:BSPIM:state_2\,
+            main_1 => \SPIM_2:BSPIM:state_1\,
+            main_2 => \SPIM_2:BSPIM:state_0\,
+            main_3 => Net_1119,
+            main_4 => \SPIM_2:BSPIM:mosi_hs_reg\);
+
     \SPIM_2:BSPIM:tx_status_0\:macrocell
         GENERIC MAP(
             eqn_main => "(main_0 * !main_1 * main_2)",
@@ -5132,6 +5178,80 @@ BEGIN
             main_3 => \SPIM_2:BSPIM:count_1\,
             main_4 => \SPIM_2:BSPIM:count_0\,
             main_5 => \SPIM_2:BSPIM:rx_status_4\);
+
+    \SPIM_2:BSPIM:mosi_pre_reg_split_1\:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * main_1 * !main_4 * !main_5 * !main_6 * !main_7 * !main_9) + (!main_0 * !main_2) + (!main_0 * !main_8) + (main_0 * !main_1 * main_2) + (main_0 * !main_3) + (main_1 * !main_2)",
+            regmode => 0,
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_2:BSPIM:mosi_pre_reg_split_1\,
+            main_0 => \SPIM_2:BSPIM:state_2\,
+            main_1 => \SPIM_2:BSPIM:state_1\,
+            main_2 => \SPIM_2:BSPIM:state_0\,
+            main_3 => \SPIM_2:BSPIM:mosi_from_dp\,
+            main_4 => \SPIM_2:BSPIM:count_4\,
+            main_5 => \SPIM_2:BSPIM:count_3\,
+            main_6 => \SPIM_2:BSPIM:count_2\,
+            main_7 => \SPIM_2:BSPIM:count_0\,
+            main_8 => \SPIM_2:BSPIM:mosi_pre_reg\,
+            main_9 => \SPIM_2:BSPIM:ld_ident\);
+
+    \SPIM_2:BSPIM:mosi_pre_reg_split\:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * main_1 * !main_2 * main_3 * main_4) + (!main_0 * main_1 * !main_2 * main_3 * main_5) + (!main_0 * main_1 * !main_2 * main_3 * main_6) + (!main_0 * main_1 * !main_2 * main_3 * main_7) + (!main_0 * main_1 * !main_2 * main_3 * !main_8) + (main_0 * main_1 * !main_2 * main_9) + (main_1 * !main_2 * !main_4 * !main_5 * !main_6 * !main_7 * main_8 * main_9) + (main_1 * main_2 * main_3 * !main_4 * !main_5 * !main_6 * !main_7 * !main_8 * !main_10)",
+            regmode => 0,
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_2:BSPIM:mosi_pre_reg_split\,
+            main_0 => \SPIM_2:BSPIM:state_2\,
+            main_1 => \SPIM_2:BSPIM:state_1\,
+            main_2 => \SPIM_2:BSPIM:state_0\,
+            main_3 => \SPIM_2:BSPIM:mosi_from_dp\,
+            main_4 => \SPIM_2:BSPIM:count_4\,
+            main_5 => \SPIM_2:BSPIM:count_3\,
+            main_6 => \SPIM_2:BSPIM:count_2\,
+            main_7 => \SPIM_2:BSPIM:count_1\,
+            main_8 => \SPIM_2:BSPIM:count_0\,
+            main_9 => \SPIM_2:BSPIM:mosi_pre_reg\,
+            main_10 => \SPIM_2:BSPIM:ld_ident\);
+
+    \SPIM_1:BSPIM:mosi_pre_reg_split_1\:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * main_1 * !main_4 * !main_5 * !main_6 * !main_7 * !main_9) + (!main_0 * !main_2) + (!main_0 * !main_8) + (main_0 * !main_1 * main_2) + (main_0 * !main_3) + (main_1 * !main_2)",
+            regmode => 0,
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_1:BSPIM:mosi_pre_reg_split_1\,
+            main_0 => \SPIM_1:BSPIM:state_2\,
+            main_1 => \SPIM_1:BSPIM:state_1\,
+            main_2 => \SPIM_1:BSPIM:state_0\,
+            main_3 => \SPIM_1:BSPIM:mosi_from_dp\,
+            main_4 => \SPIM_1:BSPIM:count_4\,
+            main_5 => \SPIM_1:BSPIM:count_3\,
+            main_6 => \SPIM_1:BSPIM:count_2\,
+            main_7 => \SPIM_1:BSPIM:count_0\,
+            main_8 => \SPIM_1:BSPIM:mosi_pre_reg\,
+            main_9 => \SPIM_1:BSPIM:ld_ident\);
+
+    \SPIM_1:BSPIM:mosi_pre_reg_split\:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * main_1 * !main_2 * main_3 * main_4) + (!main_0 * main_1 * !main_2 * main_3 * main_5) + (!main_0 * main_1 * !main_2 * main_3 * main_6) + (!main_0 * main_1 * !main_2 * main_3 * main_7) + (!main_0 * main_1 * !main_2 * main_3 * !main_8) + (main_0 * main_1 * !main_2 * main_9) + (main_1 * !main_2 * !main_4 * !main_5 * !main_6 * !main_7 * main_8 * main_9) + (main_1 * main_2 * main_3 * !main_4 * !main_5 * !main_6 * !main_7 * !main_8 * !main_10)",
+            regmode => 0,
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_1:BSPIM:mosi_pre_reg_split\,
+            main_0 => \SPIM_1:BSPIM:state_2\,
+            main_1 => \SPIM_1:BSPIM:state_1\,
+            main_2 => \SPIM_1:BSPIM:state_0\,
+            main_3 => \SPIM_1:BSPIM:mosi_from_dp\,
+            main_4 => \SPIM_1:BSPIM:count_4\,
+            main_5 => \SPIM_1:BSPIM:count_3\,
+            main_6 => \SPIM_1:BSPIM:count_2\,
+            main_7 => \SPIM_1:BSPIM:count_1\,
+            main_8 => \SPIM_1:BSPIM:count_0\,
+            main_9 => \SPIM_1:BSPIM:mosi_pre_reg\,
+            main_10 => \SPIM_1:BSPIM:ld_ident\);
 
     \IDAC8_1:viDAC8\:vidaccell
         GENERIC MAP(
@@ -6227,7 +6347,7 @@ BEGIN
 
     Net_415:macrocell
         GENERIC MAP(
-            eqn_main => "(main_0 * main_2 * main_3) + (!main_1 * main_2 * main_3)",
+            eqn_main => "(main_0 * main_1 * main_2) + (main_1 * !main_3) + (main_2 * !main_3)",
             regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
@@ -6457,30 +6577,9 @@ BEGIN
             main_2 => \CapSense:ClockGen:inter_reset\,
             main_3 => \CapSense:ClockGen:cstate_2\);
 
-    Net_23:macrocell
-        GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * main_3) + (!main_1 * !main_2 * !main_3) + (!main_1 * !main_3 * !main_5 * !main_6 * !main_7 * main_8 * !main_9 * !main_10) + (main_1 * !main_2 * main_3) + (main_1 * main_2 * !main_3) + (main_1 * !main_4) + (!main_3 * !main_4)",
-            regmode => 1,
-            clk_inv => '0',
-            clken_mode => 1)
-        PORT MAP(
-            q => Net_23,
-            clock_0 => \SPIM_1:Net_276\,
-            main_0 => Net_23,
-            main_1 => \SPIM_1:BSPIM:state_2\,
-            main_2 => \SPIM_1:BSPIM:state_1\,
-            main_3 => \SPIM_1:BSPIM:state_0\,
-            main_4 => \SPIM_1:BSPIM:mosi_from_dp\,
-            main_5 => \SPIM_1:BSPIM:count_4\,
-            main_6 => \SPIM_1:BSPIM:count_3\,
-            main_7 => \SPIM_1:BSPIM:count_2\,
-            main_8 => \SPIM_1:BSPIM:count_1\,
-            main_9 => \SPIM_1:BSPIM:count_0\,
-            main_10 => \SPIM_1:BSPIM:ld_ident\);
-
     \SPIM_1:BSPIM:state_2\:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * main_2) + (!main_0 * main_1 * !main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9) + (!main_0 * main_2 * !main_3 * !main_4 * main_5 * !main_6 * main_7 * !main_8)",
+            eqn_main => "(!main_0 * !main_1 * main_2) + (main_0 * main_1 * main_2) + (main_1 * main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9) + (main_1 * main_2 * !main_3 * !main_4 * main_5 * main_6 * !main_7 * !main_8)",
             regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
@@ -6500,8 +6599,8 @@ BEGIN
 
     \SPIM_1:BSPIM:state_1\:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * main_2) + (!main_0 * main_2 * !main_3 * !main_4 * main_5 * !main_6 * main_7 * !main_8) + (main_0 * !main_2) + (main_1 * !main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9)",
-            regmode => 2,
+            eqn_main => "(!main_0 * !main_1 * !main_2) + (!main_0 * main_1 * main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9) + (!main_0 * main_1 * main_2 * !main_3 * !main_4 * main_5 * main_6 * !main_7 * !main_8) + (main_0 * !main_1 * main_2)",
+            regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
         PORT MAP(
@@ -6520,7 +6619,7 @@ BEGIN
 
     \SPIM_1:BSPIM:state_0\:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * main_1) + (main_0 * !main_1) + (!main_1 * !main_2 * !main_3)",
+            eqn_main => "(!main_0 * !main_1 * main_2) + (!main_0 * !main_1 * main_8) + (!main_0 * main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9)",
             regmode => 2,
             clk_inv => '0',
             clken_mode => 1)
@@ -6530,11 +6629,17 @@ BEGIN
             main_0 => \SPIM_1:BSPIM:state_2\,
             main_1 => \SPIM_1:BSPIM:state_1\,
             main_2 => \SPIM_1:BSPIM:state_0\,
-            main_3 => \SPIM_1:BSPIM:tx_status_1\);
+            main_3 => \SPIM_1:BSPIM:count_4\,
+            main_4 => \SPIM_1:BSPIM:count_3\,
+            main_5 => \SPIM_1:BSPIM:count_2\,
+            main_6 => \SPIM_1:BSPIM:count_1\,
+            main_7 => \SPIM_1:BSPIM:count_0\,
+            main_8 => \SPIM_1:BSPIM:tx_status_1\,
+            main_9 => \SPIM_1:BSPIM:ld_ident\);
 
     Net_437:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * main_2) + (!main_0 * main_1 * !main_3) + (main_0 * !main_1 * !main_2 * !main_3) + (main_1 * main_2 * !main_3)",
+            eqn_main => "(!main_0 * !main_1 * main_2) + (main_0 * !main_2 * !main_3) + (main_1 * !main_3)",
             regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
@@ -6545,6 +6650,34 @@ BEGIN
             main_1 => \SPIM_1:BSPIM:state_1\,
             main_2 => \SPIM_1:BSPIM:state_0\,
             main_3 => Net_437);
+
+    \SPIM_1:BSPIM:mosi_hs_reg\:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * main_1 * main_2 * main_5) + (main_0 * main_1 * main_2 * main_3) + (!main_1 * main_4) + (!main_2 * main_4)",
+            regmode => 1,
+            clk_inv => '0',
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_1:BSPIM:mosi_hs_reg\,
+            clock_0 => \SPIM_1:Net_276\,
+            main_0 => \SPIM_1:BSPIM:state_2\,
+            main_1 => \SPIM_1:BSPIM:state_1\,
+            main_2 => \SPIM_1:BSPIM:state_0\,
+            main_3 => \SPIM_1:BSPIM:mosi_from_dp\,
+            main_4 => \SPIM_1:BSPIM:mosi_hs_reg\,
+            main_5 => \SPIM_1:BSPIM:mosi_from_dp_reg\);
+
+    \SPIM_1:BSPIM:mosi_pre_reg\:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * !main_1)",
+            regmode => 1,
+            clk_inv => '0',
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_1:BSPIM:mosi_pre_reg\,
+            clock_0 => \SPIM_1:Net_276\,
+            main_0 => \SPIM_1:BSPIM:mosi_pre_reg_split\,
+            main_1 => \SPIM_1:BSPIM:mosi_pre_reg_split_1\);
 
     \SPIM_1:BSPIM:load_cond\:macrocell
         GENERIC MAP(
@@ -6565,9 +6698,20 @@ BEGIN
             main_7 => \SPIM_1:BSPIM:count_0\,
             main_8 => \SPIM_1:BSPIM:load_cond\);
 
+    \SPIM_1:BSPIM:mosi_from_dp_reg\:macrocell
+        GENERIC MAP(
+            eqn_main => "(main_0)",
+            regmode => 1,
+            clk_inv => '0',
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_1:BSPIM:mosi_from_dp_reg\,
+            clock_0 => \SPIM_1:Net_276\,
+            main_0 => \SPIM_1:BSPIM:mosi_from_dp\);
+
     \SPIM_1:BSPIM:ld_ident\:macrocell
         GENERIC MAP(
-            eqn_main => "(main_0 * !main_1 * !main_2 * !main_8) + (main_0 * main_1 * !main_2 * main_8) + (main_1 * !main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * main_8)",
+            eqn_main => "(!main_0 * main_1 * !main_2 * !main_3 * !main_4 * !main_5 * !main_6 * main_7 * main_8) + (main_0 * !main_1 * !main_2 * !main_8)",
             regmode => 2,
             clk_inv => '0',
             clken_mode => 1)
@@ -6586,7 +6730,7 @@ BEGIN
 
     \SPIM_1:BSPIM:cnt_enable\:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * !main_2 * main_3) + (!main_0 * main_1 * main_2 * !main_3) + (main_0 * !main_1 * main_2 * main_3) + (main_0 * main_1 * !main_2 * main_3)",
+            eqn_main => "(!main_0 * !main_1 * !main_2 * main_3) + (main_0 * !main_1 * main_2 * main_3) + (main_0 * main_1 * !main_2 * !main_3)",
             regmode => 2,
             clk_inv => '0',
             clken_mode => 1)
@@ -7794,7 +7938,7 @@ BEGIN
 
     Net_1114:macrocell
         GENERIC MAP(
-            eqn_main => "(main_0 * main_2 * main_3) + (!main_1 * main_2 * main_3)",
+            eqn_main => "(main_0 * main_1 * main_2) + (main_1 * !main_3) + (main_2 * !main_3)",
             regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
@@ -7806,30 +7950,9 @@ BEGIN
             main_2 => \SPIM_2:BSPIM:state_1\,
             main_3 => \SPIM_2:BSPIM:state_0\);
 
-    Net_1113:macrocell
-        GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * main_3) + (!main_1 * !main_2 * !main_3) + (!main_1 * !main_3 * !main_5 * !main_6 * !main_7 * main_8 * !main_9 * !main_10) + (main_1 * !main_2 * main_3) + (main_1 * main_2 * !main_3) + (main_1 * !main_4) + (!main_3 * !main_4)",
-            regmode => 1,
-            clk_inv => '0',
-            clken_mode => 1)
-        PORT MAP(
-            q => Net_1113,
-            clock_0 => \SPIM_2:Net_276\,
-            main_0 => Net_1113,
-            main_1 => \SPIM_2:BSPIM:state_2\,
-            main_2 => \SPIM_2:BSPIM:state_1\,
-            main_3 => \SPIM_2:BSPIM:state_0\,
-            main_4 => \SPIM_2:BSPIM:mosi_from_dp\,
-            main_5 => \SPIM_2:BSPIM:count_4\,
-            main_6 => \SPIM_2:BSPIM:count_3\,
-            main_7 => \SPIM_2:BSPIM:count_2\,
-            main_8 => \SPIM_2:BSPIM:count_1\,
-            main_9 => \SPIM_2:BSPIM:count_0\,
-            main_10 => \SPIM_2:BSPIM:ld_ident\);
-
     \SPIM_2:BSPIM:state_2\:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * main_2) + (!main_0 * main_1 * !main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9) + (!main_0 * main_2 * !main_3 * !main_4 * main_5 * !main_6 * main_7 * !main_8)",
+            eqn_main => "(!main_0 * !main_1 * main_2) + (main_0 * main_1 * main_2) + (main_1 * main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9) + (main_1 * main_2 * !main_3 * !main_4 * main_5 * main_6 * !main_7 * !main_8)",
             regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
@@ -7849,8 +7972,8 @@ BEGIN
 
     \SPIM_2:BSPIM:state_1\:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * main_2) + (!main_0 * main_2 * !main_3 * !main_4 * main_5 * !main_6 * main_7 * !main_8) + (main_0 * !main_2) + (main_1 * !main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9)",
-            regmode => 2,
+            eqn_main => "(!main_0 * !main_1 * !main_2) + (!main_0 * main_1 * main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9) + (!main_0 * main_1 * main_2 * !main_3 * !main_4 * main_5 * main_6 * !main_7 * !main_8) + (main_0 * !main_1 * main_2)",
+            regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
         PORT MAP(
@@ -7869,7 +7992,7 @@ BEGIN
 
     \SPIM_2:BSPIM:state_0\:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * main_1) + (main_0 * !main_1) + (!main_1 * !main_2 * !main_3)",
+            eqn_main => "(!main_0 * !main_1 * main_2) + (!main_0 * !main_1 * main_8) + (!main_0 * main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * !main_9)",
             regmode => 2,
             clk_inv => '0',
             clken_mode => 1)
@@ -7879,11 +8002,17 @@ BEGIN
             main_0 => \SPIM_2:BSPIM:state_2\,
             main_1 => \SPIM_2:BSPIM:state_1\,
             main_2 => \SPIM_2:BSPIM:state_0\,
-            main_3 => \SPIM_2:BSPIM:tx_status_1\);
+            main_3 => \SPIM_2:BSPIM:count_4\,
+            main_4 => \SPIM_2:BSPIM:count_3\,
+            main_5 => \SPIM_2:BSPIM:count_2\,
+            main_6 => \SPIM_2:BSPIM:count_1\,
+            main_7 => \SPIM_2:BSPIM:count_0\,
+            main_8 => \SPIM_2:BSPIM:tx_status_1\,
+            main_9 => \SPIM_2:BSPIM:ld_ident\);
 
     Net_1119:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * main_2) + (!main_0 * main_1 * !main_3) + (main_0 * !main_1 * !main_2 * !main_3) + (main_1 * main_2 * !main_3)",
+            eqn_main => "(!main_0 * !main_1 * main_2) + (main_0 * !main_2 * !main_3) + (main_1 * !main_3)",
             regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
@@ -7894,6 +8023,43 @@ BEGIN
             main_1 => \SPIM_2:BSPIM:state_1\,
             main_2 => \SPIM_2:BSPIM:state_0\,
             main_3 => Net_1119);
+
+    \SPIM_2:BSPIM:mosi_hs_reg\:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * main_1 * main_2 * main_5) + (main_0 * main_1 * main_2 * main_3) + (!main_1 * main_4) + (!main_2 * main_4)",
+            regmode => 1,
+            clk_inv => '0',
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_2:BSPIM:mosi_hs_reg\,
+            clock_0 => \SPIM_2:Net_276\,
+            main_0 => \SPIM_2:BSPIM:state_2\,
+            main_1 => \SPIM_2:BSPIM:state_1\,
+            main_2 => \SPIM_2:BSPIM:state_0\,
+            main_3 => \SPIM_2:BSPIM:mosi_from_dp\,
+            main_4 => \SPIM_2:BSPIM:mosi_hs_reg\,
+            main_5 => \SPIM_2:BSPIM:mosi_from_dp_reg\);
+
+    \SPIM_2:BSPIM:mosi_pre_reg\:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0 * !main_1)",
+            regmode => 1,
+            clk_inv => '0',
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_2:BSPIM:mosi_pre_reg\,
+            clock_0 => \SPIM_2:Net_276\,
+            main_0 => \SPIM_2:BSPIM:mosi_pre_reg_split\,
+            main_1 => \SPIM_2:BSPIM:mosi_pre_reg_split_1\);
+
+    SCL_1(0)_SYNC:synccell
+        GENERIC MAP(
+            clk_inv => '0',
+            clken_mode => 1)
+        PORT MAP(
+            in => \I2C_1:Net_1109_0\,
+            out => \I2C_1:Net_1109_0_SYNCOUT\,
+            clock => ClockBlock_BUS_CLK);
 
     \SPIM_2:BSPIM:load_cond\:macrocell
         GENERIC MAP(
@@ -7914,15 +8080,6 @@ BEGIN
             main_7 => \SPIM_2:BSPIM:count_0\,
             main_8 => \SPIM_2:BSPIM:load_cond\);
 
-    SCL_1(0)_SYNC:synccell
-        GENERIC MAP(
-            clk_inv => '0',
-            clken_mode => 1)
-        PORT MAP(
-            in => \I2C_1:Net_1109_0\,
-            out => \I2C_1:Net_1109_0_SYNCOUT\,
-            clock => ClockBlock_BUS_CLK);
-
     SDA_1(0)_SYNC:synccell
         GENERIC MAP(
             clk_inv => '0',
@@ -7932,9 +8089,20 @@ BEGIN
             out => \I2C_1:Net_1109_1_SYNCOUT\,
             clock => ClockBlock_BUS_CLK);
 
+    \SPIM_2:BSPIM:mosi_from_dp_reg\:macrocell
+        GENERIC MAP(
+            eqn_main => "(main_0)",
+            regmode => 1,
+            clk_inv => '0',
+            clken_mode => 1)
+        PORT MAP(
+            q => \SPIM_2:BSPIM:mosi_from_dp_reg\,
+            clock_0 => \SPIM_2:Net_276\,
+            main_0 => \SPIM_2:BSPIM:mosi_from_dp\);
+
     \SPIM_2:BSPIM:ld_ident\:macrocell
         GENERIC MAP(
-            eqn_main => "(main_0 * !main_1 * !main_2 * !main_8) + (main_0 * main_1 * !main_2 * main_8) + (main_1 * !main_2 * !main_3 * !main_4 * !main_5 * main_6 * !main_7 * main_8)",
+            eqn_main => "(!main_0 * main_1 * !main_2 * !main_3 * !main_4 * !main_5 * !main_6 * main_7 * main_8) + (main_0 * !main_1 * !main_2 * !main_8)",
             regmode => 2,
             clk_inv => '0',
             clken_mode => 1)
@@ -7953,7 +8121,7 @@ BEGIN
 
     \SPIM_2:BSPIM:cnt_enable\:macrocell
         GENERIC MAP(
-            eqn_main => "(!main_0 * !main_1 * !main_2 * main_3) + (!main_0 * main_1 * main_2 * !main_3) + (main_0 * !main_1 * main_2 * main_3) + (main_0 * main_1 * !main_2 * main_3)",
+            eqn_main => "(!main_0 * !main_1 * !main_2 * main_3) + (main_0 * !main_1 * main_2 * main_3) + (main_0 * main_1 * !main_2 * !main_3)",
             regmode => 2,
             clk_inv => '0',
             clken_mode => 1)

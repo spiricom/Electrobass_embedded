@@ -273,185 +273,188 @@ static void CyClockStartupError(uint8 errorCode)
 /* UWRK_B0_WRK_STATCTL_BITS Address: CYDEV_UWRK_UWRK8_B0_BASE + 0x00000070u Size (bytes): 32 */
 #define BS_UWRK_B0_WRK_STATCTL_BITS_VAL ((const uint8 CYFAR *)0x48000B90u)
 
+/* UWRK_B1_WRK_DP_BITS Address: CYDEV_UWRK_UWRK8_B1_BASE Size (bytes): 64 */
+#define BS_UWRK_B1_WRK_DP_BITS_VAL ((const uint8 CYFAR *)0x48000BB0u)
+
 /* UWRK_B1_WRK_STATCTL_BITS Address: CYDEV_UWRK_UWRK8_B1_BASE + 0x00000070u Size (bytes): 32 */
-#define BS_UWRK_B1_WRK_STATCTL_BITS_VAL ((const uint8 CYFAR *)0x48000BB0u)
+#define BS_UWRK_B1_WRK_STATCTL_BITS_VAL ((const uint8 CYFAR *)0x48000BF0u)
 
 /* UCFG_BCTL1 Address: CYREG_BCTL1_MDCLK_EN Size (bytes): 16 */
-#define BS_UCFG_BCTL1_VAL ((const uint8 CYFAR *)0x48000BD0u)
+#define BS_UCFG_BCTL1_VAL ((const uint8 CYFAR *)0x48000C10u)
 
 /* UCFG_BCTL0 Address: CYREG_BCTL0_MDCLK_EN Size (bytes): 16 */
-#define BS_UCFG_BCTL0_VAL ((const uint8 CYFAR *)0x48000BE0u)
+#define BS_UCFG_BCTL0_VAL ((const uint8 CYFAR *)0x48000C20u)
 
 /* DSISWITCH_0_0 Address: CYDEV_UCFG_DSI13_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_0_0_VAL ((const uint8 CYFAR *)0x48000BF0u)
+#define BS_DSISWITCH_0_0_VAL ((const uint8 CYFAR *)0x48000C30u)
 
 /* DSI0_0_HV_ROUTING Address: CYDEV_UCFG_DSI13_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI0_0_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48000C70u)
+#define BS_DSI0_0_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48000CB0u)
 
 /* DSISWITCH_0_1 Address: CYDEV_UCFG_DSI12_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_0_1_VAL ((const uint8 CYFAR *)0x48000CF0u)
+#define BS_DSISWITCH_0_1_VAL ((const uint8 CYFAR *)0x48000D30u)
 
 /* DSI0_1_HV_ROUTING Address: CYDEV_UCFG_DSI12_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI0_1_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48000D70u)
+#define BS_DSI0_1_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48000DB0u)
 
 /* DSISWITCH_0_2 Address: CYDEV_UCFG_DSI7_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_0_2_VAL ((const uint8 CYFAR *)0x48000DF0u)
+#define BS_DSISWITCH_0_2_VAL ((const uint8 CYFAR *)0x48000E30u)
 
 /* DSI0_2_HV_ROUTING Address: CYDEV_UCFG_DSI7_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI0_2_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48000E70u)
+#define BS_DSI0_2_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48000EB0u)
 
 /* DSISWITCH_0_3 Address: CYDEV_UCFG_DSI6_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_0_3_VAL ((const uint8 CYFAR *)0x48000EF0u)
+#define BS_DSISWITCH_0_3_VAL ((const uint8 CYFAR *)0x48000F30u)
 
 /* DSI0_3_HV_ROUTING Address: CYDEV_UCFG_DSI6_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI0_3_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48000F70u)
+#define BS_DSI0_3_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48000FB0u)
 
 /* DSISWITCH_0_4 Address: CYDEV_UCFG_DSI5_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_0_4_VAL ((const uint8 CYFAR *)0x48000FF0u)
+#define BS_DSISWITCH_0_4_VAL ((const uint8 CYFAR *)0x48001030u)
 
 /* DSI0_4_HV_ROUTING Address: CYDEV_UCFG_DSI5_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI0_4_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001070u)
+#define BS_DSI0_4_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480010B0u)
 
 /* DSISWITCH_0_5 Address: CYDEV_UCFG_DSI4_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_0_5_VAL ((const uint8 CYFAR *)0x480010F0u)
+#define BS_DSISWITCH_0_5_VAL ((const uint8 CYFAR *)0x48001130u)
 
 /* DSI0_5_HV_ROUTING Address: CYDEV_UCFG_DSI4_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI0_5_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001170u)
+#define BS_DSI0_5_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480011B0u)
 
 /* UDBSWITCH_0_0 Address: CYDEV_UCFG_B1_P5_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_0_0_VAL ((const uint8 CYFAR *)0x480011F0u)
+#define BS_UDBSWITCH_0_0_VAL ((const uint8 CYFAR *)0x48001230u)
 
 /* UDB_1_0_HV_ROUTING Address: CYDEV_UCFG_B1_P5_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_1_0_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001270u)
+#define BS_UDB_1_0_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480012B0u)
 
 /* UDBSWITCH_1_0 Address: CYDEV_UCFG_B1_P2_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_1_0_VAL ((const uint8 CYFAR *)0x480012F0u)
+#define BS_UDBSWITCH_1_0_VAL ((const uint8 CYFAR *)0x48001330u)
 
 /* UDB_2_0_HV_ROUTING Address: CYDEV_UCFG_B1_P2_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_2_0_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001370u)
+#define BS_UDB_2_0_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480013B0u)
 
 /* UDBSWITCH_0_1 Address: CYDEV_UCFG_B1_P4_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_0_1_VAL ((const uint8 CYFAR *)0x480013F0u)
+#define BS_UDBSWITCH_0_1_VAL ((const uint8 CYFAR *)0x48001430u)
 
 /* UDB_1_1_HV_ROUTING Address: CYDEV_UCFG_B1_P4_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_1_1_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001470u)
+#define BS_UDB_1_1_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480014B0u)
 
 /* UDBSWITCH_1_1 Address: CYDEV_UCFG_B1_P3_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_1_1_VAL ((const uint8 CYFAR *)0x480014F0u)
+#define BS_UDBSWITCH_1_1_VAL ((const uint8 CYFAR *)0x48001530u)
 
 /* UDB_2_1_HV_ROUTING Address: CYDEV_UCFG_B1_P3_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_2_1_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001570u)
+#define BS_UDB_2_1_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480015B0u)
 
 /* UDBSWITCH_0_2 Address: CYDEV_UCFG_B0_P4_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_0_2_VAL ((const uint8 CYFAR *)0x480015F0u)
+#define BS_UDBSWITCH_0_2_VAL ((const uint8 CYFAR *)0x48001630u)
 
 /* UDB_1_2_HV_ROUTING Address: CYDEV_UCFG_B0_P4_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_1_2_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001670u)
+#define BS_UDB_1_2_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480016B0u)
 
 /* UDBSWITCH_1_2 Address: CYDEV_UCFG_B0_P3_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_1_2_VAL ((const uint8 CYFAR *)0x480016F0u)
+#define BS_UDBSWITCH_1_2_VAL ((const uint8 CYFAR *)0x48001730u)
 
 /* UDB_2_2_HV_ROUTING Address: CYDEV_UCFG_B0_P3_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_2_2_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001770u)
+#define BS_UDB_2_2_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480017B0u)
 
 /* UDBSWITCH_0_3 Address: CYDEV_UCFG_B0_P5_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_0_3_VAL ((const uint8 CYFAR *)0x480017F0u)
+#define BS_UDBSWITCH_0_3_VAL ((const uint8 CYFAR *)0x48001830u)
 
 /* UDB_1_3_HV_ROUTING Address: CYDEV_UCFG_B0_P5_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_1_3_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001870u)
+#define BS_UDB_1_3_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480018B0u)
 
 /* UDBSWITCH_1_3 Address: CYDEV_UCFG_B0_P2_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_1_3_VAL ((const uint8 CYFAR *)0x480018F0u)
+#define BS_UDBSWITCH_1_3_VAL ((const uint8 CYFAR *)0x48001930u)
 
 /* UDB_2_3_HV_ROUTING Address: CYDEV_UCFG_B0_P2_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_2_3_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001970u)
+#define BS_UDB_2_3_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480019B0u)
 
 /* UDBSWITCH_0_4 Address: CYDEV_UCFG_B0_P6_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_0_4_VAL ((const uint8 CYFAR *)0x480019F0u)
+#define BS_UDBSWITCH_0_4_VAL ((const uint8 CYFAR *)0x48001A30u)
 
 /* UDB_1_4_HV_ROUTING Address: CYDEV_UCFG_B0_P6_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_1_4_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001A70u)
+#define BS_UDB_1_4_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001AB0u)
 
 /* UDBSWITCH_1_4 Address: CYDEV_UCFG_B0_P1_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_1_4_VAL ((const uint8 CYFAR *)0x48001AF0u)
+#define BS_UDBSWITCH_1_4_VAL ((const uint8 CYFAR *)0x48001B30u)
 
 /* UDB_2_4_HV_ROUTING Address: CYDEV_UCFG_B0_P1_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_2_4_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001B70u)
+#define BS_UDB_2_4_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001BB0u)
 
 /* UDBSWITCH_0_5 Address: CYDEV_UCFG_B0_P7_ROUTE_BASE Size (bytes): 128 */
-#define BS_UDBSWITCH_0_5_VAL ((const uint8 CYFAR *)0x48001BF0u)
+#define BS_UDBSWITCH_0_5_VAL ((const uint8 CYFAR *)0x48001C30u)
 
 /* UDB_1_5_HV_ROUTING Address: CYDEV_UCFG_B0_P7_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_1_5_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001C70u)
+#define BS_UDB_1_5_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001CB0u)
 
 /* UDB_2_5_HV_ROUTING Address: CYDEV_UCFG_B0_P0_ROUTE_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_UDB_2_5_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001CF0u)
+#define BS_UDB_2_5_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001D30u)
 
 /* DSISWITCH_1_0 Address: CYDEV_UCFG_DSI9_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_1_0_VAL ((const uint8 CYFAR *)0x48001D70u)
+#define BS_DSISWITCH_1_0_VAL ((const uint8 CYFAR *)0x48001DB0u)
 
 /* DSI3_0_HV_ROUTING Address: CYDEV_UCFG_DSI9_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI3_0_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001DF0u)
+#define BS_DSI3_0_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001E30u)
 
 /* DSISWITCH_1_1 Address: CYDEV_UCFG_DSI8_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_1_1_VAL ((const uint8 CYFAR *)0x48001E70u)
+#define BS_DSISWITCH_1_1_VAL ((const uint8 CYFAR *)0x48001EB0u)
 
 /* DSI3_1_HV_ROUTING Address: CYDEV_UCFG_DSI8_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI3_1_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001EF0u)
+#define BS_DSI3_1_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001F30u)
 
 /* DSISWITCH_1_2 Address: CYDEV_UCFG_DSI3_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_1_2_VAL ((const uint8 CYFAR *)0x48001F70u)
+#define BS_DSISWITCH_1_2_VAL ((const uint8 CYFAR *)0x48001FB0u)
 
 /* DSI3_2_HV_ROUTING Address: CYDEV_UCFG_DSI3_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI3_2_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48001FF0u)
+#define BS_DSI3_2_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48002030u)
 
 /* DSISWITCH_1_3 Address: CYDEV_UCFG_DSI2_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_1_3_VAL ((const uint8 CYFAR *)0x48002070u)
+#define BS_DSISWITCH_1_3_VAL ((const uint8 CYFAR *)0x480020B0u)
 
 /* DSI3_3_HV_ROUTING Address: CYDEV_UCFG_DSI2_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI3_3_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480020F0u)
+#define BS_DSI3_3_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48002130u)
 
 /* DSISWITCH_1_4 Address: CYDEV_UCFG_DSI1_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_1_4_VAL ((const uint8 CYFAR *)0x48002170u)
+#define BS_DSISWITCH_1_4_VAL ((const uint8 CYFAR *)0x480021B0u)
 
 /* DSI3_4_HV_ROUTING Address: CYDEV_UCFG_DSI1_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI3_4_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480021F0u)
+#define BS_DSI3_4_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48002230u)
 
 /* DSISWITCH_1_5 Address: CYDEV_UCFG_DSI0_BASE Size (bytes): 128 */
-#define BS_DSISWITCH_1_5_VAL ((const uint8 CYFAR *)0x48002270u)
+#define BS_DSISWITCH_1_5_VAL ((const uint8 CYFAR *)0x480022B0u)
 
 /* DSI3_5_HV_ROUTING Address: CYDEV_UCFG_DSI0_BASE + 0x00000080u Size (bytes): 128 */
-#define BS_DSI3_5_HV_ROUTING_VAL ((const uint8 CYFAR *)0x480022F0u)
+#define BS_DSI3_5_HV_ROUTING_VAL ((const uint8 CYFAR *)0x48002330u)
 
 /* IOPINS0_0 Address: CYREG_PRT0_DM0 Size (bytes): 8 */
-#define BS_IOPINS0_0_VAL ((const uint8 CYFAR *)0x48002370u)
+#define BS_IOPINS0_0_VAL ((const uint8 CYFAR *)0x480023B0u)
 
 /* IOPINS0_7 Address: CYREG_PRT12_DR Size (bytes): 10 */
-#define BS_IOPINS0_7_VAL ((const uint8 CYFAR *)0x48002378u)
+#define BS_IOPINS0_7_VAL ((const uint8 CYFAR *)0x480023B8u)
 
 /* IOPINS0_8 Address: CYREG_PRT15_DR Size (bytes): 10 */
-#define BS_IOPINS0_8_VAL ((const uint8 CYFAR *)0x48002384u)
+#define BS_IOPINS0_8_VAL ((const uint8 CYFAR *)0x480023C4u)
 
 /* IOPINS0_1 Address: CYREG_PRT1_DM0 Size (bytes): 8 */
-#define BS_IOPINS0_1_VAL ((const uint8 CYFAR *)0x48002390u)
+#define BS_IOPINS0_1_VAL ((const uint8 CYFAR *)0x480023D0u)
 
 /* IOPINS0_2 Address: CYREG_PRT2_DM0 Size (bytes): 8 */
-#define BS_IOPINS0_2_VAL ((const uint8 CYFAR *)0x48002398u)
+#define BS_IOPINS0_2_VAL ((const uint8 CYFAR *)0x480023D8u)
 
 /* IOPINS0_3 Address: CYREG_PRT3_DR Size (bytes): 10 */
-#define BS_IOPINS0_3_VAL ((const uint8 CYFAR *)0x480023A0u)
+#define BS_IOPINS0_3_VAL ((const uint8 CYFAR *)0x480023E0u)
 
 /* CYDEV_CLKDIST_ACFG0_CFG0 Address: CYREG_CLKDIST_ACFG0_CFG0 Size (bytes): 4 */
-#define BS_CYDEV_CLKDIST_ACFG0_CFG0_VAL ((const uint8 CYFAR *)0x480023ACu)
+#define BS_CYDEV_CLKDIST_ACFG0_CFG0_VAL ((const uint8 CYFAR *)0x480023ECu)
 
 /* PHUB_CFGMEM1 Address: CYREG_PHUB_CFGMEM1_CFG0 Size (bytes): 4 */
-#define BS_PHUB_CFGMEM1_VAL ((const uint8 CYFAR *)0x480023B0u)
+#define BS_PHUB_CFGMEM1_VAL ((const uint8 CYFAR *)0x480023F0u)
 
 /* PHUB_CFGMEM6 Address: CYREG_PHUB_CFGMEM6_CFG0 Size (bytes): 4 */
-#define BS_PHUB_CFGMEM6_VAL ((const uint8 CYFAR *)0x480023B4u)
+#define BS_PHUB_CFGMEM6_VAL ((const uint8 CYFAR *)0x480023F4u)
 
 /* PHUB_CFGMEM7 Address: CYREG_PHUB_CFGMEM7_CFG0 Size (bytes): 4 */
-#define BS_PHUB_CFGMEM7_VAL ((const uint8 CYFAR *)0x480023B8u)
+#define BS_PHUB_CFGMEM7_VAL ((const uint8 CYFAR *)0x480023F8u)
 
 
 /*******************************************************************************
@@ -527,79 +530,80 @@ static void cfg_dma_init(void)
 		{ 8u, 0x14u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYREG_SAR1_SW0) },	/* TD 19 */
 		{ 64u, 0x15u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UWRK_UWRK8_B0_BASE) },	/* TD 20 */
 		{ 32u, 0x16u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UWRK_UWRK8_B0_BASE + 0x00000070u) },	/* TD 21 */
-		{ 32u, 0xFEu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UWRK_UWRK8_B1_BASE + 0x00000070u) },	/* TD 22 */
-		{ 8u, 0x18u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYREG_IDMUX_IRQ_CTL0) },	/* TD 23 */
-		{ 128u, 0x19u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P1_U0_BASE) },	/* TD 24 */
-		{ 128u, 0x1Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P1_U1_BASE) },	/* TD 25 */
-		{ 128u, 0x1Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P2_U0_BASE) },	/* TD 26 */
-		{ 128u, 0x1Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P2_U1_BASE) },	/* TD 27 */
-		{ 128u, 0x1Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P3_U0_BASE) },	/* TD 28 */
-		{ 128u, 0x1Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P3_U1_BASE) },	/* TD 29 */
-		{ 128u, 0x1Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P4_U0_BASE) },	/* TD 30 */
-		{ 128u, 0x20u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P4_U1_BASE) },	/* TD 31 */
-		{ 128u, 0x21u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P5_U0_BASE) },	/* TD 32 */
-		{ 128u, 0x22u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P5_U1_BASE) },	/* TD 33 */
-		{ 128u, 0x23u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P6_U0_BASE) },	/* TD 34 */
-		{ 128u, 0x24u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P6_U1_BASE) },	/* TD 35 */
-		{ 128u, 0x25u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P7_U0_BASE) },	/* TD 36 */
-		{ 128u, 0x26u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P7_U1_BASE) },	/* TD 37 */
-		{ 128u, 0x27u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P2_U0_BASE) },	/* TD 38 */
-		{ 128u, 0x28u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P2_U1_BASE) },	/* TD 39 */
-		{ 128u, 0x29u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P3_U0_BASE) },	/* TD 40 */
-		{ 128u, 0x2Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P3_U1_BASE) },	/* TD 41 */
-		{ 128u, 0x2Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P4_U0_BASE) },	/* TD 42 */
-		{ 128u, 0x2Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P4_U1_BASE) },	/* TD 43 */
-		{ 128u, 0x2Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P5_U0_BASE) },	/* TD 44 */
-		{ 128u, 0x2Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P5_U1_BASE) },	/* TD 45 */
-		{ 16u, 0x2Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYREG_BCTL1_MDCLK_EN) },	/* TD 46 */
-		{ 16u, 0x30u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYREG_BCTL0_MDCLK_EN) },	/* TD 47 */
-		{ 128u, 0x31u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI13_BASE) },	/* TD 48 */
-		{ 128u, 0x32u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI13_BASE + 0x00000080u) },	/* TD 49 */
-		{ 128u, 0x33u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI12_BASE) },	/* TD 50 */
-		{ 128u, 0x34u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI12_BASE + 0x00000080u) },	/* TD 51 */
-		{ 128u, 0x35u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI7_BASE) },	/* TD 52 */
-		{ 128u, 0x36u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI7_BASE + 0x00000080u) },	/* TD 53 */
-		{ 128u, 0x37u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI6_BASE) },	/* TD 54 */
-		{ 128u, 0x38u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI6_BASE + 0x00000080u) },	/* TD 55 */
-		{ 128u, 0x39u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI5_BASE) },	/* TD 56 */
-		{ 128u, 0x3Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI5_BASE + 0x00000080u) },	/* TD 57 */
-		{ 128u, 0x3Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI4_BASE) },	/* TD 58 */
-		{ 128u, 0x3Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI4_BASE + 0x00000080u) },	/* TD 59 */
-		{ 128u, 0x3Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P5_ROUTE_BASE) },	/* TD 60 */
-		{ 128u, 0x3Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P5_ROUTE_BASE + 0x00000080u) },	/* TD 61 */
-		{ 128u, 0x3Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P2_ROUTE_BASE) },	/* TD 62 */
-		{ 128u, 0x40u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P2_ROUTE_BASE + 0x00000080u) },	/* TD 63 */
-		{ 128u, 0x41u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P4_ROUTE_BASE) },	/* TD 64 */
-		{ 128u, 0x42u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P4_ROUTE_BASE + 0x00000080u) },	/* TD 65 */
-		{ 128u, 0x43u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P3_ROUTE_BASE) },	/* TD 66 */
-		{ 128u, 0x44u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P3_ROUTE_BASE + 0x00000080u) },	/* TD 67 */
-		{ 128u, 0x45u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P4_ROUTE_BASE) },	/* TD 68 */
-		{ 128u, 0x46u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P4_ROUTE_BASE + 0x00000080u) },	/* TD 69 */
-		{ 128u, 0x47u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P3_ROUTE_BASE) },	/* TD 70 */
-		{ 128u, 0x48u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P3_ROUTE_BASE + 0x00000080u) },	/* TD 71 */
-		{ 128u, 0x49u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P5_ROUTE_BASE) },	/* TD 72 */
-		{ 128u, 0x4Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P5_ROUTE_BASE + 0x00000080u) },	/* TD 73 */
-		{ 128u, 0x4Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P2_ROUTE_BASE) },	/* TD 74 */
-		{ 128u, 0x4Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P2_ROUTE_BASE + 0x00000080u) },	/* TD 75 */
-		{ 128u, 0x4Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P6_ROUTE_BASE) },	/* TD 76 */
-		{ 128u, 0x4Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P6_ROUTE_BASE + 0x00000080u) },	/* TD 77 */
-		{ 128u, 0x4Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P1_ROUTE_BASE) },	/* TD 78 */
-		{ 128u, 0x50u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P1_ROUTE_BASE + 0x00000080u) },	/* TD 79 */
-		{ 128u, 0x51u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P7_ROUTE_BASE) },	/* TD 80 */
-		{ 128u, 0x52u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P7_ROUTE_BASE + 0x00000080u) },	/* TD 81 */
-		{ 128u, 0x53u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P0_ROUTE_BASE + 0x00000080u) },	/* TD 82 */
-		{ 128u, 0x54u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI9_BASE) },	/* TD 83 */
-		{ 128u, 0x55u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI9_BASE + 0x00000080u) },	/* TD 84 */
-		{ 128u, 0x56u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI8_BASE) },	/* TD 85 */
-		{ 128u, 0x57u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI8_BASE + 0x00000080u) },	/* TD 86 */
-		{ 128u, 0x58u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI3_BASE) },	/* TD 87 */
-		{ 128u, 0x59u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI3_BASE + 0x00000080u) },	/* TD 88 */
-		{ 128u, 0x5Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI2_BASE) },	/* TD 89 */
-		{ 128u, 0x5Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI2_BASE + 0x00000080u) },	/* TD 90 */
-		{ 128u, 0x5Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI1_BASE) },	/* TD 91 */
-		{ 128u, 0x5Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI1_BASE + 0x00000080u) },	/* TD 92 */
-		{ 128u, 0x5Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI0_BASE) },	/* TD 93 */
-		{ 128u, 0xFEu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI0_BASE + 0x00000080u) },	/* TD 94 */
+		{ 64u, 0x17u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UWRK_UWRK8_B1_BASE) },	/* TD 22 */
+		{ 32u, 0xFEu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UWRK_UWRK8_B1_BASE + 0x00000070u) },	/* TD 23 */
+		{ 8u, 0x19u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYREG_IDMUX_IRQ_CTL0) },	/* TD 24 */
+		{ 128u, 0x1Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P1_U0_BASE) },	/* TD 25 */
+		{ 128u, 0x1Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P1_U1_BASE) },	/* TD 26 */
+		{ 128u, 0x1Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P2_U0_BASE) },	/* TD 27 */
+		{ 128u, 0x1Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P2_U1_BASE) },	/* TD 28 */
+		{ 128u, 0x1Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P3_U0_BASE) },	/* TD 29 */
+		{ 128u, 0x1Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P3_U1_BASE) },	/* TD 30 */
+		{ 128u, 0x20u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P4_U0_BASE) },	/* TD 31 */
+		{ 128u, 0x21u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P4_U1_BASE) },	/* TD 32 */
+		{ 128u, 0x22u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P5_U0_BASE) },	/* TD 33 */
+		{ 128u, 0x23u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P5_U1_BASE) },	/* TD 34 */
+		{ 128u, 0x24u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P6_U0_BASE) },	/* TD 35 */
+		{ 128u, 0x25u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P6_U1_BASE) },	/* TD 36 */
+		{ 128u, 0x26u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P7_U0_BASE) },	/* TD 37 */
+		{ 128u, 0x27u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P7_U1_BASE) },	/* TD 38 */
+		{ 128u, 0x28u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P2_U0_BASE) },	/* TD 39 */
+		{ 128u, 0x29u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P2_U1_BASE) },	/* TD 40 */
+		{ 128u, 0x2Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P3_U0_BASE) },	/* TD 41 */
+		{ 128u, 0x2Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P3_U1_BASE) },	/* TD 42 */
+		{ 128u, 0x2Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P4_U0_BASE) },	/* TD 43 */
+		{ 128u, 0x2Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P4_U1_BASE) },	/* TD 44 */
+		{ 128u, 0x2Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P5_U0_BASE) },	/* TD 45 */
+		{ 128u, 0x2Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P5_U1_BASE) },	/* TD 46 */
+		{ 16u, 0x30u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYREG_BCTL1_MDCLK_EN) },	/* TD 47 */
+		{ 16u, 0x31u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYREG_BCTL0_MDCLK_EN) },	/* TD 48 */
+		{ 128u, 0x32u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI13_BASE) },	/* TD 49 */
+		{ 128u, 0x33u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI13_BASE + 0x00000080u) },	/* TD 50 */
+		{ 128u, 0x34u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI12_BASE) },	/* TD 51 */
+		{ 128u, 0x35u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI12_BASE + 0x00000080u) },	/* TD 52 */
+		{ 128u, 0x36u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI7_BASE) },	/* TD 53 */
+		{ 128u, 0x37u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI7_BASE + 0x00000080u) },	/* TD 54 */
+		{ 128u, 0x38u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI6_BASE) },	/* TD 55 */
+		{ 128u, 0x39u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI6_BASE + 0x00000080u) },	/* TD 56 */
+		{ 128u, 0x3Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI5_BASE) },	/* TD 57 */
+		{ 128u, 0x3Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI5_BASE + 0x00000080u) },	/* TD 58 */
+		{ 128u, 0x3Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI4_BASE) },	/* TD 59 */
+		{ 128u, 0x3Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI4_BASE + 0x00000080u) },	/* TD 60 */
+		{ 128u, 0x3Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P5_ROUTE_BASE) },	/* TD 61 */
+		{ 128u, 0x3Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P5_ROUTE_BASE + 0x00000080u) },	/* TD 62 */
+		{ 128u, 0x40u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P2_ROUTE_BASE) },	/* TD 63 */
+		{ 128u, 0x41u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P2_ROUTE_BASE + 0x00000080u) },	/* TD 64 */
+		{ 128u, 0x42u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P4_ROUTE_BASE) },	/* TD 65 */
+		{ 128u, 0x43u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P4_ROUTE_BASE + 0x00000080u) },	/* TD 66 */
+		{ 128u, 0x44u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P3_ROUTE_BASE) },	/* TD 67 */
+		{ 128u, 0x45u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B1_P3_ROUTE_BASE + 0x00000080u) },	/* TD 68 */
+		{ 128u, 0x46u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P4_ROUTE_BASE) },	/* TD 69 */
+		{ 128u, 0x47u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P4_ROUTE_BASE + 0x00000080u) },	/* TD 70 */
+		{ 128u, 0x48u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P3_ROUTE_BASE) },	/* TD 71 */
+		{ 128u, 0x49u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P3_ROUTE_BASE + 0x00000080u) },	/* TD 72 */
+		{ 128u, 0x4Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P5_ROUTE_BASE) },	/* TD 73 */
+		{ 128u, 0x4Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P5_ROUTE_BASE + 0x00000080u) },	/* TD 74 */
+		{ 128u, 0x4Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P2_ROUTE_BASE) },	/* TD 75 */
+		{ 128u, 0x4Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P2_ROUTE_BASE + 0x00000080u) },	/* TD 76 */
+		{ 128u, 0x4Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P6_ROUTE_BASE) },	/* TD 77 */
+		{ 128u, 0x4Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P6_ROUTE_BASE + 0x00000080u) },	/* TD 78 */
+		{ 128u, 0x50u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P1_ROUTE_BASE) },	/* TD 79 */
+		{ 128u, 0x51u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P1_ROUTE_BASE + 0x00000080u) },	/* TD 80 */
+		{ 128u, 0x52u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P7_ROUTE_BASE) },	/* TD 81 */
+		{ 128u, 0x53u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P7_ROUTE_BASE + 0x00000080u) },	/* TD 82 */
+		{ 128u, 0x54u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_B0_P0_ROUTE_BASE + 0x00000080u) },	/* TD 83 */
+		{ 128u, 0x55u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI9_BASE) },	/* TD 84 */
+		{ 128u, 0x56u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI9_BASE + 0x00000080u) },	/* TD 85 */
+		{ 128u, 0x57u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI8_BASE) },	/* TD 86 */
+		{ 128u, 0x58u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI8_BASE + 0x00000080u) },	/* TD 87 */
+		{ 128u, 0x59u, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI3_BASE) },	/* TD 88 */
+		{ 128u, 0x5Au, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI3_BASE + 0x00000080u) },	/* TD 89 */
+		{ 128u, 0x5Bu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI2_BASE) },	/* TD 90 */
+		{ 128u, 0x5Cu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI2_BASE + 0x00000080u) },	/* TD 91 */
+		{ 128u, 0x5Du, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI1_BASE) },	/* TD 92 */
+		{ 128u, 0x5Eu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI1_BASE + 0x00000080u) },	/* TD 93 */
+		{ 128u, 0x5Fu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI0_BASE) },	/* TD 94 */
+		{ 128u, 0xFEu, 0x23u, (uint16)(uint32)(0u), (uint16)(CYDEV_UCFG_DSI0_BASE + 0x00000080u) },	/* TD 95 */
 	};
 
 	/* Source addresses can be relocated, but only when in 32bit addresses.
@@ -629,79 +633,80 @@ static void cfg_dma_init(void)
 		(const void *)(BS_SAR1_VAL),	/* TD 19 */
 		(const void *)(BS_UWRK_B0_WRK_DP_BITS_VAL),	/* TD 20 */
 		(const void *)(BS_UWRK_B0_WRK_STATCTL_BITS_VAL),	/* TD 21 */
-		(const void *)(BS_UWRK_B1_WRK_STATCTL_BITS_VAL),	/* TD 22 */
-		(const void *)(BS_IDMUX_IRQ_VAL),	/* TD 23 */
-		(const void *)(BS_UDB_1_4_1_CONFIG_VAL),	/* TD 24 */
-		(const void *)(BS_UDB_1_4_0_CONFIG_VAL),	/* TD 25 */
-		(const void *)(BS_UDB_1_3_0_CONFIG_VAL),	/* TD 26 */
-		(const void *)(BS_UDB_1_3_1_CONFIG_VAL),	/* TD 27 */
-		(const void *)(BS_UDB_1_2_1_CONFIG_VAL),	/* TD 28 */
-		(const void *)(BS_UDB_1_2_0_CONFIG_VAL),	/* TD 29 */
-		(const void *)(BS_UDB_0_2_1_CONFIG_VAL),	/* TD 30 */
-		(const void *)(BS_UDB_0_2_0_CONFIG_VAL),	/* TD 31 */
-		(const void *)(BS_UDB_0_3_0_CONFIG_VAL),	/* TD 32 */
-		(const void *)(BS_UDB_0_3_1_CONFIG_VAL),	/* TD 33 */
-		(const void *)(BS_UDB_0_4_1_CONFIG_VAL),	/* TD 34 */
-		(const void *)(BS_UDB_0_4_0_CONFIG_VAL),	/* TD 35 */
-		(const void *)(BS_UDB_0_5_0_CONFIG_VAL),	/* TD 36 */
-		(const void *)(BS_UDB_0_5_1_CONFIG_VAL),	/* TD 37 */
-		(const void *)(BS_UDB_1_0_0_CONFIG_VAL),	/* TD 38 */
-		(const void *)(BS_UDB_1_0_1_CONFIG_VAL),	/* TD 39 */
-		(const void *)(BS_UDB_1_1_1_CONFIG_VAL),	/* TD 40 */
-		(const void *)(BS_UDB_1_1_0_CONFIG_VAL),	/* TD 41 */
-		(const void *)(BS_UDB_0_1_1_CONFIG_VAL),	/* TD 42 */
-		(const void *)(BS_UDB_0_1_0_CONFIG_VAL),	/* TD 43 */
-		(const void *)(BS_UDB_0_0_0_CONFIG_VAL),	/* TD 44 */
-		(const void *)(BS_UDB_0_0_1_CONFIG_VAL),	/* TD 45 */
-		(const void *)(BS_UCFG_BCTL1_VAL),	/* TD 46 */
-		(const void *)(BS_UCFG_BCTL0_VAL),	/* TD 47 */
-		(const void *)(BS_DSISWITCH_0_0_VAL),	/* TD 48 */
-		(const void *)(BS_DSI0_0_HV_ROUTING_VAL),	/* TD 49 */
-		(const void *)(BS_DSISWITCH_0_1_VAL),	/* TD 50 */
-		(const void *)(BS_DSI0_1_HV_ROUTING_VAL),	/* TD 51 */
-		(const void *)(BS_DSISWITCH_0_2_VAL),	/* TD 52 */
-		(const void *)(BS_DSI0_2_HV_ROUTING_VAL),	/* TD 53 */
-		(const void *)(BS_DSISWITCH_0_3_VAL),	/* TD 54 */
-		(const void *)(BS_DSI0_3_HV_ROUTING_VAL),	/* TD 55 */
-		(const void *)(BS_DSISWITCH_0_4_VAL),	/* TD 56 */
-		(const void *)(BS_DSI0_4_HV_ROUTING_VAL),	/* TD 57 */
-		(const void *)(BS_DSISWITCH_0_5_VAL),	/* TD 58 */
-		(const void *)(BS_DSI0_5_HV_ROUTING_VAL),	/* TD 59 */
-		(const void *)(BS_UDBSWITCH_0_0_VAL),	/* TD 60 */
-		(const void *)(BS_UDB_1_0_HV_ROUTING_VAL),	/* TD 61 */
-		(const void *)(BS_UDBSWITCH_1_0_VAL),	/* TD 62 */
-		(const void *)(BS_UDB_2_0_HV_ROUTING_VAL),	/* TD 63 */
-		(const void *)(BS_UDBSWITCH_0_1_VAL),	/* TD 64 */
-		(const void *)(BS_UDB_1_1_HV_ROUTING_VAL),	/* TD 65 */
-		(const void *)(BS_UDBSWITCH_1_1_VAL),	/* TD 66 */
-		(const void *)(BS_UDB_2_1_HV_ROUTING_VAL),	/* TD 67 */
-		(const void *)(BS_UDBSWITCH_0_2_VAL),	/* TD 68 */
-		(const void *)(BS_UDB_1_2_HV_ROUTING_VAL),	/* TD 69 */
-		(const void *)(BS_UDBSWITCH_1_2_VAL),	/* TD 70 */
-		(const void *)(BS_UDB_2_2_HV_ROUTING_VAL),	/* TD 71 */
-		(const void *)(BS_UDBSWITCH_0_3_VAL),	/* TD 72 */
-		(const void *)(BS_UDB_1_3_HV_ROUTING_VAL),	/* TD 73 */
-		(const void *)(BS_UDBSWITCH_1_3_VAL),	/* TD 74 */
-		(const void *)(BS_UDB_2_3_HV_ROUTING_VAL),	/* TD 75 */
-		(const void *)(BS_UDBSWITCH_0_4_VAL),	/* TD 76 */
-		(const void *)(BS_UDB_1_4_HV_ROUTING_VAL),	/* TD 77 */
-		(const void *)(BS_UDBSWITCH_1_4_VAL),	/* TD 78 */
-		(const void *)(BS_UDB_2_4_HV_ROUTING_VAL),	/* TD 79 */
-		(const void *)(BS_UDBSWITCH_0_5_VAL),	/* TD 80 */
-		(const void *)(BS_UDB_1_5_HV_ROUTING_VAL),	/* TD 81 */
-		(const void *)(BS_UDB_2_5_HV_ROUTING_VAL),	/* TD 82 */
-		(const void *)(BS_DSISWITCH_1_0_VAL),	/* TD 83 */
-		(const void *)(BS_DSI3_0_HV_ROUTING_VAL),	/* TD 84 */
-		(const void *)(BS_DSISWITCH_1_1_VAL),	/* TD 85 */
-		(const void *)(BS_DSI3_1_HV_ROUTING_VAL),	/* TD 86 */
-		(const void *)(BS_DSISWITCH_1_2_VAL),	/* TD 87 */
-		(const void *)(BS_DSI3_2_HV_ROUTING_VAL),	/* TD 88 */
-		(const void *)(BS_DSISWITCH_1_3_VAL),	/* TD 89 */
-		(const void *)(BS_DSI3_3_HV_ROUTING_VAL),	/* TD 90 */
-		(const void *)(BS_DSISWITCH_1_4_VAL),	/* TD 91 */
-		(const void *)(BS_DSI3_4_HV_ROUTING_VAL),	/* TD 92 */
-		(const void *)(BS_DSISWITCH_1_5_VAL),	/* TD 93 */
-		(const void *)(BS_DSI3_5_HV_ROUTING_VAL),	/* TD 94 */
+		(const void *)(BS_UWRK_B1_WRK_DP_BITS_VAL),	/* TD 22 */
+		(const void *)(BS_UWRK_B1_WRK_STATCTL_BITS_VAL),	/* TD 23 */
+		(const void *)(BS_IDMUX_IRQ_VAL),	/* TD 24 */
+		(const void *)(BS_UDB_1_4_1_CONFIG_VAL),	/* TD 25 */
+		(const void *)(BS_UDB_1_4_0_CONFIG_VAL),	/* TD 26 */
+		(const void *)(BS_UDB_1_3_0_CONFIG_VAL),	/* TD 27 */
+		(const void *)(BS_UDB_1_3_1_CONFIG_VAL),	/* TD 28 */
+		(const void *)(BS_UDB_1_2_1_CONFIG_VAL),	/* TD 29 */
+		(const void *)(BS_UDB_1_2_0_CONFIG_VAL),	/* TD 30 */
+		(const void *)(BS_UDB_0_2_1_CONFIG_VAL),	/* TD 31 */
+		(const void *)(BS_UDB_0_2_0_CONFIG_VAL),	/* TD 32 */
+		(const void *)(BS_UDB_0_3_0_CONFIG_VAL),	/* TD 33 */
+		(const void *)(BS_UDB_0_3_1_CONFIG_VAL),	/* TD 34 */
+		(const void *)(BS_UDB_0_4_1_CONFIG_VAL),	/* TD 35 */
+		(const void *)(BS_UDB_0_4_0_CONFIG_VAL),	/* TD 36 */
+		(const void *)(BS_UDB_0_5_0_CONFIG_VAL),	/* TD 37 */
+		(const void *)(BS_UDB_0_5_1_CONFIG_VAL),	/* TD 38 */
+		(const void *)(BS_UDB_1_0_0_CONFIG_VAL),	/* TD 39 */
+		(const void *)(BS_UDB_1_0_1_CONFIG_VAL),	/* TD 40 */
+		(const void *)(BS_UDB_1_1_1_CONFIG_VAL),	/* TD 41 */
+		(const void *)(BS_UDB_1_1_0_CONFIG_VAL),	/* TD 42 */
+		(const void *)(BS_UDB_0_1_1_CONFIG_VAL),	/* TD 43 */
+		(const void *)(BS_UDB_0_1_0_CONFIG_VAL),	/* TD 44 */
+		(const void *)(BS_UDB_0_0_0_CONFIG_VAL),	/* TD 45 */
+		(const void *)(BS_UDB_0_0_1_CONFIG_VAL),	/* TD 46 */
+		(const void *)(BS_UCFG_BCTL1_VAL),	/* TD 47 */
+		(const void *)(BS_UCFG_BCTL0_VAL),	/* TD 48 */
+		(const void *)(BS_DSISWITCH_0_0_VAL),	/* TD 49 */
+		(const void *)(BS_DSI0_0_HV_ROUTING_VAL),	/* TD 50 */
+		(const void *)(BS_DSISWITCH_0_1_VAL),	/* TD 51 */
+		(const void *)(BS_DSI0_1_HV_ROUTING_VAL),	/* TD 52 */
+		(const void *)(BS_DSISWITCH_0_2_VAL),	/* TD 53 */
+		(const void *)(BS_DSI0_2_HV_ROUTING_VAL),	/* TD 54 */
+		(const void *)(BS_DSISWITCH_0_3_VAL),	/* TD 55 */
+		(const void *)(BS_DSI0_3_HV_ROUTING_VAL),	/* TD 56 */
+		(const void *)(BS_DSISWITCH_0_4_VAL),	/* TD 57 */
+		(const void *)(BS_DSI0_4_HV_ROUTING_VAL),	/* TD 58 */
+		(const void *)(BS_DSISWITCH_0_5_VAL),	/* TD 59 */
+		(const void *)(BS_DSI0_5_HV_ROUTING_VAL),	/* TD 60 */
+		(const void *)(BS_UDBSWITCH_0_0_VAL),	/* TD 61 */
+		(const void *)(BS_UDB_1_0_HV_ROUTING_VAL),	/* TD 62 */
+		(const void *)(BS_UDBSWITCH_1_0_VAL),	/* TD 63 */
+		(const void *)(BS_UDB_2_0_HV_ROUTING_VAL),	/* TD 64 */
+		(const void *)(BS_UDBSWITCH_0_1_VAL),	/* TD 65 */
+		(const void *)(BS_UDB_1_1_HV_ROUTING_VAL),	/* TD 66 */
+		(const void *)(BS_UDBSWITCH_1_1_VAL),	/* TD 67 */
+		(const void *)(BS_UDB_2_1_HV_ROUTING_VAL),	/* TD 68 */
+		(const void *)(BS_UDBSWITCH_0_2_VAL),	/* TD 69 */
+		(const void *)(BS_UDB_1_2_HV_ROUTING_VAL),	/* TD 70 */
+		(const void *)(BS_UDBSWITCH_1_2_VAL),	/* TD 71 */
+		(const void *)(BS_UDB_2_2_HV_ROUTING_VAL),	/* TD 72 */
+		(const void *)(BS_UDBSWITCH_0_3_VAL),	/* TD 73 */
+		(const void *)(BS_UDB_1_3_HV_ROUTING_VAL),	/* TD 74 */
+		(const void *)(BS_UDBSWITCH_1_3_VAL),	/* TD 75 */
+		(const void *)(BS_UDB_2_3_HV_ROUTING_VAL),	/* TD 76 */
+		(const void *)(BS_UDBSWITCH_0_4_VAL),	/* TD 77 */
+		(const void *)(BS_UDB_1_4_HV_ROUTING_VAL),	/* TD 78 */
+		(const void *)(BS_UDBSWITCH_1_4_VAL),	/* TD 79 */
+		(const void *)(BS_UDB_2_4_HV_ROUTING_VAL),	/* TD 80 */
+		(const void *)(BS_UDBSWITCH_0_5_VAL),	/* TD 81 */
+		(const void *)(BS_UDB_1_5_HV_ROUTING_VAL),	/* TD 82 */
+		(const void *)(BS_UDB_2_5_HV_ROUTING_VAL),	/* TD 83 */
+		(const void *)(BS_DSISWITCH_1_0_VAL),	/* TD 84 */
+		(const void *)(BS_DSI3_0_HV_ROUTING_VAL),	/* TD 85 */
+		(const void *)(BS_DSISWITCH_1_1_VAL),	/* TD 86 */
+		(const void *)(BS_DSI3_1_HV_ROUTING_VAL),	/* TD 87 */
+		(const void *)(BS_DSISWITCH_1_2_VAL),	/* TD 88 */
+		(const void *)(BS_DSI3_2_HV_ROUTING_VAL),	/* TD 89 */
+		(const void *)(BS_DSISWITCH_1_3_VAL),	/* TD 90 */
+		(const void *)(BS_DSI3_3_HV_ROUTING_VAL),	/* TD 91 */
+		(const void *)(BS_DSISWITCH_1_4_VAL),	/* TD 92 */
+		(const void *)(BS_DSI3_4_HV_ROUTING_VAL),	/* TD 93 */
+		(const void *)(BS_DSISWITCH_1_5_VAL),	/* TD 94 */
+		(const void *)(BS_DSI3_5_HV_ROUTING_VAL),	/* TD 95 */
 	};
 
 
@@ -711,7 +716,7 @@ static void cfg_dma_init(void)
 	CY_SET_REG8((void CYXDATA *)CYREG_PHUB_CFGMEM0_CFG0, 0x10u);	/* set burstcnt */
 	CY_SET_REG8((void CYXDATA *)CYREG_PHUB_CH0_BASIC_CFG, 0x01u);	/* enable ch0 */
 	CY_SET_REG8((void CYXDATA *)(CYREG_PHUB_CH0_BASIC_STATUS+1u), 0x00u);	/* set first TD to 0 */
-	CY_SET_REG16((void CYXDATA *)CYREG_PHUB_TDMEM0_ORIG_TD0, 94u*8u);	/* transfer size */
+	CY_SET_REG16((void CYXDATA *)CYREG_PHUB_TDMEM0_ORIG_TD0, 95u*8u);	/* transfer size */
 	CY_SET_REG8((void CYXDATA *)(CYREG_PHUB_TDMEM0_ORIG_TD0+2u), 0x01u);	/* set next TD to 1 */
 	CY_SET_REG8((void CYXDATA *)(CYREG_PHUB_TDMEM0_ORIG_TD0+3u), 0x03u);	/* set TD flags */
 	CY_SET_REG16((void CYXDATA *)CYREG_PHUB_TDMEM0_ORIG_TD1, (uint16)((uint32)CFG_TD_LIST0 & 0x0000FFFFu));	/* set td0's src addr */
@@ -721,7 +726,7 @@ static void cfg_dma_init(void)
 	CY_SET_REG8((void CYXDATA *)(CYREG_PHUB_CH1_BASIC_STATUS+1u), 0x09u);	/* ch1 first TD: 9 */
 	CY_SET_REG8((void CYXDATA *)(CYREG_PHUB_CH2_BASIC_STATUS+1u), 0x0Bu);	/* ch2 first TD: 11 */
 	CY_SET_REG8((void CYXDATA *)(CYREG_PHUB_CH5_BASIC_STATUS+1u), 0x0Cu);	/* ch5 first TD: 12 */
-	CY_SET_REG8((void CYXDATA *)(CYREG_PHUB_CH6_BASIC_STATUS+1u), 0x17u);	/* ch6 first TD: 23 */
+	CY_SET_REG8((void CYXDATA *)(CYREG_PHUB_CH6_BASIC_STATUS+1u), 0x18u);	/* ch6 first TD: 24 */
 
 	CY_CFG_MEMORY_BARRIER();
 	CY_SET_REG8((void CYXDATA *)CYREG_PHUB_CH0_ACTION, 0x01u); /* cpu_req */
@@ -731,7 +736,7 @@ static void cfg_dma_init(void)
 	while (CY_GET_REG16((void CYXDATA *)CYREG_PHUB_TDMEM0_ORIG_TD0) != 0u) { }
 
 	/* Recombine TD source table (CFG_TD_ADDR0) with full TD table (CFG_TD_LIST0) */
-	for (i = 0u; i < 94u; i++)
+	for (i = 0u; i < 95u; i++)
 	{
 		CY_SET_REG16((void CYXDATA *)(CYREG_PHUB_TDMEM1_ORIG_TD1 + (sizeof(struct td_t)*i)), (uint16)(uint32)CFG_TD_ADDR0[i]);
 	}
@@ -741,7 +746,7 @@ static void cfg_dma_init(void)
 	CY_CFG_MEMORY_BARRIER();
 
 	/* Wait for all DMA transfers to complete */
-	while(0u != (CY_GET_REG8((void CYXDATA *)CYREG_PHUB_CH0_BASIC_STATUS) & 0x01u)){}
+    while(0u != (CY_GET_REG8((void CYXDATA *)CYREG_PHUB_CH0_BASIC_STATUS) & 0x01u)){}
 	while(0u != (CY_GET_REG8((void CYXDATA *)CYREG_PHUB_CH1_BASIC_STATUS) & 0x01u)){}
 	while(0u != (CY_GET_REG8((void CYXDATA *)CYREG_PHUB_CH2_BASIC_STATUS) & 0x01u)){}
 	while(0u != (CY_GET_REG8((void CYXDATA *)CYREG_PHUB_CH5_BASIC_STATUS) & 0x01u)){}
@@ -1251,8 +1256,8 @@ void cyfitter_cfg(void)
 		CYCONFIGCPY((void CYFAR *)(CYREG_PHUB_CFGMEM6_CFG0), (const void CYFAR *)(BS_PHUB_CFGMEM6_VAL), 4u);
 		CYCONFIGCPY((void CYFAR *)(CYREG_PHUB_CFGMEM7_CFG0), (const void CYFAR *)(BS_PHUB_CFGMEM7_VAL), 4u);
 
-		/* B0_P6_U1_CFG24 Starting address: CYDEV_UCFG_B0_P6_U1_CFG24 */
-		CY_SET_XTND_REG32((void CYFAR *)(CYREG_B0_P6_U1_CFG24), 0x44040404u);
+		/* B1_P5_U1_CFG24 Starting address: CYDEV_UCFG_B1_P5_U1_CFG24 */
+		CY_SET_XTND_REG32((void CYFAR *)(CYREG_B1_P5_U1_CFG24), 0x44000404u);
 
 		/* Enable digital routing */
 		CY_SET_XTND_REG8((void CYFAR *)CYREG_BCTL0_BANK_CTL, CY_GET_XTND_REG8((void CYFAR *)CYREG_BCTL0_BANK_CTL) | 0x02u);
