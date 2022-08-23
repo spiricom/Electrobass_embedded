@@ -1403,8 +1403,8 @@ extern volatile int32 ADC_1_CountsPerVolt;
 #define ADC_1_CFG1_IDEAL_ODDDEC_GAIN  (0x77E9u)
 
 #define ADC_1_CFG1_ALIGNMENT          (0u)
-#define ADC_1_CFG1_ADC_CLK_DIVIDER    (16u)
-#define ADC_1_CFG1_CP_CLK_DIVIDER     (6u)
+#define ADC_1_CFG1_ADC_CLK_DIVIDER    (14u)
+#define ADC_1_CFG1_CP_CLK_DIVIDER     (5u)
 
 /* Input and DAC Cap values in pF */
 #define ADC_1_CFG1_IPCAP1VALUE        (0x0640u)
@@ -1506,8 +1506,8 @@ extern volatile int32 ADC_1_CountsPerVolt;
 #define ADC_1_CFG2_REFERENCE          (0u)
 #define ADC_1_CFG2_BUFFER_GAIN        (1u)
 #define ADC_1_CFG2_ALIGNMENT          (0u)
-#define ADC_1_CFG2_ADC_CLK_DIVIDER    (121u)
-#define ADC_1_CFG2_CP_CLK_DIVIDER     (18u)
+#define ADC_1_CFG2_ADC_CLK_DIVIDER    (111u)
+#define ADC_1_CFG2_CP_CLK_DIVIDER     (17u)
 
 /* Input and DAC Cap values in pF */
 #define ADC_1_CFG2_IPCAP1VALUE        (0x0F30u)
@@ -1609,8 +1609,8 @@ extern volatile int32 ADC_1_CountsPerVolt;
 #define ADC_1_CFG3_BUFFER_GAIN        (1u)
 #define ADC_1_CFG3_INPUT_RANGE_VALUE  (1.024)
 #define ADC_1_CFG3_ALIGNMENT          (0u)
-#define ADC_1_CFG3_ADC_CLK_DIVIDER    (121u)
-#define ADC_1_CFG3_CP_CLK_DIVIDER     (18u)
+#define ADC_1_CFG3_ADC_CLK_DIVIDER    (111u)
+#define ADC_1_CFG3_CP_CLK_DIVIDER     (17u)
 
 /* Input and DAC Cap values in pF */
 #define ADC_1_CFG3_IPCAP1VALUE        (0x0F30u)
@@ -1712,8 +1712,8 @@ extern volatile int32 ADC_1_CountsPerVolt;
 #define ADC_1_CFG4_BUFFER_GAIN        (1u)
 #define ADC_1_CFG4_INPUT_RANGE_VALUE  (1.024)
 #define ADC_1_CFG4_ALIGNMENT          (0u)
-#define ADC_1_CFG4_ADC_CLK_DIVIDER    (121u)
-#define ADC_1_CFG4_CP_CLK_DIVIDER     (18u)
+#define ADC_1_CFG4_ADC_CLK_DIVIDER    (111u)
+#define ADC_1_CFG4_CP_CLK_DIVIDER     (17u)
 
 /* Input cap and DAC Cap values in pF */
 #define ADC_1_CFG4_IPCAP1VALUE        (0x0F30u)

@@ -79,6 +79,7 @@ union breakFloat {
  uint8_t b[4];  
  uint32_t u32;
 };
+
 volatile uint8_t I2Cbuff1[256];
 uint8_t stringCapSensorsOnOff[1];
 uint8_t stringCapSensorsRaw[16];
@@ -107,7 +108,7 @@ uint16_t fretMeasurements[4][2] = {
     #endif
 float fretRatios[2] = {0.94387439674627617953623675390268f,0.47193719837313808976811837695134f}; 
 
-uint8_t sysexBuffer[128];
+uint8_t sysexBuffer[1024];
 uint32_t sysexPointer = 0;
 uint8_t receivingSysex = 0;
 uint8_t parsingSysex = 0;
@@ -117,8 +118,9 @@ uint8_t sendPresetEndAck = 0;
 enum presetArraySectionState
 {
     initialVals = 0,
-    mapping = 1,
-    presetEnd = 2
+    mapCountNext = 1,
+    mapping = 2,
+    presetEnd = 3
 };
 uint8_t presetArraySection = initialVals;
 
@@ -279,6 +281,7 @@ float map(float value, float istart, float istop, float ostart, float ostop)
     return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
 }
 uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode);
+void parseSysex(void);
 //Main
 
 volatile int testVar = 0;
@@ -328,8 +331,20 @@ int skippedNotes[32][5];
 int skipPointer = 0;
 
 uint8_t bufCount = 0;
-uint8_t sendingPreset = 0;
+volatile uint8_t sendingPreset = 0;
 
+uint32_t currentFloat = 0;
+uint32_t mapCount = 0;
+
+uint16_t valsCount = 0;
+uint16_t mapCountExpectation = 0;
+uint16_t numMappings = 0;
+volatile uint8_t parseThatMF = 0;
+volatile float valCheck = 0.0f;
+volatile float testVal = 0.0f;
+
+
+uint32_t SPI_errors = 0;
 CY_ISR(SleepIsr_function)
 {
     if (USB_active)
@@ -452,6 +467,10 @@ int main(void)
         CapSense_UpdateEnabledBaselines();
         CapSense_ScanEnabledWidgets();  
         currentOutPointer = 1;
+        if (parseThatMF)
+        {
+            parseSysex();
+        }
         if (scanPart == 0)
         {
 
@@ -740,7 +759,7 @@ int main(void)
                 sendingPreset = 0;
                 presetArraySendCount = 0;
             }
-            else //send chunksf
+            else //send chunks
             {
                 //send the next preset Chunkkkkk
                 tx2Buffer[0] = 2;
@@ -753,11 +772,9 @@ int main(void)
                     }
                     else
                     {
-                        tx2Buffer[i] = 0xfe; // preset end ack   - done, next send a message that s
+                        tx2Buffer[i] = 0xee; // preset end ack   - done, next send a message that s
                         sendPresetEndAck = 1;
-                        //sendMIDINoteOn(61,4,1);
                     }
-                     //sendMIDINoteOn(61,3,1);
                 }
             }
         }
@@ -772,9 +789,9 @@ int main(void)
         currentOutPointer = 1;
         if (tx2Buffer[0] > 0 )
         {
-        SPIM_2_ClearRxBuffer();
-        CyDmaChEnable(rx2Channel, STORE_TD_CFG_ONCMPLT);
-        CyDmaChEnable(tx2Channel, STORE_TD_CFG_ONCMPLT);
+            SPIM_2_ClearRxBuffer();
+            CyDmaChEnable(rx2Channel, STORE_TD_CFG_ONCMPLT);
+            CyDmaChEnable(tx2Channel, STORE_TD_CFG_ONCMPLT);
         }
         //check if USB device has just been plugged in
         if (USB_check_flag)
@@ -801,15 +818,6 @@ int main(void)
 
         CapSense_CheckIsAnyWidgetActive();
         
-        /*txBuffer[8] = 0;
-        for (int i = 0; i < 8; i++)
-        {
-           txBuffer[8] += (CapSense_sensorSignal[i] > 0) << i;
-        }
-        */
-        //SPIM_1_ClearTxBuffer();
-        //CyDelay(1);
-
         txBuffer[8] = CapSense_sensorOnMask[0];
         txBuffer[whichLinearSensor*2] = ((uint16_t) linearPotValue32Bit[whichLinearSensor]) >> 8;
         txBuffer[whichLinearSensor*2+1] = linearPotValue32Bit[whichLinearSensor] & 0xff;
@@ -829,7 +837,6 @@ int main(void)
         }
         SPIM_1_ClearRxBuffer();
 
-        //CyDelay(1);
         //send SPI data
         CyDmaChEnable(rxChannel, STORE_TD_CFG_ONCMPLT);
         CyDmaChEnable(txChannel, STORE_TD_CFG_ONCMPLT);
@@ -847,16 +854,13 @@ void checkUSB_Vbus(void)
    if (USB_VBusPresent() == 0)
    {
        USB_Stop();
-       //LED_PWM_Write(0);
        USB_active = 0; 
-        //CySoftwareReset();
    }
    else if (USB_active == 0 )
    {
        USB_Start(0u, USB_5V_OPERATION ); 
         while (0u == USB_GetConfiguration());
         USB_MIDI_EP_Init();
-       //LED_PWM_Write(255);
        USB_active = 1;
    }
    USB_check_flag = 0;
@@ -889,13 +893,14 @@ void USB_service(void)
          /* Reinitialize after SET_CONFIGURATION or SET_INTERFACE Requests */
         if(USB_IsConfigurationChanged() != 0x00)
         {
-            USB_LoadInEP(USB_midi_in_ep, USB_midiInBuffer,(uint16) USB_midiInPointer);
+            //USB_LoadInEP(USB_midi_in_ep, USB_midiInBuffer,(uint16) USB_midiInPointer);
+            USB_LoadInEP(USB_midi_in_ep, USB_midiInBuffer, 64);
             USB_ReadOutEP(USB_midi_out_ep,USB_midiOutBuffer, 64);
                                              /* configuring the DMAs for the first time only, the data as soon as received
                                              in the EP buffer is Transferred by DMA to the buffer as defined here with no CPU intervention */
             USB_EnableOutEP(USB_midi_out_ep);       /* Note 3.*/
         }
-#if 0
+
          /* Check that all data has been transfered and IN Buffer is empty */
          if (USB_GetEPState(USB_midi_in_ep) == USB_IN_BUFFER_EMPTY)
          {
@@ -907,8 +912,38 @@ void USB_service(void)
          {
             USB_EnableOutEP(USB_midi_out_ep);       /* Note 3.*/
          }
- #endif
+ #if 0
+        if(USBFS_IsConfigurationChanged())   /* Will be entered the first time a setconfiguration is received. 
+                                               Note : 2 */
+        {
+            USBFS_LoadInEP(IN_EP,&BufferIn[0],MAX_BUF);
+            USBFS_ReadOutEP(OUT_EP,&BufferOut[0],MAX_BUF);
+                                             /* configuring the DMAs for the first time only, the data as soon as received
+                                             in the EP buffer is Transferred by DMA to the buffer as defined here with no CPU intervention */
+            USBFS_EnableOutEP(OUT_EP);       /* Note 3.
+                                
+        }
+        
+        /* If content is there in Out endpoint,dump the content and enable the endpoint again.*/
+        if(USBFS_GetEPState(OUT_EP)==USBFS_OUT_BUFFER_FULL)
+        {   
+            //USBFS_ReadOutEP(OUT_EP,&Buffernew[0],MAX_BUF);  /* Use this API again, to initialize the DMAs again to point to a new buffer
+                                                              /* where the data should be stored.can now read the data available in the 
+                                                              buffer - BufferOut */
+            USBFS_EnableOutEP(OUT_EP);
+        }
+        /* Maximum throughput for an out endpoint is 600-700 KB/sec - When you are not reading the endpoint, Simply arming it. (128pxfer - 64xfers/queue)*/ 
 
+        /* If In endpoint is empty, fill it with data*/
+        if(USBFS_GetEPState(IN_EP)== USBFS_IN_BUFFER_EMPTY)
+        {   
+            //USBFS_LoadInEP(IN_EP,&BufferIn[0],MAX_BUF);     /* Use this API again to point to a new memory from where data should be */
+                                                              /*   copied and stored. */
+            /* The DMAs are already configured to point to the buffer. Simply pass a null argument to send the data to the endpoint. As 
+            soon as the Host issues a request, a Packet is received.*/
+            USBFS_LoadInEP(IN_EP,NULL,MAX_BUF);               /* Note 4, Note 5. */
+        }
+#endif
             if ((USB_active) && (USB_VBusPresent()))
             {
                 USB_MIDI_IN_Service();
@@ -942,49 +977,28 @@ void USB_service(void)
         
 }
 
-uint32_t currentFloat = 0;
-        uint32_t mapCount = 0;
 
 void parseSysex(void)
 {
     parsingSysex = 1;
-    #if 0
-    if (sysexBuffer[0] == 0)
-    {
-        testy = 1;
-        for(uint32_t i = 0; i < 72; i++)
-        {
-            if (i < sysexPointer)
-            {   
-                presetArray[i] = sysexBuffer[i];
-            }
-            else
-            {
-                presetArray[i] = 255;
-            }
-        }
-        presetArray[72] = 240;
-        presetArray[73] = 241;
-        
-        SPIM_1_WriteTxData(presetArray[i]);
-        
-    }
-    #endif
     //0 = it's a preset
     if (sysexBuffer[0] == 0)
     {
-        if (sysexBuffer[2] == 0)
+        
+        
+        //if (sysexBuffer[2] == 0)
         {
             sysexPresetInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
             currentFloat = 0;
             presetArraySection = initialVals;
-            //sendMIDINoteOn(61,0,1);
         }
+        presetNumberToWrite = sysexBuffer[1];
+        
         union breakFloat theVal;
 
 
         
-        for (uint32_t i = 3; i < sysexPointer; i = i+5)
+        for (uint32_t i = 2; i < sysexPointer; i = i+5)
         {
             theVal.u32 = 0;
             theVal.u32 |= ((sysexBuffer[i] &15) << 28);
@@ -992,83 +1006,123 @@ void parseSysex(void)
             theVal.u32 |= (sysexBuffer[i+2] << 14);
             theVal.u32 |= (sysexBuffer[i+3] << 7);
             theVal.u32 |= (sysexBuffer[i+4] & 127);
-
+            testVal = theVal.f;
             if (presetArraySection == initialVals)
             {
-                uint16_t intVal = (uint16_t)(theVal.f * 32767.0f);
-                presetArray[currentFloat++] = intVal >> 8;
-                presetArray[currentFloat++] = intVal & 0xff;
-                
-                if (theVal.f == -1.0f)
+
+                if (currentFloat == 0)
                 {
-                    presetArray[currentFloat++] = 0xff;
-                    presetArray[currentFloat++] = 0xff;
-                    presetArraySection = mapping;
-                    mapCount = 0;
-                   // sendMIDINoteOn(61,1,1);
+                    valsCount = (uint16_t) theVal.f;
+                    presetArray[currentFloat++] = valsCount >> 8;
+                    presetArray[currentFloat++] = valsCount & 0xff;
                 }
+                else if (currentFloat < ((valsCount+1)*2))
+                { 
+                    uint16_t intVal = (uint16_t)(theVal.f * 65535.0f);
+                    presetArray[currentFloat++] = intVal >> 8;
+                    presetArray[currentFloat++] = intVal & 0xff;
+                }
+                else if (currentFloat == ((valsCount+1)*2))
+                {
+                    valCheck = theVal.f;
+                    if ((valCheck < -1.5f) && (valCheck > -2.5f))
+                    {
+                        presetArray[currentFloat++] = 0xef;
+                        presetArray[currentFloat++] = 0xef;
+                        presetArraySection = mapCountNext;
+                        mapCount = 0;
+                    }
+                    else
+                    {
+                        //error state
+                        SPI_errors++;
+                        sysexPresetInProgress = 0;
+                        sysexPointer = 0;
+                        sendingPreset = 0;
+                        parseThatMF = 0;
+                    }
+                }
+            }
+            else if (presetArraySection == mapCountNext)
+            {
+                mapCountExpectation = (uint16_t)theVal.f;
+                presetArray[currentFloat++] = mapCountExpectation >> 8;
+                presetArray[currentFloat++] = mapCountExpectation & 0xff;
+                presetArraySection = mapping;
+                numMappings = 0;
             }
             else if (presetArraySection == mapping)
             {
                 // this is the order
-                // source (int), target (int), scalarSource (arrives as -1.0f if no scalar, send as 255 if no scalar)(int), range (float 0-1)
-                if ((mapCount % 4) == 0)
+                // source (int), target (int), scalarSource (arrives as -1.0f if no scalar, send as 255 if no scalar)(int), range (float -1.0 to 1.0)
+                if (numMappings < mapCountExpectation)
                 {
-                    if (theVal.f < 0.0f)
+                    if ((mapCount % 4) == 0)
                     {
-                        presetArray[currentFloat++] = 0xff;
-                        presetArray[currentFloat++] = 0xff;
+                        presetArray[currentFloat++] = (uint8_t)theVal.f;
+                    }
+                    else if  (mapCount % 4 == 1)
+                    {
+                        presetArray[currentFloat++] = (uint8_t)theVal.f;
+                    }
+                    else if (mapCount % 4 == 2) //check if the scalar source is -1 (if so send 255 instead of a valid source number)
+                    {
+                        if (theVal.f < 0.0f)
+                        {
+                             presetArray[currentFloat++] = 0xff;
+                        }
+                        else
+                        {
+                             presetArray[currentFloat++] = (uint8_t)theVal.f;
+                        }
+                    }
+                    else
+                    {
+                        int16_t intVal = (int16_t)(theVal.f * 32767.0f); //keep it signed to allow negative numbers
+                        presetArray[currentFloat++] = intVal >> 8;
+                        presetArray[currentFloat++] = intVal & 0xff;
+                        numMappings++;
+                    }
+                    mapCount++;
+                }
+                
+
+                else
+                {
+                    //mapcount ended
+                    if ((theVal.f < -2.5f) && (theVal.f > -3.5f))
+                    {
+                        presetArray[currentFloat++] = 0xfe;
+                        presetArray[currentFloat++] = 0xfe;
                         presetArraySection = presetEnd;
                         sysexPresetInProgress = 0;
                         sendingPreset = 1;
-                       // sendMIDINoteOn(61,2,1);
                         presetArraySize = currentFloat;
                     }
                     else
                     {
-                        presetArray[currentFloat++] = (uint16_t)theVal.f;
-                        //sendMIDINoteOn(61,5,mapCount);
+                        //error state
+                        SPI_errors++;
+                        sysexPresetInProgress = 0;
+                        sysexPointer = 0;
+                        sendingPreset = 0;
+                        parseThatMF = 0;
                     }
                 }
-                else if  (mapCount % 4 == 1 )
-                {
-                    presetArray[currentFloat++] = (uint16_t)theVal.f;
-                }
-                 else if (mapCount % 4 == 2) //check if the scalar source is -1 (if so send 255 instead of a valid source number)
-                {
-                    if (theVal.f < 0.0f)
-                    {
-                         presetArray[currentFloat++] = 0xff;
-                    }
-                    else
-                    {
-                         presetArray[currentFloat++] = (uint16_t)theVal.f;
-                    }
-                }
-                else
-                {
-                    uint16_t intVal = (uint16_t)(theVal.f * 32767.0f);
-                    presetArray[currentFloat++] = intVal >> 8;
-                    presetArray[currentFloat++] = intVal & 0xff;
-                    //sendMIDINoteOn(61,6,mapCount);
-                }
-                mapCount++;
             }
             
         }
-        
-
-
-        
     }
-
     parsingSysex = 0;
-
+    sysexPointer = 0;
+    parseThatMF = 0;
 }
 
 
 
-uint8_t tempMIDI[4];
+volatile uint8_t tempMIDI[4];
+volatile uint8_t firstSysex = 0;
+const uint16_t sysexPointerMask = 1023;
 
 //data sent from computer
 void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
@@ -1084,33 +1138,48 @@ void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
         {
             if (midiMsg[i] < 128)
             {
-                sysexBuffer[sysexPointer++] = midiMsg[i];
+                sysexBuffer[(sysexPointer++) & sysexPointerMask] = midiMsg[i];
             }
             else
             {
                 if (midiMsg[i] == USB_MIDI_EOSEX)
                 {
                     receivingSysex = 0;
-                    parseSysex();
+                    //parseSysex();
+                    return;
                  }
             }
         }
     }
-    if (midiMsg[USB_EVENT_BYTE0] == USB_MIDI_SYSEX)
+    else if (midiMsg[USB_EVENT_BYTE0] == USB_MIDI_SYSEX)
     {
         if (!parsingSysex)
         {
-            receivingSysex = 1;
-            sysexPointer = 0;
-            sysexBuffer[sysexPointer++] = midiMsg[1];
-            sysexBuffer[sysexPointer++] = midiMsg[2];
+
+            if (midiMsg[1] == 126) // special message saying that sysex multi-chunk transmission is finished. Parse it!
+            {
+                parseThatMF = 1;
+
+                //sysexPointer = 0;
+            }
+            else if (midiMsg[1] == 0)
+            {
+                receivingSysex = 1;
+                
+                // if this is the first chunk, put in the first and second elements (following chunks need this data stripped until the final message gets sent)
+                if (sysexPointer == 0)
+                {
+
+                    sysexBuffer[sysexPointer++ & sysexPointerMask] = midiMsg[1];
+                    sysexBuffer[sysexPointer++ & sysexPointerMask] = midiMsg[2];
+                }
+            }
         }
-    }
-    if ((USB_active) && (USB_VBusPresent()))
-    { 
     }
     cable = cable;
 }
+
+volatile uint16_t missedNotes = 0;
 
 void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
 {  
@@ -1118,7 +1187,6 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
     midiMsg[0] = USB_MIDI_NOTE_ON + channel;
     midiMsg[1] = MIDInoteNum;
     midiMsg[2] = velocity;	
-    //MIDI1_UART_PutArray(midiMsg, 3);
     if ((USB_active) && (USB_VBusPresent()))
     {
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
@@ -1129,7 +1197,11 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
-            outChanged = 1;
+        outChanged = 1;
+    }
+    else 
+    {
+        missedNotes++;
     }
     if (velocity > 0)
     {
@@ -1163,6 +1235,10 @@ void sendMIDIPitchBend(int val, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
             outChanged = 1;
     }
+    else
+    {
+        missedNotes++;
+    }
 
 }
 
@@ -1186,7 +1262,10 @@ void sendMIDIControlChange(int CCnum, int CCval, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
             outChanged = 1;
     }
-
+    else
+    {
+        missedNotes++;
+    }
     
 }
 

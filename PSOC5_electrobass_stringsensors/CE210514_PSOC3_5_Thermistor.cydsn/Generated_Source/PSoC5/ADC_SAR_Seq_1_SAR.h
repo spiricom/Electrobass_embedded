@@ -170,7 +170,7 @@ extern volatile int16 ADC_SAR_Seq_1_SAR_shift;
 #define ADC_SAR_Seq_1_SAR_DEFAULT_REFERENCE      (0u)         /* Default reference */
 #define ADC_SAR_Seq_1_SAR_DEFAULT_RANGE          (1u)       /* ADC Input Range selection */
 #define ADC_SAR_Seq_1_SAR_CLOCK_FREQUENCY        (10105264u)   /* Clock frequency */
-#define ADC_SAR_Seq_1_SAR_NOMINAL_CLOCK_FREQ     (1591837)  /* Nominal Clock Frequency */
+#define ADC_SAR_Seq_1_SAR_NOMINAL_CLOCK_FREQ     (1600000)  /* Nominal Clock Frequency */
 #define ADC_SAR_Seq_1_SAR_HIGH_POWER_PULSE       (1u)        /* Not zero when clock pulse > 50 ns */
 #define ADC_SAR_Seq_1_SAR_IRQ_REMOVE             (1u)                /* Removes internal interrupt */
 
