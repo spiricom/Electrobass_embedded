@@ -92,7 +92,7 @@ float downState1[128];
 uint8_t voiceSounding = 0;
 
 //MEMPOOLS
-#define SMALL_MEM_SIZE 70000
+#define SMALL_MEM_SIZE 65000
 char smallMemory[SMALL_MEM_SIZE];
 
 //#define MEDIUM_MEM_SIZE 100000
@@ -210,6 +210,7 @@ void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	receive_status = HAL_SAI_Receive_DMA(hsaiIn, (uint8_t *)&audioInBuffer[0], AUDIO_BUFFER_SIZE);
 }
 
+const int syncMap[3] = {2, 0, 1};
 
 void audioFrame(uint16_t buffer_offset)
 {
@@ -277,12 +278,12 @@ void oscillator_tick(float note)
 		float shape = oscParams[OscShape].realVal;
 		float amp = oscParams[OscAmp].realVal;
 		float filterSend = oscParams[OscFilterSend].realVal;
-
+		int sync = roundf(oscParams[OscisSync].realVal);
 		float finalFreq = (mtof(note + (fine*0.01f)) * freqMult[osc]) + freqOffset ;
 		finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
 		float sample = 0.0f;
 
-		shapeTick[osc](&sample, osc, finalFreq, shape);
+		shapeTick[osc](&sample, osc, finalFreq, shape, sync);
 
 		sample *= amp;
 
@@ -305,49 +306,70 @@ void oscillator_tick(float note)
 }
 
 
-void sawSquareTick(float* sample, int v, float freq, float shape)
+void sawSquareTick(float* sample, int v, float freq, float shape, int sync)
 {
     tMBSaw_setFreq(&sawPaired[v], freq);
     tMBPulse_setFreq(&pulsePaired[v], freq);
+    if (sync)
+    {
+    	tMBSaw_sync(&sawPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+    	tMBPulse_sync(&pulsePaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+    }
     *sample += tMBSaw_tick(&sawPaired[v]) * (1.0f - shape) * 2.f;
     *sample += tMBPulse_tick(&pulsePaired[v]) * shape * 2.f;
 }
 
-void sineTriTick(float* sample, int v, float freq, float shape)
+void sineTriTick(float* sample, int v, float freq, float shape, int sync)
 {
     tCycle_setFreq(&sinePaired[v], freq);
     tMBTriangle_setFreq(&triPaired[v], freq);
+    if (sync)
+    {
+    	tMBTriangle_sync(&triPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+    }
     *sample += tCycle_tick(&sinePaired[v]) * (1.0f - shape);
     *sample += tMBTriangle_tick(&triPaired[v]) * shape * 2.f;;
 }
 
-void sawTick(float* sample, int v, float freq, float shape)
+void sawTick(float* sample, int v, float freq, float shape, int sync)
 {
     tMBSaw_setFreq(&saw[v], freq);
+    if (sync)
+	{
+		tMBSaw_sync(&saw[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+	}
     *sample += tMBSaw_tick(&saw[v]) * 2.f;;
 }
 
-void pulseTick(float* sample, int v, float freq, float shape)
+void pulseTick(float* sample, int v, float freq, float shape, int sync)
 {
     tMBPulse_setFreq(&pulse[v], freq);
     tMBPulse_setWidth(&pulse[v], shape);
+    if (sync)
+	{
+		tMBPulse_sync(&pulse[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+	}
     *sample += tMBPulse_tick(&pulse[v]) * 2.f;;
 }
 
-void sineTick(float* sample, int v, float freq, float shape)
+void sineTick(float* sample, int v, float freq, float shape, int sync)
 {
     tCycle_setFreq(&sine[v], freq);
     *sample += tCycle_tick(&sine[v]);
 }
 
-void triTick(float* sample, int v, float freq, float shape)
+void triTick(float* sample, int v, float freq, float shape, int sync)
 {
     tMBTriangle_setFreq(&tri[v], freq);
     tMBTriangle_setWidth(&tri[v], shape);
+    if (sync)
+	{
+		tMBTriangle_sync(&tri[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+	}
     *sample += tMBTriangle_tick(&tri[v]) * 2.f;;
 }
 
-void userTick(float* sample, int v, float freq, float shape)
+void userTick(float* sample, int v, float freq, float shape, int sync)
 {
     //tWaveOscS_setFreq(&wave[v], freq);
     //tWaveOscS_setIndex(&wave[v], shape);
@@ -471,7 +493,14 @@ void setFreqMult(float harm_pitch, int osc)
 	}
 	if (params[OSC_PARAMS_OFFSET + osc * OscParamsNum + OscisHarmonic].realVal > 0.5f)
 	{
-		harm_pitch >= 0 ? freqMult[osc] = (harm_pitch + 1) : (1.0f / fabsf((harm_pitch - 1)));
+		if (harm_pitch >= 0)
+		{
+			freqMult[osc] = (harm_pitch + 1);
+		}
+		else
+		{
+			freqMult[osc] = (1.0f / fabsf((harm_pitch - 1)));
+		}
 	}
 	else
 	{
@@ -705,31 +734,33 @@ float audioTickL(float audioIn)
 
 		//oversample for non-linear effects (distortion, etc)
         //tOversampler_upsample(&os, sample, oversamplerArray);
-
+/*
 		arm_fir_interpolate_f32(
 		  &osI,
 		  &sample,
 		  (float*)&oversamplerArray,
 		  1);
+		  */
 /*
         for (int i = 0; i < fx.size(); i++) {
             fx[i]->oversample_tick(oversamplerArray, v);
         }
 */
         //hard clip before downsampling to get a little more antialiasing from clipped signal.
-        for (int i = 0; i < (OVERSAMPLE); i++)
-        {
-            oversamplerArray[i] = LEAF_clip(-1.0f, oversamplerArray[i], 1.0f);
-        }
+        //for (int i = 0; i < (OVERSAMPLE); i++)
+        //{
+        //    oversamplerArray[i] = LEAF_clip(-1.0f, oversamplerArray[i], 1.0f);
+        //}
+		sample = LEAF_clip(-1.0f, sample, 1.0f);
         //downsample to get back to normal sample rate
         //sample = tOversampler_downsample(&os, oversamplerArray);
-
+/*
         arm_fir_decimate_f32(
           &osD,
 		  (float*)&oversamplerArray,
           &sample,
           OVERSAMPLE);
-
+*/
     	uint32_t tempCount2 = DWT->CYCCNT;
 
     	cycleCount[5] = tempCount2-tempCount1;

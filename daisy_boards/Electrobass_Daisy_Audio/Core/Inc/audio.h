@@ -94,15 +94,15 @@ void setNoiseAmp(float in, int v);
 
 void oscillator_tick(float note);
 
-typedef void (*shapeTick_t)(float*, int, float, float);
+typedef void (*shapeTick_t)(float*, int, float, float, int);
 
-void sawSquareTick(float* sample, int v, float freq, float shape);
-void sineTriTick(float* sample, int v, float freq, float shape);
-void sawTick(float* sample, int v, float freq, float shape);
-void pulseTick(float* sample, int v, float freq, float shape);
-void sineTick(float* sample, int v, float freq, float shape);
-void triTick(float* sample, int v, float freq, float shape);
-void userTick(float* sample, int v, float freq, float shape);
+void sawSquareTick(float* sample, int v, float freq, float shape, int sync);
+void sineTriTick(float* sample, int v, float freq, float shape, int sync);
+void sawTick(float* sample, int v, float freq, float shape, int sync);
+void pulseTick(float* sample, int v, float freq, float shape, int sync);
+void sineTick(float* sample, int v, float freq, float shape, int sync);
+void triTick(float* sample, int v, float freq, float shape, int sync);
+void userTick(float* sample, int v, float freq, float shape, int sync);
 
 extern shapeTick_t shapeTick[NUM_OSC];
 

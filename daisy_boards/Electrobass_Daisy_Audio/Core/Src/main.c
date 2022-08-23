@@ -123,7 +123,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  SCB_EnableICache();
+  //SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -183,6 +183,14 @@ int main(void)
   {
 	  buffer[i] = 0;
   }
+
+  //put in some values to make the array valid as a preset
+  buffer[1] = NUM_PARAMS;
+  buffer[NUM_PARAMS*2+2] = 0xef;
+  buffer[NUM_PARAMS*2+3] = 0xef;
+  buffer[NUM_PARAMS*2+5] = 1;
+  buffer[NUM_PARAMS*2+11] = 0xfe;
+  buffer[NUM_PARAMS*2+12] = 0xfe;
   LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
   LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
@@ -836,15 +844,55 @@ void parsePreset(int size)
 	 }
 	audioMasterLevel = 0.0f;
 	//osc params
-	for (int i = 0; i < NUM_PARAMS; i++)
+
+	uint16_t bufferIndex = 0;
+	//read first element in buffer as a count of how many parameters
+	uint16_t paramCount = (buffer[0] << 8) + buffer[1];
+
+
+	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
+	uint16_t paramEndCheck = (buffer[paramCount*2+2] << 8) + buffer[paramCount*2+3];
+	if (paramEndCheck != 0xefef)
 	{
-		params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		presetWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+	uint16_t mappingCount = (buffer[paramCount*2+4] << 8) + buffer[paramCount*2+5];
+	uint16_t mappingEndLocation = (paramCount * 2) + 6 + (mappingCount * 5);
+	uint16_t mappingEndCheck = (buffer[mappingEndLocation] << 8) + buffer[mappingEndLocation+1];
+	if (mappingEndCheck != 0xfefe) //this check value is 0xfefe
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		presetWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
+
+
+
+
+	 //move past the count position in the buffer
+	bufferIndex += 2;
+
+	//now read the parameters
+	for (int i = 0; i < paramCount; i++)
+	{
+		params[i].zeroToOneVal = INV_TWO_TO_16 * ((buffer[bufferIndex] << 8) + buffer[bufferIndex+1]);
+
 		//need to map all of the params to their scaled parameters and set them to the realVals
 		params[i].scaleFunc = &scaleDefault;
 
 		//blank function means that it doesn't actually set a final value, we will read directly from the realVals when we need it
 		params[i].setParam = &blankFunction;
+
+		bufferIndex += 2;
 	}
+
 
 	params[Master].scaleFunc = &scaleTwo;
 	params[Transpose].scaleFunc = &scaleTranspose;
@@ -1073,61 +1121,70 @@ void parsePreset(int size)
 	}
 
 	//mappings parsing
+
+	//move past the countcheck elements (already checked earlier)
+	bufferIndex += 2;
+
+	//move past the mappingCount elements (already stored that value earlier)
+	bufferIndex += 2;
+
 	numMappings = 0;
 
+	//blank out all current mappings
 	for (int i = 0; i < MAX_NUM_MAPPINGS; i++)
 	{
 		mappings[i].destNumber = 255;
 		mappings[i].numHooks = 0;
 	}
-	for (int i = (NUM_PARAMS * 2) + 4; i < size; i+=5)
+
+
+	for (int i = 0; i < mappingCount; i++)
 	{
-		if ((buffer[i] != 255) && (buffer[i] != 254))
+		uint8_t destNumber = buffer[bufferIndex+1];
+		uint8_t whichMapping = 0;
+		uint8_t whichHook = 0;
+		uint8_t foundOne = 0;
+
+		//search to see if this destination already has other mappings
+		for (int j = 0; j < MAX_NUM_MAPPINGS; j++)
 		{
-			uint8_t destNumber = buffer[i+1];
-			uint8_t whichMapping = 0;
-			uint8_t whichHook = 0;
-			uint8_t foundOne = 0;
-			//search to see if this destination already has other mappings
-			for (int j = 0; j < MAX_NUM_MAPPINGS; j++)
+			if (mappings[j].destNumber == destNumber)
 			{
-				if (mappings[j].destNumber == destNumber)
-				{
-					//found one, use this mapping and add another hook to it
-					whichMapping = j;
-					whichHook = mappings[j].numHooks;
-					foundOne = 1;
-				}
+				//found one, use this mapping and add another hook to it
+				whichMapping = j;
+				whichHook = mappings[j].numHooks;
+				foundOne = 1;
 			}
-			if (foundOne == 0)
-			{
-				//didn't find another mapping with this destination, start a new mapping
-				whichMapping = numMappings;
-
-				numMappings++;
-				whichHook = 0;
-				mappings[whichMapping].destNumber = destNumber;
-				mappings[whichMapping].dest = &params[destNumber];
-
-			}
-
-			mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[buffer[i]];
-			int scalar = buffer[i+2];
-			if (scalar == 0xff)
-			{
-				mappings[whichMapping].scalarSourceValPtr[whichHook] = &defaultScaling;
-			}
-			else
-			{
-				mappings[whichMapping].scalarSourceValPtr[whichHook] = &sourceValues[buffer[i+2]];
-			}
-			float amountFloat = ((buffer[i+3] << 8) + buffer[i+4]) * INV_TWO_TO_15;
-			mappings[whichMapping].amount[whichHook] = amountFloat;
-			mappings[whichMapping].numHooks++;
 		}
-	}
+		if (foundOne == 0)
+		{
+			//didn't find another mapping with this destination, start a new mapping
+			whichMapping = numMappings;
 
-	//params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
+			numMappings++;
+			whichHook = 0;
+			mappings[whichMapping].destNumber = destNumber;
+			mappings[whichMapping].dest = &params[destNumber];
+
+		}
+
+		mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[buffer[bufferIndex]];
+		int scalar = buffer[bufferIndex+2];
+		if (scalar == 0xff)
+		{
+			mappings[whichMapping].scalarSourceValPtr[whichHook] = &defaultScaling;
+		}
+		else
+		{
+			mappings[whichMapping].scalarSourceValPtr[whichHook] = &sourceValues[buffer[bufferIndex+2]];
+		}
+		int16_t amountInt = (buffer[bufferIndex+3] << 8) + buffer[bufferIndex+4];
+		float amountFloat = amountInt * INV_TWO_TO_15;
+		mappings[whichMapping].amount[whichHook] = amountFloat;
+		mappings[whichMapping].numHooks++;
+
+		bufferIndex += 5;
+	}
 
 	audioMasterLevel = 1.0f;
 	presetWaitingToParse = 0;
