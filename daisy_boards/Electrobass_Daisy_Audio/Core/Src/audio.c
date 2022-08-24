@@ -35,7 +35,7 @@ tCycle sine[NUM_OSC];
 tMBTriangle tri[NUM_OSC];
 
 // Using seperate objects for pairs to easily maintain phase relation
-tMBSaw sawPaired[NUM_OSC];
+tMBSawPulse sawPaired[NUM_OSC];
 tMBPulse pulsePaired[NUM_OSC];
 tCycle sinePaired[NUM_OSC];
 tMBTriangle triPaired[NUM_OSC];
@@ -138,13 +138,13 @@ void audio_init(void)
 		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		// Using seperate objects for pairs to easily maintain phase relation
-		tMBSaw_init(&sawPaired[i], &leaf);
-		tMBSaw_setBufferOffset(&sawPaired[i], MBoffset);
+		tMBSawPulse_init(&sawPaired[i], &leaf);
+		tMBSawPulse_setBufferOffset(&sawPaired[i], MBoffset);
 		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
-		tMBPulse_init(&pulsePaired[i], &leaf);
-		tMBPulse_setBufferOffset(&pulsePaired[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+		//tMBPulse_init(&pulsePaired[i], &leaf);
+		//tMBPulse_setBufferOffset(&pulsePaired[i], MBoffset);
+		//MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		tCycle_init(&sinePaired[i], &leaf);
 
@@ -237,7 +237,7 @@ void audioFrame(uint16_t buffer_offset)
 
 	//take care of MIDI messages that came in
 	tmpCnt = DWT->CYCCNT;
-	while(midiStack.size > 0)
+	while(midiStack.readCnt != midiStack.writeCnt)
 	{
 		uint8_t firstByte = midiStack.buffer[midiStack.readCnt][0];
 		int8_t readCount = midiStack.readCnt;
@@ -254,7 +254,7 @@ void audioFrame(uint16_t buffer_offset)
 			sendPitchBend(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
 		}
 		midiStack.readCnt = (midiStack.readCnt + 1) & 63;
-		midiStack.size--;
+		//midiStack.size--;
 	}
 	tmpCnt = DWT->CYCCNT - tmpCnt;
 	cycleCount[6] = tmpCnt;
@@ -326,15 +326,16 @@ void oscillator_tick(float note)
 
 void sawSquareTick(float* sample, int v, float freq, float shape, int sync)
 {
-    tMBSaw_setFreq(&sawPaired[v], freq);
-    tMBPulse_setFreq(&pulsePaired[v], freq);
+    tMBSawPulse_setFreq(&sawPaired[v], freq);
+    tMBSawPulse_setShape(&sawPaired[v], shape);
+    //tMBPulse_setFreq(&pulsePaired[v], freq);
     if (sync)
     {
-    	tMBSaw_sync(&sawPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
-    	tMBPulse_sync(&pulsePaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+    	tMBSawPulse_sync(&sawPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+    	//tMBPulse_sync(&pulsePaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
     }
-    *sample += tMBSaw_tick(&sawPaired[v]) * (1.0f - shape) * 2.f;
-    *sample += tMBPulse_tick(&pulsePaired[v]) * shape * 2.f;
+    *sample += tMBSawPulse_tick(&sawPaired[v]) * 2.f;// * (1.0f - shape) * 2.f;
+    //*sample += tMBPulse_tick(&pulsePaired[v]) * shape * 2.f;
 }
 
 void sineTriTick(float* sample, int v, float freq, float shape, int sync)
@@ -990,7 +991,7 @@ void cStack_init(cStack* stack)
         stack->buffer[i][1] = -1;
         stack->buffer[i][2] = -1;
     }
-    stack->size = 0;
+    //stack->size = 0;
 }
 
 int cStack_size(cStack* stack)
@@ -1007,7 +1008,7 @@ void cStack_push(cStack* stack, uint8_t val, uint8_t val1, uint8_t val2)
     stack->buffer[stack->writeCnt][1] = val1;
     stack->buffer[stack->writeCnt][2] = val2;
     stack->writeCnt = (stack->writeCnt + 1 ) & 63;
-    stack->size++;
+    //stack->size++;
 }
 
 void cStack_pop(cStack* stack, uint8_t* output)
@@ -1016,7 +1017,7 @@ void cStack_pop(cStack* stack, uint8_t* output)
     output[1] = stack->buffer[stack->readCnt][1];
     output[2] = stack->buffer[stack->readCnt][2];
     stack->readCnt = (stack->readCnt + 1) & 63;
-    stack->size--;
+    //stack->size--;
 }
 
 

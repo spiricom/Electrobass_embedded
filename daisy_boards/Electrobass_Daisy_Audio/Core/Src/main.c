@@ -124,7 +124,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  //SCB_EnableICache();
+  SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -660,27 +660,11 @@ void handleSPI(uint8_t offset)
 	// if the first number is a 1 then it's a midi note/ctrl/bend message
 	if (SPI_RX[offset] == 1)
 	{
-		//got a change!
-		 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 
 		 uint8_t currentByte = offset+1;
 
 		 while ((SPI_RX[currentByte] != 0) && ((currentByte % 16) < SPI_FRAME_SIZE))
 		 {
-			 /*
-			 if (SPI_RX[currentByte] == 0x90)
-			 {
-				 cStack_push(&noteStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xb0)
-			 {
-				 cStack_push(&ctrlStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xe0)
-			 {
-				 cStack_push(&pBendStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
-			 }
-			 */
 			 cStack_push(&midiStack,SPI_RX[currentByte],SPI_RX[currentByte+1],SPI_RX[currentByte+2]);
 			 currentByte = currentByte+3;
 		 }
@@ -710,29 +694,8 @@ void handleSPI(uint8_t offset)
 
 		 }
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-
-
-
-		 /*
-		 while (SPI_RX[currentByte] != 0)
-		 {
-			 if (SPI_RX[currentByte] == 0x90)
-			 {
-				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xb0)
-			 {
-				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xe0)
-			 {
-				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 currentByte = currentByte+3;
-		 }
-		 */
 	}
-
+	//if the first number is a 3, that means it's the end of a preset send
 	else if (SPI_RX[offset] == 3)
 	{
 		 writingPreset = 0;
@@ -1250,6 +1213,11 @@ void parsePreset(int size)
 		}
 		int16_t amountInt = (buffer[bufferIndex+3] << 8) + buffer[bufferIndex+4];
 		float amountFloat = amountInt * INV_TWO_TO_15;
+		//if the source is bipolar (oscillators, noise, and LFOs) then double the amount because it comes in as only half the range
+		if ((buffer[bufferIndex] < 4) || ((buffer[bufferIndex] > 28) && (buffer[bufferIndex] < 33)))
+		{
+			amountFloat *= 2.0f;
+		}
 		mappings[whichMapping].amount[whichHook] = amountFloat;
 		mappings[whichMapping].numHooks++;
 
