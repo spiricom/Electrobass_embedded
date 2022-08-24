@@ -11,20 +11,19 @@
 typedef float (*scaler_t)(float);
 typedef void (*setParam_t)(float, int);
 
-typedef void (*setCutoff_t)(float, int);
-typedef void (*setQ_t)(float, int);
-typedef void (*setGain_t)(float, int);
-typedef void (*setKeyfollow_t)(float, int);
+
+
 
 #define NUM_OSC_SHAPES 7
 #define NUM_FILTER_TYPES 9
+#define NUM_LFO_SHAPES 6
 #define OSC_PARAMS_OFFSET 40
 #define EFFECTS_PARAMS_OFFSET 73
 #define FILTER_PARAMS_OFFSET 101
 #define ENVELOPE_PARAMS_OFFSET 114
 #define LFO_PARAMS_OFFSET 138
 #define NUM_POSSIBLE_HOOKS 3
-
+#define NUM_LFOS 4
 //struct for every parameter
 typedef struct param
 {
@@ -38,12 +37,17 @@ typedef struct param
 
 typedef struct filterSetter
 {
-	setCutoff_t setCutoff;
-	setQ_t	setQ;
-	setGain_t setGain;
-	setKeyfollow_t setKeyfollow;
+	setParam_t	setQ;
+	setParam_t setGain;
 } filterSetter;
 
+
+typedef struct lfoSetter
+{
+	setParam_t setRate;
+	setParam_t setShape;
+	setParam_t setPhase;
+} lfoSetter;
 
 typedef struct mapping
 {
@@ -83,6 +87,27 @@ enum FilterParamNames
 	FilterKeyFollow,
 	FilterParamsNum
 };
+
+
+enum LFOParamNames
+{
+	LFORate,
+	LFOShape,
+	LFOPhase,
+	LFOShapeSet,
+	LFOSync,
+	LFOParamsNum
+};
+typedef enum _LFOShapeSet
+{
+    SineTriLFOShapeSet = 0,
+    SawPulseLFOShapeSet,
+    SineLFOShapeSet,
+    TriLFOShapeSet,
+    SawLFOShapeSet,
+    PulseLFOShapeSet,
+    LFOShapeSetNil
+} _LFOShapeSet;
 
 enum EnvelopeParamNames
 {

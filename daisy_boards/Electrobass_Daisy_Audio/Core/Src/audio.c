@@ -24,7 +24,7 @@ volatile uint32_t cycleCount[10];
 //function pointers
 shapeTick_t shapeTick[NUM_OSC];
 filterTick_t filterTick[NUM_FILT];
-
+lfoShapeTick_t lfoShapeTick[NUM_LFOS];
 arm_fir_decimate_instance_f32 osD;
 arm_fir_interpolate_instance_f32 osI;
 
@@ -41,6 +41,14 @@ tCycle sinePaired[NUM_OSC];
 tMBTriangle triPaired[NUM_OSC];
 
 tWaveOscS wave[NUM_OSC];
+
+
+tIntPhasor lfoSaw[NUM_LFOS];
+tSquareLFO lfoPulse[NUM_LFOS];
+tCycle lfoSine[NUM_LFOS];
+tTriLFO lfoTri[NUM_LFOS];
+tSawSquareLFO lfoSawSquare[NUM_LFOS];
+tSineTriLFO lfoSineTri[NUM_LFOS];
 
 //oscillator outputs
 float outSamples[2][NUM_OSC];
@@ -158,6 +166,16 @@ void audio_init(void)
 		tLadderFilter_init(&Ladderfilter[i], 2000.f, 1.0f, &leaf);
 	}
 
+	for (int i = 0; i < NUM_LFOS; i++)
+	{
+		tIntPhasor_init(&lfoSaw[i], &leaf);
+		tSquareLFO_init(&lfoPulse[i], &leaf);
+		tCycle_init(&lfoSine[i], &leaf);
+		tTriLFO_init(&lfoTri[i], &leaf);
+
+		tSineTriLFO_init(&lfoSineTri[i], &leaf);
+		tSawSquareLFO_init(&lfoSawSquare[i], &leaf);
+	}
     // exponential decay buffer falling from 1 to
     LEAF_generate_exp(decayExpBuffer, 0.001f, 0.0f, 1.0f, -0.0008f, DECAY_EXP_BUFFER_SIZE);
 
@@ -623,6 +641,18 @@ void envelope_tick(void)
 
 }
 
+void lfo_tick(void)
+{
+	interruptChecker = 0;
+	for (int i = 0; i < NUM_LFOS; i++)
+	{
+
+		float sample = 0;
+		lfoShapeTick[i](&sample,i);
+		sourceValues[LFO_SOURCE_OFFSET + i] = sample;
+	}
+}
+
 
 void setEnvelopeAttack(float a, int v)
 {
@@ -716,7 +746,7 @@ float audioTickL(float audioIn)
 
 
 		envelope_tick();
-
+		lfo_tick();
 		oscillator_tick(note);
 
 		float filterSamps[2] = {0.0f, 0.0f};
@@ -836,6 +866,118 @@ void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 	if (!diskBusy)
 	audioFrame(0);
 }
+
+
+
+
+
+void lfoSawSquareTick(float* sample, int v)
+{
+	*sample = tSawSquareLFO_tick(&lfoSawSquare[v]);
+}
+
+void lfoSineTriTick(float* sample, int v)
+{
+	*sample = tSineTriLFO_tick(&lfoSineTri[v]);
+}
+
+void lfoSineTick(float* sample, int v)
+{
+    *sample = tCycle_tick(&lfoSine[v]);
+}
+
+void lfoTriTick(float* sample, int v)
+{
+    *sample = tMBTriangle_tick(&lfoTri[v]) * 2.f;
+}
+void lfoSawTick(float* sample, int v)
+{
+    *sample = tIntPhasor_tick(&lfoSaw[v]) * 2.f;
+}
+
+void lfoPulseTick(float* sample, int v)
+{
+    *sample = tSquareLFO_tick(&lfoPulse[v]) * 2.f;
+}
+
+void lfoSawSquareSetRate(float r, int v)
+{
+	tSawSquareLFO_setFreq(&lfoSawSquare[v],r);
+}
+
+void lfoSineTriSetRate(float r, int v)
+{
+	tSineTriLFO_setFreq(&lfoSineTri[v],r);
+}
+void lfoSineSetRate(float r, int v)
+{
+	tCycle_setFreq(&lfoSine[v], r);
+}
+void lfoTriSetRate(float r, int v)
+{
+	tTriLFO_setFreq(&lfoTri[v], r);
+}
+void lfoSawSetRate(float r, int v)
+{
+	tIntPhasor_setFreq(&lfoSaw[v], r);
+}
+void lfoPulseSetRate(float r, int v)
+{
+	 tSquareLFO_setFreq(&lfoPulse[v], r);
+}
+
+
+void lfoSawSquareSetPhase(float p, int v)
+{
+	tSawSquareLFO_setPhase(&lfoSawSquare[v],p);
+}
+void lfoSineTriSetPhase(float p, int v)
+{
+	tSineTriLFO_setPhase(&lfoSineTri[v], p);
+}
+void lfoSineSetPhase(float p, int v)
+{
+	tCycle_setPhase(&lfoSine[v],p);
+}
+void lfoTriSetPhase(float p, int v)
+{
+	tTriLFO_setPhase(&lfoTri[v],p);
+}
+void lfoSawSetPhase(float p, int v)
+{
+	tIntPhasor_setPhase(&lfoSaw[v], p);
+}
+void lfoPulseSetPhase(float p, int v)
+{
+	tSquareLFO_setPhase(&lfoPulse[v], p);
+}
+
+
+void lfoSawSquareSetShape(float s, int v)
+{
+	tSawSquareLFO_setShape(&lfoSawSquare[v],s);
+}
+void lfoSineTriSetShape(float s, int v)
+{
+	tSineTriLFO_setShape(&lfoSineTri[v],s);
+}
+void lfoSineSetShape(float s, int v)
+{
+	//none
+}
+void lfoTriSetShape(float s, int v)
+{
+	//none
+}
+void lfoSawSetShape(float s, int v)
+{
+	//none
+}
+void lfoPulseSetShape(float s, int v)
+{
+	tSquareLFO_setPulseWidth(&lfoPulse[v], s);
+}
+
 
 
 void cStack_init(cStack* stack)

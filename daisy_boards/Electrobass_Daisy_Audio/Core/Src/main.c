@@ -101,6 +101,7 @@ mapping mappings[MAX_NUM_MAPPINGS];
 uint8_t numMappings = 0;
 
 filterSetter filterSetters[NUM_FILT];
+lfoSetter lfoSetters[NUM_LFOS];
 float defaultScaling = 1.0f;
 
 float resTable[2048];
@@ -1025,6 +1026,51 @@ void parsePreset(int size)
 		}
 	}
 
+	for (int i = 0; i < NUM_LFOS; i++)
+	{
+		int LFOType = roundf(params[LFO1ShapeSet + (i * LFOParamsNum)].realVal * (NUM_LFO_SHAPES-1));
+		switch(LFOType){
+					case SineTriLFOShapeSet:
+						lfoShapeTick[i] = &lfoSineTriTick;
+						lfoSetters[i].setRate = &lfoSineTriSetRate;
+						lfoSetters[i].setShape = &lfoSineTriSetShape;
+						lfoSetters[i].setPhase = &lfoSineTriSetPhase;
+						break;
+					case SawPulseLFOShapeSet:
+						lfoShapeTick[i] = &lfoSawSquareTick;
+						lfoSetters[i].setRate = &lfoSawSquareSetRate;
+						lfoSetters[i].setShape = &lfoSawSquareSetShape;
+						lfoSetters[i].setPhase = &lfoSawSquareSetPhase;
+						break;
+					case SineLFOShapeSet:
+						lfoShapeTick[i] = &lfoSineTick;
+						lfoSetters[i].setRate = &lfoSineSetRate;
+						lfoSetters[i].setShape = &lfoSineSetShape;
+						lfoSetters[i].setPhase = &lfoSineSetPhase;
+						break;
+					case TriLFOShapeSet:
+						lfoShapeTick[i] = &lfoTriTick;
+						lfoSetters[i].setRate = &lfoTriSetRate;
+						lfoSetters[i].setShape = &lfoTriSetShape;
+						lfoSetters[i].setPhase = &lfoTriSetPhase;
+						break;
+					case SawLFOShapeSet:
+						lfoShapeTick[i] = &lfoSawTick;
+						lfoSetters[i].setRate = &lfoSawSetRate;
+						lfoSetters[i].setShape = &lfoSawSetShape;
+						lfoSetters[i].setPhase = &lfoSawSetPhase;
+						break;
+					case PulseLFOShapeSet:
+						lfoShapeTick[i] = &lfoPulseTick;
+						lfoSetters[i].setRate = &lfoPulseSetRate;
+						lfoSetters[i].setShape = &lfoPulseSetShape;
+					    lfoSetters[i].setPhase = &lfoPulseSetPhase;
+						break;
+		}
+	}
+
+
+	///////Setters for paramMapping
 	params[Master].setParam = &setMaster;
 	params[Transpose].setParam = &setTranspose;
 	params[PitchBendRangeUp].setParam = &setPitchBendRangeUp;
@@ -1061,10 +1107,18 @@ void parsePreset(int size)
 	params[Envelope4Sustain].setParam = &setEnvelopeSustain;
 	params[Envelope4Release].setParam = &setEnvelopeRelease;
 	params[Envelope4Leak].setParam = &setEnvelopeLeak;
-	//params[LFO1Rate].setParam = &scaleLFORates;
-	//params[LFO2Rate].setParam = &scaleLFORates;
-	//params[LFO3Rate].setParam = &scaleLFORates;
-	//params[LFO4Rate].setParam = &scaleLFORates;
+	params[LFO1Rate].setParam = lfoSetters[0].setRate;
+	params[LFO2Rate].setParam = lfoSetters[1].setRate;
+	params[LFO3Rate].setParam = lfoSetters[2].setRate;
+	params[LFO4Rate].setParam = lfoSetters[3].setRate;
+	params[LFO1Shape].setParam = lfoSetters[0].setShape;
+	params[LFO2Shape].setParam = lfoSetters[1].setShape;
+	params[LFO3Shape].setParam = lfoSetters[2].setShape;
+	params[LFO4Shape].setParam = lfoSetters[3].setShape;
+	params[LFO1Phase].setParam = lfoSetters[0].setPhase;
+	params[LFO2Phase].setParam = lfoSetters[1].setPhase;
+	params[LFO3Phase].setParam = lfoSetters[2].setPhase;
+	params[LFO4Phase].setParam = lfoSetters[3].setPhase;
 	params[OutputAmp].setParam = &setAmp;
 
 
@@ -1113,6 +1167,22 @@ void parsePreset(int size)
 			params[i].objectNumber = 3;
 		}
 		//lfos
+		else if ((i >= LFO1Rate) && (i < LFO2Rate))
+		{
+			params[i].objectNumber = 0;
+		}
+		else if ((i >= LFO2Rate) && (i < LFO3Rate))
+		{
+			params[i].objectNumber = 1;
+		}
+		else if ((i >= LFO3Rate) && (i < LFO4Rate))
+		{
+			params[i].objectNumber = 2;
+		}
+		else if ((i >= LFO4Rate) && (i < OutputAmp))
+		{
+			params[i].objectNumber = 3;
+		}
 		//other
 
 

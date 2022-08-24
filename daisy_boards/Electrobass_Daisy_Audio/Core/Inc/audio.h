@@ -82,7 +82,7 @@ void sendPitchBend(uint8_t value, uint8_t ctrl);
 #define OSC_SOURCE_OFFSET 0
 #define CTRL_SOURCE_OFFSET 20
 #define ENV_SOURCE_OFFSET 25
-
+#define LFO_SOURCE_OFFSET 29
 
 #define CTRL_MIDI_START 17
 
@@ -95,7 +95,7 @@ void setNoiseAmp(float in, int v);
 void oscillator_tick(float note);
 
 typedef void (*shapeTick_t)(float*, int, float, float, int);
-
+typedef void (*lfoShapeTick_t)(float*, int);
 void sawSquareTick(float* sample, int v, float freq, float shape, int sync);
 void sineTriTick(float* sample, int v, float freq, float shape, int sync);
 void sawTick(float* sample, int v, float freq, float shape, int sync);
@@ -104,8 +104,38 @@ void sineTick(float* sample, int v, float freq, float shape, int sync);
 void triTick(float* sample, int v, float freq, float shape, int sync);
 void userTick(float* sample, int v, float freq, float shape, int sync);
 
-extern shapeTick_t shapeTick[NUM_OSC];
+void lfoSawSquareTick(float* sample, int v);
+void lfoSineTriTick(float* sample, int v);
+void lfoSineTick(float* sample, int v);
+void lfoTriTick(float* sample, int v);
+void lfoSawTick(float* sample, int v);
+void lfoPulseTick(float* sample, int v);
 
+void lfoSawSquareSetRate(float r, int v);
+void lfoSineTriSetRate(float r, int v);
+void lfoSineSetRate(float r, int v);
+void lfoTriSetRate(float r, int v);
+void lfoSawSetRate(float r, int v);
+void lfoPulseSetRate(float r, int v);
+
+
+void lfoSawSquareSetPhase(float p, int v);
+void lfoSineTriSetPhase(float p, int v);
+void lfoSineSetPhase(float p, int v);
+void lfoTriSetPhase(float p, int v);
+void lfoSawSetPhase(float p, int v);
+void lfoPulseSetPhase(float p, int v);
+
+
+void lfoSawSquareSetShape(float s, int v);
+void lfoSineTriSetShape(float s, int v);
+void lfoSineSetShape(float s, int v);
+void lfoTriSetShape(float s, int v);
+void lfoSawSetShape(float s, int v);
+void lfoPulseSetShape(float s, int v);
+
+extern shapeTick_t shapeTick[NUM_OSC];
+extern lfoShapeTick_t lfoShapeTick[NUM_LFOS];
 
 float filter_tick(float* samples, float note);
 
