@@ -187,5 +187,6 @@ void setMaster(float amp, int v);
 
 
 extern float sourceValues[NUM_SOURCES];
+extern uint8_t lfoOn[NUM_LFOS];
 
 #endif /* INC_AUDIO_H_ */

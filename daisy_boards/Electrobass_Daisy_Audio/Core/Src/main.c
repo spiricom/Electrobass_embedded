@@ -102,6 +102,7 @@ uint8_t numMappings = 0;
 
 filterSetter filterSetters[NUM_FILT];
 lfoSetter lfoSetters[NUM_LFOS];
+
 float defaultScaling = 1.0f;
 
 float resTable[2048];
@@ -812,7 +813,14 @@ void parsePreset(int size)
 	uint16_t bufferIndex = 0;
 	//read first element in buffer as a count of how many parameters
 	uint16_t paramCount = (buffer[0] << 8) + buffer[1];
-
+	if (paramCount > size)
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		presetWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
 
 	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
 	uint16_t paramEndCheck = (buffer[paramCount*2+2] << 8) + buffer[paramCount*2+3];
@@ -825,7 +833,20 @@ void parsePreset(int size)
 		return;
 	}
 	uint16_t mappingCount = (buffer[paramCount*2+4] << 8) + buffer[paramCount*2+5];
+
+
+
 	uint16_t mappingEndLocation = (paramCount * 2) + 6 + (mappingCount * 5);
+
+	if (mappingEndLocation > size)
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		presetWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
 	uint16_t mappingEndCheck = (buffer[mappingEndLocation] << 8) + buffer[mappingEndLocation+1];
 	if (mappingEndCheck != 0xfefe) //this check value is 0xfefe
 	{
@@ -1042,14 +1063,10 @@ void parsePreset(int size)
 	params[Osc1Pitch].setParam = &setFreqMult;
 	params[Osc2Pitch].setParam = &setFreqMult;
 	params[Osc3Pitch].setParam = &setFreqMult;
-	//params[Filter1Cutoff].setParam = filterSetters[0].setCutoff;
 	params[Filter1Resonance].setParam = filterSetters[0].setQ;
 	params[Filter1Gain].setParam = filterSetters[0].setGain; //gain is a special case for set params where the scaling function leaves it alone because it's different based on filter type
-	//params[Filter1KeyFollow].setParam = filterSetters[0].setKeyfollow;
-	//params[Filter2Cutoff].setParam = filterSetters[1].setCutoff;
 	params[Filter2Resonance].setParam = filterSetters[1].setQ;
 	params[Filter2Gain].setParam = filterSetters[1].setGain;
-	//params[Filter2KeyFollow].setParam = filterSetters[1].setKeyfollow;
 	params[Envelope1Attack].setParam = &setEnvelopeAttack;
 	params[Envelope1Decay].setParam = &setEnvelopeDecay;
 	params[Envelope1Sustain].setParam = &setEnvelopeSustain;
@@ -1162,7 +1179,10 @@ void parsePreset(int size)
 	bufferIndex += 2;
 
 	numMappings = 0;
-
+	for (int i = 0; i < NUM_LFOS; i++)
+	{
+		lfoOn[i] = 0;
+	}
 	//blank out all current mappings
 	for (int i = 0; i < MAX_NUM_MAPPINGS; i++)
 	{
@@ -1202,13 +1222,20 @@ void parsePreset(int size)
 		}
 		mappings[whichMapping].sourceSmoothed[whichHook] = 1;
 
-		mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[buffer[bufferIndex]];
+		int source = buffer[bufferIndex];
 
-		if (buffer[bufferIndex] < 4) //if it's oscillators or noise (the first 4 elements of the source array), don't smooth to allow FM
+		mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[source];
+
+
+		if (source < 4) //if it's oscillators or noise (the first 4 elements of the source array), don't smooth to allow FM
 		{
 			mappings[whichMapping].sourceSmoothed[whichHook] = 0;
-		}
 
+		}
+		if ((source >= LFO_SOURCE_OFFSET) && (source < (LFO_SOURCE_OFFSET + NUM_LFOS)))
+		{
+			lfoOn[source - LFO_SOURCE_OFFSET] = 1;
+		}
 		int scalar = buffer[bufferIndex+2];
 		if (scalar == 0xff)
 		{
@@ -1217,11 +1244,15 @@ void parsePreset(int size)
 		else
 		{
 			mappings[whichMapping].scalarSourceValPtr[whichHook] = &sourceValues[buffer[bufferIndex+2]];
+			if ((scalar >= LFO_SOURCE_OFFSET) && (scalar < (LFO_SOURCE_OFFSET + NUM_LFOS)))
+			{
+				lfoOn[scalar - LFO_SOURCE_OFFSET] = 1;
+			}
 		}
 		int16_t amountInt = (buffer[bufferIndex+3] << 8) + buffer[bufferIndex+4];
-		float amountFloat = amountInt * INV_TWO_TO_15;
+		float amountFloat = (float)amountInt * INV_TWO_TO_15;
 		//if the source is bipolar (oscillators, noise, and LFOs) then double the amount because it comes in as only half the range
-		if ((buffer[bufferIndex] < 4) || ((buffer[bufferIndex] > 28) && (buffer[bufferIndex] < 33)))
+		if ((source < 4) || ((source >= LFO_SOURCE_OFFSET) && (source < (LFO_SOURCE_OFFSET + NUM_LFOS))))
 		{
 			amountFloat *= 2.0f;
 		}

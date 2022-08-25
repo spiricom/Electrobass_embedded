@@ -24,6 +24,7 @@ typedef void (*setParam_t)(float, int);
 #define LFO_PARAMS_OFFSET 138
 #define NUM_POSSIBLE_HOOKS 3
 #define NUM_LFOS 4
+#define LFO_SOURCE_OFFSET 29
 //struct for every parameter
 typedef struct param
 {

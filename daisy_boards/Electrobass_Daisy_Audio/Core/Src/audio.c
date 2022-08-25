@@ -50,6 +50,9 @@ tTriLFO lfoTri[NUM_LFOS];
 tSawSquareLFO lfoSawSquare[NUM_LFOS];
 tSineTriLFO lfoSineTri[NUM_LFOS];
 
+uint8_t lfoOn[NUM_LFOS];
+
+
 //oscillator outputs
 float outSamples[2][NUM_OSC];
 
@@ -58,6 +61,9 @@ float outSamples[2][NUM_OSC];
 float sourceValues[NUM_SOURCES];
 
 tExpSmooth mapSmoothers[MAX_NUM_MAPPINGS];
+tExpSmooth pitchSmoother[NUM_OSC];
+tExpSmooth filterCutoffSmoother[NUM_FILT];
+
 
 float freqMult[NUM_OSC];
 float bendRangeMultiplier = 0.002929866324849f; //default to divide by 48
@@ -155,6 +161,8 @@ void audio_init(void)
 		tMBTriangle_init(&triPaired[i], &leaf);
 		tMBTriangle_setBufferOffset(&triPaired[i], MBoffset);
 		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
+	    tExpSmooth_init(&pitchSmoother[i], 64.0f, 0.02f, &leaf);
 	}
 
 	for (int i = 0; i < NUM_FILT; i++)
@@ -168,6 +176,8 @@ void audio_init(void)
 		tVZFilter_init(&VZfilterHS[i], Highshelf, 2000.f, 1.0f, &leaf);
 		tVZFilter_init(&VZfilterBR[i], BandReject, 2000.f, 1.0f, &leaf);
 		tLadderFilter_init(&Ladderfilter[i], 2000.f, 1.0f, &leaf);
+
+	    tExpSmooth_init(&filterCutoffSmoother[i], 64.0f, 0.02f, &leaf);
 	}
 
 	for (int i = 0; i < NUM_LFOS; i++)
@@ -198,6 +208,8 @@ void audio_init(void)
     {
     	tExpSmooth_init(&mapSmoothers[i], 0.0f, 0.02f, &leaf);
     }
+
+
 
 	tSimplePoly_init(&myPoly, 1, &leaf);
 	tNoise_init(&noise, WhiteNoise, &leaf);
@@ -308,6 +320,10 @@ void oscillator_tick(float note)
 		int sync = roundf(oscParams[OscisSync].realVal);
 		float finalFreq = (mtof(note + (fine*0.01f)) * freqMult[osc]) + freqOffset ;
 		finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
+		//smoothing may not be necessary
+		tExpSmooth_setDest(&pitchSmoother[osc], finalFreq);
+		finalFreq = tExpSmooth_tick(&pitchSmoother[osc]);
+
 		float sample = 0.0f;
 
 		shapeTick[osc](&sample, osc, finalFreq, shape, sync);
@@ -421,6 +437,9 @@ float filter_tick(float* samples, float note)
 
 		cutoff[f] = MIDIcutoff + (note * keyFollow);
 		cutoff[f] = LEAF_clip(0.0f, (cutoff[f]-16.0f) * 35.929824561403509f, 4095.0f);
+		//smoothing may not be necessary
+		tExpSmooth_setDest(&filterCutoffSmoother[f], cutoff[f]);
+		cutoff[f] = tExpSmooth_tick(&filterCutoffSmoother[f]);
 	}
 
 	float  sp = params[FilterSeriesParallelMix].realVal;
@@ -641,7 +660,10 @@ void lfo_tick(void)
 	for (int i = 0; i < NUM_LFOS; i++)
 	{
 		float sample = 0.0f;
-		lfoShapeTick[i](&sample,i);
+		if (lfoOn[i])
+		{
+			lfoShapeTick[i](&sample,i);
+		}
 		sourceValues[LFO_SOURCE_OFFSET + i] = sample;
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
