@@ -124,7 +124,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  SCB_EnableICache();
+  //SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -719,19 +719,19 @@ float scaleTwo(float input)
 
 float scaleOscPitch(float input)
 {
-	input = LEAF_clip(0.0f, input, 1.0f);
+	//input = LEAF_clip(0.0f, input, 1.0f);
 	return (input * 48.0f) - 24.0f;
 }
 
 float scaleOscFine(float input)
 {
-	input = LEAF_clip(0.0f, input, 1.f);
+	//input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 200.0f) - 100.0f;
 }
 
 float scaleOscFreq(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	//input = LEAF_clip(0.f, input, 1.f);
 	return (input * 4000.0f) - 2000.0f;
 }
 
@@ -749,7 +749,7 @@ float scalePitchBend(float input)
 
 float scaleFilterCutoff(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	//input = LEAF_clip(0.f, input, 1.f);
 	return (input * 127.0f);
 }
 
@@ -1200,8 +1200,15 @@ void parsePreset(int size)
 			mappings[whichMapping].dest = &params[destNumber];
 
 		}
+		mappings[whichMapping].sourceSmoothed[whichHook] = 1;
 
 		mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[buffer[bufferIndex]];
+
+		if (buffer[bufferIndex] < 4) //if it's oscillators or noise (the first 4 elements of the source array), don't smooth to allow FM
+		{
+			mappings[whichMapping].sourceSmoothed[whichHook] = 0;
+		}
+
 		int scalar = buffer[bufferIndex+2];
 		if (scalar == 0xff)
 		{
@@ -1275,7 +1282,7 @@ void FlushECC(void *ptr, int bytes)
 	}
 }
 // helper function to initialize measuring unit (cycle counter) */
-static void CycleCounterInit( void )
+void CycleCounterInit( void )
 {
   /* Enable TRC */
   CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;

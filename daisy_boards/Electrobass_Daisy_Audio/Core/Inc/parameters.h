@@ -54,6 +54,7 @@ typedef struct mapping
 	uint8_t destNumber;
 	param* dest;
 	float* sourceValPtr[NUM_POSSIBLE_HOOKS];
+	uint8_t sourceSmoothed[NUM_POSSIBLE_HOOKS];
 	float* scalarSourceValPtr[NUM_POSSIBLE_HOOKS];
 	float amount[NUM_POSSIBLE_HOOKS];
 	uint8_t numHooks;

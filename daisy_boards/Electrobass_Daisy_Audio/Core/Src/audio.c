@@ -52,8 +52,12 @@ tSineTriLFO lfoSineTri[NUM_LFOS];
 
 //oscillator outputs
 float outSamples[2][NUM_OSC];
+
+
 //source vals
 float sourceValues[NUM_SOURCES];
+
+tExpSmooth mapSmoothers[MAX_NUM_MAPPINGS];
 
 float freqMult[NUM_OSC];
 float bendRangeMultiplier = 0.002929866324849f; //default to divide by 48
@@ -176,6 +180,8 @@ void audio_init(void)
 		tSineTriLFO_init(&lfoSineTri[i], &leaf);
 		tSawSquareLFO_init(&lfoSawSquare[i], &leaf);
 	}
+
+
     // exponential decay buffer falling from 1 to
     LEAF_generate_exp(decayExpBuffer, 0.001f, 0.0f, 1.0f, -0.0008f, DECAY_EXP_BUFFER_SIZE);
 
@@ -188,6 +194,10 @@ void audio_init(void)
         tADSRT_setLeakFactor(&envs[i], ((1.0f - 0.1f) * 0.00005f) + 0.99995f);
     }
 
+    for (int i = 0; i < MAX_NUM_MAPPINGS; i++)
+    {
+    	tExpSmooth_init(&mapSmoothers[i], 0.0f, 0.02f, &leaf);
+    }
 
 	tSimplePoly_init(&myPoly, 1, &leaf);
 	tNoise_init(&noise, WhiteNoise, &leaf);
@@ -229,6 +239,7 @@ void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 }
 
 const int syncMap[3] = {2, 0, 1};
+uint32_t timeMIDI = 0;
 
 void audioFrame(uint16_t buffer_offset)
 {
@@ -254,11 +265,9 @@ void audioFrame(uint16_t buffer_offset)
 			sendPitchBend(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
 		}
 		midiStack.readCnt = (midiStack.readCnt + 1) & 63;
-		//midiStack.size--;
 	}
 	tmpCnt = DWT->CYCCNT - tmpCnt;
-	cycleCount[6] = tmpCnt;
-	tmpCnt = DWT->CYCCNT;
+	timeMIDI = tmpCnt;
 
 	int32_t current_sample = 0;
 
@@ -305,7 +314,6 @@ void oscillator_tick(float note)
 
 		sample *= amp;
 
-		//float normSample = (sample + 1.f) * 0.5f;
 		sourceValues[OSC_SOURCE_OFFSET + osc] = sample; // the define of zero may be wasteful
 
 		sample *= INV_NUM_OSCS;
@@ -316,11 +324,6 @@ void oscillator_tick(float note)
 	uint32_t tempCount2 = DWT->CYCCNT;
 
 	timeOsc = tempCount2-tempCount1;
-	if (timeOsc > 3000)
-	{
-		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-	}
-
 }
 
 
@@ -328,14 +331,12 @@ void sawSquareTick(float* sample, int v, float freq, float shape, int sync)
 {
     tMBSawPulse_setFreq(&sawPaired[v], freq);
     tMBSawPulse_setShape(&sawPaired[v], shape);
-    //tMBPulse_setFreq(&pulsePaired[v], freq);
     if (sync)
     {
     	tMBSawPulse_sync(&sawPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
-    	//tMBPulse_sync(&pulsePaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+
     }
-    *sample += tMBSawPulse_tick(&sawPaired[v]) * 2.f;// * (1.0f - shape) * 2.f;
-    //*sample += tMBPulse_tick(&pulsePaired[v]) * shape * 2.f;
+    *sample += tMBSawPulse_tick(&sawPaired[v]) * 2.f;
 }
 
 void sineTriTick(float* sample, int v, float freq, float shape, int sync)
@@ -385,7 +386,7 @@ void triTick(float* sample, int v, float freq, float shape, int sync)
 	{
 		tMBTriangle_sync(&tri[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
 	}
-    *sample += tMBTriangle_tick(&tri[v]) * 2.f;;
+    *sample += tMBTriangle_tick(&tri[v]) * 2.0f;;
 }
 
 void userTick(float* sample, int v, float freq, float shape, int sync)
@@ -465,7 +466,6 @@ void bandpassTick(float* sample, int v, float cutoff)
 
 void diodeLowpassTick(float* sample, int v, float cutoff)
 {
-	//tDiodeFilter_setFreq(&diodeFilters[v], mtof(cutoff/32.0f));
 	tDiodeFilter_setFreqFast(&diodeFilters[v], cutoff);
 	*sample = tDiodeFilter_tick(&diodeFilters[v], *sample);
     *sample *= filterGain[v];
@@ -626,32 +626,26 @@ void envelope_tick(void)
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int v = 0; v < NUM_ENV; v++)
 	{
-		float value = tADSRT_tickNoInterp(&envs[v]);
+		float value = tADSRT_tick(&envs[v]); //used to be noInterp but wanted to check if this sounds better and isn't too slow
 		sourceValues[ENV_SOURCE_OFFSET + v] = value;
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
 	timeEnv = tempCount2-tempCount1;
-//	if (poly->voices[0][0] == -2)
-//	{
-//	    if (envs[0]->whichStage == env_idle)
-//	    {
-//	          tSimplePoly_deactivateVoice(&poly, 0);  //remove this since we're monophonic - should check if that will break anything
-//	          voiceSounding = false;
-//	    }
-//	}
-
 }
 
+uint32_t timeLFO = 0;
 void lfo_tick(void)
 {
 	interruptChecker = 0;
+	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int i = 0; i < NUM_LFOS; i++)
 	{
-
-		float sample = 0;
+		float sample = 0.0f;
 		lfoShapeTick[i](&sample,i);
 		sourceValues[LFO_SOURCE_OFFSET + i] = sample;
 	}
+	uint32_t tempCount2 = DWT->CYCCNT;
+	timeLFO = tempCount2-tempCount1;
 }
 
 
@@ -712,17 +706,29 @@ void tickMappings(void)
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int i = 0; i < numMappings; i++)
 	{
-		float value = 0.0f;
+		float unsmoothedValue = 0.0f;
+		float smoothedValue = 0.0f;
 		for (int j = 0; j < mappings[i].numHooks; j++)
 		{
 			float sum = *mappings[i].sourceValPtr[j] * mappings[i].amount[j] * *mappings[i].scalarSourceValPtr[j];
-			value += sum;
+			if (mappings[i].sourceSmoothed[j])
+			{
+				smoothedValue += sum;
+			}
+			else
+			{
+				unsmoothedValue += sum;
+			}
 		}
 		//sources are now summed - let's add the initial value
-		value += mappings[i].dest->zeroToOneVal;
+		smoothedValue += mappings[i].dest->zeroToOneVal;
+
+		tExpSmooth_setDest(&mapSmoothers[i], smoothedValue);
+		smoothedValue = tExpSmooth_tick(&mapSmoothers[i]);
+		float finalVal = unsmoothedValue + smoothedValue;
 
 		//now scale the value with the correct scaling function
-		mappings[i].dest->realVal = mappings[i].dest->scaleFunc(value);
+		mappings[i].dest->realVal = mappings[i].dest->scaleFunc(finalVal);
 
 		//and pop that value where it belongs by setting the actual parameter
 		mappings[i].dest->setParam(mappings[i].dest->realVal, mappings[i].dest->objectNumber);
@@ -889,16 +895,16 @@ void lfoSineTick(float* sample, int v)
 
 void lfoTriTick(float* sample, int v)
 {
-    *sample = tMBTriangle_tick(&lfoTri[v]) * 2.f;
+    *sample = tTriLFO_tick(&lfoTri[v]);
 }
 void lfoSawTick(float* sample, int v)
 {
-    *sample = tIntPhasor_tick(&lfoSaw[v]) * 2.f;
+    *sample = (tIntPhasor_tick(&lfoSaw[v]) * 2.0f) - 1.0f;
 }
 
 void lfoPulseTick(float* sample, int v)
 {
-    *sample = tSquareLFO_tick(&lfoPulse[v]) * 2.f;
+    *sample = tSquareLFO_tick(&lfoPulse[v]);
 }
 
 void lfoSawSquareSetRate(float r, int v)
@@ -991,24 +997,13 @@ void cStack_init(cStack* stack)
         stack->buffer[i][1] = -1;
         stack->buffer[i][2] = -1;
     }
-    //stack->size = 0;
-}
-
-int cStack_size(cStack* stack)
-{
-    if (stack->writeCnt >= stack->readCnt)
-        return stack->writeCnt - stack->readCnt;
-    else
-        return 10 - (stack->readCnt - stack->writeCnt);
 }
 void cStack_push(cStack* stack, uint8_t val, uint8_t val1, uint8_t val2)
 {
-	//not doing size checking for speeed
     stack->buffer[stack->writeCnt][0] = val;
     stack->buffer[stack->writeCnt][1] = val1;
     stack->buffer[stack->writeCnt][2] = val2;
     stack->writeCnt = (stack->writeCnt + 1 ) & 63;
-    //stack->size++;
 }
 
 void cStack_pop(cStack* stack, uint8_t* output)
@@ -1017,7 +1012,7 @@ void cStack_pop(cStack* stack, uint8_t* output)
     output[1] = stack->buffer[stack->readCnt][1];
     output[2] = stack->buffer[stack->readCnt][2];
     stack->readCnt = (stack->readCnt + 1) & 63;
-    //stack->size--;
+
 }
 
 
