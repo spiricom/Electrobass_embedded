@@ -125,7 +125,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  //SCB_EnableICache();
+  SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -550,18 +550,17 @@ void MPU_Conf(void)
 
 	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 
-	  //AN4838
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
 	  //Shared Device
-//	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-//	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-//	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-//	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
 
+	  //AN4838
+//	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+//	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+//	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+//	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
 
 	  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
 
@@ -575,80 +574,98 @@ void MPU_Conf(void)
 
 
 	  //now set up D3 domain RAM
+	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  //D2 Domain�SRAM1
+	  MPU_InitStruct.BaseAddress = 0x38000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+	  //AN4838
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
 
-	 	  //D2 Domain�SRAM1
-	 	  MPU_InitStruct.BaseAddress = 0x38000000;
+	  //BackupSRAM
+	  MPU_InitStruct.BaseAddress = 0x38800000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_4KB;
 
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 
-	 	  MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
 
-	 	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-
-	 	  //AN4838
-	 	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-	 	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
-	 	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	 	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-
-	 	  //Shared Device
-	 //	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	 //	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	 //	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	 //	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-
-
-	 	  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
-
-	 	  MPU_InitStruct.SubRegionDisable = 0x00;
-
-
-	 	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-
-
-	 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 
 
-	 	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
 
-	 		  //D2 Domain�SRAM1
-	 		  MPU_InitStruct.BaseAddress = 0x38800000;
-	 		  // Increased region size to 256k. In Keshikan's code, this was 512 bytes (that's all that application needed).
-	 		  // Each audio buffer takes up the frame size * 8 (16 bits makes it *2 and stereo makes it *2 and double buffering makes it *2)
-	 		  // So a buffer size for read/write of 4096 would take up 64k = 4096*8 * 2 (read and write).
-	 		  // I increased that to 256k so that there would be room for the ADC knob inputs and other peripherals that might require DMA access.
-	 		  // we have a total of 256k in SRAM1 (128k, 0x30000000-0x30020000) and SRAM2 (128k, 0x30020000-0x3004000) of D2 domain.
-	 		  // There is an SRAM3 in D2 domain as well (32k, 0x30040000-0x3004800) that is currently not mapped by the MPU (memory protection unit) controller.
+	  //SRAM for code execution not sure if TEX1 or TEX0 is better but probably doesn't matter because this memory is never written to, only read
+	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  MPU_InitStruct.BaseAddress = 0x24000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_512KB;
 
-	 		  MPU_InitStruct.Size = MPU_REGION_SIZE_4KB;
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 
-	 		  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
 
-	 		  //AN4838
-	 		  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-	 		  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	 		  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-	 		  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
-	 		  //Shared Device
-	 	//	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	 	//	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	 	//	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	 	//	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER3;
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 
-	 		  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+	  //SDRAM as strongly ordered to avoid speculative fetches that might stall the external memory if interrupted
+	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  MPU_InitStruct.BaseAddress = 0xc0000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_64MB;
 
-	 		  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER4;
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 
-	 		  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+	  //QSPI as strongly ordered to avoid speculative fetches that might stall the external memory if interrupted
+	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  MPU_InitStruct.BaseAddress = 0x90040000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_64MB;
 
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 
-	 		  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
 
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER5;
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
@@ -763,7 +780,7 @@ float scaleFilterResonance(float input)
 	int inputInt = (int)input;
 	float inputFloat = (float)inputInt - input;
 	int nextPos = LEAF_clip(0, inputInt + 1, 2047);
-	return (resTable[inputInt] * (1.0f - inputFloat)) + (resTable[nextPos] * inputFloat);
+	return LEAF_clip(0.1f, (resTable[inputInt] * (1.0f - inputFloat)) + (resTable[nextPos] * inputFloat), 10.0f);
 	//return
 }
 
@@ -887,7 +904,7 @@ void parsePreset(int size)
 	params[Osc1Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc1Fine].scaleFunc = &scaleOscFine;
 	params[Osc1Freq].scaleFunc = &scaleOscFreq;
-	//params[Osc1Amp].scaleFunc = &scaleTwo; // changed to scale from 0-1 instead of 0-2 to avoid FM issues when clipping range CHANGE IN PLUGIN TOO!
+	params[Osc1Amp].scaleFunc = &scaleTwo;
 	params[Osc2Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc2Fine].scaleFunc = &scaleOscFine;
 	params[Osc2Freq].scaleFunc = &scaleOscFreq;
@@ -1251,11 +1268,11 @@ void parsePreset(int size)
 		}
 		int16_t amountInt = (buffer[bufferIndex+3] << 8) + buffer[bufferIndex+4];
 		float amountFloat = (float)amountInt * INV_TWO_TO_15;
-		//if the source is bipolar (oscillators, noise, and LFOs) then double the amount because it comes in as only half the range
-		if ((source < 4) || ((source >= LFO_SOURCE_OFFSET) && (source < (LFO_SOURCE_OFFSET + NUM_LFOS))))
-		{
-			amountFloat *= 2.0f;
-		}
+//		//if the source is bipolar (oscillators, noise, and LFOs) then double the amount because it comes in as only half the range
+//		if ((source < 4) || ((source >= LFO_SOURCE_OFFSET) && (source < (LFO_SOURCE_OFFSET + NUM_LFOS))))
+//		{
+//			amountFloat *= 2.0f;
+//		}
 		mappings[whichMapping].amount[whichHook] = amountFloat;
 		mappings[whichMapping].numHooks++;
 

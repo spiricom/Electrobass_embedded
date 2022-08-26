@@ -90,6 +90,18 @@ float decayExpBuffer[DECAY_EXP_BUFFER_SIZE];
 float decayExpBufferSizeMinusOne;
 
 
+//effects
+ tHighpass dcBlock1[MAX_NUM_EFFECT];
+ tHighpass dcBlock2[MAX_NUM_EFFECT];
+ tVZFilter shelf1[MAX_NUM_EFFECT], shelf2[MAX_NUM_EFFECT], bell1[MAX_NUM_EFFECT];
+ tCompressor comp[MAX_NUM_EFFECT];
+ tCrusher bc[MAX_NUM_EFFECT];
+ tLockhartWavefolder wf[MAX_NUM_EFFECT];
+ tHermiteDelay delay1[MAX_NUM_EFFECT];
+ tHermiteDelay delay2[MAX_NUM_EFFECT];
+ tCycle mod1[MAX_NUM_EFFECT];
+ tCycle mod2[MAX_NUM_EFFECT];
+
 //master
 float amplitude = 0.0f;
 float finalMaster = 1.0f;
@@ -202,6 +214,28 @@ void audio_init(void)
     {
         tADSRT_init(&envs[i], 0.1f,10.f,0.5f,1.0f,decayExpBuffer, DECAY_EXP_BUFFER_SIZE, &leaf);
         tADSRT_setLeakFactor(&envs[i], ((1.0f - 0.1f) * 0.00005f) + 0.99995f);
+    }
+
+
+    for (int i = 0; i < NUM_EFFECT; i++)
+    {
+		tCrusher_init(&bc[i],&getProcessor()->leaf);
+		tHighpass_init(&dcBlock1[i], 5.0f,&getProcessor()->leaf);
+		tHighpass_init(&dcBlock2[i], 5.0f,&getProcessor()->leaf);
+		tVZFilter_init(&shelf1[i], Lowshelf, 80.0f, 32.0f,  &getProcessor()->leaf);
+		tVZFilter_init(&shelf2[i], Highshelf, 12000.0f, 32.0f, &getProcessor()->leaf);
+		tVZFilter_init(&bell1[i], Bell, 1000.0f, 1.9f,  &getProcessor()->leaf);
+		tVZFilter_setSampleRate(&shelf1[i], getProcessor()->leaf.sampleRate * OVERSAMPLE);
+		tVZFilter_setSampleRate(&shelf2[i], getProcessor()->leaf.sampleRate * OVERSAMPLE);
+		tVZFilter_setSampleRate(&bell1[i], getProcessor()->leaf.sampleRate * OVERSAMPLE);
+		tCompressor_init(&comp[i], &getProcessor()->leaf);
+		tLockhartWavefolder_init(&wf[i], &getProcessor()->leaf);
+		tHermiteDelay_init(&delay1[i], 6000.0f, 10000, &getProcessor()->leaf);
+		tHermiteDelay_init(&delay2[i], 6000.0f, 10000, &getProcessor()->leaf);
+		tCycle_init(&mod1[i], &getProcessor()->leaf);
+		tCycle_init(&mod2[i], &getProcessor()->leaf);
+		tCycle_setFreq(&mod1[i], 0.2f);
+		tCycle_setFreq(&mod2[i], 0.22222222222f);
     }
 
     for (int i = 0; i < MAX_NUM_MAPPINGS; i++)
@@ -318,11 +352,14 @@ void oscillator_tick(float note)
 		float amp = oscParams[OscAmp].realVal;
 		float filterSend = oscParams[OscFilterSend].realVal;
 		int sync = roundf(oscParams[OscisSync].realVal);
-		float finalFreq = (mtof(note + (fine*0.01f)) * freqMult[osc]) + freqOffset ;
-		finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
+		float freqToSmooth = (note + (fine*0.01f));
+		tExpSmooth_setDest(&pitchSmoother[osc], freqToSmooth);
+		freqToSmooth = mtof(tExpSmooth_tick(&pitchSmoother[osc]));
+		float finalFreq = (freqToSmooth * freqMult[osc]) + freqOffset ;
+		//finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
 		//smoothing may not be necessary
-		tExpSmooth_setDest(&pitchSmoother[osc], finalFreq);
-		finalFreq = tExpSmooth_tick(&pitchSmoother[osc]);
+
+
 
 		float sample = 0.0f;
 
@@ -849,6 +886,15 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 			if (useVelocity == 0) envVel = 1.f;
 		    tADSRT_on(&envs[v], envVel);
 		    voiceSounding = 1;
+		}
+		for (int v = 0; v < NUM_LFOS; v++)
+		{
+			param* lfoParams = &params[LFO_PARAMS_OFFSET + v * LFOParamsNum];
+			float noteOnSync = lfoParams[LFOSync].realVal;
+			if (noteOnSync > 0.5f)
+			{
+				lfoParams[LFOPhase].setParam(lfoParams[LFOPhase].realVal, v);
+			}
 		}
 	}
 	else

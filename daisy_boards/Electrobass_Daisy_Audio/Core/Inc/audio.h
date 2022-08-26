@@ -76,6 +76,7 @@ void sendPitchBend(uint8_t value, uint8_t ctrl);
 #define INV_NUM_OSCS 0.333333333f
 #define NUM_FILT 2
 #define NUM_ENV 4
+#define NUM_EFFECT 4
 #define NUM_SOURCES 33
 #define EXP_BUFFER_SIZE 2048
 #define DECAY_EXP_BUFFER_SIZE 4096
@@ -137,6 +138,7 @@ void lfoPulseSetShape(float s, int v);
 extern shapeTick_t shapeTick[NUM_OSC];
 extern lfoShapeTick_t lfoShapeTick[NUM_LFOS];
 
+
 float filter_tick(float* samples, float note);
 
 typedef void (*filterTick_t)(float*, int, float);
@@ -179,6 +181,25 @@ void setEnvelopeDecay(float d, int v);
 void setEnvelopeSustain(float s, int v);
 void setEnvelopeRelease(float r, int v);
 void setEnvelopeLeak(float leak, int v);
+
+//effects
+
+void effects_tick(float* samples);
+
+typedef float (*effectTick_t)(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+extern effectTick_t effectTick[NUM_EFFECT];
+
+float tiltFilterTick(float sample, float param1, float param2, float param3, float param4, float param5,int v);
+float hardClipTick(float sample, float param1, float param2, float param3, float param4, float param5,int v);
+float tanhTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+float softClipTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+float satTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+float bcTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+float compressorTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+float shaperTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+float wavefolderTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+float chorusTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+
 
 //master functions
 void setAmp(float amp, int v);

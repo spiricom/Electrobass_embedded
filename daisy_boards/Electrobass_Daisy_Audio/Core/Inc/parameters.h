@@ -100,6 +100,7 @@ enum LFOParamNames
 	LFOSync,
 	LFOParamsNum
 };
+
 typedef enum _LFOShapeSet
 {
     SineTriLFOShapeSet = 0,
