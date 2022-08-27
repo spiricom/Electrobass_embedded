@@ -186,19 +186,47 @@ void setEnvelopeLeak(float leak, int v);
 
 void effects_tick(float* samples);
 
-typedef float (*effectTick_t)(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+typedef float (*effectTick_t)(float sample,int v);
 extern effectTick_t effectTick[NUM_EFFECT];
+float blankTick(float sample, int v);
+float tiltFilterTick(float sample,int v);
+float hardClipTick(float sample, int v);
+float tanhTick(float sample, int v);
+float softClipTick(float sample, int v);
+float satTick(float sample, int v);
+float bcTick(float sample, int v);
+float compressorTick(float sample, int v);
+float shaperTick(float sample, int v);
+float wavefolderTick(float sample, int v);
+float chorusTick(float sample, int v);
 
-float tiltFilterTick(float sample, float param1, float param2, float param3, float param4, float param5,int v);
-float hardClipTick(float sample, float param1, float param2, float param3, float param4, float param5,int v);
-float tanhTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
-float softClipTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
-float satTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
-float bcTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
-float compressorTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
-float shaperTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
-float wavefolderTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
-float chorusTick(float sample, float param1, float param2, float param3, float param4, float param5, int v);
+void clipperGainSet(float value, int v);
+void wavefolderParam1(float value, int v);
+void wavefolderParam3(float value, int v);
+void tiltParam1(float value, int v);
+void tiltParam2(float value, int v);
+void tiltParam3(float value, int v);
+void tiltParam4(float value, int v);
+void compressorParam1(float value, int v);
+void compressorParam2(float value, int v);
+void compressorParam3(float value, int v);
+void compressorParam4(float value, int v);
+void compressorParam5(float value, int v);
+void offsetParam2(float value, int v);
+void param2Linear(float value, int v);
+void param3Linear(float value, int v);
+void param3Soft(float value, int v);
+void param3Hard(float value, int v);
+void param3BC(float value, int v);
+void param4Linear(float value, int v);
+void param5Linear(float value, int v);
+void fxMixSet(float value, int v);
+float wavefolderTick(float sample, int v);
+void chorusParam1(float value, int v);
+void chorusParam2(float value, int v);
+void chorusParam3(float value, int v);
+void chorusParam4(float value, int v);
+
 
 
 //master functions

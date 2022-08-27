@@ -18,13 +18,15 @@ typedef void (*setParam_t)(float, int);
 #define NUM_FILTER_TYPES 9
 #define NUM_LFO_SHAPES 6
 #define OSC_PARAMS_OFFSET 40
-#define EFFECTS_PARAMS_OFFSET 73
+#define EFFECT_PARAMS_OFFSET 73
 #define FILTER_PARAMS_OFFSET 101
 #define ENVELOPE_PARAMS_OFFSET 114
 #define LFO_PARAMS_OFFSET 138
 #define NUM_POSSIBLE_HOOKS 3
 #define NUM_LFOS 4
 #define LFO_SOURCE_OFFSET 29
+#define NUM_EFFECT_TYPES 11
+
 //struct for every parameter
 typedef struct param
 {
@@ -49,6 +51,17 @@ typedef struct lfoSetter
 	setParam_t setShape;
 	setParam_t setPhase;
 } lfoSetter;
+
+
+typedef struct effectSetter
+{
+	setParam_t setParam1;
+	setParam_t setParam2;
+	setParam_t setParam3;
+	setParam_t setParam4;
+	setParam_t setParam5;
+} effectSetter;
+
 
 typedef struct mapping
 {
@@ -101,6 +114,18 @@ enum LFOParamNames
 	LFOParamsNum
 };
 
+enum EffectParamNames
+{
+	EffectFXType,
+	EffectParam1,
+	EffectParam2,
+	EffectParam3,
+	EffectParam4,
+	EffectParam5,
+	EffectMix,
+	EffectParamsNum,
+};
+
 typedef enum _LFOShapeSet
 {
     SineTriLFOShapeSet = 0,
@@ -122,6 +147,23 @@ enum EnvelopeParamNames
 	EnvelopeVelocity,
 	EnvelopeParamsNum
 };
+
+
+typedef enum _FXType
+{
+    None = 0,
+    Softclip,
+    Hardclip,
+    ABSaturator,
+    Tanh,
+    Shaper,
+    Compressor,
+    Chorus,
+    Bitcrush,
+    TiltFilter,
+    Wavefolder,
+    FXTypeNil
+} FXType;
 
 
 enum ParamNames

@@ -102,14 +102,13 @@ uint8_t numMappings = 0;
 
 filterSetter filterSetters[NUM_FILT];
 lfoSetter lfoSetters[NUM_LFOS];
-
+effectSetter effectSetters[NUM_EFFECT];
 float defaultScaling = 1.0f;
 
 float resTable[2048];
 float envTimeTable[2048];
 float lfoRateTable[2048];
 
-//uint8_t bootloadFlag __ATTR_RAM_D3;
 uint8_t volatile interruptChecker = 0;
 
 uint8_t volatile foundOne = 0;
@@ -810,6 +809,7 @@ float scaleLFORates(float input)
 	return (lfoRateTable[inputInt] * (1.0f - inputFloat)) + (lfoRateTable[nextPos] * inputFloat);
 	//return
 }
+
 void blankFunction(float a, int b)
 {
 	;
@@ -943,86 +943,86 @@ void parsePreset(int size)
 	for (int i = 0; i < NUM_OSC; i++)
 	{
 		int oscshape = roundf(params[Osc1ShapeSet + (OscParamsNum * i)].realVal * (NUM_OSC_SHAPES-1));
-		switch (oscshape){
-				  case 0:
-					  shapeTick[i] = &sawSquareTick;
-					  break;
-				  case 1:
-					  shapeTick[i] = &sineTriTick;
-					  break;
-				  case 2:
-					  shapeTick[i] = &sawTick;
-					  break;
-				  case 3:
-					  shapeTick[i] = &pulseTick;
-					  break;
-				  case 4:
-					  shapeTick[i] = &sineTick;
-					  break;
-				  case 5:
-					  shapeTick[i] = &triTick;
-					  break;
-				  case 6:
-					  shapeTick[i] = &userTick;
-					  break;
-				  default:
-					  break;
+		switch (oscshape)
+		{
+			  case 0:
+				  shapeTick[i] = &sawSquareTick;
+				  break;
+			  case 1:
+				  shapeTick[i] = &sineTriTick;
+				  break;
+			  case 2:
+				  shapeTick[i] = &sawTick;
+				  break;
+			  case 3:
+				  shapeTick[i] = &pulseTick;
+				  break;
+			  case 4:
+				  shapeTick[i] = &sineTick;
+				  break;
+			  case 5:
+				  shapeTick[i] = &triTick;
+				  break;
+			  case 6:
+				  shapeTick[i] = &userTick;
+				  break;
+			  default:
+				  break;
 	}
 
 
 	for (int i = 0; i < NUM_FILT; i++)
 	{
 		int filterType = roundf(params[Filter1Type + (i * FilterParamsNum)].realVal * (NUM_FILTER_TYPES-1));
-		//filterSetters[i].setCutoff = &filterSetCutoff;
-		//filterSetters[i].setKeyfollow = &filterSetKeyfollow;
-		switch (filterType){
-				  case 0:
-					  filterTick[i] = &lowpassTick;
-					  filterSetters[i].setQ = &lowpassSetQ;
-					  filterSetters[i].setGain = &lowpassSetGain;
-					  break;
-				  case 1:
-					  filterTick[i] = &highpassTick;
-					  filterSetters[i].setQ = &highpassSetQ;
-					  filterSetters[i].setGain = &highpassSetGain;
-					  break;
-				  case 2:
-					  filterTick[i] = &bandpassTick;
-					  filterSetters[i].setQ = &bandpassSetQ;
-					  filterSetters[i].setGain = &bandpassSetGain;
-					  break;
-				  case 3:
-					  filterTick[i] = &diodeLowpassTick;
-					  filterSetters[i].setQ = &diodeLowpassSetQ;
-					  filterSetters[i].setGain = &diodeLowpassSetGain;
-					  break;
-				  case 4:
-					  filterTick[i] = &VZpeakTick;
-					  filterSetters[i].setQ = &VZpeakSetQ;
-					  filterSetters[i].setGain = &VZpeakSetGain;
-					  break;
-				  case 5:
-					  filterTick[i] = &VZlowshelfTick;
-					  filterSetters[i].setQ = &VZlowshelfSetQ;
-					  filterSetters[i].setGain = &VZlowshelfSetGain;
-					  break;
-				  case 6:
-					  filterTick[i] = &VZhighshelfTick;
-					  filterSetters[i].setQ = &VZhighshelfSetQ;
-					  filterSetters[i].setGain = &VZhighshelfSetGain;
-					  break;
-				  case 7:
-					  filterTick[i] = &VZbandrejectTick;
-					  filterSetters[i].setQ = &VZbandrejectSetQ;
-					  filterSetters[i].setGain = &VZbandrejectSetGain;
-					  break;
-				  case 8:
-					  filterTick[i] = &LadderLowpassTick;
-					  filterSetters[i].setQ = &LadderLowpassSetQ;
-					  filterSetters[i].setGain = &LadderLowpassSetGain;
-					  break;
-				  default:
-					  break;
+		switch (filterType)
+		{
+			  case 0:
+				  filterTick[i] = &lowpassTick;
+				  filterSetters[i].setQ = &lowpassSetQ;
+				  filterSetters[i].setGain = &lowpassSetGain;
+				  break;
+			  case 1:
+				  filterTick[i] = &highpassTick;
+				  filterSetters[i].setQ = &highpassSetQ;
+				  filterSetters[i].setGain = &highpassSetGain;
+				  break;
+			  case 2:
+				  filterTick[i] = &bandpassTick;
+				  filterSetters[i].setQ = &bandpassSetQ;
+				  filterSetters[i].setGain = &bandpassSetGain;
+				  break;
+			  case 3:
+				  filterTick[i] = &diodeLowpassTick;
+				  filterSetters[i].setQ = &diodeLowpassSetQ;
+				  filterSetters[i].setGain = &diodeLowpassSetGain;
+				  break;
+			  case 4:
+				  filterTick[i] = &VZpeakTick;
+				  filterSetters[i].setQ = &VZpeakSetQ;
+				  filterSetters[i].setGain = &VZpeakSetGain;
+				  break;
+			  case 5:
+				  filterTick[i] = &VZlowshelfTick;
+				  filterSetters[i].setQ = &VZlowshelfSetQ;
+				  filterSetters[i].setGain = &VZlowshelfSetGain;
+				  break;
+			  case 6:
+				  filterTick[i] = &VZhighshelfTick;
+				  filterSetters[i].setQ = &VZhighshelfSetQ;
+				  filterSetters[i].setGain = &VZhighshelfSetGain;
+				  break;
+			  case 7:
+				  filterTick[i] = &VZbandrejectTick;
+				  filterSetters[i].setQ = &VZbandrejectSetQ;
+				  filterSetters[i].setGain = &VZbandrejectSetGain;
+				  break;
+			  case 8:
+				  filterTick[i] = &LadderLowpassTick;
+				  filterSetters[i].setQ = &LadderLowpassSetQ;
+				  filterSetters[i].setGain = &LadderLowpassSetGain;
+				  break;
+			  default:
+				  break;
 			}
 		}
 	}
@@ -1030,46 +1030,144 @@ void parsePreset(int size)
 	for (int i = 0; i < NUM_LFOS; i++)
 	{
 		int LFOType = roundf(params[LFO1ShapeSet + (i * LFOParamsNum)].realVal * (NUM_LFO_SHAPES-1));
-		switch(LFOType){
-					case SineTriLFOShapeSet:
-						lfoShapeTick[i] = &lfoSineTriTick;
-						lfoSetters[i].setRate = &lfoSineTriSetRate;
-						lfoSetters[i].setShape = &lfoSineTriSetShape;
-						lfoSetters[i].setPhase = &lfoSineTriSetPhase;
-						break;
-					case SawPulseLFOShapeSet:
-						lfoShapeTick[i] = &lfoSawSquareTick;
-						lfoSetters[i].setRate = &lfoSawSquareSetRate;
-						lfoSetters[i].setShape = &lfoSawSquareSetShape;
-						lfoSetters[i].setPhase = &lfoSawSquareSetPhase;
-						break;
-					case SineLFOShapeSet:
-						lfoShapeTick[i] = &lfoSineTick;
-						lfoSetters[i].setRate = &lfoSineSetRate;
-						lfoSetters[i].setShape = &lfoSineSetShape;
-						lfoSetters[i].setPhase = &lfoSineSetPhase;
-						break;
-					case TriLFOShapeSet:
-						lfoShapeTick[i] = &lfoTriTick;
-						lfoSetters[i].setRate = &lfoTriSetRate;
-						lfoSetters[i].setShape = &lfoTriSetShape;
-						lfoSetters[i].setPhase = &lfoTriSetPhase;
-						break;
-					case SawLFOShapeSet:
-						lfoShapeTick[i] = &lfoSawTick;
-						lfoSetters[i].setRate = &lfoSawSetRate;
-						lfoSetters[i].setShape = &lfoSawSetShape;
-						lfoSetters[i].setPhase = &lfoSawSetPhase;
-						break;
-					case PulseLFOShapeSet:
-						lfoShapeTick[i] = &lfoPulseTick;
-						lfoSetters[i].setRate = &lfoPulseSetRate;
-						lfoSetters[i].setShape = &lfoPulseSetShape;
-					    lfoSetters[i].setPhase = &lfoPulseSetPhase;
-						break;
+		switch(LFOType)
+		{
+			case SineTriLFOShapeSet:
+				lfoShapeTick[i] = &lfoSineTriTick;
+				lfoSetters[i].setRate = &lfoSineTriSetRate;
+				lfoSetters[i].setShape = &lfoSineTriSetShape;
+				lfoSetters[i].setPhase = &lfoSineTriSetPhase;
+				break;
+			case SawPulseLFOShapeSet:
+				lfoShapeTick[i] = &lfoSawSquareTick;
+				lfoSetters[i].setRate = &lfoSawSquareSetRate;
+				lfoSetters[i].setShape = &lfoSawSquareSetShape;
+				lfoSetters[i].setPhase = &lfoSawSquareSetPhase;
+				break;
+			case SineLFOShapeSet:
+				lfoShapeTick[i] = &lfoSineTick;
+				lfoSetters[i].setRate = &lfoSineSetRate;
+				lfoSetters[i].setShape = &lfoSineSetShape;
+				lfoSetters[i].setPhase = &lfoSineSetPhase;
+				break;
+			case TriLFOShapeSet:
+				lfoShapeTick[i] = &lfoTriTick;
+				lfoSetters[i].setRate = &lfoTriSetRate;
+				lfoSetters[i].setShape = &lfoTriSetShape;
+				lfoSetters[i].setPhase = &lfoTriSetPhase;
+				break;
+			case SawLFOShapeSet:
+				lfoShapeTick[i] = &lfoSawTick;
+				lfoSetters[i].setRate = &lfoSawSetRate;
+				lfoSetters[i].setShape = &lfoSawSetShape;
+				lfoSetters[i].setPhase = &lfoSawSetPhase;
+				break;
+			case PulseLFOShapeSet:
+				lfoShapeTick[i] = &lfoPulseTick;
+				lfoSetters[i].setRate = &lfoPulseSetRate;
+				lfoSetters[i].setShape = &lfoPulseSetShape;
+				lfoSetters[i].setPhase = &lfoPulseSetPhase;
+				break;
 		}
 	}
 
+	for (int i = 0; i < NUM_EFFECT; i++)
+	{
+		FXType effectType = roundf(params[Effect1FXType + (EffectParamsNum * i)].realVal * (NUM_EFFECT_TYPES-1));
+		switch (effectType)
+		{
+			  case None:
+				  effectTick[i] = &blankTick;
+				  effectSetters[i].setParam1 = &blankFunction;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &blankFunction;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Softclip:
+				  effectTick[i] = &softClipTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Soft;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Hardclip:
+				  effectTick[i] = &hardClipTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Hard;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case ABSaturator:
+				  effectTick[i] = &satTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Linear;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Tanh:
+				  effectTick[i] = &tanhTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Linear;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Shaper:
+				  effectTick[i] = &shaperTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Linear;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Compressor:
+				  effectTick[i] = &compressorTick;
+				  effectSetters[i].setParam1 = &compressorParam1;
+				  effectSetters[i].setParam2 = &compressorParam2;
+				  effectSetters[i].setParam3 = &compressorParam3;
+				  effectSetters[i].setParam4 = &compressorParam4;
+				  effectSetters[i].setParam5 = &compressorParam5;
+				  break;
+			  case Chorus:
+				  effectTick[i] = &chorusTick;
+				  effectSetters[i].setParam1 = &chorusParam1;
+				  effectSetters[i].setParam2 = &chorusParam2;
+				  effectSetters[i].setParam3 = &chorusParam3;
+				  effectSetters[i].setParam4 = &chorusParam4;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Bitcrush:
+				  effectTick[i] = &bcTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &param2Linear;
+				  effectSetters[i].setParam3 = &param3BC;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &param5Linear;
+				  break;
+			  case TiltFilter:
+				  effectTick[i] = &tiltFilterTick;
+				  effectSetters[i].setParam1 = &tiltParam1;
+				  effectSetters[i].setParam2 = &tiltParam2;
+				  effectSetters[i].setParam3 = &tiltParam3;
+				  effectSetters[i].setParam4 = &tiltParam4;
+				  effectSetters[i].setParam5 = &param5Linear;
+				  break;
+			  case Wavefolder:
+				  effectTick[i] = &wavefolderTick;
+				  effectSetters[i].setParam1 = &wavefolderParam1;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &wavefolderParam3;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &param5Linear;
+				  break;
+			  default:
+				  break;
+		}
+	}
 
 	///////Setters for paramMapping
 	params[Master].setParam = &setMaster;
@@ -1080,6 +1178,35 @@ void parsePreset(int size)
 	params[Osc1Pitch].setParam = &setFreqMult;
 	params[Osc2Pitch].setParam = &setFreqMult;
 	params[Osc3Pitch].setParam = &setFreqMult;
+
+	params[Effect1Param1].setParam = effectSetters[0].setParam1;
+	params[Effect1Param2].setParam = effectSetters[0].setParam2;
+	params[Effect1Param3].setParam = effectSetters[0].setParam3;
+	params[Effect1Param4].setParam = effectSetters[0].setParam4;
+	params[Effect1Param5].setParam = effectSetters[0].setParam5;
+	params[Effect1Mix].setParam = &fxMixSet;
+
+	params[Effect2Param1].setParam = effectSetters[1].setParam1;
+	params[Effect2Param2].setParam = effectSetters[1].setParam2;
+	params[Effect2Param3].setParam = effectSetters[1].setParam3;
+	params[Effect2Param4].setParam = effectSetters[1].setParam4;
+	params[Effect2Param5].setParam = effectSetters[1].setParam5;
+	params[Effect2Mix].setParam = &fxMixSet;
+
+	params[Effect3Param1].setParam = effectSetters[2].setParam1;
+	params[Effect3Param2].setParam = effectSetters[2].setParam2;
+	params[Effect3Param3].setParam = effectSetters[2].setParam3;
+	params[Effect3Param4].setParam = effectSetters[2].setParam4;
+	params[Effect3Param5].setParam = effectSetters[2].setParam5;
+	params[Effect3Mix].setParam = &fxMixSet;
+
+	params[Effect4Param1].setParam = effectSetters[3].setParam1;
+	params[Effect4Param2].setParam = effectSetters[3].setParam2;
+	params[Effect4Param3].setParam = effectSetters[3].setParam3;
+	params[Effect4Param4].setParam = effectSetters[3].setParam4;
+	params[Effect4Param5].setParam = effectSetters[3].setParam5;
+	params[Effect4Mix].setParam = &fxMixSet;
+
 	params[Filter1Resonance].setParam = filterSetters[0].setQ;
 	params[Filter1Gain].setParam = filterSetters[0].setGain; //gain is a special case for set params where the scaling function leaves it alone because it's different based on filter type
 	params[Filter2Resonance].setParam = filterSetters[1].setQ;
@@ -1180,8 +1307,23 @@ void parsePreset(int size)
 		{
 			params[i].objectNumber = 3;
 		}
-		//other
-
+		//effects
+		else if ((i >= Effect1FXType) && (i < Effect2FXType))
+		{
+			params[i].objectNumber = 0;
+		}
+		else if ((i >= Effect2FXType) && (i < Effect3FXType))
+		{
+			params[i].objectNumber = 1;
+		}
+		else if ((i >= Effect3FXType) && (i < Effect4FXType))
+		{
+			params[i].objectNumber = 2;
+		}
+		else if ((i >= Effect4FXType) && (i < Filter1))
+		{
+			params[i].objectNumber = 3;
+		}
 
 		params[i].setParam(params[i].realVal, params[i].objectNumber);
 
