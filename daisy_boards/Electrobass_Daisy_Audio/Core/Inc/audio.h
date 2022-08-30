@@ -76,13 +76,14 @@ void sendPitchBend(uint8_t value, uint8_t ctrl);
 #define INV_NUM_OSCS 0.333333333f
 #define NUM_FILT 2
 #define NUM_ENV 4
+#define NUM_EFFECT 4
 #define NUM_SOURCES 33
 #define EXP_BUFFER_SIZE 2048
 #define DECAY_EXP_BUFFER_SIZE 4096
 #define OSC_SOURCE_OFFSET 0
 #define CTRL_SOURCE_OFFSET 20
 #define ENV_SOURCE_OFFSET 25
-
+#define LFO_SOURCE_OFFSET 29
 
 #define CTRL_MIDI_START 17
 
@@ -94,17 +95,48 @@ void setNoiseAmp(float in, int v);
 
 void oscillator_tick(float note);
 
-typedef void (*shapeTick_t)(float*, int, float, float);
+typedef void (*shapeTick_t)(float*, int, float, float, int);
+typedef void (*lfoShapeTick_t)(float*, int);
+void sawSquareTick(float* sample, int v, float freq, float shape, int sync);
+void sineTriTick(float* sample, int v, float freq, float shape, int sync);
+void sawTick(float* sample, int v, float freq, float shape, int sync);
+void pulseTick(float* sample, int v, float freq, float shape, int sync);
+void sineTick(float* sample, int v, float freq, float shape, int sync);
+void triTick(float* sample, int v, float freq, float shape, int sync);
+void userTick(float* sample, int v, float freq, float shape, int sync);
 
-void sawSquareTick(float* sample, int v, float freq, float shape);
-void sineTriTick(float* sample, int v, float freq, float shape);
-void sawTick(float* sample, int v, float freq, float shape);
-void pulseTick(float* sample, int v, float freq, float shape);
-void sineTick(float* sample, int v, float freq, float shape);
-void triTick(float* sample, int v, float freq, float shape);
-void userTick(float* sample, int v, float freq, float shape);
+void lfoSawSquareTick(float* sample, int v);
+void lfoSineTriTick(float* sample, int v);
+void lfoSineTick(float* sample, int v);
+void lfoTriTick(float* sample, int v);
+void lfoSawTick(float* sample, int v);
+void lfoPulseTick(float* sample, int v);
+
+void lfoSawSquareSetRate(float r, int v);
+void lfoSineTriSetRate(float r, int v);
+void lfoSineSetRate(float r, int v);
+void lfoTriSetRate(float r, int v);
+void lfoSawSetRate(float r, int v);
+void lfoPulseSetRate(float r, int v);
+
+
+void lfoSawSquareSetPhase(float p, int v);
+void lfoSineTriSetPhase(float p, int v);
+void lfoSineSetPhase(float p, int v);
+void lfoTriSetPhase(float p, int v);
+void lfoSawSetPhase(float p, int v);
+void lfoPulseSetPhase(float p, int v);
+
+
+void lfoSawSquareSetShape(float s, int v);
+void lfoSineTriSetShape(float s, int v);
+void lfoSineSetShape(float s, int v);
+void lfoTriSetShape(float s, int v);
+void lfoSawSetShape(float s, int v);
+void lfoPulseSetShape(float s, int v);
 
 extern shapeTick_t shapeTick[NUM_OSC];
+extern lfoShapeTick_t lfoShapeTick[NUM_LFOS];
 
 
 float filter_tick(float* samples, float note);
@@ -150,6 +182,53 @@ void setEnvelopeSustain(float s, int v);
 void setEnvelopeRelease(float r, int v);
 void setEnvelopeLeak(float leak, int v);
 
+//effects
+
+void effects_tick(float* samples);
+
+typedef float (*effectTick_t)(float sample,int v);
+extern effectTick_t effectTick[NUM_EFFECT];
+float blankTick(float sample, int v);
+float tiltFilterTick(float sample,int v);
+float hardClipTick(float sample, int v);
+float tanhTick(float sample, int v);
+float softClipTick(float sample, int v);
+float satTick(float sample, int v);
+float bcTick(float sample, int v);
+float compressorTick(float sample, int v);
+float shaperTick(float sample, int v);
+float wavefolderTick(float sample, int v);
+float chorusTick(float sample, int v);
+
+void clipperGainSet(float value, int v);
+void wavefolderParam1(float value, int v);
+void wavefolderParam3(float value, int v);
+void tiltParam1(float value, int v);
+void tiltParam2(float value, int v);
+void tiltParam3(float value, int v);
+void tiltParam4(float value, int v);
+void compressorParam1(float value, int v);
+void compressorParam2(float value, int v);
+void compressorParam3(float value, int v);
+void compressorParam4(float value, int v);
+void compressorParam5(float value, int v);
+void offsetParam2(float value, int v);
+void param2Linear(float value, int v);
+void param3Linear(float value, int v);
+void param3Soft(float value, int v);
+void param3Hard(float value, int v);
+void param3BC(float value, int v);
+void param4Linear(float value, int v);
+void param5Linear(float value, int v);
+void fxMixSet(float value, int v);
+float wavefolderTick(float sample, int v);
+void chorusParam1(float value, int v);
+void chorusParam2(float value, int v);
+void chorusParam3(float value, int v);
+void chorusParam4(float value, int v);
+
+
+
 //master functions
 void setAmp(float amp, int v);
 void setMaster(float amp, int v);
@@ -157,5 +236,6 @@ void setMaster(float amp, int v);
 
 
 extern float sourceValues[NUM_SOURCES];
+extern uint8_t lfoOn[NUM_LFOS];
 
 #endif /* INC_AUDIO_H_ */

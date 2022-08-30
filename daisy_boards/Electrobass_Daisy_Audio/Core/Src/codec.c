@@ -91,11 +91,6 @@ enum CodecSettings
 
 void codec_init(I2C_HandleTypeDef* i2c)
 {
-
-    // Determine dev_address
-    // I2C Driver knows to shift the address
-    int dev_addr = W8731_ADDR_0;
-
     int res;
     // Reset
     res = WriteControlRegister(i2c, CODEC_REG_RESET, 0);
@@ -148,6 +143,9 @@ void codec_init(I2C_HandleTypeDef* i2c)
     // Enable
     res = WriteControlRegister(i2c, CODEC_REG_ACTIVE, 0x01);
 
+    //to avoid unused variable warning
+    res = res;
+
 }
 
 int WriteControlRegister(I2C_HandleTypeDef* i2c, uint8_t address, uint16_t data)
@@ -155,7 +153,7 @@ int WriteControlRegister(I2C_HandleTypeDef* i2c, uint8_t address, uint16_t data)
     uint8_t byte_1  = ((address << 1) & 0xfe) | ((data >> 8) & 0x01);
     uint8_t byte_2  = data & 0xff;
     uint8_t buff[2] = {byte_1, byte_2};
-    uint8_t result = HAL_I2C_Master_Transmit(i2c, W8731_ADDR_0<<1, buff,
+    HAL_I2C_Master_Transmit(i2c, W8731_ADDR_0<<1, buff,
                                               2, 250);
 
     HAL_Delay(10);

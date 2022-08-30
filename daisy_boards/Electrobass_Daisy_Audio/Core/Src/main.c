@@ -101,13 +101,14 @@ mapping mappings[MAX_NUM_MAPPINGS];
 uint8_t numMappings = 0;
 
 filterSetter filterSetters[NUM_FILT];
+lfoSetter lfoSetters[NUM_LFOS];
+effectSetter effectSetters[NUM_EFFECT];
 float defaultScaling = 1.0f;
 
 float resTable[2048];
 float envTimeTable[2048];
 float lfoRateTable[2048];
 
-//uint8_t bootloadFlag __ATTR_RAM_D3;
 uint8_t volatile interruptChecker = 0;
 
 uint8_t volatile foundOne = 0;
@@ -183,6 +184,14 @@ int main(void)
   {
 	  buffer[i] = 0;
   }
+
+  //put in some values to make the array valid as a preset
+  buffer[1] = NUM_PARAMS;
+  buffer[NUM_PARAMS*2+2] = 0xef;
+  buffer[NUM_PARAMS*2+3] = 0xef;
+  buffer[NUM_PARAMS*2+5] = 1;
+  buffer[NUM_PARAMS*2+11] = 0xfe;
+  buffer[NUM_PARAMS*2+12] = 0xfe;
   LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
   LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
@@ -540,18 +549,17 @@ void MPU_Conf(void)
 
 	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 
-	  //AN4838
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
 	  //Shared Device
-//	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-//	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-//	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-//	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
 
+	  //AN4838
+//	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+//	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+//	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+//	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
 
 	  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
 
@@ -565,80 +573,98 @@ void MPU_Conf(void)
 
 
 	  //now set up D3 domain RAM
+	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  //D2 Domain�SRAM1
+	  MPU_InitStruct.BaseAddress = 0x38000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+	  //AN4838
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
 
-	 	  //D2 Domain�SRAM1
-	 	  MPU_InitStruct.BaseAddress = 0x38000000;
+	  //BackupSRAM
+	  MPU_InitStruct.BaseAddress = 0x38800000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_4KB;
 
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 
-	 	  MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
 
-	 	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-
-	 	  //AN4838
-	 	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-	 	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
-	 	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	 	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-
-	 	  //Shared Device
-	 //	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	 //	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	 //	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	 //	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-
-
-	 	  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
-
-	 	  MPU_InitStruct.SubRegionDisable = 0x00;
-
-
-	 	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-
-
-	 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 
 
-	 	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
 
-	 		  //D2 Domain�SRAM1
-	 		  MPU_InitStruct.BaseAddress = 0x38800000;
-	 		  // Increased region size to 256k. In Keshikan's code, this was 512 bytes (that's all that application needed).
-	 		  // Each audio buffer takes up the frame size * 8 (16 bits makes it *2 and stereo makes it *2 and double buffering makes it *2)
-	 		  // So a buffer size for read/write of 4096 would take up 64k = 4096*8 * 2 (read and write).
-	 		  // I increased that to 256k so that there would be room for the ADC knob inputs and other peripherals that might require DMA access.
-	 		  // we have a total of 256k in SRAM1 (128k, 0x30000000-0x30020000) and SRAM2 (128k, 0x30020000-0x3004000) of D2 domain.
-	 		  // There is an SRAM3 in D2 domain as well (32k, 0x30040000-0x3004800) that is currently not mapped by the MPU (memory protection unit) controller.
+	  //SRAM for code execution not sure if TEX1 or TEX0 is better but probably doesn't matter because this memory is never written to, only read
+	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  MPU_InitStruct.BaseAddress = 0x24000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_512KB;
 
-	 		  MPU_InitStruct.Size = MPU_REGION_SIZE_4KB;
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 
-	 		  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
 
-	 		  //AN4838
-	 		  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-	 		  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	 		  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-	 		  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
-	 		  //Shared Device
-	 	//	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	 	//	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	 	//	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	 	//	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER3;
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 
-	 		  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+	  //SDRAM as strongly ordered to avoid speculative fetches that might stall the external memory if interrupted
+	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  MPU_InitStruct.BaseAddress = 0xc0000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_64MB;
 
-	 		  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER4;
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 
-	 		  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+	  //QSPI as strongly ordered to avoid speculative fetches that might stall the external memory if interrupted
+	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  MPU_InitStruct.BaseAddress = 0x90040000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_64MB;
 
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
 
-	 		  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
 
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER5;
+	  MPU_InitStruct.SubRegionDisable = 0x00;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
 	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
 }
@@ -651,27 +677,11 @@ void handleSPI(uint8_t offset)
 	// if the first number is a 1 then it's a midi note/ctrl/bend message
 	if (SPI_RX[offset] == 1)
 	{
-		//got a change!
-		 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 
 		 uint8_t currentByte = offset+1;
 
 		 while ((SPI_RX[currentByte] != 0) && ((currentByte % 16) < SPI_FRAME_SIZE))
 		 {
-			 /*
-			 if (SPI_RX[currentByte] == 0x90)
-			 {
-				 cStack_push(&noteStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xb0)
-			 {
-				 cStack_push(&ctrlStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xe0)
-			 {
-				 cStack_push(&pBendStack, (int8_t)SPI_RX[currentByte+1], (int8_t)SPI_RX[currentByte+2]);
-			 }
-			 */
 			 cStack_push(&midiStack,SPI_RX[currentByte],SPI_RX[currentByte+1],SPI_RX[currentByte+2]);
 			 currentByte = currentByte+3;
 		 }
@@ -701,29 +711,8 @@ void handleSPI(uint8_t offset)
 
 		 }
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-
-
-
-		 /*
-		 while (SPI_RX[currentByte] != 0)
-		 {
-			 if (SPI_RX[currentByte] == 0x90)
-			 {
-				 sendNoteOn(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xb0)
-			 {
-				 sendCtrl(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 else if (SPI_RX[currentByte] == 0xe0)
-			 {
-				 sendPitchBend(SPI_RX[currentByte+1], SPI_RX[currentByte+2]);
-			 }
-			 currentByte = currentByte+3;
-		 }
-		 */
 	}
-
+	//if the first number is a 3, that means it's the end of a preset send
 	else if (SPI_RX[offset] == 3)
 	{
 		 writingPreset = 0;
@@ -747,19 +736,19 @@ float scaleTwo(float input)
 
 float scaleOscPitch(float input)
 {
-	input = LEAF_clip(0.0f, input, 1.0f);
+	//input = LEAF_clip(0.0f, input, 1.0f);
 	return (input * 48.0f) - 24.0f;
 }
 
 float scaleOscFine(float input)
 {
-	input = LEAF_clip(0.0f, input, 1.f);
+	//input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 200.0f) - 100.0f;
 }
 
 float scaleOscFreq(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	//input = LEAF_clip(0.f, input, 1.f);
 	return (input * 4000.0f) - 2000.0f;
 }
 
@@ -777,7 +766,7 @@ float scalePitchBend(float input)
 
 float scaleFilterCutoff(float input)
 {
-	input = LEAF_clip(0.f, input, 1.f);
+	//input = LEAF_clip(0.f, input, 1.f);
 	return (input * 127.0f);
 }
 
@@ -790,7 +779,7 @@ float scaleFilterResonance(float input)
 	int inputInt = (int)input;
 	float inputFloat = (float)inputInt - input;
 	int nextPos = LEAF_clip(0, inputInt + 1, 2047);
-	return (resTable[inputInt] * (1.0f - inputFloat)) + (resTable[nextPos] * inputFloat);
+	return LEAF_clip(0.1f, (resTable[inputInt] * (1.0f - inputFloat)) + (resTable[nextPos] * inputFloat), 10.0f);
 	//return
 }
 
@@ -820,6 +809,7 @@ float scaleLFORates(float input)
 	return (lfoRateTable[inputInt] * (1.0f - inputFloat)) + (lfoRateTable[nextPos] * inputFloat);
 	//return
 }
+
 void blankFunction(float a, int b)
 {
 	;
@@ -836,15 +826,75 @@ void parsePreset(int size)
 	 }
 	audioMasterLevel = 0.0f;
 	//osc params
-	for (int i = 0; i < NUM_PARAMS; i++)
+
+	uint16_t bufferIndex = 0;
+	//read first element in buffer as a count of how many parameters
+	uint16_t paramCount = (buffer[0] << 8) + buffer[1];
+	if (paramCount > size)
 	{
-		params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		presetWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
+	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
+	uint16_t paramEndCheck = (buffer[paramCount*2+2] << 8) + buffer[paramCount*2+3];
+	if (paramEndCheck != 0xefef)
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		presetWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+	uint16_t mappingCount = (buffer[paramCount*2+4] << 8) + buffer[paramCount*2+5];
+
+
+
+	uint16_t mappingEndLocation = (paramCount * 2) + 6 + (mappingCount * 5);
+
+	if (mappingEndLocation > size)
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		presetWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
+	uint16_t mappingEndCheck = (buffer[mappingEndLocation] << 8) + buffer[mappingEndLocation+1];
+	if (mappingEndCheck != 0xfefe) //this check value is 0xfefe
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		presetWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
+
+
+
+
+	 //move past the count position in the buffer
+	bufferIndex += 2;
+
+	//now read the parameters
+	for (int i = 0; i < paramCount; i++)
+	{
+		params[i].zeroToOneVal = INV_TWO_TO_16 * ((buffer[bufferIndex] << 8) + buffer[bufferIndex+1]);
+
 		//need to map all of the params to their scaled parameters and set them to the realVals
 		params[i].scaleFunc = &scaleDefault;
 
 		//blank function means that it doesn't actually set a final value, we will read directly from the realVals when we need it
 		params[i].setParam = &blankFunction;
+
+		bufferIndex += 2;
 	}
+
 
 	params[Master].scaleFunc = &scaleTwo;
 	params[Transpose].scaleFunc = &scaleTranspose;
@@ -854,7 +904,7 @@ void parsePreset(int size)
 	params[Osc1Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc1Fine].scaleFunc = &scaleOscFine;
 	params[Osc1Freq].scaleFunc = &scaleOscFreq;
-	//params[Osc1Amp].scaleFunc = &scaleTwo; // changed to scale from 0-1 instead of 0-2 to avoid FM issues when clipping range CHANGE IN PLUGIN TOO!
+	params[Osc1Amp].scaleFunc = &scaleTwo;
 	params[Osc2Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc2Fine].scaleFunc = &scaleOscFine;
 	params[Osc2Freq].scaleFunc = &scaleOscFreq;
@@ -893,90 +943,233 @@ void parsePreset(int size)
 	for (int i = 0; i < NUM_OSC; i++)
 	{
 		int oscshape = roundf(params[Osc1ShapeSet + (OscParamsNum * i)].realVal * (NUM_OSC_SHAPES-1));
-		switch (oscshape){
-				  case 0:
-					  shapeTick[i] = &sawSquareTick;
-					  break;
-				  case 1:
-					  shapeTick[i] = &sineTriTick;
-					  break;
-				  case 2:
-					  shapeTick[i] = &sawTick;
-					  break;
-				  case 3:
-					  shapeTick[i] = &pulseTick;
-					  break;
-				  case 4:
-					  shapeTick[i] = &sineTick;
-					  break;
-				  case 5:
-					  shapeTick[i] = &triTick;
-					  break;
-				  case 6:
-					  shapeTick[i] = &userTick;
-					  break;
-				  default:
-					  break;
+		switch (oscshape)
+		{
+			  case 0:
+				  shapeTick[i] = &sawSquareTick;
+				  break;
+			  case 1:
+				  shapeTick[i] = &sineTriTick;
+				  break;
+			  case 2:
+				  shapeTick[i] = &sawTick;
+				  break;
+			  case 3:
+				  shapeTick[i] = &pulseTick;
+				  break;
+			  case 4:
+				  shapeTick[i] = &sineTick;
+				  break;
+			  case 5:
+				  shapeTick[i] = &triTick;
+				  break;
+			  case 6:
+				  shapeTick[i] = &userTick;
+				  break;
+			  default:
+				  break;
 	}
 
 
 	for (int i = 0; i < NUM_FILT; i++)
 	{
 		int filterType = roundf(params[Filter1Type + (i * FilterParamsNum)].realVal * (NUM_FILTER_TYPES-1));
-		//filterSetters[i].setCutoff = &filterSetCutoff;
-		//filterSetters[i].setKeyfollow = &filterSetKeyfollow;
-		switch (filterType){
-				  case 0:
-					  filterTick[i] = &lowpassTick;
-					  filterSetters[i].setQ = &lowpassSetQ;
-					  filterSetters[i].setGain = &lowpassSetGain;
-					  break;
-				  case 1:
-					  filterTick[i] = &highpassTick;
-					  filterSetters[i].setQ = &highpassSetQ;
-					  filterSetters[i].setGain = &highpassSetGain;
-					  break;
-				  case 2:
-					  filterTick[i] = &bandpassTick;
-					  filterSetters[i].setQ = &bandpassSetQ;
-					  filterSetters[i].setGain = &bandpassSetGain;
-					  break;
-				  case 3:
-					  filterTick[i] = &diodeLowpassTick;
-					  filterSetters[i].setQ = &diodeLowpassSetQ;
-					  filterSetters[i].setGain = &diodeLowpassSetGain;
-					  break;
-				  case 4:
-					  filterTick[i] = &VZpeakTick;
-					  filterSetters[i].setQ = &VZpeakSetQ;
-					  filterSetters[i].setGain = &VZpeakSetGain;
-					  break;
-				  case 5:
-					  filterTick[i] = &VZlowshelfTick;
-					  filterSetters[i].setQ = &VZlowshelfSetQ;
-					  filterSetters[i].setGain = &VZlowshelfSetGain;
-					  break;
-				  case 6:
-					  filterTick[i] = &VZhighshelfTick;
-					  filterSetters[i].setQ = &VZhighshelfSetQ;
-					  filterSetters[i].setGain = &VZhighshelfSetGain;
-					  break;
-				  case 7:
-					  filterTick[i] = &VZbandrejectTick;
-					  filterSetters[i].setQ = &VZbandrejectSetQ;
-					  filterSetters[i].setGain = &VZbandrejectSetGain;
-					  break;
-				  case 8:
-					  filterTick[i] = &LadderLowpassTick;
-					  filterSetters[i].setQ = &LadderLowpassSetQ;
-					  filterSetters[i].setGain = &LadderLowpassSetGain;
-					  break;
-				  default:
-					  break;
+		switch (filterType)
+		{
+			  case 0:
+				  filterTick[i] = &lowpassTick;
+				  filterSetters[i].setQ = &lowpassSetQ;
+				  filterSetters[i].setGain = &lowpassSetGain;
+				  break;
+			  case 1:
+				  filterTick[i] = &highpassTick;
+				  filterSetters[i].setQ = &highpassSetQ;
+				  filterSetters[i].setGain = &highpassSetGain;
+				  break;
+			  case 2:
+				  filterTick[i] = &bandpassTick;
+				  filterSetters[i].setQ = &bandpassSetQ;
+				  filterSetters[i].setGain = &bandpassSetGain;
+				  break;
+			  case 3:
+				  filterTick[i] = &diodeLowpassTick;
+				  filterSetters[i].setQ = &diodeLowpassSetQ;
+				  filterSetters[i].setGain = &diodeLowpassSetGain;
+				  break;
+			  case 4:
+				  filterTick[i] = &VZpeakTick;
+				  filterSetters[i].setQ = &VZpeakSetQ;
+				  filterSetters[i].setGain = &VZpeakSetGain;
+				  break;
+			  case 5:
+				  filterTick[i] = &VZlowshelfTick;
+				  filterSetters[i].setQ = &VZlowshelfSetQ;
+				  filterSetters[i].setGain = &VZlowshelfSetGain;
+				  break;
+			  case 6:
+				  filterTick[i] = &VZhighshelfTick;
+				  filterSetters[i].setQ = &VZhighshelfSetQ;
+				  filterSetters[i].setGain = &VZhighshelfSetGain;
+				  break;
+			  case 7:
+				  filterTick[i] = &VZbandrejectTick;
+				  filterSetters[i].setQ = &VZbandrejectSetQ;
+				  filterSetters[i].setGain = &VZbandrejectSetGain;
+				  break;
+			  case 8:
+				  filterTick[i] = &LadderLowpassTick;
+				  filterSetters[i].setQ = &LadderLowpassSetQ;
+				  filterSetters[i].setGain = &LadderLowpassSetGain;
+				  break;
+			  default:
+				  break;
 			}
 		}
 	}
 
+	for (int i = 0; i < NUM_LFOS; i++)
+	{
+		int LFOType = roundf(params[LFO1ShapeSet + (i * LFOParamsNum)].realVal * (NUM_LFO_SHAPES-1));
+		switch(LFOType)
+		{
+			case SineTriLFOShapeSet:
+				lfoShapeTick[i] = &lfoSineTriTick;
+				lfoSetters[i].setRate = &lfoSineTriSetRate;
+				lfoSetters[i].setShape = &lfoSineTriSetShape;
+				lfoSetters[i].setPhase = &lfoSineTriSetPhase;
+				break;
+			case SawPulseLFOShapeSet:
+				lfoShapeTick[i] = &lfoSawSquareTick;
+				lfoSetters[i].setRate = &lfoSawSquareSetRate;
+				lfoSetters[i].setShape = &lfoSawSquareSetShape;
+				lfoSetters[i].setPhase = &lfoSawSquareSetPhase;
+				break;
+			case SineLFOShapeSet:
+				lfoShapeTick[i] = &lfoSineTick;
+				lfoSetters[i].setRate = &lfoSineSetRate;
+				lfoSetters[i].setShape = &lfoSineSetShape;
+				lfoSetters[i].setPhase = &lfoSineSetPhase;
+				break;
+			case TriLFOShapeSet:
+				lfoShapeTick[i] = &lfoTriTick;
+				lfoSetters[i].setRate = &lfoTriSetRate;
+				lfoSetters[i].setShape = &lfoTriSetShape;
+				lfoSetters[i].setPhase = &lfoTriSetPhase;
+				break;
+			case SawLFOShapeSet:
+				lfoShapeTick[i] = &lfoSawTick;
+				lfoSetters[i].setRate = &lfoSawSetRate;
+				lfoSetters[i].setShape = &lfoSawSetShape;
+				lfoSetters[i].setPhase = &lfoSawSetPhase;
+				break;
+			case PulseLFOShapeSet:
+				lfoShapeTick[i] = &lfoPulseTick;
+				lfoSetters[i].setRate = &lfoPulseSetRate;
+				lfoSetters[i].setShape = &lfoPulseSetShape;
+				lfoSetters[i].setPhase = &lfoPulseSetPhase;
+				break;
+		}
+	}
+
+	for (int i = 0; i < NUM_EFFECT; i++)
+	{
+		FXType effectType = roundf(params[Effect1FXType + (EffectParamsNum * i)].realVal * (NUM_EFFECT_TYPES-1));
+		switch (effectType)
+		{
+			  case None:
+				  effectTick[i] = &blankTick;
+				  effectSetters[i].setParam1 = &blankFunction;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &blankFunction;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Softclip:
+				  effectTick[i] = &softClipTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Soft;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Hardclip:
+				  effectTick[i] = &hardClipTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Hard;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case ABSaturator:
+				  effectTick[i] = &satTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Linear;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Tanh:
+				  effectTick[i] = &tanhTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Linear;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Shaper:
+				  effectTick[i] = &shaperTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &param3Linear;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Compressor:
+				  effectTick[i] = &compressorTick;
+				  effectSetters[i].setParam1 = &compressorParam1;
+				  effectSetters[i].setParam2 = &compressorParam2;
+				  effectSetters[i].setParam3 = &compressorParam3;
+				  effectSetters[i].setParam4 = &compressorParam4;
+				  effectSetters[i].setParam5 = &compressorParam5;
+				  break;
+			  case Chorus:
+				  effectTick[i] = &chorusTick;
+				  effectSetters[i].setParam1 = &chorusParam1;
+				  effectSetters[i].setParam2 = &chorusParam2;
+				  effectSetters[i].setParam3 = &chorusParam3;
+				  effectSetters[i].setParam4 = &chorusParam4;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case Bitcrush:
+				  effectTick[i] = &bcTick;
+				  effectSetters[i].setParam1 = &clipperGainSet;
+				  effectSetters[i].setParam2 = &param2Linear;
+				  effectSetters[i].setParam3 = &param3BC;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &param5Linear;
+				  break;
+			  case TiltFilter:
+				  effectTick[i] = &tiltFilterTick;
+				  effectSetters[i].setParam1 = &tiltParam1;
+				  effectSetters[i].setParam2 = &tiltParam2;
+				  effectSetters[i].setParam3 = &tiltParam3;
+				  effectSetters[i].setParam4 = &tiltParam4;
+				  effectSetters[i].setParam5 = &param5Linear;
+				  break;
+			  case Wavefolder:
+				  effectTick[i] = &wavefolderTick;
+				  effectSetters[i].setParam1 = &wavefolderParam1;
+				  effectSetters[i].setParam2 = &offsetParam2;
+				  effectSetters[i].setParam3 = &wavefolderParam3;
+				  effectSetters[i].setParam4 = &param4Linear;
+				  effectSetters[i].setParam5 = &param5Linear;
+				  break;
+			  default:
+				  break;
+		}
+	}
+
+	///////Setters for paramMapping
 	params[Master].setParam = &setMaster;
 	params[Transpose].setParam = &setTranspose;
 	params[PitchBendRangeUp].setParam = &setPitchBendRangeUp;
@@ -985,14 +1178,39 @@ void parsePreset(int size)
 	params[Osc1Pitch].setParam = &setFreqMult;
 	params[Osc2Pitch].setParam = &setFreqMult;
 	params[Osc3Pitch].setParam = &setFreqMult;
-	//params[Filter1Cutoff].setParam = filterSetters[0].setCutoff;
+
+	params[Effect1Param1].setParam = effectSetters[0].setParam1;
+	params[Effect1Param2].setParam = effectSetters[0].setParam2;
+	params[Effect1Param3].setParam = effectSetters[0].setParam3;
+	params[Effect1Param4].setParam = effectSetters[0].setParam4;
+	params[Effect1Param5].setParam = effectSetters[0].setParam5;
+	params[Effect1Mix].setParam = &fxMixSet;
+
+	params[Effect2Param1].setParam = effectSetters[1].setParam1;
+	params[Effect2Param2].setParam = effectSetters[1].setParam2;
+	params[Effect2Param3].setParam = effectSetters[1].setParam3;
+	params[Effect2Param4].setParam = effectSetters[1].setParam4;
+	params[Effect2Param5].setParam = effectSetters[1].setParam5;
+	params[Effect2Mix].setParam = &fxMixSet;
+
+	params[Effect3Param1].setParam = effectSetters[2].setParam1;
+	params[Effect3Param2].setParam = effectSetters[2].setParam2;
+	params[Effect3Param3].setParam = effectSetters[2].setParam3;
+	params[Effect3Param4].setParam = effectSetters[2].setParam4;
+	params[Effect3Param5].setParam = effectSetters[2].setParam5;
+	params[Effect3Mix].setParam = &fxMixSet;
+
+	params[Effect4Param1].setParam = effectSetters[3].setParam1;
+	params[Effect4Param2].setParam = effectSetters[3].setParam2;
+	params[Effect4Param3].setParam = effectSetters[3].setParam3;
+	params[Effect4Param4].setParam = effectSetters[3].setParam4;
+	params[Effect4Param5].setParam = effectSetters[3].setParam5;
+	params[Effect4Mix].setParam = &fxMixSet;
+
 	params[Filter1Resonance].setParam = filterSetters[0].setQ;
 	params[Filter1Gain].setParam = filterSetters[0].setGain; //gain is a special case for set params where the scaling function leaves it alone because it's different based on filter type
-	//params[Filter1KeyFollow].setParam = filterSetters[0].setKeyfollow;
-	//params[Filter2Cutoff].setParam = filterSetters[1].setCutoff;
 	params[Filter2Resonance].setParam = filterSetters[1].setQ;
 	params[Filter2Gain].setParam = filterSetters[1].setGain;
-	//params[Filter2KeyFollow].setParam = filterSetters[1].setKeyfollow;
 	params[Envelope1Attack].setParam = &setEnvelopeAttack;
 	params[Envelope1Decay].setParam = &setEnvelopeDecay;
 	params[Envelope1Sustain].setParam = &setEnvelopeSustain;
@@ -1013,10 +1231,18 @@ void parsePreset(int size)
 	params[Envelope4Sustain].setParam = &setEnvelopeSustain;
 	params[Envelope4Release].setParam = &setEnvelopeRelease;
 	params[Envelope4Leak].setParam = &setEnvelopeLeak;
-	//params[LFO1Rate].setParam = &scaleLFORates;
-	//params[LFO2Rate].setParam = &scaleLFORates;
-	//params[LFO3Rate].setParam = &scaleLFORates;
-	//params[LFO4Rate].setParam = &scaleLFORates;
+	params[LFO1Rate].setParam = lfoSetters[0].setRate;
+	params[LFO2Rate].setParam = lfoSetters[1].setRate;
+	params[LFO3Rate].setParam = lfoSetters[2].setRate;
+	params[LFO4Rate].setParam = lfoSetters[3].setRate;
+	params[LFO1Shape].setParam = lfoSetters[0].setShape;
+	params[LFO2Shape].setParam = lfoSetters[1].setShape;
+	params[LFO3Shape].setParam = lfoSetters[2].setShape;
+	params[LFO4Shape].setParam = lfoSetters[3].setShape;
+	params[LFO1Phase].setParam = lfoSetters[0].setPhase;
+	params[LFO2Phase].setParam = lfoSetters[1].setPhase;
+	params[LFO3Phase].setParam = lfoSetters[2].setPhase;
+	params[LFO4Phase].setParam = lfoSetters[3].setPhase;
 	params[OutputAmp].setParam = &setAmp;
 
 
@@ -1065,69 +1291,135 @@ void parsePreset(int size)
 			params[i].objectNumber = 3;
 		}
 		//lfos
-		//other
-
+		else if ((i >= LFO1Rate) && (i < LFO2Rate))
+		{
+			params[i].objectNumber = 0;
+		}
+		else if ((i >= LFO2Rate) && (i < LFO3Rate))
+		{
+			params[i].objectNumber = 1;
+		}
+		else if ((i >= LFO3Rate) && (i < LFO4Rate))
+		{
+			params[i].objectNumber = 2;
+		}
+		else if ((i >= LFO4Rate) && (i < OutputAmp))
+		{
+			params[i].objectNumber = 3;
+		}
+		//effects
+		else if ((i >= Effect1FXType) && (i < Effect2FXType))
+		{
+			params[i].objectNumber = 0;
+		}
+		else if ((i >= Effect2FXType) && (i < Effect3FXType))
+		{
+			params[i].objectNumber = 1;
+		}
+		else if ((i >= Effect3FXType) && (i < Effect4FXType))
+		{
+			params[i].objectNumber = 2;
+		}
+		else if ((i >= Effect4FXType) && (i < Filter1))
+		{
+			params[i].objectNumber = 3;
+		}
 
 		params[i].setParam(params[i].realVal, params[i].objectNumber);
 
 	}
 
 	//mappings parsing
-	numMappings = 0;
 
+	//move past the countcheck elements (already checked earlier)
+	bufferIndex += 2;
+
+	//move past the mappingCount elements (already stored that value earlier)
+	bufferIndex += 2;
+
+	numMappings = 0;
+	for (int i = 0; i < NUM_LFOS; i++)
+	{
+		lfoOn[i] = 0;
+	}
+	//blank out all current mappings
 	for (int i = 0; i < MAX_NUM_MAPPINGS; i++)
 	{
 		mappings[i].destNumber = 255;
 		mappings[i].numHooks = 0;
 	}
-	for (int i = (NUM_PARAMS * 2) + 4; i < size; i+=5)
+
+
+	for (int i = 0; i < mappingCount; i++)
 	{
-		if ((buffer[i] != 255) && (buffer[i] != 254))
+		uint8_t destNumber = buffer[bufferIndex+1];
+		uint8_t whichMapping = 0;
+		uint8_t whichHook = 0;
+		uint8_t foundOne = 0;
+
+		//search to see if this destination already has other mappings
+		for (int j = 0; j < MAX_NUM_MAPPINGS; j++)
 		{
-			uint8_t destNumber = buffer[i+1];
-			uint8_t whichMapping = 0;
-			uint8_t whichHook = 0;
-			uint8_t foundOne = 0;
-			//search to see if this destination already has other mappings
-			for (int j = 0; j < MAX_NUM_MAPPINGS; j++)
+			if (mappings[j].destNumber == destNumber)
 			{
-				if (mappings[j].destNumber == destNumber)
-				{
-					//found one, use this mapping and add another hook to it
-					whichMapping = j;
-					whichHook = mappings[j].numHooks;
-					foundOne = 1;
-				}
+				//found one, use this mapping and add another hook to it
+				whichMapping = j;
+				whichHook = mappings[j].numHooks;
+				foundOne = 1;
 			}
-			if (foundOne == 0)
-			{
-				//didn't find another mapping with this destination, start a new mapping
-				whichMapping = numMappings;
-
-				numMappings++;
-				whichHook = 0;
-				mappings[whichMapping].destNumber = destNumber;
-				mappings[whichMapping].dest = &params[destNumber];
-
-			}
-
-			mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[buffer[i]];
-			int scalar = buffer[i+2];
-			if (scalar == 0xff)
-			{
-				mappings[whichMapping].scalarSourceValPtr[whichHook] = &defaultScaling;
-			}
-			else
-			{
-				mappings[whichMapping].scalarSourceValPtr[whichHook] = &sourceValues[buffer[i+2]];
-			}
-			float amountFloat = ((buffer[i+3] << 8) + buffer[i+4]) * INV_TWO_TO_15;
-			mappings[whichMapping].amount[whichHook] = amountFloat;
-			mappings[whichMapping].numHooks++;
 		}
-	}
+		if (foundOne == 0)
+		{
+			//didn't find another mapping with this destination, start a new mapping
+			whichMapping = numMappings;
 
-	//params[i].zeroToOneVal = INV_TWO_TO_15 * ((buffer[i*2] << 8) + buffer[(i*2)+1]);
+			numMappings++;
+			whichHook = 0;
+			mappings[whichMapping].destNumber = destNumber;
+			mappings[whichMapping].dest = &params[destNumber];
+
+		}
+		mappings[whichMapping].sourceSmoothed[whichHook] = 1;
+
+		int source = buffer[bufferIndex];
+
+		mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[source];
+
+
+		if (source < 4) //if it's oscillators or noise (the first 4 elements of the source array), don't smooth to allow FM
+		{
+			mappings[whichMapping].sourceSmoothed[whichHook] = 0;
+
+		}
+		if ((source >= LFO_SOURCE_OFFSET) && (source < (LFO_SOURCE_OFFSET + NUM_LFOS)))
+		{
+			lfoOn[source - LFO_SOURCE_OFFSET] = 1;
+		}
+		int scalar = buffer[bufferIndex+2];
+		if (scalar == 0xff)
+		{
+			mappings[whichMapping].scalarSourceValPtr[whichHook] = &defaultScaling;
+		}
+		else
+		{
+			mappings[whichMapping].scalarSourceValPtr[whichHook] = &sourceValues[buffer[bufferIndex+2]];
+			if ((scalar >= LFO_SOURCE_OFFSET) && (scalar < (LFO_SOURCE_OFFSET + NUM_LFOS)))
+			{
+				lfoOn[scalar - LFO_SOURCE_OFFSET] = 1;
+			}
+		}
+		int16_t amountInt = (buffer[bufferIndex+3] << 8) + buffer[bufferIndex+4];
+		float amountFloat = (float)amountInt * INV_TWO_TO_15;
+//		//if the source is bipolar (oscillators, noise, and LFOs) then double the amount because it comes in as only half the range
+//		if ((source < 4) || ((source >= LFO_SOURCE_OFFSET) && (source < (LFO_SOURCE_OFFSET + NUM_LFOS))))
+//		{
+//			amountFloat *= 2.0f;
+//		}
+		mappings[whichMapping].amount[whichHook] = amountFloat;
+		mappings[whichMapping].numHooks++;
+
+		bufferIndex += 5;
+	}
 
 	audioMasterLevel = 1.0f;
 	presetWaitingToParse = 0;
@@ -1180,7 +1472,7 @@ void FlushECC(void *ptr, int bytes)
 	}
 }
 // helper function to initialize measuring unit (cycle counter) */
-static void CycleCounterInit( void )
+void CycleCounterInit( void )
 {
   /* Enable TRC */
   CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;

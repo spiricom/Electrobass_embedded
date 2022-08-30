@@ -24,7 +24,10 @@ volatile uint32_t cycleCount[10];
 //function pointers
 shapeTick_t shapeTick[NUM_OSC];
 filterTick_t filterTick[NUM_FILT];
+lfoShapeTick_t lfoShapeTick[NUM_LFOS];
+effectTick_t effectTick[NUM_EFFECT];
 
+//oversamplers
 arm_fir_decimate_instance_f32 osD;
 arm_fir_interpolate_instance_f32 osI;
 
@@ -35,17 +38,35 @@ tCycle sine[NUM_OSC];
 tMBTriangle tri[NUM_OSC];
 
 // Using seperate objects for pairs to easily maintain phase relation
-tMBSaw sawPaired[NUM_OSC];
+tMBSawPulse sawPaired[NUM_OSC];
 tMBPulse pulsePaired[NUM_OSC];
 tCycle sinePaired[NUM_OSC];
 tMBTriangle triPaired[NUM_OSC];
 
 tWaveOscS wave[NUM_OSC];
 
+
+tIntPhasor lfoSaw[NUM_LFOS];
+tSquareLFO lfoPulse[NUM_LFOS];
+tCycle lfoSine[NUM_LFOS];
+tTriLFO lfoTri[NUM_LFOS];
+tSawSquareLFO lfoSawSquare[NUM_LFOS];
+tSineTriLFO lfoSineTri[NUM_LFOS];
+
+uint8_t lfoOn[NUM_LFOS];
+
+
 //oscillator outputs
 float outSamples[2][NUM_OSC];
+
+
 //source vals
 float sourceValues[NUM_SOURCES];
+
+tExpSmooth mapSmoothers[MAX_NUM_MAPPINGS];
+tExpSmooth pitchSmoother[NUM_OSC];
+tExpSmooth filterCutoffSmoother[NUM_FILT];
+
 
 float freqMult[NUM_OSC];
 float bendRangeMultiplier = 0.002929866324849f; //default to divide by 48
@@ -72,6 +93,19 @@ float decayExpBuffer[DECAY_EXP_BUFFER_SIZE];
 float decayExpBufferSizeMinusOne;
 
 
+//effects
+ tHighpass dcBlock1[NUM_EFFECT];
+ tHighpass dcBlock2[NUM_EFFECT];
+ tVZFilter shelf1[NUM_EFFECT], shelf2[NUM_EFFECT], bell1[NUM_EFFECT];
+ tCompressor comp[NUM_EFFECT];
+ tCrusher bc[NUM_EFFECT];
+ tLockhartWavefolder wf[NUM_EFFECT];
+ tHermiteDelay delay1[NUM_EFFECT];
+ tHermiteDelay delay2[NUM_EFFECT];
+ tCycle mod1[NUM_EFFECT];
+ tCycle mod2[NUM_EFFECT];
+ float fxMix[NUM_EFFECT];
+
 //master
 float amplitude = 0.0f;
 float finalMaster = 1.0f;
@@ -83,6 +117,8 @@ float transpose = 0.0f;
 tNoise noise;
 
 #define OVERSAMPLE 2
+float inv_oversample = 1.0f / OVERSAMPLE;
+
 tOversampler os;
 float oversamplerArray[OVERSAMPLE];
 
@@ -92,18 +128,18 @@ float downState1[128];
 uint8_t voiceSounding = 0;
 
 //MEMPOOLS
-#define SMALL_MEM_SIZE 70000
+#define SMALL_MEM_SIZE 65000
 char smallMemory[SMALL_MEM_SIZE];
 
-//#define MEDIUM_MEM_SIZE 100000
-//char mediumMemory[MEDIUM_MEM_SIZE] __ATTR_RAM_D1;
+#define MEDIUM_MEM_SIZE 260000
+char mediumMemory[MEDIUM_MEM_SIZE] __ATTR_RAM_D1;
 
 //#define LARGE_MEM_SIZE 33554432 //32 MBytes - size of SDRAM IC
 //char largeMemory[LARGE_MEM_SIZE] __ATTR_SDRAM;
 
 LEAF leaf;
 
-tMempool smallPool;
+tMempool mediumPool;
 tMempool largePool;
 
 int MBoffset = 0;
@@ -111,7 +147,7 @@ int MBoffset = 0;
 void audio_init(void)
 {
 	LEAF_init(&leaf, SAMPLE_RATE, smallMemory, SMALL_MEM_SIZE, &randomNumber);
-	//tMempool_init (&smallPool, smallMemory, SMALL_MEM_SIZE, &leaf);
+	tMempool_init (&mediumPool, mediumMemory, MEDIUM_MEM_SIZE, &leaf);
 	//tMempool_init (&largePool, largeMemory, LARGE_MEM_SIZE, &leaf);
 	for(int i = 0; i < NUM_OSC; i++)
 	{
@@ -130,19 +166,21 @@ void audio_init(void)
 		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		// Using seperate objects for pairs to easily maintain phase relation
-		tMBSaw_init(&sawPaired[i], &leaf);
-		tMBSaw_setBufferOffset(&sawPaired[i], MBoffset);
+		tMBSawPulse_init(&sawPaired[i], &leaf);
+		tMBSawPulse_setBufferOffset(&sawPaired[i], MBoffset);
 		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
-		tMBPulse_init(&pulsePaired[i], &leaf);
-		tMBPulse_setBufferOffset(&pulsePaired[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+		//tMBPulse_init(&pulsePaired[i], &leaf);
+		//tMBPulse_setBufferOffset(&pulsePaired[i], MBoffset);
+		//MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		tCycle_init(&sinePaired[i], &leaf);
 
 		tMBTriangle_init(&triPaired[i], &leaf);
 		tMBTriangle_setBufferOffset(&triPaired[i], MBoffset);
 		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
+	    tExpSmooth_init(&pitchSmoother[i], 64.0f, 0.02f, &leaf);
 	}
 
 	for (int i = 0; i < NUM_FILT; i++)
@@ -156,7 +194,21 @@ void audio_init(void)
 		tVZFilter_init(&VZfilterHS[i], Highshelf, 2000.f, 1.0f, &leaf);
 		tVZFilter_init(&VZfilterBR[i], BandReject, 2000.f, 1.0f, &leaf);
 		tLadderFilter_init(&Ladderfilter[i], 2000.f, 1.0f, &leaf);
+
+	    tExpSmooth_init(&filterCutoffSmoother[i], 64.0f, 0.02f, &leaf);
 	}
+
+	for (int i = 0; i < NUM_LFOS; i++)
+	{
+		tIntPhasor_init(&lfoSaw[i], &leaf);
+		tSquareLFO_init(&lfoPulse[i], &leaf);
+		tCycle_init(&lfoSine[i], &leaf);
+		tTriLFO_init(&lfoTri[i], &leaf);
+
+		tSineTriLFO_init(&lfoSineTri[i], &leaf);
+		tSawSquareLFO_init(&lfoSawSquare[i], &leaf);
+	}
+
 
     // exponential decay buffer falling from 1 to
     LEAF_generate_exp(decayExpBuffer, 0.001f, 0.0f, 1.0f, -0.0008f, DECAY_EXP_BUFFER_SIZE);
@@ -169,6 +221,34 @@ void audio_init(void)
         tADSRT_init(&envs[i], 0.1f,10.f,0.5f,1.0f,decayExpBuffer, DECAY_EXP_BUFFER_SIZE, &leaf);
         tADSRT_setLeakFactor(&envs[i], ((1.0f - 0.1f) * 0.00005f) + 0.99995f);
     }
+
+
+    for (int i = 0; i < NUM_EFFECT; i++)
+    {
+		tCrusher_init(&bc[i],&leaf);
+		tHighpass_init(&dcBlock1[i], 5.0f,&leaf);
+		tHighpass_init(&dcBlock2[i], 5.0f,&leaf);
+		tVZFilter_init(&shelf1[i], Lowshelf, 80.0f, 32.0f,  &leaf);
+		tVZFilter_init(&shelf2[i], Highshelf, 12000.0f, 32.0f, &leaf);
+		tVZFilter_init(&bell1[i], Bell, 1000.0f, 1.9f, &leaf);
+		tVZFilter_setSampleRate(&shelf1[i], SAMPLE_RATE * OVERSAMPLE);
+		tVZFilter_setSampleRate(&shelf2[i], SAMPLE_RATE * OVERSAMPLE);
+		tVZFilter_setSampleRate(&bell1[i], SAMPLE_RATE * OVERSAMPLE);
+		tCompressor_init(&comp[i], &leaf);
+		tLockhartWavefolder_init(&wf[i], &leaf);
+		tHermiteDelay_initToPool(&delay1[i], 4000.0f, 4096, &mediumPool);
+		tHermiteDelay_initToPool(&delay2[i], 4000.0f, 4096, &mediumPool);
+		tCycle_init(&mod1[i], &leaf);
+		tCycle_init(&mod2[i], &leaf);
+		tCycle_setFreq(&mod1[i], 0.2f);
+		tCycle_setFreq(&mod2[i], 0.22222222222f);
+    }
+
+    for (int i = 0; i < MAX_NUM_MAPPINGS; i++)
+    {
+    	tExpSmooth_init(&mapSmoothers[i], 0.0f, 0.02f, &leaf);
+    }
+
 
 
 	tSimplePoly_init(&myPoly, 1, &leaf);
@@ -210,6 +290,8 @@ void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	receive_status = HAL_SAI_Receive_DMA(hsaiIn, (uint8_t *)&audioInBuffer[0], AUDIO_BUFFER_SIZE);
 }
 
+const int syncMap[3] = {2, 0, 1};
+uint32_t timeMIDI = 0;
 
 void audioFrame(uint16_t buffer_offset)
 {
@@ -218,7 +300,7 @@ void audioFrame(uint16_t buffer_offset)
 
 	//take care of MIDI messages that came in
 	tmpCnt = DWT->CYCCNT;
-	while(midiStack.size > 0)
+	while(midiStack.readCnt != midiStack.writeCnt)
 	{
 		uint8_t firstByte = midiStack.buffer[midiStack.readCnt][0];
 		int8_t readCount = midiStack.readCnt;
@@ -235,11 +317,9 @@ void audioFrame(uint16_t buffer_offset)
 			sendPitchBend(midiStack.buffer[readCount][1], midiStack.buffer[readCount][2]);
 		}
 		midiStack.readCnt = (midiStack.readCnt + 1) & 63;
-		midiStack.size--;
 	}
 	tmpCnt = DWT->CYCCNT - tmpCnt;
-	cycleCount[6] = tmpCnt;
-	tmpCnt = DWT->CYCCNT;
+	timeMIDI = tmpCnt;
 
 	int32_t current_sample = 0;
 
@@ -277,16 +357,21 @@ void oscillator_tick(float note)
 		float shape = oscParams[OscShape].realVal;
 		float amp = oscParams[OscAmp].realVal;
 		float filterSend = oscParams[OscFilterSend].realVal;
+		int sync = roundf(oscParams[OscisSync].realVal);
+		float freqToSmooth = (note + (fine*0.01f));
+		tExpSmooth_setDest(&pitchSmoother[osc], freqToSmooth);
+		freqToSmooth = mtof(tExpSmooth_tick(&pitchSmoother[osc]));
+		float finalFreq = (freqToSmooth * freqMult[osc]) + freqOffset ;
+		//finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
+		//smoothing may not be necessary
 
-		float finalFreq = (mtof(note + (fine*0.01f)) * freqMult[osc]) + freqOffset ;
-		finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
+
 		float sample = 0.0f;
 
-		shapeTick[osc](&sample, osc, finalFreq, shape);
+		shapeTick[osc](&sample, osc, finalFreq, shape, sync);
 
 		sample *= amp;
 
-		//float normSample = (sample + 1.f) * 0.5f;
 		sourceValues[OSC_SOURCE_OFFSET + osc] = sample; // the define of zero may be wasteful
 
 		sample *= INV_NUM_OSCS;
@@ -297,57 +382,72 @@ void oscillator_tick(float note)
 	uint32_t tempCount2 = DWT->CYCCNT;
 
 	timeOsc = tempCount2-tempCount1;
-	if (timeOsc > 3000)
-	{
-		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-	}
-
 }
 
 
-void sawSquareTick(float* sample, int v, float freq, float shape)
+void sawSquareTick(float* sample, int v, float freq, float shape, int sync)
 {
-    tMBSaw_setFreq(&sawPaired[v], freq);
-    tMBPulse_setFreq(&pulsePaired[v], freq);
-    *sample += tMBSaw_tick(&sawPaired[v]) * (1.0f - shape) * 2.f;
-    *sample += tMBPulse_tick(&pulsePaired[v]) * shape * 2.f;
+    tMBSawPulse_setFreq(&sawPaired[v], freq);
+    tMBSawPulse_setShape(&sawPaired[v], shape);
+    if (sync)
+    {
+    	tMBSawPulse_sync(&sawPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+
+    }
+    *sample += tMBSawPulse_tick(&sawPaired[v]) * 2.f;
 }
 
-void sineTriTick(float* sample, int v, float freq, float shape)
+void sineTriTick(float* sample, int v, float freq, float shape, int sync)
 {
     tCycle_setFreq(&sinePaired[v], freq);
     tMBTriangle_setFreq(&triPaired[v], freq);
+    if (sync)
+    {
+    	tMBTriangle_sync(&triPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+    }
     *sample += tCycle_tick(&sinePaired[v]) * (1.0f - shape);
     *sample += tMBTriangle_tick(&triPaired[v]) * shape * 2.f;;
 }
 
-void sawTick(float* sample, int v, float freq, float shape)
+void sawTick(float* sample, int v, float freq, float shape, int sync)
 {
     tMBSaw_setFreq(&saw[v], freq);
+    if (sync)
+	{
+		tMBSaw_sync(&saw[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+	}
     *sample += tMBSaw_tick(&saw[v]) * 2.f;;
 }
 
-void pulseTick(float* sample, int v, float freq, float shape)
+void pulseTick(float* sample, int v, float freq, float shape, int sync)
 {
     tMBPulse_setFreq(&pulse[v], freq);
     tMBPulse_setWidth(&pulse[v], shape);
+    if (sync)
+	{
+		tMBPulse_sync(&pulse[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+	}
     *sample += tMBPulse_tick(&pulse[v]) * 2.f;;
 }
 
-void sineTick(float* sample, int v, float freq, float shape)
+void sineTick(float* sample, int v, float freq, float shape, int sync)
 {
     tCycle_setFreq(&sine[v], freq);
     *sample += tCycle_tick(&sine[v]);
 }
 
-void triTick(float* sample, int v, float freq, float shape)
+void triTick(float* sample, int v, float freq, float shape, int sync)
 {
     tMBTriangle_setFreq(&tri[v], freq);
     tMBTriangle_setWidth(&tri[v], shape);
-    *sample += tMBTriangle_tick(&tri[v]) * 2.f;;
+    if (sync)
+	{
+		tMBTriangle_sync(&tri[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+	}
+    *sample += tMBTriangle_tick(&tri[v]) * 2.0f;;
 }
 
-void userTick(float* sample, int v, float freq, float shape)
+void userTick(float* sample, int v, float freq, float shape, int sync)
 {
     //tWaveOscS_setFreq(&wave[v], freq);
     //tWaveOscS_setIndex(&wave[v], shape);
@@ -379,6 +479,9 @@ float filter_tick(float* samples, float note)
 
 		cutoff[f] = MIDIcutoff + (note * keyFollow);
 		cutoff[f] = LEAF_clip(0.0f, (cutoff[f]-16.0f) * 35.929824561403509f, 4095.0f);
+		//smoothing may not be necessary
+		tExpSmooth_setDest(&filterCutoffSmoother[f], cutoff[f]);
+		cutoff[f] = tExpSmooth_tick(&filterCutoffSmoother[f]);
 	}
 
 	float  sp = params[FilterSeriesParallelMix].realVal;
@@ -424,7 +527,6 @@ void bandpassTick(float* sample, int v, float cutoff)
 
 void diodeLowpassTick(float* sample, int v, float cutoff)
 {
-	//tDiodeFilter_setFreq(&diodeFilters[v], mtof(cutoff/32.0f));
 	tDiodeFilter_setFreqFast(&diodeFilters[v], cutoff);
 	*sample = tDiodeFilter_tick(&diodeFilters[v], *sample);
     *sample *= filterGain[v];
@@ -471,7 +573,14 @@ void setFreqMult(float harm_pitch, int osc)
 	}
 	if (params[OSC_PARAMS_OFFSET + osc * OscParamsNum + OscisHarmonic].realVal > 0.5f)
 	{
-		harm_pitch >= 0 ? freqMult[osc] = (harm_pitch + 1) : (1.0f / fabsf((harm_pitch - 1)));
+		if (harm_pitch >= 0)
+		{
+			freqMult[osc] = (harm_pitch + 1);
+		}
+		else
+		{
+			freqMult[osc] = (1.0f / fabsf((harm_pitch - 1)));
+		}
 	}
 	else
 	{
@@ -578,20 +687,29 @@ void envelope_tick(void)
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int v = 0; v < NUM_ENV; v++)
 	{
-		float value = tADSRT_tickNoInterp(&envs[v]);
+		float value = tADSRT_tick(&envs[v]); //used to be noInterp but wanted to check if this sounds better and isn't too slow
 		sourceValues[ENV_SOURCE_OFFSET + v] = value;
 	}
 	uint32_t tempCount2 = DWT->CYCCNT;
 	timeEnv = tempCount2-tempCount1;
-//	if (poly->voices[0][0] == -2)
-//	{
-//	    if (envs[0]->whichStage == env_idle)
-//	    {
-//	          tSimplePoly_deactivateVoice(&poly, 0);  //remove this since we're monophonic - should check if that will break anything
-//	          voiceSounding = false;
-//	    }
-//	}
+}
 
+uint32_t timeLFO = 0;
+void lfo_tick(void)
+{
+	interruptChecker = 0;
+	uint32_t tempCount1 = DWT->CYCCNT;
+	for (int i = 0; i < NUM_LFOS; i++)
+	{
+		float sample = 0.0f;
+		if (lfoOn[i])
+		{
+			lfoShapeTick[i](&sample,i);
+		}
+		sourceValues[LFO_SOURCE_OFFSET + i] = sample;
+	}
+	uint32_t tempCount2 = DWT->CYCCNT;
+	timeLFO = tempCount2-tempCount1;
 }
 
 
@@ -652,17 +770,29 @@ void tickMappings(void)
 	uint32_t tempCount1 = DWT->CYCCNT;
 	for (int i = 0; i < numMappings; i++)
 	{
-		float value = 0.0f;
+		float unsmoothedValue = 0.0f;
+		float smoothedValue = 0.0f;
 		for (int j = 0; j < mappings[i].numHooks; j++)
 		{
 			float sum = *mappings[i].sourceValPtr[j] * mappings[i].amount[j] * *mappings[i].scalarSourceValPtr[j];
-			value += sum;
+			if (mappings[i].sourceSmoothed[j])
+			{
+				smoothedValue += sum;
+			}
+			else
+			{
+				unsmoothedValue += sum;
+			}
 		}
 		//sources are now summed - let's add the initial value
-		value += mappings[i].dest->zeroToOneVal;
+		smoothedValue += mappings[i].dest->zeroToOneVal;
+
+		tExpSmooth_setDest(&mapSmoothers[i], smoothedValue);
+		smoothedValue = tExpSmooth_tick(&mapSmoothers[i]);
+		float finalVal = unsmoothedValue + smoothedValue;
 
 		//now scale the value with the correct scaling function
-		mappings[i].dest->realVal = mappings[i].dest->scaleFunc(value);
+		mappings[i].dest->realVal = mappings[i].dest->scaleFunc(finalVal);
 
 		//and pop that value where it belongs by setting the actual parameter
 		mappings[i].dest->setParam(mappings[i].dest->realVal, mappings[i].dest->objectNumber);
@@ -687,7 +817,7 @@ float audioTickL(float audioIn)
 
 
 		envelope_tick();
-
+		lfo_tick();
 		oscillator_tick(note);
 
 		float filterSamps[2] = {0.0f, 0.0f};
@@ -704,31 +834,31 @@ float audioTickL(float audioIn)
 		uint32_t tempCount1 = DWT->CYCCNT;
 
 		//oversample for non-linear effects (distortion, etc)
-        //tOversampler_upsample(&os, sample, oversamplerArray);
+        tOversampler_upsample(&os, sample, oversamplerArray);
 
-		arm_fir_interpolate_f32(
-		  &osI,
-		  &sample,
-		  (float*)&oversamplerArray,
-		  1);
-/*
-        for (int i = 0; i < fx.size(); i++) {
-            fx[i]->oversample_tick(oversamplerArray, v);
+		//arm_fir_interpolate_f32(&osI, &sample, (float*)&oversamplerArray, 1);
+
+
+		for (int i = 0; i < NUM_EFFECT; i++) {
+
+	        for (int j = 0; j < OVERSAMPLE; j++)
+	        {
+	        	float dry = oversamplerArray[j]; //store the dry value to mix later
+	        	oversamplerArray[j] = effectTick[i](oversamplerArray[j], i); //run the effect
+	        	oversamplerArray[j] = ((1.0f - fxMix[i]) * dry) + (fxMix[i] * oversamplerArray[j]); //mix in dry/wet at the "mix" amount
+	        }
         }
-*/
+
         //hard clip before downsampling to get a little more antialiasing from clipped signal.
         for (int i = 0; i < (OVERSAMPLE); i++)
         {
             oversamplerArray[i] = LEAF_clip(-1.0f, oversamplerArray[i], 1.0f);
         }
+		//sample = LEAF_clip(-1.0f, sample, 1.0f);
         //downsample to get back to normal sample rate
-        //sample = tOversampler_downsample(&os, oversamplerArray);
+        sample = tOversampler_downsample(&os, oversamplerArray);
 
-        arm_fir_decimate_f32(
-          &osD,
-		  (float*)&oversamplerArray,
-          &sample,
-          OVERSAMPLE);
+        //arm_fir_decimate_f32(&osD, (float*)&oversamplerArray, &sample, OVERSAMPLE);
 
     	uint32_t tempCount2 = DWT->CYCCNT;
 
@@ -759,6 +889,15 @@ void sendNoteOn(uint8_t note, uint8_t velocity)
 			if (useVelocity == 0) envVel = 1.f;
 		    tADSRT_on(&envs[v], envVel);
 		    voiceSounding = 1;
+		}
+		for (int v = 0; v < NUM_LFOS; v++)
+		{
+			param* lfoParams = &params[LFO_PARAMS_OFFSET + v * LFOParamsNum];
+			float noteOnSync = lfoParams[LFOSync].realVal;
+			if (noteOnSync > 0.5f)
+			{
+				lfoParams[LFOPhase].setParam(lfoParams[LFOPhase].realVal, v);
+			}
 		}
 	}
 	else
@@ -807,6 +946,118 @@ void HAL_SAI_RxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 }
 
 
+
+
+
+void lfoSawSquareTick(float* sample, int v)
+{
+	*sample = tSawSquareLFO_tick(&lfoSawSquare[v]);
+}
+
+void lfoSineTriTick(float* sample, int v)
+{
+	*sample = tSineTriLFO_tick(&lfoSineTri[v]);
+}
+
+void lfoSineTick(float* sample, int v)
+{
+    *sample = tCycle_tick(&lfoSine[v]);
+}
+
+void lfoTriTick(float* sample, int v)
+{
+    *sample = tTriLFO_tick(&lfoTri[v]);
+}
+void lfoSawTick(float* sample, int v)
+{
+    *sample = (tIntPhasor_tick(&lfoSaw[v]) * 2.0f) - 1.0f;
+}
+
+void lfoPulseTick(float* sample, int v)
+{
+    *sample = tSquareLFO_tick(&lfoPulse[v]);
+}
+
+void lfoSawSquareSetRate(float r, int v)
+{
+	tSawSquareLFO_setFreq(&lfoSawSquare[v],r);
+}
+
+void lfoSineTriSetRate(float r, int v)
+{
+	tSineTriLFO_setFreq(&lfoSineTri[v],r);
+}
+void lfoSineSetRate(float r, int v)
+{
+	tCycle_setFreq(&lfoSine[v], r);
+}
+void lfoTriSetRate(float r, int v)
+{
+	tTriLFO_setFreq(&lfoTri[v], r);
+}
+void lfoSawSetRate(float r, int v)
+{
+	tIntPhasor_setFreq(&lfoSaw[v], r);
+}
+void lfoPulseSetRate(float r, int v)
+{
+	 tSquareLFO_setFreq(&lfoPulse[v], r);
+}
+
+
+void lfoSawSquareSetPhase(float p, int v)
+{
+	tSawSquareLFO_setPhase(&lfoSawSquare[v],p);
+}
+void lfoSineTriSetPhase(float p, int v)
+{
+	tSineTriLFO_setPhase(&lfoSineTri[v], p);
+}
+void lfoSineSetPhase(float p, int v)
+{
+	tCycle_setPhase(&lfoSine[v],p);
+}
+void lfoTriSetPhase(float p, int v)
+{
+	tTriLFO_setPhase(&lfoTri[v],p);
+}
+void lfoSawSetPhase(float p, int v)
+{
+	tIntPhasor_setPhase(&lfoSaw[v], p);
+}
+void lfoPulseSetPhase(float p, int v)
+{
+	tSquareLFO_setPhase(&lfoPulse[v], p);
+}
+
+
+void lfoSawSquareSetShape(float s, int v)
+{
+	tSawSquareLFO_setShape(&lfoSawSquare[v],s);
+}
+void lfoSineTriSetShape(float s, int v)
+{
+	tSineTriLFO_setShape(&lfoSineTri[v],s);
+}
+void lfoSineSetShape(float s, int v)
+{
+	//none
+}
+void lfoTriSetShape(float s, int v)
+{
+	//none
+}
+void lfoSawSetShape(float s, int v)
+{
+	//none
+}
+void lfoPulseSetShape(float s, int v)
+{
+	tSquareLFO_setPulseWidth(&lfoPulse[v], s);
+}
+
+
+
 void cStack_init(cStack* stack)
 {
     stack->writeCnt = 0;
@@ -817,24 +1068,13 @@ void cStack_init(cStack* stack)
         stack->buffer[i][1] = -1;
         stack->buffer[i][2] = -1;
     }
-    stack->size = 0;
-}
-
-int cStack_size(cStack* stack)
-{
-    if (stack->writeCnt >= stack->readCnt)
-        return stack->writeCnt - stack->readCnt;
-    else
-        return 10 - (stack->readCnt - stack->writeCnt);
 }
 void cStack_push(cStack* stack, uint8_t val, uint8_t val1, uint8_t val2)
 {
-	//not doing size checking for speeed
     stack->buffer[stack->writeCnt][0] = val;
     stack->buffer[stack->writeCnt][1] = val1;
     stack->buffer[stack->writeCnt][2] = val2;
     stack->writeCnt = (stack->writeCnt + 1 ) & 63;
-    stack->size++;
 }
 
 void cStack_pop(cStack* stack, uint8_t* output)
@@ -843,8 +1083,280 @@ void cStack_pop(cStack* stack, uint8_t* output)
     output[1] = stack->buffer[stack->readCnt][1];
     output[2] = stack->buffer[stack->readCnt][2];
     stack->readCnt = (stack->readCnt + 1) & 63;
-    stack->size--;
 }
 
+float param1[NUM_EFFECT];
+float param2[NUM_EFFECT];
+float param3[NUM_EFFECT];
+float param4[NUM_EFFECT];
+float param5[NUM_EFFECT];
+float shapeDividerS[NUM_EFFECT];
+float shapeDividerH[NUM_EFFECT];
+float wfState[NUM_EFFECT] = {0.0f, 0.0f, 0.0f, 0.0f};
+float invCurFB[NUM_EFFECT];
+
+void clipperGainSet(float value, int v)
+{
+	param1[v] = fasterdbtoa(value * 24.0f);
+}
+void wavefolderParam1(float value, int v)
+{
+	param1[v] = fasterdbtoa(value * 12.0f);
+}
+void wavefolderParam3(float value, int v)
+{
+	//value = (value * 0.99f) + 0.00f; //avoid zero
+	invCurFB[v] = (1.0f / (1.0f + value));
+	param3[v] = value;
+}
+
+void tiltParam1(float value, int v)
+{
+	tVZFilter_setGain(&shelf1[v], fasterdbtoa(-1.0f * ((value * 30.0f) - 15.0f)));
+	tVZFilter_setGain(&shelf2[v], fasterdbtoa((value * 30.0f) - 15.0f));
+}
+
+void tiltParam2(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tVZFilter_setFreqFast(&bell1[v], value);
+}
+void tiltParam3(float value, int v)
+{
+	tVZFilter_setBandwidth(&bell1[v], (value +1.0f)*6.0f);
+}
+void tiltParam4(float value, int v)
+{
+	tVZFilter_setGain(&bell1[v], fastdbtoa((value * 34.0f) - 17.0f));
+}
+
+void compressorParam1(float value, int v)
+{
+	comp[v]->T = value*-24.0f;
+}
+void compressorParam2(float value, int v)
+{
+	comp[v]->R = ((value*10.0f)+1.0f);
+}
+
+void compressorParam3(float value, int v)
+{
+	comp[v]->M = value * 18.0f;
+}
+
+void compressorParam4(float value, int v)
+{
+	value = (value +  0.001f);
+	comp[v]->tauAttack = fasterexpf(-1.0f/(value * comp[v]->sampleRate));
+}
+
+void compressorParam5(float value, int v)
+{
+	value = (value + 0.001f);
+	comp[v]->tauRelease = fasterexpf(-1.0f/(value * comp[v]->sampleRate));
+}
+
+void offsetParam2(float value, int v)
+{
+	param2[v] = (value * 2.0f) - 1.0f;
+}
+void param2Linear(float value, int v)
+{
+	param2[v] = value;
+}
+void param3Linear(float value, int v)
+{
+	param3[v] = value;
+}
+void param3Soft(float value, int v)
+{
+	param3[v] = (value * .99f) + 0.01f;
+	shapeDividerS[v] = 1.0f / (param3[v] - ((param3[v]*param3[v]*param3[v]) * 0.3333333f));
+}
+
+void param3Hard(float value, int v)
+{
+	param3[v] = ((value * .99f) + 0.01f) * HALF_PI;
+	shapeDividerH[v] = 1.0f / arm_sin_f32(param3[v]);
+}
+void param3BC(float value, int v)
+{
+	param3[v] = (value * inv_oversample) + 0.01f;
+}
+void param4Linear(float value, int v)
+{
+	param4[v] = value;
+}
+
+void param5Linear(float value, int v)
+{
+	param5[v] = value;
+}
+
+void fxMixSet(float value, int v)
+{
+	fxMix[v] = value;
+}
+
+//got the idea from https://ccrma.stanford.edu/~jatin/ComplexNonlinearities/Wavefolder.html  -JS
+//much more efficient than the lockhart, and can be further optimized with lookups
+float wavefolderTick(float sample, int v)
+{
+    sample = sample * param1[v] + ((param2[v] * param1[v]));
+    //sample = tLockhartWavefolder_tick(&wf[v],sample);
+    float curFB = param3[v];
+    float curFF = param4[v];
+    float ff = (curFF * tanhf(sample)) + ((1.0f - curFF) * sample); //these saturation functions could be soft clip or hard clip or tanh approx
+    float fb = curFB * tanhf(wfState[v]);
+    wfState[v] = (ff + fb) - param5[v] * arm_sin_f32(TWO_PI * sample); //maybe switch for sin lookup table access with interpolation?
+    sample = wfState[v] * invCurFB[v];
+    sample = tHighpass_tick(&dcBlock1[v], sample);
+    //sample *= param5[v];
+    return sample;
+}
+
+void chorusParam1(float value, int v)
+{
+	param1[v] = value * 5780.0f + 10.0f;
+}
+void chorusParam2(float value, int v)
+{
+	param2[v] = value * 0.1f;
+}
+
+void chorusParam3(float value, int v)
+{
+    tCycle_setFreq(&mod1[v], (value * 0.4f) + 0.01f);
+}
+
+void chorusParam4(float value, int v)
+{
+    tCycle_setFreq(&mod2[v], (value * 0.4444444f) + 0.011f);
+}
+
+
+float chorusTick(float sample, int v)
+{
+    tHermiteDelay_setDelay(&delay1[v], param1[v] * .707f * (1.0f + param2[v] * tCycle_tick(&mod1[v])));
+    tHermiteDelay_setDelay(&delay2[v], param1[v] * .5f * (1.0f - param2[v] * tCycle_tick(&mod2[v])));
+    float temp = tHermiteDelay_tick(&delay1[v], sample) - sample;
+    temp += tHermiteDelay_tick(&delay2[v], sample) - sample;
+    //temp = tHighpass_tick(&dcBlock1[v], temp);
+    return temp;
+}
+
+float shaperTick(float sample, int v)
+{
+    sample = sample * param1[v];
+    float temp = LEAF_shaper(sample + (param2[v] * param1[v]),param3[v]);
+    temp = tHighpass_tick(&dcBlock1[v], temp);
+    temp *= param4[v];
+    return temp;
+}
+
+float blankTick(float sample, int v)
+{
+    return sample;
+}
+
+float tiltFilterTick(float sample, int v)
+{
+    sample = tVZFilter_tickEfficient(&shelf1[v], sample);
+    sample = tVZFilter_tickEfficient(&shelf2[v], sample);
+    sample = tVZFilter_tickEfficient(&bell1[v], sample);
+    sample *= param5[v];
+    return sample;
+}
+
+float tanhTick(float sample, int v)
+{
+    float gain = param1[v];
+	sample = sample * gain;
+    gain = gain * 0.5f;
+    //need to do something with shape param
+    float temp = tanhf(sample + (param2[v]*gain));
+    temp = tHighpass_tick(&dcBlock1[v], temp);
+    temp *= param4[v];
+    temp = tanhf(temp);
+    //temp = tHighpass_tick(&dcBlock2, temp);
+    return temp;
+}
+
+
+float softClipTick(float sample, int v)
+{
+    sample = sample * param1[v];
+    sample = sample + param2[v];
+    float shape = param3[v];
+    if (sample <= -1.0f)
+    {
+        sample = -1.0f;
+    } else if (sample >= 1.0f)
+    {
+        sample = 1.0f;
+    }
+    {
+        sample = (shape * sample) - ((shape * (sample * sample * sample))* 0.3333333f);
+        sample = sample * shapeDividerS[v];
+    }
+
+    sample = tHighpass_tick(&dcBlock1[v], sample);
+    sample *= param4[v];
+    return sample;
+}
+
+
+float hardClipTick(float sample, int v)
+{
+
+    sample = sample * param1[v];
+    sample = sample + param2[v];
+    if (sample <= -1.0f)
+    {
+        sample = -1.0f;
+    } else if (sample >= 1.0f)
+    {
+        sample = 1.0f;
+    }
+    {
+        sample = arm_sin_f32(  (arm_sin_f32(sample*param3[v]) * shapeDividerH[v]) * param3[v]);
+        sample = sample * shapeDividerH[v];
+    }
+
+    sample = tHighpass_tick(&dcBlock1[v], sample);
+    sample *= param4[v];
+    return sample;
+}
+
+
+float satTick(float sample, int v)
+{;
+    sample = sample * param1[v];
+    float temp = (sample + (param2[v] * param1[v])) / (1.0f + fabs(sample + param2[v]));
+    temp = tHighpass_tick(&dcBlock1[v], temp);
+    temp = tHighpass_tick(&dcBlock2[v], temp);
+    temp = tanhf(temp);
+    temp *= param4[v];
+    return temp;
+}
+
+
+
+float bcTick(float sample, int v)
+{
+    sample = sample * param1[v];
+    tCrusher_setQuality (&bc[v],param2[v]);
+    tCrusher_setSamplingRatio (&bc[v], param3[v]);
+    tCrusher_setRound(&bc[v], param4[v]);
+    tCrusher_setOperation(&bc[v], param5[v]);
+    return tCrusher_tick(&bc[v], sample);
+}
+
+
+float compressorTick(float sample, int v)
+{
+    return tCompressor_tick (&comp[v], sample);
+}
 
 

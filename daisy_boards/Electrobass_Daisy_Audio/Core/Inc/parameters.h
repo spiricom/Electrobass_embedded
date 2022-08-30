@@ -11,19 +11,21 @@
 typedef float (*scaler_t)(float);
 typedef void (*setParam_t)(float, int);
 
-typedef void (*setCutoff_t)(float, int);
-typedef void (*setQ_t)(float, int);
-typedef void (*setGain_t)(float, int);
-typedef void (*setKeyfollow_t)(float, int);
+
+
 
 #define NUM_OSC_SHAPES 7
 #define NUM_FILTER_TYPES 9
+#define NUM_LFO_SHAPES 6
 #define OSC_PARAMS_OFFSET 40
-#define EFFECTS_PARAMS_OFFSET 73
+#define EFFECT_PARAMS_OFFSET 73
 #define FILTER_PARAMS_OFFSET 101
 #define ENVELOPE_PARAMS_OFFSET 114
 #define LFO_PARAMS_OFFSET 138
 #define NUM_POSSIBLE_HOOKS 3
+#define NUM_LFOS 4
+#define LFO_SOURCE_OFFSET 29
+#define NUM_EFFECT_TYPES 11
 
 //struct for every parameter
 typedef struct param
@@ -38,11 +40,27 @@ typedef struct param
 
 typedef struct filterSetter
 {
-	setCutoff_t setCutoff;
-	setQ_t	setQ;
-	setGain_t setGain;
-	setKeyfollow_t setKeyfollow;
+	setParam_t	setQ;
+	setParam_t setGain;
 } filterSetter;
+
+
+typedef struct lfoSetter
+{
+	setParam_t setRate;
+	setParam_t setShape;
+	setParam_t setPhase;
+} lfoSetter;
+
+
+typedef struct effectSetter
+{
+	setParam_t setParam1;
+	setParam_t setParam2;
+	setParam_t setParam3;
+	setParam_t setParam4;
+	setParam_t setParam5;
+} effectSetter;
 
 
 typedef struct mapping
@@ -50,6 +68,7 @@ typedef struct mapping
 	uint8_t destNumber;
 	param* dest;
 	float* sourceValPtr[NUM_POSSIBLE_HOOKS];
+	uint8_t sourceSmoothed[NUM_POSSIBLE_HOOKS];
 	float* scalarSourceValPtr[NUM_POSSIBLE_HOOKS];
 	float amount[NUM_POSSIBLE_HOOKS];
 	uint8_t numHooks;
@@ -84,6 +103,40 @@ enum FilterParamNames
 	FilterParamsNum
 };
 
+
+enum LFOParamNames
+{
+	LFORate,
+	LFOShape,
+	LFOPhase,
+	LFOShapeSet,
+	LFOSync,
+	LFOParamsNum
+};
+
+enum EffectParamNames
+{
+	EffectFXType,
+	EffectParam1,
+	EffectParam2,
+	EffectParam3,
+	EffectParam4,
+	EffectParam5,
+	EffectMix,
+	EffectParamsNum,
+};
+
+typedef enum _LFOShapeSet
+{
+    SineTriLFOShapeSet = 0,
+    SawPulseLFOShapeSet,
+    SineLFOShapeSet,
+    TriLFOShapeSet,
+    SawLFOShapeSet,
+    PulseLFOShapeSet,
+    LFOShapeSetNil
+} _LFOShapeSet;
+
 enum EnvelopeParamNames
 {
 	EnvelopeAttack,
@@ -94,6 +147,23 @@ enum EnvelopeParamNames
 	EnvelopeVelocity,
 	EnvelopeParamsNum
 };
+
+
+typedef enum _FXType
+{
+    None = 0,
+    Softclip,
+    Hardclip,
+    ABSaturator,
+    Tanh,
+    Shaper,
+    Compressor,
+    Chorus,
+    Bitcrush,
+    TiltFilter,
+    Wavefolder,
+    FXTypeNil
+} FXType;
 
 
 enum ParamNames
