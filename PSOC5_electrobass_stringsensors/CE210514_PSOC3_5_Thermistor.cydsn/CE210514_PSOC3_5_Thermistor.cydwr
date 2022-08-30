@@ -58,7 +58,7 @@
         <Data key="derive_type" value="AUTO" />
         <Data key="desired_freq" value="24" />
         <Data key="desired_unit" value="6" />
-        <Data key="divider" value="3" />
+        <Data key="divider" value="1" />
         <Data key="domain" value="DIGITAL" />
         <Data key="enabled" value="True" />
         <Data key="minus_accuracy" value="0.25" />
@@ -69,8 +69,8 @@
         <Data key="plus_accuracy" value="0.25" />
         <Data key="plus_tolerance" value="5" />
         <Data key="scope" value="LOCAL" />
-        <Data key="src_clk_id" value="61737EF6-3B74-48f9-8B91-F7473A442AE7" />
-        <Data key="src_clk_name" value="MASTER_CLK" />
+        <Data key="src_clk_id" value="CEF43CFB-0213-49b9-B980-2FFAB81C5B47" />
+        <Data key="src_clk_name" value="IMO" />
         <Data key="start_on_reset" value="True" />
         <Data key="sync_with_bus_clk" value="True" />
         <Data key="user_set_domain" value="False" />
@@ -140,8 +140,8 @@
         <Data key="plus_accuracy" value="0.25" />
         <Data key="plus_tolerance" value="5" />
         <Data key="scope" value="LOCAL" />
-        <Data key="src_clk_id" value="39D5E4C2-EBFC-44ab-AE3D-19F9BBFD674D" />
-        <Data key="src_clk_name" value="PLL_OUT" />
+        <Data key="src_clk_id" value="61737EF6-3B74-48f9-8B91-F7473A442AE7" />
+        <Data key="src_clk_name" value="MASTER_CLK" />
         <Data key="start_on_reset" value="True" />
         <Data key="sync_with_bus_clk" value="True" />
         <Data key="user_set_domain" value="False" />
@@ -234,8 +234,8 @@
         <Data key="plus_accuracy" value="0.25" />
         <Data key="plus_tolerance" value="5" />
         <Data key="scope" value="LOCAL" />
-        <Data key="src_clk_id" value="39D5E4C2-EBFC-44ab-AE3D-19F9BBFD674D" />
-        <Data key="src_clk_name" value="PLL_OUT" />
+        <Data key="src_clk_id" value="61737EF6-3B74-48f9-8B91-F7473A442AE7" />
+        <Data key="src_clk_name" value="MASTER_CLK" />
         <Data key="start_on_reset" value="True" />
         <Data key="sync_with_bus_clk" value="True" />
         <Data key="user_set_domain" value="False" />
@@ -270,7 +270,7 @@
         <Data key="derive_type" value="AUTO" />
         <Data key="desired_freq" value="1600000" />
         <Data key="desired_unit" value="0" />
-        <Data key="divider" value="45" />
+        <Data key="divider" value="49" />
         <Data key="domain" value="DIGITAL" />
         <Data key="enabled" value="True" />
         <Data key="minus_accuracy" value="0.25" />
@@ -317,7 +317,7 @@
         <Data key="derive_type" value="NAMED_FREQ" />
         <Data key="desired_freq" value="4.7989999999999995" />
         <Data key="desired_unit" value="6" />
-        <Data key="divider" value="15" />
+        <Data key="divider" value="16" />
         <Data key="domain" value="DIGITAL" />
         <Data key="enabled" value="True" />
         <Data key="minus_accuracy" value="0.25" />
@@ -365,7 +365,7 @@
         <Data key="check_tolerance" value="True" />
         <Data key="clock_version" value="v1" />
         <Data key="derive_type" value="BUILTIN" />
-        <Data key="desired_freq" value="72" />
+        <Data key="desired_freq" value="79" />
         <Data key="desired_unit" value="6" />
         <Data key="divider" value="0" />
         <Data key="domain" value="0" />
@@ -625,16 +625,20 @@
     <Group key="Interrupt">
       <Data key="0d776c25-0fda-4bff-af2b-9962432af301/13a8975c-7fb7-4bb9-91f3-189a6b7c1d86" value="USB_ep_1" />
       <Data key="0d776c25-0fda-4bff-af2b-9962432af301/52c66e35-efb9-4cb3-a434-6304eda17cd2" value="USB_ep_2" />
+      <Data key="0d776c25-0fda-4bff-af2b-9962432af301/52cfc51a-c818-44e0-a555-233f5fe66cfa" value="USB_EP_DMA_Done_isr" />
       <Data key="0d776c25-0fda-4bff-af2b-9962432af301/70277391-b927-4e50-8d12-6874a5c53f72" value="USB_bus_reset" />
       <Data key="0d776c25-0fda-4bff-af2b-9962432af301/bbb6a482-c3d6-4d33-a3c3-aff5d704e3be" value="USB_sof_int" />
       <Data key="0d776c25-0fda-4bff-af2b-9962432af301/d91ea660-bc91-4817-b29b-2fe86c305500" value="USB_arb_int" />
       <Data key="0d776c25-0fda-4bff-af2b-9962432af301/dc6da32b-30f7-48b3-b8a1-dbf0214d8c83" value="USB_dp_int" />
       <Data key="0d776c25-0fda-4bff-af2b-9962432af301/ef9224ec-f8a6-4df0-8a49-e09ce75cefa7" value="USB_ep_0" />
+      <Data key="02c2334d-9363-4f4e-adbb-de319d798079/84c5c6a4-2332-4968-b315-890fa8de8196" value="CapSense_IsrCH1" />
       <Data key="02c2334d-9363-4f4e-adbb-de319d798079/a740d632-f963-4857-a1fe-fea9c3f1f48b" value="CapSense_IsrCH0" />
       <Data key="6f2d57bd-b6d0-4115-93da-ded3485bf4ed/74b069b5-d5c5-469b-a48a-44b8a12146cd" value="I2C_1_I2C_IRQ" />
       <Data key="8e579cbc-63a1-46c1-ac4c-74341dee2aac" value="my_Vbus_ISR" />
+      <Data key="84840f33-4710-49b5-a18a-86da3edca717" value="my_Vbus_ISR" />
       <Data key="a35ff493-40fc-49b9-b40a-d8c8852fa2cd/14fe96ba-901d-4b28-a648-bce191698c4b" value="SPIM_2_RxInternalInterrupt" />
       <Data key="ac7c99d1-2479-4bb9-b94b-6fdfc6c86d1c/b73dcd38-4bce-4cd7-acec-33f53e91ccd6" value="ADC_SAR_1_IRQ" />
+      <Data key="d5fcdb55-18e5-448b-a411-5f774d9a0a4c/1f5e8554-d687-4ad9-ad53-a7ad63e97e33" value="ADC_SAR_Seq_1_IRQ" />
       <Data key="e309a713-55ea-4f31-b651-ebbf5db679ca" value="Sleep_isr" />
       <Data key="ed7ddc83-dba6-48b0-842d-889008c1ed25/1f5e8554-d687-4ad9-ad53-a7ad63e97e33" value="ADC_SAR_Seq_1_IRQ" />
       <Data key="fbda9b79-9f46-4360-b7f1-e0d7a25d459b/b6592af9-e743-4dfd-a597-27f9102033ee" value="ADC_1_IRQ" />
@@ -1574,6 +1578,13 @@
         <Data key="Vector" value="-1" />
       </Group>
     </Group>
+    <Group key="0d776c25-0fda-4bff-af2b-9962432af301/52cfc51a-c818-44e0-a555-233f5fe66cfa">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="7" />
+        <Data key="Vector" value="-1" />
+      </Group>
+    </Group>
     <Group key="0d776c25-0fda-4bff-af2b-9962432af301/70277391-b927-4e50-8d12-6874a5c53f72">
       <Group key="CortexM3">
         <Data key="Assigned" value="True" />
@@ -1606,6 +1617,48 @@
       <Group key="CortexM3">
         <Data key="Assigned" value="True" />
         <Data key="Priority" value="3" />
+        <Data key="Vector" value="-1" />
+      </Group>
+    </Group>
+    <Group key="02c2334d-9363-4f4e-adbb-de319d798079/84c5c6a4-2332-4968-b315-890fa8de8196">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="5" />
+        <Data key="Vector" value="-1" />
+      </Group>
+    </Group>
+    <Group key="02c2334d-9363-4f4e-adbb-de319d798079/a740d632-f963-4857-a1fe-fea9c3f1f48b">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="5" />
+        <Data key="Vector" value="-1" />
+      </Group>
+    </Group>
+    <Group key="6f2d57bd-b6d0-4115-93da-ded3485bf4ed/74b069b5-d5c5-469b-a48a-44b8a12146cd">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="6" />
+        <Data key="Vector" value="-1" />
+      </Group>
+    </Group>
+    <Group key="84840f33-4710-49b5-a18a-86da3edca717">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="6" />
+        <Data key="Vector" value="-1" />
+      </Group>
+    </Group>
+    <Group key="d5fcdb55-18e5-448b-a411-5f774d9a0a4c/1f5e8554-d687-4ad9-ad53-a7ad63e97e33">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="6" />
+        <Data key="Vector" value="-1" />
+      </Group>
+    </Group>
+    <Group key="fbda9b79-9f46-4360-b7f1-e0d7a25d459b/b6592af9-e743-4dfd-a597-27f9102033ee">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="6" />
         <Data key="Vector" value="-1" />
       </Group>
     </Group>
@@ -2341,10 +2394,10 @@
     <Data key="CYDEV_DEBUGGING_REQXRES" value="True" />
     <Data key="CYDEV_DEBUGGING_XRES" value="False" />
     <Data key="CYDEV_ECC_ENABLE" value="False" />
-    <Data key="CYDEV_HEAP_SIZE" value="0x80" />
+    <Data key="CYDEV_HEAP_SIZE" value="0x800" />
     <Data key="CYDEV_INSTRUCT_CACHE_ENABLED" value="True" />
     <Data key="CYDEV_PROTECTION_ENABLE" value="False" />
-    <Data key="CYDEV_STACK_SIZE" value="0x0800" />
+    <Data key="CYDEV_STACK_SIZE" value="0x2000" />
     <Data key="CYDEV_SWV_ENABLED" value="False" />
     <Data key="CYDEV_TEMPERATURE" value="-40C - 85C" />
     <Data key="CYDEV_TRACE_ENABLED" value="False" />
