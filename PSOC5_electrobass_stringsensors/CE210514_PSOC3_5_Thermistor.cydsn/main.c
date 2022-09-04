@@ -42,6 +42,7 @@
 
 #include <stdio.h>
 #include "math.h"
+#include "oled.h"
 
 //#define MAPLE1 1
 #define GREEN3 1
@@ -436,9 +437,15 @@ int main(void)
     ADC_SAR_Seq_1_StartConvert();
     SPIM_1_Start();
     SPIM_2_Start();
-    //I2C_1_Start();
+    I2C_1_Start();
     
-
+        CyDelay(100);
+    //I2Cbuff1[0] = 1<<6;
+    //status = I2C_MasterWriteBlocking(0x70, 1, I2C_1_MODE_COMPLETE_XFER);
+    OLED_init();
+    //OLEDwriteInt(0, 5, 0,FirstLine);
+    //OLED_draw();
+    
     
     CapSense_Start();     
     

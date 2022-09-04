@@ -7079,16 +7079,3 @@ const GFXfont EuphemiaCAS8pt7b PROGMEM = {
 
 
 #endif /* CUSTOM_FONTS_H_ */
-/* ========================================
- *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
- *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
-*/
-
-/* [] END OF FILE */
