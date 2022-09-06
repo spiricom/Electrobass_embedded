@@ -75,6 +75,10 @@ void parsePreset(int size);
 uint8_t SPI_TX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
 uint8_t SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
 
+uint8_t random_values[128] __ATTR_RAM_D2;
+uint8_t currentRandom = 0;
+
+
 uint8_t volatile bootloaderFlag[32] __ATTR_USER_FLASH;
 uint8_t resetFlag = 0;
 
@@ -105,14 +109,16 @@ lfoSetter lfoSetters[NUM_LFOS];
 effectSetter effectSetters[NUM_EFFECT];
 float defaultScaling = 1.0f;
 
-float resTable[2048];
-float envTimeTable[2048];
-float lfoRateTable[2048];
+#define SCALE_TABLE_SIZE 2048
+float resTable[SCALE_TABLE_SIZE];
+float envTimeTable[SCALE_TABLE_SIZE];
+float lfoRateTable[SCALE_TABLE_SIZE];
 
 uint8_t volatile interruptChecker = 0;
 
 uint8_t volatile foundOne = 0;
 
+uint32_t volatile myTestInt = 0;
 
 /* USER CODE END 0 */
 
@@ -192,9 +198,9 @@ int main(void)
   buffer[NUM_PARAMS*2+5] = 1;
   buffer[NUM_PARAMS*2+11] = 0xfe;
   buffer[NUM_PARAMS*2+12] = 0xfe;
-  LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, 2048);
-  LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, 2048);
-  LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, 2048);
+  LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, SCALE_TABLE_SIZE);
+  LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, SCALE_TABLE_SIZE);
+  LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, SCALE_TABLE_SIZE);
 
   foundOne  = checkForSDCardPreset();
 
@@ -250,10 +256,19 @@ int main(void)
 	  else if (presetWaitingToWrite > 0)
 	  {
 		  writePresetToSDCard(presetWaitingToWrite);
-
 	  }
 
+	  uint32_t rand;
+	  HAL_RNG_GenerateRandomNumber(&hrng, &rand);
 
+	  if (rand > TWO_TO_31)
+	  {
+		  myTestInt++;
+		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+	  }
+	  float floatrand = (float)rand * INV_TWO_TO_32 ;
+	  random_values[currentRandom] = floatrand * 255.0f;
+	  currentRandom = (currentRandom + 1) & 128;
 
 	  /*
 
@@ -373,12 +388,12 @@ void PeriphCommonClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-float randomNumber(void) {
+float  __ATTR_ITCMRAM randomNumber(void) {
 
 	uint32_t rand;
-	HAL_RNG_GenerateRandomNumber(&hrng, &rand);
-	float num = (float)rand * INV_TWO_TO_32;
-	return num;
+	rand = hrng.Instance->DR; //should be faster, just may be that number isn't ready yet so we get repeated values. Unlikely at the rate we are polling it
+	//HAL_RNG_GenerateRandomNumber(&hrng, &rand);
+	return ((float)rand * INV_TWO_TO_32);
 }
 
 
@@ -671,7 +686,7 @@ void MPU_Conf(void)
 
 
 
-void handleSPI(uint8_t offset)
+void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 {
 	interruptChecker = 1;
 	// if the first number is a 1 then it's a midi note/ctrl/bend message
@@ -722,55 +737,55 @@ void handleSPI(uint8_t offset)
 	}
 }
 
-float scaleDefault(float input)
+float __ATTR_ITCMRAM scaleDefault(float input)
 {
 	input = LEAF_clip(0.f, input, 1.f);
 	return input;
 }
 
-float scaleTwo(float input)
+float __ATTR_ITCMRAM scaleTwo(float input)
 {
 	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 2.0f);
 }
 
-float scaleOscPitch(float input)
+float __ATTR_ITCMRAM scaleOscPitch(float input)
 {
 	//input = LEAF_clip(0.0f, input, 1.0f);
 	return (input * 48.0f) - 24.0f;
 }
 
-float scaleOscFine(float input)
+float __ATTR_ITCMRAM scaleOscFine(float input)
 {
 	//input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 200.0f) - 100.0f;
 }
 
-float scaleOscFreq(float input)
+float __ATTR_ITCMRAM scaleOscFreq(float input)
 {
 	//input = LEAF_clip(0.f, input, 1.f);
 	return (input * 4000.0f) - 2000.0f;
 }
 
-float scaleTranspose(float input)
+float __ATTR_ITCMRAM scaleTranspose(float input)
 {
 	input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 96.0f) - 48.0f;
 }
 
-float scalePitchBend(float input)
+float __ATTR_ITCMRAM scalePitchBend(float input)
 {
 	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 24.0f);
 }
 
-float scaleFilterCutoff(float input)
+float __ATTR_ITCMRAM scaleFilterCutoff(float input)
 {
 	//input = LEAF_clip(0.f, input, 1.f);
 	return (input * 127.0f);
 }
 
-float scaleFilterResonance(float input)
+float __ATTR_ITCMRAM scaleFilterResonance(float input)
 {
 	//lookup table for filter res
 	input = LEAF_clip(0.1f, input, 1.0f);
@@ -783,7 +798,7 @@ float scaleFilterResonance(float input)
 	//return
 }
 
-float scaleEnvTimes(float input)
+float __ATTR_ITCMRAM scaleEnvTimes(float input)
 {
 	//lookup table for env times
 	input = LEAF_clip(0.0f, input, 1.0f);
@@ -797,7 +812,7 @@ float scaleEnvTimes(float input)
 	//return
 }
 
-float scaleLFORates(float input)
+float __ATTR_ITCMRAM scaleLFORates(float input)
 {
 	//lookup table for LFO rates
 	input = LEAF_clip(0.0f, input, 1.0f);
@@ -810,13 +825,20 @@ float scaleLFORates(float input)
 	//return
 }
 
+float __ATTR_ITCMRAM scaleFinalLowpass(float input)
+{
+	//input = LEAF_clip(0.f, input, 1.f);
+	return ((input * 70.0f) + 58.0f);
+}
+
+
 void blankFunction(float a, int b)
 {
 	;
 }
 
 
-void parsePreset(int size)
+void __ATTR_ITCMRAM parsePreset(int size)
 {
 	//turn off the volume while changing parameters
 	 __disable_irq();
@@ -898,21 +920,23 @@ void parsePreset(int size)
 
 	params[Master].scaleFunc = &scaleTwo;
 	params[Transpose].scaleFunc = &scaleTranspose;
-	params[PitchBendRangeUp].scaleFunc = &scalePitchBend;
-	params[PitchBendRangeDown].scaleFunc = &scalePitchBend;
+	params[PitchBendRange].scaleFunc = &scalePitchBend;
 	params[NoiseAmp].scaleFunc = &scaleTwo;
 	params[Osc1Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc1Fine].scaleFunc = &scaleOscFine;
 	params[Osc1Freq].scaleFunc = &scaleOscFreq;
 	params[Osc1Amp].scaleFunc = &scaleTwo;
+	params[Osc1Harmonics].scaleFunc = &scaleOscPitch;
 	params[Osc2Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc2Fine].scaleFunc = &scaleOscFine;
 	params[Osc2Freq].scaleFunc = &scaleOscFreq;
 	params[Osc2Amp].scaleFunc = &scaleTwo;
+	params[Osc2Harmonics].scaleFunc = &scaleOscPitch;
 	params[Osc3Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc3Fine].scaleFunc = &scaleOscFine;
 	params[Osc3Freq].scaleFunc = &scaleOscFreq;
 	params[Osc3Amp].scaleFunc = &scaleTwo;
+	params[Osc3Harmonics].scaleFunc = &scaleOscPitch;
 	params[Filter1Cutoff].scaleFunc = &scaleFilterCutoff;
 	params[Filter1Resonance].scaleFunc = &scaleFilterResonance;
 	params[Filter2Cutoff].scaleFunc = &scaleFilterCutoff;
@@ -934,6 +958,7 @@ void parsePreset(int size)
 	params[LFO3Rate].scaleFunc = &scaleLFORates;
 	params[LFO4Rate].scaleFunc = &scaleLFORates;
 	params[OutputAmp].scaleFunc = &scaleTwo;
+	params[OutputTone].scaleFunc  = &scaleFinalLowpass;
 
 	for (int i = 0; i < NUM_PARAMS; i++)
 	{
@@ -1172,12 +1197,18 @@ void parsePreset(int size)
 	///////Setters for paramMapping
 	params[Master].setParam = &setMaster;
 	params[Transpose].setParam = &setTranspose;
-	params[PitchBendRangeUp].setParam = &setPitchBendRangeUp;
-	params[PitchBendRangeDown].setParam = &setPitchBendRangeDown;
+	params[PitchBendRange].setParam = &setPitchBendRange;
+	params[OutputTone].setParam = &setFinalLowpass;
+
 	//params[NoiseAmp].setParam = &setNoiseAmp;
-	params[Osc1Pitch].setParam = &setFreqMult;
-	params[Osc2Pitch].setParam = &setFreqMult;
-	params[Osc3Pitch].setParam = &setFreqMult;
+
+	params[Osc1Pitch].setParam = &setFreqMultPitch;
+	params[Osc2Pitch].setParam = &setFreqMultPitch;
+	params[Osc3Pitch].setParam = &setFreqMultPitch;
+
+	params[Osc1Harmonics].setParam = &setFreqMultHarm;
+	params[Osc2Harmonics].setParam = &setFreqMultHarm;
+	params[Osc3Harmonics].setParam = &setFreqMultHarm;
 
 	params[Effect1Param1].setParam = effectSetters[0].setParam1;
 	params[Effect1Param2].setParam = effectSetters[0].setParam2;
@@ -1185,30 +1216,30 @@ void parsePreset(int size)
 	params[Effect1Param4].setParam = effectSetters[0].setParam4;
 	params[Effect1Param5].setParam = effectSetters[0].setParam5;
 	params[Effect1Mix].setParam = &fxMixSet;
-
+	params[Effect1PostGain].setParam = &fxPostGainSet;
 	params[Effect2Param1].setParam = effectSetters[1].setParam1;
 	params[Effect2Param2].setParam = effectSetters[1].setParam2;
 	params[Effect2Param3].setParam = effectSetters[1].setParam3;
 	params[Effect2Param4].setParam = effectSetters[1].setParam4;
 	params[Effect2Param5].setParam = effectSetters[1].setParam5;
 	params[Effect2Mix].setParam = &fxMixSet;
-
+	params[Effect2PostGain].setParam = &fxPostGainSet;
 	params[Effect3Param1].setParam = effectSetters[2].setParam1;
 	params[Effect3Param2].setParam = effectSetters[2].setParam2;
 	params[Effect3Param3].setParam = effectSetters[2].setParam3;
 	params[Effect3Param4].setParam = effectSetters[2].setParam4;
 	params[Effect3Param5].setParam = effectSetters[2].setParam5;
 	params[Effect3Mix].setParam = &fxMixSet;
-
+	params[Effect3PostGain].setParam = &fxPostGainSet;
 	params[Effect4Param1].setParam = effectSetters[3].setParam1;
 	params[Effect4Param2].setParam = effectSetters[3].setParam2;
 	params[Effect4Param3].setParam = effectSetters[3].setParam3;
 	params[Effect4Param4].setParam = effectSetters[3].setParam4;
 	params[Effect4Param5].setParam = effectSetters[3].setParam5;
 	params[Effect4Mix].setParam = &fxMixSet;
-
+	params[Effect4PostGain].setParam = &fxPostGainSet;
 	params[Filter1Resonance].setParam = filterSetters[0].setQ;
-	params[Filter1Gain].setParam = filterSetters[0].setGain; //gain is a special case for set params where the scaling function leaves it alone because it's different based on filter type
+	params[Filter1Gain].setParam = filterSetters[0].setGain;
 	params[Filter2Resonance].setParam = filterSetters[1].setQ;
 	params[Filter2Gain].setParam = filterSetters[1].setGain;
 	params[Envelope1Attack].setParam = &setEnvelopeAttack;
@@ -1432,12 +1463,12 @@ void parsePreset(int size)
 
 
 
-void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+void  __ATTR_ITCMRAM HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	handleSPI(16);
 }
 
-void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
+void __ATTR_ITCMRAM HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	handleSPI(0);
 }

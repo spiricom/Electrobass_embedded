@@ -30016,9 +30016,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 </part>
 <part name="V19" library="custom" deviceset="3V3A1" device=""/>
 <part name="SUPPLY17" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
-<part name="JP5" library="Connector" library_urn="urn:adsk.eagle:library:16378166" deviceset="PINHD-2X5" device="" package3d_urn="urn:adsk.eagle:package:22470/2">
-<attribute name="PARTNO" value="3020-10-0100-00"/>
-</part>
 <part name="JP9" library="custom" deviceset="20021121" device="">
 <attribute name="PARTNO" value="3221-10-0300-00"/>
 </part>
@@ -30060,8 +30057,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <attribute name="PARTNO" value="CC0603KRX7R8BB104"/>
 </part>
 <part name="SUPPLY7" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
-<part name="V10" library="custom" deviceset="3V3A1" device=""/>
-<part name="SUPPLY8" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
 <part name="V18" library="custom" deviceset="3V3A1" device=""/>
 <part name="GND9" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
 <part name="SUPPLY13" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
@@ -30141,18 +30136,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 </part>
 <part name="+3V2" library="supply1" deviceset="+3V3" device=""/>
 <part name="GND18" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
-<part name="R24" library="adafruit" deviceset="R-US_" device="R0603" value="0R_DNP">
-<attribute name="PARTNO" value="*DNP"/>
-</part>
-<part name="R25" library="adafruit" deviceset="R-US_" device="R0603" value="0R_DNP">
-<attribute name="PARTNO" value="*DNP"/>
-</part>
-<part name="R26" library="adafruit" deviceset="R-US_" device="R0603" value="0R_DNP">
-<attribute name="PARTNO" value="*DNP"/>
-</part>
-<part name="R27" library="adafruit" deviceset="R-US_" device="R0603" value="0R_DNP">
-<attribute name="PARTNO" value="*DNP"/>
-</part>
 <part name="R46" library="adafruit" deviceset="R-US_" device="R0603" value="0R_DNP">
 <attribute name="PARTNO" value="*DNP"/>
 </part>
@@ -30220,25 +30203,9 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <part name="C14" library="adafruit" deviceset="C-US" device="C0603K" value=".01uf">
 <attribute name="PARTNO" value="CC0603KRX7R8BB103"/>
 </part>
-<part name="C15" library="adafruit" deviceset="C-US" device="C0603K" value=".01uf">
-<attribute name="PARTNO" value="CC0603KRX7R8BB103"/>
-</part>
-<part name="C16" library="adafruit" deviceset="C-US" device="C0603K" value=".01uf">
-<attribute name="PARTNO" value="CC0603KRX7R8BB103"/>
-</part>
-<part name="C17" library="adafruit" deviceset="C-US" device="C0603K" value=".01uf">
-<attribute name="PARTNO" value="CC0603KRX7R8BB103"/>
-</part>
-<part name="C18" library="adafruit" deviceset="C-US" device="C0603K" value=".01uf">
-<attribute name="PARTNO" value="CC0603KRX7R8BB103"/>
-</part>
 <part name="SUPPLY27" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
 <part name="SUPPLY30" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
 <part name="SUPPLY31" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
-<part name="SUPPLY32" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
-<part name="SUPPLY33" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
-<part name="SUPPLY34" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
-<part name="SUPPLY35" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
 <part name="AUDIO_OUT_L_POSTVOL" library="adafruit" deviceset="PINHD-1X1" device="">
 <attribute name="PARTNO" value="*DNP"/>
 </part>
@@ -31054,11 +31021,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <instance part="SUPPLY17" gate="G$1" x="213.36" y="-71.12" smashed="yes">
 <attribute name="VALUE" x="210.693" y="-76.835" size="1.778" layer="96"/>
 </instance>
-<instance part="JP5" gate="A" x="566.42" y="78.74" smashed="yes">
-<attribute name="NAME" x="560.07" y="86.995" size="1.778" layer="95"/>
-<attribute name="VALUE" x="560.07" y="68.58" size="1.778" layer="96"/>
-<attribute name="PARTNO" x="566.42" y="78.74" size="1.27" layer="96" display="off"/>
-</instance>
 <instance part="JP9" gate="G$1" x="121.92" y="-33.02" smashed="yes" rot="R180">
 <attribute name="PARTNO" x="121.92" y="-33.02" size="1.778" layer="96" display="off"/>
 </instance>
@@ -31142,12 +31104,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 </instance>
 <instance part="SUPPLY7" gate="G$1" x="327.66" y="-66.04" smashed="yes">
 <attribute name="VALUE" x="324.993" y="-71.755" size="1.778" layer="96"/>
-</instance>
-<instance part="V10" gate="G$1" x="533.4" y="78.74" smashed="yes">
-<attribute name="VALUE" x="525.78" y="75.565" size="1.778" layer="96" ratio="12"/>
-</instance>
-<instance part="SUPPLY8" gate="G$1" x="579.12" y="76.2" smashed="yes">
-<attribute name="VALUE" x="576.453" y="70.485" size="1.778" layer="96"/>
 </instance>
 <instance part="V18" gate="G$1" x="256.54" y="208.28" smashed="yes">
 <attribute name="VALUE" x="254" y="210.185" size="1.778" layer="96" ratio="12"/>
@@ -31300,26 +31256,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <instance part="GND18" gate="G$1" x="195.58" y="-15.24" smashed="yes">
 <attribute name="VALUE" x="193.04" y="-20.32" size="1.778" layer="96"/>
 </instance>
-<instance part="R24" gate="G$1" x="551.18" y="83.82" smashed="yes" rot="R180">
-<attribute name="PARTNO" x="551.18" y="83.82" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="554.99" y="82.3214" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="554.99" y="87.122" size="1.778" layer="96" rot="R180"/>
-</instance>
-<instance part="R25" gate="G$1" x="586.74" y="83.82" smashed="yes" rot="R180">
-<attribute name="PARTNO" x="586.74" y="83.82" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="590.55" y="82.3214" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="590.55" y="87.122" size="1.778" layer="96" rot="R180"/>
-</instance>
-<instance part="R26" gate="G$1" x="523.24" y="81.28" smashed="yes" rot="R180">
-<attribute name="PARTNO" x="523.24" y="81.28" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="527.05" y="79.7814" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="527.05" y="84.582" size="1.778" layer="96" rot="R180"/>
-</instance>
-<instance part="R27" gate="G$1" x="612.14" y="81.28" smashed="yes" rot="R180">
-<attribute name="PARTNO" x="612.14" y="81.28" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="615.95" y="79.7814" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="615.95" y="84.582" size="1.778" layer="96" rot="R180"/>
-</instance>
 <instance part="R46" gate="G$1" x="551.18" y="134.62" smashed="yes" rot="R180">
 <attribute name="PARTNO" x="551.18" y="134.62" size="1.778" layer="96" display="off"/>
 <attribute name="NAME" x="554.99" y="133.1214" size="1.778" layer="95" rot="R180"/>
@@ -31443,26 +31379,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <attribute name="NAME" x="470.916" y="76.835" size="1.778" layer="95"/>
 <attribute name="VALUE" x="470.916" y="72.009" size="1.778" layer="96"/>
 </instance>
-<instance part="C15" gate="G$1" x="469.9" y="58.42" smashed="yes">
-<attribute name="PARTNO" x="469.9" y="58.42" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="470.916" y="59.055" size="1.778" layer="95"/>
-<attribute name="VALUE" x="470.916" y="54.229" size="1.778" layer="96"/>
-</instance>
-<instance part="C16" gate="G$1" x="469.9" y="43.18" smashed="yes">
-<attribute name="PARTNO" x="469.9" y="43.18" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="470.916" y="43.815" size="1.778" layer="95"/>
-<attribute name="VALUE" x="470.916" y="38.989" size="1.778" layer="96"/>
-</instance>
-<instance part="C17" gate="G$1" x="469.9" y="25.4" smashed="yes">
-<attribute name="PARTNO" x="469.9" y="25.4" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="470.916" y="26.035" size="1.778" layer="95"/>
-<attribute name="VALUE" x="470.916" y="21.209" size="1.778" layer="96"/>
-</instance>
-<instance part="C18" gate="G$1" x="469.9" y="7.62" smashed="yes">
-<attribute name="PARTNO" x="469.9" y="7.62" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="470.916" y="8.255" size="1.778" layer="95"/>
-<attribute name="VALUE" x="470.916" y="3.429" size="1.778" layer="96"/>
-</instance>
 <instance part="SUPPLY27" gate="G$1" x="469.9" y="99.06" smashed="yes">
 <attribute name="VALUE" x="467.233" y="93.345" size="1.778" layer="96"/>
 </instance>
@@ -31472,16 +31388,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <instance part="SUPPLY31" gate="G$1" x="469.9" y="71.12" smashed="yes">
 <attribute name="VALUE" x="467.233" y="65.405" size="1.778" layer="96"/>
 </instance>
-<instance part="SUPPLY32" gate="G$1" x="469.9" y="53.34" smashed="yes">
-<attribute name="VALUE" x="467.233" y="47.625" size="1.778" layer="96"/>
-</instance>
-<instance part="SUPPLY33" gate="G$1" x="469.9" y="38.1" smashed="yes">
-<attribute name="VALUE" x="467.233" y="32.385" size="1.778" layer="96"/>
-</instance>
-<instance part="SUPPLY34" gate="G$1" x="469.9" y="20.32" smashed="yes">
-<attribute name="VALUE" x="467.233" y="14.605" size="1.778" layer="96"/>
-</instance>
-<instance part="SUPPLY35" gate="G$1" x="469.9" y="2.54" smashed="yes"/>
 <instance part="AUDIO_OUT_L_POSTVOL" gate="G$1" x="462.28" y="-27.94" smashed="yes" rot="R90">
 <attribute name="PARTNO" x="462.28" y="-27.94" size="1.778" layer="96" rot="R90" display="off"/>
 <attribute name="NAME" x="461.645" y="-24.13" size="1.778" layer="95" rot="R90"/>
@@ -32105,11 +32011,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <pinref part="SUPPLY7" gate="G$1" pin="AGND"/>
 </segment>
 <segment>
-<pinref part="JP5" gate="A" pin="8"/>
-<wire x1="571.5" y1="76.2" x2="579.12" y2="76.2" width="0.1524" layer="91"/>
-<pinref part="SUPPLY8" gate="G$1" pin="AGND"/>
-</segment>
-<segment>
 <pinref part="IC2" gate="P" pin="VEE"/>
 <pinref part="SUPPLY13" gate="G$1" pin="AGND"/>
 <pinref part="C6" gate="G$1" pin="2"/>
@@ -32145,22 +32046,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <segment>
 <pinref part="C14" gate="G$1" pin="2"/>
 <pinref part="SUPPLY31" gate="G$1" pin="AGND"/>
-</segment>
-<segment>
-<pinref part="C15" gate="G$1" pin="2"/>
-<pinref part="SUPPLY32" gate="G$1" pin="AGND"/>
-</segment>
-<segment>
-<pinref part="C16" gate="G$1" pin="2"/>
-<pinref part="SUPPLY33" gate="G$1" pin="AGND"/>
-</segment>
-<segment>
-<pinref part="C17" gate="G$1" pin="2"/>
-<pinref part="SUPPLY34" gate="G$1" pin="AGND"/>
-</segment>
-<segment>
-<pinref part="C18" gate="G$1" pin="2"/>
-<pinref part="SUPPLY35" gate="G$1" pin="AGND"/>
 </segment>
 <segment>
 <pinref part="SUPPLY38" gate="G$1" pin="AGND"/>
@@ -32790,11 +32675,6 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 <pinref part="C5" gate="G$1" pin="1"/>
 <wire x1="327.66" y1="-58.42" x2="358.14" y2="-58.42" width="0.1524" layer="91"/>
 <junction x="327.66" y="-58.42"/>
-</segment>
-<segment>
-<pinref part="JP5" gate="A" pin="7"/>
-<wire x1="563.88" y1="76.2" x2="533.4" y2="76.2" width="0.1524" layer="91"/>
-<pinref part="V10" gate="G$1" pin="3V3A1"/>
 </segment>
 <segment>
 <pinref part="IC2" gate="P" pin="VCC"/>
@@ -33684,31 +33564,12 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 </net>
 <net name="ADC5_1" class="0">
 <segment>
-<label x="535.94" y="91.44" size="1.778" layer="95"/>
-<pinref part="JP5" gate="A" pin="1"/>
-<pinref part="R24" gate="G$1" pin="1"/>
-<wire x1="563.88" y1="83.82" x2="556.26" y2="83.82" width="0.1524" layer="91"/>
-<wire x1="556.26" y1="91.44" x2="556.26" y2="83.82" width="0.1524" layer="91"/>
-<junction x="556.26" y="83.82"/>
-<wire x1="538.48" y1="91.44" x2="556.26" y2="91.44" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="GPIO19(ADC4)"/>
 <wire x1="434.34" y1="152.4" x2="444.5" y2="152.4" width="0.1524" layer="91"/>
 <label x="444.5" y="152.4" size="1.27" layer="95" xref="yes"/>
 </segment>
-<segment>
-<pinref part="C15" gate="G$1" pin="1"/>
-<wire x1="469.9" y1="60.96" x2="457.2" y2="60.96" width="0.1524" layer="91"/>
-<label x="457.2" y="60.96" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="ADC5_2" class="0">
-<segment>
-<pinref part="R24" gate="G$1" pin="2"/>
-<wire x1="546.1" y1="83.82" x2="538.48" y2="83.82" width="0.1524" layer="91"/>
-<label x="535.94" y="83.82" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="U7" gate="G$1" pin="GPIO19(ADC4)"/>
 <wire x1="543.56" y1="149.86" x2="553.72" y2="149.86" width="0.1524" layer="91"/>
@@ -33717,31 +33578,12 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 </net>
 <net name="ADC6_1" class="0">
 <segment>
-<label x="594.36" y="91.44" size="1.778" layer="95"/>
-<pinref part="R25" gate="G$1" pin="2"/>
-<pinref part="JP5" gate="A" pin="2"/>
-<wire x1="581.66" y1="83.82" x2="571.5" y2="83.82" width="0.1524" layer="91"/>
-<wire x1="581.66" y1="91.44" x2="581.66" y2="83.82" width="0.1524" layer="91"/>
-<junction x="581.66" y="83.82"/>
-<wire x1="581.66" y1="91.44" x2="601.98" y2="91.44" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="GPIO20(ADC5)"/>
 <wire x1="434.34" y1="154.94" x2="444.5" y2="154.94" width="0.1524" layer="91"/>
 <label x="444.5" y="154.94" size="1.27" layer="95" xref="yes"/>
 </segment>
-<segment>
-<pinref part="C16" gate="G$1" pin="1"/>
-<wire x1="469.9" y1="45.72" x2="457.2" y2="45.72" width="0.1524" layer="91"/>
-<label x="457.2" y="45.72" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="ADC6_2" class="0">
-<segment>
-<pinref part="R25" gate="G$1" pin="1"/>
-<wire x1="591.82" y1="83.82" x2="601.98" y2="83.82" width="0.1524" layer="91"/>
-<label x="594.36" y="83.82" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="U7" gate="G$1" pin="GPIO20(ADC5)"/>
 <wire x1="543.56" y1="152.4" x2="553.72" y2="152.4" width="0.1524" layer="91"/>
@@ -33750,31 +33592,12 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 </net>
 <net name="ADC7_1" class="0">
 <segment>
-<wire x1="528.32" y1="91.44" x2="492.76" y2="91.44" width="0.1524" layer="91"/>
-<label x="495.3" y="91.44" size="1.778" layer="95"/>
-<pinref part="JP5" gate="A" pin="3"/>
-<pinref part="R26" gate="G$1" pin="1"/>
-<wire x1="563.88" y1="81.28" x2="528.32" y2="81.28" width="0.1524" layer="91"/>
-<wire x1="528.32" y1="91.44" x2="528.32" y2="81.28" width="0.1524" layer="91"/>
-<junction x="528.32" y="81.28"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="GPIO21(ADC6)"/>
 <wire x1="434.34" y1="157.48" x2="444.5" y2="157.48" width="0.1524" layer="91"/>
 <label x="444.5" y="157.48" size="1.27" layer="95" xref="yes"/>
 </segment>
-<segment>
-<pinref part="C17" gate="G$1" pin="1"/>
-<wire x1="469.9" y1="27.94" x2="454.66" y2="27.94" width="0.1524" layer="91"/>
-<label x="457.2" y="27.94" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="ADC7_2" class="0">
-<segment>
-<pinref part="R26" gate="G$1" pin="2"/>
-<wire x1="518.16" y1="81.28" x2="492.76" y2="81.28" width="0.1524" layer="91"/>
-<label x="495.3" y="81.28" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="U7" gate="G$1" pin="GPIO21(ADC6)"/>
 <wire x1="543.56" y1="154.94" x2="553.72" y2="154.94" width="0.1524" layer="91"/>
@@ -33783,31 +33606,12 @@ Source: www.mpe-connector.de / garry_shortform_2012.pdf</description>
 </net>
 <net name="ADC8_1" class="0">
 <segment>
-<label x="619.76" y="88.9" size="1.778" layer="95"/>
-<pinref part="JP5" gate="A" pin="4"/>
-<pinref part="R27" gate="G$1" pin="2"/>
-<wire x1="571.5" y1="81.28" x2="607.06" y2="81.28" width="0.1524" layer="91"/>
-<wire x1="607.06" y1="88.9" x2="607.06" y2="81.28" width="0.1524" layer="91"/>
-<junction x="607.06" y="81.28"/>
-<wire x1="607.06" y1="88.9" x2="647.7" y2="88.9" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="GPIO22(ADC7/DAC2)"/>
 <wire x1="434.34" y1="160.02" x2="444.5" y2="160.02" width="0.1524" layer="91"/>
 <label x="444.5" y="160.02" size="1.27" layer="95" xref="yes"/>
 </segment>
-<segment>
-<pinref part="C18" gate="G$1" pin="1"/>
-<wire x1="469.9" y1="10.16" x2="457.2" y2="10.16" width="0.1524" layer="91"/>
-<label x="457.2" y="10.16" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="ADC8_2" class="0">
-<segment>
-<pinref part="R27" gate="G$1" pin="1"/>
-<wire x1="617.22" y1="81.28" x2="647.7" y2="81.28" width="0.1524" layer="91"/>
-<label x="619.76" y="81.28" size="1.778" layer="95"/>
-</segment>
 <segment>
 <pinref part="U7" gate="G$1" pin="GPIO22(ADC7/DAC2)"/>
 <wire x1="543.56" y1="157.48" x2="553.72" y2="157.48" width="0.1524" layer="91"/>

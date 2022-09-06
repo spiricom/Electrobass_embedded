@@ -41,6 +41,7 @@ extern "C" {
 #define __ATTR_USER_FLASH	__attribute__ ((section(".userflash"))) __attribute__ ((aligned (32)))
 #define __ATTR_SDRAM	__attribute__ ((section(".sdram_bss"))) __attribute__ ((aligned (32)))
 #define __ATTR_DTCMRAM	__attribute__ ((section(".dtcmram_bss"))) __attribute__ ((aligned (32)))
+#define __ATTR_ITCMRAM	__attribute__ ((section(".itcmram"))) __attribute__ ((aligned (32)))
 
 /* USER CODE END ET */
 
