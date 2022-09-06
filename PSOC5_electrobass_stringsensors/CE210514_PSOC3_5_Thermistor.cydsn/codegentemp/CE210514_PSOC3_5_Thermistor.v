@@ -1,6 +1,6 @@
 // ======================================================================
 // CE210514_PSOC3_5_Thermistor.v generated from TopDesign.cysch
-// 08/22/2022 at 19:14
+// 08/23/2022 at 23:04
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -2067,7 +2067,7 @@ endmodule
 `include "C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\bADC_SAR_SEQ_v2_0\bADC_SAR_SEQ_v2_0.v"
 `endif
 
-// ADC_SAR_SEQ_v2_10(ADC_Clock_Frequency=1600000, Adjust=0, ClockSource=0, InputRange=1, NumChannels=5, Reference=0, Resolution=12, rm_int=false, SampleMode=0, SamplePrecharge=4, SampleRate=100000, SampleRate_def=631579, VrefValue=1.65, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=ADC_SAR_SEQ_v2_10, CY_CONFIG_TITLE=ADC_SAR_Seq_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=ADC_SAR_Seq_1, CY_INSTANCE_SHORT_NAME=ADC_SAR_Seq_1, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=10, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=ADC_SAR_Seq_1, )
+// ADC_SAR_SEQ_v2_10(ADC_Clock_Frequency=1440000, Adjust=0, ClockSource=0, InputRange=1, NumChannels=5, Reference=0, Resolution=12, rm_int=false, SampleMode=0, SamplePrecharge=4, SampleRate=90000, SampleRate_def=631579, VrefValue=1.65, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=ADC_SAR_SEQ_v2_10, CY_CONFIG_TITLE=ADC_SAR_Seq_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=ADC_SAR_Seq_1, CY_INSTANCE_SHORT_NAME=ADC_SAR_Seq_1, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=10, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=ADC_SAR_Seq_1, )
 module ADC_SAR_SEQ_v2_10_10 (
     aclk,
     AIN_10,
@@ -2537,7 +2537,7 @@ module ADC_SAR_SEQ_v2_10_10 (
 		#(.id("d5fcdb55-18e5-448b-a411-5f774d9a0a4c/9725d809-97e7-404e-b621-dfdbe78d0ca9"),
 		  .source_clock_id(""),
 		  .divisor(0),
-		  .period("625000000"),
+		  .period("694444444.444444"),
 		  .is_direct(0),
 		  .is_digital(1))
 		IntClock
@@ -2826,24 +2826,6 @@ module SPI_Master_v2_50_12 (
 
 endmodule
 
-// SleepTimer_v3_20(EnableInt=true, Interval=2, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=SleepTimer_v3_20, CY_CONFIG_TITLE=SleepTimer, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=SleepTimer, CY_INSTANCE_SHORT_NAME=SleepTimer, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=20, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=SleepTimer, )
-module SleepTimer_v3_20_13 (
-    interrupt);
-    output      interrupt;
-
-
-
-
-	cy_gsref_v1_0
-		#(.guid("0335EFD7-9943-4db5-B556-454A5AD8A118"))
-		gsRef_1
-		 (.sig_out(interrupt));
-
-
-
-
-endmodule
-
 // top
 module top ;
 
@@ -2991,7 +2973,6 @@ module top ;
           wire  Net_1125;
           wire  Net_1178;
           wire  Net_1177;
-          wire  Net_2;
           wire  Net_1128;
           wire  Net_1119;
           wire  Net_1112;
@@ -5592,16 +5573,6 @@ module top ;
 		  .nrq(Net_1130),
 		  .trq(1'b0));
 
-
-
-	cy_isr_v1_0
-		#(.int_type(2'b10))
-		Sleep_isr
-		 (.int_signal(Net_2));
-
-
-    SleepTimer_v3_20_13 SleepTimer (
-        .interrupt(Net_2));
 
 	wire [0:0] tmpOE__vBusPin_net;
 	wire [0:0] tmpIO_0__vBusPin_net;

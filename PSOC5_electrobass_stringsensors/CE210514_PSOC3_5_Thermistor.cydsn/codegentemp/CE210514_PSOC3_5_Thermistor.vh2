@@ -2,7 +2,7 @@
 --	Conversion of CE210514_PSOC3_5_Thermistor.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Mon Aug 22 19:14:55 2022
+--	Tue Aug 23 23:04:52 2022
 --
 
 USE cypress.cypress.all;
@@ -1526,7 +1526,6 @@ SIGNAL tmpIO_0__cv_pedal_net_0 : bit;
 TERMINAL tmpSIOVREF__cv_pedal_net_0 : bit;
 SIGNAL tmpINTERRUPT_0__cv_pedal_net_0 : bit;
 SIGNAL Net_1130 : bit;
-SIGNAL Net_2 : bit;
 SIGNAL tmpOE__vBusPin_net_0 : bit;
 SIGNAL tmpIO_0__vBusPin_net_0 : bit;
 TERMINAL tmpSIOVREF__vBusPin_net_0 : bit;
@@ -4625,7 +4624,7 @@ IDAC_OUT:cy_psoc3_pins_v1_10
 		id=>"d5fcdb55-18e5-448b-a411-5f774d9a0a4c/9725d809-97e7-404e-b621-dfdbe78d0ca9",
 		source_clock_id=>"",
 		divisor=>0,
-		period=>"625000000",
+		period=>"694444444.444444",
 		is_direct=>'0',
 		is_digital=>'1')
 	PORT MAP(clock_out=>\ADC_SAR_Seq_1:clock\,
@@ -6337,13 +6336,6 @@ DMA_2_TX:cy_dma_v1_0
 	PORT MAP(drq=>Net_1128,
 		trq=>zero,
 		nrq=>Net_1130);
-Sleep_isr:cy_isr_v1_0
-	GENERIC MAP(int_type=>"10",
-		is_nmi=>'0')
-	PORT MAP(int_signal=>Net_2);
-\SleepTimer:gsRef_1\:cy_gsref_v1_0
-	GENERIC MAP(guid=>"0335EFD7-9943-4db5-B556-454A5AD8A118")
-	PORT MAP(sig_out=>Net_2);
 vBusPin:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"07089094-e99b-49f2-81f6-b01912599db7",
 		drive_mode=>"001",

@@ -108,8 +108,6 @@
 #include "cv_pedal.h"
 #include "DMA_2_TX_dma.h"
 #include "Em_EEPROM.h"
-#include "Sleep_isr.h"
-#include "SleepTimer.h"
 #include "vBusPin_aliases.h"
 #include "vBusPin.h"
 #include "my_Vbus_ISR.h"

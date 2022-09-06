@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <blockRegMap version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cypress.com/xsd/cyblockregmap cyblockregmap.xsd" xmlns="http://cypress.com/xsd/cyblockregmap">
+  <block name="up" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="V_H" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SCL_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="DMA_2_RX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="fretted_momentary" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="fretted_latching" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="up" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="MOSI_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="MISO_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="DMA_2_RX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="V_H" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SDA_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="CV_pedal_sense" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="I2C_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="BusClock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -93,48 +91,17 @@
       <field name="timeout_period_highnibble" from="3" to="0" access="RW" resetVal="" desc="The configuration of this register along with that in register TMOUT_CFG1 to define the number units before SCL or SDA stuck low timeout triggers the I2C interrupt. The one unit is equal to SYSCLK/1024. The TMOUT_CFG1 defines higher octet of the period." hidden="false" />
     </register>
   </block>
-  <block name="SCL_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="DMA_1_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="V_T_1_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="vRef_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SDA_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="MISO_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="my_Vbus_ISR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="vBusPin" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SleepTimer" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-    <block name="gsRef_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-    <register name="SleepTimer_CTW_INTERVAL_REG" address="0x40004381" bitWidth="8" desc="Timewheel Configuration Register 1" hidden="false">
-      <field name="ctw_interval" from="3" to="0" access="RW" resetVal="" desc="Sets the central timewheel interval." hidden="false" />
-    </register>
-    <register name="SleepTimer_TW_CFG_REG" address="0x40004382" bitWidth="8" desc="Timewheel Configuration Register 2" hidden="false">
-      <field name="onepps_ie" from="5" to="5" access="RW" resetVal="" desc="When set and one pulse-per-second is enabled, an interrupt is issued when the pulse occurs." hidden="false">
-        <value name="Enabled" value="1" desc="One PPS interrupt is enabled" />
-        <value name="Disabled" value="0" desc="One PPS interrupt is disabled" />
-      </field>
-      <field name="onepps_en" from="4" to="4" access="RW" resetVal="" desc="When set, the system returns to the active global power mode once every second." hidden="false">
-        <value name="Enabled" value="1" desc="One PPS is enabled" />
-        <value name="Disabled" value="0" desc="One PPS is disabled" />
-      </field>
-      <field name="ctw_ie" from="3" to="3" access="RW" resetVal="" desc="When set and the central timewheel is enabled, an interrupt is issued when the central timewheel reaches the selected interval." hidden="false">
-        <value name="Enabled" value="1" desc="CTW interrupt is enabled" />
-        <value name="Disabled" value="0" desc="CTW interrupt is disabled" />
-      </field>
-      <field name="ctw_en" from="2" to="2" access="RW" resetVal="" desc="When set, the system returns to the active global power mode when the central timewheel reaches the selected interval." hidden="false">
-        <value name="Enabled" value="1" desc="CTW is enabled" />
-        <value name="Disabled" value="0" desc="CTW is disabled" />
-      </field>
-      <field name="ftw_ie" from="1" to="1" access="RW" resetVal="" desc="When set and the fast timewheel is enabled, an interrupt is issued when it reaches the terminal count." hidden="false">
-        <value name="Enabled" value="1" desc="FTW interrupt is enabled" />
-        <value name="Disabled" value="0" desc="FTW interrupt is disabled" />
-      </field>
-      <field name="ftw_en" from="0" to="0" access="RW" resetVal="" desc="When set, the system returns to the active global power mode when the fast timewheel reaches the selected interval." hidden="false">
-        <value name="Enabled" value="1" desc="FTW is enabled" />
-        <value name="Disabled" value="0" desc="FTW is disabled" />
-      </field>
-    </register>
-  </block>
+  <block name="Em_EEPROM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="Em_EEPROM_Dynamic" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="cy_boot" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="EEPROM_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Sleep_isr" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SS_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SPIM_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="VirtualMux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="VirtualMux_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -144,14 +111,14 @@
     <block name="BSPIM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   </block>
   <block name="SCLK_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Em_EEPROM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="MOSI_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="DMA_2_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="cv_pedal" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="DMA_1_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="joy_y_23" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SS_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="DMA_1_RX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="knob_1_01" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="V_T_1_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="down" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="ExtMUXS0" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="joy_x_25" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="CapSense" BASE="0x0" SIZE="0x0" desc="CapSense" visible="true" hidden="false">
     <block name="Connect_VdacToAmuxCH0" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -834,7 +801,7 @@
     <block name="PortCH1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="Select_VrefCH0" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="AMuxCH1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-    <register name="CTL_REG" address="0x40006479" bitWidth="8" desc="CapSense Control Register" hidden="false">
+    <register name="CTL_REG" address="0x4000647C" bitWidth="8" desc="CapSense Control Register" hidden="false">
       <field name="Channel 1" from="3" to="3" access="R" resetVal="" desc="Channel 1 Enable" hidden="false">
         <value name="Disabled" value="0" desc="Channel 1 scanning is disabled" />
         <value name="Enabled" value="1" desc="Channel 1 scanning is enabled" />
@@ -859,7 +826,7 @@
       </field>
     </register>
   </block>
-  <block name="ExtMUXS0" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="joy_y_23" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AMux_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="MOSI_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="MISO_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -1802,13 +1769,13 @@
       <field name="data" from="7" to="0" access="RW" resetVal="" desc="8 DAC Data bits" hidden="false" />
     </register>
   </block>
-  <block name="ExtMUXS1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="down" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="ExtMUX_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="knob_2_36" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="DMA_1_RX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="LED1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="edit" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SPI_ready" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="LED1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="ExtMUXS1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="USB" BASE="0x0" SIZE="0x0" desc="USBFS" visible="true" hidden="false">
     <block name="ZeroTerminal_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="VirtualMux_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -1816,9 +1783,9 @@
     <block name="VirtualMux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="ZeroTerminal_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="USB_EP8_DMA_Done_SR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-      <register name="USB_EP8_DMA_Done_SR_STATUS_REG" address="0x40006466" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP8_DMA_Done_SR_MASK_REG" address="0x40006486" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP8_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006496" bitWidth="8" desc="" hidden="false">
+      <register name="USB_EP8_DMA_Done_SR_STATUS_REG" address="0x40006467" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP8_DMA_Done_SR_MASK_REG" address="0x40006487" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP8_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006497" bitWidth="8" desc="" hidden="false">
         <field name="FIFO0" from="5" to="5" access="RW" resetVal="" desc="FIFO0 clear" hidden="false">
           <value name="ENABLED" value="1" desc="Enable counter" />
           <value name="DISABLED" value="0" desc="Disable counter" />
@@ -1866,9 +1833,9 @@
     <block name="VirtualMux_7" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="VirtualMux_8" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="USB_Vbus_ps" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-      <register name="USB_Vbus_ps_STATUS_REG" address="0x40006469" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_Vbus_ps_MASK_REG" address="0x40006489" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_Vbus_ps_STATUS_AUX_CTL_REG" address="0x40006499" bitWidth="8" desc="" hidden="false">
+      <register name="USB_Vbus_ps_STATUS_REG" address="0x4000646A" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_Vbus_ps_MASK_REG" address="0x4000648A" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_Vbus_ps_STATUS_AUX_CTL_REG" address="0x4000649A" bitWidth="8" desc="" hidden="false">
         <field name="FIFO0" from="5" to="5" access="RW" resetVal="" desc="FIFO0 clear" hidden="false">
           <value name="ENABLED" value="1" desc="Enable counter" />
           <value name="DISABLED" value="0" desc="Disable counter" />
@@ -1900,9 +1867,9 @@
     <block name="ep2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="nrqSync" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="USB_EP17_DMA_Done_SR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-      <register name="USB_EP17_DMA_Done_SR_STATUS_REG" address="0x40006566" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP17_DMA_Done_SR_MASK_REG" address="0x40006586" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP17_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006596" bitWidth="8" desc="" hidden="false">
+      <register name="USB_EP17_DMA_Done_SR_STATUS_REG" address="0x40006464" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP17_DMA_Done_SR_MASK_REG" address="0x40006484" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP17_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006494" bitWidth="8" desc="" hidden="false">
         <field name="FIFO0" from="5" to="5" access="RW" resetVal="" desc="FIFO0 clear" hidden="false">
           <value name="ENABLED" value="1" desc="Enable counter" />
           <value name="DISABLED" value="0" desc="Disable counter" />

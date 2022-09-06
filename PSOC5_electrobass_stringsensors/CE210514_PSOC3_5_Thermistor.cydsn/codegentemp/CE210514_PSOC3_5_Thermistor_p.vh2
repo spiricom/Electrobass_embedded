@@ -1,5 +1,5 @@
 -- Project:   CE210514_PSOC3_5_Thermistor
--- Generated: 08/22/2022 19:15:03
+-- Generated: 08/23/2022 23:05:01
 -- PSoC Creator  4.4
 
 ENTITY CE210514_PSOC3_5_Thermistor IS
@@ -38,7 +38,6 @@ ENTITY CE210514_PSOC3_5_Thermistor IS
 END CE210514_PSOC3_5_Thermistor;
 
 ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
-    SIGNAL CTW_OUT : bit;
     SIGNAL CV_pedal_sense(0)__PA : bit;
     SIGNAL ClockBlock_100k : bit;
     SIGNAL ClockBlock_1k : bit;
@@ -1076,14 +1075,6 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE udb_chain OF macrocell : COMPONENT IS "cin,cout";
     ATTRIBUTE chain_lsb OF macrocell : COMPONENT IS "cin";
     ATTRIBUTE chain_msb OF macrocell : COMPONENT IS "cout";
-    COMPONENT pmcell
-        PORT (
-            ctw_int : OUT std_ulogic;
-            ftw_int : OUT std_ulogic;
-            limact_int : OUT std_ulogic;
-            onepps_int : OUT std_ulogic;
-            pm_int : OUT std_ulogic);
-    END COMPONENT;
     COMPONENT sarcell
         PORT (
             clock : IN std_ulogic;
@@ -6329,14 +6320,6 @@ BEGIN
             termout => Net_1130,
             clock => ClockBlock_BUS_CLK);
 
-    Sleep_isr:interrupt
-        GENERIC MAP(
-            int_type => "10",
-            is_nmi => 0)
-        PORT MAP(
-            interrupt => CTW_OUT,
-            clock => ClockBlock_BUS_CLK);
-
     my_Vbus_ISR:interrupt
         GENERIC MAP(
             int_type => "10",
@@ -8132,9 +8115,5 @@ BEGIN
             main_1 => \SPIM_2:BSPIM:state_1\,
             main_2 => \SPIM_2:BSPIM:state_0\,
             main_3 => \SPIM_2:BSPIM:cnt_enable\);
-
-    PM:pmcell
-        PORT MAP(
-            ctw_int => CTW_OUT);
 
 END __DEFAULT__;
