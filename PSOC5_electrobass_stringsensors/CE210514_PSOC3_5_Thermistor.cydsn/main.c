@@ -70,6 +70,7 @@ void firstCheckUSB_Vbus(void);
 void restartSystemCheck(void);
 void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel);
 void sendMIDIControlChange(int CCnum, int CCval, int channel);
+void sendMIDIControlChangeComputer(int CCnum, int CCval, int channel);
 CY_ISR_PROTO(SleepIsr_function);
 void noteEvent(int string);
 void I2C_reset(void);
@@ -325,7 +326,7 @@ uint32_t linearSmoothedPrev[4] = {0,0,0,0};
 uint32_t LHMuteCounter[4] = {0,0,0,0};
 uint8_t LHMute[4] = {0,0,0,0};
 uint8_t pitchFreeze[4] = {0,0,0,0};
-float pitchBendHistory[4][32];
+int32_t pitchBendHistory[4][32];
 uint16_t pitchBendHistoryPointer[4] = {0,0,0,0};
 
 int skippedNotes[32][5];
@@ -541,6 +542,7 @@ int main(void)
              
             float pitchBendVal = 8192.0;
             
+            //if we have read a "not pressed to fretboard" sensor reading
             if (linearPotValue32Bit[whichLinearSensor] == 65535)
             {
                 stringMIDI[whichLinearSensor] = openStringMIDI[whichLinearSensor];
@@ -553,11 +555,32 @@ int main(void)
                 //{
                 //    pitchBendsPerString[whichLinearSensor] = pitchBendVal;
                // }
+                
+                //if we've got a pitch freeze active
                 if (pitchFreeze[whichLinearSensor])
                 {
-                    stringMIDI[whichLinearSensor] = pitchBendHistory[whichLinearSensor][((pitchBendHistoryPointer[whichLinearSensor] + 1) & 31)];
-                    pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = stringMIDI[whichLinearSensor];
-                    pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
+                    //stringMIDI[whichLinearSensor] = pitchBendHistory[whichLinearSensor][((pitchBendHistoryPointer[whichLinearSensor] + 1) & 31)];
+                    //pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = stringMIDI[whichLinearSensor];
+                    //pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
+                                    
+                    //smooth to the pitch bend before things went south
+                    linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][((pitchBendHistoryPointer[whichLinearSensor] + 1) & 31)];
+                   
+                    linearSmoothed[whichLinearSensor] = 0;
+                    for (int j = 0; j < LINEAR_FIR_SIZE; j++)
+                    {
+                        linearSmoothed[whichLinearSensor] += linearFIR[whichLinearSensor][j];
+                    }             
+                    linFirPointer[whichLinearSensor] = (linFirPointer[whichLinearSensor] + 1) & LINEAR_FIR_SIZE_MASK;
+                    linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;
+                    invStringMappedPositions[whichLinearSensor] = (1.0f /  map((float)linearSmoothed[whichLinearSensor], fretMeasurements[whichLinearSensor][0], fretMeasurements[whichLinearSensor][1], fretRatios[0], fretRatios[1]));
+                    stringMIDI[whichLinearSensor] = ftom(invStringMappedPositions[whichLinearSensor] * openStringFreqs[whichLinearSensor]);
+                        
+                    if (linearSmoothed[whichLinearSensor] == 65535)
+                    {
+                        stringMIDI[whichLinearSensor] = openStringMIDI[whichLinearSensor];
+                    }
+                    
                     if (frettedState)
                     { 
                         if ((stringMIDI[whichLinearSensor] > (stringMIDIPrev[whichLinearSensor] + linearHysteresis)) || ((stringMIDI[whichLinearSensor] < (stringMIDIPrev[whichLinearSensor] - linearHysteresis))))
@@ -576,35 +599,42 @@ int main(void)
                 }
                 else
                 {
-                    pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = openStringMIDI[whichLinearSensor];
-                    pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
+                   // pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = openStringMIDI[whichLinearSensor];
+                    //pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
+                    pitchBendVal  = 8192.0f;
+                    openStringCount[whichLinearSensor] = 0;
                     pitchBendsPerString[whichLinearSensor] = pitchBendVal;
+                    if (stringStates[whichLinearSensor][0] > 0)
+                    {
+                        stringMIDIPrev[whichLinearSensor] = stringMIDI[whichLinearSensor];
+                        pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = linearPotValue32Bit[whichLinearSensor];
+                        pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
+                    }
                 }  
             }
+            //otherwise, it's pressed to the fretboard
             else
             {
-                
-
-                
-                if (pitchFreeze[whichLinearSensor])
+                //if (pitchFreeze[whichLinearSensor])
                 {
-                   stringMIDI[whichLinearSensor] = pitchBendHistory[whichLinearSensor][((pitchBendHistoryPointer[whichLinearSensor] + 1) & 31)];
+                    linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][((pitchBendHistoryPointer[whichLinearSensor] + 20) & 31)];
                 }
-                else
+                //else
                 {
-                    linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = linearPotValue32Bit[whichLinearSensor];
-                    linearSmoothed[whichLinearSensor] = 0;
-                    for (int j = 0; j < LINEAR_FIR_SIZE; j++)
-                    {
-                        linearSmoothed[whichLinearSensor] += linearFIR[whichLinearSensor][j];
-                    }             
-                    linFirPointer[whichLinearSensor] = (linFirPointer[whichLinearSensor] + 1) & LINEAR_FIR_SIZE_MASK;
-                    linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;
-                    invStringMappedPositions[whichLinearSensor] = (1.0f /  map((float)linearSmoothed[whichLinearSensor], fretMeasurements[whichLinearSensor][0], fretMeasurements[whichLinearSensor][1], fretRatios[0], fretRatios[1]));
-                    stringMIDI[whichLinearSensor] = ftom(invStringMappedPositions[whichLinearSensor] * openStringFreqs[whichLinearSensor]);
-                    pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = stringMIDI[whichLinearSensor];
-                    pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
+                    //linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = linearPotValue32Bit[whichLinearSensor];
                 }
+                linearSmoothed[whichLinearSensor] = 0;
+                for (int j = 0; j < LINEAR_FIR_SIZE; j++)
+                {
+                    linearSmoothed[whichLinearSensor] += linearFIR[whichLinearSensor][j];
+                }             
+                linFirPointer[whichLinearSensor] = (linFirPointer[whichLinearSensor] + 1) & LINEAR_FIR_SIZE_MASK;
+                linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;
+                invStringMappedPositions[whichLinearSensor] = (1.0f /  map((float)linearSmoothed[whichLinearSensor], fretMeasurements[whichLinearSensor][0], fretMeasurements[whichLinearSensor][1], fretRatios[0], fretRatios[1]));
+                stringMIDI[whichLinearSensor] = ftom(invStringMappedPositions[whichLinearSensor] * openStringFreqs[whichLinearSensor]);
+                pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = linearPotValue32Bit[whichLinearSensor];
+                pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
+            
 
                 if (frettedState)
                 { 
@@ -691,19 +721,27 @@ int main(void)
         {
             if (((CapSense_sensorOnMask[0] >> (i + 4)) & 1) &&  (linearPotValue32Bit[i] == 65535))
             {
-               LHMute[i] = 1; 
-               LHMuteCounter[i]++;
+                LHMute[i] = 1; 
+                if ((LHMuteCounter[i] < 127) && (stringStates[i][0] >= 0))
+                {
+                    LHMuteCounter[i]++;
+                    //sendMIDIControlChangeComputer(116+i, LHMuteCounter[i],6);
+                }
+
             }
             else
             {
                 LHMute[i] = 0;
                 LHMuteCounter[i] = 0;
             }
+            
+            //sendMIDIControlChange(104+i, LHMute[i], 3);
             //left hand mute just began
             //freeze pitch bend at value from 12 sends ago (to avoid dip before mute due to sensor losing contact)
             if ((LHMute[i]) && (stringStates[i][0])>=0)
             {
                 pitchFreeze[i] = 1;
+                //sendMIDIControlChangeComputer(108+i, pitchFreeze[i], 4);
             }
             else
             {
@@ -711,23 +749,33 @@ int main(void)
             }
             //left hand mute has counted to max time
             //send note off
-            if ((LHMuteCounter[i] > 128) && (stringStates[i][0] >= 0))
+            if (i == 1)
+            {
+                //sendMIDIControlChangeComputer(112+i, LHMuteCounter[i],5);
+            }
+            //sendMIDIControlChange(116+i, stringStates[i][0],6);
+            if ((LHMuteCounter[i] > 125) && (stringStates[i][0] >= 0))
             {
                  handleNotes(lastNotes[i], 0, i);
             }
             
             stringPlucks[i] = (rxBuffer[i*2] << 8) + rxBuffer[i*2+1];
-            
+
             //note-on from pluck sensor
             if ((stringPlucks[i] > 0) && (stringPlucksPrev[i] == 0))
             {
+                //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
+                LHMuteCounter[i] = 0;
+                pitchFreeze[i] = 0;
                 lastNotes[i] = (int)openStringMIDI[i] + (octave * 12);
                 handleNotes(lastNotes[i], stringPlucks[i], i);
             }
             //note-off from pluck sensor (RH Mute)
             else if ((stringPlucks[i] == 0) && (stringPlucksPrev[i] > 0))
             {
+                //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
                 handleNotes(lastNotes[i], 0, i);
+                LHMuteCounter[i] = 0;
             }
             
 
@@ -1217,6 +1265,22 @@ void sendMIDIControlChange(int CCnum, int CCval, int channel)
 }
 
 
+void sendMIDIControlChangeComputer(int CCnum, int CCval, int channel)
+{
+    midiMsg[0] = USB_MIDI_CONTROL_CHANGE + channel;
+    midiMsg[1] = CCnum;
+    midiMsg[2] = CCval;			
+    //MIDI1_UART_PutArray(midiMsg, 3);
+    
+    if ((USB_active) && (USB_VBusPresent()))
+    {
+        USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
+    } 
+    midiSent += 4;
+    
+}
+
+
 int32 iVtherm = 0;
 
 
@@ -1260,6 +1324,7 @@ void scanLinearResistor(void)
                 iRes = (int32)(((float)iVref / (float)iVtherm) * 30000.0f);
             }
             linearPotValue32Bit[whichLinearSensor] = iRes;
+            //sendMIDIControlChangeComputer(116+whichLinearSensor, iRes / 512, 2);
             whichLinearSensor = (whichLinearSensor + 1) & 3;
         }
         scanPart = (scanPart + 1) & 1;

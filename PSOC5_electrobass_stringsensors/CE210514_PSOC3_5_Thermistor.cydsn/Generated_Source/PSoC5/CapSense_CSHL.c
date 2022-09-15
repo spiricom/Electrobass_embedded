@@ -46,7 +46,7 @@ uint8 CapSense_sensorOnMask[(((CapSense_TOTAL_SENSOR_COUNT - 1u) / 8u) + 1u)];
 uint8 CapSense_lowBaselineResetCnt[CapSense_TOTAL_SENSOR_COUNT];
 
 uint16 CapSense_fingerThreshold[] = {
-    8u, 8u, 8u, 8u, 12u, 12u, 12u, 12u, 
+    8u, 8u, 8u, 8u, 10u, 10u, 10u, 10u, 
 };
 
 uint16 CapSense_noiseThreshold[] = {
