@@ -85,6 +85,7 @@ typedef struct effectSetter
 } effectSetter;
 
 
+
 typedef struct mapping
 {
 	uint8_t destNumber;

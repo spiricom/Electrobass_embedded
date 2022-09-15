@@ -45,7 +45,11 @@ tMBTriangle triPaired[NUM_OSC];
 
 tWaveOscS wave[NUM_OSC];
 
-
+//noise
+//
+float noiseOuts[2];
+tVZFilter noiseShelf1, noiseShelf2, noiseBell1;
+tNoise noise;
 tIntPhasor lfoSaw[NUM_LFOS];
 tSquareLFO lfoPulse[NUM_LFOS];
 tCycle lfoSine[NUM_LFOS];
@@ -106,7 +110,15 @@ float decayExpBufferSizeMinusOne;
  tCycle mod2[NUM_EFFECT];
  float fxMix[NUM_EFFECT];
  float fxPostGain[NUM_EFFECT];
-
+ tDiodeFilter FXdiodeFilters[NUM_EFFECT];
+ tVZFilter FXVZfilterPeak[NUM_EFFECT];
+ tVZFilter FXVZfilterLS[NUM_EFFECT];
+ tVZFilter FXVZfilterHS[NUM_EFFECT];
+ tVZFilter FXVZfilterBR[NUM_EFFECT];
+ tSVF FXlowpass[NUM_EFFECT];
+ tSVF FXhighpass[NUM_EFFECT];
+ tSVF FXbandpass[NUM_EFFECT];
+ tLadderFilter FXLadderfilter[NUM_EFFECT];
 //master
 float amplitude = 0.0f;
 float finalMaster = 1.0f;
@@ -206,8 +218,11 @@ void audio_init(void)
 		tSineTriLFO_init(&lfoSineTri[i], &leaf);
 		tSawSquareLFO_init(&lfoSawSquare[i], &leaf);
 	}
-
-
+    //noise
+	tVZFilter_init(&noiseShelf1, Lowshelf, 80.0f, 6.0f, &leaf);
+	tVZFilter_init(&noiseShelf2, Highshelf, 12000.0f, 6.0f, &leaf);
+	tVZFilter_init(&noiseBell1, Bell, 1000.0f, 1.9f, &leaf);
+    tNoise_init(&noise, WhiteNoise, &leaf);
     // exponential decay buffer falling from 1 to
     LEAF_generate_exp(decayExpBuffer, 0.001f, 0.0f, 1.0f, -0.0008f, DECAY_EXP_BUFFER_SIZE);
 
@@ -240,6 +255,17 @@ void audio_init(void)
 		tCycle_init(&mod2[i], &leaf);
 		tCycle_setFreq(&mod1[i], 0.2f);
 		tCycle_setFreq(&mod2[i], 0.22222222222f);
+
+        //filters
+        tSVF_init(&FXlowpass[i], SVFTypeLowpass, 2000.f, 0.7f, &leaf);
+        tSVF_init(&FXhighpass[i], SVFTypeHighpass, 2000.f, 0.7f, &leaf);
+        tSVF_init(&FXbandpass[i], SVFTypeBandpass, 2000.f, 0.7f, &leaf);
+        tDiodeFilter_init(&FXdiodeFilters[i], 2000.f, 1.0f, &leaf);
+        tVZFilter_init(&FXVZfilterPeak[i], Bell, 2000.f, 1.0f, &leaf);
+        tVZFilter_init(&FXVZfilterLS[i], Lowshelf, 2000.f, 1.0f, &leaf);
+        tVZFilter_init(&FXVZfilterHS[i], Highshelf, 2000.f, 1.0f, &leaf);
+        tVZFilter_init(&FXVZfilterBR[i], BandReject, 2000.f, 1.0f, &leaf);
+        tLadderFilter_init(&FXLadderfilter[i], 2000.f, 1.0f, &leaf);
     }
 
     for (int i = 0; i < MAX_NUM_MAPPINGS; i++)
@@ -821,13 +847,15 @@ float __ATTR_ITCMRAM audioTickL(void)
 		envelope_tick();
 		lfo_tick();
 		oscillator_tick(note);
-
+		noise_tick();
 		float filterSamps[2] = {0.0f, 0.0f};
 		for (int i = 0; i < NUM_OSC; i++)
 		{
 			filterSamps[0] += oscOuts[0][i];
 			filterSamps[1] += oscOuts[1][i];
 		}
+		filterSamps[0] += noiseOuts[0];
+		filterSamps[1] += noiseOuts[1];
 		//sample = filterSamps[0];
 		sample = filter_tick(&filterSamps[0], note);
 
@@ -1379,6 +1407,224 @@ float __ATTR_ITCMRAM bcTick(float sample, int v)
 float __ATTR_ITCMRAM compressorTick(float sample, int v)
 {
     return tCompressor_tick(&comp[v], sample) * fxPostGain[v];
+}
+
+float __ATTR_ITCMRAM  FXlowpassTick(float sample, int v)
+{
+	return tSVF_tick(&FXlowpass[v], sample);
+}
+
+float __ATTR_ITCMRAM  FXhighpassTick(float sample, int v)
+{
+	return tSVF_tick(&FXhighpass[v], sample);
+}
+
+float __ATTR_ITCMRAM  FXbandpassTick(float sample, int v)
+{
+	return tSVF_tick(&FXbandpass[v], sample);
+}
+
+float __ATTR_ITCMRAM  FXdiodeLowpassTick(float sample, int v)
+{
+	return tDiodeFilter_tick(&FXdiodeFilters[v], sample);
+}
+
+float __ATTR_ITCMRAM  FXVZpeakTick(float sample, int v)
+{
+	return tVZFilter_tickEfficient(&FXVZfilterPeak[v], sample);
+}
+
+float __ATTR_ITCMRAM  FXVZlowshelfTick(float sample, int v)
+{
+	return tVZFilter_tickEfficient(&FXVZfilterLS[v], sample);
+}
+float __ATTR_ITCMRAM  FXVZhighshelfTick(float sample, int v)
+{
+	return tVZFilter_tickEfficient(&FXVZfilterHS[v], sample);
+}
+float __ATTR_ITCMRAM  FXVZbandrejectTick(float sample, int v)
+{
+	return  tVZFilter_tickEfficient(&FXVZfilterBR[v], sample);
+}
+
+float __ATTR_ITCMRAM  FXLadderLowpassTick(float sample, int v)
+{
+	return tLadderFilter_tick(&FXLadderfilter[v], sample);
+}
+//cutoffparams
+
+void FXLowpassParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tSVF_setFreqFast(&FXlowpass[v], value);
+}
+void FXHighpassParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tSVF_setFreqFast(&FXhighpass[v], value);
+}
+
+void FXBandpassParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+    tSVF_setFreqFast(&FXbandpass[v], value);
+}
+
+void FXDiodeParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tDiodeFilter_setFreqFast(&FXdiodeFilters[v], value);
+}
+void FXPeakParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tVZFilter_setFreqFast(&FXVZfilterPeak[v], value);
+}
+void FXLowShelfParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+    value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+    tVZFilter_setFreqFast(&FXVZfilterLS[v], value);
+}
+void FXHighShelfParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tVZFilter_setFreqFast(&FXVZfilterHS[v], value);
+}
+void FXNotchParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tVZFilter_setFreqFast(&FXVZfilterBR[v], value);
+}
+void FXLadderParam1(float value, int v)
+{
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tLadderFilter_setFreqFast(&FXLadderfilter[v], value);
+}
+
+//gain params
+
+void FXPeakParam2(float value, int v)
+{
+	 tVZFilter_setGain(&FXVZfilterPeak[v], fasterdbtoa((value * 50.f) - 25.f));
+}
+
+void FXLowShelfParam2(float value, int v)
+{
+tVZFilter_setGain(&FXVZfilterLS[v], fasterdbtoa((value * 50.f) - 25.f));
+}
+
+void FXHighShelfParam2(float value, int v)
+{
+	tVZFilter_setGain(&FXVZfilterLS[v], fasterdbtoa((value * 50.f) - 25.f));
+}
+
+void FXNotchParam2(float value, int v)
+{
+	tVZFilter_setGain(&FXVZfilterBR[v], fasterdbtoa((value * 50.f) - 25.f));
+
+}
+//resonance params
+void FXLowpassParam3(float value, int v)
+{
+ tSVF_setQ(&FXlowpass[v], value);
+}
+
+void FXHighpassParam3(float value, int v)
+{
+    tSVF_setQ(&FXhighpass[v], value);
+}
+
+void FXBandpassParam3(float value, int v)
+{
+    tSVF_setQ(&FXbandpass[v], value);
+}
+
+void FXDiodeParam3(float value, int v)
+{
+	tDiodeFilter_setQ(&FXdiodeFilters[v], value);
+}
+
+
+void FXPeakParam3(float value, int v)
+{
+	tVZFilter_setBandwidth(&FXVZfilterPeak[v], value);
+}
+
+
+void FXLowShelfParam3(float value, int v)
+{
+	 tVZFilter_setBandwidth(&FXVZfilterLS[v], value);
+}
+
+
+void FXHighShelfParam3(float value, int v)
+{
+	 tVZFilter_setBandwidth(&FXVZfilterHS[v], value);
+}
+
+
+void FXNotchParam3(float value, int v)
+{
+	tVZFilter_setBandwidth(&FXVZfilterBR[v], value);
+}
+
+
+void FXLadderParam3(float value, int v)
+{
+	tLadderFilter_setQ(&FXLadderfilter[v], value);
+}
+
+
+
+
+/////NOISE///
+
+void __ATTR_ITCMRAM noiseSetTilt(float value, int v)
+{
+	tVZFilter_setGain(&noiseShelf1, fastdbtoa(-1.0f * ((value * 30.0f) - 15.0f)));
+	tVZFilter_setGain(&noiseShelf2, fastdbtoa((value * 30.0f) - 15.0f));
+}
+
+
+void __ATTR_ITCMRAM noiseSetGain(float value, int v)
+{
+	tVZFilter_setGain(&noiseBell1, fastdbtoa((value* 34.0f) - 17.0f));
+}
+
+void __ATTR_ITCMRAM noiseSetFreq(float value, int v)
+{
+	tVZFilter_setFrequencyAndResonance(&noiseBell1, faster_mtof(value * 77.0f + 42.0f), 1.9f);
+}
+void __ATTR_ITCMRAM noise_tick()
+{
+	float enabled = params[Noise].realVal;
+	float amp = params[NoiseAmp].realVal;
+	float filterSend = params[NoiseFilterSend].realVal;
+	amp = amp < 0.f ? 0.f : amp;
+
+
+
+	//float sample = tSVF_tick(&bandpass[v], tNoise_tick(&noise[v])) * amp;
+	float sample = tNoise_tick(&noise);
+	sample = tVZFilter_tickEfficient(&noiseShelf1, sample);
+	sample = tVZFilter_tickEfficient(&noiseShelf2, sample);
+	sample = tVZFilter_tickEfficient(&noiseBell1, sample);
+	sample = sample * amp;
+	float normSample = (sample + 1.f) * 0.5f;
+	//float normSample = sample;
+	sourceValues[3] = normSample;
+	noiseOuts[0] = sample* filterSend*  enabled;
+	noiseOuts[1] = sample*(1.f-filterSend) * enabled ;
+
 }
 
 

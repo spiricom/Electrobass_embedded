@@ -959,7 +959,19 @@ void __ATTR_ITCMRAM parsePreset(int size)
 	params[LFO4Rate].scaleFunc = &scaleLFORates;
 	params[OutputAmp].scaleFunc = &scaleTwo;
 	params[OutputTone].scaleFunc  = &scaleFinalLowpass;
+	for (int i = 0; i < NUM_EFFECT; i++)
+		{
+			FXType effectType = roundf(params[Effect1FXType + (EffectParamsNum * i)].realVal * (NUM_EFFECT_TYPES-1));
+			param *FXAlias = &params[Effect1Param1 + (EffectParamsNum*i)];
 
+
+				if (effectType > FXLowpass)
+				{
+					FXAlias[2].scaleFunc = &scaleFilterResonance;
+				}
+
+
+		}
 	for (int i = 0; i < NUM_PARAMS; i++)
 	{
 		params[i].realVal = params[i].scaleFunc(params[i].zeroToOneVal);
@@ -1189,11 +1201,88 @@ void __ATTR_ITCMRAM parsePreset(int size)
 				  effectSetters[i].setParam4 = &param4Linear;
 				  effectSetters[i].setParam5 = &param5Linear;
 				  break;
+			  case FXLowpass :
+				  effectTick[i] = &FXlowpassTick;
+				  effectSetters[i].setParam1 = &FXLowpassParam1;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &FXLowpassParam3;
+				  effectSetters[i].setParam4 = &blankFunction;;
+				  effectSetters[i].setParam5 = &blankFunction;;
+				  break;
+			  case FXHighpass :
+				  effectTick[i] = &FXhighpassTick;
+				  effectSetters[i].setParam1 = &FXHighpassParam1;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &FXHighpassParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXBandpass :
+				  effectTick[i] = &FXbandpassTick;
+				  effectSetters[i].setParam1 = &FXBandpassParam1;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &FXBandpassParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXDiode :
+				  effectTick[i] = &FXdiodeLowpassTick;
+				  effectSetters[i].setParam1 = &FXDiodeParam1;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &FXDiodeParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXPeak :
+				  effectTick[i] = &FXVZpeakTick;
+				  effectSetters[i].setParam1 = &FXPeakParam1;
+				  effectSetters[i].setParam2 = &FXPeakParam2;
+				  effectSetters[i].setParam3 = &FXPeakParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXLowShelf :
+				  effectTick[i] = &FXVZlowshelfTick;
+				  effectSetters[i].setParam1 = &FXLowShelfParam1;
+				  effectSetters[i].setParam2 = &FXLowShelfParam2;
+				  effectSetters[i].setParam3 = &FXLowShelfParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXHighShelf :
+				  effectTick[i] = FXVZhighshelfTick;
+				  effectSetters[i].setParam1 = &FXHighShelfParam1;;
+				  effectSetters[i].setParam2 = &FXHighShelfParam2;;
+				  effectSetters[i].setParam3 = &FXHighShelfParam3;;
+				  effectSetters[i].setParam4 = &blankFunction;;
+				  effectSetters[i].setParam5 = &blankFunction;;
+				  break;
+			  case FXNotch :
+				  effectTick[i] = FXVZbandrejectTick;
+				  effectSetters[i].setParam1 = &FXNotchParam1;;
+				  effectSetters[i].setParam2 = &FXNotchParam2;;
+				  effectSetters[i].setParam3 = &FXNotchParam3;;
+				  effectSetters[i].setParam4 = &blankFunction;;
+				  effectSetters[i].setParam5 = &blankFunction;;
+				  break;
+			  case FXLadder :
+				  effectTick[i] = &FXLadderLowpassTick;
+				  effectSetters[i].setParam1 = &FXLadderParam1;;
+				  effectSetters[i].setParam2 = &blankFunction;;
+				  effectSetters[i].setParam3 = &FXLadderParam3;;
+				  effectSetters[i].setParam4 = &blankFunction;;
+				  effectSetters[i].setParam5 = &blankFunction;;
+				  break;
 			  default:
 				  break;
 		}
 	}
 
+
+	//noiseparams
+	params[NoiseTilt].setParam = &noiseSetTilt;
+	params[NoisePeakFreq].setParam = &noiseSetFreq;
+	params[NoisePeakGain].setParam  = &noiseSetGain;
 	///////Setters for paramMapping
 	params[Master].setParam = &setMaster;
 	params[Transpose].setParam = &setTranspose;

@@ -128,6 +128,10 @@ void lfoPulseSetShape(float s, int v);
 extern shapeTick_t shapeTick[NUM_OSC];
 extern lfoShapeTick_t lfoShapeTick[NUM_LFOS];
 
+void noise_tick();
+void noiseSetFreq(float value, int v);
+void noiseSetGain(float value, int v);
+void noiseSetTilt(float value, int v);
 
 float filter_tick(float* samples, float note);
 
@@ -219,6 +223,37 @@ void chorusParam2(float value, int v);
 void chorusParam3(float value, int v);
 void chorusParam4(float value, int v);
 
+void FXLowpassParam1(float value, int v);
+void FXLowpassParam3(float value, int v);
+void FXHighpassParam1(float value, int v);
+void FXHighpassParam3(float value, int v);
+void FXBandpassParam1(float value, int v);
+void FXBandpassParam3(float value, int v);
+void FXDiodeParam1(float value, int v);
+void FXDiodeParam3(float value, int v);
+void FXPeakParam1(float value, int v);
+void FXPeakParam2(float value, int v);
+void FXPeakParam3(float value, int v);
+void FXLowShelfParam1(float value, int v);
+void FXLowShelfParam2(float value, int v);
+void FXLowShelfParam3(float value, int v);
+void FXHighShelfParam1(float value, int v);
+void FXHighShelfParam2(float value, int v);
+void FXHighShelfParam3(float vlaue, int v);
+void FXNotchParam1(float value, int v);
+void FXNotchParam2(float value, int v);
+void FXNotchParam3(float value, int v);
+void FXLadderParam1(float value, int v);
+void FXLadderParam3(float value, int v);
+float FXlowpassTick(float sample, int v);
+float FXhighpassTick(float sample, int v);
+float FXbandpassTick(float sample, int v);
+float FXdiodeLowpassTick(float sample, int v);
+float FXLadderLowpassTick(float sample, int v);
+float FXVZlowshelfTick(float sample, int v);
+float FXVZhighshelfTick(float sample, int v);
+float FXVZpeakTick(float sample, int v);
+float FXVZbandrejectTick(float sample, int v);
 
 
 //master functions
