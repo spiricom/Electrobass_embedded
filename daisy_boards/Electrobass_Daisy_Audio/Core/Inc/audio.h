@@ -13,7 +13,7 @@
 #include "main.h"
 
 
-#define AUDIO_FRAME_SIZE      32
+#define AUDIO_FRAME_SIZE      2
 #define HALF_BUFFER_SIZE      AUDIO_FRAME_SIZE * 2 //number of samples per half of the "double-buffer" (twice the audio frame size because there are interleaved samples for both left and right channels)
 #define AUDIO_BUFFER_SIZE     AUDIO_FRAME_SIZE * 4 //number of samples in the whole data structure (four times the audio frame size because of stereo and also double-buffering/ping-ponging)
 
@@ -57,8 +57,7 @@ extern int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 void audio_init(void);
 void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn);
 void audioFrame(uint16_t buffer_offset);
-float audioTickL(float audioIn);
-float audioTickR(float audioIn);
+float audioTickL(void);
 
 void DMA1_TransferCpltCallback(DMA_HandleTypeDef *hdma);
 void DMA1_HalfTransferCpltCallback(DMA_HandleTypeDef *hdma);
@@ -72,25 +71,16 @@ void sendCtrl(uint8_t value, uint8_t ctrl);
 void sendPitchBend(uint8_t value, uint8_t ctrl);
 /****************** Audio Params **********************/
 
-#define NUM_OSC 3
-#define INV_NUM_OSCS 0.333333333f
-#define NUM_FILT 2
-#define NUM_ENV 4
-#define NUM_EFFECT 4
-#define NUM_SOURCES 33
+
 #define EXP_BUFFER_SIZE 2048
 #define DECAY_EXP_BUFFER_SIZE 4096
-#define OSC_SOURCE_OFFSET 0
-#define CTRL_SOURCE_OFFSET 20
-#define ENV_SOURCE_OFFSET 25
-#define LFO_SOURCE_OFFSET 29
+
 
 #define CTRL_MIDI_START 17
 
 
 void setTranspose(float in, int v);
-void setPitchBendRangeUp(float in, int v);
-void setPitchBendRangeDown(float in, int v);
+void setPitchBendRange(float in, int v);
 void setNoiseAmp(float in, int v);
 
 void oscillator_tick(float note);
@@ -142,7 +132,8 @@ extern lfoShapeTick_t lfoShapeTick[NUM_LFOS];
 float filter_tick(float* samples, float note);
 
 typedef void (*filterTick_t)(float*, int, float);
-void setFreqMult(float harm_pitch, int osc);
+void setFreqMultPitch(float pitch, int osc);
+void setFreqMultHarm(float harm, int osc);
 void lowpassTick(float* sample, int v, float cutoff);
 void highpassTick(float* sample, int v, float cutoff);
 void bandpassTick(float* sample, int v, float cutoff);
@@ -221,6 +212,7 @@ void param3BC(float value, int v);
 void param4Linear(float value, int v);
 void param5Linear(float value, int v);
 void fxMixSet(float value, int v);
+void fxPostGainSet(float value, int v);
 float wavefolderTick(float sample, int v);
 void chorusParam1(float value, int v);
 void chorusParam2(float value, int v);
@@ -232,7 +224,7 @@ void chorusParam4(float value, int v);
 //master functions
 void setAmp(float amp, int v);
 void setMaster(float amp, int v);
-
+void setFinalLowpass(float in, int v);
 
 
 extern float sourceValues[NUM_SOURCES];

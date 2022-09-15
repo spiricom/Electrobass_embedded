@@ -1540,6 +1540,7 @@ int main();
 
 extern void *_sidata, *_sdata, *_edata;
 extern void *_sbss, *_ebss;
+extern void *_siitcmram, *_sitcmram, *_eitcmram;
 
 void __attribute__((naked, noreturn)) Reset_Handler()
 {
@@ -1556,9 +1557,10 @@ void __attribute__((naked, noreturn)) Reset_Handler()
 	for (pDest = &_sbss; pDest != &_ebss; pDest++)
 		*pDest = 0;
 
-	//#ifndef BOOT_APP
+	for (pSource = &_siitcmram, pDest = &_sitcmram; pDest != &_eitcmram; pSource++, pDest++)
+		*pDest = *pSource;
+
 	SystemInit();
-	//#endif
 	__libc_init_array();
 
 

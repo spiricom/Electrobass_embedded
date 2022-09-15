@@ -13,28 +13,50 @@ typedef void (*setParam_t)(float, int);
 
 
 
-
+//selectable type number of possible values
 #define NUM_OSC_SHAPES 7
 #define NUM_FILTER_TYPES 9
-#define NUM_LFO_SHAPES 6
-#define OSC_PARAMS_OFFSET 40
-#define EFFECT_PARAMS_OFFSET 73
-#define FILTER_PARAMS_OFFSET 101
-#define ENVELOPE_PARAMS_OFFSET 114
-#define LFO_PARAMS_OFFSET 138
-#define NUM_POSSIBLE_HOOKS 3
+#define NUM_LFO_SHAPES LFOShapeSetNum
+#define NUM_EFFECT_TYPES FXTypeNil
+
+//parameter array offsets
+#define OSC_PARAMS_OFFSET 24
+#define EFFECT_PARAMS_OFFSET 63
+#define FILTER_PARAMS_OFFSET 95
+#define ENVELOPE_PARAMS_OFFSET 108
+#define LFO_PARAMS_OFFSET 132
+
+//number of modules
+#define NUM_OSC 3
+#define INV_NUM_OSCS 0.333333333f
+#define NUM_FILT 2
+#define NUM_ENV 4
 #define NUM_LFOS 4
-#define LFO_SOURCE_OFFSET 29
-#define NUM_EFFECT_TYPES 11
+#define NUM_EFFECT 4
+
+
+//mapping array defines
+#define NUM_POSSIBLE_HOOKS 3
+#define NUM_SOURCES 28
+
+#define OSC_SOURCE_OFFSET 0
+#define NOISE_SOURCE_OFFSET 3
+#define CTRL_SOURCE_OFFSET 12
+#define MIDI_KEY_SOURCE_OFFSET 17
+#define VELOCITY_SOURCE_OFFSET 18
+#define RANDOM_SOURCE_OFFSET 19
+#define ENV_SOURCE_OFFSET 20
+#define LFO_SOURCE_OFFSET 24
+
 
 //struct for every parameter
 typedef struct param
 {
-	float zeroToOneVal;
-	float realVal;
-	scaler_t scaleFunc;
-	setParam_t setParam; //setting the actual backend audio parameter (i.e. calling leaf library filter cutoff set code)
-	uint8_t objectNumber;
+	float zeroToOneVal; //0-1 value stored in the preset (all parameter values are stored as 0-1)
+	float realVal; //value used by the setting functions
+	scaler_t scaleFunc; //scale the value from 0-1 to real value
+	setParam_t setParam; //function for setting the actual backend audio parameter (i.e. calling leaf library filter Q setting code)
+	uint8_t objectNumber; //which oscillator, filter, env, etc
 } param;
 
 
@@ -84,9 +106,11 @@ enum OscParamNames
 	OscFreq,
 	OscShape,
 	OscAmp,
+	OscHarmonics,
 	OscisHarmonic,
 	OscisStepped,
 	OscisSync,
+	OscSyncType,
 	OscShapeSet,
 	OscFilterSend,
 	OscParamsNum
@@ -123,6 +147,7 @@ enum EffectParamNames
 	EffectParam4,
 	EffectParam5,
 	EffectMix,
+	EffectPostGain,
 	EffectParamsNum,
 };
 
@@ -134,7 +159,7 @@ typedef enum _LFOShapeSet
     TriLFOShapeSet,
     SawLFOShapeSet,
     PulseLFOShapeSet,
-    LFOShapeSetNil
+    LFOShapeSetNum
 } _LFOShapeSet;
 
 enum EnvelopeParamNames
@@ -162,12 +187,23 @@ typedef enum _FXType
     Bitcrush,
     TiltFilter,
     Wavefolder,
+	FXLowpass,
+	FXHighpass,
+	FXBandpass,
+	FXDiode,
+	FXPeak,
+	FXLowShelf,
+	FXHighShelf,
+	FXNotch,
+	FXLadder,
     FXTypeNil
 } FXType;
 
 
 enum ParamNames
 {
+	MIDIKeyMax,
+	MIDIKeyMin,
 	Master,
 	M1,
 	M2,
@@ -177,31 +213,13 @@ enum ParamNames
 	M6,
 	M7,
 	M8,
-	M9,
-	M10,
-	M11,
-	M12,
-	M13,
-	M14,
-	M15,
-	M16,
 	A,
 	B,
 	X,
 	Y,
 	Ped,
 	Transpose,
-	PitchBend0,
-	PitchBend1,
-	PitchBend2,
-	PitchBend3,
-	PitchBend4,
-	PitchBend5,
-	PitchBend6,
-	PitchBend7,
-	PitchBend8,
-	PitchBendRangeUp,
-	PitchBendRangeDown,
+	PitchBendRange,
 	Noise,
 	NoiseTilt,
 	NoisePeakGain,
@@ -214,9 +232,11 @@ enum ParamNames
 	Osc1Freq,
 	Osc1Shape,
 	Osc1Amp,
+	Osc1Harmonics,
 	Osc1isHarmonic,
 	Osc1isStepped,
 	Osc1isSync,
+	Osc1SyncType,
 	Osc1ShapeSet,
 	Osc1FilterSend,
 	Osc2,
@@ -225,9 +245,11 @@ enum ParamNames
 	Osc2Freq,
 	Osc2Shape,
 	Osc2Amp,
+	Osc2Harmonics,
 	Osc2isHarmonic,
 	Osc2isStepped,
 	Osc2isSync,
+	Osc2SyncType,
 	Osc2ShapeSet,
 	Osc2FilterSend,
 	Osc3,
@@ -236,9 +258,11 @@ enum ParamNames
 	Osc3Freq,
 	Osc3Shape,
 	Osc3Amp,
+	Osc3Harmonics,
 	Osc3isHarmonic,
 	Osc3isStepped,
 	Osc3isSync,
+	Osc3SyncType,
 	Osc3ShapeSet,
 	Osc3FilterSend,
 	Effect1FXType,
@@ -248,6 +272,7 @@ enum ParamNames
 	Effect1Param4,
 	Effect1Param5,
 	Effect1Mix,
+	Effect1PostGain,
 	Effect2FXType,
 	Effect2Param1,
 	Effect2Param2,
@@ -255,6 +280,7 @@ enum ParamNames
 	Effect2Param4,
 	Effect2Param5,
 	Effect2Mix,
+	Effect2PostGain,
 	Effect3FXType,
 	Effect3Param1,
 	Effect3Param2,
@@ -262,6 +288,7 @@ enum ParamNames
 	Effect3Param4,
 	Effect3Param5,
 	Effect3Mix,
+	Effect3PostGain,
 	Effect4FXType,
 	Effect4Param1,
 	Effect4Param2,
@@ -269,6 +296,7 @@ enum ParamNames
 	Effect4Param4,
 	Effect4Param5,
 	Effect4Mix,
+	Effect4PostGain,
 	Filter1,
 	Filter1Type,
 	Filter1Cutoff,
@@ -327,6 +355,7 @@ enum ParamNames
 	LFO4ShapeSet,
 	LFO4Sync,
 	OutputAmp,
+	OutputTone,
 	numParams
 };
 

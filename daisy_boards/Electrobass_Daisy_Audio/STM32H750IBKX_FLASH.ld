@@ -14,9 +14,10 @@ MEMORY
 	RAM_D2 (RWX)  : ORIGIN = 0x30008000, LENGTH = 256K
 	RAM_D3 (RWX)  : ORIGIN = 0x38000000, LENGTH = 64K
 	BACKUP_SRAM (RWX)  : ORIGIN = 0x38800000, LENGTH = 4K
-	ITCMRAM (RWX) : ORIGIN = 0x00000000, LENGTH = 64K
+	ITCMRAM (RWX) : ORIGIN = 0x00000000, LENGTH = 1K
+	ITCMRAMFUNC (RWX) : ORIGIN = 0x00000400, LENGTH = 63K
 	SDRAM (RWX)   : ORIGIN = 0xc0000000, LENGTH = 64M
-  QSPIFLASH (RX): ORIGIN = 0x90040000, LENGTH = 7936K
+  	QSPIFLASH (RX): ORIGIN = 0x90040000, LENGTH = 7936K
 
 }
 
@@ -175,6 +176,26 @@ SECTIONS
 		PROVIDE(__dtcmram_bss_end__ = _edtcmram_bss);
 	} > DTCMRAM
 
+
+	/* add a section that we can put functions into ITCMRAM for faster execution 
+	(quicker bus speed than executing from AXI-SRAM but only 64k of space) 
+	*/
+	 .itcmram :
+	  {
+	   
+
+	    . = ALIGN(4);
+		_sitcmram = .;
+		 PROVIDE(__itcmram_start__ = _sitcmram);
+	    *(.itcmram)         /* .section_name section */
+	    *(.itcmram*)        /* .section_name* sub-sections if any */
+	    . = ALIGN(4);
+	    _eitcmram = .;
+	    PROVIDE(__itcmram_end__ = _eitcmram);
+	  } >ITCMRAMFUNC AT> SRAM
+	  
+	  _siitcmram = LOADADDR(.itcmram);
+	  	
 	/*
 	.sdram_text :
 	{
