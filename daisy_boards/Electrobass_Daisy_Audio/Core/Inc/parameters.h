@@ -10,9 +10,18 @@
 
 typedef float (*scaler_t)(float);
 typedef void (*setParam_t)(float, int);
+#define SPI_MESSAGE_ENDING 253
+#define TUNING_MESSAGE_SIZE 266
 
 
-
+enum SPIMessage
+{
+	Blank = 0,
+	ReceivingMIDI,
+	ReceivingPreset,
+	ReceivingTuning,
+	ReceivingEnd =  253
+};
 //selectable type number of possible values
 #define NUM_OSC_SHAPES 7
 #define NUM_FILTER_TYPES 9

@@ -15,7 +15,7 @@ int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 
 cStack midiStack;
-
+float fractionalMidi[128];
 HAL_StatusTypeDef transmit_status;
 HAL_StatusTypeDef receive_status;
 
@@ -842,7 +842,12 @@ float __ATTR_ITCMRAM audioTickL(void)
 
 		float note = bend + transpose + (float)tSimplePoly_getPitch(&myPoly, 0);
 
-
+		int tempNoteIntPart = (int)note;
+		float tempNoteFloatPart = note - (float)tempNoteIntPart;
+		            //int tempPitchClassIntPart =tempNoteIntPart % 12;
+	    float dev1 = (fractionalMidi[tempNoteIntPart] * (1.0f - tempNoteFloatPart));
+		float dev2 =  (fractionalMidi [(tempNoteIntPart+1)] * tempNoteFloatPart);
+	    note = ( dev1  + dev2);
 
 		envelope_tick();
 		lfo_tick();

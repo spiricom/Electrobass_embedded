@@ -89,7 +89,7 @@ DIR dir;
 const TCHAR path = 0;
 
 
-volatile uint8_t writingPreset = 0;
+volatile uint8_t writingState = 0;
 volatile float 	audioMasterLevel = 1.0f;
 FIL fdst;
 volatile uint8_t buffer[4096];
@@ -98,7 +98,8 @@ FRESULT res;
 
 uint32_t presetWaitingToParse = 0;
 uint32_t presetWaitingToWrite = 0;
-
+uint32_t tuningWaitingToParse = 0;
+uint32_t tuningWaitingToWrite = 0;
 
 param params[NUM_PARAMS];
 mapping mappings[MAX_NUM_MAPPINGS];
@@ -130,7 +131,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  SCB_EnableICache();
+  //SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -189,9 +190,7 @@ int main(void)
   for (int i = 0; i < 4096; i++)
   {
 	  buffer[i] = 0;
-  }
-
-  //put in some values to make the array valid as a preset
+} //put in some values to make the array valid as a preset
   buffer[1] = NUM_PARAMS;
   buffer[NUM_PARAMS*2+2] = 0xef;
   buffer[NUM_PARAMS*2+3] = 0xef;
@@ -256,6 +255,14 @@ int main(void)
 	  else if (presetWaitingToWrite > 0)
 	  {
 		  writePresetToSDCard(presetWaitingToWrite);
+	  }
+	  if(tuningWaitingToParse > 0)
+	  {
+		  parseTuning(tuningWaitingToParse);
+	  }
+	  else if  (tuningWaitingToWrite)
+	  {
+		  //writingTuningToSDCard(tuningWaitingToWrite);
 	  }
 
 	  uint32_t rand;
@@ -690,7 +697,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 {
 	interruptChecker = 1;
 	// if the first number is a 1 then it's a midi note/ctrl/bend message
-	if (SPI_RX[offset] == 1)
+	if (SPI_RX[offset] == ReceivingMIDI)
 	{
 
 		 uint8_t currentByte = offset+1;
@@ -703,22 +710,22 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 	}
 	// if the first number is a 2 then it's a preset write
-	else if (SPI_RX[offset] == 2)
+	else if (SPI_RX[offset] == ReceivingPreset)
 	{
 		//got a new preset to write to memory
 		 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 
 		 //if you aren't already writing a preset to memory, start the process
-		 if (!writingPreset)
+		 if (writingState != ReceivingPreset)
 		 {
-			 writingPreset = 1; // set the flag to let the mcu know that a preset write is in progress
+			 writingState = ReceivingPreset; // set the flag to let the mcu know that a preset write is in progress
 			 diskBusy = 1;
 			 audioMasterLevel = 0.0f;
 			 //write the raw data as a preset number on the SD card
 			 bufferPos = 0;
 		 }
 
-		 uint8_t currentByte = offset+2;
+		 uint8_t currentByte = offset+2; // first number says what it is 2nd number says which number it is
 
 		 for (int i = 0; i < 14; i++)
 		 {
@@ -727,14 +734,41 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		 }
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 	}
-	//if the first number is a 3, that means it's the end of a preset send
-	else if (SPI_RX[offset] == 3)
+	else if (SPI_RX[offset] == ReceivingTuning)
 	{
-		 writingPreset = 0;
-		 /* Parse into Audio Params */
-		 presetWaitingToParse = bufferPos;
-		 presetWaitingToWrite = bufferPos;
+		//if you aren't already writing a preset to memory, start the process
+		 if (writingState != ReceivingTuning)
+		 {
+			 writingState = ReceivingTuning; // set the flag to let the mcu know that a preset write is in progress
+			 diskBusy = 1;
+			 audioMasterLevel = 0.0f;
+			 //write the raw data as a preset number on the SD card
+			 bufferPos = 0;
+		 }
+		 uint8_t currentByte = offset+2; // first number says what it is 2nd number says which number it is
+
+		 for (int i = 0; i < 14; i++)
+		 {
+			 buffer[bufferPos++] = SPI_RX[currentByte + i];
+
+		 }
 	}
+	else if (SPI_RX[offset] == ReceivingEnd)
+	{
+		if(writingState == ReceivingPreset)
+		{
+			 writingState = 0;
+			 /* Parse into Audio Params */
+			 presetWaitingToParse = bufferPos;
+			 presetWaitingToWrite = bufferPos;
+		} else if (writingState == ReceivingTuning)
+		{
+			writingState = 0;
+			tuningWaitingToParse = bufferPos;
+			tuningWaitingToParse = bufferPos;
+		}
+	}
+
 }
 
 float __ATTR_ITCMRAM scaleDefault(float input)
@@ -837,6 +871,56 @@ void blankFunction(float a, int b)
 	;
 }
 
+
+void __ATTR_ITCMRAM parseTuning(int size)
+{
+	//turn off the volume while changing parameters
+	 __disable_irq();
+	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
+	 {
+		 audioOutBuffer[i] = 0;
+	 }
+	audioMasterLevel = 0.0f;
+	//osc params
+
+	uint16_t bufferIndex = 0;
+	//read first element in buffer as a count of how many parameters
+	//uint16_t paramCount = (buffer[0] << 8) + buffer[1];
+	if (size > 266)
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		tuningWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
+	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
+	uint16_t paramEndCheck = (buffer[TUNING_MESSAGE_SIZE - 2] << 8) + buffer[TUNING_MESSAGE_SIZE - 1];
+	if (paramEndCheck != 0xefef)
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		tuningWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
+
+
+
+
+
+
+
+	//now read the fractional midi
+	for (int i = 0; i < 128; i++)
+	{
+		fractionalMidi[i] = INV_TWO_TO_16 * ((buffer[bufferIndex] << 8) + buffer[bufferIndex+1]);
+
+		bufferIndex += 2;
+	}
+}
 
 void __ATTR_ITCMRAM parsePreset(int size)
 {

@@ -44,6 +44,7 @@ void cStack_push(cStack* stack, uint8_t val, uint8_t val1, uint8_t val2);
 void cStack_pop(cStack* stack, uint8_t* output);
 
 extern cStack midiStack;
+extern float fractionalMidi[128];
 
 typedef enum
 {
