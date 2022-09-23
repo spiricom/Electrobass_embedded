@@ -13,7 +13,7 @@
 ******************************************************************************
 * Copyright (C) 2015, Cypress Semiconductor Corporation.
 ******************************************************************************
-* This software is owned by Cypress Semiconductor Corporation (Cypress) and is
+* This software is prese by Cypress Semiconductor Corporation (Cypress) and is
 * protected by and subject to worldwide patent protection (United States and
 * foreign), United States copyright laws and international treaty provisions.
 * Cypress hereby grants to licensee a personal, non-exclusive, non-transferable
@@ -44,8 +44,8 @@
 #include "math.h"
 #include "oled.h"
 
-//#define MAPLE1 1
-#define GREEN3 1
+#define MAPLE1 1
+//#define GREEN3 1
 
 volatile uint8 usbActivityCounter = 0u;
  uint8 midiMsg[4];
@@ -59,7 +59,8 @@ uint16_t midiOverflow = 0;
 
 uint scanPart = 0;
 uint channel = 0;
-
+#define TUNING_ARRAY_SIZE 258
+uint8_t tuningArray[TUNING_ARRAY_SIZE];
 uint currentOutPointer = 0;
 uint outChanged = 0;
 
@@ -116,7 +117,7 @@ uint8_t receivingSysex = 0;
 uint8_t parsingSysex = 0;
 volatile uint8_t presetArray[1024];
 uint8_t presetNumberToWrite = 0;
-uint8_t sendPresetEndAck = 0;
+uint8_t sendMessageEnd = 0;
 enum presetArraySectionState
 {
     initialVals = 0,
@@ -126,10 +127,10 @@ enum presetArraySectionState
 };
 uint8_t presetArraySection = initialVals;
 
-uint16_t presetArraySendCount = 0;
-uint16_t presetArraySize = 0;
+uint16_t messageArraySendCount = 0;
+uint16_t messageArraySize = 0;
 
-uint8_t sysexPresetInProgress = 0;
+uint8_t sysexMessageInProgress = 0;
 
 int32_t linearPotValue32Bit[4];
 uint8_t i = 0;
@@ -333,7 +334,7 @@ int skippedNotes[32][5];
 int skipPointer = 0;
 
 uint8_t bufCount = 0;
-volatile uint8_t sendingPreset = 0;
+volatile uint8_t sendingMessage = 0;
 
 uint32_t currentFloat = 0;
 uint32_t mapCount = 0;
@@ -789,7 +790,7 @@ int main(void)
         }
         //send midi data to internal synth
         //copy the temp buffer into the send buffer now that we are done filling it and sending the previous one
-        if (!sendingPreset)
+        if (!sendingMessage)
         {
             for (uint i = 0 ; i < BUFFER_2_SIZE; i++)
             {
@@ -806,15 +807,15 @@ int main(void)
             }
             outChanged = 0;
         }
-        else //sending preset to audio chip
+        else if(sendingMessage == 1) //sending preset to audio chip
         {
-            if (sendPresetEndAck) //send end message
+            if (sendMessageEnd) //send end message
             {
-                tx2Buffer[0] = 3;
+                tx2Buffer[0] = 253;
                 tx2Buffer[1] = presetNumberToWrite;
-                sendPresetEndAck = 0;
-                sendingPreset = 0;
-                presetArraySendCount = 0;
+                sendMessageEnd = 0;
+                sendingMessage = 0;
+                messageArraySendCount = 0;
             }
             else //send chunks
             {
@@ -823,14 +824,43 @@ int main(void)
                 tx2Buffer[1] = presetNumberToWrite;
                 for (uint i = 2 ; i < BUFFER_2_SIZE; i++)
                 {
-                    if (presetArraySendCount < presetArraySize)
+                    if (messageArraySendCount < messageArraySize)
                     {
-                        tx2Buffer[i] = presetArray[presetArraySendCount++];
+                        tx2Buffer[i] = presetArray[messageArraySendCount++];
                     }
                     else
                     {
                         tx2Buffer[i] = 0xee; // preset end ack   - done, next send a message that s
-                        sendPresetEndAck = 1;
+                        sendMessageEnd = 1;
+                    }
+                }
+            }
+        } 
+        else if (sendingMessage == 2) //sending tuning
+        {
+            if (sendMessageEnd) //send end message
+            {
+                tx2Buffer[0] = 253;
+                tx2Buffer[1] = presetNumberToWrite;
+                sendMessageEnd = 0;
+                sendingMessage = 0;
+                messageArraySendCount = 0;
+            }
+            else //send chunks
+            {
+                //send the next preset Chunkkkkk
+                tx2Buffer[0] = 3;
+                tx2Buffer[1] = presetNumberToWrite;
+                for (uint i = 2 ; i < BUFFER_2_SIZE; i++)
+                {
+                    if (messageArraySendCount < messageArraySize)
+                    {
+                        tx2Buffer[i] = tuningArray[messageArraySendCount++];
+                    }
+                    else
+                    {
+                        tx2Buffer[i] = 0xee; // preset end ack   - done, next send a message that s
+                        sendMessageEnd = 1;
                     }
                 }
             }
@@ -983,7 +1013,7 @@ void parseSysex(void)
         
         //if (sysexBuffer[2] == 0)
         {
-            sysexPresetInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
+            sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
             currentFloat = 0;
             presetArraySection = initialVals;
         }
@@ -1031,9 +1061,9 @@ void parseSysex(void)
                     {
                         //error state
                         SPI_errors++;
-                        sysexPresetInProgress = 0;
+                        sysexMessageInProgress = 0;
                         sysexPointer = 0;
-                        sendingPreset = 0;
+                        sendingMessage = 0;
                         parseThatMF = 0;
                     }
                 }
@@ -1090,22 +1120,63 @@ void parseSysex(void)
                         presetArray[currentFloat++] = 0xfe;
                         presetArray[currentFloat++] = 0xfe;
                         presetArraySection = presetEnd;
-                        sysexPresetInProgress = 0;
-                        sendingPreset = 1;
-                        presetArraySize = currentFloat;
+                        sysexMessageInProgress = 0;
+                        sendingMessage = 1;
+                        messageArraySize = currentFloat;
                     }
                     else
                     {
                         //error state
                         SPI_errors++;
-                        sysexPresetInProgress = 0;
+                        sysexMessageInProgress = 0;
                         sysexPointer = 0;
-                        sendingPreset = 0;
+                        sendingMessage = 0;
                         parseThatMF = 0;
                     }
                 }
             }
             
+        }
+    }
+    else if (sysexBuffer[0] == 1) //its a tuning
+    {
+        
+        sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
+        currentFloat = 0;
+        presetNumberToWrite = sysexBuffer[1];
+        union breakFloat theVal;
+        for (uint32_t i = 2; i < sysexPointer; i = i+5)
+        {
+            theVal.u32 = 0;
+            theVal.u32 |= ((sysexBuffer[i] &15) << 28);
+            theVal.u32 |= (sysexBuffer[i+1] << 21);
+            theVal.u32 |= (sysexBuffer[i+2] << 14);
+            theVal.u32 |= (sysexBuffer[i+3] << 7);
+            theVal.u32 |= (sysexBuffer[i+4] & 127);
+            testVal = theVal.f;
+            uint16_t intVal = (uint16_t)theVal.f;//(uint16_t)(theVal.f * 65535.0f);
+            tuningArray[currentFloat++] = intVal >> 8;
+            tuningArray[currentFloat++] = intVal & 0xff;
+        }
+        
+        tuningArray[currentFloat++] = 0xef;
+        tuningArray[currentFloat++] = 0xef;
+                        
+        
+        messageArraySize = currentFloat;
+                    
+        if(messageArraySize != TUNING_ARRAY_SIZE)
+        {
+            //error state
+            SPI_errors++;
+            sysexMessageInProgress = 0;
+            sysexPointer = 0;
+            sendingMessage = 0;
+            parseThatMF = 0;
+        } else 
+        {
+            sysexMessageInProgress = 0;
+            sendingMessage = 2;
         }
     }
     parsingSysex = 0;
@@ -1157,7 +1228,7 @@ void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
 
                 //sysexPointer = 0;
             }
-            else if (midiMsg[1] == 0)
+            else if (midiMsg[1] == 0 || midiMsg[1] == 1)
             {
                 receivingSysex = 1;
                 
