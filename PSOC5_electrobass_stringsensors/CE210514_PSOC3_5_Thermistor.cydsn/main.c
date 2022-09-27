@@ -289,7 +289,7 @@ void parseSysex(void);
 
 volatile int testVar = 0;
 int lastNotes[4] = {0,0,0,0};
-int frettedState = 0;
+int frettedState = 1;
 int polyMode = 0;
 
 float pitchBendsPerString[4];
@@ -1154,7 +1154,7 @@ void parseSysex(void)
             theVal.u32 |= (sysexBuffer[i+3] << 7);
             theVal.u32 |= (sysexBuffer[i+4] & 127);
             testVal = theVal.f;
-            uint16_t intVal = (uint16_t)theVal.f;//(uint16_t)(theVal.f * 65535.0f);
+            uint16_t intVal = (uint16_t)(theVal.f * 512.0f);//(uint16_t)(theVal.f * 65535.0f);
             tuningArray[currentFloat++] = intVal >> 8;
             tuningArray[currentFloat++] = intVal & 0xff;
         }
