@@ -187,10 +187,13 @@ int main(void)
   CycleCounterInit();
   cStack_init(&midiStack);
 
+  for (int i = 0; i < 128; i++){
+	  fractionalMidi[i] = i;
+  }
   for (int i = 0; i < 4096; i++)
   {
 	  buffer[i] = 0;
-} //put in some values to make the array valid as a preset
+  } //put in some values to make the array valid as a preset
   buffer[1] = NUM_PARAMS;
   buffer[NUM_PARAMS*2+2] = 0xef;
   buffer[NUM_PARAMS*2+3] = 0xef;
@@ -871,7 +874,7 @@ void blankFunction(float a, int b)
 	;
 }
 
-
+static int bufferaaa = 0;
 void __ATTR_ITCMRAM parseTuning(int size)
 {
 	//turn off the volume while changing parameters
@@ -896,7 +899,7 @@ void __ATTR_ITCMRAM parseTuning(int size)
 	}
 
 	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
-	uint16_t paramEndCheck = (buffer[TUNING_MESSAGE_SIZE - 2] << 8) + buffer[TUNING_MESSAGE_SIZE - 1];
+	uint16_t paramEndCheck = (buffer[256] << 8) + buffer[257];
 	if (paramEndCheck != 0xefef)
 	{
 		//error in transmission - give up and don't parse!
@@ -912,14 +915,18 @@ void __ATTR_ITCMRAM parseTuning(int size)
 
 
 
-
+	//bufferIndex = 2;
 	//now read the fractional midi
 	for (int i = 0; i < 128; i++)
 	{
-		fractionalMidi[i] = INV_TWO_TO_16 * ((buffer[bufferIndex] << 8) + buffer[bufferIndex+1]);
+		fractionalMidi[i] =  ((buffer[bufferIndex] << 8) + buffer[bufferIndex+1]) / 512.f;
 
 		bufferIndex += 2;
 	}
+	tuningWaitingToParse = 0;
+	audioMasterLevel = 1.0f;
+	diskBusy = 0;
+	__enable_irq();
 }
 
 void __ATTR_ITCMRAM parsePreset(int size)
