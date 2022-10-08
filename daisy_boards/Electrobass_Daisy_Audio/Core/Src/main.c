@@ -89,7 +89,7 @@ DIR dir;
 const TCHAR path = 0;
 
 
-volatile uint8_t writingPreset = 0;
+volatile uint8_t writingState = 0;
 volatile float 	audioMasterLevel = 1.0f;
 FIL fdst;
 volatile uint8_t buffer[4096];
@@ -98,7 +98,8 @@ FRESULT res;
 
 uint32_t presetWaitingToParse = 0;
 uint32_t presetWaitingToWrite = 0;
-
+uint32_t tuningWaitingToParse = 0;
+uint32_t tuningWaitingToWrite = 0;
 
 param params[NUM_PARAMS];
 mapping mappings[MAX_NUM_MAPPINGS];
@@ -130,7 +131,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  SCB_EnableICache();
+  //SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -186,12 +187,13 @@ int main(void)
   CycleCounterInit();
   cStack_init(&midiStack);
 
+  for (int i = 0; i < 128; i++){
+	  fractionalMidi[i] = i;
+  }
   for (int i = 0; i < 4096; i++)
   {
 	  buffer[i] = 0;
-  }
-
-  //put in some values to make the array valid as a preset
+  } //put in some values to make the array valid as a preset
   buffer[1] = NUM_PARAMS;
   buffer[NUM_PARAMS*2+2] = 0xef;
   buffer[NUM_PARAMS*2+3] = 0xef;
@@ -256,6 +258,14 @@ int main(void)
 	  else if (presetWaitingToWrite > 0)
 	  {
 		  writePresetToSDCard(presetWaitingToWrite);
+	  }
+	  if(tuningWaitingToParse > 0)
+	  {
+		  parseTuning(tuningWaitingToParse);
+	  }
+	  else if  (tuningWaitingToWrite)
+	  {
+		  //writingTuningToSDCard(tuningWaitingToWrite);
 	  }
 
 	  uint32_t rand;
@@ -690,7 +700,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 {
 	interruptChecker = 1;
 	// if the first number is a 1 then it's a midi note/ctrl/bend message
-	if (SPI_RX[offset] == 1)
+	if (SPI_RX[offset] == ReceivingMIDI)
 	{
 
 		 uint8_t currentByte = offset+1;
@@ -703,22 +713,22 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 	}
 	// if the first number is a 2 then it's a preset write
-	else if (SPI_RX[offset] == 2)
+	else if (SPI_RX[offset] == ReceivingPreset)
 	{
 		//got a new preset to write to memory
 		 //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 
 		 //if you aren't already writing a preset to memory, start the process
-		 if (!writingPreset)
+		 if (writingState != ReceivingPreset)
 		 {
-			 writingPreset = 1; // set the flag to let the mcu know that a preset write is in progress
+			 writingState = ReceivingPreset; // set the flag to let the mcu know that a preset write is in progress
 			 diskBusy = 1;
 			 audioMasterLevel = 0.0f;
 			 //write the raw data as a preset number on the SD card
 			 bufferPos = 0;
 		 }
 
-		 uint8_t currentByte = offset+2;
+		 uint8_t currentByte = offset+2; // first number says what it is 2nd number says which number it is
 
 		 for (int i = 0; i < 14; i++)
 		 {
@@ -727,14 +737,41 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		 }
 		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 	}
-	//if the first number is a 3, that means it's the end of a preset send
-	else if (SPI_RX[offset] == 3)
+	else if (SPI_RX[offset] == ReceivingTuning)
 	{
-		 writingPreset = 0;
-		 /* Parse into Audio Params */
-		 presetWaitingToParse = bufferPos;
-		 presetWaitingToWrite = bufferPos;
+		//if you aren't already writing a preset to memory, start the process
+		 if (writingState != ReceivingTuning)
+		 {
+			 writingState = ReceivingTuning; // set the flag to let the mcu know that a preset write is in progress
+			 diskBusy = 1;
+			 audioMasterLevel = 0.0f;
+			 //write the raw data as a preset number on the SD card
+			 bufferPos = 0;
+		 }
+		 uint8_t currentByte = offset+2; // first number says what it is 2nd number says which number it is
+
+		 for (int i = 0; i < 14; i++)
+		 {
+			 buffer[bufferPos++] = SPI_RX[currentByte + i];
+
+		 }
 	}
+	else if (SPI_RX[offset] == ReceivingEnd)
+	{
+		if(writingState == ReceivingPreset)
+		{
+			 writingState = 0;
+			 /* Parse into Audio Params */
+			 presetWaitingToParse = bufferPos;
+			 presetWaitingToWrite = bufferPos;
+		} else if (writingState == ReceivingTuning)
+		{
+			writingState = 0;
+			tuningWaitingToParse = bufferPos;
+			tuningWaitingToParse = bufferPos;
+		}
+	}
+
 }
 
 float __ATTR_ITCMRAM scaleDefault(float input)
@@ -837,6 +874,60 @@ void blankFunction(float a, int b)
 	;
 }
 
+static int bufferaaa = 0;
+void __ATTR_ITCMRAM parseTuning(int size)
+{
+	//turn off the volume while changing parameters
+	 __disable_irq();
+	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
+	 {
+		 audioOutBuffer[i] = 0;
+	 }
+	audioMasterLevel = 0.0f;
+	//osc params
+
+	uint16_t bufferIndex = 0;
+	//read first element in buffer as a count of how many parameters
+	//uint16_t paramCount = (buffer[0] << 8) + buffer[1];
+	if (size > 266)
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		tuningWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
+	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
+	uint16_t paramEndCheck = (buffer[256] << 8) + buffer[257];
+	if (paramEndCheck != 0xefef)
+	{
+		//error in transmission - give up and don't parse!
+		audioMasterLevel = 1.0f;
+		tuningWaitingToParse = 0;
+		__enable_irq();
+		return;
+	}
+
+
+
+
+
+
+
+	//bufferIndex = 2;
+	//now read the fractional midi
+	for (int i = 0; i < 128; i++)
+	{
+		fractionalMidi[i] =  ((buffer[bufferIndex] << 8) + buffer[bufferIndex+1]) / 512.f;
+
+		bufferIndex += 2;
+	}
+	tuningWaitingToParse = 0;
+	audioMasterLevel = 1.0f;
+	diskBusy = 0;
+	__enable_irq();
+}
 
 void __ATTR_ITCMRAM parsePreset(int size)
 {
@@ -959,7 +1050,19 @@ void __ATTR_ITCMRAM parsePreset(int size)
 	params[LFO4Rate].scaleFunc = &scaleLFORates;
 	params[OutputAmp].scaleFunc = &scaleTwo;
 	params[OutputTone].scaleFunc  = &scaleFinalLowpass;
+	for (int i = 0; i < NUM_EFFECT; i++)
+		{
+			FXType effectType = roundf(params[Effect1FXType + (EffectParamsNum * i)].realVal * (NUM_EFFECT_TYPES-1));
+			param *FXAlias = &params[Effect1Param1 + (EffectParamsNum*i)];
 
+
+				if (effectType > FXLowpass)
+				{
+					FXAlias[2].scaleFunc = &scaleFilterResonance;
+				}
+
+
+		}
 	for (int i = 0; i < NUM_PARAMS; i++)
 	{
 		params[i].realVal = params[i].scaleFunc(params[i].zeroToOneVal);
@@ -1189,11 +1292,88 @@ void __ATTR_ITCMRAM parsePreset(int size)
 				  effectSetters[i].setParam4 = &param4Linear;
 				  effectSetters[i].setParam5 = &param5Linear;
 				  break;
+			  case FXLowpass :
+				  effectTick[i] = &FXlowpassTick;
+				  effectSetters[i].setParam1 = &FXLowpassParam1;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &FXLowpassParam3;
+				  effectSetters[i].setParam4 = &blankFunction;;
+				  effectSetters[i].setParam5 = &blankFunction;;
+				  break;
+			  case FXHighpass :
+				  effectTick[i] = &FXhighpassTick;
+				  effectSetters[i].setParam1 = &FXHighpassParam1;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &FXHighpassParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXBandpass :
+				  effectTick[i] = &FXbandpassTick;
+				  effectSetters[i].setParam1 = &FXBandpassParam1;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &FXBandpassParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXDiode :
+				  effectTick[i] = &FXdiodeLowpassTick;
+				  effectSetters[i].setParam1 = &FXDiodeParam1;
+				  effectSetters[i].setParam2 = &blankFunction;
+				  effectSetters[i].setParam3 = &FXDiodeParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXPeak :
+				  effectTick[i] = &FXVZpeakTick;
+				  effectSetters[i].setParam1 = &FXPeakParam1;
+				  effectSetters[i].setParam2 = &FXPeakParam2;
+				  effectSetters[i].setParam3 = &FXPeakParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXLowShelf :
+				  effectTick[i] = &FXVZlowshelfTick;
+				  effectSetters[i].setParam1 = &FXLowShelfParam1;
+				  effectSetters[i].setParam2 = &FXLowShelfParam2;
+				  effectSetters[i].setParam3 = &FXLowShelfParam3;
+				  effectSetters[i].setParam4 = &blankFunction;
+				  effectSetters[i].setParam5 = &blankFunction;
+				  break;
+			  case FXHighShelf :
+				  effectTick[i] = FXVZhighshelfTick;
+				  effectSetters[i].setParam1 = &FXHighShelfParam1;;
+				  effectSetters[i].setParam2 = &FXHighShelfParam2;;
+				  effectSetters[i].setParam3 = &FXHighShelfParam3;;
+				  effectSetters[i].setParam4 = &blankFunction;;
+				  effectSetters[i].setParam5 = &blankFunction;;
+				  break;
+			  case FXNotch :
+				  effectTick[i] = FXVZbandrejectTick;
+				  effectSetters[i].setParam1 = &FXNotchParam1;;
+				  effectSetters[i].setParam2 = &FXNotchParam2;;
+				  effectSetters[i].setParam3 = &FXNotchParam3;;
+				  effectSetters[i].setParam4 = &blankFunction;;
+				  effectSetters[i].setParam5 = &blankFunction;;
+				  break;
+			  case FXLadder :
+				  effectTick[i] = &FXLadderLowpassTick;
+				  effectSetters[i].setParam1 = &FXLadderParam1;;
+				  effectSetters[i].setParam2 = &blankFunction;;
+				  effectSetters[i].setParam3 = &FXLadderParam3;;
+				  effectSetters[i].setParam4 = &blankFunction;;
+				  effectSetters[i].setParam5 = &blankFunction;;
+				  break;
 			  default:
 				  break;
 		}
 	}
 
+
+	//noiseparams
+	params[NoiseTilt].setParam = &noiseSetTilt;
+	params[NoisePeakFreq].setParam = &noiseSetFreq;
+	params[NoisePeakGain].setParam  = &noiseSetGain;
 	///////Setters for paramMapping
 	params[Master].setParam = &setMaster;
 	params[Transpose].setParam = &setTranspose;
