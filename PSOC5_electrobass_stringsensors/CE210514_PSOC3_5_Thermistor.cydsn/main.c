@@ -344,7 +344,9 @@ uint16_t numMappings = 0;
 volatile uint8_t parseThatMF = 0;
 volatile float valCheck = 0.0f;
 volatile float testVal = 0.0f;
-
+int buttonCounters[6] = {0,0,0,0,0};
+int buttonStates[6] = {0,0,0,0,0};
+int frettedStateLatched = 0;
 
 uint32_t SPI_errors = 0;
 /*
@@ -473,6 +475,42 @@ int main(void)
        // #endif
         ExtMUX_EN_Write(1);
         CyDelayUs(5);
+        
+        if (!fretted_latching_Read() && (buttonStates[0] == 1))
+        {
+            if (buttonCounters[0] < 60)
+            {
+                buttonCounters[0]++;
+            }
+        }
+        if (buttonCounters[0] == 50)
+        {
+            //frettedState = !frettedState;
+            frettedStateLatched = !frettedStateLatched;
+           // buttonCounters[0] = 0;
+        }
+         if (!fretted_latching_Read() && (buttonStates[0] == 0))
+        {
+             buttonCounters[0] = 0;
+        }
+        buttonStates[0] = !fretted_latching_Read();
+        
+        if (!fretted_momentary_Read())
+        {
+            frettedState = !frettedStateLatched;
+        }
+        else
+        {
+            frettedState = frettedStateLatched;
+        }
+        if (frettedState)
+        {
+            LED1_Write(1);
+        }
+        else
+        {
+            LED1_Write(0);
+        }
         CapSense_ClearSensors();
         CapSense_UpdateEnabledBaselines();
         CapSense_ScanEnabledWidgets();  
@@ -840,7 +878,7 @@ int main(void)
         
         if (currentOutPointer > BUFFER_2_SIZE)
         {
-            LED1_Write(1);
+            //LED1_Write(1);
             //overflow
         }
         currentOutPointer = 1;
