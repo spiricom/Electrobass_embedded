@@ -11,7 +11,7 @@
 
 #include "gfx.h"
 #include "custom_fonts.h"
-
+#include "main.h"
 
 
 
@@ -42,10 +42,10 @@ void OLED_init(void)
 
 	  //set up the monospaced font
 
-	  GFXsetFont(&theGFX, &C649pt7b); //funny c64 text monospaced but very large
+	  //GFXsetFont(&theGFX, &C649pt7b); //funny c64 text monospaced but very large
 	  GFXsetFont(&theGFX, &DINAlternateBold9pt7b); //very serious and looks good - definitely not monospaced can fit 9 Ms
 	  //GFXsetFont(&theGFX, &DINCondensedBold9pt7b); // very condensed and looks good - definitely not monospaced can fit 9 Ms
-	  //GFXsetFont(&theGFX, &EuphemiaCAS7pt7b); //this one is elegant but definitely not monospaced can fit 9 Ms
+	  GFXsetFont(&theGFX, &EuphemiaCAS7pt7b); //this one is elegant but definitely not monospaced can fit 9 Ms
 	  //GFXsetFont(&theGFX, &GillSans9pt7b); //not monospaced can fit 9 Ms
 	 // GFXsetFont(&theGFX, &Futura9pt7b); //not monospaced can fit only 7 Ms
 	 // GFXsetFont(&theGFX, &FUTRFW8pt7b); // monospaced, pretty, (my old score font) fits 8 Ms
@@ -61,7 +61,7 @@ void OLED_init(void)
 	  //ssd1306_display_full_buffer();
 
 	  //OLEDclear();
-	  OLED_writePreset();
+        OLED_writePresetFlashing();
 	  OLED_draw();
 	  //sdd1306_invertDisplay(1);
 }
@@ -93,6 +93,37 @@ void OLED_writePreset()
         //OLEDwriteString("AHHHHH", 6, 0, ThirdLine);
             //OLEDwriteString("HOOORAY!!!!", 11, 0, FourthLine);
 	OLEDwriteString(tempString, myLength, 0, FirstLine);
+	//GFXsetFont(&theGFX, &EuphemiaCAS7pt7b);
+	//OLEDwriteString(modeNamesDetails[currentPreset], (int)strlen(modeNamesDetails[currentPreset]), 0, SecondLine);
+	//save new preset to flash memory
+}
+
+
+void OLED_writePresetFlashing()
+{
+	//GFXsetFont(&theGFX, &C645pt7b);
+	OLEDclear();
+	//char tempString[24];
+	//itoa((currentPreset+1), tempString, 10);
+    
+	//strcat(tempString, "1");
+	//strcat(tempString, modeNames[currentPreset]);
+	//int myLength = (int)strlen(tempString);
+	//OLEDwriteInt(0, 2, 0, FirstLine);
+	//OLEDwriteString(":", 1, 20, FirstLine);
+	//OLEDwriteString("ELECTROBASS", 12, 0,SecondLine);
+    //OLEDwriteString("4-EVA", 5, 0, SecondLine);
+        //OLEDwriteString("AHHHHH", 6, 0, ThirdLine);
+            //OLEDwriteString("HOOORAY!!!!", 11, 0, FourthLine);
+    GFXsetFont(&theGFX, &Disket_Mono_Regular17pt7b);
+    GFXsetTextSize(&theGFX, 1);
+	OLEDwriteInt(currentPresetSelection, 2, 0, SecondLine);
+    GFXsetFont(&theGFX,&Disket_Mono_Regular7pt7b);
+    GFXsetTextSize(&theGFX, 1);
+    
+    OLEDwriteString((char *)&presetNamesArray[currentPresetSelection][0], 7, 48,FirstLine);
+    OLEDwriteString((char *)&presetNamesArray[currentPresetSelection][7], 7, 48,SecondLine);
+    OLED_draw();
 	//GFXsetFont(&theGFX, &EuphemiaCAS7pt7b);
 	//OLEDwriteString(modeNamesDetails[currentPreset], (int)strlen(modeNamesDetails[currentPreset]), 0, SecondLine);
 	//save new preset to flash memory
@@ -160,6 +191,10 @@ void OLED_draw()
 	ssd1306_display_full_buffer();
 }
 
+void OLED_invert(int onOff)
+{
+	sdd1306_invertDisplay(onOff);
+}
 
 void OLED_drawFirstLine()
 {

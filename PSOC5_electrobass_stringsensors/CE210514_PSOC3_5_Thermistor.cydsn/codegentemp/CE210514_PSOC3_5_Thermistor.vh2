@@ -2,7 +2,7 @@
 --	Conversion of CE210514_PSOC3_5_Thermistor.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Thu Sep 15 13:52:59 2022
+--	Thu Oct 13 16:35:48 2022
 --
 
 USE cypress.cypress.all;
@@ -1303,11 +1303,11 @@ SIGNAL tmpFB_0__SPI_ready_net_0 : bit;
 SIGNAL tmpIO_0__SPI_ready_net_0 : bit;
 TERMINAL tmpSIOVREF__SPI_ready_net_0 : bit;
 SIGNAL tmpINTERRUPT_0__SPI_ready_net_0 : bit;
-SIGNAL tmpOE__edit_net_0 : bit;
-SIGNAL tmpFB_0__edit_net_0 : bit;
-SIGNAL tmpIO_0__edit_net_0 : bit;
-TERMINAL tmpSIOVREF__edit_net_0 : bit;
-SIGNAL tmpINTERRUPT_0__edit_net_0 : bit;
+SIGNAL tmpOE__enter_net_0 : bit;
+SIGNAL tmpFB_0__enter_net_0 : bit;
+SIGNAL tmpIO_0__enter_net_0 : bit;
+TERMINAL tmpSIOVREF__enter_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__enter_net_0 : bit;
 SIGNAL Net_924 : bit;
 SIGNAL Net_931 : bit;
 SIGNAL \I2C_1:sda_x_wire\ : bit;
@@ -5161,7 +5161,7 @@ SPI_ready:cy_psoc3_pins_v1_10
 		out_clock_en=>tmpOE__MISO_1_net_0,
 		out_reset=>zero,
 		interrupt=>tmpINTERRUPT_0__SPI_ready_net_0);
-edit:cy_psoc3_pins_v1_10
+enter:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"ed20aee1-1d96-4218-b2a1-c122da6fbb54",
 		drive_mode=>"010",
 		ibuf_enabled=>"1",
@@ -5219,10 +5219,10 @@ edit:cy_psoc3_pins_v1_10
 		input_buffer_sel=>"00")
 	PORT MAP(oe=>(tmpOE__MISO_1_net_0),
 		y=>(zero),
-		fb=>(tmpFB_0__edit_net_0),
+		fb=>(tmpFB_0__enter_net_0),
 		analog=>(open),
-		io=>(tmpIO_0__edit_net_0),
-		siovref=>(tmpSIOVREF__edit_net_0),
+		io=>(tmpIO_0__enter_net_0),
+		siovref=>(tmpSIOVREF__enter_net_0),
 		annotation=>(open),
 		in_clock=>zero,
 		in_clock_en=>tmpOE__MISO_1_net_0,
@@ -5230,7 +5230,7 @@ edit:cy_psoc3_pins_v1_10
 		out_clock=>zero,
 		out_clock_en=>tmpOE__MISO_1_net_0,
 		out_reset=>zero,
-		interrupt=>tmpINTERRUPT_0__edit_net_0);
+		interrupt=>tmpINTERRUPT_0__enter_net_0);
 DMA_1_RX:cy_dma_v1_0
 	GENERIC MAP(drq_type=>"01",
 		num_tds=>0)

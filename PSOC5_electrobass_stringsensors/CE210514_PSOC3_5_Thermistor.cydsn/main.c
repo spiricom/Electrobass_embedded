@@ -39,13 +39,13 @@
 * limited by and subject to the applicable Cypress software license agreement.
 *****************************************************************************/
 #include <device.h>
-
+#include <main.h>
 #include <stdio.h>
 #include "math.h"
 #include "oled.h"
 
-#define MAPLE1 1
-//#define GREEN3 1
+//#define MAPLE1 1
+#define GREEN3 1
 
 volatile uint8 usbActivityCounter = 0u;
  uint8 midiMsg[4];
@@ -76,6 +76,8 @@ CY_ISR_PROTO(SleepIsr_function);
 void noteEvent(int string);
 void I2C_reset(void);
 void CCEvent(int bar);
+void scanButtons(void);
+void sendCurrentPresetNumber(void);
 
 union breakFloat {
  float f;
@@ -120,12 +122,13 @@ uint8_t presetNumberToWrite = 0;
 uint8_t sendMessageEnd = 0;
 enum presetArraySectionState
 {
-    initialVals = 0,
-    mapCountNext = 1,
-    mapping = 2,
-    presetEnd = 3
+    presetName = 0,
+    initialVals = 2,
+    mapCountNext = 3,
+    mapping = 4,
+    presetEnd = 5,
 };
-uint8_t presetArraySection = initialVals;
+uint8_t presetArraySection = presetName;
 
 uint16_t messageArraySendCount = 0;
 uint16_t messageArraySize = 0;
@@ -226,7 +229,6 @@ CY_ISR(button_press_ISR) {     /* No need to clear any interrupt source; interru
     //
 }
 
-
 #define INV_440 0.0022727272727273f
 
 float   LEAF_clip(float min, float val, float max)
@@ -306,6 +308,14 @@ float linearHysteresis = 0.6f;
 float hp_y[4];
 float hp_x[4]; 
 float hp_R;
+
+
+int currentPresetSelection = 0;
+int highestPresetNumber = MAX_NUM_PRESETS - 1;
+
+uint8_t presetNamesArray[MAX_NUM_PRESETS][14];
+uint8_t presetNumberToLoad = 0;
+uint8_t presetLoadedResponse[2] = {255, 0};
 
 float vibratoCrossfade[4];
 int crossFadeStartCount[4];
@@ -443,7 +453,29 @@ int main(void)
     SPIM_2_Start();
     I2C_1_Start();
     
-        CyDelay(100);
+    CyDelay(100);
+    for (int i = 0; i < MAX_NUM_PRESETS; i++)
+    {
+        SPIM_2_ClearRxBuffer();
+        CyDmaChEnable(rx2Channel, STORE_TD_CFG_ONCMPLT);
+        CyDmaChEnable(tx2Channel, STORE_TD_CFG_ONCMPLT);
+        //make sure previous SPI2 transmission has completed before transferring the remaining midi date
+        while (0u == ((SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_DONE) || (SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_IDLE )))
+        {
+            ;
+        }    
+        if (rx2Buffer[0] == 253) // message that means audio IC is sending preset names)
+        {
+            uint8_t whichPresetToName = rx2Buffer[1];
+            if (whichPresetToName < MAX_NUM_PRESETS)
+            {
+                for (int i = 0; i < 14; i++)
+                {
+                    presetNamesArray[whichPresetToName][i] = rx2Buffer[i+2];
+                }
+            }
+        }
+    }
     //I2Cbuff1[0] = 1<<6;
     //status = I2C_MasterWriteBlocking(0x70, 1, I2C_1_MODE_COMPLETE_XFER);
     OLED_init();
@@ -477,41 +509,8 @@ int main(void)
         ExtMUX_EN_Write(1);
         CyDelayUs(5);
         
-        if (!fretted_latching_Read() && (buttonStates[0] == 1))
-        {
-            if (buttonCounters[0] < 60)
-            {
-                buttonCounters[0]++;
-            }
-        }
-        if (buttonCounters[0] == 50)
-        {
-            //frettedState = !frettedState;
-            frettedStateLatched = !frettedStateLatched;
-           // buttonCounters[0] = 0;
-        }
-         if (!fretted_latching_Read() && (buttonStates[0] == 0))
-        {
-             buttonCounters[0] = 0;
-        }
-        buttonStates[0] = !fretted_latching_Read();
-        
-        if (!fretted_momentary_Read())
-        {
-            frettedState = !frettedStateLatched;
-        }
-        else
-        {
-            frettedState = frettedStateLatched;
-        }
-        if (frettedState)
-        {
-            LED1_Write(1);
-        }
-        else
-        {
-            LED1_Write(0);
-        }
+        scanButtons();
+
         CapSense_ClearSensors();
         CapSense_UpdateEnabledBaselines();
         CapSense_ScanEnabledWidgets();  
@@ -851,9 +850,14 @@ int main(void)
             {
                 tx2Buffer[0] = 253;
                 tx2Buffer[1] = presetNumberToWrite;
+                currentPresetSelection = presetNumberToWrite;
+                //display previous preset as loaded
+                sendCurrentPresetNumber();
+                OLED_invert(0);
                 sendMessageEnd = 0;
                 sendingMessage = 0;
                 messageArraySendCount = 0;
+                
             }
             else //send chunks
             {
@@ -903,6 +907,34 @@ int main(void)
                 }
             }
         }
+        
+        else if (sendingMessage == 3) // 3 means load a preset
+        {
+            tx2Buffer[0] = 4; //for the audio chip this message is a 4 
+            tx2Buffer[1] = presetNumberToLoad;
+            sendingMessage = 4;
+        }
+        else if (sendingMessage == 4) //4  means waiting for preset loaded response
+        {
+            tx2Buffer[0] = 5; //for the audio chip this message is a 4 
+            tx2Buffer[1] = presetNumberToLoad;
+            if (presetLoadedResponse[0] == 254)
+            {
+                //load failed - give up!
+                sendingMessage = 0;
+                currentPresetSelection = presetLoadedResponse[1];
+                //display previous preset as loaded
+                sendCurrentPresetNumber();
+                 OLED_invert(0);
+            }
+            if (presetLoadedResponse[0] == presetNumberToLoad)
+            {
+                presetLoadedResponse[0]= 255; //still waiting
+                sendingMessage = 0;
+                OLED_invert(0);
+                //mark that it's been loaded on the display
+            }
+        }
 
         
         
@@ -912,6 +944,23 @@ int main(void)
             //overflow
         }
         currentOutPointer = 1;
+        if (rx2Buffer[0] == 253) // message that means audio IC is sending preset names)
+        {
+            uint8_t whichPresetToName = rx2Buffer[1];
+            if (whichPresetToName < MAX_NUM_PRESETS)
+            {
+                for (int i = 0; i < 14; i++)
+                {
+                    presetNamesArray[whichPresetToName][i] = rx2Buffer[i+2];
+                }
+            }
+        }
+        else if (rx2Buffer[0] == 252) // message that means audio IC is sending preset names)
+        {
+            presetLoadedResponse[0] = rx2Buffer[1];
+            presetLoadedResponse[1] = rx2Buffer[2];
+        }
+        
         if (tx2Buffer[0] > 0 )
         {
             SPIM_2_ClearRxBuffer();
@@ -1053,15 +1102,21 @@ void parseSysex(void)
         {
             sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
             currentFloat = 0;
-            presetArraySection = initialVals;
+            presetArraySection = presetName;
         }
         presetNumberToWrite = sysexBuffer[1];
         
         union breakFloat theVal;
-
-
+        uint32_t i = 2;
+        for (; i < 16; i++)
+        {
+            presetArray[i-2] = sysexBuffer[i] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+            presetNamesArray[presetNumberToWrite][i-2] = sysexBuffer[i] & 127;
+        }
+        uint16_t valsStart = 14;
         
-        for (uint32_t i = 2; i < sysexPointer; i = i+5)
+        presetArraySection = initialVals;
+        for (; i < sysexPointer; i = i+5)
         {
             theVal.u32 = 0;
             theVal.u32 |= ((sysexBuffer[i] &15) << 28);
@@ -1076,22 +1131,22 @@ void parseSysex(void)
                 if (currentFloat == 0)
                 {
                     valsCount = (uint16_t) theVal.f;
-                    presetArray[currentFloat++] = valsCount >> 8;
-                    presetArray[currentFloat++] = valsCount & 0xff;
+                    presetArray[valsStart + currentFloat++] = valsCount >> 8;
+                    presetArray[valsStart + currentFloat++] = valsCount & 0xff;
                 }
                 else if (currentFloat < ((valsCount+1)*2))
                 { 
                     uint16_t intVal = (uint16_t)(theVal.f * 65535.0f);
-                    presetArray[currentFloat++] = intVal >> 8;
-                    presetArray[currentFloat++] = intVal & 0xff;
+                    presetArray[valsStart + currentFloat++] = intVal >> 8;
+                    presetArray[valsStart + currentFloat++] = intVal & 0xff;
                 }
                 else if (currentFloat == ((valsCount+1)*2))
                 {
                     valCheck = theVal.f;
                     if ((valCheck < -1.5f) && (valCheck > -2.5f))
                     {
-                        presetArray[currentFloat++] = 0xef;
-                        presetArray[currentFloat++] = 0xef;
+                        presetArray[valsStart + currentFloat++] = 0xef;
+                        presetArray[valsStart + currentFloat++] = 0xef;
                         presetArraySection = mapCountNext;
                         mapCount = 0;
                     }
@@ -1109,8 +1164,8 @@ void parseSysex(void)
             else if (presetArraySection == mapCountNext)
             {
                 mapCountExpectation = (uint16_t)theVal.f;
-                presetArray[currentFloat++] = mapCountExpectation >> 8;
-                presetArray[currentFloat++] = mapCountExpectation & 0xff;
+                presetArray[valsStart + currentFloat++] = mapCountExpectation >> 8;
+                presetArray[valsStart + currentFloat++] = mapCountExpectation & 0xff;
                 presetArraySection = mapping;
                 numMappings = 0;
             }
@@ -1122,28 +1177,28 @@ void parseSysex(void)
                 {
                     if ((mapCount % 4) == 0)
                     {
-                        presetArray[currentFloat++] = (uint8_t)theVal.f;
+                        presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
                     }
                     else if  (mapCount % 4 == 1)
                     {
-                        presetArray[currentFloat++] = (uint8_t)theVal.f;
+                        presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
                     }
                     else if (mapCount % 4 == 2) //check if the scalar source is -1 (if so send 255 instead of a valid source number)
                     {
                         if (theVal.f < 0.0f)
                         {
-                             presetArray[currentFloat++] = 0xff;
+                             presetArray[valsStart + currentFloat++] = 0xff;
                         }
                         else
                         {
-                             presetArray[currentFloat++] = (uint8_t)theVal.f;
+                             presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
                         }
                     }
                     else
                     {
                         int16_t intVal = (int16_t)(theVal.f * 32767.0f); //keep it signed to allow negative numbers
-                        presetArray[currentFloat++] = intVal >> 8;
-                        presetArray[currentFloat++] = intVal & 0xff;
+                        presetArray[valsStart + currentFloat++] = intVal >> 8;
+                        presetArray[valsStart + currentFloat++] = intVal & 0xff;
                         numMappings++;
                     }
                     mapCount++;
@@ -1155,12 +1210,12 @@ void parseSysex(void)
                     //mapcount ended
                     if ((theVal.f < -2.5f) && (theVal.f > -3.5f))
                     {
-                        presetArray[currentFloat++] = 0xfe;
-                        presetArray[currentFloat++] = 0xfe;
+                        presetArray[valsStart + currentFloat++] = 0xfe;
+                        presetArray[valsStart + currentFloat++] = 0xfe;
                         presetArraySection = presetEnd;
                         sysexMessageInProgress = 0;
                         sendingMessage = 1;
-                        messageArraySize = currentFloat;
+                        messageArraySize = valsStart + currentFloat;
                     }
                     else
                     {
@@ -1668,7 +1723,7 @@ void handleNotes(int note, int velocity, int string)
                 timeSinceLastAttack = 0;
                 stringStates[string][0] = note;
                 stringStates[string][1] = velocity;
-                 pitchFreeze[string] = 0;
+                pitchFreeze[string] = 0;
                 sendMIDINoteOn(note, velocity, 0);
             
             }
@@ -1685,4 +1740,107 @@ void handleNotes(int note, int velocity, int string)
             pitchFreeze[string] = 0;
         }
     }       
+}
+
+void scanButtons(void)
+{
+    int buttonInputs[4];
+    
+    buttonInputs[0] = !fretted_latching_Read();
+    buttonInputs[1] = !up_Read();
+    buttonInputs[2] = !down_Read();
+    buttonInputs[3] = !enter_Read();
+    
+    for (int i = 0; i < 4; i++)
+    {
+        if (buttonInputs[i] && (buttonStates[i] == 1)) //subsequent down state
+        {
+            if (buttonCounters[i] < 60)
+            {
+                buttonCounters[i]++;
+            }
+        }
+        
+        if (buttonStates[i] == 0) //set to zero on first down
+        {
+             buttonCounters[i] = 0;
+        }
+        
+        buttonStates[i] =  buttonInputs[i] ;
+    }
+    
+    //fretted processing
+    if (buttonCounters[0] == 50)
+    {
+        frettedStateLatched = !frettedStateLatched;
+    }
+    
+    //check momentary fretted button
+    if (!fretted_momentary_Read())
+    {
+        frettedState = !frettedStateLatched;
+    }
+    else
+    {
+        frettedState = frettedStateLatched;
+    }
+    
+    //indicate fretted state
+    if (frettedState)
+    {
+        LED1_Write(1);
+    }
+    else
+    {
+        LED1_Write(0);
+    }
+    
+    
+    //up and down processing
+    //if up pressed
+    if (buttonCounters[1] == 50)
+    {
+        if (currentPresetSelection < highestPresetNumber)
+        {
+            currentPresetSelection++;
+        }
+        else
+        {
+            currentPresetSelection = 0;
+        }
+        
+        sendCurrentPresetNumber();
+        OLED_invert(1);
+        buttonCounters[1] = 52;
+    }
+    //if down pressed
+    if (buttonCounters[2] == 50)
+    {
+        if (currentPresetSelection > 0)
+        {
+            currentPresetSelection--;
+            
+        }
+        else
+        {
+            currentPresetSelection = highestPresetNumber;
+        }
+        sendCurrentPresetNumber();
+        OLED_invert(1);
+        buttonCounters[2] = 52;
+    }
+    //if enter pressed
+    if (buttonCounters[3] == 50)
+    {
+        sendCurrentPresetNumber();
+        presetNumberToLoad = currentPresetSelection;
+        sendingMessage = 3;
+        buttonCounters[3] = 52;
+    }
+        
+}
+
+void sendCurrentPresetNumber(void)
+{
+    OLED_writePresetFlashing();
 }

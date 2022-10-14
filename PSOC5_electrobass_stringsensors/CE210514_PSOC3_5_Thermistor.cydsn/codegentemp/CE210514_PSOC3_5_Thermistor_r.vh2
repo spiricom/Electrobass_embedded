@@ -1,5 +1,5 @@
 -- Project:   CE210514_PSOC3_5_Thermistor
--- Generated: 09/15/2022 13:53:07
+-- Generated: 10/13/2022 16:36:04
 -- PSoC Creator  4.4
 
 ENTITY CE210514_PSOC3_5_Thermistor IS
@@ -15,7 +15,7 @@ ENTITY CE210514_PSOC3_5_Thermistor IS
         ExtMUX_EN(0)_PAD : OUT std_ulogic;
         ExtMUXS1(0)_PAD : OUT std_ulogic;
         SPI_ready(0)_PAD : IN std_ulogic;
-        edit(0)_PAD : IN std_ulogic;
+        enter(0)_PAD : IN std_ulogic;
         CV_pedal_sense(0)_PAD : IN std_ulogic;
         SDA_1(0)_PAD : INOUT std_ulogic;
         SCL_1(0)_PAD : INOUT std_ulogic;
@@ -548,7 +548,7 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     SIGNAL blue_LED(0)__PA : bit;
     SIGNAL cv_pedal(0)__PA : bit;
     SIGNAL down(0)__PA : bit;
-    SIGNAL edit(0)__PA : bit;
+    SIGNAL enter(0)__PA : bit;
     SIGNAL fretted_latching(0)__PA : bit;
     SIGNAL fretted_momentary(0)__PA : bit;
     SIGNAL joy_x_25(0)__PA : bit;
@@ -641,8 +641,8 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE Location OF ExtMUXS1(0) : LABEL IS "P15[1]";
     ATTRIBUTE lib_model OF SPI_ready(0) : LABEL IS "iocell30";
     ATTRIBUTE Location OF SPI_ready(0) : LABEL IS "P0[6]";
-    ATTRIBUTE lib_model OF edit(0) : LABEL IS "iocell31";
-    ATTRIBUTE Location OF edit(0) : LABEL IS "P15[2]";
+    ATTRIBUTE lib_model OF enter(0) : LABEL IS "iocell31";
+    ATTRIBUTE Location OF enter(0) : LABEL IS "P15[2]";
     ATTRIBUTE lib_model OF CV_pedal_sense(0) : LABEL IS "iocell32";
     ATTRIBUTE Location OF CV_pedal_sense(0) : LABEL IS "P3[2]";
     ATTRIBUTE lib_model OF SDA_1(0) : LABEL IS "iocell33";
@@ -3808,7 +3808,7 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    edit:logicalport
+    enter:logicalport
         GENERIC MAP(
             drive_mode => "010",
             ibuf_enabled => "1",
@@ -3879,18 +3879,18 @@ BEGIN
             out_clock_en => open,
             out_reset => open);
 
-    edit(0):iocell
+    enter(0):iocell
         GENERIC MAP(
             in_sync_mode => 0,
             out_sync_mode => 0,
             oe_sync_mode => 0,
-            logicalport => "edit",
+            logicalport => "enter",
             logicalport_pin_id => 0,
             io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
         PORT MAP(
-            pa_out => edit(0)__PA,
+            pa_out => enter(0)__PA,
             oe => open,
-            pad_in => edit(0)_PAD,
+            pad_in => enter(0)_PAD,
             in_clock => open,
             in_clock_en => '1',
             in_reset => '0',
