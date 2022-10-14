@@ -20,6 +20,8 @@ enum SPIMessage
 	ReceivingMIDI,
 	ReceivingPreset,
 	ReceivingTuning,
+	LoadingPreset,
+	WaitingForLoadAck,
 	ReceivingEnd =  253
 };
 //selectable type number of possible values

@@ -70,6 +70,8 @@ void Error_Handler(void);
 /* USER CODE BEGIN EFP */
 float randomNumber(void);
 void CycleCounterInit( void );
+void __ATTR_ITCMRAM parseTuning(int size);
+
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

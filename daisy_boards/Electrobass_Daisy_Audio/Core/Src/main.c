@@ -62,9 +62,10 @@ void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 /* USER CODE BEGIN PFP */
 void MPU_Conf(void);
-static int checkForSDCardPreset(void);
+static int checkForSDCardPreset(uint8_t value);
 static void writePresetToSDCard(int fileSize);
-void parsePreset(int size);
+void parsePreset(int size, int presetNumber);
+void getPresetNamesFromSDCard(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -72,8 +73,8 @@ void parsePreset(int size);
 
 #define SPI_BUFFER_SIZE 32
 #define SPI_FRAME_SIZE 16
-uint8_t SPI_TX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
-uint8_t SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
+uint8_t volatile SPI_TX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
+uint8_t volatile SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
 
 uint8_t random_values[128] __ATTR_RAM_D2;
 uint8_t currentRandom = 0;
@@ -88,16 +89,24 @@ FILINFO fno;
 DIR dir;
 const TCHAR path = 0;
 
-
+#define MAX_NUM_PRESETS 20
 volatile uint8_t writingState = 0;
 volatile float 	audioMasterLevel = 1.0f;
 FIL fdst;
 volatile uint8_t buffer[4096];
 volatile uint16_t bufferPos = 0;
 FRESULT res;
-
+uint8_t presetNumberToSave;
+uint8_t presetNumberToLoad = 0;
+uint8_t tuningNumberToSave;
+uint8_t currentActivePreset = 0;
+uint8_t presetName[14];
+volatile uint8_t presetNamesArray[MAX_NUM_PRESETS][14];
+uint8_t whichPresetToSendName = 0;
+uint8_t tuningName[14];
 uint32_t presetWaitingToParse = 0;
 uint32_t presetWaitingToWrite = 0;
+uint32_t presetWaitingToLoad = 0;
 uint32_t tuningWaitingToParse = 0;
 uint32_t tuningWaitingToWrite = 0;
 
@@ -118,7 +127,7 @@ float lfoRateTable[SCALE_TABLE_SIZE];
 uint8_t volatile interruptChecker = 0;
 
 uint8_t volatile foundOne = 0;
-
+uint8_t loadFailed = 0;
 uint32_t volatile myTestInt = 0;
 
 /* USER CODE END 0 */
@@ -131,7 +140,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  //SCB_EnableICache();
+  SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -194,17 +203,18 @@ int main(void)
   {
 	  buffer[i] = 0;
   } //put in some values to make the array valid as a preset
-  buffer[1] = NUM_PARAMS;
-  buffer[NUM_PARAMS*2+2] = 0xef;
-  buffer[NUM_PARAMS*2+3] = 0xef;
-  buffer[NUM_PARAMS*2+5] = 1;
-  buffer[NUM_PARAMS*2+11] = 0xfe;
-  buffer[NUM_PARAMS*2+12] = 0xfe;
+  buffer[15] = NUM_PARAMS;
+  buffer[NUM_PARAMS*2+16] = 0xef;
+  buffer[NUM_PARAMS*2+17] = 0xef;
+  buffer[NUM_PARAMS*2+19] = 1;
+  buffer[NUM_PARAMS*2+25] = 0xfe;
+  buffer[NUM_PARAMS*2+26] = 0xfe;
   LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, SCALE_TABLE_SIZE);
   LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, SCALE_TABLE_SIZE);
   LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, SCALE_TABLE_SIZE);
 
-  foundOne  = checkForSDCardPreset();
+  getPresetNamesFromSDCard();
+  foundOne  = checkForSDCardPreset(presetNumberToLoad);
 
   codec_init(&hi2c2);
 
@@ -212,11 +222,11 @@ int main(void)
 
   if (foundOne == 0)
   {
-	  parsePreset(320); //default preset binary
+	  parsePreset((NUM_PARAMS*2)+27, 0); //default preset binary
   }
   else
   {
-	  parsePreset(presetWaitingToParse);
+	  parsePreset(presetWaitingToParse, presetNumberToLoad);
   }
 
   audio_start(&hsai_BlockB1, &hsai_BlockA1);
@@ -250,9 +260,14 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if (presetWaitingToLoad > 0)
+	  {
+		  checkForSDCardPreset(presetNumberToLoad);
+	  }
+
 	  if (presetWaitingToParse > 0)
 	  {
-		  parsePreset(presetWaitingToParse);
+		  parsePreset(presetWaitingToParse, presetNumberToLoad);
 	  }
 
 	  else if (presetWaitingToWrite > 0)
@@ -406,14 +421,13 @@ float  __ATTR_ITCMRAM randomNumber(void) {
 	return ((float)rand * INV_TWO_TO_32);
 }
 
-
-static int checkForSDCardPreset(void)
+void getPresetNamesFromSDCard(void)
 {
-	int found = 0;
 	if(BSP_SD_IsDetected())
 	{
 		diskBusy = 1;
-		HAL_Delay(300);
+		loadFailed = 0;
+		//HAL_Delay(300);
 
 		disk_initialize(0);
 
@@ -424,7 +438,94 @@ static int checkForSDCardPreset(void)
 
 			FRESULT res;
 			/* Start to search for preset files */
-			res = f_findfirst(&dir, &fno, SDPath, "1.ebp");
+
+
+			//turn the integer value into a 2 digit string
+			char charBuf[10];
+			char finalString[10];
+
+			for(int i = 0; i < MAX_NUM_PRESETS; i++)
+			{
+				itoa(i, charBuf, 10);
+				int len = ((strlen(charBuf)));
+				if (len == 1)
+				{
+					finalString[2] = charBuf[1];
+					finalString[1] = charBuf[0];
+					finalString[0] = '0';
+					strcat(finalString, ".ebp");
+				}
+
+				else
+				{
+					strcat(charBuf, ".ebp");
+					strcpy(finalString, charBuf);
+				}
+
+
+				res = f_findfirst(&dir, &fno, SDPath, finalString);
+				uint bytesRead;
+				if(res == FR_OK)
+				{
+					if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
+					{
+						f_read(&SDFile, &buffer, f_size(&SDFile), &bytesRead);
+						f_close(&SDFile);
+						for (int j = 0; j < 14; j++)
+						{
+							presetNamesArray[i][j] = buffer[j];
+						}
+					}
+				}
+			}
+
+		}
+
+	}
+	diskBusy = 0;
+	return;
+}
+
+static int checkForSDCardPreset(uint8_t numberToLoad)
+{
+	int found = 0;
+	if(BSP_SD_IsDetected())
+	{
+		diskBusy = 1;
+		loadFailed = 0;
+		//HAL_Delay(300);
+
+		disk_initialize(0);
+
+	    disk_status(0);
+
+		if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
+		{
+
+			FRESULT res;
+			/* Start to search for preset files */
+			char charBuf[10];
+			char finalString[10];
+
+			//turn the integer value into a 2 digit string
+
+			itoa(numberToLoad, charBuf, 10);
+			int len = ((strlen(charBuf)));
+			if (len == 1)
+			{
+				finalString[2] = charBuf[1];
+				finalString[1] = charBuf[0];
+				finalString[0] = '0';
+				strcat(finalString, ".ebp");
+			}
+
+			else
+			{
+				strcat(charBuf, ".ebp");
+				strcpy(finalString, charBuf);
+			}
+
+			res = f_findfirst(&dir, &fno, SDPath, finalString);
 			uint bytesRead;
 			if(res == FR_OK)
 			{
@@ -439,13 +540,16 @@ static int checkForSDCardPreset(void)
 						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 						HAL_Delay(50);
 					}
+
 				}
 			}
-			//f_closedir(&dir);
-			//f_mount(0, "", 0); //unmount
 		}
-
 	}
+	if (!found)
+	{
+		loadFailed = 1;
+	}
+	presetWaitingToLoad = 0;
 	diskBusy = 0;
 	return found;
 }
@@ -465,8 +569,32 @@ static void writePresetToSDCard(int fileSize)
 			//if(res == FR_OK)
 			{
 				diskBusy = 1;
+				//make sure the number is not above 2 digits
+			    if (presetNumberToSave > 99)
+			    {
+			        presetNumberToSave = 99;
+			    }
 
-				if(f_open(&SDFile, "1.ebp", FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
+				//turn the integer value into a 2 digit string
+				char charBuf[10];
+				char finalString[10];
+				itoa(presetNumberToSave, charBuf, 10);
+				int len = ((strlen(charBuf)));
+				if (len == 1)
+				{
+					finalString[2] = charBuf[1];
+					finalString[1] = charBuf[0];
+					finalString[0] = '0';
+					strcat(finalString, ".ebp");
+				}
+
+				else
+				{
+					strcat(charBuf, ".ebp");
+					strcpy(finalString, charBuf);
+				}
+
+				if(f_open(&SDFile, finalString, FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
 				{
 					uint bytesRead;
 					f_write(&SDFile, &buffer, fileSize, &bytesRead);
@@ -727,7 +855,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 			 //write the raw data as a preset number on the SD card
 			 bufferPos = 0;
 		 }
-
+		 presetNumberToSave = SPI_RX[offset + 1];
 		 uint8_t currentByte = offset+2; // first number says what it is 2nd number says which number it is
 
 		 for (int i = 0; i < 14; i++)
@@ -739,15 +867,16 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 	}
 	else if (SPI_RX[offset] == ReceivingTuning)
 	{
-		//if you aren't already writing a preset to memory, start the process
+		//if you aren't already writing a tuning to memory, start the process
 		 if (writingState != ReceivingTuning)
 		 {
-			 writingState = ReceivingTuning; // set the flag to let the mcu know that a preset write is in progress
+			 writingState = ReceivingTuning; // set the flag to let the mcu know that a tuning write is in progress
 			 diskBusy = 1;
 			 audioMasterLevel = 0.0f;
-			 //write the raw data as a preset number on the SD card
+			 //write the raw data as a tuning number on the SD card
 			 bufferPos = 0;
 		 }
+		 tuningNumberToSave = SPI_RX[offset + 1];
 		 uint8_t currentByte = offset+2; // first number says what it is 2nd number says which number it is
 
 		 for (int i = 0; i < 14; i++)
@@ -761,6 +890,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		if(writingState == ReceivingPreset)
 		{
 			 writingState = 0;
+			 presetNumberToLoad = presetNumberToSave;
 			 /* Parse into Audio Params */
 			 presetWaitingToParse = bufferPos;
 			 presetWaitingToWrite = bufferPos;
@@ -770,6 +900,50 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 			tuningWaitingToParse = bufferPos;
 			tuningWaitingToParse = bufferPos;
 		}
+	}
+
+	else if (SPI_RX[offset] == LoadingPreset)
+	{
+		uint8_t loadNumber = SPI_RX[offset+1];
+		if (loadNumber < MAX_NUM_PRESETS)
+		{
+			presetNumberToLoad = loadNumber;
+			whichPresetToSendName = loadNumber;
+			presetWaitingToLoad = 1;
+		}
+	}
+	if (SPI_RX[offset] == WaitingForLoadAck)
+	{
+		SPI_TX[offset] = 252;
+		if(!loadFailed)
+		{
+			SPI_TX[offset+1] = currentActivePreset;//this will change to the loaded preset number when parsing is finished
+		}
+		else
+		{
+			SPI_TX[offset+1] = 254; //load failed
+			SPI_TX[offset+2] = currentActivePreset; //tell the PSOC that it needs to show the old currently active preset, since the new load failed.
+		}
+	}
+	else
+	{
+		SPI_TX[offset] = 253; //special byte that says this is a preset name;
+		SPI_TX[offset+1] = whichPresetToSendName;
+		SPI_TX[offset+2] = presetNamesArray[whichPresetToSendName][0];
+		SPI_TX[offset+3] = presetNamesArray[whichPresetToSendName][1];
+		SPI_TX[offset+4] = presetNamesArray[whichPresetToSendName][2];
+		SPI_TX[offset+5] = presetNamesArray[whichPresetToSendName][3];
+		SPI_TX[offset+6] = presetNamesArray[whichPresetToSendName][4];
+		SPI_TX[offset+7] = presetNamesArray[whichPresetToSendName][5];
+		SPI_TX[offset+8] = presetNamesArray[whichPresetToSendName][6];
+		SPI_TX[offset+9] = presetNamesArray[whichPresetToSendName][7];
+		SPI_TX[offset+10] = presetNamesArray[whichPresetToSendName][8];
+		SPI_TX[offset+11] = presetNamesArray[whichPresetToSendName][9];
+		SPI_TX[offset+12] = presetNamesArray[whichPresetToSendName][10];
+		SPI_TX[offset+13] = presetNamesArray[whichPresetToSendName][11];
+		SPI_TX[offset+14] = presetNamesArray[whichPresetToSendName][12];
+		SPI_TX[offset+15] = presetNamesArray[whichPresetToSendName][13];
+		whichPresetToSendName = (whichPresetToSendName + 1) % MAX_NUM_PRESETS;
 	}
 
 }
@@ -919,7 +1093,7 @@ void __ATTR_ITCMRAM parseTuning(int size)
 	//now read the fractional midi
 	for (int i = 0; i < 128; i++)
 	{
-		fractionalMidi[i] =  ((buffer[bufferIndex] << 8) + buffer[bufferIndex+1]) / 512.f;
+		fractionalMidi[i] =  ((buffer[bufferIndex] << 8) + buffer[bufferIndex+1]) * 0.001953125f; // divide by 512.f
 
 		bufferIndex += 2;
 	}
@@ -929,7 +1103,7 @@ void __ATTR_ITCMRAM parseTuning(int size)
 	__enable_irq();
 }
 
-void __ATTR_ITCMRAM parsePreset(int size)
+void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 {
 	//turn off the volume while changing parameters
 	 __disable_irq();
@@ -940,9 +1114,16 @@ void __ATTR_ITCMRAM parsePreset(int size)
 	audioMasterLevel = 0.0f;
 	//osc params
 
-	uint16_t bufferIndex = 0;
-	//read first element in buffer as a count of how many parameters
-	uint16_t paramCount = (buffer[0] << 8) + buffer[1];
+
+
+	//read first 14 items in buffer as the 14 character string that is the name of the preset
+	for (int i = 0; i < 14; i++)
+	{
+		presetName[i] = buffer[i];
+		presetNamesArray[presetNumber][i] = buffer[i];
+	}
+	//read first element in buffer (after the 14 character name) as a count of how many parameters
+	uint16_t paramCount = (buffer[14] << 8) + buffer[15];
 	if (paramCount > size)
 	{
 		//error in transmission - give up and don't parse!
@@ -953,7 +1134,8 @@ void __ATTR_ITCMRAM parsePreset(int size)
 	}
 
 	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
-	uint16_t paramEndCheck = (buffer[paramCount*2+2] << 8) + buffer[paramCount*2+3];
+	//should make this a real checksum
+	uint16_t paramEndCheck = (buffer[paramCount*2+16] << 8) + buffer[paramCount*2+17];
 	if (paramEndCheck != 0xefef)
 	{
 		//error in transmission - give up and don't parse!
@@ -962,11 +1144,12 @@ void __ATTR_ITCMRAM parsePreset(int size)
 		__enable_irq();
 		return;
 	}
-	uint16_t mappingCount = (buffer[paramCount*2+4] << 8) + buffer[paramCount*2+5];
+	uint16_t mappingCount = (buffer[paramCount*2+18] << 8) + buffer[paramCount*2+19];
 
 
-
-	uint16_t mappingEndLocation = (paramCount * 2) + 6 + (mappingCount * 5);
+	//20 is the 6 bytes plus the 14 characters
+	//paramCount is * 2 because they are 2 bytes per param, mappingCount * 5 because they are 5 bytes per mapping
+	uint16_t mappingEndLocation = (paramCount * 2) + 20 + (mappingCount * 5);
 
 	if (mappingEndLocation > size)
 	{
@@ -991,8 +1174,8 @@ void __ATTR_ITCMRAM parsePreset(int size)
 
 
 
-	 //move past the count position in the buffer
-	bufferIndex += 2;
+	 //move past the name characters (14 bytes) and paramcount position (2 bytes) in the buffer to start parsing the parameter data
+	uint16_t bufferIndex = 16;
 
 	//now read the parameters
 	for (int i = 0; i < paramCount; i++)
@@ -1634,6 +1817,7 @@ void __ATTR_ITCMRAM parsePreset(int size)
 
 	audioMasterLevel = 1.0f;
 	presetWaitingToParse = 0;
+	currentActivePreset = presetNumber;
 	__enable_irq();
 }
 

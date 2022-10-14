@@ -35978,6 +35978,7 @@ Source: VISHAY wscwsn.pdf</description>
 </part>
 <part name="+3V14" library="supply1" deviceset="+3V3" device=""/>
 <part name="GND41" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
+<part name="GND42" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -37115,6 +37116,9 @@ Source: VISHAY wscwsn.pdf</description>
 <instance part="GND41" gate="G$1" x="447.04" y="58.42" smashed="yes">
 <attribute name="VALUE" x="444.5" y="53.34" size="1.778" layer="96"/>
 </instance>
+<instance part="GND42" gate="G$1" x="431.8" y="93.98" smashed="yes">
+<attribute name="VALUE" x="429.26" y="88.9" size="1.778" layer="96"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -37323,6 +37327,12 @@ Source: VISHAY wscwsn.pdf</description>
 <wire x1="424.18" y1="60.96" x2="447.04" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="GND41" gate="G$1" pin="DGND"/>
 <wire x1="447.04" y1="60.96" x2="447.04" y2="58.42" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U4" gate="A" pin="EPAD"/>
+<wire x1="424.18" y1="88.9" x2="424.18" y2="93.98" width="0.1524" layer="91"/>
+<pinref part="GND42" gate="G$1" pin="DGND"/>
+<wire x1="424.18" y1="93.98" x2="431.8" y2="93.98" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
