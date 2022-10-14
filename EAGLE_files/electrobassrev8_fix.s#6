@@ -35947,9 +35947,6 @@ Source: VISHAY wscwsn.pdf</description>
 <part name="JP5" library="custom" deviceset="20021121" device="">
 <attribute name="PARTNO" value="3221-10-0300-00"/>
 </part>
-<part name="C31" library="rcl" deviceset="C-US" device="C0603K" value=".1uf">
-<attribute name="PARTNO" value="CC0603KRX7R8BB104"/>
-</part>
 <part name="SUPPLY33" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
 <part name="GND35" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
 <part name="GND36" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
@@ -35989,6 +35986,9 @@ Source: VISHAY wscwsn.pdf</description>
 <attribute name="PARTNO" value="UMK107BJ105KA-T"/>
 </part>
 <part name="C46" library="rcl" deviceset="C-EU" device="C0603" value="1uf">
+<attribute name="PARTNO" value="UMK107BJ105KA-T"/>
+</part>
+<part name="C31" library="rcl" deviceset="C-EU" device="C0603" value="1uf">
 <attribute name="PARTNO" value="UMK107BJ105KA-T"/>
 </part>
 </parts>
@@ -37063,11 +37063,6 @@ Source: VISHAY wscwsn.pdf</description>
 <instance part="JP5" gate="G$1" x="325.12" y="119.38" smashed="yes" rot="R180">
 <attribute name="PARTNO" x="325.12" y="119.38" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="C31" gate="G$1" x="454.66" y="40.64" smashed="yes">
-<attribute name="PARTNO" x="454.66" y="40.64" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="455.676" y="41.275" size="1.778" layer="95"/>
-<attribute name="VALUE" x="455.676" y="36.449" size="1.778" layer="96"/>
-</instance>
 <instance part="SUPPLY33" gate="G$1" x="454.66" y="35.56" smashed="yes">
 <attribute name="VALUE" x="451.993" y="29.845" size="1.778" layer="96"/>
 </instance>
@@ -37150,6 +37145,11 @@ Source: VISHAY wscwsn.pdf</description>
 <attribute name="PARTNO" x="485.14" y="60.96" size="1.778" layer="96" display="off"/>
 <attribute name="NAME" x="486.664" y="61.341" size="1.778" layer="95"/>
 <attribute name="VALUE" x="486.664" y="56.261" size="1.778" layer="96"/>
+</instance>
+<instance part="C31" gate="G$1" x="454.66" y="40.64" smashed="yes">
+<attribute name="PARTNO" x="454.66" y="40.64" size="1.778" layer="96" display="off"/>
+<attribute name="NAME" x="456.184" y="41.021" size="1.778" layer="95"/>
+<attribute name="VALUE" x="456.184" y="35.941" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -37711,10 +37711,6 @@ Source: VISHAY wscwsn.pdf</description>
 <junction x="439.42" y="-73.66"/>
 </segment>
 <segment>
-<pinref part="C31" gate="G$1" pin="2"/>
-<pinref part="SUPPLY33" gate="G$1" pin="AGND"/>
-</segment>
-<segment>
 <pinref part="SUPPLY34" gate="G$1" pin="AGND"/>
 <wire x1="398.78" y1="20.32" x2="398.78" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="U4" gate="A" pin="VSSA"/>
@@ -37733,6 +37729,10 @@ Source: VISHAY wscwsn.pdf</description>
 <pinref part="C42" gate="G$1" pin="2"/>
 <wire x1="439.42" y1="12.7" x2="444.5" y2="12.7" width="0.1524" layer="91"/>
 <junction x="444.5" y="12.7"/>
+</segment>
+<segment>
+<pinref part="SUPPLY33" gate="G$1" pin="AGND"/>
+<pinref part="C31" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="STRING1_NECK" class="0">

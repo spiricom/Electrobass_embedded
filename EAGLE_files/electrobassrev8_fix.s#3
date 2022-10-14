@@ -37359,6 +37359,20 @@ Source: VISHAY wscwsn.pdf</description>
 <wire x1="424.18" y1="60.96" x2="447.04" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="GND41" gate="G$1" pin="DGND"/>
 <wire x1="447.04" y1="60.96" x2="447.04" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="447.04" y1="60.96" x2="452.12" y2="60.96" width="0.1524" layer="91"/>
+<junction x="447.04" y="60.96"/>
+<wire x1="452.12" y1="60.96" x2="452.12" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="C46" gate="G$1" pin="2"/>
+<pinref part="C45" gate="G$1" pin="2"/>
+<wire x1="485.14" y1="55.88" x2="474.98" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="C44" gate="G$1" pin="2"/>
+<wire x1="474.98" y1="55.88" x2="464.82" y2="55.88" width="0.1524" layer="91"/>
+<junction x="474.98" y="55.88"/>
+<pinref part="C43" gate="G$1" pin="2"/>
+<wire x1="464.82" y1="55.88" x2="454.66" y2="55.88" width="0.1524" layer="91"/>
+<junction x="464.82" y="55.88"/>
+<wire x1="452.12" y1="55.88" x2="454.66" y2="55.88" width="0.1524" layer="91"/>
+<junction x="454.66" y="55.88"/>
 </segment>
 <segment>
 <pinref part="U4" gate="A" pin="EPAD"/>
@@ -39852,19 +39866,6 @@ Source: VISHAY wscwsn.pdf</description>
 <wire x1="375.92" y1="22.86" x2="383.54" y2="22.86" width="0.1524" layer="91"/>
 <junction x="375.92" y="22.86"/>
 <label x="378.46" y="22.86" size="1.27" layer="95" rot="R90" xref="yes"/>
-</segment>
-</net>
-<net name="N$67" class="0">
-<segment>
-<pinref part="C46" gate="G$1" pin="2"/>
-<pinref part="C45" gate="G$1" pin="2"/>
-<wire x1="485.14" y1="55.88" x2="474.98" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="C44" gate="G$1" pin="2"/>
-<wire x1="474.98" y1="55.88" x2="464.82" y2="55.88" width="0.1524" layer="91"/>
-<junction x="474.98" y="55.88"/>
-<pinref part="C43" gate="G$1" pin="2"/>
-<wire x1="464.82" y1="55.88" x2="454.66" y2="55.88" width="0.1524" layer="91"/>
-<junction x="464.82" y="55.88"/>
 </segment>
 </net>
 </nets>
