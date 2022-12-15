@@ -265,5 +265,7 @@ void setFinalLowpass(float in, int v);
 
 extern float sourceValues[NUM_SOURCES];
 extern uint8_t lfoOn[NUM_LFOS];
+extern float oscAmpMult;
+extern float oscAmpMultArray[4];
 
 #endif /* INC_AUDIO_H_ */

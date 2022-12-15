@@ -167,28 +167,19 @@ void audio_init(void)
 	for(int i = 0; i < NUM_OSC; i++)
 	{
 		tMBSaw_init(&saw[i], &leaf);
-		tMBSaw_setBufferOffset(&saw[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+
 
 		tMBPulse_init(&pulse[i], &leaf);
-		tMBPulse_setBufferOffset(&pulse[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		tCycle_init(&sine[i], &leaf);
 
 		tMBTriangle_init(&tri[i], &leaf);
-		tMBTriangle_setBufferOffset(&tri[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		tMBSawPulse_init(&sawPaired[i], &leaf);
-		tMBSawPulse_setBufferOffset(&sawPaired[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		//should combine these into a sin/tri osc object in leaf to avoid the double computation of the phase since it's the same
 		tCycle_init(&sinePaired[i], &leaf);
 		tMBTriangle_init(&triPaired[i], &leaf);
-		tMBTriangle_setBufferOffset(&triPaired[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 	    tExpSmooth_init(&pitchSmoother[i], 64.0f, 0.01f, &leaf);
 	}
@@ -198,13 +189,12 @@ void audio_init(void)
 		tSVF_init(&lowpass[i], SVFTypeLowpass, 2000.f, 0.7f, &leaf);
 		tSVF_init(&highpass[i], SVFTypeHighpass, 2000.f, 0.7f, &leaf);
 		tSVF_init(&bandpass[i], SVFTypeBandpass, 2000.f, 0.7f, &leaf);
-		tDiodeFilter_init(&diodeFilters[i], 2000.f, 1.0f, &leaf);
+		tDiodeFilter_init(&diodeFilters[i], 2000.f, 0.5f, &leaf);
 		tVZFilter_init(&VZfilterPeak[i], Bell, 2000.f, 1.0f, &leaf);
 		tVZFilter_init(&VZfilterLS[i], Lowshelf, 2000.f, 1.0f, &leaf);
 		tVZFilter_init(&VZfilterHS[i], Highshelf, 2000.f, 1.0f, &leaf);
 		tVZFilter_init(&VZfilterBR[i], BandReject, 2000.f, 1.0f, &leaf);
 		tLadderFilter_init(&Ladderfilter[i], 2000.f, 1.0f, &leaf);
-
 	    tExpSmooth_init(&filterCutoffSmoother[i], 64.0f, 0.01f, &leaf);
 	}
 
@@ -248,7 +238,6 @@ void audio_init(void)
 		tVZFilter_setSampleRate(&shelf2[i], SAMPLE_RATE * OVERSAMPLE);
 		tVZFilter_setSampleRate(&bell1[i], SAMPLE_RATE * OVERSAMPLE);
 		tCompressor_init(&comp[i], &leaf);
-		tLockhartWavefolder_init(&wf[i], &leaf);
 		tLinearDelay_initToPool(&delay1[i], 4000.0f, 4096, &mediumPool);
 		tLinearDelay_initToPool(&delay2[i], 4000.0f, 4096, &mediumPool);
 		tCycle_init(&mod1[i], &leaf);
@@ -322,7 +311,7 @@ const int syncMap[3] = {2, 0, 1};
 uint32_t timeMIDI = 0;
 uint32_t timeFrame = 0;
 float frameLoadPercentage = 0.0f;
-
+float frameLoadMultiplier = 1.0f / (10000.0f * AUDIO_FRAME_SIZE);
 void __ATTR_ITCMRAM audioFrame(uint16_t buffer_offset)
 {
 	volatile uint32_t tmpCnt = 0;
@@ -353,7 +342,7 @@ void __ATTR_ITCMRAM audioFrame(uint16_t buffer_offset)
 	int32_t current_sample = 0;
 
 	//mono operation, no need to compute right channel. Also for loop iterating by 2 instead of 1 to avoid if statement.
-	for (int i = 0; i < (HALF_BUFFER_SIZE); i+=2)
+	for (int i = 0; i < HALF_BUFFER_SIZE; i+=2)
 	{
 		current_sample = (int32_t)(audioTickL() * TWO_TO_23);
 		audioOutBuffer[buffer_offset + i] = current_sample;
@@ -361,11 +350,13 @@ void __ATTR_ITCMRAM audioFrame(uint16_t buffer_offset)
 	}
 	timeFrame = DWT->CYCCNT - tempCountFrame;
 	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-	frameLoadPercentage = (float)timeFrame * 0.0003125f;
+	frameLoadPercentage = (float)timeFrame * frameLoadMultiplier;
 
 }
 
 float oscOuts[2][NUM_OSC];
+float oscAmpMult = 1.0f;
+float oscAmpMultArray[4] = {0.0f, 1.0f, 0.5f, 0.333333f};
 uint32_t timeOsc = 0;
 
 void __ATTR_ITCMRAM oscillator_tick(float note)
@@ -382,14 +373,11 @@ void __ATTR_ITCMRAM oscillator_tick(float note)
 		float shape = oscParams[OscShape].realVal;
 		float amp = oscParams[OscAmp].realVal;
 		float filterSend = oscParams[OscFilterSend].realVal;
-		int sync = roundf(oscParams[OscisSync].realVal);
+		int sync = oscParams[OscisSync].realVal > 0.5f; // probably faster than previous roundf version but haven't tested
 		float freqToSmooth = (note + (fine*0.01f));
 		tExpSmooth_setDest(&pitchSmoother[osc], freqToSmooth);
 		freqToSmooth = mtof(tExpSmooth_tick(&pitchSmoother[osc]));
 		float finalFreq = (freqToSmooth * freqMult[osc]) + freqOffset ;
-		//finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
-		//smoothing may not be necessary
-
 
 		float sample = 0.0f;
 
@@ -397,9 +385,10 @@ void __ATTR_ITCMRAM oscillator_tick(float note)
 
 		sample *= amp;
 
-		sourceValues[OSC_SOURCE_OFFSET + osc] = sample; // the define of zero may be wasteful
+		//sourceValues[OSC_SOURCE_OFFSET + osc] = sample; // the define of zero may be wasteful
+		sourceValues[osc] = sample;
 
-		sample *= INV_NUM_OSCS;
+		sample *= oscAmpMult; // divide down gain if more than one oscillator is sounding (computed at preset load)
 
 		oscOuts[0][osc] = sample * (filterSend) * oscParams[OscEnabled].realVal;
 		oscOuts[1][osc] = sample * (1.0f - filterSend) * oscParams[OscEnabled].realVal;
@@ -488,13 +477,12 @@ float __ATTR_ITCMRAM filter_tick(float* samples, float note)
 	for (int f = 0; f < NUM_FILT; f++)
 	{
 		param* filtParams = &params[FILTER_PARAMS_OFFSET + f * FilterParamsNum];
-		float MIDIcutoff = filtParams[FilterCutoff].realVal;
-		float keyFollow = filtParams[FilterKeyFollow].realVal;
 		float enabled = filtParams[FilterEnabled].realVal;
 		enabledFilt[f] = (enabled > 0.5f);
 		if (!enabledFilt[f]) continue;
 
-
+		float MIDIcutoff = filtParams[FilterCutoff].realVal;
+		float keyFollow = filtParams[FilterKeyFollow].realVal;
 		if (isnan(note))
 		{
 			note = 0.0f; //is this necessary?
@@ -520,7 +508,6 @@ float __ATTR_ITCMRAM filter_tick(float* samples, float note)
 	{
 		filterTick[1](&samples[1], 1, cutoff[1]);
 	}
-	;
 
 	timeFilt = DWT->CYCCNT - tempCount1;
 	return samples[1] + (samples[0] * sp);
@@ -641,24 +628,24 @@ void __ATTR_ITCMRAM  diodeLowpassSetQ(float q, int v)
 	tDiodeFilter_setQ(&diodeFilters[v], q);
 }
 
-void __ATTR_ITCMRAM  VZpeakSetQ(float bw, int v)
+void __ATTR_ITCMRAM  VZpeakSetQ(float q, int v)
 {
-	tVZFilter_setBandwidth(&VZfilterPeak[v], bw);
+	tVZFilter_setResonance(&VZfilterPeak[v], q);
 }
 
-void __ATTR_ITCMRAM  VZlowshelfSetQ(float bw, int v)
+void __ATTR_ITCMRAM  VZlowshelfSetQ(float q, int v)
 {
-	 tVZFilter_setBandwidth(&VZfilterLS[v], bw);
+	tVZFilter_setResonance(&VZfilterLS[v], q);
 }
 
-void __ATTR_ITCMRAM  VZhighshelfSetQ(float bw, int v)
+void __ATTR_ITCMRAM  VZhighshelfSetQ(float q, int v)
 {
-	 tVZFilter_setBandwidth(&VZfilterHS[v], bw);
+	tVZFilter_setResonance(&VZfilterHS[v], q);
 }
 
-void __ATTR_ITCMRAM  VZbandrejectSetQ(float bw, int v)
+void __ATTR_ITCMRAM  VZbandrejectSetQ(float q, int v)
 {
-	tVZFilter_setBandwidth(&VZfilterBR[v], bw);
+	tVZFilter_setResonance(&VZfilterBR[v], q);
 }
 
 void __ATTR_ITCMRAM  LadderLowpassSetQ(float q, int v)
@@ -830,7 +817,7 @@ void __ATTR_ITCMRAM tickMappings(void)
 
 }
 uint32_t timeTick = 0;
-
+uint32_t oversampleCount = 0;
 
 float __ATTR_ITCMRAM audioTickL(void)
 {
@@ -889,7 +876,6 @@ float __ATTR_ITCMRAM audioTickL(void)
         {
             oversamplerArray[i] = LEAF_clip(-1.0f, oversamplerArray[i], 1.0f);
         }
-		//sample = LEAF_clip(-1.0f, sample, 1.0f);
         //downsample to get back to normal sample rate
         sample = tOversampler_downsample(&os, oversamplerArray);
 
@@ -897,7 +883,7 @@ float __ATTR_ITCMRAM audioTickL(void)
 
     	uint32_t tempCount2 = DWT->CYCCNT;
 
-    	cycleCount[5] = tempCount2-tempCount1;
+    	oversampleCount = tempCount2-tempCount1;
     	sample = tSVF_tick(&finalLowpass, sample);
 		sample *= finalMaster;
 		sample = LEAF_clip(-1.0f, sample, 1.0f);
@@ -1261,11 +1247,35 @@ void __ATTR_ITCMRAM fxPostGainSet(float value, int v)
 float __ATTR_ITCMRAM wavefolderTick(float sample, int v)
 {
     sample = sample * param1[v] + ((param2[v] * param1[v]));
-    //sample = tLockhartWavefolder_tick(&wf[v],sample);
     float curFB = param3[v];
     float curFF = param4[v];
-    float ff = (curFF * tanhf(sample)) + ((1.0f - curFF) * sample); //these saturation functions could be soft clip or hard clip or tanh approx
-    float fb = curFB * tanhf(wfState[v]);
+
+    //softclip approx for tanh saturation in original code
+    float ffSample = sample;
+    if (ffSample <= -1.0f)
+    {
+    	ffSample = -1.0f;
+    } else if (ffSample >= 1.0f)
+    {
+    	ffSample = 1.0f;
+    }
+    ffSample = ffSample - ((ffSample * ffSample * ffSample)* 0.3333333f);
+    ffSample *= 1.499999f;
+    float ff = (curFF * ffSample) + ((1.0f - curFF) * sample);
+
+    //softclip approx for tanh saturation in original code
+    float fbSample = wfState[v];
+    if (fbSample <= -1.0f)
+    {
+    	fbSample = -1.0f;
+    } else if (fbSample >= 1.0f)
+    {
+    	fbSample = 1.0f;
+    }
+    fbSample = fbSample - ((fbSample * fbSample * fbSample)* 0.3333333f);
+    fbSample *= 1.499999f;
+    float fb = curFB * fbSample;
+
     wfState[v] = (ff + fb) - param5[v] * arm_sin_f32(TWO_PI * sample); //maybe switch for our own sine lookup (avoid the if statements in the CMSIS code)
     sample = wfState[v] * invCurFB[v];
     sample = tHighpass_tick(&dcBlock1[v], sample);
@@ -1529,7 +1539,7 @@ tVZFilter_setGain(&FXVZfilterLS[v], fasterdbtoa((value * 50.f) - 25.f));
 
 void FXHighShelfParam2(float value, int v)
 {
-	tVZFilter_setGain(&FXVZfilterLS[v], fasterdbtoa((value * 50.f) - 25.f));
+	tVZFilter_setGain(&FXVZfilterHS[v], fasterdbtoa((value * 50.f) - 25.f));
 }
 
 void FXNotchParam2(float value, int v)
@@ -1540,7 +1550,7 @@ void FXNotchParam2(float value, int v)
 //resonance params
 void FXLowpassParam3(float value, int v)
 {
- tSVF_setQ(&FXlowpass[v], value);
+	tSVF_setQ(&FXlowpass[v], value);
 }
 
 void FXHighpassParam3(float value, int v)
@@ -1561,25 +1571,25 @@ void FXDiodeParam3(float value, int v)
 
 void FXPeakParam3(float value, int v)
 {
-	tVZFilter_setBandwidth(&FXVZfilterPeak[v], value);
+	tVZFilter_setResonance(&FXVZfilterPeak[v], value);
 }
 
 
 void FXLowShelfParam3(float value, int v)
 {
-	 tVZFilter_setBandwidth(&FXVZfilterLS[v], value);
+	tVZFilter_setResonance(&FXVZfilterLS[v], value);
 }
 
 
 void FXHighShelfParam3(float value, int v)
 {
-	 tVZFilter_setBandwidth(&FXVZfilterHS[v], value);
+	tVZFilter_setResonance(&FXVZfilterHS[v], value);
 }
 
 
 void FXNotchParam3(float value, int v)
 {
-	tVZFilter_setBandwidth(&FXVZfilterBR[v], value);
+	tVZFilter_setResonance(&FXVZfilterBR[v], value);
 }
 
 
@@ -1607,7 +1617,9 @@ void __ATTR_ITCMRAM noiseSetGain(float value, int v)
 
 void __ATTR_ITCMRAM noiseSetFreq(float value, int v)
 {
-	tVZFilter_setFrequencyAndResonance(&noiseBell1, faster_mtof(value * 77.0f + 42.0f), 1.9f);
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tVZFilter_setFreqFast(&noiseBell1, value);
 }
 void __ATTR_ITCMRAM noise_tick()
 {
@@ -1616,19 +1628,15 @@ void __ATTR_ITCMRAM noise_tick()
 	float filterSend = params[NoiseFilterSend].realVal;
 	amp = amp < 0.f ? 0.f : amp;
 
-
-
-	//float sample = tSVF_tick(&bandpass[v], tNoise_tick(&noise[v])) * amp;
 	float sample = tNoise_tick(&noise);
 	sample = tVZFilter_tickEfficient(&noiseShelf1, sample);
 	sample = tVZFilter_tickEfficient(&noiseShelf2, sample);
 	sample = tVZFilter_tickEfficient(&noiseBell1, sample);
 	sample = sample * amp;
 	float normSample = (sample + 1.f) * 0.5f;
-	//float normSample = sample;
 	sourceValues[3] = normSample;
-	noiseOuts[0] = sample* filterSend*  enabled;
-	noiseOuts[1] = sample*(1.f-filterSend) * enabled ;
+	noiseOuts[0] = sample * filterSend *  enabled;
+	noiseOuts[1] = sample * (1.f-filterSend) * enabled ;
 
 }
 

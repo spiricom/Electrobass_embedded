@@ -73,14 +73,14 @@ void getPresetNamesFromSDCard(void);
 
 #define SPI_BUFFER_SIZE 32
 #define SPI_FRAME_SIZE 16
-uint8_t volatile SPI_TX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
-uint8_t volatile SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
+uint8_t SPI_TX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
+uint8_t SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
 
 uint8_t random_values[128] __ATTR_RAM_D2;
 uint8_t currentRandom = 0;
 
 
-uint8_t volatile bootloaderFlag[32] __ATTR_USER_FLASH;
+uint8_t bootloaderFlag[32] __ATTR_USER_FLASH;
 uint8_t resetFlag = 0;
 
 uint8_t diskBusy = 0;
@@ -93,7 +93,7 @@ const TCHAR path = 0;
 volatile uint8_t writingState = 0;
 volatile float 	audioMasterLevel = 1.0f;
 FIL fdst;
-volatile uint8_t buffer[4096];
+uint8_t buffer[4096];
 volatile uint16_t bufferPos = 0;
 FRESULT res;
 uint8_t presetNumberToSave;
@@ -209,9 +209,9 @@ int main(void)
   buffer[NUM_PARAMS*2+19] = 1;
   buffer[NUM_PARAMS*2+25] = 0xfe;
   buffer[NUM_PARAMS*2+26] = 0xfe;
-  LEAF_generate_table_skew_non_sym(&resTable, 0.01f, 10.0f, 0.5f, SCALE_TABLE_SIZE);
-  LEAF_generate_table_skew_non_sym(&envTimeTable, 0.0f, 20000.0f, 4000.0f, SCALE_TABLE_SIZE);
-  LEAF_generate_table_skew_non_sym(&lfoRateTable, 0.0f, 30.0f, 2.0f, SCALE_TABLE_SIZE);
+  LEAF_generate_table_skew_non_sym(resTable, 0.01f, 10.0f, 0.5f, SCALE_TABLE_SIZE);
+  LEAF_generate_table_skew_non_sym(envTimeTable, 0.0f, 20000.0f, 4000.0f, SCALE_TABLE_SIZE);
+  LEAF_generate_table_skew_non_sym(lfoRateTable, 0.0f, 30.0f, 2.0f, SCALE_TABLE_SIZE);
 
   getPresetNamesFromSDCard();
   foundOne  = checkForSDCardPreset(presetNumberToLoad);
@@ -987,7 +987,7 @@ float __ATTR_ITCMRAM scaleTranspose(float input)
 float __ATTR_ITCMRAM scalePitchBend(float input)
 {
 	input = LEAF_clip(0.f, input, 1.f);
-	return (input * 24.0f);
+	return (input * 48.0f);
 }
 
 float __ATTR_ITCMRAM scaleFilterCutoff(float input)
@@ -1048,7 +1048,6 @@ void blankFunction(float a, int b)
 	;
 }
 
-static int bufferaaa = 0;
 void __ATTR_ITCMRAM parseTuning(int size)
 {
 	//turn off the volume while changing parameters
@@ -1251,6 +1250,8 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 		params[i].realVal = params[i].scaleFunc(params[i].zeroToOneVal);
 	}
 
+	uint8_t enabledCount = 0;
+
 	for (int i = 0; i < NUM_OSC; i++)
 	{
 		int oscshape = roundf(params[Osc1ShapeSet + (OscParamsNum * i)].realVal * (NUM_OSC_SHAPES-1));
@@ -1279,8 +1280,14 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 				  break;
 			  default:
 				  break;
+		}
+		if (params[Osc1 + (OscParamsNum * i)].realVal  > 0.5f)
+		{
+			enabledCount++;
+		}
 	}
-
+	//set amplitude of oscillators based on how many are enabled
+	oscAmpMult = oscAmpMultArray[enabledCount];
 
 	for (int i = 0; i < NUM_FILT; i++)
 	{
@@ -1334,7 +1341,6 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 				  break;
 			  default:
 				  break;
-			}
 		}
 	}
 
