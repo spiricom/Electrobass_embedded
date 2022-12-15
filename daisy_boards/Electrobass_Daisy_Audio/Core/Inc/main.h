@@ -57,6 +57,7 @@ extern volatile float audioMasterLevel;
 extern uint8_t numMappings;
 extern uint8_t diskBusy;
 extern uint8_t volatile interruptChecker;
+extern float random_values[256];
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

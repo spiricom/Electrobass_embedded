@@ -76,7 +76,7 @@ void getPresetNamesFromSDCard(void);
 uint8_t SPI_TX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
 uint8_t SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2;
 
-uint8_t random_values[128] __ATTR_RAM_D2;
+float random_values[256] __ATTR_DTCMRAM;
 uint8_t currentRandom = 0;
 
 
@@ -292,9 +292,7 @@ int main(void)
 		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 	  }
 	  float floatrand = (float)rand * INV_TWO_TO_32 ;
-	  random_values[currentRandom] = floatrand * 255.0f;
-	  currentRandom = (currentRandom + 1) & 128;
-
+	  random_values[currentRandom++] = (floatrand * 2.0f) - 1.0f;
 	  /*
 
 	  */
@@ -1188,6 +1186,14 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 		params[i].setParam = &blankFunction;
 
 		bufferIndex += 2;
+	}
+
+	//if loading old presets that don't have as many params, blank out the empty slots
+	for (int i = paramCount; i < NUM_PARAMS; i++)
+	{
+		params[i].zeroToOneVal = 0.0f;
+		params[i].scaleFunc = &scaleDefault;
+		params[i].setParam = &blankFunction;
 	}
 
 

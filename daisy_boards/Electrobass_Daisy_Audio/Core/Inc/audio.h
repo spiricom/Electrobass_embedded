@@ -77,7 +77,7 @@ void sendPitchBend(uint8_t value, uint8_t ctrl);
 #define DECAY_EXP_BUFFER_SIZE 4096
 
 
-#define CTRL_MIDI_START 17
+#define CTRL_MIDI_START 9
 
 
 void setTranspose(float in, int v);
