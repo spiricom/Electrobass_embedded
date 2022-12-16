@@ -39,9 +39,8 @@ tMBTriangle tri[NUM_OSC];
 
 // Using seperate objects for pairs to easily maintain phase relation
 tMBSawPulse sawPaired[NUM_OSC];
-tMBPulse pulsePaired[NUM_OSC];
-tCycle sinePaired[NUM_OSC];
-tMBTriangle triPaired[NUM_OSC];
+tMBSineTri sinePaired[NUM_OSC];
+
 
 tWaveOscS wave[NUM_OSC];
 
@@ -168,7 +167,6 @@ void audio_init(void)
 	{
 		tMBSaw_init(&saw[i], &leaf);
 
-
 		tMBPulse_init(&pulse[i], &leaf);
 
 		tCycle_init(&sine[i], &leaf);
@@ -177,9 +175,7 @@ void audio_init(void)
 
 		tMBSawPulse_init(&sawPaired[i], &leaf);
 
-		//should combine these into a sin/tri osc object in leaf to avoid the double computation of the phase since it's the same
-		tCycle_init(&sinePaired[i], &leaf);
-		tMBTriangle_init(&triPaired[i], &leaf);
+		tMBSineTri_init(&sinePaired[i], &leaf);
 
 	    tExpSmooth_init(&pitchSmoother[i], 64.0f, 0.01f, &leaf);
 	}
@@ -411,14 +407,13 @@ void __ATTR_ITCMRAM  sawSquareTick(float* sample, int v, float freq, float shape
 
 void __ATTR_ITCMRAM  sineTriTick(float* sample, int v, float freq, float shape, int sync)
 {
-    tCycle_setFreq(&sinePaired[v], freq);
-    tMBTriangle_setFreq(&triPaired[v], freq);
+    tMBSineTri_setFreq(&sinePaired[v], freq);
+    tMBSineTri_setShape(&sinePaired[v],shape);
     if (sync)
     {
-    	tMBTriangle_sync(&triPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+    	tMBSineTri_sync(&sinePaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
     }
-    *sample += tCycle_tick(&sinePaired[v]) * (1.0f - shape);
-    *sample += tMBTriangle_tick(&triPaired[v]) * shape * 2.f;;
+    *sample += tMBSineTri_tick(&sinePaired[v]) * 2.0f;
 }
 
 void __ATTR_ITCMRAM  sawTick(float* sample, int v, float freq, float shape, int sync)
