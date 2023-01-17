@@ -214,7 +214,7 @@ int main(void)
 
   for (int i = 0; i < NUM_ADC_CHANNELS; i++)
   {
-  	tThreshold_init(&threshold[i],0.02f * (float)storedMaximums[i], 0.06f * (float)storedMaximums[i], &leaf);//.01 .05
+  	tThreshold_init(&threshold[i],250.0f, 350.0f, &leaf);//.01 .05
   	tSlide_init(&fastSlide[i],1.0f,500.0f, &leaf); //500
   	tSlide_init(&slowSlide[i],1.0f,1000.0f, &leaf); //500 //1000
 
@@ -222,7 +222,7 @@ int main(void)
   	for (int j = 0; j < FILTER_ORDER; j++)
   	{
   		tVZFilter_init(&opticalLowpass[i][j], Lowpass, 2000.0f, 0.2f, &leaf); //1000
-  		tHighpass_init(&opticalHighpass[i][j], 10.0f, &leaf); //100
+  		tHighpass_init(&opticalHighpass[i][j], 50.0f, &leaf); //100
   	}
   }
   HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
@@ -470,8 +470,9 @@ int testAnalog2 = 0;
 float maxFlo[NUM_STRINGS] = {0.0f,0.0f,0.0f,0.0f};
 float minFlo[NUM_STRINGS] = {0.0f,0.0f,0.0f,0.0f};
 uint8_t numQuietFails[NUM_STRINGS] = {0,0,0,0};
+uint8_t countingDown[NUM_STRINGS] = {0,0,0,0};
 
-int attackDetectPeak2 (int whichString, int tempInt)
+int attackDetectPeak2 (int whichString, uint16_t tempInt)
 {
 	float output = -1;
 
@@ -481,18 +482,28 @@ int attackDetectPeak2 (int whichString, int tempInt)
 	}
 	float tempSamp = (((float)tempInt - TWO_TO_15) * INV_TWO_TO_15);
 #ifdef MAPLE1
-	tempSamp = tempSamp * stringScaling[whichString] * 2.0f;
+	//tempSamp = tempSamp * stringScaling[whichString] * 2.0f;
 #elif defined GREEN3
-	tempSamp = tempSamp * stringScaling2[whichString] * 2.0f;
+	//tempSamp = tempSamp * stringScaling2[whichString] * 2.0f;
 #else
 	tempSamp = tempSamp;
 #endif
 	for (int k = 0; k < FILTER_ORDER; k++)
 	{
 		// a highpass filter, remove any slow moving signal (effectively centers the signal around zero and gets rid of the signal that isn't high frequency vibration) cutoff of 100Hz, // applied 8 times to get rid of a lot of low frequency bumbling around
-		tempSamp = tHighpass_tick(&opticalHighpass[whichString][k], tempSamp * 0.999f);
-		//tempSamp = tVZFilter_tickEfficient(&opticalLowpass[whichString][k], tempSamp);
+		tempSamp = tHighpass_tick(&opticalHighpass[whichString][k], tempSamp * 0.5f);
+		tempSamp = tVZFilter_tickEfficient(&opticalLowpass[whichString][k], tempSamp);
 	}
+/*
+	if (tempSamp > 1.0f)
+	{
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
+	}
+	else if (tempSamp < -1.0f)
+	{
+		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_11);
+	}
+	*/
 	testAnalog2 = (tempSamp * TWO_TO_15) + TWO_TO_15;
 	float tempAbs = fabsf(tempSamp);
 	tempAbsInt[whichString] = (tempAbs * (TWO_TO_16 - 1));
@@ -500,13 +511,13 @@ int attackDetectPeak2 (int whichString, int tempInt)
 	smoothedInt[whichString] = (Dsmoothed * (TWO_TO_16 - 1));
 	Dsmoothed2 = tSlide_tick(&slowSlide[whichString], Dsmoothed);
 
-
-
 	Dsmoothed2 = LEAF_clip(0.0f, Dsmoothed2, 1.0f);
 	smoothedInt2[whichString] = (Dsmoothed2 * (TWO_TO_16 - 1));
+
 	if (whichString == 0)
 	{
-		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, (uint16_t)testAnalog2 >> 4);
+		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, testAnalog2 >> 4);
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, smoothedInt2[whichString] >> 4);
 	}
 	//dbSmoothed2 = atodb(Dsmoothed2);
 	dbSmoothed2 = LEAF_clip(-80.0f, atodbTable[(uint32_t)(Dsmoothed2 * ATODB_TABLE_SIZE_MINUS_ONE)], 12.0f);
@@ -549,6 +560,8 @@ int attackDetectPeak2 (int whichString, int tempInt)
 		stringMaxes[whichString] = 0;
 		maxFlo[whichString] = 0.0f;
 		minFlo[whichString] = 0.0f;
+		countingDown[whichString] = 0;
+		outcountdown[whichString] = -1;
 		if (whichString == 0)
 		{
 			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_SET);
@@ -620,7 +633,7 @@ int attackDetectPeak2 (int whichString, int tempInt)
 
 		}
 
-		if (outcountdown[whichString] > 0)
+		if ((outcountdown[whichString] > 0) && (countingDown[whichString]))
 		{
 			outcountdown[whichString]--;
 
@@ -634,7 +647,8 @@ int attackDetectPeak2 (int whichString, int tempInt)
 			{
 				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);
 			}
-			outcountdown[whichString] = 64; //was 64/maybe sometimes gets rh touch release a little early if sensitivity is too low? Saw this on a scope reading and it was 1.4ms early so adding a 1.4ms delay to compensate
+			outcountdown[whichString] = 210; //was 64/maybe sometimes gets rh touch release a little early if sensitivity is too low? Saw this on a scope reading and it was 1.4ms early so adding a 1.4ms delay to compensate
+			countingDown[whichString] = 1;
 		}
 		else if ((outcountdown[whichString] == 0) || ((armedCounter[whichString] == 1) && (!stringTouchRH[whichString])))
 		{
@@ -656,6 +670,7 @@ int attackDetectPeak2 (int whichString, int tempInt)
 					downCounter[whichString] = 0;
 					stringMaxes[whichString] = 0;
 					outcountdown[whichString] = -1;
+					countingDown[whichString] = 0;
 					if ((whichString == 0) && (output > 0))
 					{
 						HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
@@ -679,7 +694,7 @@ int attackDetectPeak2 (int whichString, int tempInt)
 	#ifdef MAPLE1
 				output = LEAF_clip(0.0f, output * 4.0f, 65535.0f);
 	#else
-				output = LEAF_clip(0.0f, output * 2.0f, 65535.0f);
+				output = LEAF_clip(0.0f, output, 65535.0f);
 	#endif
 				testAnalog = output;
 				if (whichString == 0)
@@ -691,6 +706,7 @@ int attackDetectPeak2 (int whichString, int tempInt)
 				downCounter[whichString] = 0;
 				stringMaxes[whichString] = 0;
 				outcountdown[whichString] = -1;
+				countingDown[whichString] = 0;
 				if ((whichString == 0) && (output > 0))
 				{
 					HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
@@ -727,6 +743,8 @@ void ADC_Frame(int offset)
 	adcBytes[2] = ADC_values[offset*2] >> 16;
 	adcBytes[3] = ADC_values[offset*2 + 1] >> 16;
 
+	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, adcBytes[0] >> 4);
+	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, adcBytes[1] >> 4);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 	for (int i = offset; i < ADC_FRAME_SIZE + offset; i++)
 	{
@@ -737,7 +755,7 @@ void ADC_Frame(int offset)
 		}
 		for (int j = 0; j < 4; j++)
 		{
-			int tempInt = adcBytes[j];
+			uint16_t tempInt = adcBytes[j];
 
 			didPlucked[j] = attackDetectPeak2(j, tempInt);
 

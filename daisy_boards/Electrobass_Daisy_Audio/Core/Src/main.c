@@ -140,7 +140,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  SCB_EnableICache();
+  //SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
