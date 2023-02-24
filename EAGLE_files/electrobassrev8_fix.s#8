@@ -35947,9 +35947,6 @@ Source: VISHAY wscwsn.pdf</description>
 <part name="JP5" library="custom" deviceset="20021121" device="">
 <attribute name="PARTNO" value="3221-10-0300-00"/>
 </part>
-<part name="C31" library="rcl" deviceset="C-US" device="C0603K" value=".1uf">
-<attribute name="PARTNO" value="CC0603KRX7R8BB104"/>
-</part>
 <part name="SUPPLY33" library="PatternAgents-Beautify" deviceset="AGND" device=""/>
 <part name="GND35" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
 <part name="GND36" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
@@ -35979,6 +35976,21 @@ Source: VISHAY wscwsn.pdf</description>
 <part name="+3V14" library="supply1" deviceset="+3V3" device=""/>
 <part name="GND41" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
 <part name="GND42" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
+<part name="C43" library="rcl" deviceset="C-US" device="C0603K" value=".1uf">
+<attribute name="PARTNO" value="CC0603KRX7R8BB104"/>
+</part>
+<part name="C44" library="rcl" deviceset="C-US" device="C0603K" value=".1uf">
+<attribute name="PARTNO" value="CC0603KRX7R8BB104"/>
+</part>
+<part name="C45" library="rcl" deviceset="C-EU" device="C0603" value="1uf">
+<attribute name="PARTNO" value="UMK107BJ105KA-T"/>
+</part>
+<part name="C46" library="rcl" deviceset="C-EU" device="C0603" value="1uf">
+<attribute name="PARTNO" value="UMK107BJ105KA-T"/>
+</part>
+<part name="C31" library="rcl" deviceset="C-EU" device="C0603" value="1uf">
+<attribute name="PARTNO" value="UMK107BJ105KA-T"/>
+</part>
 </parts>
 <sheets>
 <sheet>
@@ -37051,11 +37063,6 @@ Source: VISHAY wscwsn.pdf</description>
 <instance part="JP5" gate="G$1" x="325.12" y="119.38" smashed="yes" rot="R180">
 <attribute name="PARTNO" x="325.12" y="119.38" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="C31" gate="G$1" x="454.66" y="40.64" smashed="yes">
-<attribute name="PARTNO" x="454.66" y="40.64" size="1.778" layer="96" display="off"/>
-<attribute name="NAME" x="455.676" y="41.275" size="1.778" layer="95"/>
-<attribute name="VALUE" x="455.676" y="36.449" size="1.778" layer="96"/>
-</instance>
 <instance part="SUPPLY33" gate="G$1" x="454.66" y="35.56" smashed="yes">
 <attribute name="VALUE" x="451.993" y="29.845" size="1.778" layer="96"/>
 </instance>
@@ -37118,6 +37125,31 @@ Source: VISHAY wscwsn.pdf</description>
 </instance>
 <instance part="GND42" gate="G$1" x="431.8" y="93.98" smashed="yes">
 <attribute name="VALUE" x="429.26" y="88.9" size="1.778" layer="96"/>
+</instance>
+<instance part="C43" gate="G$1" x="454.66" y="60.96" smashed="yes">
+<attribute name="PARTNO" x="454.66" y="60.96" size="1.778" layer="96" display="off"/>
+<attribute name="NAME" x="455.676" y="61.595" size="1.778" layer="95"/>
+<attribute name="VALUE" x="455.676" y="56.769" size="1.778" layer="96"/>
+</instance>
+<instance part="C44" gate="G$1" x="464.82" y="60.96" smashed="yes">
+<attribute name="PARTNO" x="464.82" y="60.96" size="1.778" layer="96" display="off"/>
+<attribute name="NAME" x="465.836" y="61.595" size="1.778" layer="95"/>
+<attribute name="VALUE" x="465.836" y="56.769" size="1.778" layer="96"/>
+</instance>
+<instance part="C45" gate="G$1" x="474.98" y="60.96" smashed="yes">
+<attribute name="PARTNO" x="474.98" y="60.96" size="1.778" layer="96" display="off"/>
+<attribute name="NAME" x="476.504" y="61.341" size="1.778" layer="95"/>
+<attribute name="VALUE" x="476.504" y="56.261" size="1.778" layer="96"/>
+</instance>
+<instance part="C46" gate="G$1" x="485.14" y="60.96" smashed="yes">
+<attribute name="PARTNO" x="485.14" y="60.96" size="1.778" layer="96" display="off"/>
+<attribute name="NAME" x="486.664" y="61.341" size="1.778" layer="95"/>
+<attribute name="VALUE" x="486.664" y="56.261" size="1.778" layer="96"/>
+</instance>
+<instance part="C31" gate="G$1" x="454.66" y="40.64" smashed="yes">
+<attribute name="PARTNO" x="454.66" y="40.64" size="1.778" layer="96" display="off"/>
+<attribute name="NAME" x="456.184" y="41.021" size="1.778" layer="95"/>
+<attribute name="VALUE" x="456.184" y="35.941" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -37470,6 +37502,18 @@ Source: VISHAY wscwsn.pdf</description>
 <pinref part="+3V14" gate="G$1" pin="+3V3"/>
 <pinref part="U4" gate="A" pin="VDDD"/>
 <wire x1="447.04" y1="63.5" x2="424.18" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="C43" gate="G$1" pin="1"/>
+<wire x1="447.04" y1="63.5" x2="454.66" y2="63.5" width="0.1524" layer="91"/>
+<junction x="447.04" y="63.5"/>
+<pinref part="C44" gate="G$1" pin="1"/>
+<wire x1="454.66" y1="63.5" x2="464.82" y2="63.5" width="0.1524" layer="91"/>
+<junction x="454.66" y="63.5"/>
+<pinref part="C45" gate="G$1" pin="1"/>
+<wire x1="464.82" y1="63.5" x2="474.98" y2="63.5" width="0.1524" layer="91"/>
+<junction x="464.82" y="63.5"/>
+<pinref part="C46" gate="G$1" pin="1"/>
+<wire x1="474.98" y1="63.5" x2="485.14" y2="63.5" width="0.1524" layer="91"/>
+<junction x="474.98" y="63.5"/>
 </segment>
 </net>
 <net name="AGND" class="0">
@@ -37667,10 +37711,6 @@ Source: VISHAY wscwsn.pdf</description>
 <junction x="439.42" y="-73.66"/>
 </segment>
 <segment>
-<pinref part="C31" gate="G$1" pin="2"/>
-<pinref part="SUPPLY33" gate="G$1" pin="AGND"/>
-</segment>
-<segment>
 <pinref part="SUPPLY34" gate="G$1" pin="AGND"/>
 <wire x1="398.78" y1="20.32" x2="398.78" y2="22.86" width="0.1524" layer="91"/>
 <pinref part="U4" gate="A" pin="VSSA"/>
@@ -37689,6 +37729,10 @@ Source: VISHAY wscwsn.pdf</description>
 <pinref part="C42" gate="G$1" pin="2"/>
 <wire x1="439.42" y1="12.7" x2="444.5" y2="12.7" width="0.1524" layer="91"/>
 <junction x="444.5" y="12.7"/>
+</segment>
+<segment>
+<pinref part="SUPPLY33" gate="G$1" pin="AGND"/>
+<pinref part="C31" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="STRING1_NECK" class="0">
@@ -39713,11 +39757,12 @@ Source: VISHAY wscwsn.pdf</description>
 <label x="477.52" y="-119.38" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="N$62" class="0">
+<net name="ADCBYPASS" class="0">
 <segment>
 <pinref part="U4" gate="A" pin="P0[3]_(GPIO"/>
 <wire x1="424.18" y1="43.18" x2="454.66" y2="43.18" width="0.1524" layer="91"/>
 <pinref part="C31" gate="G$1" pin="1"/>
+<label x="454.66" y="43.18" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="PROG_RESET" class="0">
@@ -39778,7 +39823,7 @@ Source: VISHAY wscwsn.pdf</description>
 <junction x="439.42" y="20.32"/>
 </segment>
 </net>
-<net name="N$66" class="0">
+<net name="VDDA_1" class="0">
 <segment>
 <pinref part="U4" gate="A" pin="VDDA"/>
 <pinref part="C33" gate="G$1" pin="1"/>
@@ -39786,6 +39831,7 @@ Source: VISHAY wscwsn.pdf</description>
 <pinref part="C41" gate="G$1" pin="1"/>
 <wire x1="452.12" y1="25.4" x2="459.74" y2="25.4" width="0.1524" layer="91"/>
 <junction x="452.12" y="25.4"/>
+<label x="459.74" y="25.4" size="1.27" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="VCCD_1" class="0">
@@ -39806,6 +39852,19 @@ Source: VISHAY wscwsn.pdf</description>
 <wire x1="375.92" y1="22.86" x2="383.54" y2="22.86" width="0.1524" layer="91"/>
 <junction x="375.92" y="22.86"/>
 <label x="378.46" y="22.86" size="1.27" layer="95" rot="R90" xref="yes"/>
+</segment>
+</net>
+<net name="N$67" class="0">
+<segment>
+<pinref part="C46" gate="G$1" pin="2"/>
+<pinref part="C45" gate="G$1" pin="2"/>
+<wire x1="485.14" y1="55.88" x2="474.98" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="C44" gate="G$1" pin="2"/>
+<wire x1="474.98" y1="55.88" x2="464.82" y2="55.88" width="0.1524" layer="91"/>
+<junction x="474.98" y="55.88"/>
+<pinref part="C43" gate="G$1" pin="2"/>
+<wire x1="464.82" y1="55.88" x2="454.66" y2="55.88" width="0.1524" layer="91"/>
+<junction x="464.82" y="55.88"/>
 </segment>
 </net>
 </nets>

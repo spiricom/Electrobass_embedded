@@ -14,6 +14,9 @@
 int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 
+
+uint8_t randomValPointer = 0;
+
 cStack midiStack;
 float fractionalMidi[128];
 HAL_StatusTypeDef transmit_status;
@@ -39,9 +42,8 @@ tMBTriangle tri[NUM_OSC];
 
 // Using seperate objects for pairs to easily maintain phase relation
 tMBSawPulse sawPaired[NUM_OSC];
-tMBPulse pulsePaired[NUM_OSC];
-tCycle sinePaired[NUM_OSC];
-tMBTriangle triPaired[NUM_OSC];
+tMBSineTri sinePaired[NUM_OSC];
+
 
 tWaveOscS wave[NUM_OSC];
 
@@ -167,28 +169,16 @@ void audio_init(void)
 	for(int i = 0; i < NUM_OSC; i++)
 	{
 		tMBSaw_init(&saw[i], &leaf);
-		tMBSaw_setBufferOffset(&saw[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		tMBPulse_init(&pulse[i], &leaf);
-		tMBPulse_setBufferOffset(&pulse[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		tCycle_init(&sine[i], &leaf);
 
 		tMBTriangle_init(&tri[i], &leaf);
-		tMBTriangle_setBufferOffset(&tri[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
 		tMBSawPulse_init(&sawPaired[i], &leaf);
-		tMBSawPulse_setBufferOffset(&sawPaired[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
 
-		//should combine these into a sin/tri osc object in leaf to avoid the double computation of the phase since it's the same
-		tCycle_init(&sinePaired[i], &leaf);
-		tMBTriangle_init(&triPaired[i], &leaf);
-		tMBTriangle_setBufferOffset(&triPaired[i], MBoffset);
-		MBoffset = (MBoffset + AUDIO_FRAME_SIZE) % FILLEN;
+		tMBSineTri_init(&sinePaired[i], &leaf);
 
 	    tExpSmooth_init(&pitchSmoother[i], 64.0f, 0.01f, &leaf);
 	}
@@ -198,13 +188,12 @@ void audio_init(void)
 		tSVF_init(&lowpass[i], SVFTypeLowpass, 2000.f, 0.7f, &leaf);
 		tSVF_init(&highpass[i], SVFTypeHighpass, 2000.f, 0.7f, &leaf);
 		tSVF_init(&bandpass[i], SVFTypeBandpass, 2000.f, 0.7f, &leaf);
-		tDiodeFilter_init(&diodeFilters[i], 2000.f, 1.0f, &leaf);
+		tDiodeFilter_init(&diodeFilters[i], 2000.f, 0.5f, &leaf);
 		tVZFilter_init(&VZfilterPeak[i], Bell, 2000.f, 1.0f, &leaf);
 		tVZFilter_init(&VZfilterLS[i], Lowshelf, 2000.f, 1.0f, &leaf);
 		tVZFilter_init(&VZfilterHS[i], Highshelf, 2000.f, 1.0f, &leaf);
 		tVZFilter_init(&VZfilterBR[i], BandReject, 2000.f, 1.0f, &leaf);
 		tLadderFilter_init(&Ladderfilter[i], 2000.f, 1.0f, &leaf);
-
 	    tExpSmooth_init(&filterCutoffSmoother[i], 64.0f, 0.01f, &leaf);
 	}
 
@@ -248,7 +237,6 @@ void audio_init(void)
 		tVZFilter_setSampleRate(&shelf2[i], SAMPLE_RATE * OVERSAMPLE);
 		tVZFilter_setSampleRate(&bell1[i], SAMPLE_RATE * OVERSAMPLE);
 		tCompressor_init(&comp[i], &leaf);
-		tLockhartWavefolder_init(&wf[i], &leaf);
 		tLinearDelay_initToPool(&delay1[i], 4000.0f, 4096, &mediumPool);
 		tLinearDelay_initToPool(&delay2[i], 4000.0f, 4096, &mediumPool);
 		tCycle_init(&mod1[i], &leaf);
@@ -315,18 +303,18 @@ void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	HAL_Delay(1);
 	transmit_status = HAL_SAI_Transmit_DMA(hsaiOut, (uint8_t *)&audioOutBuffer[0], AUDIO_BUFFER_SIZE);
 	receive_status = HAL_SAI_Receive_DMA(hsaiIn, (uint8_t *)&audioInBuffer[0], AUDIO_BUFFER_SIZE);
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 }
 
 const int syncMap[3] = {2, 0, 1};
 uint32_t timeMIDI = 0;
 uint32_t timeFrame = 0;
 float frameLoadPercentage = 0.0f;
-
+float frameLoadMultiplier = 1.0f / (10000.0f * AUDIO_FRAME_SIZE);
 void __ATTR_ITCMRAM audioFrame(uint16_t buffer_offset)
 {
 	volatile uint32_t tmpCnt = 0;
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 	uint32_t tempCountFrame = DWT->CYCCNT;
 	//take care of MIDI messages that came in
 	tmpCnt = DWT->CYCCNT;
@@ -353,19 +341,21 @@ void __ATTR_ITCMRAM audioFrame(uint16_t buffer_offset)
 	int32_t current_sample = 0;
 
 	//mono operation, no need to compute right channel. Also for loop iterating by 2 instead of 1 to avoid if statement.
-	for (int i = 0; i < (HALF_BUFFER_SIZE); i+=2)
+	for (int i = 0; i < HALF_BUFFER_SIZE; i+=2)
 	{
 		current_sample = (int32_t)(audioTickL() * TWO_TO_23);
 		audioOutBuffer[buffer_offset + i] = current_sample;
 		//audioOutBuffer[buffer_offset + i + 1] = current_sample;
 	}
 	timeFrame = DWT->CYCCNT - tempCountFrame;
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-	frameLoadPercentage = (float)timeFrame * 0.0003125f;
+	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+	frameLoadPercentage = (float)timeFrame * frameLoadMultiplier;
 
 }
 
 float oscOuts[2][NUM_OSC];
+float oscAmpMult = 1.0f;
+float oscAmpMultArray[4] = {0.0f, 1.0f, 0.5f, 0.333333f};
 uint32_t timeOsc = 0;
 
 void __ATTR_ITCMRAM oscillator_tick(float note)
@@ -382,14 +372,11 @@ void __ATTR_ITCMRAM oscillator_tick(float note)
 		float shape = oscParams[OscShape].realVal;
 		float amp = oscParams[OscAmp].realVal;
 		float filterSend = oscParams[OscFilterSend].realVal;
-		int sync = roundf(oscParams[OscisSync].realVal);
+		int sync = oscParams[OscisSync].realVal > 0.5f; // probably faster than previous roundf version but haven't tested
 		float freqToSmooth = (note + (fine*0.01f));
 		tExpSmooth_setDest(&pitchSmoother[osc], freqToSmooth);
 		freqToSmooth = mtof(tExpSmooth_tick(&pitchSmoother[osc]));
 		float finalFreq = (freqToSmooth * freqMult[osc]) + freqOffset ;
-		//finalFreq = LEAF_clip(-19000.0f, finalFreq, 19000.0f);
-		//smoothing may not be necessary
-
 
 		float sample = 0.0f;
 
@@ -397,9 +384,10 @@ void __ATTR_ITCMRAM oscillator_tick(float note)
 
 		sample *= amp;
 
-		sourceValues[OSC_SOURCE_OFFSET + osc] = sample; // the define of zero may be wasteful
+		//sourceValues[OSC_SOURCE_OFFSET + osc] = sample; // the define of zero may be wasteful
+		sourceValues[osc] = sample;
 
-		sample *= INV_NUM_OSCS;
+		sample *= oscAmpMult; // divide down gain if more than one oscillator is sounding (computed at preset load)
 
 		oscOuts[0][osc] = sample * (filterSend) * oscParams[OscEnabled].realVal;
 		oscOuts[1][osc] = sample * (1.0f - filterSend) * oscParams[OscEnabled].realVal;
@@ -422,14 +410,13 @@ void __ATTR_ITCMRAM  sawSquareTick(float* sample, int v, float freq, float shape
 
 void __ATTR_ITCMRAM  sineTriTick(float* sample, int v, float freq, float shape, int sync)
 {
-    tCycle_setFreq(&sinePaired[v], freq);
-    tMBTriangle_setFreq(&triPaired[v], freq);
+    tMBSineTri_setFreq(&sinePaired[v], freq);
+    tMBSineTri_setShape(&sinePaired[v],shape);
     if (sync)
     {
-    	tMBTriangle_sync(&triPaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
+    	tMBSineTri_sync(&sinePaired[v], sourceValues[syncMap[OSC_SOURCE_OFFSET + v]]);
     }
-    *sample += tCycle_tick(&sinePaired[v]) * (1.0f - shape);
-    *sample += tMBTriangle_tick(&triPaired[v]) * shape * 2.f;;
+    *sample += tMBSineTri_tick(&sinePaired[v]) * 2.0f;
 }
 
 void __ATTR_ITCMRAM  sawTick(float* sample, int v, float freq, float shape, int sync)
@@ -488,13 +475,12 @@ float __ATTR_ITCMRAM filter_tick(float* samples, float note)
 	for (int f = 0; f < NUM_FILT; f++)
 	{
 		param* filtParams = &params[FILTER_PARAMS_OFFSET + f * FilterParamsNum];
-		float MIDIcutoff = filtParams[FilterCutoff].realVal;
-		float keyFollow = filtParams[FilterKeyFollow].realVal;
 		float enabled = filtParams[FilterEnabled].realVal;
 		enabledFilt[f] = (enabled > 0.5f);
 		if (!enabledFilt[f]) continue;
 
-
+		float MIDIcutoff = filtParams[FilterCutoff].realVal;
+		float keyFollow = filtParams[FilterKeyFollow].realVal;
 		if (isnan(note))
 		{
 			note = 0.0f; //is this necessary?
@@ -520,7 +506,6 @@ float __ATTR_ITCMRAM filter_tick(float* samples, float note)
 	{
 		filterTick[1](&samples[1], 1, cutoff[1]);
 	}
-	;
 
 	timeFilt = DWT->CYCCNT - tempCount1;
 	return samples[1] + (samples[0] * sp);
@@ -641,24 +626,24 @@ void __ATTR_ITCMRAM  diodeLowpassSetQ(float q, int v)
 	tDiodeFilter_setQ(&diodeFilters[v], q);
 }
 
-void __ATTR_ITCMRAM  VZpeakSetQ(float bw, int v)
+void __ATTR_ITCMRAM  VZpeakSetQ(float q, int v)
 {
-	tVZFilter_setBandwidth(&VZfilterPeak[v], bw);
+	tVZFilter_setResonance(&VZfilterPeak[v], q);
 }
 
-void __ATTR_ITCMRAM  VZlowshelfSetQ(float bw, int v)
+void __ATTR_ITCMRAM  VZlowshelfSetQ(float q, int v)
 {
-	 tVZFilter_setBandwidth(&VZfilterLS[v], bw);
+	tVZFilter_setResonance(&VZfilterLS[v], q);
 }
 
-void __ATTR_ITCMRAM  VZhighshelfSetQ(float bw, int v)
+void __ATTR_ITCMRAM  VZhighshelfSetQ(float q, int v)
 {
-	 tVZFilter_setBandwidth(&VZfilterHS[v], bw);
+	tVZFilter_setResonance(&VZfilterHS[v], q);
 }
 
-void __ATTR_ITCMRAM  VZbandrejectSetQ(float bw, int v)
+void __ATTR_ITCMRAM  VZbandrejectSetQ(float q, int v)
 {
-	tVZFilter_setBandwidth(&VZfilterBR[v], bw);
+	tVZFilter_setResonance(&VZfilterBR[v], q);
 }
 
 void __ATTR_ITCMRAM  LadderLowpassSetQ(float q, int v)
@@ -830,80 +815,95 @@ void __ATTR_ITCMRAM tickMappings(void)
 
 }
 uint32_t timeTick = 0;
-
+uint32_t oversampleCount = 0;
 
 float __ATTR_ITCMRAM audioTickL(void)
 {
 	uint32_t tempCount5 = DWT->CYCCNT;
 	float sample = 0.0f;
+	uint8_t fxPre = (params[FXPREPOST_PARAMS_OFFSET].realVal > 0.5f);
+	//run mapping ticks
+	tickMappings();
 
-		//run mapping ticks
-		tickMappings();
+	float note = bend + transpose + (float)tSimplePoly_getPitch(&myPoly, 0);
 
-		float note = bend + transpose + (float)tSimplePoly_getPitch(&myPoly, 0);
+	sourceValues[MIDI_KEY_SOURCE_OFFSET] = (note - midiKeySubtractor) * midiKeyDivisor;
 
-		int tempNoteIntPart = (int)note;
-		float tempNoteFloatPart = note - (float)tempNoteIntPart;
-		            //int tempPitchClassIntPart =tempNoteIntPart % 12;
-	    float dev1 = (fractionalMidi[tempNoteIntPart] * (1.0f - tempNoteFloatPart));
-		float dev2 =  (fractionalMidi [(tempNoteIntPart+1)] * tempNoteFloatPart);
-	    note = ( dev1  + dev2);
+	int tempNoteIntPart = (int)note;
+	float tempNoteFloatPart = note - (float)tempNoteIntPart;
+				//int tempPitchClassIntPart =tempNoteIntPart % 12;
+	float dev1 = (fractionalMidi[tempNoteIntPart] * (1.0f - tempNoteFloatPart));
+	float dev2 =  (fractionalMidi [(tempNoteIntPart+1)] * tempNoteFloatPart);
+	note = ( dev1  + dev2);
 
-		envelope_tick();
-		lfo_tick();
-		oscillator_tick(note);
-		noise_tick();
-		float filterSamps[2] = {0.0f, 0.0f};
-		for (int i = 0; i < NUM_OSC; i++)
-		{
-			filterSamps[0] += oscOuts[0][i];
-			filterSamps[1] += oscOuts[1][i];
-		}
-		filterSamps[0] += noiseOuts[0];
-		filterSamps[1] += noiseOuts[1];
-		//sample = filterSamps[0];
-		sample = filter_tick(&filterSamps[0], note);
-
+	note = LEAF_clip(1.0f, note, 140.0f);
+	envelope_tick();
+	lfo_tick();
+	oscillator_tick(note);
+	noise_tick();
+	float filterSamps[2] = {0.0f, 0.0f};
+	for (int i = 0; i < NUM_OSC; i++)
+	{
+		filterSamps[0] += oscOuts[0][i];
+		filterSamps[1] += oscOuts[1][i];
+	}
+	filterSamps[0] += noiseOuts[0];
+	filterSamps[1] += noiseOuts[1];
+	//sample = filterSamps[0];
+	sample = filter_tick(&filterSamps[0], note);
+	if (fxPre)
+	{
 		sample *= amplitude;
+	}
+	uint32_t tempCount1 = DWT->CYCCNT;
 
-		uint32_t tempCount1 = DWT->CYCCNT;
+	//oversample for non-linear effects (distortion, etc)
+	tOversampler_upsample(&os, sample, oversamplerArray);
 
-		//oversample for non-linear effects (distortion, etc)
-        tOversampler_upsample(&os, sample, oversamplerArray);
-
-		//arm_fir_interpolate_f32(&osI, &sample, (float*)&oversamplerArray, 1);
+	//arm_fir_interpolate_f32(&osI, &sample, (float*)&oversamplerArray, 1);
 
 
-		for (int i = 0; i < NUM_EFFECT; i++) {
+	for (int i = 0; i < NUM_EFFECT; i++) {
 
-	        for (int j = 0; j < OVERSAMPLE; j++)
-	        {
-	        	float dry = oversamplerArray[j]; //store the dry value to mix later
-	        	oversamplerArray[j] = effectTick[i](oversamplerArray[j], i); //run the effect
-	        	oversamplerArray[j] = ((1.0f - fxMix[i]) * dry) + (fxMix[i] * oversamplerArray[j]); //mix in dry/wet at the "mix" amount
-	        }
-        }
+		for (int j = 0; j < OVERSAMPLE; j++)
+		{
+			float dry = oversamplerArray[j]; //store the dry value to mix later
+			oversamplerArray[j] = effectTick[i](oversamplerArray[j], i); //run the effect
+			oversamplerArray[j] = ((1.0f - fxMix[i]) * dry) + (fxMix[i] * oversamplerArray[j]); //mix in dry/wet at the "mix" amount
+			oversamplerArray[j] *= fxPostGain[i]; //apply postgain
+		}
+	}
 
-        //hard clip before downsampling to get a little more antialiasing from clipped signal.
-        for (int i = 0; i < (OVERSAMPLE); i++)
-        {
-            oversamplerArray[i] = LEAF_clip(-1.0f, oversamplerArray[i], 1.0f);
-        }
-		//sample = LEAF_clip(-1.0f, sample, 1.0f);
-        //downsample to get back to normal sample rate
-        sample = tOversampler_downsample(&os, oversamplerArray);
+	//hard clip before downsampling to get a little more antialiasing from clipped signal.
+	for (int i = 0; i < (OVERSAMPLE); i++)
+	{
+		oversamplerArray[i] = LEAF_clip(-1.0f, oversamplerArray[i], 1.0f);
+	}
+	//downsample to get back to normal sample rate
+	sample = tOversampler_downsample(&os, oversamplerArray);
 
-        //arm_fir_decimate_f32(&osD, (float*)&oversamplerArray, &sample, OVERSAMPLE);
+	//arm_fir_decimate_f32(&osD, (float*)&oversamplerArray, &sample, OVERSAMPLE);
 
-    	uint32_t tempCount2 = DWT->CYCCNT;
+	uint32_t tempCount2 = DWT->CYCCNT;
 
-    	cycleCount[5] = tempCount2-tempCount1;
-    	sample = tSVF_tick(&finalLowpass, sample);
-		sample *= finalMaster;
-		sample = LEAF_clip(-1.0f, sample, 1.0f);
+	oversampleCount = tempCount2-tempCount1;
 
-		uint32_t tempCount6 = DWT->CYCCNT;
-		timeTick = tempCount6-tempCount5;
+	if (!fxPre)
+	{
+		sample *= amplitude;
+	}
+
+
+	sample = tSVF_tick(&finalLowpass, sample);
+	if (isnan(sample))
+	{
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	}
+	sample *= finalMaster;
+	sample = LEAF_clip(-1.0f, sample, 1.0f);
+
+	uint32_t tempCount6 = DWT->CYCCNT;
+	timeTick = tempCount6-tempCount5;
 	return sample * audioMasterLevel * 0.95f;
 }
 
@@ -911,12 +911,19 @@ float __ATTR_ITCMRAM audioTickL(void)
 
 void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 {
+	float fvelocity = 0.0f;
 	if (velocity > 0)
 	{
 		tSimplePoly_noteOn(&myPoly, note, velocity);
-		float fvelocity = (float)velocity;
+		fvelocity = (float)velocity;
 		fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
 		fvelocity = fvelocity * fvelocity;
+
+		//store random number as source
+		sourceValues[RANDOM_SOURCE_OFFSET] = random_values[randomValPointer++];
+		//store velocity as source
+		sourceValues[VELOCITY_SOURCE_OFFSET] = fvelocity;
+
 		for (int v = 0; v < NUM_ENV; v++)
 		{
 			param* envParams = &params[ENVELOPE_PARAMS_OFFSET + v * EnvelopeParamsNum];
@@ -939,11 +946,15 @@ void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 	else
 	{
 		tSimplePoly_noteOff(&myPoly, note);
+
 		for (int v = 0; v < NUM_ENV; v++)
 		{
 			tADSRT_off(&envs[v]);
 		}
 	}
+
+
+
 }
 
 
@@ -959,7 +970,7 @@ void __ATTR_ITCMRAM sendPitchBend(uint8_t value, uint8_t ctrl)
 {
 	int bendInt = value + (ctrl << 7);
 	bendInt = bendInt - 8192;
-	bend = bendInt * bendRangeMultiplier; //by default, divide by (16383 / 48 semitones)
+	bend = bendInt * bendRangeMultiplier; //by default, divide by (16383 / 96 semitones)
 
 }
 
@@ -1160,7 +1171,7 @@ void __ATTR_ITCMRAM  tiltParam2(float value, int v)
 }
 void __ATTR_ITCMRAM  tiltParam3(float value, int v)
 {
-	tVZFilter_setBandwidth(&bell1[v], (value +1.0f)*6.0f);
+	tVZFilter_setResonance(&bell1[v], (value +1.0f)*6.0f);//TODO: make this match plugin
 }
 void __ATTR_ITCMRAM  tiltParam4(float value, int v)
 {
@@ -1174,6 +1185,7 @@ void __ATTR_ITCMRAM  compressorParam1(float value, int v)
 void __ATTR_ITCMRAM  compressorParam2(float value, int v)
 {
 	comp[v]->R = ((value*10.0f)+1.0f);
+	comp[v]->invR  = 1.0f / comp[v]->R;
 }
 
 void __ATTR_ITCMRAM  compressorParam3(float value, int v)
@@ -1252,7 +1264,7 @@ void __ATTR_ITCMRAM fxMixSet(float value, int v)
 
 void __ATTR_ITCMRAM fxPostGainSet(float value, int v)
 {
-	fxPostGain[v] = value;
+	fxPostGain[v] = fasterdbtoa((value * 24.0f) - 12.0f);
 }
 
 
@@ -1261,15 +1273,38 @@ void __ATTR_ITCMRAM fxPostGainSet(float value, int v)
 float __ATTR_ITCMRAM wavefolderTick(float sample, int v)
 {
     sample = sample * param1[v] + ((param2[v] * param1[v]));
-    //sample = tLockhartWavefolder_tick(&wf[v],sample);
     float curFB = param3[v];
     float curFF = param4[v];
-    float ff = (curFF * tanhf(sample)) + ((1.0f - curFF) * sample); //these saturation functions could be soft clip or hard clip or tanh approx
-    float fb = curFB * tanhf(wfState[v]);
+
+    //softclip approx for tanh saturation in original code
+    float ffSample = sample;
+    if (ffSample <= -1.0f)
+    {
+    	ffSample = -1.0f;
+    } else if (ffSample >= 1.0f)
+    {
+    	ffSample = 1.0f;
+    }
+    ffSample = ffSample - ((ffSample * ffSample * ffSample)* 0.3333333f);
+    ffSample *= 1.499999f;
+    float ff = (curFF * ffSample) + ((1.0f - curFF) * sample);
+
+    //softclip approx for tanh saturation in original code
+    float fbSample = wfState[v];
+    if (fbSample <= -1.0f)
+    {
+    	fbSample = -1.0f;
+    } else if (fbSample >= 1.0f)
+    {
+    	fbSample = 1.0f;
+    }
+    fbSample = fbSample - ((fbSample * fbSample * fbSample)* 0.3333333f);
+    fbSample *= 1.499999f;
+    float fb = curFB * fbSample;
+
     wfState[v] = (ff + fb) - param5[v] * arm_sin_f32(TWO_PI * sample); //maybe switch for our own sine lookup (avoid the if statements in the CMSIS code)
     sample = wfState[v] * invCurFB[v];
     sample = tHighpass_tick(&dcBlock1[v], sample);
-    sample *= fxPostGain[v];
     return sample;
 }
 
@@ -1300,7 +1335,6 @@ float __ATTR_ITCMRAM chorusTick(float sample, int v)
     float temp = tLinearDelay_tick(&delay1[v], sample) - sample;
     temp += tLinearDelay_tick(&delay2[v], sample) - sample;
     //temp = tHighpass_tick(&dcBlock1[v], temp);
-    temp *= fxPostGain[v];
     return -temp;
 }
 
@@ -1309,7 +1343,6 @@ float __ATTR_ITCMRAM shaperTick(float sample, int v)
     sample = sample * param1[v];
     float temp = LEAF_shaper(sample + (param2[v] * param1[v]),param3[v]);
     temp = tHighpass_tick(&dcBlock1[v], temp);
-    temp *= fxPostGain[v];
     return temp;
 }
 
@@ -1323,7 +1356,6 @@ float __ATTR_ITCMRAM tiltFilterTick(float sample, int v)
     sample = tVZFilter_tickEfficient(&shelf1[v], sample);
     sample = tVZFilter_tickEfficient(&shelf2[v], sample);
     sample = tVZFilter_tickEfficient(&bell1[v], sample);
-    sample *= fxPostGain[v];
     return sample;
 }
 
@@ -1338,7 +1370,6 @@ float __ATTR_ITCMRAM tanhTick(float sample, int v)
     temp *= param4[v];
     temp = tanhf(temp);
     //temp = tHighpass_tick(&dcBlock2, temp);
-    temp *= fxPostGain[v];
     return temp;
 }
 
@@ -1361,7 +1392,6 @@ float __ATTR_ITCMRAM softClipTick(float sample, int v)
     }
 
     sample = tHighpass_tick(&dcBlock1[v], sample);
-    sample *= fxPostGain[v];
     return sample;
 }
 
@@ -1384,7 +1414,6 @@ float __ATTR_ITCMRAM hardClipTick(float sample, int v)
     }
 
     sample = tHighpass_tick(&dcBlock1[v], sample);
-    sample *= fxPostGain[v];
     return sample;
 }
 
@@ -1396,7 +1425,6 @@ float __ATTR_ITCMRAM satTick(float sample, int v)
     temp = tHighpass_tick(&dcBlock1[v], temp);
     temp = tHighpass_tick(&dcBlock2[v], temp);
     temp = tanhf(temp);
-    temp *= fxPostGain[v];
     return temp;
 }
 
@@ -1405,13 +1433,13 @@ float __ATTR_ITCMRAM satTick(float sample, int v)
 float __ATTR_ITCMRAM bcTick(float sample, int v)
 {
     sample = sample * param1[v];
-    return tCrusher_tick(&bc[v], sample) * fxPostGain[v];
+    return tCrusher_tick(&bc[v], sample);
 }
 
 
 float __ATTR_ITCMRAM compressorTick(float sample, int v)
 {
-    return tCompressor_tick(&comp[v], sample) * fxPostGain[v];
+    return tCompressor_tick(&comp[v], sample);
 }
 
 float __ATTR_ITCMRAM  FXlowpassTick(float sample, int v)
@@ -1529,7 +1557,7 @@ tVZFilter_setGain(&FXVZfilterLS[v], fasterdbtoa((value * 50.f) - 25.f));
 
 void FXHighShelfParam2(float value, int v)
 {
-	tVZFilter_setGain(&FXVZfilterLS[v], fasterdbtoa((value * 50.f) - 25.f));
+	tVZFilter_setGain(&FXVZfilterHS[v], fasterdbtoa((value * 50.f) - 25.f));
 }
 
 void FXNotchParam2(float value, int v)
@@ -1540,7 +1568,7 @@ void FXNotchParam2(float value, int v)
 //resonance params
 void FXLowpassParam3(float value, int v)
 {
- tSVF_setQ(&FXlowpass[v], value);
+	tSVF_setQ(&FXlowpass[v], value);
 }
 
 void FXHighpassParam3(float value, int v)
@@ -1561,25 +1589,25 @@ void FXDiodeParam3(float value, int v)
 
 void FXPeakParam3(float value, int v)
 {
-	tVZFilter_setBandwidth(&FXVZfilterPeak[v], value);
+	tVZFilter_setResonance(&FXVZfilterPeak[v], value);
 }
 
 
 void FXLowShelfParam3(float value, int v)
 {
-	 tVZFilter_setBandwidth(&FXVZfilterLS[v], value);
+	tVZFilter_setResonance(&FXVZfilterLS[v], value);
 }
 
 
 void FXHighShelfParam3(float value, int v)
 {
-	 tVZFilter_setBandwidth(&FXVZfilterHS[v], value);
+	tVZFilter_setResonance(&FXVZfilterHS[v], value);
 }
 
 
 void FXNotchParam3(float value, int v)
 {
-	tVZFilter_setBandwidth(&FXVZfilterBR[v], value);
+	tVZFilter_setResonance(&FXVZfilterBR[v], value);
 }
 
 
@@ -1607,29 +1635,38 @@ void __ATTR_ITCMRAM noiseSetGain(float value, int v)
 
 void __ATTR_ITCMRAM noiseSetFreq(float value, int v)
 {
-	tVZFilter_setFrequencyAndResonance(&noiseBell1, faster_mtof(value * 77.0f + 42.0f), 1.9f);
+	value = (value * 77.0f) + 42.0f;
+	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tVZFilter_setFreqFast(&noiseBell1, value);
 }
+
+uint32_t timeNoise = 0;
+uint32_t timeRandom = 0;
+
+
 void __ATTR_ITCMRAM noise_tick()
 {
+	uint32_t tempCount7 = DWT->CYCCNT;
 	float enabled = params[Noise].realVal;
 	float amp = params[NoiseAmp].realVal;
 	float filterSend = params[NoiseFilterSend].realVal;
 	amp = amp < 0.f ? 0.f : amp;
 
+	uint32_t tempCount9 = DWT->CYCCNT;
+	float sample = random_values[randomValPointer++];
+	uint32_t tempCount10 = DWT->CYCCNT;
+	timeRandom = tempCount10-tempCount9;
 
-
-	//float sample = tSVF_tick(&bandpass[v], tNoise_tick(&noise[v])) * amp;
-	float sample = tNoise_tick(&noise);
 	sample = tVZFilter_tickEfficient(&noiseShelf1, sample);
 	sample = tVZFilter_tickEfficient(&noiseShelf2, sample);
 	sample = tVZFilter_tickEfficient(&noiseBell1, sample);
 	sample = sample * amp;
 	float normSample = (sample + 1.f) * 0.5f;
-	//float normSample = sample;
-	sourceValues[3] = normSample;
-	noiseOuts[0] = sample* filterSend*  enabled;
-	noiseOuts[1] = sample*(1.f-filterSend) * enabled ;
-
+	sourceValues[NOISE_SOURCE_OFFSET] = normSample;
+	noiseOuts[0] = sample * filterSend *  enabled;
+	noiseOuts[1] = sample * (1.f-filterSend) * enabled ;
+	uint32_t tempCount8 = DWT->CYCCNT;
+	timeNoise = tempCount8-tempCount7;
 }
 
 

@@ -6,7 +6,7 @@
     <WorkspacePath>/Users/jeffsnyder/dev/Electrobass_embedded/daisy_boards/Electrobass_Daisy_Audio/</WorkspacePath>
     <underRoot>true</underRoot>
     <TrustZone>0</TrustZone>
-    <HAL_Driver>/Users/jeffsnyder/STM32Cube/Repository//STM32Cube_FW_H7_V1.10.0</HAL_Driver>
+    <HAL_Driver>/Users/jeffsnyder/STM32Cube/Repository//STM32Cube_FW_H7_V1.11.0</HAL_Driver>
     <CMSIS>Drivers/CMSIS</CMSIS>
     <Toolchain>STM32CubeIDE</Toolchain>
     <IocFile>Electrobass_Daisy_Audio.ioc</IocFile>
@@ -34,12 +34,13 @@
             <memory access="xrw" name="ITCMRAM" size="64" start="0x00000000" />
             <memory access="rx" name="FLASH" size="128" start="0x8000000" />
           </memories>
-          <startup>/Users/jeffsnyder/STM32Cube/Repository/STM32Cube_FW_H7_V1.10.0/Drivers/CMSIS/Device\ST\STM32H7xx\Source\Templates\gcc\startup_stm32h750xx.s</startup>
+          <startup>/Users/jeffsnyder/STM32Cube/Repository/STM32Cube_FW_H7_V1.11.0/Drivers/CMSIS/Device\ST\STM32H7xx\Source\Templates\gcc\startup_stm32h750xx.s</startup>
           <LinkSettings>
             <LinkAdditionalLibs />
           </LinkSettings>
           <heapSize>0x4000</heapSize>
           <stackSize>0x8000</stackSize>
+          <cpuclock>240</cpuclock>
           <board>custom</board>
           <debugprobe>swd</debugprobe>
           <optimization />

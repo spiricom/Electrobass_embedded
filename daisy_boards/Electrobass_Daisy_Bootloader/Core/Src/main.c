@@ -112,6 +112,20 @@ void FlushECC(void *ptr, int bytes)
 	}
 }
 
+
+uint8_t BSP_SD_IsDetected(void)
+{
+  __IO uint8_t status = SD_PRESENT;
+
+  if (BSP_PlatformIsDetected() == 0x0)
+  {
+    status = SD_NOT_PRESENT;
+  }
+
+  return status;
+}
+
+
 /* USER CODE END 0 */
 
 /**
@@ -165,10 +179,14 @@ int main(void)
    __HAL_RCC_BKPRAM_CLK_ENABLE();
 
   //if (*(__IO uint32_t*)(0x38800000+36) != 12345678)
-  if ((bootloaderFlag[0] == 232) || (bootloaderFlag[0] == 0))
+  if (bootloaderFlag[0] != 231)
   {
-	  int i = 8;
-
+	  int i = 6;
+	  while(i--)
+	  {
+		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+		  HAL_Delay(20);
+	  }
 	  MX_QUADSPI_Init();
 	  qspi_initialize(INDIRECT_POLLING);
 	  if (!memory_already_mapped)
@@ -182,7 +200,7 @@ int main(void)
 	  }
 
 
-
+	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 	  JumpToApplication = (pFunction) (*(__IO uint32_t*) (APPLICATION_ADDRESS+4));
 	  __set_MSP(*(__IO uint32_t*) APPLICATION_ADDRESS);
 	  __disable_irq();
@@ -193,11 +211,12 @@ int main(void)
 	  SysTick->CTRL = 0;
 	  SysTick->LOAD = 0;
 	  SysTick->VAL  = 0;
+
 	  JumpToApplication();
   }
   else
   {
-	  int i = 4;
+	  int i = 6;
 	  while(i--)
 	  {
 		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);

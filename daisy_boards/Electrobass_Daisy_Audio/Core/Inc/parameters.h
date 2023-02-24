@@ -36,6 +36,7 @@ enum SPIMessage
 #define FILTER_PARAMS_OFFSET 95
 #define ENVELOPE_PARAMS_OFFSET 108
 #define LFO_PARAMS_OFFSET 132
+#define FXPREPOST_PARAMS_OFFSET 154
 
 //number of modules
 #define NUM_OSC 3
@@ -368,6 +369,7 @@ enum ParamNames
 	LFO4Sync,
 	OutputAmp,
 	OutputTone,
+	FXOrder,
 	numParams
 };
 

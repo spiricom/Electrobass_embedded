@@ -57,6 +57,9 @@ extern volatile float audioMasterLevel;
 extern uint8_t numMappings;
 extern uint8_t diskBusy;
 extern uint8_t volatile interruptChecker;
+extern float random_values[256];
+extern float midiKeyDivisor;
+extern float midiKeySubtractor;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -75,6 +78,7 @@ void __ATTR_ITCMRAM parseTuning(int size);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

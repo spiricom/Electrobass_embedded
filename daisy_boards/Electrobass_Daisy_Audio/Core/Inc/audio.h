@@ -77,7 +77,7 @@ void sendPitchBend(uint8_t value, uint8_t ctrl);
 #define DECAY_EXP_BUFFER_SIZE 4096
 
 
-#define CTRL_MIDI_START 17
+#define CTRL_MIDI_START 9
 
 
 void setTranspose(float in, int v);
@@ -265,5 +265,7 @@ void setFinalLowpass(float in, int v);
 
 extern float sourceValues[NUM_SOURCES];
 extern uint8_t lfoOn[NUM_LFOS];
+extern float oscAmpMult;
+extern float oscAmpMultArray[4];
 
 #endif /* INC_AUDIO_H_ */
