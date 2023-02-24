@@ -14,6 +14,9 @@
 int32_t audioOutBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 int32_t audioInBuffer[AUDIO_BUFFER_SIZE] __ATTR_RAM_D2;
 
+
+uint8_t randomValPointer = 0;
+
 cStack midiStack;
 float fractionalMidi[128];
 HAL_StatusTypeDef transmit_status;
@@ -300,7 +303,7 @@ void audio_start(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	HAL_Delay(1);
 	transmit_status = HAL_SAI_Transmit_DMA(hsaiOut, (uint8_t *)&audioOutBuffer[0], AUDIO_BUFFER_SIZE);
 	receive_status = HAL_SAI_Receive_DMA(hsaiIn, (uint8_t *)&audioInBuffer[0], AUDIO_BUFFER_SIZE);
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 }
 
 const int syncMap[3] = {2, 0, 1};
@@ -311,7 +314,7 @@ float frameLoadMultiplier = 1.0f / (10000.0f * AUDIO_FRAME_SIZE);
 void __ATTR_ITCMRAM audioFrame(uint16_t buffer_offset)
 {
 	volatile uint32_t tmpCnt = 0;
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 	uint32_t tempCountFrame = DWT->CYCCNT;
 	//take care of MIDI messages that came in
 	tmpCnt = DWT->CYCCNT;
@@ -345,7 +348,7 @@ void __ATTR_ITCMRAM audioFrame(uint16_t buffer_offset)
 		//audioOutBuffer[buffer_offset + i + 1] = current_sample;
 	}
 	timeFrame = DWT->CYCCNT - tempCountFrame;
-	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
 	frameLoadPercentage = (float)timeFrame * frameLoadMultiplier;
 
 }
@@ -824,6 +827,8 @@ float __ATTR_ITCMRAM audioTickL(void)
 
 	float note = bend + transpose + (float)tSimplePoly_getPitch(&myPoly, 0);
 
+	sourceValues[MIDI_KEY_SOURCE_OFFSET] = (note - midiKeySubtractor) * midiKeyDivisor;
+
 	int tempNoteIntPart = (int)note;
 	float tempNoteFloatPart = note - (float)tempNoteIntPart;
 				//int tempPitchClassIntPart =tempNoteIntPart % 12;
@@ -831,6 +836,7 @@ float __ATTR_ITCMRAM audioTickL(void)
 	float dev2 =  (fractionalMidi [(tempNoteIntPart+1)] * tempNoteFloatPart);
 	note = ( dev1  + dev2);
 
+	note = LEAF_clip(1.0f, note, 140.0f);
 	envelope_tick();
 	lfo_tick();
 	oscillator_tick(note);
@@ -889,6 +895,10 @@ float __ATTR_ITCMRAM audioTickL(void)
 
 
 	sample = tSVF_tick(&finalLowpass, sample);
+	if (isnan(sample))
+	{
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	}
 	sample *= finalMaster;
 	sample = LEAF_clip(-1.0f, sample, 1.0f);
 
@@ -901,12 +911,19 @@ float __ATTR_ITCMRAM audioTickL(void)
 
 void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 {
+	float fvelocity = 0.0f;
 	if (velocity > 0)
 	{
 		tSimplePoly_noteOn(&myPoly, note, velocity);
-		float fvelocity = (float)velocity;
+		fvelocity = (float)velocity;
 		fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
 		fvelocity = fvelocity * fvelocity;
+
+		//store random number as source
+		sourceValues[RANDOM_SOURCE_OFFSET] = random_values[randomValPointer++];
+		//store velocity as source
+		sourceValues[VELOCITY_SOURCE_OFFSET] = fvelocity;
+
 		for (int v = 0; v < NUM_ENV; v++)
 		{
 			param* envParams = &params[ENVELOPE_PARAMS_OFFSET + v * EnvelopeParamsNum];
@@ -929,14 +946,15 @@ void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 	else
 	{
 		tSimplePoly_noteOff(&myPoly, note);
+
 		for (int v = 0; v < NUM_ENV; v++)
 		{
 			tADSRT_off(&envs[v]);
 		}
 	}
-	//store random number as source
-	//store velocity as source
-	// store scaled pitch as source
+
+
+
 }
 
 
@@ -1625,35 +1643,30 @@ void __ATTR_ITCMRAM noiseSetFreq(float value, int v)
 uint32_t timeNoise = 0;
 uint32_t timeRandom = 0;
 
-uint8_t randomValPointer = 0;
+
 void __ATTR_ITCMRAM noise_tick()
 {
-
+	uint32_t tempCount7 = DWT->CYCCNT;
 	float enabled = params[Noise].realVal;
 	float amp = params[NoiseAmp].realVal;
 	float filterSend = params[NoiseFilterSend].realVal;
 	amp = amp < 0.f ? 0.f : amp;
 
-	uint32_t tempCount7 = DWT->CYCCNT;
-	float sample = tNoise_tick(&noise);
-	uint32_t tempCount8 = DWT->CYCCNT;
-	timeNoise = tempCount8-tempCount7;
-
 	uint32_t tempCount9 = DWT->CYCCNT;
-	float sample1 = random_values[randomValPointer++];
+	float sample = random_values[randomValPointer++];
 	uint32_t tempCount10 = DWT->CYCCNT;
 	timeRandom = tempCount10-tempCount9;
 
-	sample1 = tVZFilter_tickEfficient(&noiseShelf1, sample1);
+	sample = tVZFilter_tickEfficient(&noiseShelf1, sample);
 	sample = tVZFilter_tickEfficient(&noiseShelf2, sample);
 	sample = tVZFilter_tickEfficient(&noiseBell1, sample);
 	sample = sample * amp;
 	float normSample = (sample + 1.f) * 0.5f;
-	sourceValues[3] = normSample;
+	sourceValues[NOISE_SOURCE_OFFSET] = normSample;
 	noiseOuts[0] = sample * filterSend *  enabled;
 	noiseOuts[1] = sample * (1.f-filterSend) * enabled ;
-
-
+	uint32_t tempCount8 = DWT->CYCCNT;
+	timeNoise = tempCount8-tempCount7;
 }
 
 

@@ -40863,14 +40863,14 @@ Source: www.kingbright.com</description>
 <attribute name="PARTNO" value="CRCW06030000Z0EAHP"/>
 </part>
 <part name="GND45" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
-<part name="C50" library="adafruit" deviceset="C-US" device="C0603K" value=".01uf">
-<attribute name="PARTNO" value="CC0603KRX7R8BB103"/>
-</part>
-<part name="C54" library="adafruit" deviceset="C-US" device="C0603K" value=".01uf">
-<attribute name="PARTNO" value="CC0603KRX7R8BB103"/>
-</part>
 <part name="GND46" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
 <part name="GND47" library="PatternAgents-Beautify" deviceset="DGND" device=""/>
+<part name="C50" library="rcl" deviceset="C-US" device="C0603K" value=".1uf">
+<attribute name="PARTNO" value="CC0603KRX7R8BB104"/>
+</part>
+<part name="C54" library="rcl" deviceset="C-US" device="C0603K" value=".1uf">
+<attribute name="PARTNO" value="CC0603KRX7R8BB104"/>
+</part>
 </parts>
 <sheets>
 <sheet>
@@ -42102,6 +42102,12 @@ Source: www.kingbright.com</description>
 <instance part="GND45" gate="G$1" x="523.24" y="45.72" smashed="yes">
 <attribute name="VALUE" x="520.7" y="40.64" size="1.778" layer="96"/>
 </instance>
+<instance part="GND46" gate="G$1" x="525.78" y="27.94" smashed="yes">
+<attribute name="VALUE" x="523.24" y="22.86" size="1.778" layer="96"/>
+</instance>
+<instance part="GND47" gate="G$1" x="584.2" y="22.86" smashed="yes">
+<attribute name="VALUE" x="581.66" y="17.78" size="1.778" layer="96"/>
+</instance>
 <instance part="C50" gate="G$1" x="525.78" y="33.02" smashed="yes">
 <attribute name="PARTNO" x="525.78" y="33.02" size="1.778" layer="96" display="off"/>
 <attribute name="NAME" x="526.796" y="33.655" size="1.778" layer="95"/>
@@ -42111,12 +42117,6 @@ Source: www.kingbright.com</description>
 <attribute name="PARTNO" x="584.2" y="27.94" size="1.778" layer="96" display="off"/>
 <attribute name="NAME" x="585.216" y="28.575" size="1.778" layer="95"/>
 <attribute name="VALUE" x="585.216" y="23.749" size="1.778" layer="96"/>
-</instance>
-<instance part="GND46" gate="G$1" x="525.78" y="27.94" smashed="yes">
-<attribute name="VALUE" x="523.24" y="22.86" size="1.778" layer="96"/>
-</instance>
-<instance part="GND47" gate="G$1" x="584.2" y="22.86" smashed="yes">
-<attribute name="VALUE" x="581.66" y="17.78" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -42356,18 +42356,25 @@ Source: www.kingbright.com</description>
 <wire x1="533.4" y1="30.48" x2="533.4" y2="33.02" width="0.1524" layer="91"/>
 <pinref part="GND44" gate="G$1" pin="DGND"/>
 <junction x="533.4" y="30.48"/>
+<pinref part="U6" gate="A" pin="SDX"/>
+<pinref part="U6" gate="A" pin="SCX"/>
+<wire x1="533.4" y1="43.18" x2="533.4" y2="40.64" width="0.1524" layer="91"/>
+<wire x1="533.4" y1="40.64" x2="546.1" y2="40.64" width="0.1524" layer="91"/>
+<junction x="533.4" y="40.64"/>
+<wire x1="546.1" y1="40.64" x2="546.1" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="546.1" y1="30.48" x2="533.4" y2="30.48" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R55" gate="G$1" pin="2"/>
 <pinref part="GND45" gate="G$1" pin="DGND"/>
 </segment>
 <segment>
-<pinref part="C50" gate="G$1" pin="2"/>
 <pinref part="GND46" gate="G$1" pin="DGND"/>
+<pinref part="C50" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="C54" gate="G$1" pin="2"/>
 <pinref part="GND47" gate="G$1" pin="DGND"/>
+<pinref part="C54" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="+3V3" class="0">
@@ -42524,6 +42531,9 @@ Source: www.kingbright.com</description>
 <wire x1="574.04" y1="30.48" x2="584.2" y2="30.48" width="0.1524" layer="91"/>
 <pinref part="C54" gate="G$1" pin="1"/>
 <junction x="584.2" y="30.48"/>
+<wire x1="584.2" y1="30.48" x2="584.2" y2="40.64" width="0.1524" layer="91"/>
+<pinref part="U6" gate="A" pin="CS"/>
+<wire x1="584.2" y1="40.64" x2="574.04" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="+3V20" gate="G$1" pin="+3V3"/>

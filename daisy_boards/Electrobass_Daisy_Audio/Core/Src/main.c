@@ -124,6 +124,10 @@ float resTable[SCALE_TABLE_SIZE];
 float envTimeTable[SCALE_TABLE_SIZE];
 float lfoRateTable[SCALE_TABLE_SIZE];
 
+float midiKeyDivisor;
+float midiKeySubtractor;
+
+
 uint8_t volatile interruptChecker = 0;
 
 uint8_t volatile foundOne = 0;
@@ -188,7 +192,7 @@ int main(void)
    /*Enable BKPRAM clock*/
    __HAL_RCC_BKPRAM_CLK_ENABLE();
 
-
+   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
   uint32_t tempFPURegisterVal = __get_FPSCR();
   tempFPURegisterVal |= (1<<24); // set the FTZ (flush-to-zero) bit in the FPU control register
   __set_FPSCR(tempFPURegisterVal);
@@ -203,16 +207,17 @@ int main(void)
   {
 	  buffer[i] = 0;
   } //put in some values to make the array valid as a preset
-  buffer[15] = NUM_PARAMS;
-  buffer[NUM_PARAMS*2+16] = 0xef;
-  buffer[NUM_PARAMS*2+17] = 0xef;
-  buffer[NUM_PARAMS*2+19] = 1;
-  buffer[NUM_PARAMS*2+25] = 0xfe;
-  buffer[NUM_PARAMS*2+26] = 0xfe;
+  buffer[15+112] = NUM_PARAMS;
+  buffer[NUM_PARAMS*2+16+112] = 0xef;
+  buffer[NUM_PARAMS*2+17+112] = 0xef;
+  buffer[NUM_PARAMS*2+19+112] = 1;
+  buffer[NUM_PARAMS*2+25+112] = 0xfe;
+  buffer[NUM_PARAMS*2+26+112] = 0xfe;
   LEAF_generate_table_skew_non_sym(resTable, 0.01f, 10.0f, 0.5f, SCALE_TABLE_SIZE);
   LEAF_generate_table_skew_non_sym(envTimeTable, 0.0f, 20000.0f, 4000.0f, SCALE_TABLE_SIZE);
   LEAF_generate_table_skew_non_sym(lfoRateTable, 0.0f, 30.0f, 2.0f, SCALE_TABLE_SIZE);
 
+  HAL_Delay(10);
   getPresetNamesFromSDCard();
   foundOne  = checkForSDCardPreset(presetNumberToLoad);
 
@@ -222,14 +227,15 @@ int main(void)
 
   if (foundOne == 0)
   {
-	  parsePreset((NUM_PARAMS*2)+27, 0); //default preset binary
+	  parsePreset((NUM_PARAMS*2)+27+ (8*14), 0); //default preset binary
   }
   else
   {
+	  //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 	  parsePreset(presetWaitingToParse, presetNumberToLoad);
   }
 
-  audio_start(&hsai_BlockB1, &hsai_BlockA1);
+
   int counter = 0;
   for (int i = 0; i < SPI_BUFFER_SIZE; i++)
   {
@@ -240,12 +246,12 @@ int main(void)
 
 
   HAL_Delay(10);
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
+
 
   HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, SPI_BUFFER_SIZE);
 
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
-
+  audio_start(&hsai_BlockB1, &hsai_BlockA1);
 
 
 
@@ -289,7 +295,7 @@ int main(void)
 	  if (rand > TWO_TO_31)
 	  {
 		  myTestInt++;
-		  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+		  //HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
 	  }
 	  float floatrand = (float)rand * INV_TWO_TO_32 ;
 	  random_values[currentRandom++] = (floatrand * 2.0f) - 1.0f;
@@ -386,12 +392,12 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_FMC|RCC_PERIPHCLK_SDMMC
                               |RCC_PERIPHCLK_SAI1;
   PeriphClkInitStruct.PLL2.PLL2M = 1;
-  PeriphClkInitStruct.PLL2.PLL2N = 12;
+  PeriphClkInitStruct.PLL2.PLL2N = 10;
   PeriphClkInitStruct.PLL2.PLL2P = 8;
   PeriphClkInitStruct.PLL2.PLL2Q = 2;
-  PeriphClkInitStruct.PLL2.PLL2R = 2;
+  PeriphClkInitStruct.PLL2.PLL2R = 1;
   PeriphClkInitStruct.PLL2.PLL2RGE = RCC_PLL2VCIRANGE_3;
-  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOWIDE;
+  PeriphClkInitStruct.PLL2.PLL2VCOSEL = RCC_PLL2VCOMEDIUM;
   PeriphClkInitStruct.PLL2.PLL2FRACN = 4096;
   PeriphClkInitStruct.PLL3.PLL3M = 1;
   PeriphClkInitStruct.PLL3.PLL3N = 12;
@@ -535,8 +541,8 @@ static int checkForSDCardPreset(uint8_t numberToLoad)
 					found = 1;
 					for (int i = 0; i < 4; i++)
 					{
-						HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-						HAL_Delay(50);
+						//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+						//HAL_Delay(50);
 					}
 
 				}
@@ -606,6 +612,19 @@ static void writePresetToSDCard(int fileSize)
 	presetWaitingToWrite = 0;
 	diskBusy = 0;
 	__enable_irq();
+}
+
+
+uint8_t BSP_SD_IsDetected(void)
+{
+  __IO uint8_t status = SD_PRESENT;
+
+  if (BSP_PlatformIsDetected() == 0x0)
+  {
+    status = SD_NOT_PRESENT;
+  }
+
+  return status;
 }
 
 #define SDRAM_MODEREG_BURST_LENGTH_2 ((1 << 0))
@@ -912,6 +931,8 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 	}
 	if (SPI_RX[offset] == WaitingForLoadAck)
 	{
+#if 0
+
 		SPI_TX[offset] = 252;
 		if(!loadFailed)
 		{
@@ -922,6 +943,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 			SPI_TX[offset+1] = 254; //load failed
 			SPI_TX[offset+2] = currentActivePreset; //tell the PSOC that it needs to show the old currently active preset, since the new load failed.
 		}
+#endif
 	}
 	else
 	{
@@ -962,6 +984,12 @@ float __ATTR_ITCMRAM scaleOscPitch(float input)
 {
 	//input = LEAF_clip(0.0f, input, 1.0f);
 	return (input * 48.0f) - 24.0f;
+}
+
+float __ATTR_ITCMRAM scaleOscHarmonics(float input)
+{
+	//input = LEAF_clip(0.0f, input, 1.0f);
+	return (input * 34.0f) - 17.0f; // fix this when adjusting the plugin - should be 32 and +/-16 but that's not what the plugin sends right now
 }
 
 float __ATTR_ITCMRAM scaleOscFine(float input)
@@ -1112,15 +1140,22 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 	//osc params
 
 
+	uint16_t bufferIndex = 0;
 
 	//read first 14 items in buffer as the 14 character string that is the name of the preset
 	for (int i = 0; i < 14; i++)
 	{
-		presetName[i] = buffer[i];
-		presetNamesArray[presetNumber][i] = buffer[i];
+		presetName[i] = buffer[bufferIndex];
+		presetNamesArray[presetNumber][i] = buffer[bufferIndex];
+		bufferIndex++;
 	}
-	//read first element in buffer (after the 14 character name) as a count of how many parameters
-	uint16_t paramCount = (buffer[14] << 8) + buffer[15];
+
+	//skip the macro names (don't need them on electrobass)
+	bufferIndex = bufferIndex + (8*14);
+
+
+	//read first element in buffer (after the 14 character preset name and macro names) as a count of how many parameters
+	uint16_t paramCount = (buffer[bufferIndex] << 8) + buffer[bufferIndex+1];
 	if (paramCount > size)
 	{
 		//error in transmission - give up and don't parse!
@@ -1129,10 +1164,9 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 		__enable_irq();
 		return;
 	}
-
 	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
 	//should make this a real checksum
-	uint16_t paramEndCheck = (buffer[paramCount*2+16] << 8) + buffer[paramCount*2+17];
+	uint16_t paramEndCheck = (buffer[paramCount*2+bufferIndex+2] << 8) + buffer[paramCount*2+bufferIndex+3];
 	if (paramEndCheck != 0xefef)
 	{
 		//error in transmission - give up and don't parse!
@@ -1141,12 +1175,12 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 		__enable_irq();
 		return;
 	}
-	uint16_t mappingCount = (buffer[paramCount*2+18] << 8) + buffer[paramCount*2+19];
+	uint16_t mappingCount = (buffer[paramCount*2+bufferIndex+4] << 8) + buffer[paramCount*2+bufferIndex+5];
 
 
 	//20 is the 6 bytes plus the 14 characters
 	//paramCount is * 2 because they are 2 bytes per param, mappingCount * 5 because they are 5 bytes per mapping
-	uint16_t mappingEndLocation = (paramCount * 2) + 20 + (mappingCount * 5);
+	uint16_t mappingEndLocation = (paramCount * 2) + (mappingCount * 5) + bufferIndex+6;
 
 	if (mappingEndLocation > size)
 	{
@@ -1168,11 +1202,9 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 	}
 
 
+	 //move past the paramcount position in the buffer to start parsing the parameter data
+	bufferIndex = bufferIndex + 2;
 
-
-
-	 //move past the name characters (14 bytes) and paramcount position (2 bytes) in the buffer to start parsing the parameter data
-	uint16_t bufferIndex = 16;
 
 	//now read the parameters
 	for (int i = 0; i < paramCount; i++)
@@ -1197,25 +1229,25 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 	}
 
 
-	params[Master].scaleFunc = &scaleTwo;
+	//params[Master].scaleFunc = &scaleTwo;
 	params[Transpose].scaleFunc = &scaleTranspose;
 	params[PitchBendRange].scaleFunc = &scalePitchBend;
-	params[NoiseAmp].scaleFunc = &scaleTwo;
+	//params[NoiseAmp].scaleFunc = &scaleTwo;
 	params[Osc1Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc1Fine].scaleFunc = &scaleOscFine;
 	params[Osc1Freq].scaleFunc = &scaleOscFreq;
-	params[Osc1Amp].scaleFunc = &scaleTwo;
-	params[Osc1Harmonics].scaleFunc = &scaleOscPitch;
+	//params[Osc1Amp].scaleFunc = &scaleTwo;
+	params[Osc1Harmonics].scaleFunc = &scaleOscHarmonics;
 	params[Osc2Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc2Fine].scaleFunc = &scaleOscFine;
 	params[Osc2Freq].scaleFunc = &scaleOscFreq;
-	params[Osc2Amp].scaleFunc = &scaleTwo;
-	params[Osc2Harmonics].scaleFunc = &scaleOscPitch;
+	//params[Osc2Amp].scaleFunc = &scaleTwo;
+	params[Osc2Harmonics].scaleFunc = &scaleOscHarmonics;
 	params[Osc3Pitch].scaleFunc = &scaleOscPitch;
 	params[Osc3Fine].scaleFunc = &scaleOscFine;
 	params[Osc3Freq].scaleFunc = &scaleOscFreq;
-	params[Osc3Amp].scaleFunc = &scaleTwo;
-	params[Osc3Harmonics].scaleFunc = &scaleOscPitch;
+	//params[Osc3Amp].scaleFunc = &scaleTwo;
+	params[Osc3Harmonics].scaleFunc = &scaleOscHarmonics;
 	params[Filter1Cutoff].scaleFunc = &scaleFilterCutoff;
 	params[Filter1Resonance].scaleFunc = &scaleFilterResonance;
 	params[Filter2Cutoff].scaleFunc = &scaleFilterCutoff;
@@ -1236,7 +1268,7 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 	params[LFO2Rate].scaleFunc = &scaleLFORates;
 	params[LFO3Rate].scaleFunc = &scaleLFORates;
 	params[LFO4Rate].scaleFunc = &scaleLFORates;
-	params[OutputAmp].scaleFunc = &scaleTwo;
+	//params[OutputAmp].scaleFunc = &scaleTwo;
 	params[OutputTone].scaleFunc  = &scaleFinalLowpass;
 	for (int i = 0; i < NUM_EFFECT; i++)
 		{
@@ -1735,6 +1767,9 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 
 	}
 
+
+	midiKeyDivisor = 1.0f / ((params[MIDIKeyMax].realVal*127.0f) - (params[MIDIKeyMin].realVal*127.0f));
+	midiKeySubtractor = (params[MIDIKeyMin].realVal * 127.0f);
 	//mappings parsing
 
 	//move past the countcheck elements (already checked earlier)
