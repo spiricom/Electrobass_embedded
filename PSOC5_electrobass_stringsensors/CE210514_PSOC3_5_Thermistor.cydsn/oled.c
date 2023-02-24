@@ -129,15 +129,15 @@ void OLED_writePresetFlashing()
 	//save new preset to flash memory
 }
 
-void OLED_writeEditScreen()
+void OLED_writeCalibrationScreen(int calibration)
 {
 	GFXsetFont(&theGFX, &EuphemiaCAS7pt7b);
 	OLEDclear();
-    const char* firstSet = "KNOB:SET CV PED";
-	const char* firstClear = "DOWN:CLR CV PED";
+    const char* firstSet = "CALIBRATE";
 	//if (cvAddParam[currentPreset] >= 0) OLEDwriteString(firstClear, (int)strlen(firstClear), 0, FirstLine);
-	//else OLEDwriteString(firstSet, (int)strlen(firstSet), 0, FirstLine);
-	OLEDwriteString("C:SET KEY CENTER", 16, 0, SecondLine);
+	OLEDwriteString(firstSet, (int)strlen(firstSet), 0, FirstLine);
+	OLEDwriteInt(calibration, 2, 0, SecondLine);
+        OLED_draw();
 }
 
 /*

@@ -6,7 +6,7 @@
 
 #Build Date:         Sep  9 2019 11:47:43
 
-#File Generated:     Aug 15 2022 12:42:59
+#File Generated:     Nov 4 2022 22:23:40
 
 #Purpose:            
 
@@ -14,7 +14,7 @@
 
 #***************************************************************************
 
-Executing : C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\bin/sjplacer.exe --proj-name Electrobass_slider --netlist-vh2 Electrobass_slider_p.vh2 --arch p4_udb2x2a --arch-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\arch/udbdsi_2x2_04.cydata --ip-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/psoc4a/ip_blocks.cydata --rrg-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/psoc4a/route_arch-rrg.cydata --irq-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/psoc4a/irqconn.cydata --dsi-conn-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/psoc4a/dsiconn.cydata --pins-file pins_44-TQFP.xml --lib-file Electrobass_slider_p.lib --sdc-file Electrobass_slider.sdc --io-pcf Electrobass_slider.pci --outdir .
+Executing : C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\bin/sjplacer.exe --proj-name Electrobass_slider --netlist-vh2 Electrobass_slider_p.vh2 --arch p4_udb2x2a --arch-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\arch/udbdsi_2x2_04.cydata --ip-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/psoc4a/ip_blocks.cydata --rrg-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/psoc4a/route_arch-rrg.cydata --irq-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/psoc4a/irqconn.cydata --dsi-conn-file C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\dev\psoc4/psoc4a/dsiconn.cydata --pins-file pins_28-SSOP.xml --lib-file Electrobass_slider_p.lib --sdc-file Electrobass_slider.sdc --io-pcf Electrobass_slider.pci --outdir .
 
 		Softjin Techologies Placer, Version 1.1
 
@@ -45,7 +45,7 @@ Phase 3
 I2659: No Constrained paths were found. The placer will run in non-timing driven mode.
 
 Design Statistics after Packing
-    Number of Combinational MCs 	:	0
+    Number of Combinational MCs 	:	1
     Number of Sequential MCs    	:	0
     Number of DPs               	:	0
     Number of Controls          	:	0
@@ -54,15 +54,36 @@ Design Statistics after Packing
     Number of count7cells       	:	0
 
 Device Utilization Summary after Packing
-    Macrocells                  :	0/32
-    UDBS                        :	0/4
-    IOs                         :	10/36
+    Macrocells                  :	1/32
+    UDBS                        :	1/4
+    IOs                         :	19/36
 
 
 D2088: Phase 3, elapsed time : 0.0 (sec)
 
 Phase 4
 D2088: Phase 4, elapsed time : 0.0 (sec)
+
+Phase 6
+D2088: Phase 6, elapsed time : 0.0 (sec)
+
+Phase 7
+D2088: Phase 7, elapsed time : 0.0 (sec)
+
+Final Design Statistics
+    Number of Combinational MCs 	:	1
+    Number of Sequential MCs    	:	0
+    Number of DPs               	:	0
+    Number of Controls          	:	0
+    Number of Status            	:	0
+    Number of SyncCells         	:	0
+    Number of count7cells       	:	0
+    Number of IOs       	:	19
+
+Device Utilization Summary
+    Macrocells                  :	1/32
+    IOs                         :	19/36
+
 
 Phase 8
 D2088: Phase 8, elapsed time : 0.0 (sec)

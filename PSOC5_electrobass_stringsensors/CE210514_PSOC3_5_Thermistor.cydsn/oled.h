@@ -70,7 +70,7 @@ void OLED_writePreset(void);
 
 void OLED_writePresetFlashing();
 
-void OLED_writeEditScreen(void);
+void OLED_writeCalibrationScreen(int calibration);
 
 void OLED_writeKnobParameter(int whichParam);
 

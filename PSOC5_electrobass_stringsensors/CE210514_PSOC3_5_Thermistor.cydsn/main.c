@@ -47,6 +47,11 @@
 //#define MAPLE1 1
 #define GREEN3 1
 
+
+#define EEPROM_CALIBRATION_OFFSET 0
+#define CALIBRATION_SIZE_IN_BYTES NUM_FRETS * NUM_STRINGS * 2 //for each fret on each string, store 2 bytes to add up to a 16-bit word
+
+
 volatile uint8 usbActivityCounter = 0u;
  uint8 midiMsg[4];
 volatile uint8_t currentVBUS = 0;
@@ -78,6 +83,7 @@ void I2C_reset(void);
 void CCEvent(int bar);
 void scanButtons(void);
 void sendCurrentPresetNumber(void);
+uint8 I2C_MasterReadBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode);
 
 union breakFloat {
  float f;
@@ -97,11 +103,11 @@ uint32_t fretMeasurements[4][2] = {
     {85647,24651}
 };
 #elif defined GREEN3
- uint32_t fretMeasurements[4][2] = {
-    {75540,22551},
-    {64813,19391},
-    {63616,19052},
-    {71986,21251}
+ uint32_t fretMeasurements[4][4] = {
+    {75540,22551, 10000, 10000},
+    {64813,19391, 10000, 10000},
+    {63616,19052, 10000, 10000},
+    {71986,21251, 10000, 10000}
 };
 #else
 uint16_t fretMeasurements[4][2] = {
@@ -111,9 +117,10 @@ uint16_t fretMeasurements[4][2] = {
     {57784,16450}
 };
     #endif
-float fretRatios[2] = {0.94387439674627617953623675390268f,0.47193719837313808976811837695134f}; 
+//1st fret, 5th fret, 9th fret, 15 fret
+float fretRatios[4] = {0.94387439674627617953623675390268f,0.749153457f, 0.594603498f, 0.420448248f}; 
 
-uint8_t sysexBuffer[1024];
+uint8_t sysexBuffer[2048];
 uint32_t sysexPointer = 0;
 uint8_t receivingSysex = 0;
 uint8_t parsingSysex = 0;
@@ -123,6 +130,7 @@ uint8_t sendMessageEnd = 0;
 enum presetArraySectionState
 {
     presetName = 0,
+    macroNames = 1,
     initialVals = 2,
     mapCountNext = 3,
     mapping = 4,
@@ -140,16 +148,21 @@ uint8_t i = 0;
 uint8_t counter = 0;
 int32_t temper;
 int previousButtons[11];
-int octave = 0;
+int octave = 1;
 void scanLinearResistor();
 int stringPlucks[4];
 int stringPlucksPrev[4];
+
+
+int calibration_mode = 0;
+int max_calibration = 16;
 
 #define KNOB_FIR_SIZE 8
 #define KNOB_FIR_SIZE_MASK 7
 #define KNOB_FIR_SIZE_BITSHIFT 3
 uint32_t knobsFIR[5][KNOB_FIR_SIZE];
 
+#define NAME_LENGTH_IN_BYTES 14
 
 #define LINEAR_FIR_SIZE 2
 #define LINEAR_FIR_SIZE_MASK 1
@@ -303,6 +316,7 @@ float openStringFreqs[4] = {41.203f, 55.0f, 73.416f, 97.999f};
 float openStringMIDI[4] = {28.0f, 33.0f, 38.0f, 43.0f};
 float invStringMappedPositions[4] = {0,0,0,0};
 float stringMIDI[4] = {0,0,0,0};
+float stringMIDIRounded[4] = {0,0,0,0};
 float stringMIDIPrev[4] = {0,0,0,0};
 float linearHysteresis = 0.6f;
 float hp_y[4];
@@ -317,10 +331,8 @@ uint8_t presetNamesArray[MAX_NUM_PRESETS][14];
 uint8_t presetNumberToLoad = 0;
 uint8_t presetLoadedResponse[2] = {255, 0};
 
-float vibratoCrossfade[4];
-int crossFadeStartCount[4];
-
 int previousPitchBendsSent = 0;
+int previousPitchBendsSentPoly[4] = {0};
 uint32_t knobs[5];
 int buttons;
 
@@ -358,8 +370,12 @@ volatile float testVal = 0.0f;
 int buttonCounters[6] = {0,0,0,0,0};
 int buttonStates[6] = {0,0,0,0,0};
 int frettedStateLatched = 0;
-
+int fretboard_fretless = 1;
+uint8_t I2Cbuff2[4];
 uint32_t SPI_errors = 0;
+
+float filtx[4][2] = {{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f}};
+float filty[4][2] = {{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f}};
 /*
 CY_ISR(SleepIsr_function)
 {
@@ -426,7 +442,7 @@ int main(void)
         ;
     }
     
-    //EEPROM_Start();
+    EEPROM_Start();
     
     eepromReturnValue = Em_EEPROM_Init((uint32_t)Em_EEPROM_em_EepromStorage);
     if(eepromReturnValue != CY_EM_EEPROM_SUCCESS)
@@ -454,12 +470,13 @@ int main(void)
     I2C_1_Start();
     
     CyDelay(100);
+
     for (int i = 0; i < MAX_NUM_PRESETS; i++)
     {
         SPIM_2_ClearRxBuffer();
         CyDmaChEnable(rx2Channel, STORE_TD_CFG_ONCMPLT);
         CyDmaChEnable(tx2Channel, STORE_TD_CFG_ONCMPLT);
-        //make sure previous SPI2 transmission has completed before transferring the remaining midi date
+        //make sure previous SPI2 transmission has completed before transferring the remaining midi data
         while (0u == ((SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_DONE) || (SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_IDLE )))
         {
             ;
@@ -476,6 +493,7 @@ int main(void)
             }
         }
     }
+
     //I2Cbuff1[0] = 1<<6;
     //status = I2C_MasterWriteBlocking(0x70, 1, I2C_1_MODE_COMPLETE_XFER);
     OLED_init();
@@ -483,6 +501,16 @@ int main(void)
     //OLED_draw();
     
     
+    //get the fretboard calibration data from EEPROM (unique to each Electrobass)
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            int high = EEPROM_ReadByte(i*8 + j*2);
+            int low = EEPROM_ReadByte(i*8 + j*2 + 1);
+            fretMeasurements[i][j] = (high << 8) + low;
+        }
+    }
     CapSense_Start();     
     
     hp_R = 1.0f - (3.14159265358979f * 2.0f * 2.0f / 200.0f);
@@ -492,7 +520,13 @@ int main(void)
     
     //SPI_ready_Write(1);
     CyDelay(10);
-
+    /*
+    while(1)
+    {
+        CapSense_ScanSensor(0);
+        CyDelay(1);
+    }
+    */
     //tSimplePoly_init(&myPoly);
 	for(;;)
     {
@@ -510,7 +544,7 @@ int main(void)
         CyDelayUs(5);
         
         scanButtons();
-
+        I2C_MasterReadBlocking(0x8u, 4 ,I2C_1_MODE_COMPLETE_XFER);
         CapSense_ClearSensors();
         CapSense_UpdateEnabledBaselines();
         CapSense_ScanEnabledWidgets();  
@@ -521,61 +555,6 @@ int main(void)
         }
         if (scanPart == 0)
         {
-
-            //buttons = Status_Reg_1_Read();
-            #if 0
-            
-            
-          //  sendMIDIControlChange(whichLinearSensor*3, (linearPotValue32Bit[whichLinearSensor] >> 9) & 127);
-          //  sendMIDIControlChange(whichLinearSensor*3+1, (linearPotValue32Bit[whichLinearSensor] >> 2) & 127);
-          //  sendMIDIControlChange(whichLinearSensor*3+2, (linearPotValue32Bit[whichLinearSensor] & 3));
-            uint8_t fretAbove = binarySearch(fretMeasurements[whichLinearSensor], 0, 21, linearPotValue32Bit[whichLinearSensor]);
-            float pitchBendVal = 8192.0;
-            float midiFloat = 0.0f;
-            if (fretAbove > 0)
-            {
-                float range = fretMeasurements[whichLinearSensor][fretAbove-1] - fretMeasurements[whichLinearSensor][fretAbove];
-                float ratio = ((float)(linearPotValue32Bit[whichLinearSensor]  - fretMeasurements[whichLinearSensor][fretAbove])) / range;
-                midiFloat = (1.0f - ratio) + (float)(fretAbove - 1);
-            }
-            if (frettedState)
-            {
-                float roundedMidiFloat = roundf(midiFloat);
-                if (midiFloat < hysteresisStates[whichLinearSensor] - 0.6f)
-                {
-                    hysteresisStates[whichLinearSensor] = roundedMidiFloat;   
-                }
-                else if (midiFloat > hysteresisStates[whichLinearSensor] + 0.6f)
-                {
-                    hysteresisStates[whichLinearSensor] = roundedMidiFloat;   
-                }
-                if (hysteresisStates[whichLinearSensor] != previousHysteresisStates[whichLinearSensor])
-                {
-                    vibratoCrossfade[whichLinearSensor] = 0.0f;
-                    crossFadeStartCount[whichLinearSensor] = 0;
-                }
-                //64 is the number of passes through this loop that it waits before applying the highpassed vibrato
-                //otherwise you get glitches as the filter picks up fret changes and smoothes them out
-                // would be better to do highpass and lowpass to narrow to bandwidth of 1Hz to 10Hz or so
-                else if ((vibratoCrossfade[whichLinearSensor] < 1.5f) && (crossFadeStartCount[whichLinearSensor] > 64))
-                {
-                    vibratoCrossfade[whichLinearSensor] += 0.01f;
-                   
-                }
-                else if (crossFadeStartCount[whichLinearSensor] <= 64)
-                {
-                    crossFadeStartCount[whichLinearSensor]++;
-                }
-         
-                previousHysteresisStates[whichLinearSensor] = hysteresisStates[whichLinearSensor];
-                                //high pass filter to get fast changes to add later
-                float vibrato = midiFloat - hp_x[whichLinearSensor] + hp_R * hp_y[whichLinearSensor];
-                hp_x[whichLinearSensor] = midiFloat;
-                hp_y[whichLinearSensor] = vibrato;
-                
-                midiFloat = hysteresisStates[whichLinearSensor]+ (vibrato * vibratoCrossfade[whichLinearSensor]);
-            }                
-            #endif
             
              
             float pitchBendVal = 8192.0;
@@ -584,78 +563,31 @@ int main(void)
             if (linearPotValue32Bit[whichLinearSensor] == 65535)
             {
                 stringMIDI[whichLinearSensor] = openStringMIDI[whichLinearSensor];
-                 //pitchBendVal  = (stringMIDI[whichLinearSensor] * 341.0f) + 8192.0f;
-                //if ((openStringCount[whichLinearSensor] < 5) || (CapSense_sensorOnMask[whichLinearSensor] & 1))
-                //{
-                //    openStringCount[whichLinearSensor]++;
-                //}
-                //else
-                //{
-                //    pitchBendsPerString[whichLinearSensor] = pitchBendVal;
-               // }
-                
+
+
                 //if we've got a pitch freeze active
                 if (pitchFreeze[whichLinearSensor])
                 {
-                    //stringMIDI[whichLinearSensor] = pitchBendHistory[whichLinearSensor][((pitchBendHistoryPointer[whichLinearSensor] + 1) & 31)];
-                    //pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = stringMIDI[whichLinearSensor];
-                    //pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
-                                    
-                    //smooth to the pitch bend before things went south
-                    linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][((pitchBendHistoryPointer[whichLinearSensor] + 1) & 31)];
+                    pitchBendsPerString[whichLinearSensor] = (int)pitchBendsPerString[whichLinearSensor];
                    
-                    linearSmoothed[whichLinearSensor] = 0;
-                    for (int j = 0; j < LINEAR_FIR_SIZE; j++)
-                    {
-                        linearSmoothed[whichLinearSensor] += linearFIR[whichLinearSensor][j];
-                    }             
-                    linFirPointer[whichLinearSensor] = (linFirPointer[whichLinearSensor] + 1) & LINEAR_FIR_SIZE_MASK;
-                    linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;
-                    invStringMappedPositions[whichLinearSensor] = (1.0f /  map((float)linearSmoothed[whichLinearSensor], fretMeasurements[whichLinearSensor][0], fretMeasurements[whichLinearSensor][1], fretRatios[0], fretRatios[1]));
-                    stringMIDI[whichLinearSensor] = ftom(invStringMappedPositions[whichLinearSensor] * openStringFreqs[whichLinearSensor]);
-                        
-                    if (linearSmoothed[whichLinearSensor] == 65535)
-                    {
-                        stringMIDI[whichLinearSensor] = openStringMIDI[whichLinearSensor];
-                    }
-                    
-                    if (frettedState)
-                    { 
-                        if ((stringMIDI[whichLinearSensor] > (stringMIDIPrev[whichLinearSensor] + linearHysteresis)) || ((stringMIDI[whichLinearSensor] < (stringMIDIPrev[whichLinearSensor] - linearHysteresis))))
-                        {
-                            stringMIDI[whichLinearSensor] = roundf(stringMIDI[whichLinearSensor]);
-                            stringMIDIPrev[whichLinearSensor] = stringMIDI[whichLinearSensor];
-                        }
-                        else
-                        {
-                           stringMIDI[whichLinearSensor] =  stringMIDIPrev[whichLinearSensor];
-                        }
-                    }
-                    pitchBendVal  = ((stringMIDI[whichLinearSensor] - openStringMIDI[whichLinearSensor]) * 341.0f) + 8192.0f;
-                    openStringCount[whichLinearSensor] = 0;
-                    pitchBendsPerString[whichLinearSensor] = pitchBendVal;
                 }
                 else
                 {
                    // pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = openStringMIDI[whichLinearSensor];
                     //pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
-                    pitchBendVal  = 8192.0f;
-                    openStringCount[whichLinearSensor] = 0;
+                    
                     pitchBendsPerString[whichLinearSensor] = pitchBendVal;
-                    if (stringStates[whichLinearSensor][0] > 0)
-                    {
-                        stringMIDIPrev[whichLinearSensor] = stringMIDI[whichLinearSensor];
-                        pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = linearPotValue32Bit[whichLinearSensor];
-                        pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
-                    }
+
                 }  
+
             }
             //otherwise, it's pressed to the fretboard
             else
             {
                 //if (pitchFreeze[whichLinearSensor])
+                //pitchHistoryPointer gets incremented every time after the history is loaded, so here it should point to the next value, which is the oldest that hasn't been yet overwritten
                 {
-                    linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][((pitchBendHistoryPointer[whichLinearSensor] + 20) & 31)];
+                    linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][(((pitchBendHistoryPointer[whichLinearSensor]) - 1) & 31)];
                 }
                 //else
                 {
@@ -668,27 +600,86 @@ int main(void)
                 }             
                 linFirPointer[whichLinearSensor] = (linFirPointer[whichLinearSensor] + 1) & LINEAR_FIR_SIZE_MASK;
                 linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;
-                invStringMappedPositions[whichLinearSensor] = (1.0f /  map((float)linearSmoothed[whichLinearSensor], fretMeasurements[whichLinearSensor][0], fretMeasurements[whichLinearSensor][1], fretRatios[0], fretRatios[1]));
-                stringMIDI[whichLinearSensor] = ftom(invStringMappedPositions[whichLinearSensor] * openStringFreqs[whichLinearSensor]);
+                
+                if (calibration_mode > 0)
+                {
+                    int whichStringToStore = (calibration_mode - 1) / 4;
+                    int whichFretToStore =(calibration_mode - 1) % 4;
+                    fretMeasurements[whichStringToStore][whichFretToStore] = linearSmoothed[whichStringToStore];
+                }
+                
+                if (fretboard_fretless)
+                {
+    				if (linearSmoothed[whichLinearSensor] == 65535)
+    				{
+    					invStringMappedPositions[whichLinearSensor] = 1.0f;
+    				}
+                    else if ((linearSmoothed[whichLinearSensor] > fretMeasurements[whichLinearSensor][1]))
+    				{
+    					invStringMappedPositions[whichLinearSensor] = 1.0f / (map((float)linearSmoothed[whichLinearSensor], fretMeasurements[whichLinearSensor][0], fretMeasurements[whichLinearSensor][1], fretRatios[0], fretRatios[1]));
+    				}
+    				else if ((linearSmoothed[whichLinearSensor] <= fretMeasurements[whichLinearSensor][1]) && (linearSmoothed[whichLinearSensor] > fretMeasurements[whichLinearSensor][2]))
+    				{
+    					invStringMappedPositions[whichLinearSensor] = 1.0f / (map((float)linearSmoothed[whichLinearSensor], fretMeasurements[whichLinearSensor][1], fretMeasurements[whichLinearSensor][2], fretRatios[1], fretRatios[2]));
+    				}
+    				else
+    				{
+    					invStringMappedPositions[whichLinearSensor] = 1.0f / map((float)linearSmoothed[whichLinearSensor], fretMeasurements[whichLinearSensor][2], fretMeasurements[whichLinearSensor][3], fretRatios[2], fretRatios[3]);
+    				}
+                   
+                    
+                    stringMIDI[whichLinearSensor] = ftom(invStringMappedPositions[whichLinearSensor] * openStringFreqs[whichLinearSensor]);
+                }
+                else
+                {
+                    stringMIDI[whichLinearSensor] = openStringMIDI[whichLinearSensor] + roundf(21.0f-((float)linearPotValue32Bit[whichLinearSensor] / 2640.0f));
+                }
+                
+                
                 pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = linearPotValue32Bit[whichLinearSensor];
                 pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
-            
 
+                //get vibrato by filtering unfretted signal with a highpass (computed with Max/MSP filtergraph, remember sample rate is very low, like 1Hz)    
+                float oldx = filtx[whichLinearSensor][1];
+                filtx[whichLinearSensor][1] = filtx[whichLinearSensor][0];
+                filtx[whichLinearSensor][0] = stringMIDI[whichLinearSensor];
+                
+                float oldy = filty[whichLinearSensor][1];
+                filty[whichLinearSensor][1] = filty[whichLinearSensor][0];
+                
+                float filtOut = (0.979916f * filtx[whichLinearSensor][0]) + 
+                   (-1.959832f * filtx[whichLinearSensor][1]) + ( 0.979916f * oldx) - (-1.959041f * filty[whichLinearSensor][1]) - (0.960623f * oldy);
+                
+                filty[whichLinearSensor][0] = filtOut;
+                
+
+
+                if ((stringMIDI[whichLinearSensor] > (stringMIDIPrev[whichLinearSensor] + linearHysteresis)) || ((stringMIDI[whichLinearSensor] < (stringMIDIPrev[whichLinearSensor] - linearHysteresis))))
+                {
+                    stringMIDIRounded[whichLinearSensor] = roundf(stringMIDI[whichLinearSensor]);
+                    stringMIDIPrev[whichLinearSensor] = stringMIDIRounded[whichLinearSensor];
+
+                    //this removes glitch in filter when fret changes suddenly
+                    filtx[whichLinearSensor][0] = stringMIDIRounded[whichLinearSensor];
+                    filtx[whichLinearSensor][1] = stringMIDIRounded[whichLinearSensor];
+                    filty[whichLinearSensor][0] = 0.0f;
+                    filty[whichLinearSensor][1] = 0.0f;
+
+                }
+                else
+                {
+                   stringMIDIRounded[whichLinearSensor] =  stringMIDIPrev[whichLinearSensor];
+                }
+                //if you are in fretted mode, use the rounded value with the vibrato added in 
+                // (need to compute those values even if not using them, in case it switches suddenly
                 if (frettedState)
                 { 
-                    if ((stringMIDI[whichLinearSensor] > (stringMIDIPrev[whichLinearSensor] + linearHysteresis)) || ((stringMIDI[whichLinearSensor] < (stringMIDIPrev[whichLinearSensor] - linearHysteresis))))
-                    {
-                        stringMIDI[whichLinearSensor] = roundf(stringMIDI[whichLinearSensor]);
-                        stringMIDIPrev[whichLinearSensor] = stringMIDI[whichLinearSensor];
-                    }
-                    else
-                    {
-                       stringMIDI[whichLinearSensor] =  stringMIDIPrev[whichLinearSensor];
-                    }
+                    stringMIDI[whichLinearSensor] = stringMIDIRounded[whichLinearSensor] + filtOut;             
                 }
-                pitchBendVal  = ((stringMIDI[whichLinearSensor] - openStringMIDI[whichLinearSensor]) * 341.0f) + 8192.0f;
+                pitchBendVal  = ((stringMIDI[whichLinearSensor] - openStringMIDI[whichLinearSensor]) * 170.5f) + 8192.0f;
                 openStringCount[whichLinearSensor] = 0;
                 pitchBendsPerString[whichLinearSensor] = pitchBendVal;
+
             }
            
         }
@@ -697,16 +688,25 @@ int main(void)
         {     
             if (stringStates[whichLinearSensor][0] >= 0)
             {
-                //if (pitchFreeze[whichLinearSensor])
-               // {
-                    //pitchBendsPerString[whichLinearSensor] =  pitchBendHistory[whichLinearSensor][(pitchBendHistoryPointer[whichLinearSensor] + 16) & 31];
-               // }
-                
+
                 if (((int)pitchBendsPerString[whichLinearSensor]) != previousPitchBendsSent)
                 {
 
                     sendMIDIPitchBend((uint)pitchBendsPerString[whichLinearSensor], 0);
                     previousPitchBendsSent = (int)pitchBendsPerString[whichLinearSensor];
+                }
+            }
+        }
+        else
+        {
+            if (stringStates[whichLinearSensor][0] >= 0)
+            {
+
+                if (((int)pitchBendsPerString[whichLinearSensor]) != previousPitchBendsSentPoly[whichLinearSensor])
+                {
+
+                    sendMIDIPitchBend((uint)pitchBendsPerString[whichLinearSensor], whichLinearSensor+1);
+                    previousPitchBendsSentPoly[whichLinearSensor] = (int)pitchBendsPerString[whichLinearSensor];
                 }
             }
         }
@@ -734,11 +734,11 @@ int main(void)
                 {
                     if (i < 4)
                     {
-                        sendMIDIControlChange(17 + i , 127-knobs7bit[i], 0);
+                        sendMIDIControlChange(9 + i , 127-knobs7bit[i], 0);
                     }
                     if ((i == 4) && (CV_pedal_sense_Read()))
                     {
-                        sendMIDIControlChange(17 + i , knobs7bit[i], 0);
+                        sendMIDIControlChange(9 + i , knobs7bit[i], 0);
                         //sendMIDIControlChange(19 + i+1 , 0, 0);
                     }
                 }
@@ -772,14 +772,12 @@ int main(void)
                 LHMute[i] = 0;
                 LHMuteCounter[i] = 0;
             }
-            
-            //sendMIDIControlChange(104+i, LHMute[i], 3);
+
             //left hand mute just began
             //freeze pitch bend at value from 12 sends ago (to avoid dip before mute due to sensor losing contact)
             if ((LHMute[i]) && (stringStates[i][0])>=0)
             {
                 pitchFreeze[i] = 1;
-                //sendMIDIControlChangeComputer(108+i, pitchFreeze[i], 4);
             }
             else
             {
@@ -787,15 +785,11 @@ int main(void)
             }
             //left hand mute has counted to max time
             //send note off
-            if (i == 1)
-            {
-                //sendMIDIControlChangeComputer(112+i, LHMuteCounter[i],5);
-            }
-            //sendMIDIControlChange(116+i, stringStates[i][0],6);
-            if ((LHMuteCounter[i] > 125) && (stringStates[i][0] >= 0))
+            if ((LHMuteCounter[i] > 60) && (stringStates[i][0] >= 0))
             {
                  handleNotes(lastNotes[i], 0, i);
             }
+
             
             stringPlucks[i] = (rxBuffer[i*2] << 8) + rxBuffer[i*2+1];
 
@@ -805,6 +799,7 @@ int main(void)
                 //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
                 LHMuteCounter[i] = 0;
                 pitchFreeze[i] = 0;
+                octave = ((int)I2Cbuff2[1]) - 1;
                 lastNotes[i] = (int)openStringMIDI[i] + (octave * 12);
                 handleNotes(lastNotes[i], stringPlucks[i], i);
             }
@@ -853,7 +848,7 @@ int main(void)
                 currentPresetSelection = presetNumberToWrite;
                 //display previous preset as loaded
                 sendCurrentPresetNumber();
-                OLED_invert(0);
+               // OLED_invert(0);
                 sendMessageEnd = 0;
                 sendingMessage = 0;
                 messageArraySendCount = 0;
@@ -912,8 +907,9 @@ int main(void)
         {
             tx2Buffer[0] = 4; //for the audio chip this message is a 4 
             tx2Buffer[1] = presetNumberToLoad;
-            sendingMessage = 4;
+            sendingMessage = 0;
         }
+        #if 0
         else if (sendingMessage == 4) //4  means waiting for preset loaded response
         {
             tx2Buffer[0] = 5; //for the audio chip this message is a 4 
@@ -931,10 +927,11 @@ int main(void)
             {
                 presetLoadedResponse[0]= 255; //still waiting
                 sendingMessage = 0;
-                OLED_invert(0);
+                //OLED_invert(0);
                 //mark that it's been loaded on the display
             }
         }
+        #endif
 
         
         
@@ -947,15 +944,18 @@ int main(void)
         if (rx2Buffer[0] == 253) // message that means audio IC is sending preset names)
         {
             uint8_t whichPresetToName = rx2Buffer[1];
-            if (whichPresetToName < MAX_NUM_PRESETS)
+            if ((parsingSysex != 1) && (sendingMessage == 0) && (whichPresetToName != currentPresetSelection))
             {
-                for (int i = 0; i < 14; i++)
+                if (whichPresetToName < MAX_NUM_PRESETS)
                 {
-                    presetNamesArray[whichPresetToName][i] = rx2Buffer[i+2];
+                    for (int i = 0; i < 14; i++)
+                    {
+                        presetNamesArray[whichPresetToName][i] = rx2Buffer[i+2];
+                    }
                 }
             }
         }
-        else if (rx2Buffer[0] == 252) // message that means audio IC is sending preset names)
+        else if (rx2Buffer[0] == 252) // message that means audio IC is acknowledging preset load)
         {
             presetLoadedResponse[0] = rx2Buffer[1];
             presetLoadedResponse[1] = rx2Buffer[2];
@@ -1014,11 +1014,7 @@ int main(void)
         //send SPI data
         CyDmaChEnable(rxChannel, STORE_TD_CFG_ONCMPLT);
         CyDmaChEnable(txChannel, STORE_TD_CFG_ONCMPLT);
-        
 
-       //CyDelay(1);
-
-        
         timeSinceLastAttack++;
      }
 }
@@ -1090,9 +1086,163 @@ void USB_service(void)
 }
 
 
+#define NUM_MACROS 8
+
 void parseSysex(void)
 {
     parsingSysex = 1;
+    
+     if (sysexBuffer[0] == 0)
+    {
+        sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
+        currentFloat = 0;
+        presetArraySection = presetName;
+        presetNumberToWrite = sysexBuffer[1];
+        
+        union breakFloat theVal;
+        uint32_t i = 2;
+        uint8_t stoppingPoint = NAME_LENGTH_IN_BYTES+2;
+        for (; i < stoppingPoint; i++)
+        {
+            presetArray[i-2] = sysexBuffer[i] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+            presetNamesArray[presetNumberToWrite][i-2] = sysexBuffer[i] & 127;
+        }
+        
+        presetArraySection = macroNames;
+
+        
+        for (int j = 0; j < NUM_MACROS; j++)
+        {
+            for (int k = 0; k < NAME_LENGTH_IN_BYTES; k++)
+            {
+                presetArray[i-2] = sysexBuffer[i] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+                //don't actually need to store macro names in the Electrobass, since we can't access them right now
+                //macroNamesArray[presetNumberToWrite][j][k] = sysexBuffer[i] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+                i++;
+            }
+        }
+        
+        uint16_t valsStart = NAME_LENGTH_IN_BYTES + (NAME_LENGTH_IN_BYTES * NUM_MACROS);
+        
+        presetArraySection = initialVals;
+        
+        for (; i < sysexPointer; i = i+5)
+        {
+            theVal.u32 = 0;
+            theVal.u32 |= ((sysexBuffer[i] &15) << 28);
+            theVal.u32 |= (sysexBuffer[i+1] << 21);
+            theVal.u32 |= (sysexBuffer[i+2] << 14);
+            theVal.u32 |= (sysexBuffer[i+3] << 7);
+            theVal.u32 |= (sysexBuffer[i+4] & 127);
+            testVal = theVal.f;
+            if (presetArraySection == initialVals)
+            {
+
+                if (currentFloat == 0)
+                {
+                    valsCount = (uint16_t) theVal.f;
+                    presetArray[valsStart + currentFloat++] = valsCount >> 8;
+                    presetArray[valsStart + currentFloat++] = valsCount & 0xff;
+                }
+                else if (currentFloat < ((valsCount+1)*2))
+                { 
+                    uint16_t intVal = (uint16_t)(theVal.f * 65535.0f);
+                    presetArray[valsStart + currentFloat++] = intVal >> 8;
+                    presetArray[valsStart + currentFloat++] = intVal & 0xff;
+                }
+                else if (currentFloat == ((valsCount+1)*2))
+                {
+                    valCheck = theVal.f;
+                    if ((valCheck < -1.5f) && (valCheck > -2.5f))
+                    {
+                        presetArray[valsStart + currentFloat++] = 0xef;
+                        presetArray[valsStart + currentFloat++] = 0xef;
+                        presetArraySection = mapCountNext;
+                        mapCount = 0;
+                    }
+                    else
+                    {
+                        //error state
+                        SPI_errors++;
+                        sysexMessageInProgress = 0;
+                        sysexPointer = 0;
+                        sendingMessage = 0;
+                        parseThatMF = 0;
+                    }
+                }
+            }
+            else if (presetArraySection == mapCountNext)
+            {
+                mapCountExpectation = (uint16_t)theVal.f;
+                presetArray[valsStart + currentFloat++] = mapCountExpectation >> 8;
+                presetArray[valsStart + currentFloat++] = mapCountExpectation & 0xff;
+                presetArraySection = mapping;
+                numMappings = 0;
+            }
+            else if (presetArraySection == mapping)
+            {
+                // this is the order
+                // source (int), target (int), scalarSource (arrives as -1.0f if no scalar, send as 255 if no scalar)(int), range (float -1.0 to 1.0)
+                if (numMappings < mapCountExpectation)
+                {
+                    if ((mapCount % 4) == 0)
+                    {
+                        presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
+                    }
+                    else if  (mapCount % 4 == 1)
+                    {
+                        presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
+                    }
+                    else if (mapCount % 4 == 2) //check if the scalar source is -1 (if so send 255 instead of a valid source number)
+                    {
+                        if (theVal.f < 0.0f)
+                        {
+                             presetArray[valsStart + currentFloat++] = 0xff;
+                        }
+                        else
+                        {
+                             presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
+                        }
+                    }
+                    else
+                    {
+                        int16_t intVal = (int16_t)(theVal.f * 32767.0f); //keep it signed to allow negative numbers
+                        presetArray[valsStart + currentFloat++] = intVal >> 8;
+                        presetArray[valsStart + currentFloat++] = intVal & 0xff;
+                        numMappings++;
+                    }
+                    mapCount++;
+                }
+                
+
+                else
+                {
+                    //mapcount ended
+                    if ((theVal.f < -2.5f) && (theVal.f > -3.5f))
+                    {
+                        presetArray[valsStart + currentFloat++] = 0xfe;
+                        presetArray[valsStart + currentFloat++] = 0xfe;
+                        presetArraySection = presetEnd;
+                        sysexMessageInProgress = 0;
+                        sendingMessage = 1;
+                        messageArraySize = valsStart + currentFloat;
+                    }
+                    else
+                    {
+                        //error state
+                        SPI_errors++;
+                        sysexMessageInProgress = 0;
+                        sysexPointer = 0;
+                        sendingMessage = 0;
+                        parseThatMF = 0;
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    #if 0
     //0 = it's a preset
     if (sysexBuffer[0] == 0)
     {
@@ -1231,6 +1381,7 @@ void parseSysex(void)
             
         }
     }
+    #endif
     else if (sysexBuffer[0] == 1) //its a tuning
     {
         
@@ -1281,7 +1432,7 @@ void parseSysex(void)
 
 volatile uint8_t tempMIDI[4];
 volatile uint8_t firstSysex = 0;
-const uint16_t sysexPointerMask = 1023;
+const uint16_t sysexPointerMask = 2047;
 
 //data sent from computer
 void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
@@ -1364,11 +1515,11 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
     }
     if (velocity > 0)
     {
-        LED1_Write(1);
+        //LED1_Write(1);
     }
     else
     {
-        LED1_Write(0);
+       // LED1_Write(0);
     }
 
     
@@ -1447,6 +1598,9 @@ void sendMIDIControlChangeComputer(int CCnum, int CCval, int channel)
 
 int32 iVtherm = 0;
 
+volatile int32_t linearSensorZero[3];
+
+volatile float linearSensoriRes;
 
 void scanLinearResistor(void)
 {
@@ -1458,6 +1612,7 @@ void scanLinearResistor(void)
         ExtMUXS1_Write((whichLinearSensor & 2)>>1);
 
         scanPart = 0;
+
         //if (scanPart == 0)
         {
             AMux_1_FastSelect(scanPart);
@@ -1478,19 +1633,41 @@ void scanLinearResistor(void)
             iVref = ADC_1_GetResult32();
 
             iVref =   iVref - offset;
-            
-            if ((iVref > 1000) && (iVtherm < 1000))
+            //to print out sensor values to check in Max/MSP
+            #if 0
+            if (whichLinearSensor == 0)
+            {
+                sendMIDIControlChange(103,iVref >> 9, 4);
+                sendMIDIControlChange(104,iVref >> 7, 4);
+                sendMIDIControlChange(105,iVref & 127, 4);
+                
+                sendMIDIControlChange(106,iVtherm >> 9, 4);
+                sendMIDIControlChange(107,iVtherm >> 7, 4);
+                sendMIDIControlChange(108,iVtherm & 127, 4);
+            }
+            #endif
+            if ((iVref > 1000) && (iVtherm < 100))
             {
                 iRes = 65535;
             }
             else
             {
-                iRes = (int32)(((float)iVref / (float)iVtherm) * 30000.0f);
+                if (fretboard_fretless)
+                {
+                    iRes = (int32)(((float)iVref / (float)iVtherm) * 20000.0f); //FRETLESS
+                }
+                else
+                {
+                    iRes = (int32)(((float)iVref / (float)iVtherm) * 10000.0f); // FRETTED
+                }
+                //
             }
+            
             linearPotValue32Bit[whichLinearSensor] = iRes;
             //sendMIDIControlChangeComputer(116+whichLinearSensor, iRes / 512, 2);
             whichLinearSensor = (whichLinearSensor + 1) & 3;
         }
+        
         scanPart = (scanPart + 1) & 1;
         //scanPart = 0;
 
@@ -1576,9 +1753,23 @@ void DmaRxConfiguration()
     CyDmaChSetInitialTd(rx2Channel, rx2TD);
 }
 
+uint8 I2C_MasterReadBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
+{
+    
+    uint8 volatile status;
+
+    status = I2C_1_MasterReadBuf(i2CAddr, (uint8 *)&I2Cbuff2, nbytes,
+                                     mode);
+
+    return status;
+}
+
 uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
 {
-    uint8 volatile status;
+    
+
+        uint8 volatile status;
+
     uint32_t timeout = 50000;
     status = I2C_1_MasterClearStatus();
     if(!(status & I2C_1_MSTAT_ERR_XFER))
@@ -1618,6 +1809,7 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
             //I2C_reset();
         } 
     }  
+
     return status;
 }
 
@@ -1649,6 +1841,7 @@ void handleNotes(int note, int velocity, int string)
     if (polyMode)
     {
         sendMIDINoteOn(note, velocity, string+1);
+        stringStates[string][0] = velocity;
     }
     else
     {
@@ -1668,13 +1861,13 @@ void handleNotes(int note, int velocity, int string)
             //(would maybe mean this is just sympathetic bridge resonance and shouldn't interrupt the monophonic handling)
             // maybe need more complexity in time since attack? // or maybe do active suppression in the pluck detector board by summing strings with the inverse of the nearby strings
             uint8_t ignore = 0;
-            if (velocity < 25)
+            if (velocity < 10) // 25
             {
                 ignore = 1;   
             }
-            //else if ((loudestSoundingNote >=25) && (velocity <= loudestSoundingNote -25))
+            else if ((loudestSoundingNote >=30) && (velocity <= 30))
             {
-                //ignore = 1;
+                ignore = 1;
             }
             
             if (!ignore)
@@ -1744,18 +1937,19 @@ void handleNotes(int note, int velocity, int string)
 
 void scanButtons(void)
 {
-    int buttonInputs[4];
+    int buttonInputs[5];
     
     buttonInputs[0] = !fretted_latching_Read();
     buttonInputs[1] = !up_Read();
     buttonInputs[2] = !down_Read();
     buttonInputs[3] = !enter_Read();
+    buttonInputs[4] = !fretted_mom_Read();
     
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
     {
         if (buttonInputs[i] && (buttonStates[i] == 1)) //subsequent down state
         {
-            if (buttonCounters[i] < 60)
+            if (buttonCounters[i] < 100)
             {
                 buttonCounters[i]++;
             }
@@ -1770,13 +1964,15 @@ void scanButtons(void)
     }
     
     //fretted processing
-    if (buttonCounters[0] == 50)
+    if (buttonCounters[0] == 95)
     {
         frettedStateLatched = !frettedStateLatched;
+        buttonCounters[0] = 97;
     }
     
+    int momentary_fretted = ((int)I2Cbuff2[2] > 0);
     //check momentary fretted button
-    if (!fretted_momentary_Read())
+    if (momentary_fretted)
     {
         frettedState = !frettedStateLatched;
     }
@@ -1785,20 +1981,21 @@ void scanButtons(void)
         frettedState = frettedStateLatched;
     }
     
+    //frettedState = frettedStateLatched;
     //indicate fretted state
     if (frettedState)
     {
-        LED1_Write(1);
+        LED_1_Write(1);
     }
     else
     {
-        LED1_Write(0);
+        LED_1_Write(0);
     }
     
     
     //up and down processing
     //if up pressed
-    if (buttonCounters[1] == 50)
+    if (buttonCounters[1] == 95)
     {
         if (currentPresetSelection < highestPresetNumber)
         {
@@ -1810,11 +2007,13 @@ void scanButtons(void)
         }
         
         sendCurrentPresetNumber();
-        OLED_invert(1);
-        buttonCounters[1] = 52;
+        presetNumberToLoad = currentPresetSelection;
+        sendingMessage = 3;
+        //OLED_invert(1);
+        buttonCounters[1] = 97;
     }
     //if down pressed
-    if (buttonCounters[2] == 50)
+    if (buttonCounters[2] == 95)
     {
         if (currentPresetSelection > 0)
         {
@@ -1826,18 +2025,52 @@ void scanButtons(void)
             currentPresetSelection = highestPresetNumber;
         }
         sendCurrentPresetNumber();
-        OLED_invert(1);
-        buttonCounters[2] = 52;
-    }
-    //if enter pressed
-    if (buttonCounters[3] == 50)
-    {
-        sendCurrentPresetNumber();
         presetNumberToLoad = currentPresetSelection;
         sendingMessage = 3;
-        buttonCounters[3] = 52;
+        //OLED_invert(1);
+        buttonCounters[2] = 97;
     }
+    //if enter pressed
+    if (buttonCounters[3] == 95)
+    {
+        if (calibration_mode > 0)
+        {
+            calibration_mode++;
+            
+            if (calibration_mode > max_calibration)
+            {
+                calibration_mode = 0;
+                int byteCount = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        EEPROM_WriteByte(fretMeasurements[i][j] >> 8, byteCount++);
+                        EEPROM_WriteByte(fretMeasurements[i][j] & 255, byteCount++);
+                    }
+                }
+                sendCurrentPresetNumber();
+            }
+            else
+            {
+                OLED_writeCalibrationScreen(calibration_mode);
+            }
+        }
         
+        else if ((buttonStates[2] == 1) && (buttonStates[0] == 1))
+        {
+            calibration_mode = 1;
+            OLED_writeCalibrationScreen(calibration_mode);
+        }
+
+        buttonCounters[3] = 97;
+    }
+    
+    if (buttonCounters[4] == 95)
+    {
+        //polyMode = !polyMode;
+        buttonCounters[4] = 97;
+    }        
 }
 
 void sendCurrentPresetNumber(void)

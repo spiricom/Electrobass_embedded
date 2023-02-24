@@ -681,7 +681,7 @@
       <Data key="7e775273-38fa-45a4-bf09-95dd2cb02813" value="Vhi2" />
       <Data key="7f52f5a5-e1a4-466e-9cd7-4ad7166ac7c1" value="oct3_LED" />
       <Data key="8ce45f2d-1716-48e4-92b5-6bfab1afd6ae" value="Vtherm4" />
-      <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="fretted_momentary" />
+      <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="fretted_latching" />
       <Data key="8dca89cc-0319-4821-8d34-dcb9b7da0e45" value="neck_bits3" />
       <Data key="9b88c047-0e4c-4e58-ada8-a5426e14bc6c" value="joy_x" />
       <Data key="9b93cda7-1425-4c66-8e83-124b36d5177f" value="tune_LED" />
@@ -714,7 +714,7 @@
       <Data key="218c3035-6d64-4279-88df-7247fb8e15aa" value="MISO_2" />
       <Data key="299e848a-101f-43f1-9ebd-33cafaf7218a" value="pedal" />
       <Data key="310bc56e-d62c-4f4a-b552-02e2977d7bb7" value="joy_x_25" />
-      <Data key="0481eff9-fe73-4b77-ac55-f70e46188ef9" value="fretted_latching" />
+      <Data key="0481eff9-fe73-4b77-ac55-f70e46188ef9" value="fretted_mom" />
       <Data key="488c1238-e26e-452d-ac32-e05c5d2ec5c4" value="V_L_2" />
       <Data key="514d4684-61ad-4939-b0e4-3ec0f7c506c8" value="Vtherm3" />
       <Data key="643c0ba5-a22b-4ea4-aaa4-7a8606a8c41e" value="MOSI_2" />
@@ -723,6 +723,7 @@
       <Data key="1518ce35-a8ec-442f-ae39-0add8c0bfc45" value="up" />
       <Data key="2220c56d-969c-40bb-9282-76534d0c6cd5" value="utonal_LED" />
       <Data key="3727bf0f-d42d-4d00-8717-7b991b49d4b3" value="bowed_plucked_LED" />
+      <Data key="8000f639-c9be-45e1-8695-550ba0dc2dc5" value="LED_1" />
       <Data key="22863ebe-a37b-476f-b252-6e49a8c00b12" value="SDA_1" />
       <Data key="89324ca6-d4e3-49dd-a31e-edb1d5fc757a" value="SS_1" />
       <Data key="874492c7-8168-4379-b583-b0916727a5c5" value="MOSI_2" />
@@ -771,7 +772,7 @@
       <Data key="e794bf52-a4bf-45c2-b785-4c02de84878a" value="down" />
       <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="ExtMUXS0" />
       <Data key="ed7ddc83-dba6-48b0-842d-889008c1ed25/dea208d9-07b0-438b-a5e0-ac5d207f2658/16a808f6-2e13-45b9-bce0-b001c8655113" value="ADC_SAR_Seq_1_SAR_Bypass" />
-      <Data key="ed20aee1-1d96-4218-b2a1-c122da6fbb54" value="edit" />
+      <Data key="ed20aee1-1d96-4218-b2a1-c122da6fbb54" value="enter" />
       <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="MOSI_1" />
       <Data key="eec3cbba-a38b-4195-883a-9e3f330e151e" value="Vlow1_1" />
       <Data key="f04c4675-7295-4835-ae0c-f35407946c26" value="V_T_4" />
@@ -1746,6 +1747,9 @@
       <Group key="3">
         <Data key="Port Format" value="2,6" />
       </Group>
+      <Group key="4">
+        <Data key="Port Format" value="0,2" />
+      </Group>
     </Group>
     <Group key="02c2334d-9363-4f4e-adbb-de319d798079/f690e22d-5d36-4cf5-90f7-ced4bffff80d">
       <Group key="0">
@@ -1945,11 +1949,6 @@
         <Data key="Port Format" value="2,0" />
       </Group>
     </Group>
-    <Group key="57a79afe-4acd-47c8-96fb-094955d98b2a">
-      <Group key="0">
-        <Data key="Port Format" value="0,2" />
-      </Group>
-    </Group>
     <Group key="61e91f58-c836-4e07-9565-db225824e6d2">
       <Group key="0">
         <Data key="Port Format" value="2,4" />
@@ -2043,6 +2042,11 @@
     <Group key="3727bf0f-d42d-4d00-8717-7b991b49d4b3">
       <Group key="0">
         <Data key="Port Format" value="15,2" />
+      </Group>
+    </Group>
+    <Group key="8000f639-c9be-45e1-8695-550ba0dc2dc5">
+      <Group key="0">
+        <Data key="Port Format" value="0,2" />
       </Group>
     </Group>
     <Group key="22863ebe-a37b-476f-b252-6e49a8c00b12">
@@ -2330,7 +2334,6 @@
     </Group>
     <Group key="UnAssigned Pins">
       <Group key="02c2334d-9363-4f4e-adbb-de319d798079/dd9c1af8-be5a-4b9e-b10c-b2d9f11dc9fc">
-        <Data key="4" value="132745746073042776" />
         <Data key="5" value="132745746054418993" />
         <Data key="6" value="132745746035284039" />
         <Data key="7" value="132745746015965258" />
@@ -2349,6 +2352,9 @@
       </Group>
       <Group key="55e93eed-85a7-46d2-9bf8-e009843e1aa6">
         <Data key="0" value="132289739058668109" />
+      </Group>
+      <Group key="57a79afe-4acd-47c8-96fb-094955d98b2a">
+        <Data key="0" value="133120865486821540" />
       </Group>
       <Group key="aae072b3-a01e-4630-85e0-76e0a7bd91ca">
         <Data key="0" value="132289349738752374" />
@@ -2388,7 +2394,7 @@
     <Data key="CYDEV_CONFIG_UNUSED_IO" value="Disallowed" />
     <Data key="CYDEV_CONFIGURATION_CLEAR_SRAM" value="True" />
     <Data key="CYDEV_CONFIGURATION_ECC" value="True" />
-    <Data key="CYDEV_CONFIGURATION_MODE" value="DMA" />
+    <Data key="CYDEV_CONFIGURATION_MODE" value="COMPRESSED" />
     <Data key="CYDEV_CUSTOM_ID" value="0x00000000" />
     <Data key="CYDEV_DEBUGGING_DPS" value="SWD_SWV" />
     <Data key="CYDEV_DEBUGGING_REQXRES" value="True" />

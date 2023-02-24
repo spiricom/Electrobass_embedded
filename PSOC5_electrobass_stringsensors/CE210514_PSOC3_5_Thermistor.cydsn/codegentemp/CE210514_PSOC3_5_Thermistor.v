@@ -1,6 +1,6 @@
 // ======================================================================
 // CE210514_PSOC3_5_Thermistor.v generated from TopDesign.cysch
-// 10/13/2022 at 16:35
+// 02/11/2023 at 15:42
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -285,7 +285,7 @@ endmodule
 `include "C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\or_v1_0\or_v1_0.v"
 `endif
 
-// ADC_DelSig_v3_30(ADC_Alignment=0, ADC_Alignment_Config2=0, ADC_Alignment_Config3=0, ADC_Alignment_Config4=0, ADC_Charge_Pump_Clock=false, ADC_Clock=1, ADC_CLOCK_FREQUENCY=4799808, ADC_Input_Mode=0, ADC_Input_Range=7, ADC_Input_Range_Config2=4, ADC_Input_Range_Config3=4, ADC_Input_Range_Config4=4, ADC_Power=1, ADC_Reference=1, ADC_Reference_Config2=0, ADC_Reference_Config3=0, ADC_Reference_Config4=0, ADC_Resolution=14, ADC_Resolution_Config2=16, ADC_Resolution_Config3=16, ADC_Resolution_Config4=16, Clock_Frequency=64000, Comment_Config1=Default Config, Comment_Config2=Second Config, Comment_Config3=Third Config, Comment_Config4=Fourth Config, Config1_Name=CFG1, Config2_Name=CFG2, Config3_Name=CFG3, Config4_Name=CFG4, Configs=1, Conversion_Mode=0, Conversion_Mode_Config2=2, Conversion_Mode_Config3=2, Conversion_Mode_Config4=2, Enable_Vref_Vss=false, EnableModulatorInput=false, Input_Buffer_Gain=1, Input_Buffer_Gain_Config2=1, Input_Buffer_Gain_Config3=1, Input_Buffer_Gain_Config4=1, Input_Buffer_Mode=2, Input_Buffer_Mode_Config2=1, Input_Buffer_Mode_Config3=1, Input_Buffer_Mode_Config4=1, Ref_Voltage=1.024, Ref_Voltage_Config2=1.024, Ref_Voltage_Config3=1.024, Ref_Voltage_Config4=1.024, rm_int=false, Sample_Rate=23076, Sample_Rate_Config2=10000, Sample_Rate_Config3=10000, Sample_Rate_Config4=10000, Start_of_Conversion=0, Vdda_Value=3.3, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=ADC_DelSig_v3_30, CY_CONFIG_TITLE=ADC_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=ADC_1, CY_INSTANCE_SHORT_NAME=ADC_1, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=30, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=ADC_1, )
+// ADC_DelSig_v3_30(ADC_Alignment=0, ADC_Alignment_Config2=0, ADC_Alignment_Config3=0, ADC_Alignment_Config4=0, ADC_Charge_Pump_Clock=false, ADC_Clock=1, ADC_CLOCK_FREQUENCY=2800000, ADC_Input_Mode=0, ADC_Input_Range=7, ADC_Input_Range_Config2=4, ADC_Input_Range_Config3=4, ADC_Input_Range_Config4=4, ADC_Power=1, ADC_Reference=1, ADC_Reference_Config2=0, ADC_Reference_Config3=0, ADC_Reference_Config4=0, ADC_Resolution=16, ADC_Resolution_Config2=16, ADC_Resolution_Config3=16, ADC_Resolution_Config4=16, Clock_Frequency=64000, Comment_Config1=Default Config, Comment_Config2=Second Config, Comment_Config3=Third Config, Comment_Config4=Fourth Config, Config1_Name=CFG1, Config2_Name=CFG2, Config3_Name=CFG3, Config4_Name=CFG4, Configs=1, Conversion_Mode=0, Conversion_Mode_Config2=2, Conversion_Mode_Config3=2, Conversion_Mode_Config4=2, Enable_Vref_Vss=false, EnableModulatorInput=false, Input_Buffer_Gain=1, Input_Buffer_Gain_Config2=1, Input_Buffer_Gain_Config3=1, Input_Buffer_Gain_Config4=1, Input_Buffer_Mode=2, Input_Buffer_Mode_Config2=1, Input_Buffer_Mode_Config3=1, Input_Buffer_Mode_Config4=1, Ref_Voltage=1.024, Ref_Voltage_Config2=1.024, Ref_Voltage_Config3=1.024, Ref_Voltage_Config4=1.024, rm_int=false, Sample_Rate=10000, Sample_Rate_Config2=10000, Sample_Rate_Config3=10000, Sample_Rate_Config4=10000, Start_of_Conversion=0, Vdda_Value=3.3, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=ADC_DelSig_v3_30, CY_CONFIG_TITLE=ADC_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=ADC_1, CY_INSTANCE_SHORT_NAME=ADC_1, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=30, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=ADC_1, )
 module ADC_DelSig_v3_30_1 (
     aclk,
     eoc,
@@ -365,7 +365,7 @@ module ADC_DelSig_v3_30_1 (
         .reset_udb(Net_482),
         .vminus(Net_520),
         .vplus(vplus));
-    defparam DSM.resolution = 14;
+    defparam DSM.resolution = 16;
 
     cy_analog_noconnect_v1_0 cy_analog_noconnect_5 (
         .noconnect(Net_352));
@@ -495,7 +495,7 @@ module ADC_DelSig_v3_30_1 (
 		#(.id("fbda9b79-9f46-4360-b7f1-e0d7a25d459b/edd15f43-b66b-457b-be3a-5342345270c8"),
 		  .source_clock_id("61737EF6-3B74-48f9-8B91-F7473A442AE7"),
 		  .divisor(0),
-		  .period("208376745.155241"),
+		  .period("357142857.142857"),
 		  .is_direct(0),
 		  .is_digital(0))
 		theACLK
@@ -787,7 +787,7 @@ endmodule
 `include "C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v"
 `endif
 
-// CapSense_CSD_v3_50(AnalogSwitchDivider=30, ClockSource=0, ConnectInactiveSensors=1, CtlModeReplacementString=SyncCtrl, CurrentSource=1, EnableTuneHelper=false, EzI2CInstanceName=EZI2C, GuardSensorEnable=false, IdacRange=4, Implementation_CH0=1, Implementation_CH1=1, IntClockFrequency=24, LowBaselineReset=30, MaximumSensors=62, MultipleAnalogSwitchDivider=false, NegativeNoiseThreshold=20, NumberOfChannels=2, PrechargePolarity=3, PrescalerOptions=1, PrsOptions=2, RawDataFilterType=4, RbNumber_CH0=0, RbNumber_CH1=0, RemoveCH1=false, RemoveVrefTerm=false, ScanSpeed=3, SensorAutoReset=false, SensorNumber_CH0=4, SensorNumber_CH1=4, SensorNumberChannel0=4, SensorNumberChannel1=4, ShieldEnable=false, SizeReplacementString=uint16, SnsAlias_CH0=<?xml version='1.0'?><PinAliases Version='1'><pin0>Button0__BTN</pin0><pin1>Button1__BTN</pin1><pin2>Button2__BTN</pin2><pin3>Button3__BTN</pin3></PinAliases>, SnsAlias_CH1=<?xml version='1.0'?><PinAliases Version='1'><pin0>Button4__BTN</pin0><pin1>Button5__BTN</pin1><pin2>Button6__BTN</pin2><pin3>Button7__BTN</pin3></PinAliases>, TunerProperties=, TuningMethod=1, VrefOptions=0, VrefValue=200, WaterProofingEnabled=false, WidgetResolution=16, WidgetsData=<?xml version="1.0" encoding="utf-16"?> <CyWidgetsList xmlns:version="v1.00">   <ListMainTerminal>     <CyTerminal NameIndex="0" WidgetName="Button0__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button1__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button2__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button3__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button4__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button5__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button6__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button7__BTN" />   </ListMainTerminal>   <ListButtons>     <CyButton Name="Button0" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>4</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>8</FingerThreshold>         <NoiseThreshold>6</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button1" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>4</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>8</FingerThreshold>         <NoiseThreshold>6</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button2" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>4</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>8</FingerThreshold>         <NoiseThreshold>6</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button3" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>4</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>8</FingerThreshold>         <NoiseThreshold>6</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button4" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>4</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>10</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button5" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>4</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>10</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button6" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>4</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>10</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button7" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>4</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>10</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>   </ListButtons>   <ListMatrixButtons />   <ListTouchPads />   <ListSliders />   <GuardSensor Name="GuardSensor" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">     <Location>       <X>2147483647</X>       <Y>2147483647</Y>     </Location>     <Properties>       <Hysteresis>10</Hysteresis>       <Debounce>5</Debounce>       <FingerThreshold>100</FingerThreshold>       <NoiseThreshold>20</NoiseThreshold>       <ScanResolution>_10</ScanResolution>     </Properties>   </GuardSensor>   <GuardSensorTerminal NameIndex="0" WidgetName="GuardSensor__GRD" />   <CyScanSlotsList>     <ListScanSlots>       <CyScanSlot IDACSettings="40" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button0__BTN">         <ListTerminalsNames>           <string>Button0__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="40" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button1__BTN">         <ListTerminalsNames>           <string>Button1__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="40" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button2__BTN">         <ListTerminalsNames>           <string>Button2__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="40" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button3__BTN">         <ListTerminalsNames>           <string>Button3__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="60" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button4__BTN">         <ListTerminalsNames>           <string>Button4__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="60" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button5__BTN">         <ListTerminalsNames>           <string>Button5__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="60" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button6__BTN">         <ListTerminalsNames>           <string>Button6__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="60" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button7__BTN">         <ListTerminalsNames>           <string>Button7__BTN</string>         </ListTerminalsNames>       </CyScanSlot>     </ListScanSlots>     <GuardSensorScanSlot IDACSettings="200" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="GuardSensor__GRD">       <ListTerminalsNames>         <string>GuardSensor__GRD</string>       </ListTerminalsNames>     </GuardSensorScanSlot>   </CyScanSlotsList> </CyWidgetsList>, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=CapSense_CSD_v3_50, CY_CONFIG_TITLE=CapSense, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=CapSense, CY_INSTANCE_SHORT_NAME=CapSense, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=CapSense, )
+// CapSense_CSD_v3_50(AnalogSwitchDivider=250, ClockSource=0, ConnectInactiveSensors=1, CtlModeReplacementString=SyncCtrl, CurrentSource=1, EnableTuneHelper=false, EzI2CInstanceName=EZI2C, GuardSensorEnable=false, IdacRange=4, Implementation_CH0=1, Implementation_CH1=1, IntClockFrequency=24, LowBaselineReset=10, MaximumSensors=62, MultipleAnalogSwitchDivider=false, NegativeNoiseThreshold=8, NumberOfChannels=2, PrechargePolarity=3, PrescalerOptions=1, PrsOptions=0, RawDataFilterType=2, RbNumber_CH0=0, RbNumber_CH1=0, RemoveCH1=false, RemoveVrefTerm=false, ScanSpeed=1, SensorAutoReset=false, SensorNumber_CH0=4, SensorNumber_CH1=4, SensorNumberChannel0=4, SensorNumberChannel1=4, ShieldEnable=false, SizeReplacementString=uint16, SnsAlias_CH0=<?xml version='1.0'?><PinAliases Version='1'><pin0>Button0__BTN</pin0><pin1>Button1__BTN</pin1><pin2>Button2__BTN</pin2><pin3>Button3__BTN</pin3></PinAliases>, SnsAlias_CH1=<?xml version='1.0'?><PinAliases Version='1'><pin0>Button4__BTN</pin0><pin1>Button5__BTN</pin1><pin2>Button6__BTN</pin2><pin3>Button7__BTN</pin3></PinAliases>, TunerProperties=, TuningMethod=1, VrefOptions=0, VrefValue=200, WaterProofingEnabled=false, WidgetResolution=16, WidgetsData=<?xml version="1.0" encoding="utf-16"?> <CyWidgetsList xmlns:version="v1.00">   <ListMainTerminal>     <CyTerminal NameIndex="0" WidgetName="Button0__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button1__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button2__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button3__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button4__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button5__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button6__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button7__BTN" />   </ListMainTerminal>   <ListButtons>     <CyButton Name="Button0" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>15</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button1" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>15</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button2" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>15</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button3" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>15</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button4" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button5" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button6" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button7" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>   </ListButtons>   <ListMatrixButtons />   <ListTouchPads />   <ListSliders />   <GuardSensor Name="GuardSensor" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">     <Location>       <X>2147483647</X>       <Y>2147483647</Y>     </Location>     <Properties>       <Hysteresis>10</Hysteresis>       <Debounce>5</Debounce>       <FingerThreshold>100</FingerThreshold>       <NoiseThreshold>20</NoiseThreshold>       <ScanResolution>_10</ScanResolution>     </Properties>   </GuardSensor>   <GuardSensorTerminal NameIndex="0" WidgetName="GuardSensor__GRD" />   <CyScanSlotsList>     <ListScanSlots>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button0__BTN">         <ListTerminalsNames>           <string>Button0__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button1__BTN">         <ListTerminalsNames>           <string>Button1__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button2__BTN">         <ListTerminalsNames>           <string>Button2__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button3__BTN">         <ListTerminalsNames>           <string>Button3__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button4__BTN">         <ListTerminalsNames>           <string>Button4__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button5__BTN">         <ListTerminalsNames>           <string>Button5__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button6__BTN">         <ListTerminalsNames>           <string>Button6__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button7__BTN">         <ListTerminalsNames>           <string>Button7__BTN</string>         </ListTerminalsNames>       </CyScanSlot>     </ListScanSlots>     <GuardSensorScanSlot IDACSettings="200" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="GuardSensor__GRD">       <ListTerminalsNames>         <string>GuardSensor__GRD</string>       </ListTerminalsNames>     </GuardSensorScanSlot>   </CyScanSlotsList> </CyWidgetsList>, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=CapSense_CSD_v3_50, CY_CONFIG_TITLE=CapSense, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=CapSense, CY_INSTANCE_SHORT_NAME=CapSense, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=CapSense, )
 module CapSense_CSD_v3_50_6 (
     bclk,
     clock,
@@ -1190,7 +1190,7 @@ module CapSense_CSD_v3_50_6 (
         .start1(Net_1358));
     defparam ClockGen.IdacOptions = 1;
     defparam ClockGen.PrescalerOptions = 1;
-    defparam ClockGen.PrsOptions = 2;
+    defparam ClockGen.PrsOptions = 0;
 
     OneTerminal OneTerminal_3 (
         .o(Net_374));
@@ -2597,7 +2597,7 @@ module ADC_SAR_SEQ_v2_10_10 (
 
 endmodule
 
-// I2C_v3_50(Address_Decode=1, BusSpeed_kHz=100, ClockInputVisibility=false, CtlModeReplacementString=SyncCtl, EnableWakeup=false, ExternalBuffer=false, Externi2cIntrHandler=false, ExternTmoutIntrHandler=false, FF=true, Hex=false, I2C_Mode=2, I2cBusPort=0, Implementation=1, InternalUdbClockToleranceMinus=25, InternalUdbClockTolerancePlus=5, NotSlaveClockMinusTolerance=25, NotSlaveClockPlusTolerance=5, PrescalerEnabled=false, PrescalerPeriod=3, Psoc3ffSelected=false, Psoc5AffSelected=false, Psoc5lpffSelected=true, RemoveI2cff=false, RemoveI2cUdb=true, RemoveIntClock=true, RemoveTimeoutTimer=true, SclTimeoutEnabled=false, SdaTimeoutEnabled=false, Slave_Address=8, SlaveClockMinusTolerance=5, SlaveClockPlusTolerance=50, TimeoutEnabled=false, TimeoutImplementation=0, TimeOutms=25, TimeoutPeriodff=39999, TimeoutPeriodUdb=39999, UDB_MSTR=false, UDB_MULTI_MASTER_SLAVE=false, UDB_SLV=false, UdbInternalClock=false, UdbRequiredClock=1600, UdbSlaveFixedPlacementEnable=false, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=I2C_v3_50, CY_CONFIG_TITLE=I2C_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=I2C_Slave_DefaultPlacement.ctl, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=I2C_1, CY_INSTANCE_SHORT_NAME=I2C_1, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=I2C_1, )
+// I2C_v3_50(Address_Decode=1, BusSpeed_kHz=1000, ClockInputVisibility=false, CtlModeReplacementString=SyncCtl, EnableWakeup=false, ExternalBuffer=false, Externi2cIntrHandler=false, ExternTmoutIntrHandler=false, FF=true, Hex=false, I2C_Mode=2, I2cBusPort=0, Implementation=1, InternalUdbClockToleranceMinus=25, InternalUdbClockTolerancePlus=5, NotSlaveClockMinusTolerance=25, NotSlaveClockPlusTolerance=5, PrescalerEnabled=false, PrescalerPeriod=3, Psoc3ffSelected=false, Psoc5AffSelected=false, Psoc5lpffSelected=true, RemoveI2cff=false, RemoveI2cUdb=true, RemoveIntClock=true, RemoveTimeoutTimer=true, SclTimeoutEnabled=false, SdaTimeoutEnabled=false, Slave_Address=8, SlaveClockMinusTolerance=5, SlaveClockPlusTolerance=50, TimeoutEnabled=false, TimeoutImplementation=0, TimeOutms=25, TimeoutPeriodff=39999, TimeoutPeriodUdb=39999, UDB_MSTR=false, UDB_MULTI_MASTER_SLAVE=false, UDB_SLV=false, UdbInternalClock=false, UdbRequiredClock=16000, UdbSlaveFixedPlacementEnable=false, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=I2C_v3_50, CY_CONFIG_TITLE=I2C_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=I2C_Slave_DefaultPlacement.ctl, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=I2C_1, CY_INSTANCE_SHORT_NAME=I2C_1, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=I2C_1, )
 module I2C_v3_50_11 (
     bclk,
     clock,
@@ -4075,81 +4075,6 @@ module top ;
 
 	assign tmpOE__blue_LED_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
 
-	wire [0:0] tmpOE__LED1_net;
-	wire [0:0] tmpFB_0__LED1_net;
-	wire [0:0] tmpIO_0__LED1_net;
-	wire [0:0] tmpINTERRUPT_0__LED1_net;
-	electrical [0:0] tmpSIOVREF__LED1_net;
-
-	cy_psoc3_pins_v1_10
-		#(.id("57a79afe-4acd-47c8-96fb-094955d98b2a"),
-		  .drive_mode(3'b110),
-		  .ibuf_enabled(1'b1),
-		  .init_dr_st(1'b0),
-		  .input_clk_en(0),
-		  .input_sync(1'b1),
-		  .input_sync_mode(1'b0),
-		  .intr_mode(2'b00),
-		  .invert_in_clock(0),
-		  .invert_in_clock_en(0),
-		  .invert_in_reset(0),
-		  .invert_out_clock(0),
-		  .invert_out_clock_en(0),
-		  .invert_out_reset(0),
-		  .io_voltage(""),
-		  .layout_mode("CONTIGUOUS"),
-		  .oe_conn(1'b0),
-		  .oe_reset(0),
-		  .oe_sync(1'b0),
-		  .output_clk_en(0),
-		  .output_clock_mode(1'b0),
-		  .output_conn(1'b0),
-		  .output_mode(1'b0),
-		  .output_reset(0),
-		  .output_sync(1'b0),
-		  .pa_in_clock(-1),
-		  .pa_in_clock_en(-1),
-		  .pa_in_reset(-1),
-		  .pa_out_clock(-1),
-		  .pa_out_clock_en(-1),
-		  .pa_out_reset(-1),
-		  .pin_aliases(""),
-		  .pin_mode("O"),
-		  .por_state(4),
-		  .sio_group_cnt(0),
-		  .sio_hyst(1'b1),
-		  .sio_ibuf(""),
-		  .sio_info(2'b00),
-		  .sio_obuf(""),
-		  .sio_refsel(""),
-		  .sio_vtrip(""),
-		  .sio_hifreq(""),
-		  .sio_vohsel(""),
-		  .slew_rate(1'b0),
-		  .spanning(0),
-		  .use_annotation(1'b0),
-		  .vtrip(2'b10),
-		  .width(1),
-		  .ovt_hyst_trim(1'b0),
-		  .ovt_needed(1'b0),
-		  .ovt_slew_control(2'b00),
-		  .input_buffer_sel(2'b00))
-		LED1
-		 (.oe(tmpOE__LED1_net),
-		  .y({1'b0}),
-		  .fb({tmpFB_0__LED1_net[0:0]}),
-		  .io({tmpIO_0__LED1_net[0:0]}),
-		  .siovref(tmpSIOVREF__LED1_net),
-		  .interrupt({tmpINTERRUPT_0__LED1_net[0:0]}),
-		  .in_clock({1'b0}),
-		  .in_clock_en({1'b1}),
-		  .in_reset({1'b0}),
-		  .out_clock({1'b0}),
-		  .out_clock_en({1'b1}),
-		  .out_reset({1'b0}));
-
-	assign tmpOE__LED1_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
-
 	wire [0:0] tmpOE__knob_2_36_net;
 	wire [0:0] tmpFB_0__knob_2_36_net;
 	wire [0:0] tmpIO_0__knob_2_36_net;
@@ -5016,6 +4941,81 @@ module top ;
 
 	assign tmpOE__up_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
 
+	wire [0:0] tmpOE__fretted_mom_net;
+	wire [0:0] tmpFB_0__fretted_mom_net;
+	wire [0:0] tmpIO_0__fretted_mom_net;
+	wire [0:0] tmpINTERRUPT_0__fretted_mom_net;
+	electrical [0:0] tmpSIOVREF__fretted_mom_net;
+
+	cy_psoc3_pins_v1_10
+		#(.id("0481eff9-fe73-4b77-ac55-f70e46188ef9"),
+		  .drive_mode(3'b010),
+		  .ibuf_enabled(1'b1),
+		  .init_dr_st(1'b1),
+		  .input_clk_en(0),
+		  .input_sync(1'b0),
+		  .input_sync_mode(1'b0),
+		  .intr_mode(2'b00),
+		  .invert_in_clock(0),
+		  .invert_in_clock_en(0),
+		  .invert_in_reset(0),
+		  .invert_out_clock(0),
+		  .invert_out_clock_en(0),
+		  .invert_out_reset(0),
+		  .io_voltage(""),
+		  .layout_mode("CONTIGUOUS"),
+		  .oe_conn(1'b0),
+		  .oe_reset(0),
+		  .oe_sync(1'b0),
+		  .output_clk_en(0),
+		  .output_clock_mode(1'b0),
+		  .output_conn(1'b0),
+		  .output_mode(1'b0),
+		  .output_reset(0),
+		  .output_sync(1'b0),
+		  .pa_in_clock(-1),
+		  .pa_in_clock_en(-1),
+		  .pa_in_reset(-1),
+		  .pa_out_clock(-1),
+		  .pa_out_clock_en(-1),
+		  .pa_out_reset(-1),
+		  .pin_aliases(""),
+		  .pin_mode("I"),
+		  .por_state(4),
+		  .sio_group_cnt(0),
+		  .sio_hyst(1'b1),
+		  .sio_ibuf(""),
+		  .sio_info(2'b00),
+		  .sio_obuf(""),
+		  .sio_refsel(""),
+		  .sio_vtrip(""),
+		  .sio_hifreq(""),
+		  .sio_vohsel(""),
+		  .slew_rate(1'b0),
+		  .spanning(0),
+		  .use_annotation(1'b0),
+		  .vtrip(2'b00),
+		  .width(1),
+		  .ovt_hyst_trim(1'b0),
+		  .ovt_needed(1'b0),
+		  .ovt_slew_control(2'b00),
+		  .input_buffer_sel(2'b00))
+		fretted_mom
+		 (.oe(tmpOE__fretted_mom_net),
+		  .y({1'b0}),
+		  .fb({tmpFB_0__fretted_mom_net[0:0]}),
+		  .io({tmpIO_0__fretted_mom_net[0:0]}),
+		  .siovref(tmpSIOVREF__fretted_mom_net),
+		  .interrupt({tmpINTERRUPT_0__fretted_mom_net[0:0]}),
+		  .in_clock({1'b0}),
+		  .in_clock_en({1'b1}),
+		  .in_reset({1'b0}),
+		  .out_clock({1'b0}),
+		  .out_clock_en({1'b1}),
+		  .out_reset({1'b0}));
+
+	assign tmpOE__fretted_mom_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
+
 	wire [0:0] tmpOE__fretted_latching_net;
 	wire [0:0] tmpFB_0__fretted_latching_net;
 	wire [0:0] tmpIO_0__fretted_latching_net;
@@ -5023,7 +5023,7 @@ module top ;
 	electrical [0:0] tmpSIOVREF__fretted_latching_net;
 
 	cy_psoc3_pins_v1_10
-		#(.id("0481eff9-fe73-4b77-ac55-f70e46188ef9"),
+		#(.id("8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba"),
 		  .drive_mode(3'b010),
 		  .ibuf_enabled(1'b1),
 		  .init_dr_st(1'b1),
@@ -5090,81 +5090,6 @@ module top ;
 		  .out_reset({1'b0}));
 
 	assign tmpOE__fretted_latching_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
-
-	wire [0:0] tmpOE__fretted_momentary_net;
-	wire [0:0] tmpFB_0__fretted_momentary_net;
-	wire [0:0] tmpIO_0__fretted_momentary_net;
-	wire [0:0] tmpINTERRUPT_0__fretted_momentary_net;
-	electrical [0:0] tmpSIOVREF__fretted_momentary_net;
-
-	cy_psoc3_pins_v1_10
-		#(.id("8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba"),
-		  .drive_mode(3'b010),
-		  .ibuf_enabled(1'b1),
-		  .init_dr_st(1'b1),
-		  .input_clk_en(0),
-		  .input_sync(1'b0),
-		  .input_sync_mode(1'b0),
-		  .intr_mode(2'b00),
-		  .invert_in_clock(0),
-		  .invert_in_clock_en(0),
-		  .invert_in_reset(0),
-		  .invert_out_clock(0),
-		  .invert_out_clock_en(0),
-		  .invert_out_reset(0),
-		  .io_voltage(""),
-		  .layout_mode("CONTIGUOUS"),
-		  .oe_conn(1'b0),
-		  .oe_reset(0),
-		  .oe_sync(1'b0),
-		  .output_clk_en(0),
-		  .output_clock_mode(1'b0),
-		  .output_conn(1'b0),
-		  .output_mode(1'b0),
-		  .output_reset(0),
-		  .output_sync(1'b0),
-		  .pa_in_clock(-1),
-		  .pa_in_clock_en(-1),
-		  .pa_in_reset(-1),
-		  .pa_out_clock(-1),
-		  .pa_out_clock_en(-1),
-		  .pa_out_reset(-1),
-		  .pin_aliases(""),
-		  .pin_mode("I"),
-		  .por_state(4),
-		  .sio_group_cnt(0),
-		  .sio_hyst(1'b1),
-		  .sio_ibuf(""),
-		  .sio_info(2'b00),
-		  .sio_obuf(""),
-		  .sio_refsel(""),
-		  .sio_vtrip(""),
-		  .sio_hifreq(""),
-		  .sio_vohsel(""),
-		  .slew_rate(1'b0),
-		  .spanning(0),
-		  .use_annotation(1'b0),
-		  .vtrip(2'b00),
-		  .width(1),
-		  .ovt_hyst_trim(1'b0),
-		  .ovt_needed(1'b0),
-		  .ovt_slew_control(2'b00),
-		  .input_buffer_sel(2'b00))
-		fretted_momentary
-		 (.oe(tmpOE__fretted_momentary_net),
-		  .y({1'b0}),
-		  .fb({tmpFB_0__fretted_momentary_net[0:0]}),
-		  .io({tmpIO_0__fretted_momentary_net[0:0]}),
-		  .siovref(tmpSIOVREF__fretted_momentary_net),
-		  .interrupt({tmpINTERRUPT_0__fretted_momentary_net[0:0]}),
-		  .in_clock({1'b0}),
-		  .in_clock_en({1'b1}),
-		  .in_reset({1'b0}),
-		  .out_clock({1'b0}),
-		  .out_clock_en({1'b1}),
-		  .out_reset({1'b0}));
-
-	assign tmpOE__fretted_momentary_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
 
 
 	cy_dma_v1_0
@@ -5653,6 +5578,81 @@ module top ;
 		my_Vbus_ISR
 		 (.int_signal(Net_1178));
 
+
+	wire [0:0] tmpOE__LED_1_net;
+	wire [0:0] tmpFB_0__LED_1_net;
+	wire [0:0] tmpIO_0__LED_1_net;
+	wire [0:0] tmpINTERRUPT_0__LED_1_net;
+	electrical [0:0] tmpSIOVREF__LED_1_net;
+
+	cy_psoc3_pins_v1_10
+		#(.id("8000f639-c9be-45e1-8695-550ba0dc2dc5"),
+		  .drive_mode(3'b110),
+		  .ibuf_enabled(1'b1),
+		  .init_dr_st(1'b0),
+		  .input_clk_en(0),
+		  .input_sync(1'b1),
+		  .input_sync_mode(1'b0),
+		  .intr_mode(2'b00),
+		  .invert_in_clock(0),
+		  .invert_in_clock_en(0),
+		  .invert_in_reset(0),
+		  .invert_out_clock(0),
+		  .invert_out_clock_en(0),
+		  .invert_out_reset(0),
+		  .io_voltage(""),
+		  .layout_mode("CONTIGUOUS"),
+		  .oe_conn(1'b0),
+		  .oe_reset(0),
+		  .oe_sync(1'b0),
+		  .output_clk_en(0),
+		  .output_clock_mode(1'b0),
+		  .output_conn(1'b0),
+		  .output_mode(1'b0),
+		  .output_reset(0),
+		  .output_sync(1'b0),
+		  .pa_in_clock(-1),
+		  .pa_in_clock_en(-1),
+		  .pa_in_reset(-1),
+		  .pa_out_clock(-1),
+		  .pa_out_clock_en(-1),
+		  .pa_out_reset(-1),
+		  .pin_aliases(""),
+		  .pin_mode("O"),
+		  .por_state(4),
+		  .sio_group_cnt(0),
+		  .sio_hyst(1'b1),
+		  .sio_ibuf(""),
+		  .sio_info(2'b00),
+		  .sio_obuf(""),
+		  .sio_refsel(""),
+		  .sio_vtrip(""),
+		  .sio_hifreq(""),
+		  .sio_vohsel(""),
+		  .slew_rate(1'b0),
+		  .spanning(0),
+		  .use_annotation(1'b0),
+		  .vtrip(2'b10),
+		  .width(1),
+		  .ovt_hyst_trim(1'b0),
+		  .ovt_needed(1'b0),
+		  .ovt_slew_control(2'b00),
+		  .input_buffer_sel(2'b00))
+		LED_1
+		 (.oe(tmpOE__LED_1_net),
+		  .y({1'b0}),
+		  .fb({tmpFB_0__LED_1_net[0:0]}),
+		  .io({tmpIO_0__LED_1_net[0:0]}),
+		  .siovref(tmpSIOVREF__LED_1_net),
+		  .interrupt({tmpINTERRUPT_0__LED_1_net[0:0]}),
+		  .in_clock({1'b0}),
+		  .in_clock_en({1'b1}),
+		  .in_reset({1'b0}),
+		  .out_clock({1'b0}),
+		  .out_clock_en({1'b1}),
+		  .out_reset({1'b0}));
+
+	assign tmpOE__LED_1_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
 
 
 
