@@ -1,5 +1,5 @@
 -- Project:   CE210514_PSOC3_5_Thermistor
--- Generated: 10/13/2022 16:35:56
+-- Generated: 02/11/2023 15:42:29
 -- PSoC Creator  4.4
 
 ENTITY CE210514_PSOC3_5_Thermistor IS
@@ -11,7 +11,6 @@ ENTITY CE210514_PSOC3_5_Thermistor IS
         down(0)_PAD : IN std_ulogic;
         SS_1(0)_PAD : OUT std_ulogic;
         blue_LED(0)_PAD : OUT std_ulogic;
-        LED1(0)_PAD : OUT std_ulogic;
         ExtMUX_EN(0)_PAD : OUT std_ulogic;
         ExtMUXS1(0)_PAD : OUT std_ulogic;
         SPI_ready(0)_PAD : IN std_ulogic;
@@ -20,13 +19,14 @@ ENTITY CE210514_PSOC3_5_Thermistor IS
         SDA_1(0)_PAD : INOUT std_ulogic;
         SCL_1(0)_PAD : INOUT std_ulogic;
         up(0)_PAD : IN std_ulogic;
+        fretted_mom(0)_PAD : IN std_ulogic;
         fretted_latching(0)_PAD : IN std_ulogic;
-        fretted_momentary(0)_PAD : IN std_ulogic;
         MISO_2(0)_PAD : IN std_ulogic;
         MOSI_2(0)_PAD : OUT std_ulogic;
         SCLK_2(0)_PAD : OUT std_ulogic;
         SS_2(0)_PAD : OUT std_ulogic;
-        vBusPin(0)_PAD : IN std_ulogic);
+        vBusPin(0)_PAD : IN std_ulogic;
+        LED_1(0)_PAD : OUT std_ulogic);
     ATTRIBUTE voltage_VDDABUF OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VDDA OF __DEFAULT__ : ENTITY IS 3.3e0;
     ATTRIBUTE voltage_VUSB OF __DEFAULT__ : ENTITY IS 3.3e0;
@@ -55,7 +55,7 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     SIGNAL ExtMUXS1(0)__PA : bit;
     SIGNAL ExtMUX_EN(0)__PA : bit;
     SIGNAL IDAC_OUT(0)__PA : bit;
-    SIGNAL LED1(0)__PA : bit;
+    SIGNAL LED_1(0)__PA : bit;
     SIGNAL MISO_1(0)__PA : bit;
     SIGNAL MISO_2(0)__PA : bit;
     SIGNAL MOSI_1(0)__PA : bit;
@@ -228,8 +228,6 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE global_signal OF \ADC_SAR_Seq_1:clock\ : SIGNAL IS true;
     SIGNAL \ADC_SAR_Seq_1:clock_local\ : bit;
     SIGNAL \ADC_SAR_Seq_1:nrq\ : bit;
-    SIGNAL \CapSense:ClockGen:clock_detect_reg\ : bit;
-    SIGNAL \CapSense:ClockGen:cmsb_reg\ : bit;
     SIGNAL \CapSense:ClockGen:control_0\ : bit;
     SIGNAL \CapSense:ClockGen:control_1\ : bit;
     SIGNAL \CapSense:ClockGen:control_2\ : bit;
@@ -243,8 +241,6 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     SIGNAL \CapSense:ClockGen:inter_reset\ : bit;
     SIGNAL \CapSense:ClockGen:ppulse_equal\ : bit;
     SIGNAL \CapSense:ClockGen:ppulse_less\ : bit;
-    SIGNAL \CapSense:ClockGen:tmp_ppulse_dly\ : bit;
-    SIGNAL \CapSense:ClockGen:tmp_ppulse_reg\ : bit;
     SIGNAL \\\CapSense:CmodCH0(0)\\__PA\ : bit;
     SIGNAL \\\CapSense:CmodCH1(0)\\__PA\ : bit;
     SIGNAL \CapSense:Cmp_CH0\ : bit;
@@ -410,7 +406,7 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     SIGNAL down(0)__PA : bit;
     SIGNAL enter(0)__PA : bit;
     SIGNAL fretted_latching(0)__PA : bit;
-    SIGNAL fretted_momentary(0)__PA : bit;
+    SIGNAL fretted_mom(0)__PA : bit;
     SIGNAL joy_x_25(0)__PA : bit;
     SIGNAL joy_y_23(0)__PA : bit;
     SIGNAL knob_1_01(0)__PA : bit;
@@ -423,19 +419,6 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE GROUND OF zero : SIGNAL IS true;
     SIGNAL \ClockBlock.clk_bus_glb_ff__sig\ : bit;
     SIGNAL \ClockBlock.aclk_glb_ff_0__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.ce0__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.cl0__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.z0__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.ff0__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.ce1__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.cl1__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.z1__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.ff1__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.co_msb__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.sol_msb__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u0.cfbo__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u1.sor__sig\ : bit;
-    SIGNAL \CapSense:ClockGen:sC16:PRSdp:u1.cmsbo__sig\ : bit;
     ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_is_active_split\ : LABEL IS "macrocell1";
     ATTRIBUTE lib_model OF MISO_1(0) : LABEL IS "iocell1";
     ATTRIBUTE Location OF MISO_1(0) : LABEL IS "P1[7]";
@@ -487,46 +470,46 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE Location OF SS_1(0) : LABEL IS "P1[5]";
     ATTRIBUTE lib_model OF blue_LED(0) : LABEL IS "iocell25";
     ATTRIBUTE Location OF blue_LED(0) : LABEL IS "P2[1]";
-    ATTRIBUTE lib_model OF LED1(0) : LABEL IS "iocell26";
-    ATTRIBUTE Location OF LED1(0) : LABEL IS "P0[2]";
-    ATTRIBUTE lib_model OF knob_2_36(0) : LABEL IS "iocell27";
+    ATTRIBUTE lib_model OF knob_2_36(0) : LABEL IS "iocell26";
     ATTRIBUTE Location OF knob_2_36(0) : LABEL IS "P3[6]";
-    ATTRIBUTE lib_model OF ExtMUX_EN(0) : LABEL IS "iocell28";
+    ATTRIBUTE lib_model OF ExtMUX_EN(0) : LABEL IS "iocell27";
     ATTRIBUTE Location OF ExtMUX_EN(0) : LABEL IS "P15[5]";
-    ATTRIBUTE lib_model OF ExtMUXS1(0) : LABEL IS "iocell29";
+    ATTRIBUTE lib_model OF ExtMUXS1(0) : LABEL IS "iocell28";
     ATTRIBUTE Location OF ExtMUXS1(0) : LABEL IS "P15[1]";
-    ATTRIBUTE lib_model OF SPI_ready(0) : LABEL IS "iocell30";
+    ATTRIBUTE lib_model OF SPI_ready(0) : LABEL IS "iocell29";
     ATTRIBUTE Location OF SPI_ready(0) : LABEL IS "P0[6]";
-    ATTRIBUTE lib_model OF enter(0) : LABEL IS "iocell31";
+    ATTRIBUTE lib_model OF enter(0) : LABEL IS "iocell30";
     ATTRIBUTE Location OF enter(0) : LABEL IS "P15[2]";
-    ATTRIBUTE lib_model OF CV_pedal_sense(0) : LABEL IS "iocell32";
+    ATTRIBUTE lib_model OF CV_pedal_sense(0) : LABEL IS "iocell31";
     ATTRIBUTE Location OF CV_pedal_sense(0) : LABEL IS "P3[2]";
-    ATTRIBUTE lib_model OF SDA_1(0) : LABEL IS "iocell33";
+    ATTRIBUTE lib_model OF SDA_1(0) : LABEL IS "iocell32";
     ATTRIBUTE Location OF SDA_1(0) : LABEL IS "P12[1]";
-    ATTRIBUTE lib_model OF V_T_1_2(0) : LABEL IS "iocell34";
+    ATTRIBUTE lib_model OF V_T_1_2(0) : LABEL IS "iocell33";
     ATTRIBUTE Location OF V_T_1_2(0) : LABEL IS "P0[0]";
-    ATTRIBUTE lib_model OF SCL_1(0) : LABEL IS "iocell35";
+    ATTRIBUTE lib_model OF SCL_1(0) : LABEL IS "iocell34";
     ATTRIBUTE Location OF SCL_1(0) : LABEL IS "P12[0]";
-    ATTRIBUTE lib_model OF V_H(0) : LABEL IS "iocell36";
+    ATTRIBUTE lib_model OF V_H(0) : LABEL IS "iocell35";
     ATTRIBUTE Location OF V_H(0) : LABEL IS "P0[4]";
-    ATTRIBUTE lib_model OF up(0) : LABEL IS "iocell37";
+    ATTRIBUTE lib_model OF up(0) : LABEL IS "iocell36";
     ATTRIBUTE Location OF up(0) : LABEL IS "P3[1]";
+    ATTRIBUTE lib_model OF fretted_mom(0) : LABEL IS "iocell37";
+    ATTRIBUTE Location OF fretted_mom(0) : LABEL IS "P12[3]";
     ATTRIBUTE lib_model OF fretted_latching(0) : LABEL IS "iocell38";
-    ATTRIBUTE Location OF fretted_latching(0) : LABEL IS "P12[3]";
-    ATTRIBUTE lib_model OF fretted_momentary(0) : LABEL IS "iocell39";
-    ATTRIBUTE Location OF fretted_momentary(0) : LABEL IS "P12[2]";
-    ATTRIBUTE lib_model OF MISO_2(0) : LABEL IS "iocell40";
+    ATTRIBUTE Location OF fretted_latching(0) : LABEL IS "P12[2]";
+    ATTRIBUTE lib_model OF MISO_2(0) : LABEL IS "iocell39";
     ATTRIBUTE Location OF MISO_2(0) : LABEL IS "P2[7]";
-    ATTRIBUTE lib_model OF MOSI_2(0) : LABEL IS "iocell41";
+    ATTRIBUTE lib_model OF MOSI_2(0) : LABEL IS "iocell40";
     ATTRIBUTE Location OF MOSI_2(0) : LABEL IS "P12[4]";
-    ATTRIBUTE lib_model OF SCLK_2(0) : LABEL IS "iocell42";
+    ATTRIBUTE lib_model OF SCLK_2(0) : LABEL IS "iocell41";
     ATTRIBUTE Location OF SCLK_2(0) : LABEL IS "P12[5]";
-    ATTRIBUTE lib_model OF SS_2(0) : LABEL IS "iocell43";
+    ATTRIBUTE lib_model OF SS_2(0) : LABEL IS "iocell42";
     ATTRIBUTE Location OF SS_2(0) : LABEL IS "P1[2]";
-    ATTRIBUTE lib_model OF cv_pedal(0) : LABEL IS "iocell44";
+    ATTRIBUTE lib_model OF cv_pedal(0) : LABEL IS "iocell43";
     ATTRIBUTE Location OF cv_pedal(0) : LABEL IS "P3[4]";
-    ATTRIBUTE lib_model OF vBusPin(0) : LABEL IS "iocell45";
+    ATTRIBUTE lib_model OF vBusPin(0) : LABEL IS "iocell44";
     ATTRIBUTE Location OF vBusPin(0) : LABEL IS "P12[7]";
+    ATTRIBUTE lib_model OF LED_1(0) : LABEL IS "iocell45";
+    ATTRIBUTE Location OF LED_1(0) : LABEL IS "P0[2]";
     ATTRIBUTE lib_model OF \CapSense:MeasureCH1:cs_addr_win_2\ : LABEL IS "macrocell2";
     ATTRIBUTE lib_model OF \CapSense:MeasureCH1:cs_addr_win_1\ : LABEL IS "macrocell3";
     ATTRIBUTE lib_model OF \CapSense:MeasureCH1:cs_addr_win_0\ : LABEL IS "macrocell4";
@@ -539,26 +522,23 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE lib_model OF \CapSense:MeasureCH0:cs_addr_cnt_2\ : LABEL IS "macrocell11";
     ATTRIBUTE lib_model OF \CapSense:MeasureCH0:cs_addr_cnt_1\ : LABEL IS "macrocell12";
     ATTRIBUTE lib_model OF \CapSense:MeasureCH0:cs_addr_cnt_0\ : LABEL IS "macrocell13";
-    ATTRIBUTE lib_model OF \CapSense:PreChargeClk\ : LABEL IS "macrocell14";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:load_rx_data\ : LABEL IS "macrocell15";
-    ATTRIBUTE lib_model OF Net_23 : LABEL IS "macrocell16";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:tx_status_0\ : LABEL IS "macrocell17";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:tx_status_4\ : LABEL IS "macrocell18";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:rx_status_6\ : LABEL IS "macrocell19";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_is_active\ : LABEL IS "macrocell20";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:cnt_enable\ : LABEL IS "macrocell21";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:load_rx_data\ : LABEL IS "macrocell22";
-    ATTRIBUTE lib_model OF Net_1113 : LABEL IS "macrocell23";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:tx_status_0\ : LABEL IS "macrocell24";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:tx_status_4\ : LABEL IS "macrocell25";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:rx_status_6\ : LABEL IS "macrocell26";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg_split_1\ : LABEL IS "macrocell27";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg_split\ : LABEL IS "macrocell28";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg_split_1\ : LABEL IS "macrocell29";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg_split\ : LABEL IS "macrocell30";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:load_rx_data\ : LABEL IS "macrocell14";
+    ATTRIBUTE lib_model OF Net_23 : LABEL IS "macrocell15";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:tx_status_0\ : LABEL IS "macrocell16";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:tx_status_4\ : LABEL IS "macrocell17";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:rx_status_6\ : LABEL IS "macrocell18";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_is_active\ : LABEL IS "macrocell19";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:cnt_enable\ : LABEL IS "macrocell20";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:load_rx_data\ : LABEL IS "macrocell21";
+    ATTRIBUTE lib_model OF Net_1113 : LABEL IS "macrocell22";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:tx_status_0\ : LABEL IS "macrocell23";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:tx_status_4\ : LABEL IS "macrocell24";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:rx_status_6\ : LABEL IS "macrocell25";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg_split_1\ : LABEL IS "macrocell26";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg_split\ : LABEL IS "macrocell27";
     ATTRIBUTE Location OF \IDAC8_1:viDAC8\ : LABEL IS "F(VIDAC,2)";
     ATTRIBUTE Location OF \ADC_1:DSM\ : LABEL IS "F(DSM,0)";
-    ATTRIBUTE lib_model OF __ONE__ : LABEL IS "macrocell31";
+    ATTRIBUTE lib_model OF __ONE__ : LABEL IS "macrocell28";
     ATTRIBUTE Location OF \CapSense:BufCH0\ : LABEL IS "F(CsAbuf,0)";
     ATTRIBUTE Location OF \CapSense:CompCH0:ctComp\ : LABEL IS "F(Comparator,0)";
     ATTRIBUTE Location OF \CapSense:IdacCH0:viDAC8\ : LABEL IS "F(VIDAC,0)";
@@ -571,11 +551,9 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE lib_model OF \CapSense:MeasureCH0:UDB:Counter:u0\ : LABEL IS "datapathcell4";
     ATTRIBUTE lib_model OF \CapSense:ClockGen:SyncCtrl:CtrlReg\ : LABEL IS "controlcell1";
     ATTRIBUTE lib_model OF \CapSense:ClockGen:UDB:PrescalerDp:u0\ : LABEL IS "datapathcell5";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:sC16:PRSdp:u0\ : LABEL IS "datapathcell6";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:sC16:PRSdp:u1\ : LABEL IS "datapathcell7";
     ATTRIBUTE lib_model OF \SPIM_1:BSPIM:TxStsReg\ : LABEL IS "statusicell1";
     ATTRIBUTE lib_model OF \SPIM_1:BSPIM:RxStsReg\ : LABEL IS "statusicell2";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:sR8:Dp:u0\ : LABEL IS "datapathcell8";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:sR8:Dp:u0\ : LABEL IS "datapathcell6";
     ATTRIBUTE lib_model OF \USB:Vbus_ps:sts:sts_reg\ : LABEL IS "statuscell1";
     ATTRIBUTE lib_model OF \USB:EP17_DMA_Done_SR:sts_intr:sts_reg\ : LABEL IS "statusicell3";
     ATTRIBUTE lib_model OF \USB:ep2\ : LABEL IS "drqcell1";
@@ -592,117 +570,117 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE lib_model OF DMA_2_RX : LABEL IS "drqcell7";
     ATTRIBUTE lib_model OF \SPIM_2:BSPIM:TxStsReg\ : LABEL IS "statusicell5";
     ATTRIBUTE lib_model OF \SPIM_2:BSPIM:RxStsReg\ : LABEL IS "statusicell6";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:sR8:Dp:u0\ : LABEL IS "datapathcell9";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:sR8:Dp:u0\ : LABEL IS "datapathcell7";
     ATTRIBUTE lib_model OF DMA_2_TX : LABEL IS "drqcell8";
-    ATTRIBUTE lib_model OF Net_415 : LABEL IS "macrocell32";
-    ATTRIBUTE lib_model OF \CapSense:Net_372\ : LABEL IS "macrocell33";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_2\ : LABEL IS "macrocell34";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_1\ : LABEL IS "macrocell35";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_0\ : LABEL IS "macrocell36";
-    ATTRIBUTE lib_model OF \CapSense:Net_1603\ : LABEL IS "macrocell37";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_2\ : LABEL IS "macrocell38";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_1\ : LABEL IS "macrocell39";
-    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_0\ : LABEL IS "macrocell40";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:clock_detect_reg\ : LABEL IS "macrocell41";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:tmp_ppulse_reg\ : LABEL IS "macrocell42";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:tmp_ppulse_dly\ : LABEL IS "macrocell43";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:cstate_2\ : LABEL IS "macrocell44";
-    ATTRIBUTE lib_model OF \CapSense:mrst\ : LABEL IS "macrocell45";
-    ATTRIBUTE lib_model OF \CapSense:ClockGen:inter_reset\ : LABEL IS "macrocell46";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_2\ : LABEL IS "macrocell47";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_1\ : LABEL IS "macrocell48";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_0\ : LABEL IS "macrocell49";
-    ATTRIBUTE lib_model OF Net_437 : LABEL IS "macrocell50";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_hs_reg\ : LABEL IS "macrocell51";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg\ : LABEL IS "macrocell52";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:load_cond\ : LABEL IS "macrocell53";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_from_dp_reg\ : LABEL IS "macrocell54";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:ld_ident\ : LABEL IS "macrocell55";
-    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:cnt_enable\ : LABEL IS "macrocell56";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_5\ : LABEL IS "macrocell57";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_4\ : LABEL IS "macrocell58";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_3\ : LABEL IS "macrocell59";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_2\ : LABEL IS "macrocell60";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_1\ : LABEL IS "macrocell61";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_0\ : LABEL IS "macrocell62";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_0\ : LABEL IS "macrocell63";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_1\ : LABEL IS "macrocell64";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_2\ : LABEL IS "macrocell65";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_3\ : LABEL IS "macrocell66";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_4\ : LABEL IS "macrocell67";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_5\ : LABEL IS "macrocell68";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_6\ : LABEL IS "macrocell69";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_7\ : LABEL IS "macrocell70";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_8\ : LABEL IS "macrocell71";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_9\ : LABEL IS "macrocell72";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_10\ : LABEL IS "macrocell73";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_11\ : LABEL IS "macrocell74";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_12\ : LABEL IS "macrocell75";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_13\ : LABEL IS "macrocell76";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_14\ : LABEL IS "macrocell77";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_15\ : LABEL IS "macrocell78";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_16\ : LABEL IS "macrocell79";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_17\ : LABEL IS "macrocell80";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_18\ : LABEL IS "macrocell81";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_19\ : LABEL IS "macrocell82";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_20\ : LABEL IS "macrocell83";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_21\ : LABEL IS "macrocell84";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_22\ : LABEL IS "macrocell85";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_23\ : LABEL IS "macrocell86";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_24\ : LABEL IS "macrocell87";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_25\ : LABEL IS "macrocell88";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_26\ : LABEL IS "macrocell89";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_27\ : LABEL IS "macrocell90";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_28\ : LABEL IS "macrocell91";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_29\ : LABEL IS "macrocell92";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_30\ : LABEL IS "macrocell93";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_31\ : LABEL IS "macrocell94";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_32\ : LABEL IS "macrocell95";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_33\ : LABEL IS "macrocell96";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_34\ : LABEL IS "macrocell97";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_35\ : LABEL IS "macrocell98";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_36\ : LABEL IS "macrocell99";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_37\ : LABEL IS "macrocell100";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_38\ : LABEL IS "macrocell101";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_39\ : LABEL IS "macrocell102";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_40\ : LABEL IS "macrocell103";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_41\ : LABEL IS "macrocell104";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_42\ : LABEL IS "macrocell105";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_43\ : LABEL IS "macrocell106";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_44\ : LABEL IS "macrocell107";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_45\ : LABEL IS "macrocell108";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_46\ : LABEL IS "macrocell109";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_47\ : LABEL IS "macrocell110";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_48\ : LABEL IS "macrocell111";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_49\ : LABEL IS "macrocell112";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_50\ : LABEL IS "macrocell113";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_51\ : LABEL IS "macrocell114";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_52\ : LABEL IS "macrocell115";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_53\ : LABEL IS "macrocell116";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_54\ : LABEL IS "macrocell117";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_55\ : LABEL IS "macrocell118";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_56\ : LABEL IS "macrocell119";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_57\ : LABEL IS "macrocell120";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_58\ : LABEL IS "macrocell121";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_59\ : LABEL IS "macrocell122";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_60\ : LABEL IS "macrocell123";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_61\ : LABEL IS "macrocell124";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_62\ : LABEL IS "macrocell125";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_63\ : LABEL IS "macrocell126";
-    ATTRIBUTE lib_model OF Net_986 : LABEL IS "macrocell127";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:bus_clk_nrq_reg\ : LABEL IS "macrocell128";
-    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:nrq_reg\ : LABEL IS "macrocell129";
-    ATTRIBUTE lib_model OF Net_1114 : LABEL IS "macrocell130";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_2\ : LABEL IS "macrocell131";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_1\ : LABEL IS "macrocell132";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_0\ : LABEL IS "macrocell133";
-    ATTRIBUTE lib_model OF Net_1119 : LABEL IS "macrocell134";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_hs_reg\ : LABEL IS "macrocell135";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg\ : LABEL IS "macrocell136";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:load_cond\ : LABEL IS "macrocell137";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_from_dp_reg\ : LABEL IS "macrocell138";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:ld_ident\ : LABEL IS "macrocell139";
-    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:cnt_enable\ : LABEL IS "macrocell140";
+    ATTRIBUTE lib_model OF Net_415 : LABEL IS "macrocell29";
+    ATTRIBUTE lib_model OF \CapSense:Net_372\ : LABEL IS "macrocell30";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_2\ : LABEL IS "macrocell31";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_1\ : LABEL IS "macrocell32";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH1:wndState_0\ : LABEL IS "macrocell33";
+    ATTRIBUTE lib_model OF \CapSense:Net_1603\ : LABEL IS "macrocell34";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_2\ : LABEL IS "macrocell35";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_1\ : LABEL IS "macrocell36";
+    ATTRIBUTE lib_model OF \CapSense:MeasureCH0:wndState_0\ : LABEL IS "macrocell37";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg_split_1\ : LABEL IS "macrocell38";
+    ATTRIBUTE lib_model OF \CapSense:PreChargeClk\ : LABEL IS "macrocell39";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg_split\ : LABEL IS "macrocell40";
+    ATTRIBUTE lib_model OF \CapSense:ClockGen:cstate_2\ : LABEL IS "macrocell41";
+    ATTRIBUTE lib_model OF \CapSense:mrst\ : LABEL IS "macrocell42";
+    ATTRIBUTE lib_model OF \CapSense:ClockGen:inter_reset\ : LABEL IS "macrocell43";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_2\ : LABEL IS "macrocell44";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_1\ : LABEL IS "macrocell45";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:state_0\ : LABEL IS "macrocell46";
+    ATTRIBUTE lib_model OF Net_437 : LABEL IS "macrocell47";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_hs_reg\ : LABEL IS "macrocell48";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_pre_reg\ : LABEL IS "macrocell49";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:load_cond\ : LABEL IS "macrocell50";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:mosi_from_dp_reg\ : LABEL IS "macrocell51";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:ld_ident\ : LABEL IS "macrocell52";
+    ATTRIBUTE lib_model OF \SPIM_1:BSPIM:cnt_enable\ : LABEL IS "macrocell53";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_5\ : LABEL IS "macrocell54";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_4\ : LABEL IS "macrocell55";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_3\ : LABEL IS "macrocell56";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_2\ : LABEL IS "macrocell57";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_1\ : LABEL IS "macrocell58";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_old_id_0\ : LABEL IS "macrocell59";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_0\ : LABEL IS "macrocell60";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_1\ : LABEL IS "macrocell61";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_2\ : LABEL IS "macrocell62";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_3\ : LABEL IS "macrocell63";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_4\ : LABEL IS "macrocell64";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_5\ : LABEL IS "macrocell65";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_6\ : LABEL IS "macrocell66";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_7\ : LABEL IS "macrocell67";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_8\ : LABEL IS "macrocell68";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_9\ : LABEL IS "macrocell69";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_10\ : LABEL IS "macrocell70";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_11\ : LABEL IS "macrocell71";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_12\ : LABEL IS "macrocell72";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_13\ : LABEL IS "macrocell73";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_14\ : LABEL IS "macrocell74";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_15\ : LABEL IS "macrocell75";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_16\ : LABEL IS "macrocell76";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_17\ : LABEL IS "macrocell77";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_18\ : LABEL IS "macrocell78";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_19\ : LABEL IS "macrocell79";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_20\ : LABEL IS "macrocell80";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_21\ : LABEL IS "macrocell81";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_22\ : LABEL IS "macrocell82";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_23\ : LABEL IS "macrocell83";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_24\ : LABEL IS "macrocell84";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_25\ : LABEL IS "macrocell85";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_26\ : LABEL IS "macrocell86";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_27\ : LABEL IS "macrocell87";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_28\ : LABEL IS "macrocell88";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_29\ : LABEL IS "macrocell89";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_30\ : LABEL IS "macrocell90";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_31\ : LABEL IS "macrocell91";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_32\ : LABEL IS "macrocell92";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_33\ : LABEL IS "macrocell93";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_34\ : LABEL IS "macrocell94";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_35\ : LABEL IS "macrocell95";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_36\ : LABEL IS "macrocell96";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_37\ : LABEL IS "macrocell97";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_38\ : LABEL IS "macrocell98";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_39\ : LABEL IS "macrocell99";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_40\ : LABEL IS "macrocell100";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_41\ : LABEL IS "macrocell101";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_42\ : LABEL IS "macrocell102";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_43\ : LABEL IS "macrocell103";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_44\ : LABEL IS "macrocell104";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_45\ : LABEL IS "macrocell105";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_46\ : LABEL IS "macrocell106";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_47\ : LABEL IS "macrocell107";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_48\ : LABEL IS "macrocell108";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_49\ : LABEL IS "macrocell109";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_50\ : LABEL IS "macrocell110";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_51\ : LABEL IS "macrocell111";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_52\ : LABEL IS "macrocell112";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_53\ : LABEL IS "macrocell113";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_54\ : LABEL IS "macrocell114";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_55\ : LABEL IS "macrocell115";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_56\ : LABEL IS "macrocell116";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_57\ : LABEL IS "macrocell117";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_58\ : LABEL IS "macrocell118";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_59\ : LABEL IS "macrocell119";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_60\ : LABEL IS "macrocell120";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_61\ : LABEL IS "macrocell121";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_62\ : LABEL IS "macrocell122";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:AMuxHw_2_Decoder_one_hot_63\ : LABEL IS "macrocell123";
+    ATTRIBUTE lib_model OF Net_986 : LABEL IS "macrocell124";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:bus_clk_nrq_reg\ : LABEL IS "macrocell125";
+    ATTRIBUTE lib_model OF \ADC_SAR_Seq_1:bSAR_SEQ:nrq_reg\ : LABEL IS "macrocell126";
+    ATTRIBUTE lib_model OF Net_1114 : LABEL IS "macrocell127";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_2\ : LABEL IS "macrocell128";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_1\ : LABEL IS "macrocell129";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:state_0\ : LABEL IS "macrocell130";
+    ATTRIBUTE lib_model OF Net_1119 : LABEL IS "macrocell131";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_hs_reg\ : LABEL IS "macrocell132";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_pre_reg\ : LABEL IS "macrocell133";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:load_cond\ : LABEL IS "macrocell134";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:mosi_from_dp_reg\ : LABEL IS "macrocell135";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:ld_ident\ : LABEL IS "macrocell136";
+    ATTRIBUTE lib_model OF \SPIM_2:BSPIM:cnt_enable\ : LABEL IS "macrocell137";
     COMPONENT capsensecell
         PORT (
             lft : IN std_ulogic;
@@ -3038,96 +3016,6 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    LED1:logicalport
-        GENERIC MAP(
-            drive_mode => "110",
-            ibuf_enabled => "1",
-            id => "57a79afe-4acd-47c8-96fb-094955d98b2a",
-            init_dr_st => "0",
-            input_buffer_sel => "00",
-            input_clk_en => 0,
-            input_sync => "1",
-            input_sync_mode => "0",
-            intr_mode => "00",
-            invert_in_clock => 0,
-            invert_in_clock_en => 0,
-            invert_in_reset => 0,
-            invert_out_clock => 0,
-            invert_out_clock_en => 0,
-            invert_out_reset => 0,
-            io_voltage => "",
-            layout_mode => "CONTIGUOUS",
-            oe_conn => "0",
-            oe_reset => 0,
-            oe_sync => "0",
-            output_clk_en => 0,
-            output_clock_mode => "0",
-            output_conn => "0",
-            output_mode => "0",
-            output_reset => 0,
-            output_sync => "0",
-            ovt_hyst_trim => "0",
-            ovt_needed => "0",
-            ovt_slew_control => "00",
-            pa_in_clock => -1,
-            pa_in_clock_en => -1,
-            pa_in_reset => -1,
-            pa_out_clock => -1,
-            pa_out_clock_en => -1,
-            pa_out_reset => -1,
-            pin_aliases => "",
-            pin_mode => "O",
-            por_state => 4,
-            port_alias_group => "",
-            port_alias_required => 0,
-            sio_group_cnt => 0,
-            sio_hifreq => "00000000",
-            sio_hyst => "1",
-            sio_ibuf => "00000000",
-            sio_info => "00",
-            sio_obuf => "00000000",
-            sio_refsel => "00000000",
-            sio_vohsel => "00000000",
-            sio_vtrip => "00000000",
-            slew_rate => "0",
-            spanning => 0,
-            sw_only => 0,
-            use_annotation => "0",
-            vtrip => "10",
-            width => 1,
-            in_clk_inv => 0,
-            in_clken_inv => 0,
-            in_clken_mode => 1,
-            in_rst_inv => 0,
-            out_clk_inv => 0,
-            out_clken_inv => 0,
-            out_clken_mode => 1,
-            out_rst_inv => 0)
-        PORT MAP(
-            in_clock_en => open,
-            in_reset => open,
-            out_clock_en => open,
-            out_reset => open);
-
-    LED1(0):iocell
-        GENERIC MAP(
-            in_sync_mode => 0,
-            out_sync_mode => 0,
-            oe_sync_mode => 0,
-            logicalport => "LED1",
-            logicalport_pin_id => 0,
-            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
-        PORT MAP(
-            pa_out => LED1(0)__PA,
-            oe => open,
-            pad_in => LED1(0)_PAD,
-            in_clock => open,
-            in_clock_en => '1',
-            in_reset => '0',
-            out_clock => open,
-            out_clock_en => '1',
-            out_reset => '0');
-
     knob_2_36:logicalport
         GENERIC MAP(
             drive_mode => "000",
@@ -4124,11 +4012,101 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    fretted_latching:logicalport
+    fretted_mom:logicalport
         GENERIC MAP(
             drive_mode => "010",
             ibuf_enabled => "1",
             id => "0481eff9-fe73-4b77-ac55-f70e46188ef9",
+            init_dr_st => "1",
+            input_buffer_sel => "00",
+            input_clk_en => 0,
+            input_sync => "0",
+            input_sync_mode => "0",
+            intr_mode => "00",
+            invert_in_clock => 0,
+            invert_in_clock_en => 0,
+            invert_in_reset => 0,
+            invert_out_clock => 0,
+            invert_out_clock_en => 0,
+            invert_out_reset => 0,
+            io_voltage => "",
+            layout_mode => "CONTIGUOUS",
+            oe_conn => "0",
+            oe_reset => 0,
+            oe_sync => "0",
+            output_clk_en => 0,
+            output_clock_mode => "0",
+            output_conn => "0",
+            output_mode => "0",
+            output_reset => 0,
+            output_sync => "0",
+            ovt_hyst_trim => "0",
+            ovt_needed => "0",
+            ovt_slew_control => "00",
+            pa_in_clock => -1,
+            pa_in_clock_en => -1,
+            pa_in_reset => -1,
+            pa_out_clock => -1,
+            pa_out_clock_en => -1,
+            pa_out_reset => -1,
+            pin_aliases => "",
+            pin_mode => "I",
+            por_state => 4,
+            port_alias_group => "",
+            port_alias_required => 0,
+            sio_group_cnt => 0,
+            sio_hifreq => "00000000",
+            sio_hyst => "1",
+            sio_ibuf => "00000000",
+            sio_info => "00",
+            sio_obuf => "00000000",
+            sio_refsel => "00000000",
+            sio_vohsel => "00000000",
+            sio_vtrip => "00000000",
+            slew_rate => "0",
+            spanning => 0,
+            sw_only => 0,
+            use_annotation => "0",
+            vtrip => "00",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0)
+        PORT MAP(
+            in_clock_en => open,
+            in_reset => open,
+            out_clock_en => open,
+            out_reset => open);
+
+    fretted_mom(0):iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "fretted_mom",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => fretted_mom(0)__PA,
+            oe => open,
+            pad_in => fretted_mom(0)_PAD,
+            in_clock => open,
+            in_clock_en => '1',
+            in_reset => '0',
+            out_clock => open,
+            out_clock_en => '1',
+            out_reset => '0');
+
+    fretted_latching:logicalport
+        GENERIC MAP(
+            drive_mode => "010",
+            ibuf_enabled => "1",
+            id => "8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba",
             init_dr_st => "1",
             input_buffer_sel => "00",
             input_clk_en => 0,
@@ -4207,96 +4185,6 @@ BEGIN
             pa_out => fretted_latching(0)__PA,
             oe => open,
             pad_in => fretted_latching(0)_PAD,
-            in_clock => open,
-            in_clock_en => '1',
-            in_reset => '0',
-            out_clock => open,
-            out_clock_en => '1',
-            out_reset => '0');
-
-    fretted_momentary:logicalport
-        GENERIC MAP(
-            drive_mode => "010",
-            ibuf_enabled => "1",
-            id => "8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba",
-            init_dr_st => "1",
-            input_buffer_sel => "00",
-            input_clk_en => 0,
-            input_sync => "0",
-            input_sync_mode => "0",
-            intr_mode => "00",
-            invert_in_clock => 0,
-            invert_in_clock_en => 0,
-            invert_in_reset => 0,
-            invert_out_clock => 0,
-            invert_out_clock_en => 0,
-            invert_out_reset => 0,
-            io_voltage => "",
-            layout_mode => "CONTIGUOUS",
-            oe_conn => "0",
-            oe_reset => 0,
-            oe_sync => "0",
-            output_clk_en => 0,
-            output_clock_mode => "0",
-            output_conn => "0",
-            output_mode => "0",
-            output_reset => 0,
-            output_sync => "0",
-            ovt_hyst_trim => "0",
-            ovt_needed => "0",
-            ovt_slew_control => "00",
-            pa_in_clock => -1,
-            pa_in_clock_en => -1,
-            pa_in_reset => -1,
-            pa_out_clock => -1,
-            pa_out_clock_en => -1,
-            pa_out_reset => -1,
-            pin_aliases => "",
-            pin_mode => "I",
-            por_state => 4,
-            port_alias_group => "",
-            port_alias_required => 0,
-            sio_group_cnt => 0,
-            sio_hifreq => "00000000",
-            sio_hyst => "1",
-            sio_ibuf => "00000000",
-            sio_info => "00",
-            sio_obuf => "00000000",
-            sio_refsel => "00000000",
-            sio_vohsel => "00000000",
-            sio_vtrip => "00000000",
-            slew_rate => "0",
-            spanning => 0,
-            sw_only => 0,
-            use_annotation => "0",
-            vtrip => "00",
-            width => 1,
-            in_clk_inv => 0,
-            in_clken_inv => 0,
-            in_clken_mode => 1,
-            in_rst_inv => 0,
-            out_clk_inv => 0,
-            out_clken_inv => 0,
-            out_clken_mode => 1,
-            out_rst_inv => 0)
-        PORT MAP(
-            in_clock_en => open,
-            in_reset => open,
-            out_clock_en => open,
-            out_reset => open);
-
-    fretted_momentary(0):iocell
-        GENERIC MAP(
-            in_sync_mode => 0,
-            out_sync_mode => 0,
-            oe_sync_mode => 0,
-            logicalport => "fretted_momentary",
-            logicalport_pin_id => 0,
-            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
-        PORT MAP(
-            pa_out => fretted_momentary(0)__PA,
-            oe => open,
-            pad_in => fretted_momentary(0)_PAD,
             in_clock => open,
             in_clock_en => '1',
             in_reset => '0',
@@ -4853,6 +4741,96 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
+    LED_1:logicalport
+        GENERIC MAP(
+            drive_mode => "110",
+            ibuf_enabled => "1",
+            id => "8000f639-c9be-45e1-8695-550ba0dc2dc5",
+            init_dr_st => "0",
+            input_buffer_sel => "00",
+            input_clk_en => 0,
+            input_sync => "1",
+            input_sync_mode => "0",
+            intr_mode => "00",
+            invert_in_clock => 0,
+            invert_in_clock_en => 0,
+            invert_in_reset => 0,
+            invert_out_clock => 0,
+            invert_out_clock_en => 0,
+            invert_out_reset => 0,
+            io_voltage => "",
+            layout_mode => "CONTIGUOUS",
+            oe_conn => "0",
+            oe_reset => 0,
+            oe_sync => "0",
+            output_clk_en => 0,
+            output_clock_mode => "0",
+            output_conn => "0",
+            output_mode => "0",
+            output_reset => 0,
+            output_sync => "0",
+            ovt_hyst_trim => "0",
+            ovt_needed => "0",
+            ovt_slew_control => "00",
+            pa_in_clock => -1,
+            pa_in_clock_en => -1,
+            pa_in_reset => -1,
+            pa_out_clock => -1,
+            pa_out_clock_en => -1,
+            pa_out_reset => -1,
+            pin_aliases => "",
+            pin_mode => "O",
+            por_state => 4,
+            port_alias_group => "",
+            port_alias_required => 0,
+            sio_group_cnt => 0,
+            sio_hifreq => "00000000",
+            sio_hyst => "1",
+            sio_ibuf => "00000000",
+            sio_info => "00",
+            sio_obuf => "00000000",
+            sio_refsel => "00000000",
+            sio_vohsel => "00000000",
+            sio_vtrip => "00000000",
+            slew_rate => "0",
+            spanning => 0,
+            sw_only => 0,
+            use_annotation => "0",
+            vtrip => "10",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0)
+        PORT MAP(
+            in_clock_en => open,
+            in_reset => open,
+            out_clock_en => open,
+            out_reset => open);
+
+    LED_1(0):iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "LED_1",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => LED_1(0)__PA,
+            oe => open,
+            pad_in => LED_1(0)_PAD,
+            in_clock => open,
+            in_clock_en => '1',
+            in_reset => '0',
+            out_clock => open,
+            out_clock_en => '1',
+            out_reset => '0');
+
     \CapSense:MeasureCH1:cs_addr_win_2\:macrocell
         GENERIC MAP(
             eqn_main => "(!main_0 * main_2 * !main_3) + (!main_1 * main_2 * !main_3)",
@@ -5006,17 +4984,6 @@ BEGIN
             main_3 => \CapSense:MeasureCH0:zc1\,
             main_4 => \CapSense:MeasureCH0:wndState_2\,
             main_5 => \CapSense:MeasureCH0:wndState_0\);
-
-    \CapSense:PreChargeClk\:macrocell
-        GENERIC MAP(
-            eqn_main => "(!main_0 * main_2) + (main_0 * main_1)",
-            regmode => 0,
-            clken_mode => 1)
-        PORT MAP(
-            q => \CapSense:PreChargeClk\,
-            main_0 => \CapSense:ClockGen:control_4\,
-            main_1 => \CapSense:ClockGen:cmsb_reg\,
-            main_2 => \CapSense:ClockGen:tmp_ppulse_reg\);
 
     \SPIM_1:BSPIM:load_rx_data\:macrocell
         GENERIC MAP(
@@ -5207,43 +5174,6 @@ BEGIN
             main_9 => \SPIM_2:BSPIM:mosi_pre_reg\,
             main_10 => \SPIM_2:BSPIM:ld_ident\);
 
-    \SPIM_1:BSPIM:mosi_pre_reg_split_1\:macrocell
-        GENERIC MAP(
-            eqn_main => "(!main_0 * main_1 * !main_4 * !main_5 * !main_6 * !main_7 * !main_9) + (!main_0 * !main_2) + (!main_0 * !main_8) + (main_0 * !main_1 * main_2) + (main_0 * !main_3) + (main_1 * !main_2)",
-            regmode => 0,
-            clken_mode => 1)
-        PORT MAP(
-            q => \SPIM_1:BSPIM:mosi_pre_reg_split_1\,
-            main_0 => \SPIM_1:BSPIM:state_2\,
-            main_1 => \SPIM_1:BSPIM:state_1\,
-            main_2 => \SPIM_1:BSPIM:state_0\,
-            main_3 => \SPIM_1:BSPIM:mosi_from_dp\,
-            main_4 => \SPIM_1:BSPIM:count_4\,
-            main_5 => \SPIM_1:BSPIM:count_3\,
-            main_6 => \SPIM_1:BSPIM:count_2\,
-            main_7 => \SPIM_1:BSPIM:count_0\,
-            main_8 => \SPIM_1:BSPIM:mosi_pre_reg\,
-            main_9 => \SPIM_1:BSPIM:ld_ident\);
-
-    \SPIM_1:BSPIM:mosi_pre_reg_split\:macrocell
-        GENERIC MAP(
-            eqn_main => "(!main_0 * main_1 * !main_2 * main_3 * main_4) + (!main_0 * main_1 * !main_2 * main_3 * main_5) + (!main_0 * main_1 * !main_2 * main_3 * main_6) + (!main_0 * main_1 * !main_2 * main_3 * main_7) + (!main_0 * main_1 * !main_2 * main_3 * !main_8) + (main_0 * main_1 * !main_2 * main_9) + (main_1 * !main_2 * !main_4 * !main_5 * !main_6 * !main_7 * main_8 * main_9) + (main_1 * main_2 * main_3 * !main_4 * !main_5 * !main_6 * !main_7 * !main_8 * !main_10)",
-            regmode => 0,
-            clken_mode => 1)
-        PORT MAP(
-            q => \SPIM_1:BSPIM:mosi_pre_reg_split\,
-            main_0 => \SPIM_1:BSPIM:state_2\,
-            main_1 => \SPIM_1:BSPIM:state_1\,
-            main_2 => \SPIM_1:BSPIM:state_0\,
-            main_3 => \SPIM_1:BSPIM:mosi_from_dp\,
-            main_4 => \SPIM_1:BSPIM:count_4\,
-            main_5 => \SPIM_1:BSPIM:count_3\,
-            main_6 => \SPIM_1:BSPIM:count_2\,
-            main_7 => \SPIM_1:BSPIM:count_1\,
-            main_8 => \SPIM_1:BSPIM:count_0\,
-            main_9 => \SPIM_1:BSPIM:mosi_pre_reg\,
-            main_10 => \SPIM_1:BSPIM:ld_ident\);
-
     \IDAC8_1:viDAC8\:vidaccell
         GENERIC MAP(
             cy_registers => "",
@@ -5257,7 +5187,7 @@ BEGIN
     \ADC_1:DSM\:dsmodcell
         GENERIC MAP(
             cy_registers => "",
-            resolution => 14)
+            resolution => 16)
         PORT MAP(
             aclock => \ClockBlock.aclk_glb_ff_0__sig\,
             modbitin_udb => open,
@@ -5586,99 +5516,6 @@ BEGIN
             ce1_comb => \CapSense:ClockGen:ppulse_equal\,
             cl1_comb => \CapSense:ClockGen:ppulse_less\,
             busclk => ClockBlock_BUS_CLK);
-
-    \CapSense:ClockGen:sC16:PRSdp:u0\:datapathcell
-        GENERIC MAP(
-            a0_init => "00000000",
-            a1_init => "00000000",
-            ce0_sync => 1,
-            ce1_sync => 1,
-            cl0_sync => 1,
-            cl1_sync => 1,
-            cmsb_sync => 1,
-            co_msb_sync => 1,
-            cy_dpconfig => "0000000000000000101000010100100000000000000000000000000000000000000000001111000000000000111100000000000011110000000000001111000011111111000000001111111111111111000011000000001000000000111110000000000000000000",
-            d0_init => "00000000",
-            d1_init => "00000000",
-            f0_blk_sync => 1,
-            f0_bus_sync => 1,
-            f1_blk_sync => 1,
-            f1_bus_sync => 1,
-            ff0_sync => 1,
-            ff1_sync => 1,
-            ov_msb_sync => 1,
-            so_sync => 1,
-            z0_sync => 1,
-            z1_sync => 1,
-            uses_p_in => '0',
-            uses_p_out => '0',
-            clk_inv => '0',
-            clken_mode => 1)
-        PORT MAP(
-            clock => \CapSense:clk\,
-            cs_addr_2 => \CapSense:ClockGen:inter_reset\,
-            cs_addr_0 => \CapSense:ClockGen:clock_detect_reg\,
-            busclk => ClockBlock_BUS_CLK,
-            ce0 => \CapSense:ClockGen:sC16:PRSdp:u0.ce0__sig\,
-            cl0 => \CapSense:ClockGen:sC16:PRSdp:u0.cl0__sig\,
-            z0 => \CapSense:ClockGen:sC16:PRSdp:u0.z0__sig\,
-            ff0 => \CapSense:ClockGen:sC16:PRSdp:u0.ff0__sig\,
-            ce1 => \CapSense:ClockGen:sC16:PRSdp:u0.ce1__sig\,
-            cl1 => \CapSense:ClockGen:sC16:PRSdp:u0.cl1__sig\,
-            z1 => \CapSense:ClockGen:sC16:PRSdp:u0.z1__sig\,
-            ff1 => \CapSense:ClockGen:sC16:PRSdp:u0.ff1__sig\,
-            co_msb => \CapSense:ClockGen:sC16:PRSdp:u0.co_msb__sig\,
-            sol_msb => \CapSense:ClockGen:sC16:PRSdp:u0.sol_msb__sig\,
-            cfbo => \CapSense:ClockGen:sC16:PRSdp:u0.cfbo__sig\,
-            sil => \CapSense:ClockGen:sC16:PRSdp:u1.sor__sig\,
-            cmsbi => \CapSense:ClockGen:sC16:PRSdp:u1.cmsbo__sig\);
-
-    \CapSense:ClockGen:sC16:PRSdp:u1\:datapathcell
-        GENERIC MAP(
-            a0_init => "00000000",
-            a1_init => "00000000",
-            ce0_sync => 1,
-            ce1_sync => 1,
-            cl0_sync => 1,
-            cl1_sync => 1,
-            cmsb_sync => 1,
-            co_msb_sync => 1,
-            cy_dpconfig => "0000000000000000101000010100100000000000000000000000000000000000000000001111000000000000111100000000000011110000000000001111000011111111000000001111111111111111000011000000001100000000111101000000000000000000",
-            d0_init => "00000000",
-            d1_init => "00000000",
-            f0_blk_sync => 1,
-            f0_bus_sync => 1,
-            f1_blk_sync => 1,
-            f1_bus_sync => 1,
-            ff0_sync => 1,
-            ff1_sync => 1,
-            ov_msb_sync => 1,
-            so_sync => 1,
-            z0_sync => 1,
-            z1_sync => 1,
-            uses_p_in => '0',
-            uses_p_out => '0',
-            clk_inv => '0',
-            clken_mode => 1)
-        PORT MAP(
-            clock => \CapSense:clk\,
-            cs_addr_2 => \CapSense:ClockGen:inter_reset\,
-            cs_addr_0 => \CapSense:ClockGen:clock_detect_reg\,
-            cmsb_reg => \CapSense:ClockGen:cmsb_reg\,
-            busclk => ClockBlock_BUS_CLK,
-            ce0i => \CapSense:ClockGen:sC16:PRSdp:u0.ce0__sig\,
-            cl0i => \CapSense:ClockGen:sC16:PRSdp:u0.cl0__sig\,
-            z0i => \CapSense:ClockGen:sC16:PRSdp:u0.z0__sig\,
-            ff0i => \CapSense:ClockGen:sC16:PRSdp:u0.ff0__sig\,
-            ce1i => \CapSense:ClockGen:sC16:PRSdp:u0.ce1__sig\,
-            cl1i => \CapSense:ClockGen:sC16:PRSdp:u0.cl1__sig\,
-            z1i => \CapSense:ClockGen:sC16:PRSdp:u0.z1__sig\,
-            ff1i => \CapSense:ClockGen:sC16:PRSdp:u0.ff1__sig\,
-            ci => \CapSense:ClockGen:sC16:PRSdp:u0.co_msb__sig\,
-            sir => \CapSense:ClockGen:sC16:PRSdp:u0.sol_msb__sig\,
-            cfbi => \CapSense:ClockGen:sC16:PRSdp:u0.cfbo__sig\,
-            sor => \CapSense:ClockGen:sC16:PRSdp:u1.sor__sig\,
-            cmsbo => \CapSense:ClockGen:sC16:PRSdp:u1.cmsbo__sig\);
 
     \CapSense:IsrCH0\:interrupt
         GENERIC MAP(
@@ -6482,40 +6319,54 @@ BEGIN
             main_5 => \CapSense:ClockGen:control_2\,
             main_6 => \CapSense:ClockGen:cstate_2\);
 
-    \CapSense:ClockGen:clock_detect_reg\:macrocell
+    \SPIM_1:BSPIM:mosi_pre_reg_split_1\:macrocell
         GENERIC MAP(
-            eqn_main => "(main_0 * !main_1)",
-            regmode => 1,
-            clk_inv => '0',
+            eqn_main => "(!main_0 * main_1 * !main_4 * !main_5 * !main_6 * !main_7 * !main_9) + (!main_0 * !main_2) + (!main_0 * !main_8) + (main_0 * !main_1 * main_2) + (main_0 * !main_3) + (main_1 * !main_2)",
+            regmode => 0,
             clken_mode => 1)
         PORT MAP(
-            q => \CapSense:ClockGen:clock_detect_reg\,
-            clock_0 => \CapSense:clk\,
-            main_0 => \CapSense:ClockGen:tmp_ppulse_reg\,
-            main_1 => \CapSense:ClockGen:tmp_ppulse_dly\);
+            q => \SPIM_1:BSPIM:mosi_pre_reg_split_1\,
+            main_0 => \SPIM_1:BSPIM:state_2\,
+            main_1 => \SPIM_1:BSPIM:state_1\,
+            main_2 => \SPIM_1:BSPIM:state_0\,
+            main_3 => \SPIM_1:BSPIM:mosi_from_dp\,
+            main_4 => \SPIM_1:BSPIM:count_4\,
+            main_5 => \SPIM_1:BSPIM:count_3\,
+            main_6 => \SPIM_1:BSPIM:count_2\,
+            main_7 => \SPIM_1:BSPIM:count_0\,
+            main_8 => \SPIM_1:BSPIM:mosi_pre_reg\,
+            main_9 => \SPIM_1:BSPIM:ld_ident\);
 
-    \CapSense:ClockGen:tmp_ppulse_reg\:macrocell
+    \CapSense:PreChargeClk\:macrocell
         GENERIC MAP(
             eqn_main => "(!main_0 * !main_1)",
             regmode => 1,
             clk_inv => '0',
             clken_mode => 1)
         PORT MAP(
-            q => \CapSense:ClockGen:tmp_ppulse_reg\,
+            q => \CapSense:PreChargeClk\,
             clock_0 => \CapSense:clk\,
             main_0 => \CapSense:ClockGen:ppulse_equal\,
             main_1 => \CapSense:ClockGen:ppulse_less\);
 
-    \CapSense:ClockGen:tmp_ppulse_dly\:macrocell
+    \SPIM_1:BSPIM:mosi_pre_reg_split\:macrocell
         GENERIC MAP(
-            eqn_main => "(main_0)",
-            regmode => 1,
-            clk_inv => '0',
+            eqn_main => "(!main_0 * main_1 * !main_2 * main_3 * main_4) + (!main_0 * main_1 * !main_2 * main_3 * main_5) + (!main_0 * main_1 * !main_2 * main_3 * main_6) + (!main_0 * main_1 * !main_2 * main_3 * main_7) + (!main_0 * main_1 * !main_2 * main_3 * !main_8) + (main_0 * main_1 * !main_2 * main_9) + (main_1 * !main_2 * !main_4 * !main_5 * !main_6 * !main_7 * main_8 * main_9) + (main_1 * main_2 * main_3 * !main_4 * !main_5 * !main_6 * !main_7 * !main_8 * !main_10)",
+            regmode => 0,
             clken_mode => 1)
         PORT MAP(
-            q => \CapSense:ClockGen:tmp_ppulse_dly\,
-            clock_0 => \CapSense:clk\,
-            main_0 => \CapSense:ClockGen:tmp_ppulse_reg\);
+            q => \SPIM_1:BSPIM:mosi_pre_reg_split\,
+            main_0 => \SPIM_1:BSPIM:state_2\,
+            main_1 => \SPIM_1:BSPIM:state_1\,
+            main_2 => \SPIM_1:BSPIM:state_0\,
+            main_3 => \SPIM_1:BSPIM:mosi_from_dp\,
+            main_4 => \SPIM_1:BSPIM:count_4\,
+            main_5 => \SPIM_1:BSPIM:count_3\,
+            main_6 => \SPIM_1:BSPIM:count_2\,
+            main_7 => \SPIM_1:BSPIM:count_1\,
+            main_8 => \SPIM_1:BSPIM:count_0\,
+            main_9 => \SPIM_1:BSPIM:mosi_pre_reg\,
+            main_10 => \SPIM_1:BSPIM:ld_ident\);
 
     \CapSense:ClockGen:cstate_2\:macrocell
         GENERIC MAP(

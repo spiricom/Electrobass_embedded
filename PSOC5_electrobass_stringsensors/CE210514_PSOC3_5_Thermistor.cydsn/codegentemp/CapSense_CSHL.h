@@ -27,7 +27,7 @@
 
 #define CapSense_SIGNAL_SIZE                (16u)
 #define CapSense_AUTO_RESET                 (0u)
-#define CapSense_RAW_FILTER_MASK            (4u)
+#define CapSense_RAW_FILTER_MASK            (2u)
 
 /* Signal size definition */
 #define CapSense_SIGNAL_SIZE_UINT8          (8u)
@@ -143,8 +143,8 @@
 #define CapSense_POS_NEXT               (2u)
 #define CapSense_CENTROID_ROUND_VALUE   (0x7F00u)
 
-#define CapSense_NEGATIVE_NOISE_THRESHOLD        (20u)
-#define CapSense_LOW_BASELINE_RESET              (30u)
+#define CapSense_NEGATIVE_NOISE_THRESHOLD        (8u)
+#define CapSense_LOW_BASELINE_RESET              (10u)
 
 
 /***************************************

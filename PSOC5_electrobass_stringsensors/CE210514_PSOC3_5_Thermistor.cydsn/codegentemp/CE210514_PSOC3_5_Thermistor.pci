@@ -1,5 +1,5 @@
 # CE210514_PSOC3_5_Thermistor
-# 2022-10-13 20:35:56Z
+# 2023-02-11 20:42:29Z
 
 # IO_0@[IOP=(1)][IoId=(0)] is reserved: SWDDebugEnabled
 dont_use_io iocell 1 0
@@ -32,7 +32,6 @@ set_io "\USB:Dm(0)\" iocell 15 7
 set_io "\USB:Dp(0)\" iocell 15 6
 set_io "SS_1(0)" iocell 1 5
 set_io "blue_LED(0)" iocell 2 1
-set_io "LED1(0)" iocell 0 2
 set_io "knob_2_36(0)" iocell 3 6
 set_io "ExtMUX_EN(0)" iocell 15 5
 set_io "ExtMUXS1(0)" iocell 15 1
@@ -44,14 +43,15 @@ set_io "V_T_1_2(0)" iocell 0 0
 set_io "SCL_1(0)" iocell 12 0
 set_io "V_H(0)" iocell 0 4
 set_io "up(0)" iocell 3 1
-set_io "fretted_latching(0)" iocell 12 3
-set_io "fretted_momentary(0)" iocell 12 2
+set_io "fretted_mom(0)" iocell 12 3
+set_io "fretted_latching(0)" iocell 12 2
 set_io "MISO_2(0)" iocell 2 7
 set_io "MOSI_2(0)" iocell 12 4
 set_io "SCLK_2(0)" iocell 12 5
 set_io "SS_2(0)" iocell 1 2
 set_io "cv_pedal(0)" iocell 3 4
 set_io "vBusPin(0)" iocell 12 7
+set_io "LED_1(0)" iocell 0 2
 set_location "\IDAC8_1:viDAC8\" vidaccell -1 -1 2
 set_location "\ADC_1:DSM\" dsmodcell -1 -1 0
 set_location "\CapSense:BufCH0\" csabufcell -1 -1 0

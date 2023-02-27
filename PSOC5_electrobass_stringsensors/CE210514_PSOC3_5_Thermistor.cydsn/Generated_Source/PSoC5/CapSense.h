@@ -60,8 +60,8 @@
 #define CapSense_PRESCALER_OPTIONS          (1u)
 #define CapSense_MULTIPLE_PRESCALER_ENABLED (0u)
 
-#define CapSense_PRS_OPTIONS                (2u)
-#define CapSense_SCANSPEED_VALUE            (3u)
+#define CapSense_PRS_OPTIONS                (0u)
+#define CapSense_SCANSPEED_VALUE            (1u)
 
 #define CapSense_VREF_OPTIONS               (0u)
 
