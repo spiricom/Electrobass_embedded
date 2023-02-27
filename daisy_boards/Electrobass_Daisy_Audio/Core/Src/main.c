@@ -64,6 +64,9 @@ void PeriphCommonClock_Config(void);
 void MPU_Conf(void);
 static int checkForSDCardPreset(uint8_t value);
 static void writePresetToSDCard(int fileSize);
+static int checkForSDCardTuning(uint8_t numberToLoad);
+static void writeTuningToSDCard(int fileSize);
+
 void parsePreset(int size, int presetNumber);
 void getPresetNamesFromSDCard(void);
 /* USER CODE END PFP */
@@ -90,6 +93,7 @@ DIR dir;
 const TCHAR path = 0;
 
 #define MAX_NUM_PRESETS 20
+#define MAX_NUM_TUNINGS 20
 volatile uint8_t writingState = 0;
 volatile float 	audioMasterLevel = 1.0f;
 FIL fdst;
@@ -99,16 +103,20 @@ FRESULT res;
 uint8_t presetNumberToSave;
 uint8_t presetNumberToLoad = 0;
 uint8_t tuningNumberToSave;
+uint8_t tuningNumberToLoad = 0;
 uint8_t currentActivePreset = 0;
 uint8_t presetName[14];
 volatile uint8_t presetNamesArray[MAX_NUM_PRESETS][14];
 uint8_t whichPresetToSendName = 0;
+volatile uint8_t tuningNamesArray[MAX_NUM_TUNINGS][14];
+uint8_t whichTuningToSendName = 0;
 uint8_t tuningName[14];
 uint32_t presetWaitingToParse = 0;
 uint32_t presetWaitingToWrite = 0;
 uint32_t presetWaitingToLoad = 0;
 uint32_t tuningWaitingToParse = 0;
 uint32_t tuningWaitingToWrite = 0;
+uint32_t tuningWaitingToLoad = 0;
 
 param params[NUM_PARAMS];
 mapping mappings[MAX_NUM_MAPPINGS];
@@ -144,7 +152,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   MPU_Conf();
-  //SCB_EnableICache();
+  SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -280,13 +288,18 @@ int main(void)
 	  {
 		  writePresetToSDCard(presetWaitingToWrite);
 	  }
+
+	  if (tuningWaitingToLoad > 0)
+	  {
+		  checkForSDCardTuning(tuningNumberToLoad);
+	  }
 	  if(tuningWaitingToParse > 0)
 	  {
 		  parseTuning(tuningWaitingToParse);
 	  }
 	  else if  (tuningWaitingToWrite)
 	  {
-		  //writingTuningToSDCard(tuningWaitingToWrite);
+		  writeTuningToSDCard(tuningWaitingToWrite);
 	  }
 
 	  uint32_t rand;
@@ -615,6 +628,132 @@ static void writePresetToSDCard(int fileSize)
 }
 
 
+static int checkForSDCardTuning(uint8_t numberToLoad)
+{
+	int found = 0;
+	if(BSP_SD_IsDetected())
+	{
+		diskBusy = 1;
+		loadFailed = 0;
+		//HAL_Delay(300);
+
+		disk_initialize(0);
+
+	    disk_status(0);
+
+		if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
+		{
+
+			FRESULT res;
+			/* Start to search for preset files */
+			char charBuf[10];
+			char finalString[10];
+
+			//turn the integer value into a 2 digit string
+
+			itoa(numberToLoad, charBuf, 10);
+			int len = ((strlen(charBuf)));
+			if (len == 1)
+			{
+				finalString[2] = charBuf[1];
+				finalString[1] = charBuf[0];
+				finalString[0] = '0';
+				strcat(finalString, ".ebt");
+			}
+
+			else
+			{
+				strcat(charBuf, ".ebt");
+				strcpy(finalString, charBuf);
+			}
+
+			res = f_findfirst(&dir, &fno, SDPath, finalString);
+			uint bytesRead;
+			if(res == FR_OK)
+			{
+				if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
+				{
+					f_read(&SDFile, &buffer, f_size(&SDFile), &bytesRead);
+					tuningWaitingToParse = bytesRead;
+					f_close(&SDFile);
+					found = 1;
+					for (int i = 0; i < 4; i++)
+					{
+						//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
+						//HAL_Delay(50);
+					}
+
+				}
+			}
+		}
+	}
+	if (!found)
+	{
+		loadFailed = 1;
+	}
+	tuningWaitingToLoad = 0;
+	diskBusy = 0;
+	return found;
+}
+
+static void writeTuningToSDCard(int fileSize)
+{
+	__disable_irq();
+	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
+	 {
+		 audioOutBuffer[i] = 0;
+	 }
+	if(BSP_SD_IsDetected())
+	{
+		//if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
+		{
+			//if(res == FR_OK)
+			{
+				diskBusy = 1;
+				//make sure the number is not above 2 digits
+			    if (tuningNumberToSave > 99)
+			    {
+			    	tuningNumberToSave = 99;
+			    }
+
+				//turn the integer value into a 2 digit string
+				char charBuf[10];
+				char finalString[10];
+				itoa(tuningNumberToSave, charBuf, 10);
+				int len = ((strlen(charBuf)));
+				if (len == 1)
+				{
+					finalString[2] = charBuf[1];
+					finalString[1] = charBuf[0];
+					finalString[0] = '0';
+					strcat(finalString, ".ebt");
+				}
+
+				else
+				{
+					strcat(charBuf, ".ebt");
+					strcpy(finalString, charBuf);
+				}
+
+				if(f_open(&SDFile, finalString, FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
+				{
+					uint bytesRead;
+					f_write(&SDFile, &buffer, fileSize, &bytesRead);
+					f_close(&SDFile);
+				}
+
+			}
+			//f_mount(0, "", 0); //unmount
+		}
+	}
+	tuningWaitingToWrite = 0;
+	diskBusy = 0;
+	__enable_irq();
+}
+
+
+
+
 uint8_t BSP_SD_IsDetected(void)
 {
   __IO uint8_t status = SD_PRESENT;
@@ -914,8 +1053,9 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		} else if (writingState == ReceivingTuning)
 		{
 			writingState = 0;
+			tuningNumberToLoad = tuningNumberToSave;
 			tuningWaitingToParse = bufferPos;
-			tuningWaitingToParse = bufferPos;
+			tuningWaitingToWrite = bufferPos;
 		}
 	}
 
@@ -929,22 +1069,18 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 			presetWaitingToLoad = 1;
 		}
 	}
-	if (SPI_RX[offset] == WaitingForLoadAck)
-	{
-#if 0
 
-		SPI_TX[offset] = 252;
-		if(!loadFailed)
+	else if (SPI_RX[offset] == LoadingTuning)
+	{
+		uint8_t loadNumber = SPI_RX[offset+1];
+		if (loadNumber < MAX_NUM_TUNINGS)
 		{
-			SPI_TX[offset+1] = currentActivePreset;//this will change to the loaded preset number when parsing is finished
+			tuningNumberToLoad = loadNumber;
+			whichTuningToSendName = loadNumber;
+			tuningWaitingToLoad = 1;
 		}
-		else
-		{
-			SPI_TX[offset+1] = 254; //load failed
-			SPI_TX[offset+2] = currentActivePreset; //tell the PSOC that it needs to show the old currently active preset, since the new load failed.
-		}
-#endif
 	}
+
 	else
 	{
 		SPI_TX[offset] = 253; //special byte that says this is a preset name;
@@ -1107,12 +1243,6 @@ void __ATTR_ITCMRAM parseTuning(int size)
 		__enable_irq();
 		return;
 	}
-
-
-
-
-
-
 
 	//bufferIndex = 2;
 	//now read the fractional midi

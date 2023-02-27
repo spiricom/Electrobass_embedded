@@ -21,7 +21,7 @@ enum SPIMessage
 	ReceivingPreset,
 	ReceivingTuning,
 	LoadingPreset,
-	WaitingForLoadAck,
+	LoadingTuning,
 	ReceivingEnd =  253
 };
 //selectable type number of possible values
