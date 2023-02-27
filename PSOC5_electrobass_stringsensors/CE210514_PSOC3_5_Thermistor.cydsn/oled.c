@@ -61,7 +61,7 @@ void OLED_init(void)
 	  //ssd1306_display_full_buffer();
 
 	  //OLEDclear();
-        OLED_writePresetFlashing();
+        OLED_writePreset();
 	  OLED_draw();
 	  //sdd1306_invertDisplay(1);
 }
@@ -76,30 +76,27 @@ int getCursorX()
 }
 
 
-void OLED_writePreset()
+void OLED_writeTuning()
 {
-	//GFXsetFont(&theGFX, &C645pt7b);
 	OLEDclear();
-	char tempString[24];
-	//itoa((currentPreset+1), tempString, 10);
+
+    GFXsetFont(&theGFX, &Disket_Mono_Regular17pt7b);
+    GFXsetTextSize(&theGFX, 1);
+    OLEDwriteString("T", 1, 0, SecondLine);
+	OLEDwriteInt(currentTuningSelection, 2, 30, SecondLine);
+    GFXsetFont(&theGFX,&Disket_Mono_Regular7pt7b);
+    GFXsetTextSize(&theGFX, 1);
     
-	strcat(tempString, "1");
-	//strcat(tempString, modeNames[currentPreset]);
-	int myLength = (int)strlen(tempString);
-	//OLEDwriteInt(0, 2, 0, FirstLine);
-	//OLEDwriteString(":", 1, 20, FirstLine);
-	OLEDwriteString("ELECTROBASS", 12, 0,SecondLine);
-    //OLEDwriteString("4-EVA", 5, 0, SecondLine);
-        //OLEDwriteString("AHHHHH", 6, 0, ThirdLine);
-            //OLEDwriteString("HOOORAY!!!!", 11, 0, FourthLine);
-	OLEDwriteString(tempString, myLength, 0, FirstLine);
+    //OLEDwriteString((char *)&presetNamesArray[currentPresetSelection][0], 7, 48,FirstLine);
+    //OLEDwriteString((char *)&presetNamesArray[currentPresetSelection][7], 7, 48,SecondLine);
+    OLED_draw();
 	//GFXsetFont(&theGFX, &EuphemiaCAS7pt7b);
 	//OLEDwriteString(modeNamesDetails[currentPreset], (int)strlen(modeNamesDetails[currentPreset]), 0, SecondLine);
 	//save new preset to flash memory
 }
 
 
-void OLED_writePresetFlashing()
+void OLED_writePreset()
 {
 	//GFXsetFont(&theGFX, &C645pt7b);
 	OLEDclear();

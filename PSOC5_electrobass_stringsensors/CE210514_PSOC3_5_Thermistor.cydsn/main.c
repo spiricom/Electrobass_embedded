@@ -83,7 +83,10 @@ void I2C_reset(void);
 void CCEvent(int bar);
 void scanButtons(void);
 void sendCurrentPresetNumber(void);
+void sendCurrentTuningNumber(void);
 uint8 I2C_MasterReadBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode);
+
+uint8_t setPresetOrSetTuning = 0;
 
 union breakFloat {
  float f;
@@ -329,7 +332,15 @@ int highestPresetNumber = MAX_NUM_PRESETS - 1;
 
 uint8_t presetNamesArray[MAX_NUM_PRESETS][14];
 uint8_t presetNumberToLoad = 0;
-uint8_t presetLoadedResponse[2] = {255, 0};
+
+
+int currentTuningSelection = 0;
+int highestTuningNumber = MAX_NUM_TUNINGS - 1;
+
+uint8_t tuningNamesArray[MAX_NUM_TUNINGS][14];
+uint8_t tuningNumberToLoad = 0;
+
+
 
 int previousPitchBendsSent = 0;
 int previousPitchBendsSentPoly[4] = {0};
@@ -909,29 +920,13 @@ int main(void)
             tx2Buffer[1] = presetNumberToLoad;
             sendingMessage = 0;
         }
-        #if 0
-        else if (sendingMessage == 4) //4  means waiting for preset loaded response
+
+        else if (sendingMessage == 4) //4  means load a tuning
         {
             tx2Buffer[0] = 5; //for the audio chip this message is a 4 
-            tx2Buffer[1] = presetNumberToLoad;
-            if (presetLoadedResponse[0] == 254)
-            {
-                //load failed - give up!
-                sendingMessage = 0;
-                currentPresetSelection = presetLoadedResponse[1];
-                //display previous preset as loaded
-                sendCurrentPresetNumber();
-                 OLED_invert(0);
-            }
-            if (presetLoadedResponse[0] == presetNumberToLoad)
-            {
-                presetLoadedResponse[0]= 255; //still waiting
-                sendingMessage = 0;
-                //OLED_invert(0);
-                //mark that it's been loaded on the display
-            }
+            tx2Buffer[1] = tuningNumberToLoad;
+            sendingMessage = 0;
         }
-        #endif
 
         
         
@@ -954,11 +949,6 @@ int main(void)
                     }
                 }
             }
-        }
-        else if (rx2Buffer[0] == 252) // message that means audio IC is acknowledging preset load)
-        {
-            presetLoadedResponse[0] = rx2Buffer[1];
-            presetLoadedResponse[1] = rx2Buffer[2];
         }
         
         if (tx2Buffer[0] > 0 )
@@ -1997,37 +1987,72 @@ void scanButtons(void)
     //if up pressed
     if (buttonCounters[1] == 95)
     {
-        if (currentPresetSelection < highestPresetNumber)
+        
+        if (!setPresetOrSetTuning)
         {
-            currentPresetSelection++;
+            if (currentPresetSelection < highestPresetNumber)
+            {
+                currentPresetSelection++;
+            }
+            else
+            {
+                currentPresetSelection = 0;
+            }
+            
+            sendCurrentPresetNumber();
+            presetNumberToLoad = currentPresetSelection;
+            sendingMessage = 3;
         }
         else
         {
-            currentPresetSelection = 0;
+            if (currentTuningSelection < highestTuningNumber)
+            {
+                currentTuningSelection++;  
+            }
+            else
+            {
+                currentTuningSelection = 0;
+            }
+            sendCurrentTuningNumber();
+            tuningNumberToLoad = currentTuningSelection;
+            sendingMessage = 4;
         }
-        
-        sendCurrentPresetNumber();
-        presetNumberToLoad = currentPresetSelection;
-        sendingMessage = 3;
         //OLED_invert(1);
         buttonCounters[1] = 97;
     }
     //if down pressed
     if (buttonCounters[2] == 95)
     {
-        if (currentPresetSelection > 0)
+        if (!setPresetOrSetTuning)
         {
-            currentPresetSelection--;
-            
+            if (currentPresetSelection > 0)
+            {
+                currentPresetSelection--;
+                
+            }
+            else
+            {
+                currentPresetSelection = highestPresetNumber;
+            }
+            sendCurrentPresetNumber();
+            presetNumberToLoad = currentPresetSelection;
+            sendingMessage = 3;
         }
         else
         {
-            currentPresetSelection = highestPresetNumber;
+            if (currentTuningSelection > 0)
+            {
+                currentTuningSelection--;
+                
+            }
+            else
+            {
+                currentTuningSelection = highestTuningNumber;
+            }
+            sendCurrentTuningNumber();
+            tuningNumberToLoad = currentTuningSelection;
+            sendingMessage = 4;
         }
-        sendCurrentPresetNumber();
-        presetNumberToLoad = currentPresetSelection;
-        sendingMessage = 3;
-        //OLED_invert(1);
         buttonCounters[2] = 97;
     }
     //if enter pressed
@@ -2063,6 +2088,19 @@ void scanButtons(void)
             OLED_writeCalibrationScreen(calibration_mode);
         }
 
+        
+        else 
+        {
+           setPresetOrSetTuning = !setPresetOrSetTuning; 
+           if (setPresetOrSetTuning)
+            {
+                sendCurrentTuningNumber();
+            }
+            else
+            {
+                sendCurrentPresetNumber();
+            }
+        }
         buttonCounters[3] = 97;
     }
     
@@ -2075,5 +2113,10 @@ void scanButtons(void)
 
 void sendCurrentPresetNumber(void)
 {
-    OLED_writePresetFlashing();
+    OLED_writePreset();
+}
+
+void sendCurrentTuningNumber(void)
+{
+    OLED_writeTuning();
 }
