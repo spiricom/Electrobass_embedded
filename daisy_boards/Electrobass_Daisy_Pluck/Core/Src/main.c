@@ -647,7 +647,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 			{
 				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);
 			}
-			outcountdown[whichString] = 210; //was 64/maybe sometimes gets rh touch release a little early if sensitivity is too low? Saw this on a scope reading and it was 1.4ms early so adding a 1.4ms delay to compensate
+			outcountdown[whichString] = 300; //was 64/maybe sometimes gets rh touch release a little early if sensitivity is too low? Saw this on a scope reading and it was 1.4ms early so adding a 1.4ms delay to compensate
 			countingDown[whichString] = 1;
 		}
 		else if ((outcountdown[whichString] == 0) || ((armedCounter[whichString] == 1) && (!stringTouchRH[whichString])))
@@ -659,7 +659,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 			{
 				if (numQuietFails[whichString] == 0)
 				{
-					outcountdown[whichString] = 140;
+					outcountdown[whichString] = 200;
 					numQuietFails[whichString] = 1;
 				}
 				else

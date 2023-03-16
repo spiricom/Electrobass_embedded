@@ -68,7 +68,11 @@ static int checkForSDCardTuning(uint8_t numberToLoad);
 static void writeTuningToSDCard(int fileSize);
 
 void parsePreset(int size, int presetNumber);
+
+void __ATTR_ITCMRAM parseTuning(int size, int tuningNumber);
+
 void getPresetNamesFromSDCard(void);
+void getTuningNamesFromSDCard(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -117,6 +121,8 @@ uint32_t presetWaitingToLoad = 0;
 uint32_t tuningWaitingToParse = 0;
 uint32_t tuningWaitingToWrite = 0;
 uint32_t tuningWaitingToLoad = 0;
+
+uint8_t sendPresetName = 1;
 
 param params[NUM_PARAMS];
 mapping mappings[MAX_NUM_MAPPINGS];
@@ -221,6 +227,9 @@ int main(void)
   buffer[NUM_PARAMS*2+19+112] = 1;
   buffer[NUM_PARAMS*2+25+112] = 0xfe;
   buffer[NUM_PARAMS*2+26+112] = 0xfe;
+
+  tuningNamesArray[0][0] = 'E';
+  tuningNamesArray[0][1] = 'T';
   LEAF_generate_table_skew_non_sym(resTable, 0.01f, 10.0f, 0.5f, SCALE_TABLE_SIZE);
   LEAF_generate_table_skew_non_sym(envTimeTable, 0.0f, 20000.0f, 4000.0f, SCALE_TABLE_SIZE);
   LEAF_generate_table_skew_non_sym(lfoRateTable, 0.0f, 30.0f, 2.0f, SCALE_TABLE_SIZE);
@@ -295,7 +304,7 @@ int main(void)
 	  }
 	  if(tuningWaitingToParse > 0)
 	  {
-		  parseTuning(tuningWaitingToParse);
+		  parseTuning(tuningWaitingToParse, tuningNumberToLoad);
 	  }
 	  else if  (tuningWaitingToWrite)
 	  {
@@ -495,6 +504,40 @@ void getPresetNamesFromSDCard(void)
 					}
 				}
 			}
+			for(int i = 0; i < MAX_NUM_TUNINGS; i++)
+			{
+				itoa(i, charBuf, 10);
+				int len = ((strlen(charBuf)));
+				if (len == 1)
+				{
+					finalString[2] = charBuf[1];
+					finalString[1] = charBuf[0];
+					finalString[0] = '0';
+					strcat(finalString, ".ebt");
+				}
+
+				else
+				{
+					strcat(charBuf, ".ebt");
+					strcpy(finalString, charBuf);
+				}
+
+
+				res = f_findfirst(&dir, &fno, SDPath, finalString);
+				uint bytesRead;
+				if(res == FR_OK)
+				{
+					if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
+					{
+						f_read(&SDFile, &buffer, f_size(&SDFile), &bytesRead);
+						f_close(&SDFile);
+						for (int j = 0; j < 14; j++)
+						{
+							tuningNamesArray[i][j] = buffer[j];
+						}
+					}
+				}
+			}
 
 		}
 
@@ -502,6 +545,7 @@ void getPresetNamesFromSDCard(void)
 	diskBusy = 0;
 	return;
 }
+
 
 static int checkForSDCardPreset(uint8_t numberToLoad)
 {
@@ -758,9 +802,9 @@ uint8_t BSP_SD_IsDetected(void)
 {
   __IO uint8_t status = SD_PRESENT;
 
-  if (BSP_PlatformIsDetected() == 0x0)
+  //if (BSP_PlatformIsDetected() == 0x0) // TODO: shouldn't be not!!!
   {
-    status = SD_NOT_PRESENT;
+    //status = SD_NOT_PRESENT;
   }
 
   return status;
@@ -1053,6 +1097,10 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		} else if (writingState == ReceivingTuning)
 		{
 			writingState = 0;
+			if (tuningNumberToSave == 0)
+			{
+				return;
+			}
 			tuningNumberToLoad = tuningNumberToSave;
 			tuningWaitingToParse = bufferPos;
 			tuningWaitingToWrite = bufferPos;
@@ -1073,6 +1121,13 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 	else if (SPI_RX[offset] == LoadingTuning)
 	{
 		uint8_t loadNumber = SPI_RX[offset+1];
+		if (loadNumber == 0)
+		{
+			for (int i = 0; i < 128; i++)
+			{
+				fractionalMidi[i] =  (float)i; //12-TET
+			}
+		}
 		if (loadNumber < MAX_NUM_TUNINGS)
 		{
 			tuningNumberToLoad = loadNumber;
@@ -1081,7 +1136,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		}
 	}
 
-	else
+	else if (sendPresetName)
 	{
 		SPI_TX[offset] = 253; //special byte that says this is a preset name;
 		SPI_TX[offset+1] = whichPresetToSendName;
@@ -1101,6 +1156,28 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		SPI_TX[offset+15] = presetNamesArray[whichPresetToSendName][13];
 		whichPresetToSendName = (whichPresetToSendName + 1) % MAX_NUM_PRESETS;
 	}
+
+	else
+	{
+		SPI_TX[offset] = 254; //special byte that says this is a preset name;
+		SPI_TX[offset+1] = whichTuningToSendName;
+		SPI_TX[offset+2] = tuningNamesArray[whichTuningToSendName][0];
+		SPI_TX[offset+3] = tuningNamesArray[whichTuningToSendName][1];
+		SPI_TX[offset+4] = tuningNamesArray[whichTuningToSendName][2];
+		SPI_TX[offset+5] = tuningNamesArray[whichTuningToSendName][3];
+		SPI_TX[offset+6] = tuningNamesArray[whichTuningToSendName][4];
+		SPI_TX[offset+7] = tuningNamesArray[whichTuningToSendName][5];
+		SPI_TX[offset+8] = tuningNamesArray[whichTuningToSendName][6];
+		SPI_TX[offset+9] = tuningNamesArray[whichTuningToSendName][7];
+		SPI_TX[offset+10] = tuningNamesArray[whichTuningToSendName][8];
+		SPI_TX[offset+11] = tuningNamesArray[whichTuningToSendName][9];
+		SPI_TX[offset+12] = tuningNamesArray[whichTuningToSendName][10];
+		SPI_TX[offset+13] = tuningNamesArray[whichTuningToSendName][11];
+		SPI_TX[offset+14] = tuningNamesArray[whichTuningToSendName][12];
+		SPI_TX[offset+15] = tuningNamesArray[whichTuningToSendName][13];
+		whichTuningToSendName = (whichTuningToSendName + 1) % MAX_NUM_TUNINGS;
+	}
+	sendPresetName = !sendPresetName;
 
 }
 
@@ -1210,40 +1287,47 @@ void blankFunction(float a, int b)
 	;
 }
 
-void __ATTR_ITCMRAM parseTuning(int size)
+void __ATTR_ITCMRAM parseTuning(int size, int tuningNumber)
 {
 	//turn off the volume while changing parameters
 	 __disable_irq();
-	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
+	 //for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
 	 {
-		 audioOutBuffer[i] = 0;
+		 //audioOutBuffer[i] = 0;
 	 }
-	audioMasterLevel = 0.0f;
+	//audioMasterLevel = 0.0f;
 	//osc params
 
 	uint16_t bufferIndex = 0;
 	//read first element in buffer as a count of how many parameters
 	//uint16_t paramCount = (buffer[0] << 8) + buffer[1];
-	if (size > 266)
+	if (size > 280)
 	{
 		//error in transmission - give up and don't parse!
-		audioMasterLevel = 1.0f;
+		//audioMasterLevel = 1.0f;
 		tuningWaitingToParse = 0;
 		__enable_irq();
 		return;
 	}
 
 	//check the validity of the transfer by verifying that the param array and mapping arrays both end with the required 0xefef values
-	uint16_t paramEndCheck = (buffer[256] << 8) + buffer[257];
+	uint16_t paramEndCheck = (buffer[270] << 8) + buffer[271];
 	if (paramEndCheck != 0xefef)
 	{
 		//error in transmission - give up and don't parse!
-		audioMasterLevel = 1.0f;
+		//audioMasterLevel = 1.0f;
 		tuningWaitingToParse = 0;
 		__enable_irq();
 		return;
 	}
 
+	//read first 14 items in buffer as the 14 character string that is the name of the preset
+	for (int i = 0; i < 14; i++)
+	{
+		tuningName[i] = buffer[bufferIndex];
+		tuningNamesArray[tuningNumber][i] = buffer[bufferIndex];
+		bufferIndex++;
+	}
 	//bufferIndex = 2;
 	//now read the fractional midi
 	for (int i = 0; i < 128; i++)
@@ -1253,7 +1337,7 @@ void __ATTR_ITCMRAM parseTuning(int size)
 		bufferIndex += 2;
 	}
 	tuningWaitingToParse = 0;
-	audioMasterLevel = 1.0f;
+	//audioMasterLevel = 1.0f;
 	diskBusy = 0;
 	__enable_irq();
 }
@@ -1956,8 +2040,8 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 
 		mappings[whichMapping].sourceValPtr[whichHook] = &sourceValues[source];
 
-
-		if (source < 4) //if it's oscillators or noise (the first 4 elements of the source array), don't smooth to allow FM
+//TODO: fix then when it's no longer temp macros
+		if (source < 12) //if it's oscillators or noise (the first 4 elements of the source array), don't smooth to allow FM
 		{
 			mappings[whichMapping].sourceSmoothed[whichHook] = 0;
 

@@ -117,9 +117,9 @@ uint8_t BSP_SD_IsDetected(void)
 {
   __IO uint8_t status = SD_PRESENT;
 
-  if (BSP_PlatformIsDetected() == 0x0)
+  //if (BSP_PlatformIsDetected() == 0x0)
   {
-    status = SD_NOT_PRESENT;
+    //status = SD_NOT_PRESENT;
   }
 
   return status;
@@ -179,6 +179,7 @@ int main(void)
    __HAL_RCC_BKPRAM_CLK_ENABLE();
 
   //if (*(__IO uint32_t*)(0x38800000+36) != 12345678)
+
   if (bootloaderFlag[0] != 231)
   {
 	  int i = 6;
@@ -214,7 +215,9 @@ int main(void)
 
 	  JumpToApplication();
   }
+
   else
+
   {
 	  int i = 6;
 	  while(i--)
