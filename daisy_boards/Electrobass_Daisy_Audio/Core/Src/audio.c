@@ -208,8 +208,8 @@ void audio_init(void)
 		tSawSquareLFO_init(&lfoSawSquare[i], &leaf);
 	}
     //noise
-	tVZFilter_init(&noiseShelf1, Lowshelf, 80.0f, 6.0f, &leaf);
-	tVZFilter_init(&noiseShelf2, Highshelf, 12000.0f, 6.0f, &leaf);
+	tVZFilter_init(&noiseShelf1, Lowshelf, 80.0f, 1.0f, &leaf);
+	tVZFilter_init(&noiseShelf2, Highshelf, 12000.0f, 1.0f, &leaf);
 	tVZFilter_init(&noiseBell1, Bell, 1000.0f, 1.9f, &leaf);
     tNoise_init(&noise, WhiteNoise, &leaf);
     // exponential decay buffer falling from 1 to
@@ -230,8 +230,8 @@ void audio_init(void)
 		tCrusher_init(&bc[i],&leaf);
 		tHighpass_init(&dcBlock1[i], 5.0f,&leaf);
 		tHighpass_init(&dcBlock2[i], 5.0f,&leaf);
-		tVZFilter_init(&shelf1[i], Lowshelf, 80.0f, 32.0f,  &leaf);
-		tVZFilter_init(&shelf2[i], Highshelf, 12000.0f, 32.0f, &leaf);
+		tVZFilter_init(&shelf1[i], Lowshelf, 80.0f, 1.0f,  &leaf);
+		tVZFilter_init(&shelf2[i], Highshelf, 12000.0f, 1.0f, &leaf);
 		tVZFilter_init(&bell1[i], Bell, 1000.0f, 1.9f, &leaf);
 		tVZFilter_setSampleRate(&shelf1[i], SAMPLE_RATE * OVERSAMPLE);
 		tVZFilter_setSampleRate(&shelf2[i], SAMPLE_RATE * OVERSAMPLE);
@@ -506,7 +506,9 @@ float __ATTR_ITCMRAM filter_tick(float* samples, float note)
 	{
 		filterTick[1](&samples[1], 1, cutoff[1]);
 	}
-
+//TODO: store in sources array
+	sourceValues[MACRO_SOURCE_OFFSET] = LEAF_clip(0.0f, samples[0], 1.0f);
+	sourceValues[MACRO_SOURCE_OFFSET + 1] = LEAF_clip(0.0f, samples[1], 1.0f);
 	timeFilt = DWT->CYCCNT - tempCount1;
 	return samples[1] + (samples[0] * sp);
 }
@@ -872,6 +874,7 @@ float __ATTR_ITCMRAM audioTickL(void)
 			oversamplerArray[j] = ((1.0f - fxMix[i]) * dry) + (fxMix[i] * oversamplerArray[j]); //mix in dry/wet at the "mix" amount
 			oversamplerArray[j] *= fxPostGain[i]; //apply postgain
 		}
+		sourceValues[MACRO_SOURCE_OFFSET + 2 + i] = LEAF_clip(0.0f, oversamplerArray[0], 1.0f); // for now just taking every other sample of oversampled array
 	}
 
 	//hard clip before downsampling to get a little more antialiasing from clipped signal.
@@ -898,6 +901,7 @@ float __ATTR_ITCMRAM audioTickL(void)
 	if (isnan(sample))
 	{
 		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+		sample = 0.0f;
 	}
 	sample *= finalMaster;
 	sample = LEAF_clip(-1.0f, sample, 1.0f);
@@ -920,7 +924,7 @@ void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 		fvelocity = fvelocity * fvelocity;
 
 		//store random number as source
-		sourceValues[RANDOM_SOURCE_OFFSET] = random_values[randomValPointer++];
+		sourceValues[RANDOM_SOURCE_OFFSET] = (random_values[randomValPointer++] * 0.5f) + 0.5f;
 		//store velocity as source
 		sourceValues[VELOCITY_SOURCE_OFFSET] = fvelocity;
 
@@ -1166,8 +1170,8 @@ void __ATTR_ITCMRAM  tiltParam1(float value, int v)
 void __ATTR_ITCMRAM  tiltParam2(float value, int v)
 {
 	value = (value * 77.0f) + 42.0f;
-	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
-	tVZFilter_setFreqFast(&bell1[v], value);
+	//value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tVZFilter_setFreq(&bell1[v], mtof(value));
 }
 void __ATTR_ITCMRAM  tiltParam3(float value, int v)
 {
@@ -1636,8 +1640,8 @@ void __ATTR_ITCMRAM noiseSetGain(float value, int v)
 void __ATTR_ITCMRAM noiseSetFreq(float value, int v)
 {
 	value = (value * 77.0f) + 42.0f;
-	value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
-	tVZFilter_setFreqFast(&noiseBell1, value);
+	//value = LEAF_clip(0.0f, (value-16.0f) * 35.929824561403509f, 4095.0f);
+	tVZFilter_setFreq(&noiseBell1, value);
 }
 
 uint32_t timeNoise = 0;
