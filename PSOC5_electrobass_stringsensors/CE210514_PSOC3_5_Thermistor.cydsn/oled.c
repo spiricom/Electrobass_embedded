@@ -83,10 +83,11 @@ void OLED_writeTuning()
     GFXsetFont(&theGFX, &Disket_Mono_Regular17pt7b);
     GFXsetTextSize(&theGFX, 1);
     OLEDwriteString("T", 1, 0, SecondLine);
-	OLEDwriteInt(currentTuningSelection, 2, 30, SecondLine);
+	OLEDwriteInt(currentTuningSelection, 2, 28, SecondLine);
     GFXsetFont(&theGFX,&Disket_Mono_Regular7pt7b);
     GFXsetTextSize(&theGFX, 1);
-    
+        OLEDwriteString((char *)&tuningNamesArray[currentTuningSelection][0], 3, 86,FirstLine);
+    OLEDwriteString((char *)&tuningNamesArray[currentTuningSelection][3], 3, 86,SecondLine);
     //OLEDwriteString((char *)&presetNamesArray[currentPresetSelection][0], 7, 48,FirstLine);
     //OLEDwriteString((char *)&presetNamesArray[currentPresetSelection][7], 7, 48,SecondLine);
     OLED_draw();

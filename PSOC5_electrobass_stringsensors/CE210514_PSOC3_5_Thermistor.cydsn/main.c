@@ -64,7 +64,7 @@ uint16_t midiOverflow = 0;
 
 uint scanPart = 0;
 uint channel = 0;
-#define TUNING_ARRAY_SIZE 258
+#define TUNING_ARRAY_SIZE 272
 uint8_t tuningArray[TUNING_ARRAY_SIZE];
 uint currentOutPointer = 0;
 uint outChanged = 0;
@@ -129,6 +129,8 @@ uint8_t receivingSysex = 0;
 uint8_t parsingSysex = 0;
 volatile uint8_t presetArray[1024];
 uint8_t presetNumberToWrite = 0;
+uint8_t tuningNumberToWrite = 0;
+
 uint8_t sendMessageEnd = 0;
 enum presetArraySectionState
 {
@@ -481,8 +483,8 @@ int main(void)
     I2C_1_Start();
     
     CyDelay(100);
-
-    for (int i = 0; i < MAX_NUM_PRESETS; i++)
+    SPIM_2_ClearTxBuffer();
+    for (int i = 0; i < (MAX_NUM_PRESETS + MAX_NUM_TUNINGS); i++)
     {
         SPIM_2_ClearRxBuffer();
         CyDmaChEnable(rx2Channel, STORE_TD_CFG_ONCMPLT);
@@ -500,6 +502,17 @@ int main(void)
                 for (int i = 0; i < 14; i++)
                 {
                     presetNamesArray[whichPresetToName][i] = rx2Buffer[i+2];
+                }
+            }
+        }
+        if (rx2Buffer[0] == 254) // message that means audio IC is sending preset names)
+        {
+            uint8_t whichTuningToName = rx2Buffer[1];
+            if (whichTuningToName < MAX_NUM_TUNINGS)
+            {
+                for (int i = 0; i < 14; i++)
+                {
+                    tuningNamesArray[whichTuningToName][i] = rx2Buffer[i+2];
                 }
             }
         }
@@ -522,10 +535,50 @@ int main(void)
             fretMeasurements[i][j] = (high << 8) + low;
         }
     }
+    //add other stored values
+    // preset number
+
+    currentPresetSelection = EEPROM_ReadByte(32);
+    // tuning number
+    currentTuningSelection = EEPROM_ReadByte(33);
+    // fretted or not
+    frettedState =  EEPROM_ReadByte(34);
+    frettedStateLatched = frettedState;
+    // open strings
+    int tempByte = 35;
+    
+    union breakFloat theFullVal;
+        
+    for (int i = 0; i < 4; i++)
+    {
+        theFullVal.u32 = 0;
+        theFullVal.u32 |= (EEPROM_ReadByte(tempByte++) << 24);
+        theFullVal.u32 |= (EEPROM_ReadByte(tempByte++) << 16);
+        theFullVal.u32 |= (EEPROM_ReadByte(tempByte++) << 8);
+        theFullVal.u32 |= (EEPROM_ReadByte(tempByte++));
+        openStringMIDI[i] = theFullVal.f;
+        openStringFreqs[i] = mtof(openStringMIDI[i]);
+    }
+    
+    //load preset
+    tx2Buffer[0] = 4; //for the audio chip this message is a 4 
+    tx2Buffer[1] = presetNumberToLoad;
+
+    SPIM_2_ClearRxBuffer();
+    CyDmaChEnable(rx2Channel, STORE_TD_CFG_ONCMPLT);
+    CyDmaChEnable(tx2Channel, STORE_TD_CFG_ONCMPLT);
+    OLED_writePreset();
+    //prepare to load a tuning next round
+    tuningNumberToLoad = currentTuningSelection;
+    sendingMessage = 4;
+    
     CapSense_Start();     
     
     hp_R = 1.0f - (3.14159265358979f * 2.0f * 2.0f / 200.0f);
 
+    tuningNamesArray[0][0] = 'E';
+    tuningNamesArray[0][1] = 'T';
+    
     CyDelay(10);
     CapSense_InitializeAllBaselines() ;
     
@@ -889,7 +942,7 @@ int main(void)
             if (sendMessageEnd) //send end message
             {
                 tx2Buffer[0] = 253;
-                tx2Buffer[1] = presetNumberToWrite;
+                tx2Buffer[1] = tuningNumberToWrite;
                 sendMessageEnd = 0;
                 sendingMessage = 0;
                 messageArraySendCount = 0;
@@ -898,7 +951,7 @@ int main(void)
             {
                 //send the next preset Chunkkkkk
                 tx2Buffer[0] = 3;
-                tx2Buffer[1] = presetNumberToWrite;
+                tx2Buffer[1] = tuningNumberToWrite;
                 for (uint i = 2 ; i < BUFFER_2_SIZE; i++)
                 {
                     if (messageArraySendCount < messageArraySize)
@@ -946,6 +999,21 @@ int main(void)
                     for (int i = 0; i < 14; i++)
                     {
                         presetNamesArray[whichPresetToName][i] = rx2Buffer[i+2];
+                    }
+                }
+            }
+        }
+        
+        if (rx2Buffer[0] == 254) // message that means audio IC is sending tuning names)
+        {
+            uint8_t whichTuningToName = rx2Buffer[1];
+            if ((parsingSysex != 1) && (sendingMessage == 0) && (whichTuningToName != currentTuningSelection))
+            {
+                if (whichTuningToName < MAX_NUM_TUNINGS)
+                {
+                    for (int i = 0; i < 14; i++)
+                    {
+                        tuningNamesArray[whichTuningToName][i] = rx2Buffer[i+2];
                     }
                 }
             }
@@ -1077,6 +1145,7 @@ void USB_service(void)
 
 
 #define NUM_MACROS 8
+volatile float presetCheck[400];
 
 void parseSysex(void)
 {
@@ -1139,6 +1208,7 @@ void parseSysex(void)
                     uint16_t intVal = (uint16_t)(theVal.f * 65535.0f);
                     presetArray[valsStart + currentFloat++] = intVal >> 8;
                     presetArray[valsStart + currentFloat++] = intVal & 0xff;
+                    presetCheck[currentFloat] = theVal.f;
                 }
                 else if (currentFloat == ((valsCount+1)*2))
                 {
@@ -1376,10 +1446,15 @@ void parseSysex(void)
     {
         
         sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
-        currentFloat = 0;
-        presetNumberToWrite = sysexBuffer[1];
+        currentFloat = 14;
+        tuningNumberToWrite = sysexBuffer[1];
+        for (int i = 2; i < NAME_LENGTH_IN_BYTES+2; i++)
+        {
+            tuningNamesArray[tuningNumberToWrite][i-2] = sysexBuffer[i] & 127;
+            tuningArray[i-2] = sysexBuffer[i] & 127;
+        }
         union breakFloat theVal;
-        for (uint32_t i = 2; i < sysexPointer; i = i+5)
+        for (uint32_t i = 16; i < sysexPointer; i = i+5)
         {
             theVal.u32 = 0;
             theVal.u32 |= ((sysexBuffer[i] &15) << 28);
@@ -1411,6 +1486,35 @@ void parseSysex(void)
         {
             sysexMessageInProgress = 0;
             sendingMessage = 2;
+        }
+    }
+    
+    else if (sysexBuffer[0] == 3) //its an open string setting
+    {
+        
+        sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
+        currentFloat = 0;
+        int openStringNumber = 0;
+        union breakFloat theVal;
+        int tempByte = 35;
+        for (uint32_t i = 2; i < sysexPointer; i = i+5)
+        {
+            theVal.u32 = 0;
+            theVal.u32 |= ((sysexBuffer[i] &15) << 28);
+            theVal.u32 |= (sysexBuffer[i+1] << 21);
+            theVal.u32 |= (sysexBuffer[i+2] << 14);
+            theVal.u32 |= (sysexBuffer[i+3] << 7);
+            theVal.u32 |= (sysexBuffer[i+4] & 127);
+            testVal = theVal.f;
+            
+            openStringMIDI[openStringNumber % 4] = testVal;
+            openStringFreqs[openStringNumber % 4] = mtof(testVal);
+            openStringNumber++;
+            
+            EEPROM_WriteByte((theVal.u32 >> 24) & 255, tempByte++);
+            EEPROM_WriteByte((theVal.u32 >> 16) & 255, tempByte++);
+            EEPROM_WriteByte((theVal.u32 >> 8) & 255, tempByte++);
+            EEPROM_WriteByte(theVal.u32 & 255, tempByte++);
         }
     }
     parsingSysex = 0;
@@ -1462,7 +1566,7 @@ void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
 
                 //sysexPointer = 0;
             }
-            else if (midiMsg[1] == 0 || midiMsg[1] == 1)
+            else if (midiMsg[1] == 0 || midiMsg[1] == 1 || midiMsg[1] == 3)
             {
                 receivingSysex = 1;
                 
@@ -1957,6 +2061,7 @@ void scanButtons(void)
     if (buttonCounters[0] == 95)
     {
         frettedStateLatched = !frettedStateLatched;
+         EEPROM_WriteByte(frettedStateLatched, 34);
         buttonCounters[0] = 97;
     }
     
@@ -2114,9 +2219,13 @@ void scanButtons(void)
 void sendCurrentPresetNumber(void)
 {
     OLED_writePreset();
+    EEPROM_WriteByte(currentPresetSelection, 32);
 }
 
+
+    
 void sendCurrentTuningNumber(void)
 {
     OLED_writeTuning();
+    EEPROM_WriteByte(currentTuningSelection, 33);
 }
