@@ -10,3 +10,4 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode);
 extern int currentPresetSelection;
 extern int currentTuningSelection;
 extern uint8_t presetNamesArray[MAX_NUM_PRESETS][14];
+extern uint8_t tuningNamesArray[MAX_NUM_TUNINGS][14];
