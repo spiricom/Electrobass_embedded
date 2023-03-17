@@ -215,8 +215,8 @@ int main(void)
   for (int i = 0; i < NUM_ADC_CHANNELS; i++)
   {
   	tThreshold_init(&threshold[i],250.0f, 350.0f, &leaf);//.01 .05
-  	tSlide_init(&fastSlide[i],1.0f,500.0f, &leaf); //500
-  	tSlide_init(&slowSlide[i],1.0f,1000.0f, &leaf); //500 //1000
+  	tSlide_init(&fastSlide[i],1.0f,300.0f, &leaf); //500
+  	tSlide_init(&slowSlide[i],1.0f,600.0f, &leaf); //500 //1000
 
   	storedMaxFloats[i] = (65535.0f / storedMaximums[i]);
   	for (int j = 0; j < FILTER_ORDER; j++)
@@ -472,22 +472,24 @@ float minFlo[NUM_STRINGS] = {0.0f,0.0f,0.0f,0.0f};
 uint8_t numQuietFails[NUM_STRINGS] = {0,0,0,0};
 uint8_t countingDown[NUM_STRINGS] = {0,0,0,0};
 
+
 int attackDetectPeak2 (int whichString, uint16_t tempInt)
 {
 	float output = -1;
 
+
+	//if (stringTouchRH[whichString])
+	{
+		//stringSounding[whichString] = 0;
+	}
+
 	if (whichString == 0)
 	{
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+		//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 	}
 	float tempSamp = (((float)tempInt - TWO_TO_15) * INV_TWO_TO_15);
-#ifdef MAPLE1
-	//tempSamp = tempSamp * stringScaling[whichString] * 2.0f;
-#elif defined GREEN3
-	//tempSamp = tempSamp * stringScaling2[whichString] * 2.0f;
-#else
-	tempSamp = tempSamp;
-#endif
+
 	for (int k = 0; k < FILTER_ORDER; k++)
 	{
 		// a highpass filter, remove any slow moving signal (effectively centers the signal around zero and gets rid of the signal that isn't high frequency vibration) cutoff of 100Hz, // applied 8 times to get rid of a lot of low frequency bumbling around
@@ -505,7 +507,10 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 	}
 	*/
 	testAnalog2 = (tempSamp * TWO_TO_15) + TWO_TO_15;
-	float tempAbs = fabsf(tempSamp);
+
+	//float tempAbs = fabsf(tempSamp);
+	//take only postive half of wave, since negative half is messed up and clipped by poor opamp choice on this prototype
+	float tempAbs  = LEAF_clip(0.0f, tempSamp, 1.0f);
 	tempAbsInt[whichString] = (tempAbs * (TWO_TO_16 - 1));
 	Dsmoothed = tSlide_tick(&fastSlide[whichString], tempAbs);
 	smoothedInt[whichString] = (Dsmoothed * (TWO_TO_16 - 1));
@@ -514,34 +519,58 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 	Dsmoothed2 = LEAF_clip(0.0f, Dsmoothed2, 1.0f);
 	smoothedInt2[whichString] = (Dsmoothed2 * (TWO_TO_16 - 1));
 
-	if (whichString == 0)
-	{
-		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, testAnalog2 >> 4);
-		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, smoothedInt2[whichString] >> 4);
-	}
+
 	//dbSmoothed2 = atodb(Dsmoothed2);
-	dbSmoothed2 = LEAF_clip(-80.0f, atodbTable[(uint32_t)(Dsmoothed2 * ATODB_TABLE_SIZE_MINUS_ONE)], 12.0f);
+	//80db
+	dbSmoothed2 = LEAF_clip(-120.0f, atodbTable[(uint32_t)(Dsmoothed2 * ATODB_TABLE_SIZE_MINUS_ONE)], 12.0f);
 	dbSmoothedInt[whichString] = dbSmoothed2 * 100.0f;
 	//dbSmoothed2 = LEAF_clip(-50.f, dbSmoothed2, 12.0f);
 	//get the slope
 	float slope = (dbSmoothed2 - prevdbSmoothed2[whichString]);
 	slopeStorage[whichString] = slope;
 	float integerVersion = Dsmoothed2 * (TWO_TO_16 - 1);
+	//uint16_t toDac1 = ((uint16_t)LEAF_clip(-2048.0f, slope * 100.0f, 2048.0f))+2048;
+	//uint16_t toDac1 = LEAF_clip(-4095, dbSmoothedInt[whichString]/3, 0) + 4095;
+	//uint16_t toDac2 = smoothedInt2[whichString] >> 4;
+	//uint16_t toDac2 = LEAF_clip(-2047, slope * 200.0f , 2047) + 2047;
+	uint16_t toDac2 = TWO_TO_12 * (2.0f * maxFlo[whichString]);// - minFlo[whichString]);;
 
-	if (whichString == 1)
+	if (whichString == 0)
 	{
-		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, (uint16_t)integerVersion >> 4);
+		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, testAnalog2 >> 4);
+		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, smoothedInt2[whichString] >> 4);
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, toDac2);
 	}
+	//if (whichString == 0)
+	{
+		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, toDac1);
+	}
+
 	threshOut = tThreshold_tick(&threshold[whichString], integerVersion);
-	if (threshOut > 0)
+	if (whichString == 0)
 	{
-		//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
-	}
-	else
-	{
-		//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
-	}
+		if (stringTouchRH[whichString])
+		{
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);
+		}
+		else
+		{
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
+		}
 
+		if (threshOut > 0)
+		{
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+		}
+		else
+		{
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+		}
+		if (stringSounding[whichString] == 0)
+		{
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
+		}
+	}
 	//if (whichString == 1)
 	{
 		//if (threshOut > 0)
@@ -564,11 +593,12 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 		outcountdown[whichString] = -1;
 		if (whichString == 0)
 		{
-			HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
 		}
 		numQuietFails[whichString] = 0;
 	}
-	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)downCounter[1]);
+
 	if (armed[whichString] == 1)
 	{
 		if (tempSamp > maxFlo[whichString])
@@ -586,7 +616,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 		}
 		armedCounter[whichString]++;
 
-
+		//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
 
 		if (slope <= 0.0f)
 		{
@@ -596,7 +626,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 				//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_SET);
 			}
 		}
-		if (slope > 0.001f)
+		if (slope > 0.01f)
 		{
 			downCounter[whichString] = 0;
 			//if (whichString == 1)
@@ -604,6 +634,75 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 				//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, GPIO_PIN_RESET);
 			}
 		}
+		if (whichString == 0)
+		{
+			HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, downCounter[whichString]*5);
+		}
+
+		if (downCounter[whichString] > 100)
+		{
+
+			if ((!stringTouchRH[whichString]) && (stringSounding[whichString] == 0))
+			{
+				//output = (float)stringMaxes[whichString];
+				output = TWO_TO_16 * (2.0f * maxFlo[whichString]);// - minFlo[whichString]);
+
+				if (storedMaximums[whichString] < output)
+				{
+					storedMaximums[whichString] = output; // TODO:new
+				}
+
+				output = LEAF_clip(0.0f, output, 65535.0f);
+
+				testAnalog = output;
+
+				armed[whichString] = 0;
+				armedCounter[whichString] = 0;
+				downCounter[whichString] = 0;
+				stringMaxes[whichString] = 0;
+
+
+				if ((whichString == 0) && (output > 0))
+				{
+					//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
+					HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
+
+					//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
+				}
+				if (whichString == 0)
+				{
+					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+				}
+				if (whichString == 0)
+				{
+					//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
+				}
+			}
+
+			if (downCounter[whichString] > 200)
+			{
+				armed[whichString] = 0;
+				armedCounter[whichString] = 0;
+				downCounter[whichString] = 0;
+				stringMaxes[whichString] = 0;
+
+				if (whichString == 0)
+				{
+					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
+					//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+				}
+				if (whichString == 0)
+				{
+					//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
+				}
+			}
+
+
+
+		}
+
+#if 0
 		//slope went down but string was not released, based on rh touch data. So give up on this peak - probably not a pluck
 		if (downCounter[whichString] > 400)
 		{
@@ -617,6 +716,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 			armedCounter[whichString] = 0;
 			downCounter[whichString] = 0;
 			stringMaxes[whichString] = 0;
+
 			//if (whichString == 1)
 			{
 				//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
@@ -624,7 +724,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 
 			if (whichString == 0)
 			{
-				HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
 			}
 			if (whichString == 0)
 			{
@@ -632,7 +732,6 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 			}
 
 		}
-
 		if ((outcountdown[whichString] > 0) && (countingDown[whichString]))
 		{
 			outcountdown[whichString]--;
@@ -677,7 +776,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 					}
 					if (whichString == 0)
 					{
-						HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
+						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
 					}
 					if (whichString == 0)
 					{
@@ -691,16 +790,14 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 				{
 					storedMaximums[whichString] = output; // TODO:new
 				}
-	#ifdef MAPLE1
-				output = LEAF_clip(0.0f, output * 4.0f, 65535.0f);
-	#else
+
 				output = LEAF_clip(0.0f, output, 65535.0f);
-	#endif
+
 				testAnalog = output;
-				if (whichString == 0)
-				{
-					HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)testAnalog >> 4);
-				}
+				//if (whichString == 0)
+				//{
+				//	HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)testAnalog >> 4);
+				//}
 				armed[whichString] = 0;
 				armedCounter[whichString] = 0;
 				downCounter[whichString] = 0;
@@ -713,7 +810,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 				}
 				if (whichString == 0)
 				{
-					HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
+					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
 				}
 				if (whichString == 0)
 				{
@@ -722,6 +819,8 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 			}
 
 		}
+
+#endif
 	}
 
 	prevdbSmoothed2[whichString] = dbSmoothed2;
@@ -745,7 +844,7 @@ void ADC_Frame(int offset)
 
 	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, adcBytes[0] >> 4);
 	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, adcBytes[1] >> 4);
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 	for (int i = offset; i < ADC_FRAME_SIZE + offset; i++)
 	{
 		//for (int j = 0; j < NUM_ADC_CHANNELS; j++)
@@ -813,27 +912,7 @@ void ADC_Frame(int offset)
 					LHmuted = 0;
 				}
 
-				if (j == 0)
-				{
-					if (LHmuted  > 0)
-					{
-						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);
-					}
-					else
-					{
-						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
-					}
 
-
-					if (stringTouchRH[j]  > 0)
-					{
-						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
-					}
-					else
-					{
-						HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
-					}
-				}
 
 
 /*
@@ -1058,7 +1137,7 @@ void ADC_Frame(int offset)
 		}
 
 	}
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 
 	if (changeHappened)
 	{
@@ -1112,7 +1191,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	spiBuffer = 1;
 	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+   // HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
 	for (int j = 0; j < 4; j++)
 	{
 		stringTouchLH[j] = (SPI_RX[24] >> (j+4)) & 1;
@@ -1129,14 +1208,14 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 		//SPI_TX[j*2+8+(16*spiBuffer)] = (uint8_t) (stringFrozen[j]); //high byte
 	}
 	//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+    //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 }
 
 void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
 	spiBuffer = 0;
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+   // HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
 	for (int j = 0; j < 4; j++)
 	{
 		stringTouchLH[j] = (SPI_RX[8] >> (j+4)) & 1;
@@ -1151,7 +1230,7 @@ void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 		//SPI_TX[j*2+8+(16*spiBuffer)] = (uint8_t) (stringFrozen[j]); //high byte
 	}
 	//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 }
 
 // EXTI Line12 External Interrupt ISR Handler CallBackFun
