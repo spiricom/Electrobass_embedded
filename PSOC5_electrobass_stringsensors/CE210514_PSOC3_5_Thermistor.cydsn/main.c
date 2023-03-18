@@ -1955,11 +1955,11 @@ void handleNotes(int note, int velocity, int string)
             //(would maybe mean this is just sympathetic bridge resonance and shouldn't interrupt the monophonic handling)
             // maybe need more complexity in time since attack? // or maybe do active suppression in the pluck detector board by summing strings with the inverse of the nearby strings
             uint8_t ignore = 0;
-            if (velocity < 10) // 25
+            if (velocity < 3) // 25
             {
                 ignore = 1;   
             }
-            else if ((loudestSoundingNote >=30) && (velocity <= 30))
+            else if ((loudestSoundingNote >=50) && (velocity <= 20))
             {
                 ignore = 1;
             }

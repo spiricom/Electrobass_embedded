@@ -96,9 +96,9 @@ CY_ISR_PROTO(ADC_1_ISR4);
 **************************************/
 
 /* Default configuration values from user parameters */
-#define ADC_1_CFG1_RESOLUTION         (16u )
+#define ADC_1_CFG1_RESOLUTION         (12u )
 #define ADC_1_CFG1_INPUT_RANGE        (7u)
-#define ADC_1_CFG1_SRATE              (10000u)
+#define ADC_1_CFG1_SRATE              (32000u)
 #define ADC_1_CFG1_REFERENCE          (1u)
 #define ADC_1_CFG1_BUFFER_GAIN        (1u)
 #define ADC_1_CFG1_CONV_MODE          (0u)
@@ -1337,27 +1337,27 @@ extern volatile int32 ADC_1_CountsPerVolt;
 
 /* Default register settings for the Config 1 */
 /* Default Config
-* ADC_1_CFG1 Sample Rate: 10000 Samples per Second
+* ADC_1_CFG1 Sample Rate: 32000 Samples per Second
 * ADC_1_CFG1 Conversion Mode: 0
 * ADC_1_CFG1 Input Buffer Gain: 1
 * ADC_1_CFG1 Reference: 1
 * ADC_1_CFG1 Input Range: 7
-* ADC_1_CFG1 Resolution: 16 bits
-* ADC_1_CFG1 Clock: 2800000 Hz
+* ADC_1_CFG1 Resolution: 12 bits
+* ADC_1_CFG1 Clock: 4800000 Hz
 */
 
 #define ADC_1_CFG1_DEC_CR             (0x30u)
 #define ADC_1_CFG1_DEC_SR             (0x14u)
-#define ADC_1_CFG1_DEC_SHIFT1         (0x04u)
-#define ADC_1_CFG1_DEC_SHIFT2         (0x07u)
+#define ADC_1_CFG1_DEC_SHIFT1         (0x06u)
+#define ADC_1_CFG1_DEC_SHIFT2         (0x09u)
 #define ADC_1_CFG1_DEC_DIV            (0)
 #define ADC_1_CFG1_DEC_DR2            (0x00u)
 #define ADC_1_CFG1_DEC_DR2H           (0x00u)
-#define ADC_1_CFG1_DEC_DR1            (0x3Fu)
+#define ADC_1_CFG1_DEC_DR1            (0x1Fu)
 #define ADC_1_CFG1_DEC_OCOR           (0x00u)
 #define ADC_1_CFG1_DEC_OCORM          (0x00u)
 #define ADC_1_CFG1_DEC_OCORH          (0x00u)
-#define ADC_1_CFG1_DEC_GVAL           (0x0Fu)
+#define ADC_1_CFG1_DEC_GVAL           (0x0Du)
 #define ADC_1_CFG1_DEC_GCOR           (0x00u)
 #define ADC_1_CFG1_DEC_GCORH          (0x00u)
 #define ADC_1_CFG1_DEC_COHER          (0x01u)
@@ -1365,18 +1365,18 @@ extern volatile int32 ADC_1_CountsPerVolt;
 #define ADC_1_CFG1_DSM_CR1            (0x00u)
 #define ADC_1_CFG1_DSM_CR2            (0x7Au)
 #define ADC_1_CFG1_DSM_CR3            (0x00u)
-#define ADC_1_CFG1_DSM_CR4            (0x50u)
-#define ADC_1_CFG1_DSM_CR5            (0x3Cu)
-#define ADC_1_CFG1_DSM_CR6            (0x22u)
+#define ADC_1_CFG1_DSM_CR4            (0x14u)
+#define ADC_1_CFG1_DSM_CR5            (0x10u)
+#define ADC_1_CFG1_DSM_CR6            (0x09u)
 #define ADC_1_CFG1_DSM_CR7            (0x00u)
-#define ADC_1_CFG1_DSM_CR8            (0x5Bu)
-#define ADC_1_CFG1_DSM_CR9            (0x5Eu)
-#define ADC_1_CFG1_DSM_CR10           (0x44u)
-#define ADC_1_CFG1_DSM_CR11           (0x46u)
-#define ADC_1_CFG1_DSM_CR12           (0x06u)
+#define ADC_1_CFG1_DSM_CR8            (0x12u)
+#define ADC_1_CFG1_DSM_CR9            (0x13u)
+#define ADC_1_CFG1_DSM_CR10           (0x22u)
+#define ADC_1_CFG1_DSM_CR11           (0x24u)
+#define ADC_1_CFG1_DSM_CR12           (0x04u)
 #define ADC_1_CFG1_DSM_CR13           (0x00u)
 #define ADC_1_CFG1_DSM_CR14           (0x02u)
-#define ADC_1_CFG1_DSM_CR15           (0x12u)
+#define ADC_1_CFG1_DSM_CR15           (0x22u)
 #define ADC_1_CFG1_DSM_CR16           (0x28u)
 #define ADC_1_CFG1_DSM_CR17           (0xEBu)
 #define ADC_1_CFG1_DSM_REF0           (0x44u)
@@ -1394,21 +1394,21 @@ extern volatile int32 ADC_1_CountsPerVolt;
 #define ADC_1_CFG1_DSM_OUT0           (0x00u)
 #define ADC_1_CFG1_DSM_OUT1           (0x00u)
 #define ADC_1_CFG1_DSM_SW3            (0x00u)
-#define ADC_1_CFG1_CLOCKS_PER_SAMPLE  (0x0118u)
-#define ADC_1_CFG1_CLOCK_FREQ         (2800000u)
-#define ADC_1_CFG1_CP_CLOCK_FREQ      (11200000u)
+#define ADC_1_CFG1_CLOCKS_PER_SAMPLE  (0x0096u)
+#define ADC_1_CFG1_CLOCK_FREQ         (4800000u)
+#define ADC_1_CFG1_CP_CLOCK_FREQ      (12000000u)
 #define ADC_1_CFG1_REFERENCE_VOLTAGE  (1.0240)
-#define ADC_1_CFG1_COUNTS_PER_VOLT    (64000)
-#define ADC_1_CFG1_IDEAL_DEC_GAIN     (0x90B9u)
+#define ADC_1_CFG1_COUNTS_PER_VOLT    (4000)
+#define ADC_1_CFG1_IDEAL_DEC_GAIN     (0x8F5Cu)
 #define ADC_1_CFG1_IDEAL_ODDDEC_GAIN  (0x8000u)
 
 #define ADC_1_CFG1_ALIGNMENT          (0u)
-#define ADC_1_CFG1_ADC_CLK_DIVIDER    (28u)
+#define ADC_1_CFG1_ADC_CLK_DIVIDER    (16u)
 #define ADC_1_CFG1_CP_CLK_DIVIDER     (6u)
 
 /* Input and DAC Cap values in pF */
-#define ADC_1_CFG1_IPCAP1VALUE        (0x1770u)
-#define ADC_1_CFG1_DACAPVALUE         (0x0D40u)
+#define ADC_1_CFG1_IPCAP1VALUE        (0x0640u)
+#define ADC_1_CFG1_DACAPVALUE         (0x0380u)
 
 /* Below defines are deprecated and should not be used. These are provided
 *   just to keep the component backward compatible

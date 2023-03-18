@@ -234,8 +234,8 @@ set_location "\USB:ep_2\" interrupt -1 -1 5
 set_location "\USB:ep_0\" interrupt -1 -1 24
 set_location "\USB:dp_int\" interrupt -1 -1 12
 set_location "my_Vbus_ISR" interrupt -1 -1 11
-set_location "\USB:EP_DMA_Done_isr\" interrupt -1 -1 3
 set_location "\ADC_1:IRQ\" interrupt -1 -1 29
+set_location "\USB:EP_DMA_Done_isr\" interrupt -1 -1 3
 set_location "\I2C_1:I2C_IRQ\" interrupt -1 -1 15
 set_location "\ADC_SAR_Seq_1:SAR:ADC_SAR\" sarcell -1 -1 1
 set_io "\ADC_1:Bypass_P03(0)\" iocell 0 3
