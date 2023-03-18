@@ -1,5 +1,5 @@
 -- Project:   C:\Users\JeffSnyder\dev\Electrobass_embedded\PSOC5_electrobass_stringsensors\CE210514_PSOC3_5_Thermistor.cydsn\CE210514_PSOC3_5_Thermistor.cyprj
--- Generated: 03/16/2023 20:51:26
+-- Generated: 03/18/2023 14:22:14
 -- PSoC Creator  4.4
 
 ENTITY CE210514_PSOC3_5_Thermistor IS
@@ -5499,7 +5499,7 @@ BEGIN
     \ADC_1:DSM\:dsmodcell
         GENERIC MAP(
             cy_registers => "",
-            resolution => 16)
+            resolution => 12)
         PORT MAP(
             aclock => \ClockBlock.aclk_glb_ff_0__sig\,
             modbitin_udb => open,

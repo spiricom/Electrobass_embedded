@@ -2,7 +2,7 @@
 --	Conversion of CE210514_PSOC3_5_Thermistor.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Thu Mar 16 20:51:04 2023
+--	Sat Mar 18 14:21:53 2023
 --
 
 USE cypress.cypress.all;
@@ -2247,7 +2247,7 @@ SCLK_1:cy_psoc3_pins_v1_10
 		signal2=>\ADC_1:Net_34\);
 \ADC_1:DSM\:cy_psoc3_ds_mod_v4_0
 	GENERIC MAP(cy_registers=>"",
-		resolution=>16)
+		resolution=>12)
 	PORT MAP(aclock=>\ADC_1:Net_488\,
 		vplus=>Net_342,
 		vminus=>\ADC_1:Net_520\,
@@ -2379,7 +2379,7 @@ SCLK_1:cy_psoc3_pins_v1_10
 		id=>"fbda9b79-9f46-4360-b7f1-e0d7a25d459b/edd15f43-b66b-457b-be3a-5342345270c8",
 		source_clock_id=>"61737EF6-3B74-48f9-8B91-F7473A442AE7",
 		divisor=>0,
-		period=>"357142857.142857",
+		period=>"208333333.333333",
 		is_direct=>'0',
 		is_digital=>'0')
 	PORT MAP(clock_out=>\ADC_1:Net_488\,
