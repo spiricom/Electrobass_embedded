@@ -214,7 +214,7 @@ int main(void)
 
   for (int i = 0; i < NUM_ADC_CHANNELS; i++)
   {
-  	tThreshold_init(&threshold[i],250.0f, 350.0f, &leaf);//.01 .05
+  	tThreshold_init(&threshold[i],400.0f, 500.0f, &leaf);//.01 .05
   	tSlide_init(&fastSlide[i],1.0f,300.0f, &leaf); //500
   	tSlide_init(&slowSlide[i],1.0f,600.0f, &leaf); //500 //1000
 
@@ -471,7 +471,8 @@ float maxFlo[NUM_STRINGS] = {0.0f,0.0f,0.0f,0.0f};
 float minFlo[NUM_STRINGS] = {0.0f,0.0f,0.0f,0.0f};
 uint8_t numQuietFails[NUM_STRINGS] = {0,0,0,0};
 uint8_t countingDown[NUM_STRINGS] = {0,0,0,0};
-
+uint16_t pluckWaitCount[NUM_STRINGS] = {0,0,0,0};
+uint8_t pluckWaitState[NUM_STRINGS] = {0,0,0,0};
 
 int attackDetectPeak2 (int whichString, uint16_t tempInt)
 {
@@ -486,7 +487,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 	if (whichString == 0)
 	{
 		//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+		//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 	}
 	float tempSamp = (((float)tempInt - TWO_TO_15) * INV_TWO_TO_15);
 
@@ -546,6 +547,15 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, toDac1);
 	}
 
+	if (pluckWaitState[whichString] > 0)
+	{
+		pluckWaitCount[whichString]++;
+		if (pluckWaitCount[whichString] > 1000)
+		{
+			pluckWaitState[whichString] = 0;
+		}
+	}
+
 	threshOut = tThreshold_tick(&threshold[whichString], integerVersion);
 	if (whichString == 0)
 	{
@@ -582,7 +592,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 			//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
 		}
 	}
-	if ((slope > 0.1f) && (threshOut > 0) && (!armed[whichString]) && (!stringStates[whichString]))
+	if ((slope > 0.2f) && (threshOut > 0) && (!armed[whichString]) && (!stringStates[whichString]))
 	{
 		armed[whichString] = 1;
 		pickupMaximums[whichString] = 0.0f;
@@ -639,10 +649,10 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 			HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, downCounter[whichString]*5);
 		}
 
-		if (downCounter[whichString] > 100)
+		if (downCounter[whichString] > 80) // was 100
 		{
 
-			if ((!stringTouchRH[whichString]) && (stringSounding[whichString] == 0))
+			if ((!stringTouchRH[whichString]) && (pluckWaitState[whichString] == 0))
 			{
 				//output = (float)stringMaxes[whichString];
 				output = TWO_TO_16 * (2.0f * maxFlo[whichString]);// - minFlo[whichString]);
@@ -660,19 +670,20 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 				armedCounter[whichString] = 0;
 				downCounter[whichString] = 0;
 				stringMaxes[whichString] = 0;
-
-
+				pluckWaitState[whichString] = 1;
+				pluckWaitCount[whichString] = 0;
 				if ((whichString == 0) && (output > 0))
 				{
 					//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
 					HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
+
 
 					//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
 				}
 				if (whichString == 0)
 				{
 					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
-					HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+					//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 				}
 				if (whichString == 0)
 				{
@@ -822,7 +833,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 
 #endif
 	}
-
+	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, pluckWaitState[0]);
 	prevdbSmoothed2[whichString] = dbSmoothed2;
 	return (int)output;
 }
@@ -1191,7 +1202,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	spiBuffer = 1;
 	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
-   // HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 	for (int j = 0; j < 4; j++)
 	{
 		stringTouchLH[j] = (SPI_RX[24] >> (j+4)) & 1;
@@ -1208,14 +1219,14 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 		//SPI_TX[j*2+8+(16*spiBuffer)] = (uint8_t) (stringFrozen[j]); //high byte
 	}
 	//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_RESET);
-    //HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 }
 
 void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
 	spiBuffer = 0;
-   // HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 	for (int j = 0; j < 4; j++)
 	{
 		stringTouchLH[j] = (SPI_RX[8] >> (j+4)) & 1;
@@ -1230,7 +1241,7 @@ void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 		//SPI_TX[j*2+8+(16*spiBuffer)] = (uint8_t) (stringFrozen[j]); //high byte
 	}
 	//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_SET);
-	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 }
 
 // EXTI Line12 External Interrupt ISR Handler CallBackFun
