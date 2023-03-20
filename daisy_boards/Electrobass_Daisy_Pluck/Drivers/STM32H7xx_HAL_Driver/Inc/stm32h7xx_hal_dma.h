@@ -176,7 +176,7 @@ typedef struct __DMA_HandleTypeDef
 
  uint32_t                         DMAmuxRequestGenStatusMask;                                       /*!< DMAMUX request generator Status mask          */
 
-}DMA_HandleTypeDef;
+} DMA_HandleTypeDef;
 
 /**
   * @}

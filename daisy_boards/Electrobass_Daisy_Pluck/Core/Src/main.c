@@ -56,8 +56,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t SPI_TX[32] __ATTR_RAM_D2;
-uint8_t SPI_RX[32] __ATTR_RAM_D2;
+volatile uint8_t SPI_TX[32] __ATTR_RAM_D2;
+volatile uint8_t SPI_RX[32] __ATTR_RAM_D2;
 
 #define NUM_ADC_CHANNELS 4
 #define ADC_FRAME_SIZE 1
@@ -207,22 +207,23 @@ int main(void)
   }
 
 
-  HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
+  //HAL_SPI_TransmitReceive_DMA(&hspi1, SPI_TX, SPI_RX, 32);
+  HAL_SPI_TransmitReceive_IT(&hspi1, SPI_TX, SPI_RX, 16);
   //HAL_Delay(10);
 
   LEAF_init(&leaf, SAMPLE_RATE, mediumMemory, MEDIUM_MEM_SIZE, &randomNumber);
 
   for (int i = 0; i < NUM_ADC_CHANNELS; i++)
   {
-  	tThreshold_init(&threshold[i],400.0f, 500.0f, &leaf);//.01 .05
-  	tSlide_init(&fastSlide[i],1.0f,300.0f, &leaf); //500
-  	tSlide_init(&slowSlide[i],1.0f,600.0f, &leaf); //500 //1000
+  	tThreshold_init(&threshold[i],700.0f, 900.0f, &leaf);//.01 .05
+  	tSlide_init(&fastSlide[i],1.0f,500.0f, &leaf); //500
+  	tSlide_init(&slowSlide[i],1.0f,700.0f, &leaf); //500 //1000
 
   	storedMaxFloats[i] = (65535.0f / storedMaximums[i]);
   	for (int j = 0; j < FILTER_ORDER; j++)
   	{
-  		tVZFilter_init(&opticalLowpass[i][j], Lowpass, 2000.0f, 0.2f, &leaf); //1000
-  		tHighpass_init(&opticalHighpass[i][j], 50.0f, &leaf); //100
+  		tVZFilter_init(&opticalLowpass[i][j], Lowpass, 1000.0f, 0.2f, &leaf); //1000
+  		tHighpass_init(&opticalHighpass[i][j], 60.0f, &leaf); //100
   	}
   }
   HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
@@ -374,7 +375,7 @@ void MPU_Conf(void)
 	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
 	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
 	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
 
 	  //Shared Device
 //	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
@@ -474,6 +475,8 @@ uint8_t countingDown[NUM_STRINGS] = {0,0,0,0};
 uint16_t pluckWaitCount[NUM_STRINGS] = {0,0,0,0};
 uint8_t pluckWaitState[NUM_STRINGS] = {0,0,0,0};
 
+
+
 int attackDetectPeak2 (int whichString, uint16_t tempInt)
 {
 	float output = -1;
@@ -531,7 +534,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 	slopeStorage[whichString] = slope;
 	float integerVersion = Dsmoothed2 * (TWO_TO_16 - 1);
 	//uint16_t toDac1 = ((uint16_t)LEAF_clip(-2048.0f, slope * 100.0f, 2048.0f))+2048;
-	//uint16_t toDac1 = LEAF_clip(-4095, dbSmoothedInt[whichString]/3, 0) + 4095;
+	uint16_t toDac1 = LEAF_clip(-4095, dbSmoothedInt[whichString]/3, 0) + 4095;
 	//uint16_t toDac2 = smoothedInt2[whichString] >> 4;
 	//uint16_t toDac2 = LEAF_clip(-2047, slope * 200.0f , 2047) + 2047;
 	uint16_t toDac2 = TWO_TO_12 * (2.0f * maxFlo[whichString]);// - minFlo[whichString]);;
@@ -542,9 +545,9 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, smoothedInt2[whichString] >> 4);
 		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, toDac2);
 	}
-	//if (whichString == 0)
+	if (whichString == 0)
 	{
-		//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, toDac1);
+		HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, toDac1);
 	}
 
 	if (pluckWaitState[whichString] > 0)
@@ -570,16 +573,15 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 
 		if (threshOut > 0)
 		{
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+			//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
 		}
 		else
 		{
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+			//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 		}
-		if (stringSounding[whichString] == 0)
-		{
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
-		}
+
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, stringSounding[0]);
+
 	}
 	//if (whichString == 1)
 	{
@@ -592,7 +594,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 			//HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_RESET);
 		}
 	}
-	if ((slope > 0.2f) && (threshOut > 0) && (!armed[whichString]) && (!stringStates[whichString]))
+	if ((slope > 0.14f) && (threshOut > 0) && (!armed[whichString]) && (stringSounding[whichString] == 0))
 	{
 		armed[whichString] = 1;
 		pickupMaximums[whichString] = 0.0f;
@@ -604,7 +606,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 		if (whichString == 0)
 		{
 			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
+			//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);
 		}
 		numQuietFails[whichString] = 0;
 	}
@@ -646,13 +648,13 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 		}
 		if (whichString == 0)
 		{
-			HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, downCounter[whichString]*5);
+			//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, downCounter[whichString]*5);
 		}
 
 		if (downCounter[whichString] > 80) // was 100
 		{
 
-			if ((!stringTouchRH[whichString]) && (pluckWaitState[whichString] == 0))
+			if ((!stringTouchRH[whichString]) && (stringSounding[whichString] == 0))
 			{
 				//output = (float)stringMaxes[whichString];
 				output = TWO_TO_16 * (2.0f * maxFlo[whichString]);// - minFlo[whichString]);
@@ -697,7 +699,8 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 				armedCounter[whichString] = 0;
 				downCounter[whichString] = 0;
 				stringMaxes[whichString] = 0;
-
+				pluckWaitState[whichString] = 0;
+				pluckWaitCount[whichString] = 0;
 				if (whichString == 0)
 				{
 					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
@@ -708,130 +711,7 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 					//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
 				}
 			}
-
-
-
 		}
-
-#if 0
-		//slope went down but string was not released, based on rh touch data. So give up on this peak - probably not a pluck
-		if (downCounter[whichString] > 400)
-		{
-			//found a peak?
-			//output = stringMaxes[whichString];
-			//output = (float)stringMaxes[whichString];
-
-			//output = LEAF_clip(0.0f, output, 65535.0f);
-
-			armed[whichString] = 0;
-			armedCounter[whichString] = 0;
-			downCounter[whichString] = 0;
-			stringMaxes[whichString] = 0;
-
-			//if (whichString == 1)
-			{
-				//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-			}
-
-			if (whichString == 0)
-			{
-				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
-			}
-			if (whichString == 0)
-			{
-				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
-			}
-
-		}
-		if ((outcountdown[whichString] > 0) && (countingDown[whichString]))
-		{
-			outcountdown[whichString]--;
-
-		}
-		else if ((!stringTouchRH[whichString]) && stringTouchRHPrev[whichString])
-		{
-			//right hand released the string - time to make a pluck!
-			//found a peak?
-			//output = stringMaxes[whichString];
-			if (whichString == 0)
-			{
-				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);
-			}
-			outcountdown[whichString] = 300; //was 64/maybe sometimes gets rh touch release a little early if sensitivity is too low? Saw this on a scope reading and it was 1.4ms early so adding a 1.4ms delay to compensate
-			countingDown[whichString] = 1;
-		}
-		else if ((outcountdown[whichString] == 0) || ((armedCounter[whichString] == 1) && (!stringTouchRH[whichString])))
-		{
-			//output = (float)stringMaxes[whichString];
-			output = TWO_TO_16 * (maxFlo[whichString] - minFlo[whichString]);
-
-			if (output < 400.0f)
-			{
-				if (numQuietFails[whichString] == 0)
-				{
-					outcountdown[whichString] = 200;
-					numQuietFails[whichString] = 1;
-				}
-				else
-				{
-					output = -1.0f;
-					armed[whichString] = 0;
-					armedCounter[whichString] = 0;
-					downCounter[whichString] = 0;
-					stringMaxes[whichString] = 0;
-					outcountdown[whichString] = -1;
-					countingDown[whichString] = 0;
-					if ((whichString == 0) && (output > 0))
-					{
-						HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
-					}
-					if (whichString == 0)
-					{
-						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
-					}
-					if (whichString == 0)
-					{
-						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
-					}
-				}
-			}
-			else
-			{
-				if (storedMaximums[whichString] < output)
-				{
-					storedMaximums[whichString] = output; // TODO:new
-				}
-
-				output = LEAF_clip(0.0f, output, 65535.0f);
-
-				testAnalog = output;
-				//if (whichString == 0)
-				//{
-				//	HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)testAnalog >> 4);
-				//}
-				armed[whichString] = 0;
-				armedCounter[whichString] = 0;
-				downCounter[whichString] = 0;
-				stringMaxes[whichString] = 0;
-				outcountdown[whichString] = -1;
-				countingDown[whichString] = 0;
-				if ((whichString == 0) && (output > 0))
-				{
-					HAL_GPIO_WritePin(GPIOD, GPIO_PIN_11, GPIO_PIN_SET);
-				}
-				if (whichString == 0)
-				{
-					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_RESET);
-				}
-				if (whichString == 0)
-				{
-					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);
-				}
-			}
-
-		}
-
-#endif
 	}
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, pluckWaitState[0]);
 	prevdbSmoothed2[whichString] = dbSmoothed2;
@@ -839,26 +719,28 @@ int attackDetectPeak2 (int whichString, uint16_t tempInt)
 }
 
 
+uint8_t SPI_lock = 0;
+uint8_t stringChanged[NUM_STRINGS] = {0,0,0,0};
+uint16_t stringChangeWaiting[NUM_STRINGS] = {0,0,0,0};
+volatile uint16_t waitingPlucks[NUM_STRINGS][32] = {0};
+uint16_t waitingPlucksSPI[NUM_STRINGS][32] = {0};
+uint8_t waitingForSPIReady[NUM_STRINGS] = {0,0,0,0};
+uint16_t numFramesSinceSPI = 0;
+
 void ADC_Frame(int offset)
 {
-	//HAL_GPIO_TogglePin(GPIOG, GPIO_PIN_11);
-	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_9, GPIO_PIN_SET);
-	int changeHappened = 0;
-	//sampRecords[currentSamp] = frameCount;
-	//currentSamp++;
 	uint16_t adcBytes[4];
-
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
 	adcBytes[0] = ADC_values[offset*2] & 65535;
 	adcBytes[1] = ADC_values[offset*2 + 1] & 65535;
 	adcBytes[2] = ADC_values[offset*2] >> 16;
 	adcBytes[3] = ADC_values[offset*2 + 1] >> 16;
 
-	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, adcBytes[0] >> 4);
-	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, adcBytes[1] >> 4);
-	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, stringPressed[0] >> 4);
+	//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, stringTouchLH[0] * 4095);
+
 	for (int i = offset; i < ADC_FRAME_SIZE + offset; i++)
 	{
-		//for (int j = 0; j < NUM_ADC_CHANNELS; j++)
 		if (howManyFrames > 0)
 		{
 			howManyFrames--;
@@ -869,313 +751,121 @@ void ADC_Frame(int offset)
 
 			didPlucked[j] = attackDetectPeak2(j, tempInt);
 
-			//stringTouchRH[j] = (SPI_RX[(16*spiBuffer) + 8] >> (j+4)) & 1;
-			//stringTouchLH[j] = (SPI_RX[(16*spiBuffer) + 8] >> j) & 1;
-			//int currentnumber = (j*2) + (16*spiBuffer);
-			//stringPressed[j] = (SPI_RX[currentnumber] << 8) + SPI_RX[currentnumber+1];
 
-			/*
-			if (didPlucked2[j] < 0)
-			{
-				didPlucked2[j] = 0;
-			}
-			//didPlucked2[j] = tPluckDetectorInt_tick(&myPluck[j], tempInt);
-			if (didPlucked[j] < 0)
-			{
-				didPlucked[j] = 0;
-			}
-			*/
-			/*
-			else if (didPlucked[j] > 0)
-			{
-				pluckDelay[j] = 1;
-				pluckValues[j] = didPlucked[j];
-			}
-
-			int doIt = 0;
-*/
 			if (howManyFrames == 0)
 			{
-				/*
-				if (pluckDelay[j] > 128)
-				{
-					doIt = 1;
-					pluckDelay[j] = 0;
-				}
-				if (pluckDelay[j] > 0)
-				{
-					pluckDelay[j]++;
-				}
-*/
 
-				//if (stringTouchLH[j] || stringTouchRH[j])
-				//{
-					//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
-				//}
-				int LHmuted = 0;
-				//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, (GPIO_PinState) stringTouchRH[1]);
-				if (stringTouchLH[j] && (stringPressed[j] == 65535))
+				//check that we don't have any waiting pluck messages that happened while SPI array was locked
+				while ((waitingForSPIReady[j] > 0) && (!SPI_lock))
 				{
-					LHmuted = 1;
-				}
-				else
-				{
-					LHmuted = 0;
-				}
+					//for each waiting SPI message, add it to the list that the SPI interrupt will go through
+					waitingPlucks[j][stringChangeWaiting[j]] = waitingPlucksSPI[j][waitingForSPIReady[j]];
+					stringChangeWaiting[j] = (stringChangeWaiting[j] + 1) & 31; //add one but wrap to make sure we don't write outside of array bounds
 
-
-
-
-/*
-
-				if (((didPlucked[j] > 0) && (!stringSounding[j])) && ((LHmuted)))
-				{
-					//got an attack but string is muted, hold this for a ms in case the touch sensor data is coming a little late
-					didPluckedWaiting[j] = didPlucked[j];
-					didPluckedWaitingCounter[j] = 00;//500
-				}
-				if (didPluckedWaitingCounter[j] == 0)
-				{
-					didPluckedWaiting[j] = -1;
-				}
-				if ((didPluckedWaiting[j] >= didPlucked[j]) && (didPluckedWaitingCounter[j] > 0) && (!armed[j]))
-				{
-					//didPlucked[j] = didPluckedWaiting[j];
-					didPluckedWaitingCounter[j]--;
-					if (!(LHmuted) && (!stringTouchRH[j]))
+					for (int i = waitingForSPIReady[j]; i > 0; i--)
 					{
-						didPlucked[j] = didPluckedWaiting[j];
-						didPluckedWaiting[j] = -1;
+						waitingPlucks[j][i-1]  = waitingPlucks[j][i];
 					}
-				}
-				else
-				{
-					didPluckedWaiting[j] = -1;
-				}
-*/				//if (j == 1)
-				{
-					//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_2, DAC_ALIGN_12B_R, (uint16_t)hammerOnWait[j]*10);
+					waitingForSPIReady[j]--;
 				}
 
-				//add LH mute wait of at least 6 ms, maybe 10ms
-				if (((didPlucked[j] > 0)) && (!stringSounding[j]) && (!stringTouchRH[j]))// && (!LHmuted))
+				if (((didPlucked[j] > 0)) && (!stringSounding[j]) && (!stringTouchRH[j]))
 				{
 					if (didPlucked[j] > totalMaximums[j])
 					{
 						totalMaximums[j] = didPlucked[j];
 					}
-					//didPlucked[j] = (float)didPlucked[j];// * storedMaxFloats[j];
+
 					if (didPlucked[j] > 65535)
 					{
 						didPlucked[j] = 65535;
 					}
-					if (stringPressed[j] == 65535)
+
+					stringStates[j] = didPlucked[j];
+
+					//a pluck happened!
+					//The ADC frames run much faster than the SPI frames (which are running at between 400us and 800us)
+
+					//check that the data array for the SPI bus is not in use before writing
+					if (!SPI_lock)
 					{
-						openstrings[j] = 1;
-						hammerOnWait[j] = 400;
+						waitingPlucks[j][stringChangeWaiting[j]] = stringStates[j];
+						stringChangeWaiting[j] = (stringChangeWaiting[j] + 1) & 31; //add one but wrap to make sure we don't write outside of array bounds
 					}
 					else
 					{
-						openstrings[j] = 0;
+						//if that data array was busy, write into a different temp storage array until we are able to transfer that data
+						waitingPlucksSPI[j][waitingForSPIReady[j]] = stringStates[j];
+						waitingForSPIReady[j]++;
 					}
-					stringStates[j] = didPlucked[j];
-					//SPI_PLUCK_TX[(j * 2)] = (didPlucked[j] >> 8);
-					//SPI_PLUCK_TX[(j * 2)] = (didPlucked[j] & 0xff);
-
-					//a pluck happened! send a message over SPI to the other ICs
-					//TODO: a pluck message
 
 					if (j == 0)
 					{
 						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
-						//HAL_DAC_SetValue(&hdac1, 0, DAC_ALIGN_12B_R, didPlucked[j] >> 4);
 					}
-					//SPI_TX[j*2+(16*spiBuffer)] = (uint8_t) (didPlucked[j] >> 8); //high byte
-					//SPI_TX[j*2+1+(16*spiBuffer)] = (uint8_t) (didPlucked[j] & 0xff); //low byte
+					SPI_TX[j*2] = (uint8_t) (waitingPlucks[j][0] >> 8); //high byte
+					SPI_TX[j*2+1] = (uint8_t) (waitingPlucks[j][0] & 0xff); //low byte
 
+					if (numFramesSinceSPI < 15) //we need to adjust this if the SPI to ADC frame speed relationship changes. Currently around 23 frames of ADC per SPI frame so this is making sure that we're not too close to another upcoming SPI frame if we are going to mess with the buffer
+					{
+						HAL_SPI_Abort(&hspi1);
+						HAL_SPI_TransmitReceive_IT(&hspi1, SPI_TX, SPI_RX, 16);
+					}
 
-					//HAL_SPI_Transmit_DMA(&hspi1, SPI_PLUCK_TX, 20);
-					/*
-					SPI_PLUCK_TX[0] = j;
-					SPI_PLUCK_TX[1] = (uint8_t) (didPlucked[j] >> 8); //high byte
-					SPI_PLUCK_TX[2] = (uint8_t) (didPlucked[j] & 0xff); //low byte
-					SPI_PLUCK_TX[3] = 0;
-					*/
-					changeHappened = 1;
+					//changeHappened = 1;
 					stringSounding[j] = 1;
 					lastPlucked[j] = stringStates[j];
-					//HAL_SPI_Transmit_DMA(&hspi1, SPI_PLUCK_TX, 4);
 				}
 
 				//if you touch with right hand that's a mute
-				if ((stringTouchRH[j]) && (stringSounding[j]))
+				else if ((stringTouchRH[j]) && (stringSounding[j]))
 				{
 					//a note-off happened! send a message over SPI to the other ICs
 
 					if (j == 0)
 					{
 						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-						//HAL_DAC_SetValue(&hdac1, 0, DAC_ALIGN_12B_R, 0);
 					}
-					//HAL_SPI_Transmit_DMA(&hspi1, SPI_PLUCK_TX, 20);
+
 					stringStates[j] = 0;
-					changeHappened = 1;
+					//changeHappened = 1;
 					pickupMaximums[j] = 0.0f;
 					stringSounding[j] = 0;
-					if (j == 1)
+					//a note off happened!
+					//check that the data array for the SPI bus is not in use before writing
+					if (!SPI_lock)
 					{
-						//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 0);
-					}
-				}
+						waitingPlucks[j][stringChangeWaiting[j]] = stringStates[j];
+						stringChangeWaiting[j] = (stringChangeWaiting[j] + 1) & 31; //add one but wrap to make sure we don't write outside of array bounds
 
-				//whenever the Left Hand mute isn't active, reset the hammerOn counter
-				if (!LHmuted)
-				{
-					hammerOnWait[j] = 400;
-				}
-				//currently testing removal of left hand mute handling from the stm32 -
-				//the idea is to instead handle all left hand muting on the PSOC, taking advantage of the more immediate touch and fretting data.
-
-#if 0
-				//if you have gotten a Left Hand mute signal and the string is either already sounding or just sounded (looks the same from this perspective)
-				// then countdown for hammer ons or pull offs (so that the mute doesn't stop the sound)
-				// might make sense instead to always mute the string and do a re-attack
-				else if (LHmuted && stringSounding[j])
-				{
-					if (hammerOnWait[j] > 0)
-					{
-						hammerOnWait[j]--;
-						hammerOnWaiting[j] = 1;
-						stringFrozen[j] = 1;
 					}
 					else
 					{
-						if (pullOffWait[j] == -1)
-						{
-							openstrings[j] = 1;
-							pullOffWait[j] = 500;
-							stringFrozen[j] = 1;
-						}
-						if (pullOffWait[j] > 0)
-						{
-							pullOffWait[j]--;
-							stringFrozen[j] = 1;
-						}
-
-						if (pullOffWait[j] == 0)
-						{
-
-							if (j == 1)
-							{
-								HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_RESET);
-								//HAL_DAC_SetValue(&hdac1, 0, DAC_ALIGN_12B_R, 0);
-							}
-							//HAL_SPI_Transmit_DMA(&hspi1, SPI_PLUCK_TX, 20);
-							stringStates[j] = 0;
-							changeHappened = 1;
-							pickupMaximums[j] = 0.0f;
-							stringSounding[j] = 0;
-							pullOffWait[j] = -1;
-							hammerOnWait[j] = -1;
-							hammerOnWaiting[j] = 0;
-							stringFrozen[j] = 0;
-							if (j == 1)
-							{
-								//HAL_DAC_SetValue(&hdac1, DAC_CHANNEL_1, DAC_ALIGN_12B_R, 0);
-							}
-						}
+						//if that data array was busy, write into a different temp storage array until we are able to transfer that data
+						waitingPlucksSPI[j][waitingForSPIReady[j]] = stringStates[j];
+						waitingForSPIReady[j]++;
 					}
-				}
-#endif
-				#if SDRECORD
-				if (SDReady)
-				{
-					writeToSD(SDWriteIndex, tempInt, j, stringSounding[j]);
-
-					if (memoryPointer >= ((LARGE_MEM_SIZE/2) - 3000))
+					SPI_TX[j*2] = (uint8_t) (waitingPlucks[j][0] >> 8); //high byte
+					SPI_TX[j*2+1] = (uint8_t) (waitingPlucks[j][0] & 0xff); //low byte
+					if (numFramesSinceSPI < 15) //we need to adjust this if the SPI to ADC frame speed relationship changes. Currently around 23 frames of ADC per SPI frame so this is making sure that we're not too close to another upcoming SPI frame if we are going to mess with the buffer
 					{
-						finishSD = 1;
-						HAL_ADC_Stop(&hadc1);
-						//HAL_SAI_DMAStop(&hsai_BlockA1);
-						//HAL_SAI_DMAStop(&hsai_BlockB1);
+						HAL_SPI_Abort(&hspi1);
+						HAL_SPI_TransmitReceive_IT(&hspi1, SPI_TX, SPI_RX, 16);
 					}
 				}
-				#endif
-/*
-				if (memoryPointer < ((LARGE_MEM_SIZE / 2) - 10))
-				{
-					largeMemory[memoryPointer++] = (uint16_t)tempInt;
-					largeMemory[memoryPointer++] = (uint16_t)didPlucked[j];
-					largeMemory[memoryPointer++] = (uint16_t)(myPluck[j]->ready_for_pluck);
-					largeMemory[memoryPointer++] = (uint16_t)(myPluck[j]->midpoint_estimate);
-					largeMemory[memoryPointer++] = (uint16_t)didPlucked2[j];
-					largeMemory[memoryPointer++] = (uint16_t)armed[j];
-					largeMemory[memoryPointer++] = (uint16_t)downCounter[j];
-					largeMemory[memoryPointer++] = (uint16_t)((slopeStorage[j] * 4096.0f) + 2048.0f);
-					largeMemory[memoryPointer++] = (uint16_t)stringTouchRH[j];
-					largeMemory[memoryPointer++] = (uint16_t)stringSounding[j];
-				}
-				else
-				{
-					writeSD();
-
-					while(1)
-					{
-						//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
-					}
-				}
-
-*/
 				stringTouchRHPrev[j] = stringTouchRH[j];
-				/*
-				if (j == 0)
-				{
-					if (stringSounding[j])
-					{
-						HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_SET);
-					}
-					else
-					{
-						HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
-					}
-				}
-				*/
-			}
-			//itoa(SDWriteIndex, wtext, 4);
 
 
 
-		}
-
-	}
-	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
-
-	if (changeHappened)
-	{
-		//HAL_SPI_Transmit_DMA(&hspi1, SPI_PLUCK_TX, 22);
-	}
-}
-
-void ADC_EM(int offset)
-{
-#if 0
-	for (int i = offset; i < ADC_FRAME_SIZE + offset; i++)
-	{
-		for (int j = 0; j < NUM_ADC_CHANNELS2; j++)
-		{
-			int tempInt = ADC_values2[(i*NUM_ADC_CHANNELS2) + j];
-			float tempSamp = (((float)tempInt - TWO_TO_15) * INV_TWO_TO_15) * 2.5f;
-			tempSamp = tHighpass_tick(&EMHighpass[j], tempSamp);
-			float absFloat = fabsf(tempSamp);
-			if (absFloat > pickupMaximums[j])
-			{
-				pickupMaximums[j] = absFloat;
 			}
 
 		}
+
 	}
-#endif
+	numFramesSinceSPI++;
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 }
+
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
 
@@ -1200,50 +890,111 @@ void HAL_ADC_Error(ADC_HandleTypeDef *hadc)
 
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	spiBuffer = 1;
+	  /* Enable Tx DMA Request */
+	//__HAL_DMA_DISABLE(&hdma_spi1_tx);
+	spiBuffer = 0;
+	numFramesSinceSPI = 0;
 	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+    SPI_lock = 1;
+
+
+
+	SPI_TX[8+(16*spiBuffer)] = 0x00; //check byte
+	SPI_TX[9+(16*spiBuffer)] = 0x00; //check byte
 	for (int j = 0; j < 4; j++)
 	{
-		stringTouchLH[j] = (SPI_RX[24] >> (j+4)) & 1;
-		stringTouchRH[j] = (SPI_RX[24] >> j) & 1;
-		int currentnumber = (j*2) + 16;
+		stringTouchRH[j] = (SPI_RX[8] >> j) & 1;
+		int currentnumber = (j*2);
 		stringPressed[j] = (SPI_RX[currentnumber] << 8) + SPI_RX[currentnumber+1];
 		//if (stringTouchLH[j] || stringTouchRH[j])
 		//{
 			//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
 		//}
 
-		SPI_TX[j*2+(16*spiBuffer)] = (uint8_t) (stringStates[j] >> 8); //high byte
-		SPI_TX[j*2+1+(16*spiBuffer)] = (uint8_t) (stringStates[j] & 0xff); //low byte
+
+
+		//if there is more than one pluck data bit waiting for this string, then
+		//move the stack toward the first position
+		if (stringChangeWaiting[j] > 0)
+		{
+			for (int i = stringChangeWaiting[j]; i > 1; i--)
+			{
+				waitingPlucks[j][i-2]  = waitingPlucks[j][i-1];
+			}
+			stringChangeWaiting[j]--;
+		}
 		//SPI_TX[j*2+8+(16*spiBuffer)] = (uint8_t) (stringFrozen[j]); //high byte
 	}
+	SPI_TX[8+(16*spiBuffer)] = 0xfe; //check byte
+	SPI_TX[9+(16*spiBuffer)] = 0xfd; //check byte
+    SPI_lock = 0;
 	//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_RESET);
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
-}
 
+    /*
+    while(__HAL_DMA_GET_FLAG(&hdma_spi1_tx,DMA_FLAG_TCIF1_5))
+    {
+    	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
+    }
+    __HAL_DMA_ENABLE(&hdma_spi1_tx);
+    */
+    HAL_SPI_TransmitReceive_IT(&hspi1, SPI_TX, SPI_RX, 16);
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
+}
+#if 0
 void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
 	//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_RESET);
+	//__HAL_DMA_DISABLE(&hdma_spi1_tx);
 	spiBuffer = 0;
    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
+   SPI_lock = 1;
+	SPI_TX[8+(16*spiBuffer)] = 0x00; //check byte
+	SPI_TX[9+(16*spiBuffer)] = 0x00; //check byte
+    if (waitingPlucks[0][0] > 0)
+    {
+    	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+    }
+    else
+    {
+    	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+    }
 	for (int j = 0; j < 4; j++)
 	{
-		stringTouchLH[j] = (SPI_RX[8] >> (j+4)) & 1;
 		stringTouchRH[j] = (SPI_RX[8] >> j) & 1;
 		stringPressed[j] = (SPI_RX[j*2] << 8) + SPI_RX[(j*2)+1];
-		//if (stringTouchLH[j] || stringTouchRH[j])
-		//{
-			//HAL_GPIO_WritePin(GPIOB, GPIO_PIN_4, GPIO_PIN_SET);
-		//}
-		SPI_TX[j*2+(16*spiBuffer)] = (uint8_t) (stringStates[j] >> 8); //high byte
-		SPI_TX[j*2+1+(16*spiBuffer)] = (uint8_t) (stringStates[j] & 0xff); //low byte
-		//SPI_TX[j*2+8+(16*spiBuffer)] = (uint8_t) (stringFrozen[j]); //high byte
+
+		SPI_TX[j*2+(16*spiBuffer)] = (uint8_t) (waitingPlucks[j][0] >> 8); //high byte
+		SPI_TX[j*2+1+(16*spiBuffer)] = (uint8_t) (waitingPlucks[j][0] & 0xff); //low byte
+
+
+		//if there is more than one pluck data bit waiting for this string, then
+		//move the stack toward the first position
+		if (stringChangeWaiting[j] > 0)
+		{
+			for (int i = stringChangeWaiting[j]; i > 1; i--)
+			{
+				waitingPlucks[j][i-2]  = waitingPlucks[j][i-1];
+			}
+			stringChangeWaiting[j]--;
+		}
 	}
+	SPI_TX[8+(16*spiBuffer)] = 0xfe; //check byte
+	SPI_TX[9+(16*spiBuffer)] = 0xfd; //check byte
+
 	//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10, GPIO_PIN_SET);
+
+    SPI_lock = 0;
+    /*
+    while(__HAL_DMA_GET_FLAG(&hdma_spi1_tx,DMA_FLAG_TCIF1_5))
+    {
+    	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_0);
+    }
+    __HAL_DMA_ENABLE(&hdma_spi1_tx);
+    */
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 }
-
+#endif
 // EXTI Line12 External Interrupt ISR Handler CallBackFun
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == GPIO_PIN_12) // If The INT Source Is EXTI Line12
