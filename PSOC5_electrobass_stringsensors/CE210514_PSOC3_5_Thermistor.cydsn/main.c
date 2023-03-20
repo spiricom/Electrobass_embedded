@@ -84,7 +84,7 @@ void CCEvent(int bar);
 void scanButtons(void);
 void sendCurrentPresetNumber(void);
 void sendCurrentTuningNumber(void);
-uint8 I2C_MasterReadBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode);
+uint8 I2C_MasterReadBlocking(uint8 i2CAddr, uint8 nbytes, uint8_t mode);
 
 uint8_t setPresetOrSetTuning = 0;
 
@@ -644,22 +644,19 @@ int main(void)
             if ((LHMute[whichLinearSensor]) && (stringStates[whichLinearSensor][0])>=0)
             {
                 pitchFreeze[whichLinearSensor] = 1;
+                if (LHMuteCounter[whichLinearSensor] > 60)
+                {
+                    //left hand mute has counted to max time
+                    //send note off
+                    handleNotes(lastNotes[whichLinearSensor], 0, whichLinearSensor);
+                }
             }
             else
             {
                  pitchFreeze[whichLinearSensor] = 0;             
             }
-            blue_LED_Write(pitchFreeze[0]);
-            //left hand mute has counted to max time
-            //send note off
-            if ((LHMuteCounter[whichLinearSensor] > 70) && (stringStates[whichLinearSensor][0] >= 0))
-            {
-                 handleNotes(lastNotes[whichLinearSensor], 0, whichLinearSensor);
-            }
 
-
-            
-            blue_LED_Write(pitchFreeze[0]);
+         
             //if we have read a "not pressed to fretboard" sensor reading
             if (linearPotValue32Bit[whichLinearSensor] == 65535)
             {
@@ -700,7 +697,7 @@ int main(void)
                 {
                     //pitchHistoryPointer gets incremented every time after the history is loaded, so here it should point to the next value, which is the oldest that hasn't been yet overwritten
                     {
-                        linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][(((pitchBendHistoryPointer[whichLinearSensor])+31) & 31)];
+                        linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][(((pitchBendHistoryPointer[whichLinearSensor])+ 28) & 31)];
                     }
                     //else
                     {
@@ -868,34 +865,36 @@ int main(void)
             ;
         }
 
-       
-        for (int i = 0; i < 4; i++)
+        if ((rxBuffer[8] == 254) && (rxBuffer[9] == 253))
         {
-            stringPlucks[i] = (rxBuffer[i*2] << 8) + rxBuffer[i*2+1];
-
-            //note-on from pluck sensor
-            if ((stringPlucks[i] > 0) && (stringPlucksPrev[i] == 0))
+            for (int i = 0; i < 4; i++)
             {
-                //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
-                LHMuteCounter[i] = 0;
-                pitchFreeze[i] = 0;
-                octave = ((int)I2Cbuff2[1]) - 1;
-                lastNotes[i] = (int)openStringMIDI[i] + (octave * 12);
-                handleNotes(lastNotes[i], stringPlucks[i], i);
-            }
-            //note-off from pluck sensor (RH Mute)
-            else if ((stringPlucks[i] == 0) && (stringPlucksPrev[i] > 0))
-            {
-                //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
-                handleNotes(lastNotes[i], 0, i);
-                LHMuteCounter[i] = 0;
-            }
-            
+                stringPlucks[i] = (rxBuffer[i*2] << 8) + rxBuffer[i*2+1];
 
-            stringPlucksPrev[i] = stringPlucks[i];
-            
+                //note-on from pluck sensor
+                if ((stringPlucks[i] > 0) && (stringPlucksPrev[i] == 0))
+                {
+                    //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
+                    LHMuteCounter[i] = 0;
+                    pitchFreeze[i] = 0;
+                    octave = ((int)I2Cbuff2[1]) - 1;
+                    lastNotes[i] = (int)openStringMIDI[i] + (octave * 12);
+                    handleNotes(lastNotes[i], stringPlucks[i], i);
+                }
+                //note-off from pluck sensor (RH Mute)
+                else if ((stringPlucks[i] == 0) && (stringPlucksPrev[i] > 0))
+                {
+                    //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
+                    handleNotes(lastNotes[i], 0, i);
+                    LHMuteCounter[i] = 0;
+                }
+                
+
+                stringPlucksPrev[i] = stringPlucks[i];
+                
+            }
         }
-        //make sure previous SPI2 transmission has completed before transferring the remaining midi date
+        //make sure previous SPI2 transmission has completed before transferring the remaining midi data
         while (0u == ((SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_DONE) || (SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_IDLE )))
         {
             ;
@@ -1867,23 +1866,10 @@ void DmaRxConfiguration()
     CyDmaChSetInitialTd(rx2Channel, rx2TD);
 }
 
-uint8 I2C_MasterReadBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
-{
-    
-    uint8 volatile status;
-
-    status = I2C_1_MasterReadBuf(i2CAddr, (uint8 *)&I2Cbuff2, nbytes,
-                                     mode);
-
-    return status;
-}
-
 uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
 {
-    
-
-        uint8 volatile status;
-
+    uint8 volatile status;
+    uint8_t error = 0;
     uint32_t timeout = 50000;
     status = I2C_1_MasterClearStatus();
     if(!(status & I2C_1_MSTAT_ERR_XFER))
@@ -1899,20 +1885,23 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
                 timeout--;
                 if (status == I2C_1_MSTAT_ERR_XFER)
                 {
-                    //I2C_reset();
+                    I2C_reset();
+                    error = 1;
                 }
                 if (timeout == 0)
                 {
                     status = I2C_1_MSTAT_ERR_XFER;
-                    //I2C_reset();
+                    I2C_reset();
+                    error = 1;
                 }
-                /*
+                
                 if (status == 0)
                 {
                     status = I2C_1_MSTAT_ERR_XFER;
                     I2C_reset();
+                    error = 1;
                 }
-                */
+                
             } while(((status & (I2C_1_MSTAT_WR_CMPLT | I2C_1_MSTAT_ERR_XFER)) == 0u) && (status != 0u) && (timeout>0));
         }
         else
@@ -1920,13 +1909,85 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
             /* translate from I2CM_MasterWriteBuf() error output to
             *  I2CM_MasterStatus() error output */
             status = I2C_1_MSTAT_ERR_XFER;
-            //I2C_reset();
+            I2C_reset();
+            error = 1;
         } 
     }  
-
-    return status;
+    if ((status & I2C_1_MSTAT_ERR_ADDR_NAK) || (status & I2C_1_MSTAT_ERR_XFER))
+    {
+        //mark that i2c destination to be skipped (likely unplugged) and reset the I2C module
+        //i2c_skipped[main_counter] = 1;
+        I2C_reset();
+        error = 1;
+    }
+    return error;
 }
 
+uint8 I2C_MasterReadBlocking(uint8 i2CAddr, uint8 nbytes, uint8_t mode)
+{
+    uint8 volatile status;
+    uint32_t timeout = 50000;
+    uint8_t error = 0;
+    status = I2C_1_MasterClearStatus();
+    if(!(status & I2C_1_MSTAT_ERR_XFER))
+    {
+        status = I2C_1_MasterReadBuf(i2CAddr,
+                                   (uint8 *)&(I2Cbuff2),
+                                    nbytes, mode); 
+        if(status == I2C_1_MSTR_NO_ERROR)
+        {
+            /* wait for read complete and no error */
+            do
+            {
+                status = I2C_1_MasterStatus();
+                timeout--;
+                if (status == I2C_1_MSTAT_ERR_XFER)
+                {
+                    I2C_1_GENERATE_STOP_MANUAL;
+                    I2C_reset();
+                    error = 1;
+                }
+                if (timeout == 0)
+                {
+                    status = I2C_1_MSTAT_ERR_XFER;
+                    I2C_reset();
+                    error = 1;
+                }
+            } while(((status & (I2C_1_MSTAT_RD_CMPLT | I2C_1_MSTAT_ERR_XFER)) == 0u) && (status != 0u) && (timeout>0));
+        }
+        else
+        {
+            /* translate from I2CM_MasterReadBuf() error output to
+            *  I2CM_MasterStatus() error output */
+            status = I2C_1_MSTAT_ERR_XFER;
+            I2C_reset();
+            error = 1;
+        }
+    }
+    if ((status & I2C_1_MSTAT_ERR_ADDR_NAK) || (status & I2C_1_MSTAT_ERR_XFER))
+    {
+        //mark that i2c destination to be skipped (likely unplugged) and reset the I2C module
+        //i2c_skipped[main_counter] = 1;
+        I2C_reset();
+        error = 1;
+    }
+    return error;
+}
+
+void I2C_reset(void)
+{
+  I2C_1_Stop();
+
+  /* Disable/clear everything, then reinitialize. */
+
+  I2C_1_CFG_REG = 0x00;  // NECESSARY to get MCSR to reset and clear BUS_BUSY bit.
+
+  I2C_1_XCFG_REG = 0x00;  // not sure if necessary.
+
+  I2C_1_initVar = 0;  // MUST BE SET TO ZERO to allow I2C_1_Start() to call I2C_1_Init()
+
+  I2C_1_Start();
+}
 //velocity comes in as a 16 bit number from 0-65*** 
 //not in decibels, raw amplitude value
 int counter2 = 1;
@@ -1975,11 +2036,11 @@ void handleNotes(int note, int velocity, int string)
             //(would maybe mean this is just sympathetic bridge resonance and shouldn't interrupt the monophonic handling)
             // maybe need more complexity in time since attack? // or maybe do active suppression in the pluck detector board by summing strings with the inverse of the nearby strings
             uint8_t ignore = 0;
-            if (velocity < 3) // 25
+            if (velocity < 10) // 25
             {
                 ignore = 1;   
             }
-            else if ((loudestSoundingNote >=50) && (velocity <= 20))
+            else if ((loudestSoundingNote >=50) && (velocity <= 12))
             {
                 ignore = 1;
             }
