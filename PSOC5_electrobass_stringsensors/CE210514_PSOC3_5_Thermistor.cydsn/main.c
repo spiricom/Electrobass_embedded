@@ -240,7 +240,7 @@ volatile int barCount = 0;
 
 void handleNotes(int note, int velocity, int string);
 
-int stringStates[4][2] = {{0,0},{0,0},{0,0},{0,0}};
+int stringStates[4][2] = {{-1,0},{-1,0},{-1,0},{-1,0}};
 
 CY_ISR(button_press_ISR) {     /* No need to clear any interrupt source; interrupt component should be      * configured for RISING_EDGE mode.      */     /* Read the debouncer status reg just to clear it, no need to check its      * contents in this application.      */  
  //FiltReg_Read(); 
@@ -328,6 +328,7 @@ float hp_y[4];
 float hp_x[4]; 
 float hp_R;
 
+volatile uint32_t framesSincePluck = 0;
 
 int currentPresetSelection = 0;
 int highestPresetNumber = MAX_NUM_PRESETS - 1;
@@ -389,6 +390,13 @@ uint32_t SPI_errors = 0;
 
 float filtx[4][2] = {{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f}};
 float filty[4][2] = {{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f}};
+
+uint8_t customOnMask = 0;
+uint8_t simpleThreshold = 1;
+uint8_t myThresh[8];
+
+uint8_t missedNotesWaiting[16][3];
+volatile int missedNotes = 0;
 /*
 CY_ISR(SleepIsr_function)
 {
@@ -445,6 +453,11 @@ void restartSystemCheck()
         }
     }
 }
+
+
+//store a debug history of sent notes
+volatile uint8_t notesReceived[8][7];
+volatile uint8_t receivedCount  = 0;
 
 int main(void)
 {
@@ -572,6 +585,9 @@ int main(void)
     tuningNumberToLoad = currentTuningSelection;
     sendingMessage = 4;
     
+    
+    ExtMUX_EN_Write(1);
+    CyDelayUs(50);
     CapSense_Start();     
     
     hp_R = 1.0f - (3.14159265358979f * 2.0f * 2.0f / 200.0f);
@@ -581,7 +597,34 @@ int main(void)
     
     CyDelay(10);
     CapSense_InitializeAllBaselines() ;
-    
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    CapSense_ScanEnabledWidgets(); 
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    CapSense_ScanEnabledWidgets(); 
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    CapSense_ScanEnabledWidgets(); 
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    CapSense_ScanEnabledWidgets(); 
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    for (int i = 0; i < 8; i++)
+    {
+        myThresh[i] = CapSense_sensorRaw[i] + 50;
+    }
     //SPI_ready_Write(1);
     CyDelay(10);
     /*
@@ -605,17 +648,36 @@ int main(void)
         //now disconnect resistive sensors so that they don't interfere with CapSense
        // #endif
         ExtMUX_EN_Write(1);
-        CyDelayUs(5);
+        CyDelayUs(50);
         
         scanButtons();
         I2C_MasterReadBlocking(0x8u, 4 ,I2C_1_MODE_COMPLETE_XFER);
-        CapSense_ClearSensors();
+        //CapSense_ClearSensors();
         CapSense_UpdateEnabledBaselines();
         CapSense_ScanEnabledWidgets();  
         currentOutPointer = 1;
+        
         if (parseThatMF)
         {
             parseSysex();
+        }
+        
+        if (missedNotes > 0)
+        {
+                if (currentOutPointer < (BUFFER_2_SIZE - 4))
+                {
+                    tx2BufferTemp[currentOutPointer++] = missedNotesWaiting[0][0];
+                    tx2BufferTemp[currentOutPointer++] = missedNotesWaiting[0][1];
+                    tx2BufferTemp[currentOutPointer++] = missedNotesWaiting[0][2];
+                    outChanged = 1;
+                    for (int i = missedNotes-1; i > 1; i--)
+                    {
+                        missedNotesWaiting[i-1][0] = missedNotesWaiting[i][0];
+                        missedNotesWaiting[i-1][1] = missedNotesWaiting[i][1];
+                        missedNotesWaiting[i-1][2] = missedNotesWaiting[i][2];
+                    }
+                    missedNotes--;
+                }
         }
         if (scanPart == 0)
         {
@@ -738,7 +800,7 @@ int main(void)
                 // (need to compute those values even if not using them, in case it switches suddenly
                 if (frettedState)
                 { 
-                    stringMIDI[whichLinearSensor] = stringMIDIRounded[whichLinearSensor] + filtOut;             
+                    stringMIDI[whichLinearSensor] = stringMIDIRounded[whichLinearSensor];// + filtOut;             
                 }
                 pitchBendVal  = ((stringMIDI[whichLinearSensor] - openStringMIDI[whichLinearSensor]) * 170.5f) + 8192.0f;
                 openStringCount[whichLinearSensor] = 0;
@@ -817,11 +879,31 @@ int main(void)
         {
             ;
         }
+        while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
 
+        CapSense_CheckIsAnyWidgetActive();
+        if (simpleThreshold)
+        {
+            customOnMask = 0;
+            
+            for (int i = 0; i < 8; i++)
+            {
+                customOnMask += ((CapSense_sensorRaw[i] > myThresh[i]) << i);
+            }
+        }
+        else
+        {
+            customOnMask = CapSense_sensorOnMask[0];
+        }
         //handle string plucks/noteoffs
         for (int i = 0; i < 4; i++)
         {
-            if (((CapSense_sensorOnMask[0] >> (i + 4)) & 1) &&  (linearPotValue32Bit[i] == 65535))
+
+            
+            if (((customOnMask >> (i + 4)) & 1) &&  (linearPotValue32Bit[i] == 65535))
             {
                 LHMute[i] = 1; 
                 if ((LHMuteCounter[i] < 127) && (stringStates[i][0] >= 0))
@@ -877,7 +959,11 @@ int main(void)
             
 
             stringPlucksPrev[i] = stringPlucks[i];
-            
+
+        }
+        if (framesSincePluck < 1000)
+        {
+            framesSincePluck++;
         }
         //make sure previous SPI2 transmission has completed before transferring the remaining midi date
         while (0u == ((SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_DONE) || (SPIM_2_ReadTxStatus() & SPIM_2_STS_SPI_IDLE )))
@@ -1043,14 +1129,12 @@ int main(void)
         }
                
 
-        while(CapSense_IsBusy() != 0)  
-        {
-            ;//wait until scan is complete
-        }  
 
-        CapSense_CheckIsAnyWidgetActive();
         
-        txBuffer[8] = CapSense_sensorOnMask[0];
+
+        txBuffer[8] = customOnMask;
+        
+
         txBuffer[whichLinearSensor*2] = ((uint16_t) linearPotValue32Bit[whichLinearSensor]) >> 8;
         txBuffer[whichLinearSensor*2+1] = linearPotValue32Bit[whichLinearSensor] & 0xff;
         
@@ -1583,7 +1667,6 @@ void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
     cable = cable;
 }
 
-volatile uint16_t missedNotes = 0;
 
 void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
 {  
@@ -1605,18 +1688,12 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
     }
     else 
     {
+               
+        missedNotesWaiting[missedNotes][0] = midiMsg[0];
+        missedNotesWaiting[missedNotes][1] = midiMsg[1];
+        missedNotesWaiting[missedNotes][2] = midiMsg[2];
         missedNotes++;
     }
-    if (velocity > 0)
-    {
-        //LED1_Write(1);
-    }
-    else
-    {
-       // LED1_Write(0);
-    }
-
-    
 }
 
 void sendMIDIPitchBend(int val, int channel)
@@ -1637,10 +1714,13 @@ void sendMIDIPitchBend(int val, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
-            outChanged = 1;
+        outChanged = 1;
     }
     else
     {
+                missedNotesWaiting[missedNotes][0] = midiMsg[0];
+        missedNotesWaiting[missedNotes][1] = midiMsg[1];
+        missedNotesWaiting[missedNotes][2] = midiMsg[2];
         missedNotes++;
     }
 
@@ -1664,10 +1744,14 @@ void sendMIDIControlChange(int CCnum, int CCval, int channel)
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
         tx2BufferTemp[currentOutPointer++] = midiMsg[2];
-            outChanged = 1;
+        outChanged = 1;
     }
     else
     {
+        
+        missedNotesWaiting[missedNotes][0] = midiMsg[0];
+        missedNotesWaiting[missedNotes][1] = midiMsg[1];
+        missedNotesWaiting[missedNotes][2] = midiMsg[2];
         missedNotes++;
     }
     
@@ -1910,11 +1994,22 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
 //velocity comes in as a 16 bit number from 0-65*** 
 //not in decibels, raw amplitude value
 int counter2 = 1;
+
+//store a debug history of sent notes
+volatile uint16_t notesSent[8][7];
+volatile uint16_t sentCount  = 0;
+
 void handleNotes(int note, int velocity, int string)
 {
     //static int counter = 1;
     //velocity = (counter2 * 6553);
     //counter2 = (counter2 + 1) % 10;
+    notesSent[sentCount][0] = note;
+    notesSent[sentCount][1] = velocity;
+    notesSent[sentCount][2] = string;
+    
+    notesSent[sentCount][5] = 0;
+    notesSent[sentCount][6] = framesSincePluck;
     if (velocity > 0)
     {
         //velocity = (((sqrtf((float)velocity) * 0.00001525878903f) - .0239372430f) * 130.114584436252734f);
@@ -1924,7 +2019,7 @@ void handleNotes(int note, int velocity, int string)
         tempVel = tempVel - 0.0239372430f;
         tempVel = tempVel * 130.114584436252734f;
         velocity = (int)tempVel;
-        
+         notesSent[sentCount][5] = velocity;
 
         if (velocity > 127)
         {
@@ -1955,15 +2050,21 @@ void handleNotes(int note, int velocity, int string)
             //(would maybe mean this is just sympathetic bridge resonance and shouldn't interrupt the monophonic handling)
             // maybe need more complexity in time since attack? // or maybe do active suppression in the pluck detector board by summing strings with the inverse of the nearby strings
             uint8_t ignore = 0;
-            if (velocity < 3) // 25
+            if (velocity < 2) // 25
             {
                 ignore = 1;   
-            }
-            else if ((loudestSoundingNote >=50) && (velocity <= 20))
-            {
-                ignore = 1;
+                    notesSent[sentCount][3] = 1;
             }
             
+            else if ((loudestSoundingNote >=50) && (velocity <= 16) && (framesSincePluck < 20))
+            {
+                ignore = 1;
+                notesSent[sentCount][3] = 2;
+            }
+            else
+            {
+                 notesSent[sentCount][3] = 0;
+            }
             if (!ignore)
             {
                 for (int i = 0; i < 4; i++)
@@ -1984,6 +2085,8 @@ void handleNotes(int note, int velocity, int string)
                 sendMIDINoteOn(note, velocity, 0);
                  LHMuteCounter[i] = 0;
                  LHMute[i] = 0;
+                notesSent[sentCount][4] = 64;
+                framesSincePluck = 0;
             }
             else
             {
@@ -1993,6 +2096,7 @@ void handleNotes(int note, int velocity, int string)
                 skippedNotes[skipPointer][3] = loudestString;
                 skippedNotes[skipPointer][4] = string;
                 skipPointer = (skipPointer + 1) & 31;
+                notesSent[sentCount][4] = skipPointer;
             }
             #if 0
             else if (timeSinceLastAttack > 500)
@@ -2025,8 +2129,10 @@ void handleNotes(int note, int velocity, int string)
             stringStates[string][0] = -1;
             stringStates[string][1] = 0;
             pitchFreeze[string] = 0;
+            notesSent[sentCount][4] = 65;
         }
-    }       
+    }      
+    sentCount = (sentCount + 1) % 8;
 }
 
 void scanButtons(void)
@@ -2087,7 +2193,7 @@ void scanButtons(void)
         LED_1_Write(0);
     }
     
-    
+    #if 0
     //up and down processing
     //if up pressed
     if (buttonCounters[1] == 95)
@@ -2213,7 +2319,8 @@ void scanButtons(void)
     {
         //polyMode = !polyMode;
         buttonCounters[4] = 97;
-    }        
+    }       
+    #endif
 }
 
 void sendCurrentPresetNumber(void)

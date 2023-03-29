@@ -83,7 +83,7 @@ uint8 CYXDATA * const CYCODE CapSense_csTable[] = {
 };
 
 uint8 CapSense_idacSettings[] = {
-    15u,15u,15u,15u,15u,15u,15u,15u,
+    25u,25u,25u,25u,25u,25u,25u,25u,
 };
 
 uint8 CapSense_widgetResolution[] = {
