@@ -444,6 +444,8 @@ void restartSystemCheck()
         }
     }
 }
+volatile uint8_t framesSinceControlSend = 0;
+volatile uint8_t controlToSend = 0;
 
 int main(void)
 {
@@ -787,7 +789,7 @@ int main(void)
                     // (need to compute those values even if not using them, in case it switches suddenly
                     if (frettedState)
                     { 
-                        stringMIDI[whichLinearSensor] = stringMIDIRounded[whichLinearSensor] + filtOut;             
+                        stringMIDI[whichLinearSensor] = stringMIDIRounded[whichLinearSensor];// + filtOut;             
                     }
                     pitchBendVal  = ((stringMIDI[whichLinearSensor] - openStringMIDI[whichLinearSensor]) * 170.5f) + 8192.0f;
                     openStringCount[whichLinearSensor] = 0;
@@ -824,7 +826,7 @@ int main(void)
                 }
             }
         }
-        
+        framesSinceControlSend++;
         //read knobs, joystick, and cv pedal
         if (ADC_SAR_Seq_1_IsEndConversion(ADC_SAR_Seq_1_RETURN_STATUS))
         {
@@ -856,10 +858,25 @@ int main(void)
                         //sendMIDIControlChange(19 + i+1 , 0, 0);
                     }
                 }
+
                 knobs7bitPrev[i] = knobs7bit[i];
                 knobs7bitPrevLS[i] = knobs7bit[i] << 5;
             }
             firPointer = (firPointer + 1) & KNOB_FIR_SIZE_MASK;
+            if (framesSinceControlSend > 100)
+            {
+                 if (controlToSend < 4)
+                {
+                    sendMIDIControlChange(9 + controlToSend , 127-knobs7bit[controlToSend], 0);
+                }
+                if ((controlToSend == 4) && (CV_pedal_sense_Read()))
+                {
+                    sendMIDIControlChange(9 + controlToSend , knobs7bit[controlToSend], 0);
+                    //sendMIDIControlChange(19 + i+1 , 0, 0);
+                }
+                framesSinceControlSend = 0;
+                controlToSend = (controlToSend + 1) % 5;
+            }
         }
         
         //make sure previous SPI1 transmission has completed before checking the received SPI data
@@ -2110,6 +2127,7 @@ void scanButtons(void)
     
     //up and down processing
     //if up pressed
+    #if 0
     if (buttonCounters[1] == 95)
     {
         
@@ -2228,7 +2246,7 @@ void scanButtons(void)
         }
         buttonCounters[3] = 97;
     }
-    
+    #endif
     if (buttonCounters[4] == 95)
     {
         //polyMode = !polyMode;
