@@ -573,6 +573,9 @@ int main(void)
     tuningNumberToLoad = currentTuningSelection;
     sendingMessage = 4;
     
+    
+    ExtMUX_EN_Write(1);
+    CyDelayUs(500);
     CapSense_Start();     
     
     hp_R = 1.0f - (3.14159265358979f * 2.0f * 2.0f / 200.0f);
@@ -582,7 +585,11 @@ int main(void)
     
     CyDelay(10);
     CapSense_InitializeAllBaselines() ;
-    
+    CapSense_InitializeAllBaselines() ;
+    CapSense_InitializeAllBaselines() ;
+    CapSense_InitializeAllBaselines() ;
+    CapSense_InitializeAllBaselines() ;
+    CapSense_InitializeAllBaselines() ;
     //SPI_ready_Write(1);
     CyDelay(10);
     /*
