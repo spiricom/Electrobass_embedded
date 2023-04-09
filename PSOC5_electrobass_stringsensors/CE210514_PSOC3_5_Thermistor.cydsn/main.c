@@ -364,8 +364,8 @@ uint8_t pitchFreeze[4] = {0,0,0,0};
 int32_t pitchBendHistory[4][32];
 uint16_t pitchBendHistoryPointer[4] = {0,0,0,0};
 
-int skippedNotes[32][5];
-int skipPointer = 0;
+volatile int skippedNotes[32][5];
+volatile int skipPointer = 0;
 
 uint8_t bufCount = 0;
 volatile uint8_t sendingMessage = 0;
@@ -388,6 +388,15 @@ uint32_t SPI_errors = 0;
 
 float filtx[4][2] = {{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f}};
 float filty[4][2] = {{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f}};
+
+uint8_t customOnMask = 0;
+uint8_t simpleThreshold = 1;
+uint8_t myThresh[8];
+
+volatile uint8_t capMax[8];
+volatile uint8_t capMin[8] = {255, 255, 255, 255, 255, 255, 255, 255};
+volatile uint8_t capThresh[8];
+volatile uint32_t timeSinceAttack = 0;
 /*
 CY_ISR(SleepIsr_function)
 {
@@ -582,14 +591,37 @@ int main(void)
 
     tuningNamesArray[0][0] = 'E';
     tuningNamesArray[0][1] = 'T';
-    
-    CyDelay(10);
+   CyDelay(10);
     CapSense_InitializeAllBaselines() ;
-    CapSense_InitializeAllBaselines() ;
-    CapSense_InitializeAllBaselines() ;
-    CapSense_InitializeAllBaselines() ;
-    CapSense_InitializeAllBaselines() ;
-    CapSense_InitializeAllBaselines() ;
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    CapSense_ScanEnabledWidgets(); 
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    CapSense_ScanEnabledWidgets(); 
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    CapSense_ScanEnabledWidgets(); 
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    CapSense_ScanEnabledWidgets(); 
+            while(CapSense_IsBusy() != 0)  
+        {
+            ;//wait until scan is complete
+        }  
+    for (int i = 0; i < 8; i++)
+    {
+        //myThresh[i] = CapSense_sensorRaw[i] + 80;
+        myThresh[i] = 60;
+    }
     //SPI_ready_Write(1);
     CyDelay(10);
     /*
@@ -607,7 +639,7 @@ int main(void)
         //turn on the multiplexer channels that set up the resistive sensors
         //#if 0
         ExtMUX_EN_Write(0);
-        //CyDelayUs(5);
+        CyDelayUs(5);
         scanLinearResistor();
 
         //now disconnect resistive sensors so that they don't interfere with CapSense
@@ -617,10 +649,46 @@ int main(void)
         
         scanButtons();
         I2C_MasterReadBlocking(0x8u, 4 ,I2C_1_MODE_COMPLETE_XFER);
-        CapSense_ClearSensors();
-        CapSense_UpdateEnabledBaselines();
+        //CapSense_ClearSensors();
+        //CapSense_UpdateEnabledBaselines();
         CapSense_ScanEnabledWidgets();  
         currentOutPointer = 1;
+        //CapSense_ScanSensor(0); 
+        //CapSense_CheckIsAnyWidgetActive();
+        
+        while (CapSense_IsBusy())
+        {
+            ;
+        }
+        //CyDelay(1);
+
+        if (simpleThreshold)
+        {
+            customOnMask = 0;
+            
+            for (int i = 0; i < 8; i++)
+            {
+                customOnMask += ((CapSense_sensorRaw[i] > myThresh[i]) << i);
+                
+                //if (CapSense_sensorRaw[i] > capMax[i])
+                {
+                //    capMax[i] = CapSense_sensorRaw[i];
+                }
+                //if (CapSense_sensorRaw[i] < capMin[i])
+                {
+                //    capMin[i] = CapSense_sensorRaw[i];
+                }
+                //capThresh[i] = ((capMax[i] - capMin[i]) / 3) + capMin[i];
+                //sendMIDIControlChange(i + 64, CapSense_sensorRaw[i] >> 1, 1);
+            }
+        }
+        else
+        {
+            customOnMask = CapSense_sensorOnMask[0];
+        }
+        //sendMIDIControlChange(0 + 64, CapSense_sensorRaw[0] >> 1, 1);
+        //sendMIDIControlChange(4 + 64, CapSense_sensorRaw[4] >> 1, 1);
+        
         if (parseThatMF)
         {
             parseSysex();
@@ -632,7 +700,7 @@ int main(void)
             
              //handle string plucks/noteoffs
 
-            if (((CapSense_sensorOnMask[0] >> (whichLinearSensor + 4)) & 1) &&  (linearPotValue32Bit[whichLinearSensor] == 65535))
+            if (((customOnMask >> (whichLinearSensor + 4)) & 1) &&  (linearPotValue32Bit[whichLinearSensor] == 65535))
             {
                 LHMute[whichLinearSensor] = 1; 
                 if ((LHMuteCounter[whichLinearSensor] < 127) && (stringStates[whichLinearSensor][0] >= 0))
@@ -892,7 +960,10 @@ int main(void)
             ;
         }
 
-       
+        if (timeSinceAttack < 65535)
+        {
+            timeSinceAttack++;
+        }
         for (int i = 0; i < 4; i++)
         {
             stringPlucks[i] = (rxBuffer[i*2] << 8) + rxBuffer[i*2+1];
@@ -905,6 +976,7 @@ int main(void)
                 pitchFreeze[i] = 0;
                 octave = ((int)I2Cbuff2[1]) - 1;
                 lastNotes[i] = (int)openStringMIDI[i] + (octave * 12);
+
                 handleNotes(lastNotes[i], stringPlucks[i], i);
             }
             //note-off from pluck sensor (RH Mute)
@@ -1082,15 +1154,15 @@ int main(void)
             USB_service();
         }
                
-
+/*
         while(CapSense_IsBusy() != 0)  
         {
             ;//wait until scan is complete
         }  
 
         CapSense_CheckIsAnyWidgetActive();
-        
-        txBuffer[8] = CapSense_sensorOnMask[0];
+   */     
+        txBuffer[8] = customOnMask;
         for (int whichLinearSensor = 0; whichLinearSensor < 4; whichLinearSensor++)
         {
             txBuffer[whichLinearSensor*2] = ((uint16_t) linearPotValue32Bit[whichLinearSensor]) >> 8;
@@ -1101,12 +1173,12 @@ int main(void)
         
         if (txBuffer[8] & 1)
         {
-           // blue_LED_Write(1);
+            blue_LED_Write(1);
             
         }
         else
         {
-           // blue_LED_Write(0);
+            blue_LED_Write(0);
            
         }
         SPIM_1_ClearRxBuffer();
@@ -2003,9 +2075,12 @@ void handleNotes(int note, int velocity, int string)
             {
                 ignore = 1;   
             }
-            else if ((loudestSoundingNote >=50) && (velocity <= 20))
+            else if ((loudestSoundingNote >=70) && (velocity <= 50))
             {
-                ignore = 1;
+                if (timeSinceAttack < 20)
+                {
+                    ignore = 1;
+                }
             }
             
             if (!ignore)
@@ -2021,7 +2096,7 @@ void handleNotes(int note, int velocity, int string)
                     }
                     openStringCount[i] = 10;
                 }
-                timeSinceLastAttack = 0;
+                timeSinceAttack = 0;
                 stringStates[string][0] = note;
                 stringStates[string][1] = velocity;
                  pitchFreeze[string] = 0;
@@ -2109,13 +2184,14 @@ void scanButtons(void)
         buttonCounters[0] = 97;
     }
     
-    int momentary_fretted = ((int)I2Cbuff2[2] > 0);
+    //int momentary_fretted = ((int)I2Cbuff2[2] > 0);
+    
     //check momentary fretted button
-    if (momentary_fretted)
+    //if (momentary_fretted)
     {
-        frettedState = !frettedStateLatched;
+       // frettedState = !frettedStateLatched;
     }
-    else
+    //else
     {
         frettedState = frettedStateLatched;
     }
@@ -2134,7 +2210,7 @@ void scanButtons(void)
     
     //up and down processing
     //if up pressed
-    #if 0
+    //#if 0
     if (buttonCounters[1] == 95)
     {
         
@@ -2253,7 +2329,7 @@ void scanButtons(void)
         }
         buttonCounters[3] = 97;
     }
-    #endif
+    //#endif
     if (buttonCounters[4] == 95)
     {
         //polyMode = !polyMode;

@@ -97,7 +97,7 @@ uint8 CapSense_widgetResolution[] = {
     CapSense_PWM_RESOLUTION_8_BITS,
 };
 
-uint8 CapSense_analogSwitchDivider = 250u;
+uint8 CapSense_analogSwitchDivider = 255u;
 
 const uint8 CYCODE CapSense_widgetNumber[] = {
     0u, /* Button0__BTN */

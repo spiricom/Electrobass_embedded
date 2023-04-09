@@ -57,7 +57,7 @@
 #define CapSense_CURRENT_SOURCE             (1u)
 #define CapSense_IDAC_RANGE_VALUE           (4u)
 
-#define CapSense_PRESCALER_OPTIONS          (1u)
+#define CapSense_PRESCALER_OPTIONS          (2u)
 #define CapSense_MULTIPLE_PRESCALER_ENABLED (0u)
 
 #define CapSense_PRS_OPTIONS                (0u)
