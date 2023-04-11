@@ -679,7 +679,7 @@ int main(void)
                 //    capMin[i] = CapSense_sensorRaw[i];
                 }
                 //capThresh[i] = ((capMax[i] - capMin[i]) / 3) + capMin[i];
-                //sendMIDIControlChange(i + 64, CapSense_sensorRaw[i] >> 1, 1);
+                sendMIDIControlChange(i + 64, CapSense_sensorRaw[i] >> 1, 1);
             }
         }
         else
