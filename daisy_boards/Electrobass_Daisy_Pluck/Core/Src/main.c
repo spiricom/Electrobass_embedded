@@ -44,8 +44,6 @@
 #define SDRECORD 0
 #define SAMPLE_RATE 48000
 
-//#define MAPLE1
-#define GREEN3
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
