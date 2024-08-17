@@ -36,6 +36,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>leaf/.DS_Store</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/.DS_Store</locationURI>
+		</link>
+		<link>
 			<name>leaf/.gitignore</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/.gitignore</locationURI>
@@ -51,7 +56,17 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>leaf/Makefile</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/Makefile</locationURI>
+		</link>
+		<link>
 			<name>leaf/Src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>leaf/build</name>
 			<type>2</type>
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
@@ -181,6 +196,16 @@
 			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/Inc/leaf-tables.h</locationURI>
 		</link>
 		<link>
+			<name>leaf/Inc/leaf-vocal.h</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/Inc/leaf-vocal.h</locationURI>
+		</link>
+		<link>
+			<name>leaf/Src/.DS_Store</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/Src/.DS_Store</locationURI>
+		</link>
+		<link>
 			<name>leaf/Src/leaf-analysis.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/Src/leaf-analysis.c</locationURI>
@@ -266,9 +291,219 @@
 			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/Src/leaf-tables.c</locationURI>
 		</link>
 		<link>
+			<name>leaf/Src/leaf-vocal.c</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/Src/leaf-vocal.c</locationURI>
+		</link>
+		<link>
 			<name>leaf/Src/leaf.c</name>
 			<type>1</type>
 			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/Src/leaf.c</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Externals</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/d_fft_mayer.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/d_fft_mayer.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-analysis.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-analysis.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-delay.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-delay.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-distortion.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-distortion.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-dynamics.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-dynamics.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-effects.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-effects.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-electrical.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-electrical.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-envelopes.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-envelopes.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-filters.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-filters.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-instruments.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-instruments.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-math.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-math.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-mempool.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-mempool.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-midi.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-midi.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-oscillators.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-oscillators.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-physical.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-physical.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-reverb.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-reverb.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-sampling.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-sampling.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf-tables.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf-tables.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf.dep</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf.dep</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/leaf.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/leaf.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/libleaf.a</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/libleaf.a</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Externals/d_fft_mayer.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Externals/d_fft_mayer.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-analysis.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-analysis.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-delay.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-delay.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-distortion.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-distortion.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-dynamics.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-dynamics.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-effects.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-effects.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-electrical.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-electrical.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-envelopes.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-envelopes.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-filters.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-filters.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-instruments.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-instruments.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-math.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-math.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-mempool.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-mempool.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-midi.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-midi.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-oscillators.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-oscillators.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-physical.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-physical.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-reverb.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-reverb.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-sampling.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-sampling.o</locationURI>
+		</link>
+		<link>
+			<name>leaf/build/Src/leaf-tables.o</name>
+			<type>1</type>
+			<locationURI>PARENT-3-PROJECT_LOC/LEAF/leaf/build/Src/leaf-tables.o</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

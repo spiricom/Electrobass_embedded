@@ -54,8 +54,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-volatile uint8_t SPI_TX[32] __ATTR_RAM_D2;
-volatile uint8_t SPI_RX[32] __ATTR_RAM_D2;
+ uint8_t SPI_TX[32] __ATTR_RAM_D2;
+ uint8_t SPI_RX[32] __ATTR_RAM_D2;
 
 #define NUM_ADC_CHANNELS 4
 #define ADC_FRAME_SIZE 1
@@ -226,7 +226,7 @@ int main(void)
   }
   HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
   HAL_DAC_Start(&hdac1, DAC_CHANNEL_2);
-  LEAF_generate_atodb(atodbTable, ATODB_TABLE_SIZE);
+  LEAF_generate_atodb(atodbTable, ATODB_TABLE_SIZE, 0.0f, 1.0f);
   HAL_ADC_Start(&hadc2);
   HAL_ADCEx_MultiModeStart_DMA(&hadc1,(uint32_t*)&ADC_values,2 * ADC_BUFFER_SIZE);
 

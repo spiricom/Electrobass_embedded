@@ -5,23 +5,29 @@
 
 ENTRY(Reset_Handler)
 
+/* Highest address of the user mode stack */
+_estack = ORIGIN(DTCMRAM) + LENGTH(DTCMRAM);    /* end of RAM */
+/* Generate a link error if heap and stack don't fit into RAM */
+_Min_Heap_Size = 0x4000;      /* required amount of heap  */
+_Min_Stack_Size = 0x8000; /* required amount of stack */
+
 MEMORY
 {
-	FLASH (RX)    : ORIGIN = 0x08000000, LENGTH = 128K
-	DTCMRAM (RWX) : ORIGIN = 0x20000000, LENGTH = 128K
-	SRAM (RWX)    : ORIGIN = 0x24000000, LENGTH = 512K
-	RAM_D2_DMA (RWX) : ORIGIN = 0x30000000, LENGTH = 32K
-	RAM_D2 (RWX)  : ORIGIN = 0x30008000, LENGTH = 256K
-	RAM_D3 (RWX)  : ORIGIN = 0x38000000, LENGTH = 64K
+	FLASH (RX)    : ORIGIN =      0x08000000, LENGTH = 128K
+	DTCMRAM (RWX) : ORIGIN =      0x20000000, LENGTH = 128K
+	SRAM (RWX)    : ORIGIN =      0x24000000, LENGTH = 256K
+	RAM_D1 (RWX)    : ORIGIN =    0x24040000, LENGTH = 256K
+	RAM_D2_DMA (RWX) : ORIGIN =   0x30000000, LENGTH = 8K
+	RAM_D2 (RWX)  : ORIGIN =      0x30002000, LENGTH = 280K
+	RAM_D3 (RWX)  : ORIGIN =      0x38000000, LENGTH = 64K
 	BACKUP_SRAM (RWX)  : ORIGIN = 0x38800000, LENGTH = 4K
-	ITCMRAM (RWX) : ORIGIN = 0x00000000, LENGTH = 1K
-	ITCMRAMFUNC (RWX) : ORIGIN = 0x00000400, LENGTH = 63K
-	SDRAM (RWX)   : ORIGIN = 0xc0000000, LENGTH = 64M
-  	QSPIFLASH (RX): ORIGIN = 0x90040000, LENGTH = 7936K
+	ITCMRAM (RWX) : ORIGIN =      0x00000000, LENGTH = 1K
+	ITCMRAMFUNC (RWX) : ORIGIN =  0x00000400, LENGTH = 63K
+	SDRAM (RWX)   : ORIGIN =      0xc0000000, LENGTH = 64M
+  	QSPIFLASH (RX): ORIGIN =      0x90040000, LENGTH = 7936K
 
 }
 
-_estack = 0x20020000;
 
 SECTIONS
 {
@@ -107,6 +113,21 @@ SECTIONS
 		_esram1_bss = .;
 
 		PROVIDE(__sram1_bss_end__ = _esram1_bss);
+	} > RAM_D1
+
+
+	.sram2_dma_bss (NOLOAD) :
+	{
+		. = ALIGN(4);
+		_ssram2_dma_bss = .;
+
+		PROVIDE(__sram2_dma_bss_start__ = _sram2_dma_bss);
+		*(.sram2_dma_bss)
+		*(.sram2_dma_bss*)
+		. = ALIGN(4);
+		_esram2_dma_bss = .;
+
+		PROVIDE(__sram2_dma_bss_end__ = _esram2_dma_bss);
 	} > RAM_D2_DMA
 
 
@@ -123,6 +144,20 @@ SECTIONS
 
 		PROVIDE(__sram2_bss_end__ = _esram2_bss);
 	} > RAM_D2
+	
+	.sram3_bss (NOLOAD) :
+	{
+		. = ALIGN(4);
+		_ssram3_bss = .;
+
+		PROVIDE(__sram3_bss_start__ = _sram3_bss);
+		*(.sram3_bss)
+		*(.sram3_bss*)
+		. = ALIGN(4);
+		_esram3_bss = .;
+
+		PROVIDE(__sram3_bss_end__ = _esram3_bss);
+	} > RAM_D3
 	
 	.userflash (NOLOAD) :
 	{    
@@ -161,20 +196,6 @@ SECTIONS
 
 		PROVIDE(__bss_end__ = _ebss);
 	} > DTCMRAM 
-
-	.dtcmram_bss (NOLOAD) :
-	{
-		. = ALIGN(4);
-		_sdtcmram_bss = .;
-
-		PROVIDE(__dtcmram_bss_start__ = _sdtcmram_bss);
-		*(.dtcmram_bss)
-		*(.dtcmram_bss*)
-		. = ALIGN(4);
-		_edtcmram_bss = .;
-
-		PROVIDE(__dtcmram_bss_end__ = _edtcmram_bss);
-	} > DTCMRAM
 
 
 	/* add a section that we can put functions into ITCMRAM for faster execution 
@@ -279,7 +300,6 @@ SECTIONS
 		PROVIDE(__heap_end__ = .);
 	} > DTCMRAM
 
-	PROVIDE(end = .);
 
 	.reserved_for_stack (NOLOAD) :
 	{
@@ -290,6 +310,9 @@ SECTIONS
 		PROVIDE(__reserved_for_stack_end__ = .);
 	} > DTCMRAM
 
+
+	PROVIDE(end = .);
+	
     DISCARD :
     {
         libc.a ( * )

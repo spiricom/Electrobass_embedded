@@ -1539,12 +1539,12 @@ void __libc_init_array();
 int main();
 
 extern void *_sidata, *_sdata, *_edata;
-extern void *_sbss, *_ebss;
+extern void *_sbss, *_ebss, *_ssram1_bss, *_esram1_bss, *_ssram2_dma_bss, *_esram2_dma_bss, *_ssram2_bss, *_esram2_bss, *_ssram3_bss, *_esram3_bss;
 extern void *_siitcmram, *_sitcmram, *_eitcmram;
 
 void __attribute__((naked, noreturn)) Reset_Handler()
 {
-	//Normally the CPU should will setup the based on the value from the first entry in the vector table.
+	//Normally the CPU will setup this based on the value from the first entry in the vector table.
 	//If you encounter problems with accessing stack variables during initialization, ensure the line below is enabled.
 	#ifdef sram_layout
 	asm ("ldr sp, =_estack");
@@ -1556,6 +1556,19 @@ void __attribute__((naked, noreturn)) Reset_Handler()
 
 	for (pDest = &_sbss; pDest != &_ebss; pDest++)
 		*pDest = 0;
+
+	for (pDest = &_ssram1_bss; pDest != &_esram1_bss; pDest++)
+		*pDest = 0;
+
+	for (pDest = &_ssram2_dma_bss; pDest != &_esram2_dma_bss; pDest++)
+		*pDest = 0;
+
+	for (pDest = &_ssram2_bss; pDest != &_esram2_bss; pDest++)
+		*pDest = 0;
+
+	for (pDest = &_ssram3_bss; pDest != &_esram3_bss; pDest++)
+		*pDest = 0;
+
 
 	for (pSource = &_siitcmram, pDest = &_sitcmram; pDest != &_eitcmram; pSource++, pDest++)
 		*pDest = *pSource;

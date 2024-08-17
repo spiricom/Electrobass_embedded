@@ -8,8 +8,9 @@
 #ifndef INC_PARAMETERS_H_
 #define INC_PARAMETERS_H_
 
+
 typedef float (*scaler_t)(float);
-typedef void (*setParam_t)(float, int);
+typedef void (*setParam_t)(float, int, int);
 #define SPI_MESSAGE_ENDING 253
 #define TUNING_MESSAGE_SIZE 266
 
@@ -17,15 +18,33 @@ typedef void (*setParam_t)(float, int);
 enum SPIMessage
 {
 	Blank = 0,
-	ReceivingMIDI,
+	ReceivingPitches,
 	ReceivingPreset,
-	ReceivingTuning,
+	ReceivingKnobs,
 	LoadingPreset,
-	LoadingTuning,
+	WaitingForLoadAck,
+	ReceivingSingleParamChange,
+	ReceivingMappingChange,
+	ReceivingPresetRequestCommand,
+	ReceivingBootloadCommand,
+	ReceivingVolume,
+	ReceivingBrainFirmwareUpdateRequest,
+	ReceivingPluckFirmwareUpdateRequest,
+	ReceivingAdditionalKnobs,
+	RecievingCommandToStoreCurrentPreset,
+	ReceivingMIDI,
+	ReceivingTuning,
 	ReceivingEnd =  253
 };
+
+enum MappingChangeTypes
+{
+	SourceID = 0,
+	Amount,
+	ScalarID
+};
 //selectable type number of possible values
-#define NUM_OSC_SHAPES 7
+#define NUM_OSC_SHAPES 6
 #define NUM_FILTER_TYPES 9
 #define NUM_LFO_SHAPES LFOShapeSetNum
 #define NUM_EFFECT_TYPES FXTypeNil
@@ -37,6 +56,7 @@ enum SPIMessage
 #define ENVELOPE_PARAMS_OFFSET 108
 #define LFO_PARAMS_OFFSET 132
 #define FXPREPOST_PARAMS_OFFSET 154
+#define MACRO_PARAMS_OFFSET 3
 
 //number of modules
 #define NUM_OSC 3
@@ -45,28 +65,36 @@ enum SPIMessage
 #define NUM_ENV 4
 #define NUM_LFOS 4
 #define NUM_EFFECT 4
+#define NUM_MACROS 8
+#define NUM_CONTROL 4
 
+#define NUM_STRINGS 4
+#define NUM_STRINGS_PER_BOARD 1
 
 //mapping array defines
 #define NUM_POSSIBLE_HOOKS 3
-#define NUM_SOURCES 28
+#define NUM_SOURCES 38
+
+
 
 #define OSC_SOURCE_OFFSET 0
 #define NOISE_SOURCE_OFFSET 3
 #define MACRO_SOURCE_OFFSET 4
 #define CTRL_SOURCE_OFFSET 12
+#define EXPRESSION_PEDAL_SOURCE_OFFSET 16
 #define MIDI_KEY_SOURCE_OFFSET 17
 #define VELOCITY_SOURCE_OFFSET 18
 #define RANDOM_SOURCE_OFFSET 19
 #define ENV_SOURCE_OFFSET 20
 #define LFO_SOURCE_OFFSET 24
+#define PEDAL_SOURCE_OFFSET 28
 
 
 //struct for every parameter
 typedef struct param
 {
-	float zeroToOneVal; //0-1 value stored in the preset (all parameter values are stored as 0-1)
-	float realVal; //value used by the setting functions
+	float zeroToOneVal[NUM_STRINGS_PER_BOARD]; //0-1 value stored in the preset (all parameter values are stored as 0-1)
+	float realVal[NUM_STRINGS_PER_BOARD]; //value used by the setting functions
 	scaler_t scaleFunc; //scale the value from 0-1 to real value
 	setParam_t setParam; //function for setting the actual backend audio parameter (i.e. calling leaf library filter Q setting code)
 	uint8_t objectNumber; //which oscillator, filter, env, etc
@@ -103,10 +131,11 @@ typedef struct mapping
 {
 	uint8_t destNumber;
 	param* dest;
-	float* sourceValPtr[NUM_POSSIBLE_HOOKS];
+	float* sourceValPtr[NUM_POSSIBLE_HOOKS][NUM_STRINGS_PER_BOARD];
 	uint8_t sourceSmoothed[NUM_POSSIBLE_HOOKS];
-	float* scalarSourceValPtr[NUM_POSSIBLE_HOOKS];
+	float* scalarSourceValPtr[NUM_POSSIBLE_HOOKS][NUM_STRINGS_PER_BOARD];
 	float amount[NUM_POSSIBLE_HOOKS];
+	uint8_t hookActive[3];
 	uint8_t numHooks;
 } mapping;
 
@@ -193,14 +222,16 @@ typedef enum _FXType
     None = 0,
     Softclip,
     Hardclip,
+	PolynomialShaper,
     ABSaturator,
     Tanh,
-    Shaper,
+    Shaper2,
     Compressor,
     Chorus,
     Bitcrush,
     TiltFilter,
     Wavefolder,
+	Delay,
 	FXLowpass,
 	FXHighpass,
 	FXBandpass,
@@ -214,6 +245,8 @@ typedef enum _FXType
 } FXType;
 
 
+
+//TODO: remove M1 through Ped, shouldn't be params or destinations
 enum ParamNames
 {
 	MIDIKeyMax,
@@ -371,6 +404,7 @@ enum ParamNames
 	OutputAmp,
 	OutputTone,
 	FXOrder,
+	PedalControlsMaster,
 	numParams
 };
 
