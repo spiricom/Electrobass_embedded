@@ -91,6 +91,7 @@ void __ATTR_ITCMRAM audioFrameString3(uint16_t buffer_offset)
 			resetStringInputs = 0;
 			newPluck = 1;
 		}
+
 		float theNote[NUM_STRINGS_PER_BOARD];
 		for (int i = 0; i < numStringsThisBoard; i++)
 		{
@@ -216,7 +217,7 @@ float __ATTR_ITCMRAM audioTickString3(void)
 {
 	float temp = 0.0f;
 
-
+	midi_process();
 	float volumeSmoothed = tExpSmooth_tick(&volumeSmoother);
 
 	for (int i = 0; i < 12; i++)
@@ -251,7 +252,7 @@ float __ATTR_ITCMRAM audioTickString3(void)
 		float theNote[NUM_STRINGS_PER_BOARD];
 		for (int i = 0; i < numStringsThisBoard; i++)
 		{
-			if ((previousStringInputs[i] == 0) && (stringInputs[i] > 0))
+			if (((previousStringInputs[i] == 0) && (stringInputs[i] > 0))|| (prevStringMIDI[i] != stringMIDIPitches[i]))
 			{
 				Lfloat str3Amp = stringInputs[i] * 0.000015259021897f;
 				stringOctave[i] = octave;
@@ -280,10 +281,12 @@ float __ATTR_ITCMRAM audioTickString3(void)
 				tStiffString_mute(&stringsC[i]);
 				//tTString_mute(&strings[i]);
 			}
+			prevStringMIDI[i] = stringMIDIPitches[i];
 			previousStringInputs[i] = stringInputs[i];
 		}
 		newPluck = 0;
 	}
+
 	for (int i = 0; i < numStringsThisBoard; i++)
 	{
 

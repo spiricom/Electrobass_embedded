@@ -357,7 +357,7 @@ void __ATTR_ITCMRAM audioFrameSynth(uint16_t buffer_offset)
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET);
 	uint32_t tempCountFrame = DWT->CYCCNT;
 	int32_t current_sample = 0;
-
+	midi_process();
 	if (resetStringInputs)
 	{
 		for (int i = 0; i < numStringsThisBoard; i++)
@@ -376,7 +376,7 @@ void __ATTR_ITCMRAM audioFrameSynth(uint16_t buffer_offset)
 	{
 		for (int i = 0; i < numStringsThisBoard; i++)
 		{
-			if ((previousStringInputs[i] == 0) && (stringInputs[i] > 0))
+			if (((previousStringInputs[i] == 0) && (stringInputs[i] > 0))|| (prevStringMIDI[i] != stringMIDIPitches[i]))
 			{
 				float amplitz = stringInputs[i] * 0.000015259021897f;
 				stringOctave[i] = octave;
@@ -410,6 +410,7 @@ void __ATTR_ITCMRAM audioFrameSynth(uint16_t buffer_offset)
 				sourceValues[RANDOM_SOURCE_OFFSET][i] = random_values[randomValPointer++]; // scale between zero and one
 				sourceValues[VELOCITY_SOURCE_OFFSET][i] = amplitz;
 
+
 			}
 			else if ((previousStringInputs[i] > 0) && (stringInputs[i] == 0))
 			{
@@ -422,10 +423,13 @@ void __ATTR_ITCMRAM audioFrameSynth(uint16_t buffer_offset)
 					}
 				}
 			}
+			prevStringMIDI[i] = stringMIDIPitches[i];
 			previousStringInputs[i] = stringInputs[i];
 		}
 		newPluck = 0;
+
 	}
+
 	//mono operation, no need to compute right channel. Also for loop iterating by 2 instead of 1 to avoid if statement.
 	for (int i = 0; i < HALF_BUFFER_SIZE; i+=2)
 	{
@@ -474,7 +478,7 @@ float __ATTR_ITCMRAM audioTickSynth(void)
 {
 	uint32_t tempCountTick = DWT->CYCCNT;
 	float masterSample = 0.0f;
-	midi_process();
+
 	antiClickFade = 0.001f + 0.999f * antiClickFade;
 	//run mapping ticks for all strings
 	uint32_t tempCountMap = DWT->CYCCNT;

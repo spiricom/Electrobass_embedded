@@ -201,7 +201,7 @@ void __ATTR_ITCMRAM audioFrameAdditive(uint16_t buffer_offset)
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET);
 	uint32_t tempCountFrame = DWT->CYCCNT;
 	int32_t current_sample = 0;
-
+	midi_process();
 	if (resetStringInputs)
 	{
 		for (int i = 0; i < numStringsThisBoard; i++)
@@ -232,7 +232,7 @@ void __ATTR_ITCMRAM audioFrameAdditive(uint16_t buffer_offset)
 	{
 		for (int i = 0; i < numStringsThisBoard; i++)
 		{
-			if ((previousStringInputs[i] == 0) && (stringInputs[i] > 0))
+			if (((previousStringInputs[i] == 0) && (stringInputs[i] > 0))|| (prevStringMIDI[i] != stringMIDIPitches[i]))
 			{
 				float amplitz = stringInputs[i] * 0.000015259021897f;
 				tExpSmooth_setVal(&tensionAdd[i], amplitz);
@@ -337,6 +337,7 @@ void __ATTR_ITCMRAM audioFrameAdditive(uint16_t buffer_offset)
 					finalGains[i][j] = thisGain;
 					currentRandom++;
 				}
+
 			}
 			else if ((previousStringInputs[i] > 0) && (stringInputs[i] == 0))
 			{
@@ -348,6 +349,7 @@ void __ATTR_ITCMRAM audioFrameAdditive(uint16_t buffer_offset)
 				}
 				tADSRT_off(&fenvelopes[i]);
 			}
+			prevStringMIDI[i] = stringMIDIPitches[i];
 			previousStringInputs[i] = stringInputs[i];
 		}
 		newPluck = 0;

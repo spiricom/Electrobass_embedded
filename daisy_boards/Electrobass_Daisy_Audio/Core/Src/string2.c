@@ -133,6 +133,7 @@ void __ATTR_ITCMRAM audioFrameString2(uint16_t buffer_offset)
 			resetStringInputs = 0;
 			newPluck = 1;
 		}
+
 		for (int i = 0; i < numStringsThisBoard; i++)
 		{
 			tTString_setPickupPos(&strings[i],knobScaled[3]);
@@ -175,7 +176,7 @@ float __ATTR_ITCMRAM audioTickString2(void)
 	float theNote[NUM_STRINGS_PER_BOARD];
 
 	float volumeSmoothed = tExpSmooth_tick(&volumeSmoother);
-
+	midi_process();
 	for (int i = 0; i < 20; i++)
 	{
 		knobScaled[i] = tExpSmooth_tick(&knobSmoothers[i]);
@@ -207,7 +208,7 @@ float __ATTR_ITCMRAM audioTickString2(void)
 	{
 		for (int i = 0; i < numStringsThisBoard; i++)
 		{
-			if ((previousStringInputs[i] == 0) && (stringInputs[i] > 0))
+			if (((previousStringInputs[i] == 0) && (stringInputs[i] > 0))|| (prevStringMIDI[i] != stringMIDIPitches[i]))
 			{
 				float amplitz = stringInputs[i] * 0.000015259021897f;
 				stringOctave[i] = octave;
@@ -243,11 +244,13 @@ float __ATTR_ITCMRAM audioTickString2(void)
 				tTString_pluck(&strings[i],  knobScaled[2], amplitz);
 
 			}
-			else if ((previousStringInputs[i] > 0) && (stringInputs[i] == 0))
+
+			if ((previousStringInputs[i] > 0) && (stringInputs[i] == 0))
 			{
 				//note off
 				tTString_mute(&strings[i]);
 			}
+			prevStringMIDI[i] = stringMIDIPitches[i];
 			previousStringInputs[i] = stringInputs[i];
 		}
 		newPluck = 0;

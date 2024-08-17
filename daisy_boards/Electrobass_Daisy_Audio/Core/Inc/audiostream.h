@@ -149,7 +149,7 @@ extern uint8_t oscOn[NUM_OSC];
 extern uint8_t noiseOn;
 extern float oscAmpMult;
 extern float oscAmpMultArray[4];
-
+extern float prevStringMIDI[NUM_STRINGS_PER_BOARD];
 extern int32_t audioOutBuffer[AUDIO_BUFFER_SIZE];
 extern int32_t audioInBuffer[AUDIO_BUFFER_SIZE];
 extern uint32_t codecReady;

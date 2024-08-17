@@ -93,7 +93,7 @@ void __ATTR_ITCMRAM audioFrameString1(uint16_t buffer_offset)
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET);
 	uint32_t tempCountFrame = DWT->CYCCNT;
 	int32_t current_sample = 0;
-
+	midi_process();
 	if (resetStringInputs)
 	{
 		for (int i = 0; i < numStringsThisBoard; i++)
@@ -109,7 +109,7 @@ void __ATTR_ITCMRAM audioFrameString1(uint16_t buffer_offset)
 	{
 		for (int i = 0; i < numStringsThisBoard; i++)
 		{
-			if ((previousStringInputs[i] == 0) && (stringInputs[i] > 0))
+			if (((previousStringInputs[i] == 0) && (stringInputs[i] > 0))|| (prevStringMIDI[i] != stringMIDIPitches[i]))
 			{
 
 				stringOctave[i] = octave;
@@ -158,6 +158,7 @@ void __ATTR_ITCMRAM audioFrameString1(uint16_t buffer_offset)
 				//tSimpleLivingString3_setDecay(&livStr[i], 0.1f);
 				lsDecay[i] = 0;
 			}
+			prevStringMIDI[i] = stringMIDIPitches[i];
 			previousStringInputs[i] = stringInputs[i];
 		}
 		newPluck = 0;

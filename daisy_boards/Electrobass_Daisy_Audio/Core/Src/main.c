@@ -81,8 +81,7 @@ void getTuningNamesFromSDCard(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-#define SPI_BUFFER_SIZE 64
-#define SPI_FRAME_SIZE 32
+
 uint8_t SPI_TX[SPI_BUFFER_SIZE] __ATTR_RAM_D2_DMA;
 uint8_t SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2_DMA;
 
@@ -1231,31 +1230,31 @@ void MPU_Conf(void)
 
 float __ATTR_ITCMRAM scaleDefault(float input)
 {
-	//input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.f, input, 1.f);
 	return input;
 }
 
 float __ATTR_ITCMRAM scaleTwo(float input)
 {
-	//input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 2.0f);
 }
 
 float __ATTR_ITCMRAM scaleOscPitch(float input)
 {
-	//input = LEAF_clip(0.0f, input, 1.0f);
+	input = LEAF_clip(0.0f, input, 1.0f);
 	return ((input * 2.0f) - 1.0f);
 }
 
 float __ATTR_ITCMRAM scaleOscFine(float input)
 {
-	//input = LEAF_clip(0.0f, input, 1.f);
+	input = LEAF_clip(0.0f, input, 1.f);
 	return (input * 200.0f) - 100.0f;
 }
 
 float __ATTR_ITCMRAM scaleOscFreq(float input)
 {
-	//input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 4000.0f) - 2000.0f;
 }
 
@@ -1273,14 +1272,14 @@ float __ATTR_ITCMRAM scalePitchBend(float input)
 
 float __ATTR_ITCMRAM scaleFilterCutoff(float input)
 {
-	//input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.f, input, 1.f);
 	return (input * 127.0f);
 }
 
 float __ATTR_ITCMRAM scaleFilterResonance(float input)
 {
 	//lookup table for filter res
-	//input = LEAF_clip(0.1f, input, 1.0f);
+	input = LEAF_clip(0.1f, input, 1.0f);
 	//scale to lookup range
 	input *= 2047.0f;
 	int inputInt = (int)input;
@@ -1293,7 +1292,7 @@ float __ATTR_ITCMRAM scaleFilterResonance(float input)
 float __ATTR_ITCMRAM scaleEnvTimes(float input)
 {
 	//lookup table for env times
-	//input = LEAF_clip(0.0f, input, 1.0f);
+	input = LEAF_clip(0.0f, input, 1.0f);
 	//scale to lookup range
 	input *= 2047.0f;
 	int inputInt = (int)input;
@@ -1307,7 +1306,7 @@ float __ATTR_ITCMRAM scaleEnvTimes(float input)
 float __ATTR_ITCMRAM scaleLFORates(float input)
 {
 	//lookup table for LFO rates
-	//input = LEAF_clip(0.0f, input, 1.0f);
+	input = LEAF_clip(0.0f, input, 1.0f);
 	//scale to lookup range
 	input *= 2047.0f;
 	int inputInt = (int)input;
@@ -1319,7 +1318,7 @@ float __ATTR_ITCMRAM scaleLFORates(float input)
 
 float __ATTR_ITCMRAM scaleFinalLowpass(float input)
 {
-	//input = LEAF_clip(0.f, input, 1.f);
+	input = LEAF_clip(0.f, input, 1.f);
 	return ((input * 70.0f) + 58.0f);
 }
 
@@ -1677,7 +1676,71 @@ void setLFOShapes(int LFOShape, int i)
 
 void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 {
-	// if the first number is a 1 then it's a midi note/ctrl/bend message
+
+	if (SPI_RX[offset] == ReceivingPitches)
+	{
+		 uint8_t currentByte = offset+1;
+
+		 //HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_SET);
+
+		 updateStateFromSPIMessage(offset);
+		 //HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
+		 //HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
+	}
+	else if (SPI_RX[offset] == ReceivingKnobs)
+	{
+		uint8_t currentByte = offset+1;
+		for (int i = 0; i < 8; i++)
+		{
+			int32_t newByte = SPI_RX[i + currentByte];
+			if (prevKnobByte[i] == 256)
+			{
+				prevKnobByte[i] = newByte;
+			}
+			else if (knobFrozen[i])
+			{
+				if ((newByte > (prevKnobByte[i] + 3)) || (newByte < (prevKnobByte[i] - 3)))
+				{
+					knobFrozen[i] = 0;
+					prevKnobByte[i] = newByte;
+				}
+			}
+			else
+			{
+				tExpSmooth_setDest(&knobSmoothers[i], (SPI_RX[i + currentByte] * 0.003921568627451f)); //scaled 0.0 to 1.0
+				prevKnobByte[i] = newByte;
+			}
+
+		}
+
+		for (int i = 8; i < 12; i++)
+		{
+			int32_t newByte = SPI_RX[i + currentByte];
+			if (prevKnobByte[i] == 256)
+			{
+				prevKnobByte[i] = newByte;
+			}
+			else if (knobFrozen[i])
+			{
+				if ((newByte > (prevKnobByte[i] + 3)) || (newByte < (prevKnobByte[i] - 3)))
+				{
+					knobFrozen[i] = 0;
+					prevKnobByte[i] = newByte;
+				}
+
+			}
+			else
+			{
+				tExpSmooth_setDest(&knobSmoothers[i], (newByte * 0.003921568627451f)); //scaled 0.0 to 1.0
+				prevKnobByte[i] = newByte;
+			}
+
+		}
+
+		updateStateFromSPIMessage(offset);
+		//HAL_GPIO_WritePin(GPIOG, GPIO_PIN_9, GPIO_PIN_RESET);
+
+	}
 	if (SPI_RX[offset] == ReceivingMIDI)
 	{
 
@@ -2217,12 +2280,12 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		SPI_TX[offset+29] = 13;
 		SPI_TX[offset+30] = (sampleClippedCountdown > 0); //report whether there was a clip on the first board in the last 65535 samples
 		SPI_TX[offset+31] = 254;
-		whichMacroToSendName = (whichMacroToSendName + 1);
-		if (whichMacroToSendName >= 20)
-		{
-			whichMacroToSendName = 0;
+		//whichMacroToSendName = (whichMacroToSendName + 1);
+		//if (whichMacroToSendName >= 20)
+		//{
+		//	whichMacroToSendName = 0;
 			whichPresetToSendName = (whichPresetToSendName + 1) % MAX_NUM_PRESETS;
-		}
+		//}
 	}
 
 

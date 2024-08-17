@@ -49,7 +49,7 @@ uint8_t numStringsThisBoard = NUM_STRINGS_PER_BOARD;
 
 tExpSmooth stringFreqSmoothers[NUM_STRINGS_PER_BOARD];
 float freqToSmoothMemoryGlobal[NUM_STRINGS_PER_BOARD];
-
+float prevStringMIDI[NUM_STRINGS_PER_BOARD] ={64.0f};
 tExpSmooth volumeSmoother;
 tExpSmooth knobSmoothers[20];
 
@@ -279,8 +279,37 @@ void audioStart(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 }
 
 uint32_t timeMIDI = 0;
+uint32_t timeSPI = 0;
+
+void __ATTR_ITCMRAM updateStateFromSPIMessage(uint8_t offset)
+{
+	uint32_t tempCountSPI = DWT->CYCCNT;
+	int modeBit = SPI_RX[24 + offset];
+
+	octaveAction = (modeBit >> 6) & 1;
+	dualSlider = (modeBit >> 5) & 1;
+
+	edit = (modeBit >> 4) & 1;
+	voice = SPI_RX[25 + offset];
 
 
+	octave = (((int32_t) (modeBit & 15) - 5 ) * 12.0f);
+	//if "octave action" is set to 1, then immediately change octave instead of waiting for new note
+	if (octaveAction)
+	{
+		for (int i = 0; i < numStringsThisBoard; i++)
+		{
+			stringOctave[i] = octave;
+		}
+	}
+
+	volumePedalInt = ((uint16_t)SPI_RX[26 + offset] << 8) + ((uint16_t)SPI_RX[27 + offset] & 0xff);
+	volumePedal = volumePedalInt * 0.0002442002442f;
+
+
+	tExpSmooth_setDest(&volumeSmoother,volumePedal);
+	timeSPI = DWT->CYCCNT - tempCountSPI;
+}
 
 void voiceChangeCheck(void)
 {

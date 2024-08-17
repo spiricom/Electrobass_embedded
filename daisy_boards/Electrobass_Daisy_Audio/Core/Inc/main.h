@@ -46,10 +46,11 @@ extern "C" {
 
 # define FORCE_INLINE __attribute__((always_inline)) inline
 /* USER CODE END ET */
-
+#define SPI_BUFFER_SIZE 64
+#define SPI_FRAME_SIZE 32
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+extern uint8_t SPI_RX[SPI_BUFFER_SIZE] __ATTR_RAM_D2_DMA;
 #define MAX_NUM_PRESETS 64
 #define NUM_PARAMS numParams
 #define MAX_NUM_MAPPINGS 32
