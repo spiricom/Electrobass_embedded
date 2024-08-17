@@ -1,6 +1,6 @@
 // ======================================================================
 // CE210514_PSOC3_5_Thermistor.v generated from TopDesign.cysch
-// 04/08/2023 at 19:34
+// 04/11/2023 at 17:39
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -651,103 +651,6 @@ endmodule
 `include "C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\CyComponentLibrary\CyComponentLibrary.cylib\CapSense_CSD_AMux_v3_50\CapSense_CSD_AMux_v3_50.v"
 `endif
 
-// Comp_v2_0(Hysteresis=0, Pd_Override=0, Polarity=0, PSOC5A=false, Speed=0, Sync=1, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=Comp_v2_0, CY_CONFIG_TITLE=CompCH1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=CapSense:CompCH1, CY_INSTANCE_SHORT_NAME=CompCH1, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=0, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=CapSense_CompCH1, )
-module Comp_v2_0_4 (
-    clock,
-    CmpOut,
-    Vminus,
-    Vplus);
-    input       clock;
-    output      CmpOut;
-    inout       Vminus;
-    electrical  Vminus;
-    inout       Vplus;
-    electrical  Vplus;
-
-
-          wire  Net_9;
-          wire  Net_1;
-
-    cy_psoc3_ctcomp_v1_0 ctComp (
-        .clk_udb(clock),
-        .clock(clock),
-        .cmpout(Net_1),
-        .vminus(Vminus),
-        .vplus(Vplus));
-
-	// VirtualMux_1 (cy_virtualmux_v1_0)
-	assign CmpOut = Net_1;
-
-
-    assign Net_9 = ~Net_1;
-
-
-
-endmodule
-
-// IDAC8_v2_0(Current=0, Data_Source=0, Hardware_Enable=true, IDAC_Range=4, IDAC_Speed=0, Initial_Value=0, Polarity=4, Strobe_Mode=0, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=IDAC8_v2_0, CY_CONFIG_TITLE=IdacCH1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=CapSense:IdacCH1, CY_INSTANCE_SHORT_NAME=IdacCH1, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=0, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=CapSense_IdacCH1, )
-module IDAC8_v2_0_5 (
-    data,
-    en,
-    iOut,
-    ipolarity,
-    strobe);
-    input      [7:0] data;
-    input       en;
-    inout       iOut;
-    electrical  iOut;
-    input       ipolarity;
-    input       strobe;
-
-    parameter Data_Source = 0;
-    parameter Initial_Value = 0;
-    parameter Strobe_Mode = 0;
-
-          wire  Net_195;
-          wire  Net_194;
-    electrical  Net_124;
-          wire  Net_158;
-          wire  Net_157;
-          wire  Net_123;
-          wire  Net_125;
-
-    cy_psoc3_vidac8_v1_0 viDAC8 (
-        .data(data[7:0]),
-        .idir(Net_158),
-        .ioff(Net_123),
-        .iout(iOut),
-        .reset(Net_125),
-        .strobe(strobe),
-        .strobe_udb(strobe),
-        .vout(Net_124));
-    defparam viDAC8.is_all_if_any = 0;
-    defparam viDAC8.reg_data = 0;
-
-
-    assign Net_157 = ~en;
-
-    ZeroTerminal ZeroTerminal_3 (
-        .z(Net_125));
-
-    cy_analog_noconnect_v1_0 cy_analog_noconnect_1 (
-        .noconnect(Net_124));
-
-	// VirtualMux_2 (cy_virtualmux_v1_0)
-	assign Net_123 = Net_157;
-
-	// VirtualMux_1 (cy_virtualmux_v1_0)
-	assign Net_158 = Net_195;
-
-    ZeroTerminal ZeroTerminal_1 (
-        .z(Net_194));
-
-    ZeroTerminal ZeroTerminal_2 (
-        .z(Net_195));
-
-
-
-endmodule
-
 // Component: CapSense_CSD_MeasureCh_v3_50
 `ifdef CY_BLK_DIR
 `undef CY_BLK_DIR
@@ -787,8 +690,8 @@ endmodule
 `include "C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\CyPrimitives\cyprimitives.cylib\OneTerminal\OneTerminal.v"
 `endif
 
-// CapSense_CSD_v3_50(AnalogSwitchDivider=255, ClockSource=0, ConnectInactiveSensors=1, CtlModeReplacementString=SyncCtrl, CurrentSource=1, EnableTuneHelper=false, EzI2CInstanceName=EZI2C, GuardSensorEnable=false, IdacRange=4, Implementation_CH0=1, Implementation_CH1=1, IntClockFrequency=12, LowBaselineReset=10, MaximumSensors=62, MultipleAnalogSwitchDivider=false, NegativeNoiseThreshold=8, NumberOfChannels=2, PrechargePolarity=3, PrescalerOptions=2, PrsOptions=0, RawDataFilterType=0, RbNumber_CH0=0, RbNumber_CH1=0, RemoveCH1=false, RemoveVrefTerm=false, ScanSpeed=1, SensorAutoReset=false, SensorNumber_CH0=4, SensorNumber_CH1=4, SensorNumberChannel0=4, SensorNumberChannel1=4, ShieldEnable=false, SizeReplacementString=uint16, SnsAlias_CH0=<?xml version='1.0'?><PinAliases Version='1'><pin0>Button0__BTN</pin0><pin1>Button1__BTN</pin1><pin2>Button2__BTN</pin2><pin3>Button3__BTN</pin3></PinAliases>, SnsAlias_CH1=<?xml version='1.0'?><PinAliases Version='1'><pin0>Button4__BTN</pin0><pin1>Button5__BTN</pin1><pin2>Button6__BTN</pin2><pin3>Button7__BTN</pin3></PinAliases>, TunerProperties=, TuningMethod=1, VrefOptions=0, VrefValue=200, WaterProofingEnabled=false, WidgetResolution=16, WidgetsData=<?xml version="1.0" encoding="utf-16"?> <CyWidgetsList xmlns:version="v1.00">   <ListMainTerminal>     <CyTerminal NameIndex="0" WidgetName="Button0__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button1__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button2__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button3__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button4__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button5__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button6__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button7__BTN" />   </ListMainTerminal>   <ListButtons>     <CyButton Name="Button0" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button1" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button2" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button3" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button4" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>6</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>60</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button5" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>6</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>60</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button6" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>6</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>60</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button7" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>6</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>60</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>   </ListButtons>   <ListMatrixButtons />   <ListTouchPads />   <ListSliders />   <GuardSensor Name="GuardSensor" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">     <Location>       <X>2147483647</X>       <Y>2147483647</Y>     </Location>     <Properties>       <Hysteresis>10</Hysteresis>       <Debounce>5</Debounce>       <FingerThreshold>100</FingerThreshold>       <NoiseThreshold>20</NoiseThreshold>       <ScanResolution>_10</ScanResolution>     </Properties>   </GuardSensor>   <GuardSensorTerminal NameIndex="0" WidgetName="GuardSensor__GRD" />   <CyScanSlotsList>     <ListScanSlots>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button0__BTN">         <ListTerminalsNames>           <string>Button0__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button1__BTN">         <ListTerminalsNames>           <string>Button1__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button2__BTN">         <ListTerminalsNames>           <string>Button2__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button3__BTN">         <ListTerminalsNames>           <string>Button3__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button4__BTN">         <ListTerminalsNames>           <string>Button4__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button5__BTN">         <ListTerminalsNames>           <string>Button5__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button6__BTN">         <ListTerminalsNames>           <string>Button6__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button7__BTN">         <ListTerminalsNames>           <string>Button7__BTN</string>         </ListTerminalsNames>       </CyScanSlot>     </ListScanSlots>     <GuardSensorScanSlot IDACSettings="200" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="GuardSensor__GRD">       <ListTerminalsNames>         <string>GuardSensor__GRD</string>       </ListTerminalsNames>     </GuardSensorScanSlot>   </CyScanSlotsList> </CyWidgetsList>, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=CapSense_CSD_v3_50, CY_CONFIG_TITLE=CapSense, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=CapSense, CY_INSTANCE_SHORT_NAME=CapSense, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=CapSense, )
-module CapSense_CSD_v3_50_6 (
+// CapSense_CSD_v3_50(AnalogSwitchDivider=255, ClockSource=0, ConnectInactiveSensors=1, CtlModeReplacementString=SyncCtrl, CurrentSource=1, EnableTuneHelper=false, EzI2CInstanceName=EZI2C, GuardSensorEnable=false, IdacRange=4, Implementation_CH0=1, Implementation_CH1=1, IntClockFrequency=12, LowBaselineReset=10, MaximumSensors=62, MultipleAnalogSwitchDivider=false, NegativeNoiseThreshold=8, NumberOfChannels=1, PrechargePolarity=3, PrescalerOptions=2, PrsOptions=0, RawDataFilterType=0, RbNumber_CH0=0, RbNumber_CH1=0, RemoveCH1=true, RemoveVrefTerm=false, ScanSpeed=1, SensorAutoReset=false, SensorNumber_CH0=8, SensorNumber_CH1=4, SensorNumberChannel0=8, SensorNumberChannel1=0, ShieldEnable=false, SizeReplacementString=uint16, SnsAlias_CH0=<?xml version='1.0'?><PinAliases Version='1'><pin0>Button0__BTN</pin0><pin1>Button1__BTN</pin1><pin2>Button2__BTN</pin2><pin3>Button3__BTN</pin3><pin4>Button4__BTN</pin4><pin5>Button5__BTN</pin5><pin6>Button6__BTN</pin6><pin7>Button7__BTN</pin7></PinAliases>, SnsAlias_CH1=<?xml version='1.0'?><PinAliases Version='1'><pin0>Button4__BTN</pin0><pin1>Button5__BTN</pin1><pin2>Button6__BTN</pin2><pin3>Button7__BTN</pin3></PinAliases>, TunerProperties=, TuningMethod=1, VrefOptions=0, VrefValue=200, WaterProofingEnabled=false, WidgetResolution=16, WidgetsData=<?xml version="1.0" encoding="utf-16"?> <CyWidgetsList xmlns:version="v1.00">   <ListMainTerminal>     <CyTerminal NameIndex="0" WidgetName="Button0__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button1__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button2__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button3__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button4__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button5__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button6__BTN" />     <CyTerminal NameIndex="0" WidgetName="Button7__BTN" />   </ListMainTerminal>   <ListButtons>     <CyButton Name="Button0" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button1" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button2" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button3" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>2</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>30</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button4" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>6</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>60</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button5" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>6</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>60</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button6" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>6</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>60</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>     <CyButton Name="Button7" Type="Button" Channel="Second" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">       <Location>         <X>2147483647</X>         <Y>2147483647</Y>       </Location>       <Properties>         <Hysteresis>6</Hysteresis>         <Debounce>1</Debounce>         <FingerThreshold>60</FingerThreshold>         <NoiseThreshold>8</NoiseThreshold>         <ScanResolution>_8</ScanResolution>       </Properties>     </CyButton>   </ListButtons>   <ListMatrixButtons />   <ListTouchPads />   <ListSliders />   <GuardSensor Name="GuardSensor" Type="Button" Channel="First" Count="1" Angle="0" Fliped="false" Fliped2D="false" ScaleFactor="1">     <Location>       <X>2147483647</X>       <Y>2147483647</Y>     </Location>     <Properties>       <Hysteresis>10</Hysteresis>       <Debounce>5</Debounce>       <FingerThreshold>100</FingerThreshold>       <NoiseThreshold>20</NoiseThreshold>       <ScanResolution>_10</ScanResolution>     </Properties>   </GuardSensor>   <GuardSensorTerminal NameIndex="0" WidgetName="GuardSensor__GRD" />   <CyScanSlotsList>     <ListScanSlots>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button0__BTN">         <ListTerminalsNames>           <string>Button0__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button1__BTN">         <ListTerminalsNames>           <string>Button1__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button2__BTN">         <ListTerminalsNames>           <string>Button2__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="30" WidgetName="Button3__BTN">         <ListTerminalsNames>           <string>Button3__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button4__BTN">         <ListTerminalsNames>           <string>Button4__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button5__BTN">         <ListTerminalsNames>           <string>Button5__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button6__BTN">         <ListTerminalsNames>           <string>Button6__BTN</string>         </ListTerminalsNames>       </CyScanSlot>       <CyScanSlot IDACSettings="15" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="Button7__BTN">         <ListTerminalsNames>           <string>Button7__BTN</string>         </ListTerminalsNames>       </CyScanSlot>     </ListScanSlots>     <GuardSensorScanSlot IDACSettings="200" Sensitivity="2" AnalogSwitchDivider="11" WidgetName="GuardSensor__GRD">       <ListTerminalsNames>         <string>GuardSensor__GRD</string>       </ListTerminalsNames>     </GuardSensorScanSlot>   </CyScanSlotsList> </CyWidgetsList>, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=CapSense_CSD_v3_50, CY_CONFIG_TITLE=CapSense, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=CapSense, CY_INSTANCE_SHORT_NAME=CapSense, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=CapSense, )
+module CapSense_CSD_v3_50_4 (
     bclk,
     clock,
     shield,
@@ -855,7 +758,7 @@ module CapSense_CSD_v3_50_6 (
     electrical  Net_1433;
     electrical  Net_2164;
     electrical  Net_1438;
-    electrical [3:0] Net_1410;
+    electrical [7:0] Net_1410;
     electrical  Net_1983;
     electrical  Net_1425;
     electrical  Net_1917;
@@ -960,22 +863,22 @@ module CapSense_CSD_v3_50_6 (
 	wire [0:0] tmpOE__PortCH0_net;
 
 	cy_psoc3_port_v1_0
-		#(.width(4),
-		  .siorefwidth(2),
+		#(.width(8),
+		  .siorefwidth(4),
 		  .id("02c2334d-9363-4f4e-adbb-de319d798079/dd9c1af8-be5a-4b9e-b10c-b2d9f11dc9fc"),
-		  .pin_aliases({"Button0__BTN,But","ton1__BTN,Button","2__BTN,Button3__","BTN"}),
+		  .pin_aliases({"Button0__BTN,But","ton1__BTN,Button","2__BTN,Button3__","BTN,Button4__BTN",",Button5__BTN,Bu","tton6__BTN,Butto","n7__BTN"}),
 		  .access_mode("HW_ONLY"),
 		  .layout_mode("NONCONTIGUOUS"),
 		  .port_mode("ANALOG"),
-		  .intr_mode(8'b00000000),
-		  .drive_mode(12'b100100100100),
+		  .intr_mode(16'b0000000000000000),
+		  .drive_mode(24'b100100100100100100100100),
 		  .por_state(0),
-		  .enable_shielding(4'b0000),
+		  .enable_shielding(8'b00000000),
 		  .cs_mode(2'b11))
 		PortCH0
 		 (.oe(tmpOE__PortCH0_net),
-		  .y(4'b0),
-		  .analog(Net_1410[3:0]),
+		  .y(8'b0),
+		  .analog(Net_1410[7:0]),
 		  .precharge(PreChargeClk));
 
 	assign tmpOE__PortCH0_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? 1'b1 : 1'b0;
@@ -997,6 +900,10 @@ module CapSense_CSD_v3_50_6 (
             Net_1425,
             Net_282,
             Net_1917,
+            Net_1410[7],
+            Net_1410[6],
+            Net_1410[5],
+            Net_1410[4],
             Net_1410[3],
             Net_1410[2],
             Net_1410[1],
@@ -1005,147 +912,11 @@ module CapSense_CSD_v3_50_6 (
         .vout(Net_2072)
         );
     
-    defparam AMuxCH0.muxin_width = 7;
-    defparam AMuxCH0.init_mux_sel = 7'h0;
+    defparam AMuxCH0.muxin_width = 11;
+    defparam AMuxCH0.init_mux_sel = 11'h0;
     defparam AMuxCH0.one_active = 0;
     
     // -- AMux AMuxCH0 end --
-
-    cy_psoc3_csabuf_v1_0 BufCH1 (
-        .vchan(Net_2153),
-        .vout(Net_2101),
-        .vref(Net_2098));
-
-    Comp_v2_0_4 CompCH1 (
-        .clock(1'b0),
-        .CmpOut(Cmp_CH1),
-        .Vminus(Net_2164),
-        .Vplus(Net_1438));
-
-    IDAC8_v2_0_5 IdacCH1 (
-        .data(8'b00000000),
-        .en(Ioff_CH1),
-        .iOut(Net_1433),
-        .ipolarity(1'b0),
-        .strobe(1'b0));
-    defparam IdacCH1.Data_Source = 0;
-    defparam IdacCH1.Initial_Value = 0;
-    defparam IdacCH1.Strobe_Mode = 0;
-
-	wire [0:0] tmpOE__CmodCH1_net;
-	wire [0:0] tmpFB_0__CmodCH1_net;
-	wire [0:0] tmpIO_0__CmodCH1_net;
-	wire [0:0] tmpINTERRUPT_0__CmodCH1_net;
-	electrical [0:0] tmpSIOVREF__CmodCH1_net;
-
-	cy_psoc3_pins_v1_10
-		#(.id("02c2334d-9363-4f4e-adbb-de319d798079/f690e22d-5d36-4cf5-90f7-ced4bffff80d"),
-		  .drive_mode(3'b000),
-		  .ibuf_enabled(1'b0),
-		  .init_dr_st(1'b0),
-		  .input_clk_en(0),
-		  .input_sync(1'b1),
-		  .input_sync_mode(1'b0),
-		  .intr_mode(2'b00),
-		  .invert_in_clock(0),
-		  .invert_in_clock_en(0),
-		  .invert_in_reset(0),
-		  .invert_out_clock(0),
-		  .invert_out_clock_en(0),
-		  .invert_out_reset(0),
-		  .io_voltage(""),
-		  .layout_mode("NONCONTIGUOUS"),
-		  .oe_conn(1'b0),
-		  .oe_reset(0),
-		  .oe_sync(1'b0),
-		  .output_clk_en(0),
-		  .output_clock_mode(1'b0),
-		  .output_conn(1'b0),
-		  .output_mode(1'b0),
-		  .output_reset(0),
-		  .output_sync(1'b0),
-		  .pa_in_clock(-1),
-		  .pa_in_clock_en(-1),
-		  .pa_in_reset(-1),
-		  .pa_out_clock(-1),
-		  .pa_out_clock_en(-1),
-		  .pa_out_reset(-1),
-		  .pin_aliases("Cmod_CH1"),
-		  .pin_mode("A"),
-		  .por_state(4),
-		  .sio_group_cnt(0),
-		  .sio_hyst(1'b0),
-		  .sio_ibuf(""),
-		  .sio_info(2'b00),
-		  .sio_obuf(""),
-		  .sio_refsel(""),
-		  .sio_vtrip(""),
-		  .slew_rate(1'b0),
-		  .spanning(1),
-		  .vtrip(2'b10),
-		  .width(1),
-		  .use_annotation(1'b0))
-		CmodCH1
-		 (.oe(tmpOE__CmodCH1_net),
-		  .y({1'b0}),
-		  .fb({tmpFB_0__CmodCH1_net[0:0]}),
-		  .analog({Net_1956}),
-		  .io({tmpIO_0__CmodCH1_net[0:0]}),
-		  .siovref(tmpSIOVREF__CmodCH1_net),
-		  .interrupt({tmpINTERRUPT_0__CmodCH1_net[0:0]}),
-		  .in_clock({1'b0}),
-		  .in_clock_en({1'b1}),
-		  .in_reset({1'b0}),
-		  .out_clock({1'b0}),
-		  .out_clock_en({1'b1}),
-		  .out_reset({1'b0}));
-
-	assign tmpOE__CmodCH1_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
-
-	wire [0:0] tmpOE__PortCH1_net;
-
-	cy_psoc3_port_v1_0
-		#(.width(4),
-		  .siorefwidth(2),
-		  .id("02c2334d-9363-4f4e-adbb-de319d798079/95db0b7a-ce81-44d7-954f-c2650424ce4d"),
-		  .pin_aliases({"Button4__BTN,But","ton5__BTN,Button","6__BTN,Button7__","BTN"}),
-		  .access_mode("HW_ONLY"),
-		  .layout_mode("NONCONTIGUOUS"),
-		  .port_mode("ANALOG"),
-		  .intr_mode(8'b00000000),
-		  .drive_mode(12'b100100100100),
-		  .por_state(0),
-		  .enable_shielding(4'b0000),
-		  .cs_mode(2'b11))
-		PortCH1
-		 (.oe(tmpOE__PortCH1_net),
-		  .y(4'b0),
-		  .analog(Net_1440[3:0]),
-		  .precharge(PreChargeClk));
-
-	assign tmpOE__PortCH1_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? 1'b1 : 1'b0;
-
-    // -- AMux AMuxCH1 start -- ***
-    // -- Mux A --
-    
-    cy_psoc3_amux_v1_0 AMuxCH1(
-        .muxin({
-            Net_1433,
-            Net_1438,
-            Net_1956,
-            Net_1440[3],
-            Net_1440[2],
-            Net_1440[1],
-            Net_1440[0]
-            }),
-        .vout(Net_2101)
-        );
-    
-    defparam AMuxCH1.muxin_width = 7;
-    defparam AMuxCH1.init_mux_sel = 7'h0;
-    defparam AMuxCH1.one_active = 0;
-    
-    // -- AMux AMuxCH1 end --
 
 	// Select_VrefCH0 (cy_analog_virtualmux_v1_0)
 	cy_connect_v1_0 Select_VrefCH0_connect(Net_1983, Net_2038);
@@ -1153,18 +924,6 @@ module CapSense_CSD_v3_50_6 (
 
     ZeroTerminal ZeroTerminal_5 (
         .z(Net_375));
-
-    CapSense_CSD_MeasureCh_v3_50 MeasureCH1 (
-        .clock(clk),
-        .cmp_in(Cmp_CH1),
-        .enable(Net_374),
-        .interrupt(Net_372),
-        .ioff(Ioff_CH1),
-        .pulse(DigitalClk),
-        .reset(mrst),
-        .start(Net_1358));
-    defparam MeasureCH1.IdacOptions = 1;
-    defparam MeasureCH1.ImplementationType = 1;
 
     CapSense_CSD_MeasureCh_v3_50 MeasureCH0 (
         .clock(clk),
@@ -1203,13 +962,6 @@ module CapSense_CSD_v3_50_6 (
 		#(.int_type(2'b00))
 		IsrCH0
 		 (.int_signal(Net_1603));
-
-
-
-	cy_isr_v1_0
-		#(.int_type(2'b00))
-		IsrCH1
-		 (.int_signal(Net_372));
 
 
     OneTerminal OneTerminal_1 (
@@ -1318,7 +1070,7 @@ endmodule
 `endif
 
 // SPI_Master_v2_50(BidirectMode=false, ClockInternal=true, CtlModeReplacementString=SyncCtl, CyGetRegReplacementString=CY_GET_REG8, CySetRegReplacementString=CY_SET_REG8, DesiredBitRate=8000000, HighSpeedMode=true, InternalClockUsed=1, InternalInterruptEnabled=0, InternalRxInterruptEnabled=0, InternalTxInterruptEnabled=0, InterruptOnByteComplete=false, InterruptOnRXFull=false, InterruptOnRXNotEmpty=true, InterruptOnRXOverrun=false, InterruptOnSPIDone=false, InterruptOnSPIIdle=false, InterruptOnTXEmpty=true, InterruptOnTXNotFull=false, IntOnByteComp=0, IntOnRXFull=0, IntOnRXNotEmpty=1, IntOnRXOver=0, IntOnSPIDone=0, IntOnSPIIdle=0, IntOnTXEmpty=1, IntOnTXNotFull=0, Mode=1, ModeUseZero=1, NumberOfDataBits=8, RegDefReplacementString=reg8, RegSizeReplacementString=uint8, RxBufferSize=4, ShiftDir=0, TxBufferSize=4, UseInternalInterrupt=false, UseRxInternalInterrupt=false, UseTxInternalInterrupt=false, VerilogSectionReplacementString=sR8, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=SPI_Master_v2_50, CY_CONFIG_TITLE=SPIM_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=SPIM_1, CY_INSTANCE_SHORT_NAME=SPIM_1, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=SPIM_1, )
-module SPI_Master_v2_50_7 (
+module SPI_Master_v2_50_5 (
     clock,
     miso,
     mosi,
@@ -1424,7 +1176,7 @@ endmodule
 `endif
 
 // USBFS_v3_20(AudioDescriptors=<?xml version="1.0" encoding="utf-16"?>\r\n<Tree xmlns:CustomizerVersion="3_20">\r\n  <Tree_x0020_Descriptors>\r\n    <DescriptorNode Key="Audio">\r\n      <Nodes />\r\n    </DescriptorNode>\r\n  </Tree_x0020_Descriptors>\r\n</Tree>, CDCDescriptors=<?xml version="1.0" encoding="utf-16"?>\r\n<Tree xmlns:CustomizerVersion="3_20">\r\n  <Tree_x0020_Descriptors>\r\n    <DescriptorNode Key="CDC">\r\n      <Nodes />\r\n    </DescriptorNode>\r\n  </Tree_x0020_Descriptors>\r\n</Tree>, DeviceDescriptors=<?xml version="1.0" encoding="utf-16"?>\r\n<Tree xmlns:CustomizerVersion="3_20">\r\n  <Tree_x0020_Descriptors>\r\n    <DescriptorNode Key="Device">\r\n      <Nodes>\r\n        <DescriptorNode Key="USBDescriptor12">\r\n          <m_value d6p1:type="DeviceDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>DEVICE</bDescriptorType>\r\n            <bLength>18</bLength>\r\n            <iwManufacturer>6</iwManufacturer>\r\n            <iwProduct>7</iwProduct>\r\n            <sManufacturer>Snyderphonics</sManufacturer>\r\n            <sProduct>Electrobass</sProduct>\r\n            <sSerialNumber />\r\n            <bDeviceClass>0</bDeviceClass>\r\n            <bDeviceSubClass>0</bDeviceSubClass>\r\n            <bDeviceProtocol>0</bDeviceProtocol>\r\n            <bMaxPacketSize0>0</bMaxPacketSize0>\r\n            <idVendor>1204</idVendor>\r\n            <idProduct>53815</idProduct>\r\n            <bcdDevice>1</bcdDevice>\r\n            <bcdUSB>512</bcdUSB>\r\n            <iManufacturer>1</iManufacturer>\r\n            <iProduct>2</iProduct>\r\n            <iSerialNumber>0</iSerialNumber>\r\n            <bNumConfigurations>1</bNumConfigurations>\r\n            <bMemoryMgmt>0</bMemoryMgmt>\r\n            <bMemoryAlloc>0</bMemoryAlloc>\r\n          </m_value>\r\n          <Value d6p1:type="DeviceDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>DEVICE</bDescriptorType>\r\n            <bLength>18</bLength>\r\n            <iwManufacturer>6</iwManufacturer>\r\n            <iwProduct>7</iwProduct>\r\n            <sManufacturer>Snyderphonics</sManufacturer>\r\n            <sProduct>Electrobass</sProduct>\r\n            <sSerialNumber />\r\n            <bDeviceClass>0</bDeviceClass>\r\n            <bDeviceSubClass>0</bDeviceSubClass>\r\n            <bDeviceProtocol>0</bDeviceProtocol>\r\n            <bMaxPacketSize0>0</bMaxPacketSize0>\r\n            <idVendor>1204</idVendor>\r\n            <idProduct>53815</idProduct>\r\n            <bcdDevice>1</bcdDevice>\r\n            <bcdUSB>512</bcdUSB>\r\n            <iManufacturer>1</iManufacturer>\r\n            <iProduct>2</iProduct>\r\n            <iSerialNumber>0</iSerialNumber>\r\n            <bNumConfigurations>1</bNumConfigurations>\r\n            <bMemoryMgmt>0</bMemoryMgmt>\r\n            <bMemoryAlloc>0</bMemoryAlloc>\r\n          </Value>\r\n          <Nodes>\r\n            <DescriptorNode Key="USBDescriptor17">\r\n              <m_value d8p1:type="ConfigDescriptor" xmlns:d8p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                <bDescriptorType>CONFIGURATION</bDescriptorType>\r\n                <bLength>9</bLength>\r\n                <iwConfiguration>6</iwConfiguration>\r\n                <sConfiguration>Snyderphonics</sConfiguration>\r\n                <wTotalLength>101</wTotalLength>\r\n                <bNumInterfaces>2</bNumInterfaces>\r\n                <bConfigurationValue>0</bConfigurationValue>\r\n                <iConfiguration>1</iConfiguration>\r\n                <bmAttributes>192</bmAttributes>\r\n                <bMaxPower>50</bMaxPower>\r\n              </m_value>\r\n              <Value d8p1:type="ConfigDescriptor" xmlns:d8p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                <bDescriptorType>CONFIGURATION</bDescriptorType>\r\n                <bLength>9</bLength>\r\n                <iwConfiguration>6</iwConfiguration>\r\n                <sConfiguration>Snyderphonics</sConfiguration>\r\n                <wTotalLength>101</wTotalLength>\r\n                <bNumInterfaces>2</bNumInterfaces>\r\n                <bConfigurationValue>0</bConfigurationValue>\r\n                <iConfiguration>1</iConfiguration>\r\n                <bmAttributes>192</bmAttributes>\r\n                <bMaxPower>50</bMaxPower>\r\n              </Value>\r\n              <Nodes>\r\n                <DescriptorNode Key="Interface21">\r\n                  <m_value d10p1:type="InterfaceGeneralDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>ALTERNATE</bDescriptorType>\r\n                    <bLength>0</bLength>\r\n                    <DisplayName>MIDI Interface Control</DisplayName>\r\n                  </m_value>\r\n                  <Value d10p1:type="InterfaceGeneralDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>ALTERNATE</bDescriptorType>\r\n                    <bLength>0</bLength>\r\n                    <DisplayName>MIDI Interface Control</DisplayName>\r\n                  </Value>\r\n                  <Nodes>\r\n                    <DescriptorNode Key="USBDescriptor22">\r\n                      <m_value d12p1:type="CyAudioInterfaceDescriptor" xmlns:d12p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                        <bDescriptorType>INTERFACE</bDescriptorType>\r\n                        <bLength>9</bLength>\r\n                        <iwInterface>8</iwInterface>\r\n                        <bInterfaceClass>1</bInterfaceClass>\r\n                        <bAlternateSetting>0</bAlternateSetting>\r\n                        <bInterfaceNumber>0</bInterfaceNumber>\r\n                        <bNumEndpoints>0</bNumEndpoints>\r\n                        <bInterfaceSubClass>1</bInterfaceSubClass>\r\n                        <bInterfaceProtocol>0</bInterfaceProtocol>\r\n                        <iInterface>3</iInterface>\r\n                        <sInterface>MIDI Control Intf</sInterface>\r\n                      </m_value>\r\n                      <Value d12p1:type="CyAudioInterfaceDescriptor" xmlns:d12p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                        <bDescriptorType>INTERFACE</bDescriptorType>\r\n                        <bLength>9</bLength>\r\n                        <iwInterface>8</iwInterface>\r\n                        <bInterfaceClass>1</bInterfaceClass>\r\n                        <bAlternateSetting>0</bAlternateSetting>\r\n                        <bInterfaceNumber>0</bInterfaceNumber>\r\n                        <bNumEndpoints>0</bNumEndpoints>\r\n                        <bInterfaceSubClass>1</bInterfaceSubClass>\r\n                        <bInterfaceProtocol>0</bInterfaceProtocol>\r\n                        <iInterface>3</iInterface>\r\n                        <sInterface>MIDI Control Intf</sInterface>\r\n                      </Value>\r\n                      <Nodes>\r\n                        <DescriptorNode Key="USBDescriptor24">\r\n                          <m_value d14p1:type="CyACHeaderDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <bDescriptorSubtype>HEADER</bDescriptorSubtype>\r\n                            <bcdADC>256</bcdADC>\r\n                            <wTotalLength>9</wTotalLength>\r\n                            <bInCollection>1</bInCollection>\r\n                            <baInterfaceNr>AQ==</baInterfaceNr>\r\n                          </m_value>\r\n                          <Value d14p1:type="CyACHeaderDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <bDescriptorSubtype>HEADER</bDescriptorSubtype>\r\n                            <bcdADC>256</bcdADC>\r\n                            <wTotalLength>9</wTotalLength>\r\n                            <bInCollection>1</bInCollection>\r\n                            <baInterfaceNr>AQ==</baInterfaceNr>\r\n                          </Value>\r\n                          <Nodes />\r\n                        </DescriptorNode>\r\n                      </Nodes>\r\n                    </DescriptorNode>\r\n                  </Nodes>\r\n                </DescriptorNode>\r\n                <DescriptorNode Key="Interface25">\r\n                  <m_value d10p1:type="InterfaceGeneralDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>ALTERNATE</bDescriptorType>\r\n                    <bLength>0</bLength>\r\n                    <DisplayName>MIDI Interface Streaming</DisplayName>\r\n                  </m_value>\r\n                  <Value d10p1:type="InterfaceGeneralDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>ALTERNATE</bDescriptorType>\r\n                    <bLength>0</bLength>\r\n                    <DisplayName>MIDI Interface Streaming</DisplayName>\r\n                  </Value>\r\n                  <Nodes>\r\n                    <DescriptorNode Key="USBDescriptor26">\r\n                      <m_value d12p1:type="CyAudioInterfaceDescriptor" xmlns:d12p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                        <bDescriptorType>INTERFACE</bDescriptorType>\r\n                        <bLength>9</bLength>\r\n                        <iwInterface>9</iwInterface>\r\n                        <bInterfaceClass>1</bInterfaceClass>\r\n                        <bAlternateSetting>0</bAlternateSetting>\r\n                        <bInterfaceNumber>1</bInterfaceNumber>\r\n                        <bNumEndpoints>2</bNumEndpoints>\r\n                        <bInterfaceSubClass>3</bInterfaceSubClass>\r\n                        <bInterfaceProtocol>0</bInterfaceProtocol>\r\n                        <iInterface>4</iInterface>\r\n                        <sInterface>MIDI Streaming Intf</sInterface>\r\n                      </m_value>\r\n                      <Value d12p1:type="CyAudioInterfaceDescriptor" xmlns:d12p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                        <bDescriptorType>INTERFACE</bDescriptorType>\r\n                        <bLength>9</bLength>\r\n                        <iwInterface>9</iwInterface>\r\n                        <bInterfaceClass>1</bInterfaceClass>\r\n                        <bAlternateSetting>0</bAlternateSetting>\r\n                        <bInterfaceNumber>1</bInterfaceNumber>\r\n                        <bNumEndpoints>2</bNumEndpoints>\r\n                        <bInterfaceSubClass>3</bInterfaceSubClass>\r\n                        <bInterfaceProtocol>0</bInterfaceProtocol>\r\n                        <iInterface>4</iInterface>\r\n                        <sInterface>MIDI Streaming Intf</sInterface>\r\n                      </Value>\r\n                      <Nodes>\r\n                        <DescriptorNode Key="USBDescriptor28">\r\n                          <m_value d14p1:type="CyMSHeaderDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>7</bLength>\r\n                            <bDescriptorSubtype>MS_HEADER</bDescriptorSubtype>\r\n                            <wTotalLength>37</wTotalLength>\r\n                          </m_value>\r\n                          <Value d14p1:type="CyMSHeaderDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>7</bLength>\r\n                            <bDescriptorSubtype>MS_HEADER</bDescriptorSubtype>\r\n                            <wTotalLength>37</wTotalLength>\r\n                          </Value>\r\n                          <Nodes />\r\n                        </DescriptorNode>\r\n                        <DescriptorNode Key="USBDescriptor29">\r\n                          <m_value d14p1:type="CyMSInJackDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>6</bLength>\r\n                            <iwJack>10</iwJack>\r\n                            <bDescriptorSubtype>MIDI_IN_JACK</bDescriptorSubtype>\r\n                            <bJackType>EMBEDDED</bJackType>\r\n                            <bJackID>1</bJackID>\r\n                            <iJack>5</iJack>\r\n                            <sJack>MIDI IN</sJack>\r\n                          </m_value>\r\n                          <Value d14p1:type="CyMSInJackDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>6</bLength>\r\n                            <iwJack>10</iwJack>\r\n                            <bDescriptorSubtype>MIDI_IN_JACK</bDescriptorSubtype>\r\n                            <bJackType>EMBEDDED</bJackType>\r\n                            <bJackID>1</bJackID>\r\n                            <iJack>5</iJack>\r\n                            <sJack>MIDI IN</sJack>\r\n                          </Value>\r\n                          <Nodes />\r\n                        </DescriptorNode>\r\n                        <DescriptorNode Key="USBDescriptor30">\r\n                          <m_value d14p1:type="CyMSInJackDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>6</bLength>\r\n                            <iwJack>10</iwJack>\r\n                            <bDescriptorSubtype>MIDI_IN_JACK</bDescriptorSubtype>\r\n                            <bJackType>EXTERNAL</bJackType>\r\n                            <bJackID>2</bJackID>\r\n                            <iJack>5</iJack>\r\n                            <sJack>MIDI IN</sJack>\r\n                          </m_value>\r\n                          <Value d14p1:type="CyMSInJackDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>6</bLength>\r\n                            <iwJack>10</iwJack>\r\n                            <bDescriptorSubtype>MIDI_IN_JACK</bDescriptorSubtype>\r\n                            <bJackType>EXTERNAL</bJackType>\r\n                            <bJackID>2</bJackID>\r\n                            <iJack>5</iJack>\r\n                            <sJack>MIDI IN</sJack>\r\n                          </Value>\r\n                          <Nodes />\r\n                        </DescriptorNode>\r\n                        <DescriptorNode Key="USBDescriptor31">\r\n                          <m_value d14p1:type="CyMSOutJackDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <iwJack>11</iwJack>\r\n                            <bDescriptorSubtype>MIDI_OUT_JACK</bDescriptorSubtype>\r\n                            <bJackType>EMBEDDED</bJackType>\r\n                            <bJackID>3</bJackID>\r\n                            <bNrInputPins>1</bNrInputPins>\r\n                            <baSourceID>Ag==</baSourceID>\r\n                            <baSourcePin>AQ==</baSourcePin>\r\n                            <iJack>6</iJack>\r\n                            <sJack>MIDI OUT</sJack>\r\n                          </m_value>\r\n                          <Value d14p1:type="CyMSOutJackDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <iwJack>11</iwJack>\r\n                            <bDescriptorSubtype>MIDI_OUT_JACK</bDescriptorSubtype>\r\n                            <bJackType>EMBEDDED</bJackType>\r\n                            <bJackID>3</bJackID>\r\n                            <bNrInputPins>1</bNrInputPins>\r\n                            <baSourceID>Ag==</baSourceID>\r\n                            <baSourcePin>AQ==</baSourcePin>\r\n                            <iJack>6</iJack>\r\n                            <sJack>MIDI OUT</sJack>\r\n                          </Value>\r\n                          <Nodes />\r\n                        </DescriptorNode>\r\n                        <DescriptorNode Key="USBDescriptor32">\r\n                          <m_value d14p1:type="CyMSOutJackDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <iwJack>11</iwJack>\r\n                            <bDescriptorSubtype>MIDI_OUT_JACK</bDescriptorSubtype>\r\n                            <bJackType>EXTERNAL</bJackType>\r\n                            <bJackID>4</bJackID>\r\n                            <bNrInputPins>1</bNrInputPins>\r\n                            <baSourceID>AQ==</baSourceID>\r\n                            <baSourcePin>AQ==</baSourcePin>\r\n                            <iJack>6</iJack>\r\n                            <sJack>MIDI OUT</sJack>\r\n                          </m_value>\r\n                          <Value d14p1:type="CyMSOutJackDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>AUDIO</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <iwJack>11</iwJack>\r\n                            <bDescriptorSubtype>MIDI_OUT_JACK</bDescriptorSubtype>\r\n                            <bJackType>EXTERNAL</bJackType>\r\n                            <bJackID>4</bJackID>\r\n                            <bNrInputPins>1</bNrInputPins>\r\n                            <baSourceID>AQ==</baSourceID>\r\n                            <baSourcePin>AQ==</baSourcePin>\r\n                            <iJack>6</iJack>\r\n                            <sJack>MIDI OUT</sJack>\r\n                          </Value>\r\n                          <Nodes />\r\n                        </DescriptorNode>\r\n                        <DescriptorNode Key="USBDescriptor33">\r\n                          <m_value d14p1:type="CyAudioEndpointDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>ENDPOINT</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <DoubleBuffer>false</DoubleBuffer>\r\n                            <bInterval>0</bInterval>\r\n                            <bEndpointAddress>129</bEndpointAddress>\r\n                            <bmAttributes>2</bmAttributes>\r\n                            <wMaxPacketSize>64</wMaxPacketSize>\r\n                          </m_value>\r\n                          <Value d14p1:type="CyAudioEndpointDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>ENDPOINT</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <DoubleBuffer>false</DoubleBuffer>\r\n                            <bInterval>0</bInterval>\r\n                            <bEndpointAddress>129</bEndpointAddress>\r\n                            <bmAttributes>2</bmAttributes>\r\n                            <wMaxPacketSize>64</wMaxPacketSize>\r\n                          </Value>\r\n                          <Nodes>\r\n                            <DescriptorNode Key="USBDescriptor34">\r\n                              <m_value d16p1:type="CyMSEndpointDescriptor" xmlns:d16p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                                <bDescriptorType>CS_ENDPOINT</bDescriptorType>\r\n                                <bLength>5</bLength>\r\n                                <bDescriptorSubtype>MS_GENERAL</bDescriptorSubtype>\r\n                                <bNumEmbMIDIJack>1</bNumEmbMIDIJack>\r\n                                <baAssocJackID>Aw==</baAssocJackID>\r\n                              </m_value>\r\n                              <Value d16p1:type="CyMSEndpointDescriptor" xmlns:d16p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                                <bDescriptorType>CS_ENDPOINT</bDescriptorType>\r\n                                <bLength>5</bLength>\r\n                                <bDescriptorSubtype>MS_GENERAL</bDescriptorSubtype>\r\n                                <bNumEmbMIDIJack>1</bNumEmbMIDIJack>\r\n                                <baAssocJackID>Aw==</baAssocJackID>\r\n                              </Value>\r\n                              <Nodes />\r\n                            </DescriptorNode>\r\n                          </Nodes>\r\n                        </DescriptorNode>\r\n                        <DescriptorNode Key="USBDescriptor35">\r\n                          <m_value d14p1:type="CyAudioEndpointDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>ENDPOINT</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <DoubleBuffer>false</DoubleBuffer>\r\n                            <bInterval>0</bInterval>\r\n                            <bEndpointAddress>2</bEndpointAddress>\r\n                            <bmAttributes>2</bmAttributes>\r\n                            <wMaxPacketSize>64</wMaxPacketSize>\r\n                          </m_value>\r\n                          <Value d14p1:type="CyAudioEndpointDescriptor" xmlns:d14p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                            <bDescriptorType>ENDPOINT</bDescriptorType>\r\n                            <bLength>9</bLength>\r\n                            <DoubleBuffer>false</DoubleBuffer>\r\n                            <bInterval>0</bInterval>\r\n                            <bEndpointAddress>2</bEndpointAddress>\r\n                            <bmAttributes>2</bmAttributes>\r\n                            <wMaxPacketSize>64</wMaxPacketSize>\r\n                          </Value>\r\n                          <Nodes>\r\n                            <DescriptorNode Key="USBDescriptor36">\r\n                              <m_value d16p1:type="CyMSEndpointDescriptor" xmlns:d16p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                                <bDescriptorType>CS_ENDPOINT</bDescriptorType>\r\n                                <bLength>5</bLength>\r\n                                <bDescriptorSubtype>MS_GENERAL</bDescriptorSubtype>\r\n                                <bNumEmbMIDIJack>1</bNumEmbMIDIJack>\r\n                                <baAssocJackID>AQ==</baAssocJackID>\r\n                              </m_value>\r\n                              <Value d16p1:type="CyMSEndpointDescriptor" xmlns:d16p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                                <bDescriptorType>CS_ENDPOINT</bDescriptorType>\r\n                                <bLength>5</bLength>\r\n                                <bDescriptorSubtype>MS_GENERAL</bDescriptorSubtype>\r\n                                <bNumEmbMIDIJack>1</bNumEmbMIDIJack>\r\n                                <baAssocJackID>AQ==</baAssocJackID>\r\n                              </Value>\r\n                              <Nodes />\r\n                            </DescriptorNode>\r\n                          </Nodes>\r\n                        </DescriptorNode>\r\n                      </Nodes>\r\n                    </DescriptorNode>\r\n                  </Nodes>\r\n                </DescriptorNode>\r\n              </Nodes>\r\n            </DescriptorNode>\r\n          </Nodes>\r\n        </DescriptorNode>\r\n      </Nodes>\r\n    </DescriptorNode>\r\n  </Tree_x0020_Descriptors>\r\n</Tree>, DmaChannelPriority=0, DW_Hide_DmaAuto=false, DW_Hide_Usbv2Regs=true, DW_RegSize=8, DW_USB_CHGDET_CTRL=CR0, DW_USB_INTR_CAUSE_HI=CR0, DW_USB_INTR_CAUSE_LO=CR0, DW_USB_INTR_CAUSE_MED=CR0, DW_USB_INTR_LVL_SEL=CR0, DW_USB_INTR_SIE=CR0, DW_USB_INTR_SIE_MASK=CR0, DW_USB_LPM_CTRL=CR0, DW_USB_LPM_STAT=CR0, DW_USB_POWER_CTRL=CR0, EnableBatteryChargDetect=false, EnableCDCApi=true, EnableMidiApi=true, endpointMA=0, endpointMM=2, epDMAautoOptimization=false, extern_cls=false, extern_vbus=true, extern_vnd=false, extJackCount=0, Gen16bitEpAccessApi=true, HandleMscRequests=true, HIDReportDescriptors=<?xml version="1.0" encoding="utf-16"?>\r\n<Tree xmlns:CustomizerVersion="3_20">\r\n  <Tree_x0020_Descriptors>\r\n    <DescriptorNode Key="HIDReport">\r\n      <Nodes />\r\n    </DescriptorNode>\r\n  </Tree_x0020_Descriptors>\r\n</Tree>, isrGroupArbiter=0, isrGroupBusReset=2, isrGroupEp0=1, isrGroupEp1=1, isrGroupEp2=1, isrGroupEp3=1, isrGroupEp4=1, isrGroupEp5=1, isrGroupEp6=1, isrGroupEp7=1, isrGroupEp8=1, isrGroupLpm=0, isrGroupSof=2, M0S8USBDSS_BLOCK_COUNT_1=0, max_interfaces_num=2, MidiDescriptors=<?xml version="1.0" encoding="utf-16"?>\r\n<Tree xmlns:CustomizerVersion="3_20">\r\n  <Tree_x0020_Descriptors>\r\n    <DescriptorNode Key="Midi">\r\n      <Nodes>\r\n        <DescriptorNode Key="Interface21">\r\n          <m_value d6p1:type="InterfaceGeneralDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>ALTERNATE</bDescriptorType>\r\n            <bLength>0</bLength>\r\n            <DisplayName>MIDI Interface Control</DisplayName>\r\n          </m_value>\r\n          <Value d6p1:type="InterfaceGeneralDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>ALTERNATE</bDescriptorType>\r\n            <bLength>0</bLength>\r\n            <DisplayName>MIDI Interface Control</DisplayName>\r\n          </Value>\r\n          <Nodes>\r\n            <DescriptorNode Key="USBDescriptor22">\r\n              <m_value d8p1:type="CyAudioInterfaceDescriptor" xmlns:d8p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                <bDescriptorType>INTERFACE</bDescriptorType>\r\n                <bLength>9</bLength>\r\n                <iwInterface>8</iwInterface>\r\n                <bInterfaceClass>1</bInterfaceClass>\r\n                <bAlternateSetting>0</bAlternateSetting>\r\n                <bInterfaceNumber>0</bInterfaceNumber>\r\n                <bNumEndpoints>0</bNumEndpoints>\r\n                <bInterfaceSubClass>1</bInterfaceSubClass>\r\n                <bInterfaceProtocol>0</bInterfaceProtocol>\r\n                <iInterface>3</iInterface>\r\n                <sInterface>MIDI Control Intf</sInterface>\r\n              </m_value>\r\n              <Value d8p1:type="CyAudioInterfaceDescriptor" xmlns:d8p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                <bDescriptorType>INTERFACE</bDescriptorType>\r\n                <bLength>9</bLength>\r\n                <iwInterface>8</iwInterface>\r\n                <bInterfaceClass>1</bInterfaceClass>\r\n                <bAlternateSetting>0</bAlternateSetting>\r\n                <bInterfaceNumber>0</bInterfaceNumber>\r\n                <bNumEndpoints>0</bNumEndpoints>\r\n                <bInterfaceSubClass>1</bInterfaceSubClass>\r\n                <bInterfaceProtocol>0</bInterfaceProtocol>\r\n                <iInterface>3</iInterface>\r\n                <sInterface>MIDI Control Intf</sInterface>\r\n              </Value>\r\n              <Nodes>\r\n                <DescriptorNode Key="USBDescriptor24">\r\n                  <m_value d10p1:type="CyACHeaderDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <bDescriptorSubtype>HEADER</bDescriptorSubtype>\r\n                    <bcdADC>256</bcdADC>\r\n                    <wTotalLength>9</wTotalLength>\r\n                    <bInCollection>1</bInCollection>\r\n                    <baInterfaceNr>AQ==</baInterfaceNr>\r\n                  </m_value>\r\n                  <Value d10p1:type="CyACHeaderDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <bDescriptorSubtype>HEADER</bDescriptorSubtype>\r\n                    <bcdADC>256</bcdADC>\r\n                    <wTotalLength>9</wTotalLength>\r\n                    <bInCollection>1</bInCollection>\r\n                    <baInterfaceNr>AQ==</baInterfaceNr>\r\n                  </Value>\r\n                  <Nodes />\r\n                </DescriptorNode>\r\n              </Nodes>\r\n            </DescriptorNode>\r\n          </Nodes>\r\n        </DescriptorNode>\r\n        <DescriptorNode Key="Interface25">\r\n          <m_value d6p1:type="InterfaceGeneralDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>ALTERNATE</bDescriptorType>\r\n            <bLength>0</bLength>\r\n            <DisplayName>MIDI Interface Streaming</DisplayName>\r\n          </m_value>\r\n          <Value d6p1:type="InterfaceGeneralDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>ALTERNATE</bDescriptorType>\r\n            <bLength>0</bLength>\r\n            <DisplayName>MIDI Interface Streaming</DisplayName>\r\n          </Value>\r\n          <Nodes>\r\n            <DescriptorNode Key="USBDescriptor26">\r\n              <m_value d8p1:type="CyAudioInterfaceDescriptor" xmlns:d8p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                <bDescriptorType>INTERFACE</bDescriptorType>\r\n                <bLength>9</bLength>\r\n                <iwInterface>9</iwInterface>\r\n                <bInterfaceClass>1</bInterfaceClass>\r\n                <bAlternateSetting>0</bAlternateSetting>\r\n                <bInterfaceNumber>1</bInterfaceNumber>\r\n                <bNumEndpoints>2</bNumEndpoints>\r\n                <bInterfaceSubClass>3</bInterfaceSubClass>\r\n                <bInterfaceProtocol>0</bInterfaceProtocol>\r\n                <iInterface>4</iInterface>\r\n                <sInterface>MIDI Streaming Intf</sInterface>\r\n              </m_value>\r\n              <Value d8p1:type="CyAudioInterfaceDescriptor" xmlns:d8p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                <bDescriptorType>INTERFACE</bDescriptorType>\r\n                <bLength>9</bLength>\r\n                <iwInterface>9</iwInterface>\r\n                <bInterfaceClass>1</bInterfaceClass>\r\n                <bAlternateSetting>0</bAlternateSetting>\r\n                <bInterfaceNumber>1</bInterfaceNumber>\r\n                <bNumEndpoints>2</bNumEndpoints>\r\n                <bInterfaceSubClass>3</bInterfaceSubClass>\r\n                <bInterfaceProtocol>0</bInterfaceProtocol>\r\n                <iInterface>4</iInterface>\r\n                <sInterface>MIDI Streaming Intf</sInterface>\r\n              </Value>\r\n              <Nodes>\r\n                <DescriptorNode Key="USBDescriptor28">\r\n                  <m_value d10p1:type="CyMSHeaderDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>7</bLength>\r\n                    <bDescriptorSubtype>MS_HEADER</bDescriptorSubtype>\r\n                    <wTotalLength>37</wTotalLength>\r\n                  </m_value>\r\n                  <Value d10p1:type="CyMSHeaderDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>7</bLength>\r\n                    <bDescriptorSubtype>MS_HEADER</bDescriptorSubtype>\r\n                    <wTotalLength>37</wTotalLength>\r\n                  </Value>\r\n                  <Nodes />\r\n                </DescriptorNode>\r\n                <DescriptorNode Key="USBDescriptor29">\r\n                  <m_value d10p1:type="CyMSInJackDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>6</bLength>\r\n                    <iwJack>10</iwJack>\r\n                    <bDescriptorSubtype>MIDI_IN_JACK</bDescriptorSubtype>\r\n                    <bJackType>EMBEDDED</bJackType>\r\n                    <bJackID>1</bJackID>\r\n                    <iJack>5</iJack>\r\n                    <sJack>MIDI IN</sJack>\r\n                  </m_value>\r\n                  <Value d10p1:type="CyMSInJackDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>6</bLength>\r\n                    <iwJack>10</iwJack>\r\n                    <bDescriptorSubtype>MIDI_IN_JACK</bDescriptorSubtype>\r\n                    <bJackType>EMBEDDED</bJackType>\r\n                    <bJackID>1</bJackID>\r\n                    <iJack>5</iJack>\r\n                    <sJack>MIDI IN</sJack>\r\n                  </Value>\r\n                  <Nodes />\r\n                </DescriptorNode>\r\n                <DescriptorNode Key="USBDescriptor30">\r\n                  <m_value d10p1:type="CyMSInJackDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>6</bLength>\r\n                    <iwJack>10</iwJack>\r\n                    <bDescriptorSubtype>MIDI_IN_JACK</bDescriptorSubtype>\r\n                    <bJackType>EXTERNAL</bJackType>\r\n                    <bJackID>2</bJackID>\r\n                    <iJack>5</iJack>\r\n                    <sJack>MIDI IN</sJack>\r\n                  </m_value>\r\n                  <Value d10p1:type="CyMSInJackDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>6</bLength>\r\n                    <iwJack>10</iwJack>\r\n                    <bDescriptorSubtype>MIDI_IN_JACK</bDescriptorSubtype>\r\n                    <bJackType>EXTERNAL</bJackType>\r\n                    <bJackID>2</bJackID>\r\n                    <iJack>5</iJack>\r\n                    <sJack>MIDI IN</sJack>\r\n                  </Value>\r\n                  <Nodes />\r\n                </DescriptorNode>\r\n                <DescriptorNode Key="USBDescriptor31">\r\n                  <m_value d10p1:type="CyMSOutJackDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <iwJack>11</iwJack>\r\n                    <bDescriptorSubtype>MIDI_OUT_JACK</bDescriptorSubtype>\r\n                    <bJackType>EMBEDDED</bJackType>\r\n                    <bJackID>3</bJackID>\r\n                    <bNrInputPins>1</bNrInputPins>\r\n                    <baSourceID>Ag==</baSourceID>\r\n                    <baSourcePin>AQ==</baSourcePin>\r\n                    <iJack>6</iJack>\r\n                    <sJack>MIDI OUT</sJack>\r\n                  </m_value>\r\n                  <Value d10p1:type="CyMSOutJackDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <iwJack>11</iwJack>\r\n                    <bDescriptorSubtype>MIDI_OUT_JACK</bDescriptorSubtype>\r\n                    <bJackType>EMBEDDED</bJackType>\r\n                    <bJackID>3</bJackID>\r\n                    <bNrInputPins>1</bNrInputPins>\r\n                    <baSourceID>Ag==</baSourceID>\r\n                    <baSourcePin>AQ==</baSourcePin>\r\n                    <iJack>6</iJack>\r\n                    <sJack>MIDI OUT</sJack>\r\n                  </Value>\r\n                  <Nodes />\r\n                </DescriptorNode>\r\n                <DescriptorNode Key="USBDescriptor32">\r\n                  <m_value d10p1:type="CyMSOutJackDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <iwJack>11</iwJack>\r\n                    <bDescriptorSubtype>MIDI_OUT_JACK</bDescriptorSubtype>\r\n                    <bJackType>EXTERNAL</bJackType>\r\n                    <bJackID>4</bJackID>\r\n                    <bNrInputPins>1</bNrInputPins>\r\n                    <baSourceID>AQ==</baSourceID>\r\n                    <baSourcePin>AQ==</baSourcePin>\r\n                    <iJack>6</iJack>\r\n                    <sJack>MIDI OUT</sJack>\r\n                  </m_value>\r\n                  <Value d10p1:type="CyMSOutJackDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>AUDIO</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <iwJack>11</iwJack>\r\n                    <bDescriptorSubtype>MIDI_OUT_JACK</bDescriptorSubtype>\r\n                    <bJackType>EXTERNAL</bJackType>\r\n                    <bJackID>4</bJackID>\r\n                    <bNrInputPins>1</bNrInputPins>\r\n                    <baSourceID>AQ==</baSourceID>\r\n                    <baSourcePin>AQ==</baSourcePin>\r\n                    <iJack>6</iJack>\r\n                    <sJack>MIDI OUT</sJack>\r\n                  </Value>\r\n                  <Nodes />\r\n                </DescriptorNode>\r\n                <DescriptorNode Key="USBDescriptor33">\r\n                  <m_value d10p1:type="CyAudioEndpointDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>ENDPOINT</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <DoubleBuffer>false</DoubleBuffer>\r\n                    <bInterval>0</bInterval>\r\n                    <bEndpointAddress>129</bEndpointAddress>\r\n                    <bmAttributes>2</bmAttributes>\r\n                    <wMaxPacketSize>64</wMaxPacketSize>\r\n                  </m_value>\r\n                  <Value d10p1:type="CyAudioEndpointDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>ENDPOINT</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <DoubleBuffer>false</DoubleBuffer>\r\n                    <bInterval>0</bInterval>\r\n                    <bEndpointAddress>129</bEndpointAddress>\r\n                    <bmAttributes>2</bmAttributes>\r\n                    <wMaxPacketSize>64</wMaxPacketSize>\r\n                  </Value>\r\n                  <Nodes>\r\n                    <DescriptorNode Key="USBDescriptor34">\r\n                      <m_value d12p1:type="CyMSEndpointDescriptor" xmlns:d12p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                        <bDescriptorType>CS_ENDPOINT</bDescriptorType>\r\n                        <bLength>5</bLength>\r\n                        <bDescriptorSubtype>MS_GENERAL</bDescriptorSubtype>\r\n                        <bNumEmbMIDIJack>1</bNumEmbMIDIJack>\r\n                        <baAssocJackID>Aw==</baAssocJackID>\r\n                      </m_value>\r\n                      <Value d12p1:type="CyMSEndpointDescriptor" xmlns:d12p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                        <bDescriptorType>CS_ENDPOINT</bDescriptorType>\r\n                        <bLength>5</bLength>\r\n                        <bDescriptorSubtype>MS_GENERAL</bDescriptorSubtype>\r\n                        <bNumEmbMIDIJack>1</bNumEmbMIDIJack>\r\n                        <baAssocJackID>Aw==</baAssocJackID>\r\n                      </Value>\r\n                      <Nodes />\r\n                    </DescriptorNode>\r\n                  </Nodes>\r\n                </DescriptorNode>\r\n                <DescriptorNode Key="USBDescriptor35">\r\n                  <m_value d10p1:type="CyAudioEndpointDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>ENDPOINT</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <DoubleBuffer>false</DoubleBuffer>\r\n                    <bInterval>0</bInterval>\r\n                    <bEndpointAddress>2</bEndpointAddress>\r\n                    <bmAttributes>2</bmAttributes>\r\n                    <wMaxPacketSize>64</wMaxPacketSize>\r\n                  </m_value>\r\n                  <Value d10p1:type="CyAudioEndpointDescriptor" xmlns:d10p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                    <bDescriptorType>ENDPOINT</bDescriptorType>\r\n                    <bLength>9</bLength>\r\n                    <DoubleBuffer>false</DoubleBuffer>\r\n                    <bInterval>0</bInterval>\r\n                    <bEndpointAddress>2</bEndpointAddress>\r\n                    <bmAttributes>2</bmAttributes>\r\n                    <wMaxPacketSize>64</wMaxPacketSize>\r\n                  </Value>\r\n                  <Nodes>\r\n                    <DescriptorNode Key="USBDescriptor36">\r\n                      <m_value d12p1:type="CyMSEndpointDescriptor" xmlns:d12p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                        <bDescriptorType>CS_ENDPOINT</bDescriptorType>\r\n                        <bLength>5</bLength>\r\n                        <bDescriptorSubtype>MS_GENERAL</bDescriptorSubtype>\r\n                        <bNumEmbMIDIJack>1</bNumEmbMIDIJack>\r\n                        <baAssocJackID>AQ==</baAssocJackID>\r\n                      </m_value>\r\n                      <Value d12p1:type="CyMSEndpointDescriptor" xmlns:d12p1="http://www.w3.org/2001/XMLSchema-instance">\r\n                        <bDescriptorType>CS_ENDPOINT</bDescriptorType>\r\n                        <bLength>5</bLength>\r\n                        <bDescriptorSubtype>MS_GENERAL</bDescriptorSubtype>\r\n                        <bNumEmbMIDIJack>1</bNumEmbMIDIJack>\r\n                        <baAssocJackID>AQ==</baAssocJackID>\r\n                      </Value>\r\n                      <Nodes />\r\n                    </DescriptorNode>\r\n                  </Nodes>\r\n                </DescriptorNode>\r\n              </Nodes>\r\n            </DescriptorNode>\r\n          </Nodes>\r\n        </DescriptorNode>\r\n      </Nodes>\r\n    </DescriptorNode>\r\n  </Tree_x0020_Descriptors>\r\n</Tree>, Mode=false, mon_vbus=true, MscDescriptors=, MscLogicalUnitsNum=1, out_sof=false, Pid=F232, powerpad_vbus=false, PRIMITIVE_INSTANCE=USB, ProdactName=, ProdactRevision=, REG_SIZE=reg8, RemoveDmaAutoOpt=false, RemoveVbusPin=true, rm_arb_int=false, rm_dma_1=false, rm_dma_2=false, rm_dma_3=true, rm_dma_4=true, rm_dma_5=true, rm_dma_6=true, rm_dma_7=true, rm_dma_8=true, rm_dp_int=false, rm_ep_isr_0=false, rm_ep_isr_1=false, rm_ep_isr_2=false, rm_ep_isr_3=true, rm_ep_isr_4=true, rm_ep_isr_5=true, rm_ep_isr_6=true, rm_ep_isr_7=true, rm_ep_isr_8=true, rm_lpm_int=true, rm_ord_int=true, rm_sof_int=false, rm_usb_int=false, SofTermEnable=false, StringDescriptors=<?xml version="1.0" encoding="utf-16"?>\r\n<Tree xmlns:CustomizerVersion="3_20">\r\n  <Tree_x0020_Descriptors>\r\n    <DescriptorNode Key="String">\r\n      <Nodes>\r\n        <DescriptorNode Key="LANGID">\r\n          <m_value d6p1:type="StringZeroDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>4</bLength>\r\n            <wLANGID>1033</wLANGID>\r\n          </m_value>\r\n          <Value d6p1:type="StringZeroDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>4</bLength>\r\n            <wLANGID>1033</wLANGID>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n        <DescriptorNode Key="USBDescriptor6">\r\n          <m_value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>28</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>Snyderphonics</bString>\r\n            <bUsed>false</bUsed>\r\n          </m_value>\r\n          <Value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>28</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>Snyderphonics</bString>\r\n            <bUsed>false</bUsed>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n        <DescriptorNode Key="USBDescriptor7">\r\n          <m_value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>24</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>Electrobass</bString>\r\n            <bUsed>false</bUsed>\r\n          </m_value>\r\n          <Value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>24</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>Electrobass</bString>\r\n            <bUsed>false</bUsed>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n        <DescriptorNode Key="USBDescriptor8">\r\n          <m_value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>36</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>MIDI Control Intf</bString>\r\n            <bUsed>false</bUsed>\r\n          </m_value>\r\n          <Value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>36</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>MIDI Control Intf</bString>\r\n            <bUsed>false</bUsed>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n        <DescriptorNode Key="USBDescriptor9">\r\n          <m_value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>40</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>MIDI Streaming Intf</bString>\r\n            <bUsed>false</bUsed>\r\n          </m_value>\r\n          <Value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>40</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>MIDI Streaming Intf</bString>\r\n            <bUsed>false</bUsed>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n        <DescriptorNode Key="USBDescriptor10">\r\n          <m_value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>30</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>Electrobass IN</bString>\r\n            <bUsed>false</bUsed>\r\n          </m_value>\r\n          <Value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>30</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>Electrobass IN</bString>\r\n            <bUsed>false</bUsed>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n        <DescriptorNode Key="USBDescriptor11">\r\n          <m_value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>32</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>Electrobass OUT</bString>\r\n            <bUsed>false</bUsed>\r\n          </m_value>\r\n          <Value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>32</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>Electrobass OUT</bString>\r\n            <bUsed>false</bUsed>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n      </Nodes>\r\n    </DescriptorNode>\r\n    <DescriptorNode Key="SpecialString">\r\n      <Nodes>\r\n        <DescriptorNode Key="Serial">\r\n          <m_value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>2</bLength>\r\n            <snType>SILICON_NUMBER</snType>\r\n            <bString />\r\n            <bUsed>true</bUsed>\r\n          </m_value>\r\n          <Value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>2</bLength>\r\n            <snType>SILICON_NUMBER</snType>\r\n            <bString />\r\n            <bUsed>true</bUsed>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n        <DescriptorNode Key="EE">\r\n          <m_value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>16</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>MSFT100</bString>\r\n            <bUsed>false</bUsed>\r\n          </m_value>\r\n          <Value d6p1:type="StringDescriptor" xmlns:d6p1="http://www.w3.org/2001/XMLSchema-instance">\r\n            <bDescriptorType>STRING</bDescriptorType>\r\n            <bLength>16</bLength>\r\n            <snType>USER_ENTERED_TEXT</snType>\r\n            <bString>MSFT100</bString>\r\n            <bUsed>false</bUsed>\r\n          </Value>\r\n          <Nodes />\r\n        </DescriptorNode>\r\n      </Nodes>\r\n    </DescriptorNode>\r\n  </Tree_x0020_Descriptors>\r\n</Tree>, UINT_TYPE=uint8, VbusDetectTermEnable=true, VendorName=, Vid=04B4, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=USBFS_v3_20, CY_CONFIG_TITLE=USB, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=USB, CY_INSTANCE_SHORT_NAME=USB, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=20, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=USB, )
-module USBFS_v3_20_8 (
+module USBFS_v3_20_6 (
     sof,
     vbusdet);
     output      sof;
@@ -1923,7 +1675,7 @@ endmodule
 `endif
 
 // ADC_SAR_v3_10(ADC_Clock=0, ADC_Clock_Frequency=10105264, ADC_Input_Range=1, ADC_Power=0, ADC_Reference=0, ADC_Resolution=12, ADC_SampleMode=0, Enable_next_out=true, Ref_Voltage=1.65, Ref_Voltage_mV=1650, rm_int=true, Sample_Precharge=4, Sample_Rate=0, Sample_Rate_def=631579, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=ADC_SAR_v3_10, CY_CONFIG_TITLE=SAR, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=ADC_SAR_Seq_1:SAR, CY_INSTANCE_SHORT_NAME=SAR, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=10, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=ADC_SAR_Seq_1_SAR, )
-module ADC_SAR_v3_10_9 (
+module ADC_SAR_v3_10_7 (
     aclk,
     eoc,
     eos,
@@ -2068,7 +1820,7 @@ endmodule
 `endif
 
 // ADC_SAR_SEQ_v2_10(ADC_Clock_Frequency=1440000, Adjust=0, ClockSource=0, InputRange=1, NumChannels=5, Reference=0, Resolution=12, rm_int=false, SampleMode=0, SamplePrecharge=4, SampleRate=90000, SampleRate_def=631579, VrefValue=1.65, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=ADC_SAR_SEQ_v2_10, CY_CONFIG_TITLE=ADC_SAR_Seq_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=ADC_SAR_Seq_1, CY_INSTANCE_SHORT_NAME=ADC_SAR_Seq_1, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=10, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=ADC_SAR_Seq_1, )
-module ADC_SAR_SEQ_v2_10_10 (
+module ADC_SAR_SEQ_v2_10_8 (
     aclk,
     AIN_10,
     AIN_100,
@@ -2503,7 +2255,7 @@ module ADC_SAR_SEQ_v2_10_10 (
     
     // -- AMuxHw AMuxHw_2 end -- ***
 
-    ADC_SAR_v3_10_9 SAR (
+    ADC_SAR_v3_10_7 SAR (
         .aclk(clock),
         .eoc(Net_3830),
         .eos(sdone),
@@ -2598,7 +2350,7 @@ module ADC_SAR_SEQ_v2_10_10 (
 endmodule
 
 // I2C_v3_50(Address_Decode=1, BusSpeed_kHz=1000, ClockInputVisibility=false, CtlModeReplacementString=SyncCtl, EnableWakeup=false, ExternalBuffer=false, Externi2cIntrHandler=false, ExternTmoutIntrHandler=false, FF=true, Hex=false, I2C_Mode=2, I2cBusPort=0, Implementation=1, InternalUdbClockToleranceMinus=25, InternalUdbClockTolerancePlus=5, NotSlaveClockMinusTolerance=25, NotSlaveClockPlusTolerance=5, PrescalerEnabled=false, PrescalerPeriod=3, Psoc3ffSelected=false, Psoc5AffSelected=false, Psoc5lpffSelected=true, RemoveI2cff=false, RemoveI2cUdb=true, RemoveIntClock=true, RemoveTimeoutTimer=true, SclTimeoutEnabled=false, SdaTimeoutEnabled=false, Slave_Address=8, SlaveClockMinusTolerance=5, SlaveClockPlusTolerance=50, TimeoutEnabled=false, TimeoutImplementation=0, TimeOutms=25, TimeoutPeriodff=39999, TimeoutPeriodUdb=39999, UDB_MSTR=false, UDB_MULTI_MASTER_SLAVE=false, UDB_SLV=false, UdbInternalClock=false, UdbRequiredClock=16000, UdbSlaveFixedPlacementEnable=false, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=I2C_v3_50, CY_CONFIG_TITLE=I2C_1, CY_CONST_CONFIG=true, CY_CONTROL_FILE=I2C_Slave_DefaultPlacement.ctl, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=I2C_1, CY_INSTANCE_SHORT_NAME=I2C_1, CY_MAJOR_VERSION=3, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=I2C_1, )
-module I2C_v3_50_11 (
+module I2C_v3_50_9 (
     bclk,
     clock,
     iclk,
@@ -2747,7 +2499,7 @@ module I2C_v3_50_11 (
 endmodule
 
 // SPI_Master_v2_50(BidirectMode=false, ClockInternal=true, CtlModeReplacementString=SyncCtl, CyGetRegReplacementString=CY_GET_REG8, CySetRegReplacementString=CY_SET_REG8, DesiredBitRate=8000000, HighSpeedMode=true, InternalClockUsed=1, InternalInterruptEnabled=0, InternalRxInterruptEnabled=0, InternalTxInterruptEnabled=0, InterruptOnByteComplete=false, InterruptOnRXFull=false, InterruptOnRXNotEmpty=true, InterruptOnRXOverrun=false, InterruptOnSPIDone=false, InterruptOnSPIIdle=false, InterruptOnTXEmpty=true, InterruptOnTXNotFull=false, IntOnByteComp=0, IntOnRXFull=0, IntOnRXNotEmpty=1, IntOnRXOver=0, IntOnSPIDone=0, IntOnSPIIdle=0, IntOnTXEmpty=1, IntOnTXNotFull=0, Mode=1, ModeUseZero=1, NumberOfDataBits=8, RegDefReplacementString=reg8, RegSizeReplacementString=uint8, RxBufferSize=4, ShiftDir=0, TxBufferSize=4, UseInternalInterrupt=false, UseRxInternalInterrupt=false, UseTxInternalInterrupt=false, VerilogSectionReplacementString=sR8, CY_API_CALLBACK_HEADER_INCLUDE=, CY_COMMENT=, CY_COMPONENT_NAME=SPI_Master_v2_50, CY_CONFIG_TITLE=SPIM_2, CY_CONST_CONFIG=true, CY_CONTROL_FILE=<:default:>, CY_DATASHEET_FILE=<:default:>, CY_FITTER_NAME=SPIM_2, CY_INSTANCE_SHORT_NAME=SPIM_2, CY_MAJOR_VERSION=2, CY_MINOR_VERSION=50, CY_PDL_DRIVER_NAME=, CY_PDL_DRIVER_REQ_VERSION=, CY_PDL_DRIVER_SUBGROUP=, CY_PDL_DRIVER_VARIANT=, CY_REMOVE=false, CY_SUPPRESS_API_GEN=false, CY_VERSION=PSoC Creator  4.4, INSTANCE_NAME=SPIM_2, )
-module SPI_Master_v2_50_12 (
+module SPI_Master_v2_50_10 (
     clock,
     miso,
     mosi,
@@ -3570,7 +3322,7 @@ module top ;
 
 	assign tmpOE__joy_y_23_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
 
-    CapSense_CSD_v3_50_6 CapSense (
+    CapSense_CSD_v3_50_4 CapSense (
         .bclk(Net_297),
         .clock(1'b0),
         .shield(Net_295),
@@ -3803,7 +3555,7 @@ module top ;
 
 	assign tmpOE__IDAC_OUT_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
 
-    SPI_Master_v2_50_7 SPIM_1 (
+    SPI_Master_v2_50_5 SPIM_1 (
         .clock(1'b0),
         .miso(Net_19),
         .mosi(Net_23),
@@ -3818,12 +3570,12 @@ module top ;
     defparam SPIM_1.NumberOfDataBits = 8;
     defparam SPIM_1.ShiftDir = 0;
 
-    USBFS_v3_20_8 USB (
+    USBFS_v3_20_6 USB (
         .sof(Net_981),
         .vbusdet(Net_1177));
     defparam USB.epDMAautoOptimization = 0;
 
-    ADC_SAR_SEQ_v2_10_10 ADC_SAR_Seq_1 (
+    ADC_SAR_SEQ_v2_10_8 ADC_SAR_Seq_1 (
         .aclk(1'b0),
         .AIN_10(Net_987),
         .AIN_100(Net_1009),
@@ -4469,7 +4221,7 @@ module top ;
 		  .trq(1'b0));
 
 
-    I2C_v3_50_11 I2C_1 (
+    I2C_v3_50_9 I2C_1 (
         .bclk(Net_1087),
         .clock(1'b0),
         .iclk(Net_1089),
@@ -5324,7 +5076,7 @@ module top ;
 
 	assign tmpOE__SCLK_2_net = (`CYDEV_CHIP_MEMBER_USED == `CYDEV_CHIP_MEMBER_3A && `CYDEV_CHIP_REVISION_USED < `CYDEV_CHIP_REVISION_3A_ES3) ? ~{1'b1} : {1'b1};
 
-    SPI_Master_v2_50_12 SPIM_2 (
+    SPI_Master_v2_50_10 SPIM_2 (
         .clock(1'b0),
         .miso(Net_1112),
         .mosi(Net_1113),

@@ -397,6 +397,7 @@ volatile uint8_t capMax[8];
 volatile uint8_t capMin[8] = {255, 255, 255, 255, 255, 255, 255, 255};
 volatile uint8_t capThresh[8];
 volatile uint32_t timeSinceAttack = 0;
+volatile uint8_t sensorSend = 0;
 /*
 CY_ISR(SleepIsr_function)
 {
@@ -620,7 +621,7 @@ int main(void)
     for (int i = 0; i < 8; i++)
     {
         //myThresh[i] = CapSense_sensorRaw[i] + 80;
-        myThresh[i] = 60;
+        myThresh[i] =60;
     }
     //SPI_ready_Write(1);
     CyDelay(10);
@@ -679,7 +680,7 @@ int main(void)
                 //    capMin[i] = CapSense_sensorRaw[i];
                 }
                 //capThresh[i] = ((capMax[i] - capMin[i]) / 3) + capMin[i];
-                sendMIDIControlChange(i + 64, CapSense_sensorRaw[i] >> 1, 1);
+                //sendMIDIControlChange(i + 64, CapSense_sensorRaw[i] >> 1, 1);
             }
         }
         else
@@ -688,7 +689,8 @@ int main(void)
         }
         //sendMIDIControlChange(0 + 64, CapSense_sensorRaw[0] >> 1, 1);
         //sendMIDIControlChange(4 + 64, CapSense_sensorRaw[4] >> 1, 1);
-        
+        sendMIDIControlChange(sensorSend + 64, CapSense_sensorRaw[sensorSend] >> 1, 1);
+        sensorSend = (sensorSend + 1) % 8;
         if (parseThatMF)
         {
             parseSysex();

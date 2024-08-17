@@ -48,10 +48,10 @@ uint8 CYXDATA * const CYCODE CapSense_pcTable[] = {
     (uint8 CYXDATA *)CapSense_PortCH0__Button1__BTN__PC, 
     (uint8 CYXDATA *)CapSense_PortCH0__Button2__BTN__PC, 
     (uint8 CYXDATA *)CapSense_PortCH0__Button3__BTN__PC, 
-    (uint8 CYXDATA *)CapSense_PortCH1__Button4__BTN__PC, 
-    (uint8 CYXDATA *)CapSense_PortCH1__Button5__BTN__PC, 
-    (uint8 CYXDATA *)CapSense_PortCH1__Button6__BTN__PC, 
-    (uint8 CYXDATA *)CapSense_PortCH1__Button7__BTN__PC, 
+    (uint8 CYXDATA *)CapSense_PortCH0__Button4__BTN__PC, 
+    (uint8 CYXDATA *)CapSense_PortCH0__Button5__BTN__PC, 
+    (uint8 CYXDATA *)CapSense_PortCH0__Button6__BTN__PC, 
+    (uint8 CYXDATA *)CapSense_PortCH0__Button7__BTN__PC, 
 };
 
 const uint8 CYCODE CapSense_portTable[] = {
@@ -59,10 +59,10 @@ const uint8 CYCODE CapSense_portTable[] = {
     CapSense_PortCH0__Button1__BTN__PORT, 
     CapSense_PortCH0__Button2__BTN__PORT, 
     CapSense_PortCH0__Button3__BTN__PORT, 
-    CapSense_PortCH1__Button4__BTN__PORT, 
-    CapSense_PortCH1__Button5__BTN__PORT, 
-    CapSense_PortCH1__Button6__BTN__PORT, 
-    CapSense_PortCH1__Button7__BTN__PORT, 
+    CapSense_PortCH0__Button4__BTN__PORT, 
+    CapSense_PortCH0__Button5__BTN__PORT, 
+    CapSense_PortCH0__Button6__BTN__PORT, 
+    CapSense_PortCH0__Button7__BTN__PORT, 
 };
 
 const uint8 CYCODE CapSense_maskTable[] = {
@@ -70,10 +70,10 @@ const uint8 CYCODE CapSense_maskTable[] = {
     CapSense_PortCH0__Button1__BTN__MASK,
     CapSense_PortCH0__Button2__BTN__MASK,
     CapSense_PortCH0__Button3__BTN__MASK,
-    CapSense_PortCH1__Button4__BTN__MASK,
-    CapSense_PortCH1__Button5__BTN__MASK,
-    CapSense_PortCH1__Button6__BTN__MASK,
-    CapSense_PortCH1__Button7__BTN__MASK,
+    CapSense_PortCH0__Button4__BTN__MASK,
+    CapSense_PortCH0__Button5__BTN__MASK,
+    CapSense_PortCH0__Button6__BTN__MASK,
+    CapSense_PortCH0__Button7__BTN__MASK,
 };
 
 uint8 CYXDATA * const CYCODE CapSense_csTable[] = {

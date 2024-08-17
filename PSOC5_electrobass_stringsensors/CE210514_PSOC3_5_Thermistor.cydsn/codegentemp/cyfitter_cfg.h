@@ -40,21 +40,11 @@ extern void CapSense_AMuxCH0_Unset(uint8 channel);
 /* CapSense_AMuxCH0__addrTable is an implementation detail of the AMux.
    Code that depends on it may be incompatible with other versions
    of PSoC Creator. */
-extern uint8 CYXDATA * const CYCODE CapSense_AMuxCH0__addrTable[7];
+extern uint8 CYXDATA * const CYCODE CapSense_AMuxCH0__addrTable[11];
 /* CapSense_AMuxCH0__maskTable is an implementation detail of the AMux.
    Code that depends on it may be incompatible with other versions
    of PSoC Creator. */
-extern const uint8 CYCODE CapSense_AMuxCH0__maskTable[7];
-extern void CapSense_AMuxCH1_Set(uint8 channel);
-extern void CapSense_AMuxCH1_Unset(uint8 channel);
-/* CapSense_AMuxCH1__addrTable is an implementation detail of the AMux.
-   Code that depends on it may be incompatible with other versions
-   of PSoC Creator. */
-extern uint8 CYXDATA * const CYCODE CapSense_AMuxCH1__addrTable[7];
-/* CapSense_AMuxCH1__maskTable is an implementation detail of the AMux.
-   Code that depends on it may be incompatible with other versions
-   of PSoC Creator. */
-extern const uint8 CYCODE CapSense_AMuxCH1__maskTable[7];
+extern const uint8 CYCODE CapSense_AMuxCH0__maskTable[11];
 
 
 #endif /* CYFITTER_CFG_H */

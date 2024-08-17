@@ -1782,9 +1782,9 @@
     <block name="VirtualMux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="ZeroTerminal_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="USB_EP8_DMA_Done_SR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-      <register name="USB_EP8_DMA_Done_SR_STATUS_REG" address="0x40006463" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP8_DMA_Done_SR_MASK_REG" address="0x40006483" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP8_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006493" bitWidth="8" desc="" hidden="false">
+      <register name="USB_EP8_DMA_Done_SR_STATUS_REG" address="0x40006462" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP8_DMA_Done_SR_MASK_REG" address="0x40006482" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP8_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006492" bitWidth="8" desc="" hidden="false">
         <field name="FIFO0" from="5" to="5" access="RW" resetVal="" desc="FIFO0 clear" hidden="false">
           <value name="ENABLED" value="1" desc="Enable counter" />
           <value name="DISABLED" value="0" desc="Disable counter" />
@@ -1832,9 +1832,9 @@
     <block name="VirtualMux_7" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="VirtualMux_8" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="USB_Vbus_ps" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-      <register name="USB_Vbus_ps_STATUS_REG" address="0x40006569" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_Vbus_ps_MASK_REG" address="0x40006589" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_Vbus_ps_STATUS_AUX_CTL_REG" address="0x40006599" bitWidth="8" desc="" hidden="false">
+      <register name="USB_Vbus_ps_STATUS_REG" address="0x4000646A" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_Vbus_ps_MASK_REG" address="0x4000648A" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_Vbus_ps_STATUS_AUX_CTL_REG" address="0x4000649A" bitWidth="8" desc="" hidden="false">
         <field name="FIFO0" from="5" to="5" access="RW" resetVal="" desc="FIFO0 clear" hidden="false">
           <value name="ENABLED" value="1" desc="Enable counter" />
           <value name="DISABLED" value="0" desc="Disable counter" />
@@ -1866,9 +1866,9 @@
     <block name="ep2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="nrqSync" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="USB_EP17_DMA_Done_SR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-      <register name="USB_EP17_DMA_Done_SR_STATUS_REG" address="0x40006465" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP17_DMA_Done_SR_MASK_REG" address="0x40006485" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP17_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006495" bitWidth="8" desc="" hidden="false">
+      <register name="USB_EP17_DMA_Done_SR_STATUS_REG" address="0x40006460" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP17_DMA_Done_SR_MASK_REG" address="0x40006480" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP17_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006490" bitWidth="8" desc="" hidden="false">
         <field name="FIFO0" from="5" to="5" access="RW" resetVal="" desc="FIFO0 clear" hidden="false">
           <value name="ENABLED" value="1" desc="Enable counter" />
           <value name="DISABLED" value="0" desc="Disable counter" />

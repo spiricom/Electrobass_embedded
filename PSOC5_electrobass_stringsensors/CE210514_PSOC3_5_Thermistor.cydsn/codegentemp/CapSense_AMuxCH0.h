@@ -42,7 +42,7 @@ void CapSense_AMuxCH0_DisconnectAll(void) CYREENTRANT;
 *     Initial Parameter Constants
 ***************************************/
 
-#define CapSense_AMuxCH0_CHANNELS  (4u + 2u +1u+ 0u)
+#define CapSense_AMuxCH0_CHANNELS  (8u + 2u +1u+ 0u)
 #define CapSense_AMuxCH0_MUXTYPE   (1u)
 
 

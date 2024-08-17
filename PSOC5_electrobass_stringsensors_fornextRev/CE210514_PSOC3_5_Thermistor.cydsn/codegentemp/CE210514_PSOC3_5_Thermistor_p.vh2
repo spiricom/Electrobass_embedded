@@ -1,5 +1,5 @@
 -- Project:   CE210514_PSOC3_5_Thermistor
--- Generated: 11/06/2022 16:02:22
+-- Generated: 08/15/2024 15:07:31
 -- PSoC Creator  4.4
 
 ENTITY CE210514_PSOC3_5_Thermistor IS
@@ -510,17 +510,21 @@ ARCHITECTURE __DEFAULT__ OF CE210514_PSOC3_5_Thermistor IS
     ATTRIBUTE Location OF V_H(0) : LABEL IS "P0[4]";
     ATTRIBUTE lib_model OF up(0) : LABEL IS "iocell37";
     ATTRIBUTE Location OF up(0) : LABEL IS "P3[1]";
-    ATTRIBUTE lib_model OF MISO_2(0) : LABEL IS "iocell38";
+    ATTRIBUTE lib_model OF necksense2(0) : LABEL IS "iocell38";
+    ATTRIBUTE Location OF necksense2(0) : LABEL IS "P12[3]";
+    ATTRIBUTE lib_model OF necksense1(0) : LABEL IS "iocell39";
+    ATTRIBUTE Location OF necksense1(0) : LABEL IS "P12[2]";
+    ATTRIBUTE lib_model OF MISO_2(0) : LABEL IS "iocell40";
     ATTRIBUTE Location OF MISO_2(0) : LABEL IS "P2[7]";
-    ATTRIBUTE lib_model OF MOSI_2(0) : LABEL IS "iocell39";
+    ATTRIBUTE lib_model OF MOSI_2(0) : LABEL IS "iocell41";
     ATTRIBUTE Location OF MOSI_2(0) : LABEL IS "P12[4]";
-    ATTRIBUTE lib_model OF SCLK_2(0) : LABEL IS "iocell40";
+    ATTRIBUTE lib_model OF SCLK_2(0) : LABEL IS "iocell42";
     ATTRIBUTE Location OF SCLK_2(0) : LABEL IS "P12[5]";
-    ATTRIBUTE lib_model OF SS_2(0) : LABEL IS "iocell41";
+    ATTRIBUTE lib_model OF SS_2(0) : LABEL IS "iocell43";
     ATTRIBUTE Location OF SS_2(0) : LABEL IS "P1[2]";
-    ATTRIBUTE lib_model OF cv_pedal(0) : LABEL IS "iocell42";
+    ATTRIBUTE lib_model OF cv_pedal(0) : LABEL IS "iocell44";
     ATTRIBUTE Location OF cv_pedal(0) : LABEL IS "P3[4]";
-    ATTRIBUTE lib_model OF vBusPin(0) : LABEL IS "iocell43";
+    ATTRIBUTE lib_model OF vBusPin(0) : LABEL IS "iocell45";
     ATTRIBUTE Location OF vBusPin(0) : LABEL IS "P12[7]";
     ATTRIBUTE lib_model OF \CapSense:MeasureCH1:cs_addr_win_2\ : LABEL IS "macrocell2";
     ATTRIBUTE lib_model OF \CapSense:MeasureCH1:cs_addr_win_1\ : LABEL IS "macrocell3";

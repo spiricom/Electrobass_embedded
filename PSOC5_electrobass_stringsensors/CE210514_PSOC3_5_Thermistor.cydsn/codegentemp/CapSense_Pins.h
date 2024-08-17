@@ -54,13 +54,12 @@ void CapSense_SetAllCmodsDriveMode(uint8 mode) ;
 #define CapSense_PortCH0__Button1__BTN  CapSense_PortCH0__Button1__BTN__PC
 #define CapSense_PortCH0__Button2__BTN  CapSense_PortCH0__Button2__BTN__PC
 #define CapSense_PortCH0__Button3__BTN  CapSense_PortCH0__Button3__BTN__PC
-#define CapSense_PortCH1__Button4__BTN  CapSense_PortCH1__Button4__BTN__PC
-#define CapSense_PortCH1__Button5__BTN  CapSense_PortCH1__Button5__BTN__PC
-#define CapSense_PortCH1__Button6__BTN  CapSense_PortCH1__Button6__BTN__PC
-#define CapSense_PortCH1__Button7__BTN  CapSense_PortCH1__Button7__BTN__PC
+#define CapSense_PortCH0__Button4__BTN  CapSense_PortCH0__Button4__BTN__PC
+#define CapSense_PortCH0__Button5__BTN  CapSense_PortCH0__Button5__BTN__PC
+#define CapSense_PortCH0__Button6__BTN  CapSense_PortCH0__Button6__BTN__PC
+#define CapSense_PortCH0__Button7__BTN  CapSense_PortCH0__Button7__BTN__PC
 /* For Cmods*/
 #define CapSense_CmodCH0_Cmod_CH0       CapSense_CmodCH0__Cmod_CH0__PC
-#define CapSense_CmodCH1_Cmod_CH1       CapSense_CmodCH1__Cmod_CH1__PC
 
 
 #endif /* (CY_CAPSENSE_CSD_Pins_CapSense_H) */

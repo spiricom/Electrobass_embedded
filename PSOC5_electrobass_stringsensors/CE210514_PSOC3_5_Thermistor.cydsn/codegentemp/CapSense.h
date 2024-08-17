@@ -30,9 +30,6 @@
 #include "CapSense_CompCH0.h"
 #include "CapSense_IdacCH0.h"
 
-#include "CapSense_AMuxCH1.h"
-#include "CapSense_CompCH1.h"
-#include "CapSense_IdacCH1.h"
 
 
 
@@ -47,7 +44,7 @@
 #endif /* (CY_PSOC5LP) */
 
 
-#define CapSense_DESIGN_TYPE                (2u)
+#define CapSense_DESIGN_TYPE                (1u)
 
 #define CapSense_CONNECT_INACTIVE_SNS       (1u)
 #define CapSense_IS_COMPLEX_SCANSLOTS       (0u)
@@ -183,16 +180,9 @@ CY_ISR_PROTO(CapSense_IsrCH0_ISR);
 ***************************************/
 
 #define CapSense_TOTAL_SENSOR_COUNT            (8u)
-#define CapSense_TOTAL_SCANSLOT_COUNT            (4u)
-#define CapSense_TOTAL_SENSOR_COUNT__CH0            (4u)
-#define CapSense_TOTAL_SENSOR_COUNT__CH1            (4u)
-/* End of CH0 is scanslots within 2 channels*/
-#define CapSense_END_OF_SCAN__CH0            (4u)
-/* End of CH1 is all scanslots within 2 channels*/
-#define CapSense_END_OF_SCAN__CH1            (8u)
-#define CapSense_TOTAL_RB_NUMBER            (2u)
+#define CapSense_TOTAL_SCANSLOT_COUNT            (8u)
+#define CapSense_TOTAL_RB_NUMBER            (1u)
 #define CapSense_TOTAL_RB_NUMBER__CH0            (1u)
-#define CapSense_TOTAL_RB_NUMBER__CH1            (1u)
 
 /* Define Sensors */
 #define CapSense_SENSOR_BUTTON0__BTN    (0u)
@@ -204,13 +194,9 @@ CY_ISR_PROTO(CapSense_IsrCH0_ISR);
 #define CapSense_SENSOR_BUTTON6__BTN    (6u)
 #define CapSense_SENSOR_BUTTON7__BTN    (7u)
 /* AMux Cmod, Comparator and Idac Channels definitions */
-#define CapSense_AMuxCH0_CMOD_CHANNEL          (4u)
-#define CapSense_AMuxCH0_CMP_VP_CHANNEL        (5u)
-#define CapSense_AMuxCH0_IDAC_CHANNEL          (6u)
-
-#define CapSense_AMuxCH1_CMOD_CHANNEL          (4u)
-#define CapSense_AMuxCH1_CMP_VP_CHANNEL        (5u)
-#define CapSense_AMuxCH1_IDAC_CHANNEL          (6u)
+#define CapSense_AMuxCH0_CMOD_CHANNEL          (8u)
+#define CapSense_AMuxCH0_CMP_VP_CHANNEL        (9u)
+#define CapSense_AMuxCH0_IDAC_CHANNEL          (10u)
 
 
 

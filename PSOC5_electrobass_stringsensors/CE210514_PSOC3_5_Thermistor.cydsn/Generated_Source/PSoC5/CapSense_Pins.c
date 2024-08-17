@@ -39,10 +39,10 @@ void CapSense_SetAllSensorsDriveMode(uint8 mode)
     CyPins_SetPinDriveMode(CapSense_PortCH0__Button1__BTN, mode);
     CyPins_SetPinDriveMode(CapSense_PortCH0__Button2__BTN, mode);
     CyPins_SetPinDriveMode(CapSense_PortCH0__Button3__BTN, mode);
-    CyPins_SetPinDriveMode(CapSense_PortCH1__Button4__BTN, mode);
-    CyPins_SetPinDriveMode(CapSense_PortCH1__Button5__BTN, mode);
-    CyPins_SetPinDriveMode(CapSense_PortCH1__Button6__BTN, mode);
-    CyPins_SetPinDriveMode(CapSense_PortCH1__Button7__BTN, mode);
+    CyPins_SetPinDriveMode(CapSense_PortCH0__Button4__BTN, mode);
+    CyPins_SetPinDriveMode(CapSense_PortCH0__Button5__BTN, mode);
+    CyPins_SetPinDriveMode(CapSense_PortCH0__Button6__BTN, mode);
+    CyPins_SetPinDriveMode(CapSense_PortCH0__Button7__BTN, mode);
 
 }
 
@@ -67,7 +67,6 @@ void CapSense_SetAllCmodsDriveMode(uint8 mode)
 {
    /* Set pins drive mode */
     CyPins_SetPinDriveMode(CapSense_CmodCH0_Cmod_CH0, mode);
-    CyPins_SetPinDriveMode(CapSense_CmodCH1_Cmod_CH1, mode);
 
 }
 

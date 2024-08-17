@@ -1,5 +1,5 @@
 # CE210514_PSOC3_5_Thermistor
-# 2022-11-06 21:02:22Z
+# 2024-08-15 19:07:31Z
 
 # IO_0@[IOP=(1)][IoId=(0)] is reserved: SWDDebugEnabled
 dont_use_io iocell 1 0
@@ -44,6 +44,8 @@ set_io "V_T_1_2(0)" iocell 0 0
 set_io "SCL_1(0)" iocell 12 0
 set_io "V_H(0)" iocell 0 4
 set_io "up(0)" iocell 3 1
+set_io "necksense2(0)" iocell 12 3
+set_io "necksense1(0)" iocell 12 2
 set_io "MISO_2(0)" iocell 2 7
 set_io "MOSI_2(0)" iocell 12 4
 set_io "SCLK_2(0)" iocell 12 5
