@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: necksense1.h  
+* File Name: LED_1.h  
 * Version 2.20
 *
 * Description:
@@ -15,8 +15,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_necksense1_ALIASES_H) /* Pins necksense1_ALIASES_H */
-#define CY_PINS_necksense1_ALIASES_H
+#if !defined(CY_PINS_LED_1_ALIASES_H) /* Pins LED_1_ALIASES_H */
+#define CY_PINS_LED_1_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -25,12 +25,12 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define necksense1_0			(necksense1__0__PC)
-#define necksense1_0_INTR	((uint16)((uint16)0x0001u << necksense1__0__SHIFT))
+#define LED_1_0			(LED_1__0__PC)
+#define LED_1_0_INTR	((uint16)((uint16)0x0001u << LED_1__0__SHIFT))
 
-#define necksense1_INTR_ALL	 ((uint16)(necksense1_0_INTR))
+#define LED_1_INTR_ALL	 ((uint16)(LED_1_0_INTR))
 
-#endif /* End Pins necksense1_ALIASES_H */
+#endif /* End Pins LED_1_ALIASES_H */
 
 
 /* [] END OF FILE */

@@ -167,10 +167,10 @@ extern volatile int16 ADC_SAR_Seq_1_SAR_shift;
 #define ADC_SAR_Seq_1_SAR_DEFAULT_RESOLUTION     (12u)   /* ADC resolution selected with parameters.*/
 #define ADC_SAR_Seq_1_SAR_DEFAULT_CONV_MODE      (0u)        /* Default conversion method */
 #define ADC_SAR_Seq_1_SAR_DEFAULT_INTERNAL_CLK   (0u)             /* Default clock selection */
-#define ADC_SAR_Seq_1_SAR_DEFAULT_REFERENCE      (1u)         /* Default reference */
+#define ADC_SAR_Seq_1_SAR_DEFAULT_REFERENCE      (0u)         /* Default reference */
 #define ADC_SAR_Seq_1_SAR_DEFAULT_RANGE          (1u)       /* ADC Input Range selection */
-#define ADC_SAR_Seq_1_SAR_CLOCK_FREQUENCY        (11368422u)   /* Clock frequency */
-#define ADC_SAR_Seq_1_SAR_NOMINAL_CLOCK_FREQ     (1609329)  /* Nominal Clock Frequency */
+#define ADC_SAR_Seq_1_SAR_CLOCK_FREQUENCY        (10105264u)   /* Clock frequency */
+#define ADC_SAR_Seq_1_SAR_NOMINAL_CLOCK_FREQ     (1433766)  /* Nominal Clock Frequency */
 #define ADC_SAR_Seq_1_SAR_HIGH_POWER_PULSE       (1u)        /* Not zero when clock pulse > 50 ns */
 #define ADC_SAR_Seq_1_SAR_IRQ_REMOVE             (1u)                /* Removes internal interrupt */
 
@@ -198,7 +198,7 @@ extern volatile int16 ADC_SAR_Seq_1_SAR_shift;
                                                                                        ADC_SAR_Seq_1_SAR__MINPOWER))
 /* Constant for a global usage */
 /* Number of additional clocks for sampling data*/
-#define ADC_SAR_Seq_1_SAR_SAMPLE_PRECHARGE       (6u)
+#define ADC_SAR_Seq_1_SAR_SAMPLE_PRECHARGE       (4u)
 
 
 /***************************************

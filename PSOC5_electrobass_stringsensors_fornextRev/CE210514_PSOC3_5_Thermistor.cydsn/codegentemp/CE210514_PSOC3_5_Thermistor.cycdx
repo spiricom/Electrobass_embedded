@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <blockRegMap version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cypress.com/xsd/cyblockregmap cyblockregmap.xsd" xmlns="http://cypress.com/xsd/cyblockregmap">
+  <block name="fretted_mom" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="fretted_latching" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="up" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="V_H" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SCL_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="MOSI_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="MISO_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="DMA_2_RX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="necksense1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="necksense2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="V_H" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SDA_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="CV_pedal_sense" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="I2C_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="BusClock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -91,17 +93,17 @@
       <field name="timeout_period_highnibble" from="3" to="0" access="RW" resetVal="" desc="The configuration of this register along with that in register TMOUT_CFG1 to define the number units before SCL or SDA stuck low timeout triggers the I2C interrupt. The one unit is equal to SYSCLK/1024. The TMOUT_CFG1 defines higher octet of the period." hidden="false" />
     </register>
   </block>
-  <block name="DMA_1_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SCL_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="V_T_1_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="vRef_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SDA_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="MISO_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="EEPROM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="EEPROM_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="my_Vbus_ISR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="vBusPin" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Em_EEPROM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="Em_EEPROM_Dynamic" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="cy_boot" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="EEPROM_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="LED_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="vBusPin" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SS_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SPIM_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="VirtualMux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="VirtualMux_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -111,13 +113,13 @@
     <block name="BSPIM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   </block>
   <block name="SCLK_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="MOSI_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="Em_EEPROM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="DMA_2_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="cv_pedal" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SS_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="joy_y_23" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="knob_1_01" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="V_T_1_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="ExtMUXS0" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="down" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="joy_x_25" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="CapSense" BASE="0x0" SIZE="0x0" desc="CapSense" visible="true" hidden="false">
     <block name="Connect_VdacToAmuxCH0" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -155,7 +157,7 @@
       <register name="CapSense_CompCH1_Comp_PM_STBY_CFG" address="0x400043B7" bitWidth="8" desc="Standby Power Mode Configuration Register 7" hidden="false">
         <field name="en_cmp" from="3" to="0" access="RW" resetVal="" desc="Enable comparator. Populated subsystems are counted from the LSB, for example bit 0 corresponds to comparator 0" hidden="false" />
       </register>
-      <register name="CapSense_CompCH1_Comp_TR0" address="0x40004632" bitWidth="8" desc="Comparator Trim Register_TR0" hidden="false">
+      <register name="CapSense_CompCH1_Comp_TR0" address="0x40004636" bitWidth="8" desc="Comparator Trim Register_TR0" hidden="false">
         <field name="trimA[4:0]" from="4" to="0" access="RW" resetVal="" desc="Sets the trim value to be added to the P-type load for offset calibration" hidden="false">
           <value name="TRIMA_0" value="00000" desc="Does not add any offset" />
           <value name="TRIMA_POS_SIDE_1" value="00001" desc="Adds offset of ~1mV to the positive side" />
@@ -177,7 +179,7 @@
           <value name="TRIMA_NEG_SIDE_9" value="10010" desc="Adds offset of ~8mV to the negative side" />
         </field>
       </register>
-      <register name="CapSense_CompCH1_Comp_TR1" address="0x40004633" bitWidth="8" desc="Comparator Trim Register_TR1" hidden="false">
+      <register name="CapSense_CompCH1_Comp_TR1" address="0x40004637" bitWidth="8" desc="Comparator Trim Register_TR1" hidden="false">
         <field name="trimB[4:0]" from="4" to="0" access="RW" resetVal="" desc="Sets the trim value to be added to the N-type load for offset calibration" hidden="false">
           <value name="TRIMB_0" value="00000" desc="Does not add any offset" />
           <value name="TRIMB_NEG_SIDE_1" value="00001" desc="Adds offset of ~1mV to the negative side" />
@@ -199,7 +201,7 @@
           <value name="TRIMB_POS_SIDE_8" value="10010" desc="Adds offset of ~8mV to the positive side" />
         </field>
       </register>
-      <register name="CapSense_CompCH1_Comp_CR" address="0x40005841" bitWidth="8" desc="Comparator Control Register" hidden="false">
+      <register name="CapSense_CompCH1_Comp_CR" address="0x40005843" bitWidth="8" desc="Comparator Control Register" hidden="false">
         <field name="filt" from="6" to="6" access="RW" resetVal="" desc="enables a glitch filter at the output of the comparator" hidden="false">
           <value name="FILT_DISABLE" value="0" desc="Disable glitch filter" />
           <value name="FILT_ENABLE" value="1" desc="Enable glitch filter" />
@@ -227,7 +229,7 @@
           <value name="SEL_ILLEGAL" value="11" desc="Illegal Mode" />
         </field>
       </register>
-      <register name="CapSense_CompCH1_Comp_SW0" address="0x40005AC8" bitWidth="8" desc="Comparator Analog Routing Register 0" hidden="false">
+      <register name="CapSense_CompCH1_Comp_SW0" address="0x40005AD8" bitWidth="8" desc="Comparator Analog Routing Register 0" hidden="false">
         <field name="vp_ag7" from="7" to="7" access="RW" resetVal="" desc="Connect positive voltage input to analog global of same side " hidden="false">
           <value name="AG_NC" value="0" desc="not connected" />
           <value name="AG_CONNECTED" value="1" desc="Connect to Analog Global" />
@@ -261,7 +263,7 @@
           <value name="AG_CONNECTED" value="1" desc="Connect to Analog Global" />
         </field>
       </register>
-      <register name="CapSense_CompCH1_Comp_SW2" address="0x40005ACA" bitWidth="8" desc="Comparator Analog Routing Register 2" hidden="false">
+      <register name="CapSense_CompCH1_Comp_SW2" address="0x40005ADA" bitWidth="8" desc="Comparator Analog Routing Register 2" hidden="false">
         <field name="vp_abus1" from="1" to="1" access="RW" resetVal="" desc="Connect positive voltage input to analog (local) bus of the same side" hidden="false">
           <value name="ABUS_NC" value="0" desc="not connected" />
           <value name="ABUS_CONNECTED" value="1" desc="Connect to Analog (local) Bus" />
@@ -271,7 +273,7 @@
           <value name="ABUS_CONNECTED" value="1" desc="Connect to Analog (local) Bus" />
         </field>
       </register>
-      <register name="CapSense_CompCH1_Comp_SW3" address="0x40005ACB" bitWidth="8" desc="Comparator Analog Routing Register 3" hidden="false">
+      <register name="CapSense_CompCH1_Comp_SW3" address="0x40005ADB" bitWidth="8" desc="Comparator Analog Routing Register 3" hidden="false">
         <field name="vn_vref1" from="6" to="6" access="RW" resetVal="" desc="Connect negative voltage input to Voltage Reference 1" hidden="false">
           <value name="VREF_NC" value="0" desc="not connected" />
           <value name="VREF_CONNECTED" value="1" desc="Connect to Voltage Reference" />
@@ -293,7 +295,7 @@
           <value name="AMX_CONNECTED" value="1" desc="Connect to AMUXBUS" />
         </field>
       </register>
-      <register name="CapSense_CompCH1_Comp_SW4" address="0x40005ACC" bitWidth="8" desc="Comparator Analog Routing Register 4" hidden="false">
+      <register name="CapSense_CompCH1_Comp_SW4" address="0x40005ADC" bitWidth="8" desc="Comparator Analog Routing Register 4" hidden="false">
         <field name="vn_ag6" from="6" to="6" access="RW" resetVal="" desc="Connect negative voltage input to analog global of same side" hidden="false">
           <value name="AG_NC" value="0" desc="not connected" />
           <value name="AG_CONNECTED" value="1" desc="Connect to Analog Global" />
@@ -311,7 +313,7 @@
           <value name="AG_CONNECTED" value="1" desc="Connect to Analog Global" />
         </field>
       </register>
-      <register name="CapSense_CompCH1_Comp_SW6" address="0x40005ACE" bitWidth="8" desc="Comparator Analog Routing Register 6" hidden="false">
+      <register name="CapSense_CompCH1_Comp_SW6" address="0x40005ADE" bitWidth="8" desc="Comparator Analog Routing Register 6" hidden="false">
         <field name="vn_abus3" from="3" to="3" access="RW" resetVal="" desc="Connect negative voltage input to analog (local) bus of the same side" hidden="false">
           <value name="ABUS_NC" value="0" desc="not connected" />
           <value name="ABUS_CONNECTED" value="1" desc="Connect to Analog (local) Bus" />
@@ -321,7 +323,7 @@
           <value name="ABUS_CONNECTED" value="1" desc="Connect to Analog (local) Bus" />
         </field>
       </register>
-      <register name="CapSense_CompCH1_Comp_CLK" address="0x40005ACF" bitWidth="8" desc="Comparator Clock Control Register" hidden="false">
+      <register name="CapSense_CompCH1_Comp_CLK" address="0x40005ADF" bitWidth="8" desc="Comparator Clock Control Register" hidden="false">
         <field name="bypass_sync" from="4" to="4" access="RW" resetVal="" desc="Bypass Synchronization" hidden="false">
           <value name="BYPASS_SYNC_0" value="0" desc="Synchronization not bypassed (Synchronization enabled)" />
           <value name="BYPASS_SYNC_1" value="1" desc="Synchronization bypassed (Synchronization disabled)" />
@@ -361,7 +363,7 @@
       <register name="CapSense_CompCH0_Comp_PM_STBY_CFG" address="0x400043B7" bitWidth="8" desc="Standby Power Mode Configuration Register 7" hidden="false">
         <field name="en_cmp" from="3" to="0" access="RW" resetVal="" desc="Enable comparator. Populated subsystems are counted from the LSB, for example bit 0 corresponds to comparator 0" hidden="false" />
       </register>
-      <register name="CapSense_CompCH0_Comp_TR0" address="0x40004634" bitWidth="8" desc="Comparator Trim Register_TR0" hidden="false">
+      <register name="CapSense_CompCH0_Comp_TR0" address="0x40004630" bitWidth="8" desc="Comparator Trim Register_TR0" hidden="false">
         <field name="trimA[4:0]" from="4" to="0" access="RW" resetVal="" desc="Sets the trim value to be added to the P-type load for offset calibration" hidden="false">
           <value name="TRIMA_0" value="00000" desc="Does not add any offset" />
           <value name="TRIMA_POS_SIDE_1" value="00001" desc="Adds offset of ~1mV to the positive side" />
@@ -383,7 +385,7 @@
           <value name="TRIMA_NEG_SIDE_9" value="10010" desc="Adds offset of ~8mV to the negative side" />
         </field>
       </register>
-      <register name="CapSense_CompCH0_Comp_TR1" address="0x40004635" bitWidth="8" desc="Comparator Trim Register_TR1" hidden="false">
+      <register name="CapSense_CompCH0_Comp_TR1" address="0x40004631" bitWidth="8" desc="Comparator Trim Register_TR1" hidden="false">
         <field name="trimB[4:0]" from="4" to="0" access="RW" resetVal="" desc="Sets the trim value to be added to the N-type load for offset calibration" hidden="false">
           <value name="TRIMB_0" value="00000" desc="Does not add any offset" />
           <value name="TRIMB_NEG_SIDE_1" value="00001" desc="Adds offset of ~1mV to the negative side" />
@@ -405,7 +407,7 @@
           <value name="TRIMB_POS_SIDE_8" value="10010" desc="Adds offset of ~8mV to the positive side" />
         </field>
       </register>
-      <register name="CapSense_CompCH0_Comp_CR" address="0x40005842" bitWidth="8" desc="Comparator Control Register" hidden="false">
+      <register name="CapSense_CompCH0_Comp_CR" address="0x40005840" bitWidth="8" desc="Comparator Control Register" hidden="false">
         <field name="filt" from="6" to="6" access="RW" resetVal="" desc="enables a glitch filter at the output of the comparator" hidden="false">
           <value name="FILT_DISABLE" value="0" desc="Disable glitch filter" />
           <value name="FILT_ENABLE" value="1" desc="Enable glitch filter" />
@@ -433,7 +435,7 @@
           <value name="SEL_ILLEGAL" value="11" desc="Illegal Mode" />
         </field>
       </register>
-      <register name="CapSense_CompCH0_Comp_SW0" address="0x40005AD0" bitWidth="8" desc="Comparator Analog Routing Register 0" hidden="false">
+      <register name="CapSense_CompCH0_Comp_SW0" address="0x40005AC0" bitWidth="8" desc="Comparator Analog Routing Register 0" hidden="false">
         <field name="vp_ag7" from="7" to="7" access="RW" resetVal="" desc="Connect positive voltage input to analog global of same side " hidden="false">
           <value name="AG_NC" value="0" desc="not connected" />
           <value name="AG_CONNECTED" value="1" desc="Connect to Analog Global" />
@@ -467,7 +469,7 @@
           <value name="AG_CONNECTED" value="1" desc="Connect to Analog Global" />
         </field>
       </register>
-      <register name="CapSense_CompCH0_Comp_SW2" address="0x40005AD2" bitWidth="8" desc="Comparator Analog Routing Register 2" hidden="false">
+      <register name="CapSense_CompCH0_Comp_SW2" address="0x40005AC2" bitWidth="8" desc="Comparator Analog Routing Register 2" hidden="false">
         <field name="vp_abus1" from="1" to="1" access="RW" resetVal="" desc="Connect positive voltage input to analog (local) bus of the same side" hidden="false">
           <value name="ABUS_NC" value="0" desc="not connected" />
           <value name="ABUS_CONNECTED" value="1" desc="Connect to Analog (local) Bus" />
@@ -477,7 +479,7 @@
           <value name="ABUS_CONNECTED" value="1" desc="Connect to Analog (local) Bus" />
         </field>
       </register>
-      <register name="CapSense_CompCH0_Comp_SW3" address="0x40005AD3" bitWidth="8" desc="Comparator Analog Routing Register 3" hidden="false">
+      <register name="CapSense_CompCH0_Comp_SW3" address="0x40005AC3" bitWidth="8" desc="Comparator Analog Routing Register 3" hidden="false">
         <field name="vn_vref1" from="6" to="6" access="RW" resetVal="" desc="Connect negative voltage input to Voltage Reference 1" hidden="false">
           <value name="VREF_NC" value="0" desc="not connected" />
           <value name="VREF_CONNECTED" value="1" desc="Connect to Voltage Reference" />
@@ -499,7 +501,7 @@
           <value name="AMX_CONNECTED" value="1" desc="Connect to AMUXBUS" />
         </field>
       </register>
-      <register name="CapSense_CompCH0_Comp_SW4" address="0x40005AD4" bitWidth="8" desc="Comparator Analog Routing Register 4" hidden="false">
+      <register name="CapSense_CompCH0_Comp_SW4" address="0x40005AC4" bitWidth="8" desc="Comparator Analog Routing Register 4" hidden="false">
         <field name="vn_ag6" from="6" to="6" access="RW" resetVal="" desc="Connect negative voltage input to analog global of same side" hidden="false">
           <value name="AG_NC" value="0" desc="not connected" />
           <value name="AG_CONNECTED" value="1" desc="Connect to Analog Global" />
@@ -517,7 +519,7 @@
           <value name="AG_CONNECTED" value="1" desc="Connect to Analog Global" />
         </field>
       </register>
-      <register name="CapSense_CompCH0_Comp_SW6" address="0x40005AD6" bitWidth="8" desc="Comparator Analog Routing Register 6" hidden="false">
+      <register name="CapSense_CompCH0_Comp_SW6" address="0x40005AC6" bitWidth="8" desc="Comparator Analog Routing Register 6" hidden="false">
         <field name="vn_abus3" from="3" to="3" access="RW" resetVal="" desc="Connect negative voltage input to analog (local) bus of the same side" hidden="false">
           <value name="ABUS_NC" value="0" desc="not connected" />
           <value name="ABUS_CONNECTED" value="1" desc="Connect to Analog (local) Bus" />
@@ -527,7 +529,7 @@
           <value name="ABUS_CONNECTED" value="1" desc="Connect to Analog (local) Bus" />
         </field>
       </register>
-      <register name="CapSense_CompCH0_Comp_CLK" address="0x40005AD7" bitWidth="8" desc="Comparator Clock Control Register" hidden="false">
+      <register name="CapSense_CompCH0_Comp_CLK" address="0x40005AC7" bitWidth="8" desc="Comparator Clock Control Register" hidden="false">
         <field name="bypass_sync" from="4" to="4" access="RW" resetVal="" desc="Bypass Synchronization" hidden="false">
           <value name="BYPASS_SYNC_0" value="0" desc="Synchronization not bypassed (Synchronization enabled)" />
           <value name="BYPASS_SYNC_1" value="1" desc="Synchronization bypassed (Synchronization disabled)" />
@@ -800,7 +802,7 @@
     <block name="PortCH1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="Select_VrefCH0" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="AMuxCH1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-    <register name="CTL_REG" address="0x4000647D" bitWidth="8" desc="CapSense Control Register" hidden="false">
+    <register name="CTL_REG" address="0x4000647C" bitWidth="8" desc="CapSense Control Register" hidden="false">
       <field name="Channel 1" from="3" to="3" access="R" resetVal="" desc="Channel 1 Enable" hidden="false">
         <value name="Disabled" value="0" desc="Channel 1 scanning is disabled" />
         <value name="Enabled" value="1" desc="Channel 1 scanning is enabled" />
@@ -818,14 +820,14 @@
         <value name="Enabled" value="1" desc="Clocks are enabled" />
       </field>
     </register>
-    <register name="ScanSpeed_CTL_REG" address="0x4000649C" bitWidth="8" desc="CapSense Clock Prescaler Control Register" hidden="false">
+    <register name="ScanSpeed_CTL_REG" address="0x4000649A" bitWidth="8" desc="CapSense Clock Prescaler Control Register" hidden="false">
       <field name="Counter" from="3" to="3" access="R" resetVal="" desc="Clock Prescaler Enable" hidden="false">
         <value name="Disabled" value="0" desc="Prescaler counter is disabled" />
         <value name="Enabled" value="1" desc="Prescaler counter is enabled" />
       </field>
     </register>
   </block>
-  <block name="joy_y_23" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="ExtMUXS0" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="AMux_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="MOSI_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="MISO_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -1768,13 +1770,13 @@
       <field name="data" from="7" to="0" access="RW" resetVal="" desc="8 DAC Data bits" hidden="false" />
     </register>
   </block>
-  <block name="down" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SPI_ready" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="ExtMUXS1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="ExtMUX_EN" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="knob_2_36" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="DMA_1_TX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="DMA_1_RX" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="enter" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SPI_ready" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="knob_2_36" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="USB" BASE="0x0" SIZE="0x0" desc="USBFS" visible="true" hidden="false">
     <block name="ZeroTerminal_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="VirtualMux_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -1782,9 +1784,9 @@
     <block name="VirtualMux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="ZeroTerminal_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="USB_EP8_DMA_Done_SR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-      <register name="USB_EP8_DMA_Done_SR_STATUS_REG" address="0x40006462" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP8_DMA_Done_SR_MASK_REG" address="0x40006482" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP8_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006492" bitWidth="8" desc="" hidden="false">
+      <register name="USB_EP8_DMA_Done_SR_STATUS_REG" address="0x40006467" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP8_DMA_Done_SR_MASK_REG" address="0x40006487" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP8_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006497" bitWidth="8" desc="" hidden="false">
         <field name="FIFO0" from="5" to="5" access="RW" resetVal="" desc="FIFO0 clear" hidden="false">
           <value name="ENABLED" value="1" desc="Enable counter" />
           <value name="DISABLED" value="0" desc="Disable counter" />
@@ -1866,9 +1868,9 @@
     <block name="ep2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="nrqSync" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="USB_EP17_DMA_Done_SR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
-      <register name="USB_EP17_DMA_Done_SR_STATUS_REG" address="0x40006460" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP17_DMA_Done_SR_MASK_REG" address="0x40006480" bitWidth="8" desc="" hidden="false" />
-      <register name="USB_EP17_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006490" bitWidth="8" desc="" hidden="false">
+      <register name="USB_EP17_DMA_Done_SR_STATUS_REG" address="0x40006464" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP17_DMA_Done_SR_MASK_REG" address="0x40006484" bitWidth="8" desc="" hidden="false" />
+      <register name="USB_EP17_DMA_Done_SR_STATUS_AUX_CTL_REG" address="0x40006494" bitWidth="8" desc="" hidden="false">
         <field name="FIFO0" from="5" to="5" access="RW" resetVal="" desc="FIFO0 clear" hidden="false">
           <value name="ENABLED" value="1" desc="Enable counter" />
           <value name="DISABLED" value="0" desc="Disable counter" />
@@ -2748,24 +2750,23 @@
     <block name="TempBuf" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="cy_analog_virtualmux_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="ADC_SAR_Seq_1_SAR" BASE="0x0" SIZE="0x0" desc="SAR ADC" visible="true" hidden="false">
-      <block name="ZeroTerminal_8" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="ZeroTerminal_7" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-      <block name="ADC_SAR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-      <block name="Clock_VirtualMux_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-      <block name="ZeroTerminal_4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-      <block name="ZeroTerminal_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="ZeroTerminal_6" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+      <block name="Clock_VirtualMux_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+      <block name="ZeroTerminal_8" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+      <block name="ZeroTerminal_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+      <block name="cy_constant_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="ZeroTerminal_5" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-      <block name="cy_analog_virtualmux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+      <block name="ZeroTerminal_4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+      <block name="ADC_SAR" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="vRef_Vdda_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="cy_analog_noconnect_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="or_internalClock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="noconnect_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="cy_analog_virtualmux_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-      <block name="Bypass" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+      <block name="cy_analog_virtualmux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="cy_analog_virtualmux_4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="noconnect" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-      <block name="cy_constant_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="ZeroTerminal_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="cy_analog_virtualmux_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
       <block name="ZeroTerminal_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />

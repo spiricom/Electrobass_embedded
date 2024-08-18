@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: necksense2.c  
+* File Name: fretted_mom.c  
 * Version 2.20
 *
 * Description:
@@ -15,15 +15,15 @@
 *******************************************************************************/
 
 #include "cytypes.h"
-#include "necksense2.h"
+#include "fretted_mom.h"
 
 /* APIs are not generated for P15[7:6] on PSoC 5 */
 #if !(CY_PSOC5A &&\
-	 necksense2__PORT == 15 && ((necksense2__MASK & 0xC0) != 0))
+	 fretted_mom__PORT == 15 && ((fretted_mom__MASK & 0xC0) != 0))
 
 
 /*******************************************************************************
-* Function Name: necksense2_Write
+* Function Name: fretted_mom_Write
 ****************************************************************************//**
 *
 * \brief Writes the value to the physical port (data output register), masking
@@ -52,17 +52,17 @@
 *  this function.
 *
 * \funcusage
-*  \snippet necksense2_SUT.c usage_necksense2_Write
+*  \snippet fretted_mom_SUT.c usage_fretted_mom_Write
 *******************************************************************************/
-void necksense2_Write(uint8 value)
+void fretted_mom_Write(uint8 value)
 {
-    uint8 staticBits = (necksense2_DR & (uint8)(~necksense2_MASK));
-    necksense2_DR = staticBits | ((uint8)(value << necksense2_SHIFT) & necksense2_MASK);
+    uint8 staticBits = (fretted_mom_DR & (uint8)(~fretted_mom_MASK));
+    fretted_mom_DR = staticBits | ((uint8)(value << fretted_mom_SHIFT) & fretted_mom_MASK);
 }
 
 
 /*******************************************************************************
-* Function Name: necksense2_SetDriveMode
+* Function Name: fretted_mom_SetDriveMode
 ****************************************************************************//**
 *
 * \brief Sets the drive mode for each of the Pins component's pins.
@@ -85,16 +85,16 @@ void necksense2_Write(uint8 value)
 *  APIs (primary method) or disable interrupts around this function.
 *
 * \funcusage
-*  \snippet necksense2_SUT.c usage_necksense2_SetDriveMode
+*  \snippet fretted_mom_SUT.c usage_fretted_mom_SetDriveMode
 *******************************************************************************/
-void necksense2_SetDriveMode(uint8 mode)
+void fretted_mom_SetDriveMode(uint8 mode)
 {
-	CyPins_SetPinDriveMode(necksense2_0, mode);
+	CyPins_SetPinDriveMode(fretted_mom_0, mode);
 }
 
 
 /*******************************************************************************
-* Function Name: necksense2_Read
+* Function Name: fretted_mom_Read
 ****************************************************************************//**
 *
 * \brief Reads the associated physical port (pin status register) and masks 
@@ -108,16 +108,16 @@ void necksense2_SetDriveMode(uint8 mode)
 *  The current value for the pins in the component as a right justified number.
 *
 * \funcusage
-*  \snippet necksense2_SUT.c usage_necksense2_Read  
+*  \snippet fretted_mom_SUT.c usage_fretted_mom_Read  
 *******************************************************************************/
-uint8 necksense2_Read(void)
+uint8 fretted_mom_Read(void)
 {
-    return (necksense2_PS & necksense2_MASK) >> necksense2_SHIFT;
+    return (fretted_mom_PS & fretted_mom_MASK) >> fretted_mom_SHIFT;
 }
 
 
 /*******************************************************************************
-* Function Name: necksense2_ReadDataReg
+* Function Name: fretted_mom_ReadDataReg
 ****************************************************************************//**
 *
 * \brief Reads the associated physical port's data output register and masks 
@@ -126,8 +126,8 @@ uint8 necksense2_Read(void)
 *
 * The data output register controls the signal applied to the physical pin in 
 * conjunction with the drive mode parameter. This is not the same as the 
-* preferred necksense2_Read() API because the 
-* necksense2_ReadDataReg() reads the data register instead of the status 
+* preferred fretted_mom_Read() API because the 
+* fretted_mom_ReadDataReg() reads the data register instead of the status 
 * register. For output pins this is a useful function to determine the value 
 * just written to the pin.
 *
@@ -136,19 +136,19 @@ uint8 necksense2_Read(void)
 *  justified number for the component instance.
 *
 * \funcusage
-*  \snippet necksense2_SUT.c usage_necksense2_ReadDataReg 
+*  \snippet fretted_mom_SUT.c usage_fretted_mom_ReadDataReg 
 *******************************************************************************/
-uint8 necksense2_ReadDataReg(void)
+uint8 fretted_mom_ReadDataReg(void)
 {
-    return (necksense2_DR & necksense2_MASK) >> necksense2_SHIFT;
+    return (fretted_mom_DR & fretted_mom_MASK) >> fretted_mom_SHIFT;
 }
 
 
 /* If interrupt is connected for this Pins component */ 
-#if defined(necksense2_INTSTAT) 
+#if defined(fretted_mom_INTSTAT) 
 
     /*******************************************************************************
-    * Function Name: necksense2_SetInterruptMode
+    * Function Name: fretted_mom_SetInterruptMode
     ****************************************************************************//**
     *
     * \brief Configures the interrupt mode for each of the Pins component's
@@ -161,12 +161,12 @@ uint8 necksense2_ReadDataReg(void)
     * \param position
     *  The pin position as listed in the Pins component. You may OR these to be 
     *  able to configure the interrupt mode of multiple pins within a Pins 
-    *  component. Or you may use necksense2_INTR_ALL to configure the
+    *  component. Or you may use fretted_mom_INTR_ALL to configure the
     *  interrupt mode of all the pins in the Pins component.       
-    *  - necksense2_0_INTR       (First pin in the list)
-    *  - necksense2_1_INTR       (Second pin in the list)
+    *  - fretted_mom_0_INTR       (First pin in the list)
+    *  - fretted_mom_1_INTR       (Second pin in the list)
     *  - ...
-    *  - necksense2_INTR_ALL     (All pins in Pins component)
+    *  - fretted_mom_INTR_ALL     (All pins in Pins component)
     *
     * \param mode
     *  Interrupt mode for the selected pins. Valid options are documented in
@@ -182,19 +182,19 @@ uint8 necksense2_ReadDataReg(void)
     *  port.
     *
     * \funcusage
-    *  \snippet necksense2_SUT.c usage_necksense2_SetInterruptMode
+    *  \snippet fretted_mom_SUT.c usage_fretted_mom_SetInterruptMode
     *******************************************************************************/
-    void necksense2_SetInterruptMode(uint16 position, uint16 mode)
+    void fretted_mom_SetInterruptMode(uint16 position, uint16 mode)
     {
-		if((position & necksense2_0_INTR) != 0u) 
+		if((position & fretted_mom_0_INTR) != 0u) 
 		{ 
-			 necksense2_0_INTTYPE_REG = (uint8)mode; 
+			 fretted_mom_0_INTTYPE_REG = (uint8)mode; 
 		}
     }
     
     
     /*******************************************************************************
-    * Function Name: necksense2_ClearInterrupt
+    * Function Name: fretted_mom_ClearInterrupt
     ****************************************************************************//**
     *
     * \brief Clears any active interrupts attached with the component and returns 
@@ -211,11 +211,11 @@ uint8 necksense2_ReadDataReg(void)
     *  those associated with the Pins component.
     *
     * \funcusage
-    *  \snippet necksense2_SUT.c usage_necksense2_ClearInterrupt
+    *  \snippet fretted_mom_SUT.c usage_fretted_mom_ClearInterrupt
     *******************************************************************************/
-    uint8 necksense2_ClearInterrupt(void)
+    uint8 fretted_mom_ClearInterrupt(void)
     {
-        return (necksense2_INTSTAT & necksense2_MASK) >> necksense2_SHIFT;
+        return (fretted_mom_INTSTAT & fretted_mom_MASK) >> fretted_mom_SHIFT;
     }
 
 #endif /* If Interrupts Are Enabled for this Pins component */ 

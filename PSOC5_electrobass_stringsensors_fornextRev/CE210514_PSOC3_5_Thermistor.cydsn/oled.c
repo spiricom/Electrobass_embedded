@@ -139,7 +139,16 @@ void OLED_writeEditScreen()
 	//else OLEDwriteString(firstSet, (int)strlen(firstSet), 0, FirstLine);
 	OLEDwriteString("C:SET KEY CENTER", 16, 0, SecondLine);
 }
-
+void OLED_writeCalibrationScreen(int calibration)
+{
+	GFXsetFont(&theGFX, &EuphemiaCAS7pt7b);
+	OLEDclear();
+    const char* firstSet = "CALIBRATE";
+	//if (cvAddParam[currentPreset] >= 0) OLEDwriteString(firstClear, (int)strlen(firstClear), 0, FirstLine);
+	OLEDwriteString(firstSet, (int)strlen(firstSet), 0, FirstLine);
+	OLEDwriteInt(calibration, 2, 0, SecondLine);
+        OLED_draw();
+}
 /*
 void OLED_writeKnobParameter(int whichKnob)
 {

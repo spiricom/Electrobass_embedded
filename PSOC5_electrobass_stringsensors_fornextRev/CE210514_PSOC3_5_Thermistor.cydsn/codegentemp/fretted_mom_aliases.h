@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: necksense2.h  
+* File Name: fretted_mom.h  
 * Version 2.20
 *
 * Description:
@@ -15,8 +15,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_necksense2_ALIASES_H) /* Pins necksense2_ALIASES_H */
-#define CY_PINS_necksense2_ALIASES_H
+#if !defined(CY_PINS_fretted_mom_ALIASES_H) /* Pins fretted_mom_ALIASES_H */
+#define CY_PINS_fretted_mom_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -25,12 +25,12 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define necksense2_0			(necksense2__0__PC)
-#define necksense2_0_INTR	((uint16)((uint16)0x0001u << necksense2__0__SHIFT))
+#define fretted_mom_0			(fretted_mom__0__PC)
+#define fretted_mom_0_INTR	((uint16)((uint16)0x0001u << fretted_mom__0__SHIFT))
 
-#define necksense2_INTR_ALL	 ((uint16)(necksense2_0_INTR))
+#define fretted_mom_INTR_ALL	 ((uint16)(fretted_mom_0_INTR))
 
-#endif /* End Pins necksense2_ALIASES_H */
+#endif /* End Pins fretted_mom_ALIASES_H */
 
 
 /* [] END OF FILE */

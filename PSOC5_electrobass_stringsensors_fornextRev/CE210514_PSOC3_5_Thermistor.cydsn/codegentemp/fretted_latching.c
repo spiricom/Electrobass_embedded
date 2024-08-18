@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: ADC_SAR_Seq_1_SAR_Bypass.c  
+* File Name: fretted_latching.c  
 * Version 2.20
 *
 * Description:
@@ -15,15 +15,15 @@
 *******************************************************************************/
 
 #include "cytypes.h"
-#include "ADC_SAR_Seq_1_SAR_Bypass.h"
+#include "fretted_latching.h"
 
 /* APIs are not generated for P15[7:6] on PSoC 5 */
 #if !(CY_PSOC5A &&\
-	 ADC_SAR_Seq_1_SAR_Bypass__PORT == 15 && ((ADC_SAR_Seq_1_SAR_Bypass__MASK & 0xC0) != 0))
+	 fretted_latching__PORT == 15 && ((fretted_latching__MASK & 0xC0) != 0))
 
 
 /*******************************************************************************
-* Function Name: ADC_SAR_Seq_1_SAR_Bypass_Write
+* Function Name: fretted_latching_Write
 ****************************************************************************//**
 *
 * \brief Writes the value to the physical port (data output register), masking
@@ -52,17 +52,17 @@
 *  this function.
 *
 * \funcusage
-*  \snippet ADC_SAR_Seq_1_SAR_Bypass_SUT.c usage_ADC_SAR_Seq_1_SAR_Bypass_Write
+*  \snippet fretted_latching_SUT.c usage_fretted_latching_Write
 *******************************************************************************/
-void ADC_SAR_Seq_1_SAR_Bypass_Write(uint8 value)
+void fretted_latching_Write(uint8 value)
 {
-    uint8 staticBits = (ADC_SAR_Seq_1_SAR_Bypass_DR & (uint8)(~ADC_SAR_Seq_1_SAR_Bypass_MASK));
-    ADC_SAR_Seq_1_SAR_Bypass_DR = staticBits | ((uint8)(value << ADC_SAR_Seq_1_SAR_Bypass_SHIFT) & ADC_SAR_Seq_1_SAR_Bypass_MASK);
+    uint8 staticBits = (fretted_latching_DR & (uint8)(~fretted_latching_MASK));
+    fretted_latching_DR = staticBits | ((uint8)(value << fretted_latching_SHIFT) & fretted_latching_MASK);
 }
 
 
 /*******************************************************************************
-* Function Name: ADC_SAR_Seq_1_SAR_Bypass_SetDriveMode
+* Function Name: fretted_latching_SetDriveMode
 ****************************************************************************//**
 *
 * \brief Sets the drive mode for each of the Pins component's pins.
@@ -85,16 +85,16 @@ void ADC_SAR_Seq_1_SAR_Bypass_Write(uint8 value)
 *  APIs (primary method) or disable interrupts around this function.
 *
 * \funcusage
-*  \snippet ADC_SAR_Seq_1_SAR_Bypass_SUT.c usage_ADC_SAR_Seq_1_SAR_Bypass_SetDriveMode
+*  \snippet fretted_latching_SUT.c usage_fretted_latching_SetDriveMode
 *******************************************************************************/
-void ADC_SAR_Seq_1_SAR_Bypass_SetDriveMode(uint8 mode)
+void fretted_latching_SetDriveMode(uint8 mode)
 {
-	CyPins_SetPinDriveMode(ADC_SAR_Seq_1_SAR_Bypass_0, mode);
+	CyPins_SetPinDriveMode(fretted_latching_0, mode);
 }
 
 
 /*******************************************************************************
-* Function Name: ADC_SAR_Seq_1_SAR_Bypass_Read
+* Function Name: fretted_latching_Read
 ****************************************************************************//**
 *
 * \brief Reads the associated physical port (pin status register) and masks 
@@ -108,16 +108,16 @@ void ADC_SAR_Seq_1_SAR_Bypass_SetDriveMode(uint8 mode)
 *  The current value for the pins in the component as a right justified number.
 *
 * \funcusage
-*  \snippet ADC_SAR_Seq_1_SAR_Bypass_SUT.c usage_ADC_SAR_Seq_1_SAR_Bypass_Read  
+*  \snippet fretted_latching_SUT.c usage_fretted_latching_Read  
 *******************************************************************************/
-uint8 ADC_SAR_Seq_1_SAR_Bypass_Read(void)
+uint8 fretted_latching_Read(void)
 {
-    return (ADC_SAR_Seq_1_SAR_Bypass_PS & ADC_SAR_Seq_1_SAR_Bypass_MASK) >> ADC_SAR_Seq_1_SAR_Bypass_SHIFT;
+    return (fretted_latching_PS & fretted_latching_MASK) >> fretted_latching_SHIFT;
 }
 
 
 /*******************************************************************************
-* Function Name: ADC_SAR_Seq_1_SAR_Bypass_ReadDataReg
+* Function Name: fretted_latching_ReadDataReg
 ****************************************************************************//**
 *
 * \brief Reads the associated physical port's data output register and masks 
@@ -126,8 +126,8 @@ uint8 ADC_SAR_Seq_1_SAR_Bypass_Read(void)
 *
 * The data output register controls the signal applied to the physical pin in 
 * conjunction with the drive mode parameter. This is not the same as the 
-* preferred ADC_SAR_Seq_1_SAR_Bypass_Read() API because the 
-* ADC_SAR_Seq_1_SAR_Bypass_ReadDataReg() reads the data register instead of the status 
+* preferred fretted_latching_Read() API because the 
+* fretted_latching_ReadDataReg() reads the data register instead of the status 
 * register. For output pins this is a useful function to determine the value 
 * just written to the pin.
 *
@@ -136,19 +136,19 @@ uint8 ADC_SAR_Seq_1_SAR_Bypass_Read(void)
 *  justified number for the component instance.
 *
 * \funcusage
-*  \snippet ADC_SAR_Seq_1_SAR_Bypass_SUT.c usage_ADC_SAR_Seq_1_SAR_Bypass_ReadDataReg 
+*  \snippet fretted_latching_SUT.c usage_fretted_latching_ReadDataReg 
 *******************************************************************************/
-uint8 ADC_SAR_Seq_1_SAR_Bypass_ReadDataReg(void)
+uint8 fretted_latching_ReadDataReg(void)
 {
-    return (ADC_SAR_Seq_1_SAR_Bypass_DR & ADC_SAR_Seq_1_SAR_Bypass_MASK) >> ADC_SAR_Seq_1_SAR_Bypass_SHIFT;
+    return (fretted_latching_DR & fretted_latching_MASK) >> fretted_latching_SHIFT;
 }
 
 
 /* If interrupt is connected for this Pins component */ 
-#if defined(ADC_SAR_Seq_1_SAR_Bypass_INTSTAT) 
+#if defined(fretted_latching_INTSTAT) 
 
     /*******************************************************************************
-    * Function Name: ADC_SAR_Seq_1_SAR_Bypass_SetInterruptMode
+    * Function Name: fretted_latching_SetInterruptMode
     ****************************************************************************//**
     *
     * \brief Configures the interrupt mode for each of the Pins component's
@@ -161,12 +161,12 @@ uint8 ADC_SAR_Seq_1_SAR_Bypass_ReadDataReg(void)
     * \param position
     *  The pin position as listed in the Pins component. You may OR these to be 
     *  able to configure the interrupt mode of multiple pins within a Pins 
-    *  component. Or you may use ADC_SAR_Seq_1_SAR_Bypass_INTR_ALL to configure the
+    *  component. Or you may use fretted_latching_INTR_ALL to configure the
     *  interrupt mode of all the pins in the Pins component.       
-    *  - ADC_SAR_Seq_1_SAR_Bypass_0_INTR       (First pin in the list)
-    *  - ADC_SAR_Seq_1_SAR_Bypass_1_INTR       (Second pin in the list)
+    *  - fretted_latching_0_INTR       (First pin in the list)
+    *  - fretted_latching_1_INTR       (Second pin in the list)
     *  - ...
-    *  - ADC_SAR_Seq_1_SAR_Bypass_INTR_ALL     (All pins in Pins component)
+    *  - fretted_latching_INTR_ALL     (All pins in Pins component)
     *
     * \param mode
     *  Interrupt mode for the selected pins. Valid options are documented in
@@ -182,19 +182,19 @@ uint8 ADC_SAR_Seq_1_SAR_Bypass_ReadDataReg(void)
     *  port.
     *
     * \funcusage
-    *  \snippet ADC_SAR_Seq_1_SAR_Bypass_SUT.c usage_ADC_SAR_Seq_1_SAR_Bypass_SetInterruptMode
+    *  \snippet fretted_latching_SUT.c usage_fretted_latching_SetInterruptMode
     *******************************************************************************/
-    void ADC_SAR_Seq_1_SAR_Bypass_SetInterruptMode(uint16 position, uint16 mode)
+    void fretted_latching_SetInterruptMode(uint16 position, uint16 mode)
     {
-		if((position & ADC_SAR_Seq_1_SAR_Bypass_0_INTR) != 0u) 
+		if((position & fretted_latching_0_INTR) != 0u) 
 		{ 
-			 ADC_SAR_Seq_1_SAR_Bypass_0_INTTYPE_REG = (uint8)mode; 
+			 fretted_latching_0_INTTYPE_REG = (uint8)mode; 
 		}
     }
     
     
     /*******************************************************************************
-    * Function Name: ADC_SAR_Seq_1_SAR_Bypass_ClearInterrupt
+    * Function Name: fretted_latching_ClearInterrupt
     ****************************************************************************//**
     *
     * \brief Clears any active interrupts attached with the component and returns 
@@ -211,11 +211,11 @@ uint8 ADC_SAR_Seq_1_SAR_Bypass_ReadDataReg(void)
     *  those associated with the Pins component.
     *
     * \funcusage
-    *  \snippet ADC_SAR_Seq_1_SAR_Bypass_SUT.c usage_ADC_SAR_Seq_1_SAR_Bypass_ClearInterrupt
+    *  \snippet fretted_latching_SUT.c usage_fretted_latching_ClearInterrupt
     *******************************************************************************/
-    uint8 ADC_SAR_Seq_1_SAR_Bypass_ClearInterrupt(void)
+    uint8 fretted_latching_ClearInterrupt(void)
     {
-        return (ADC_SAR_Seq_1_SAR_Bypass_INTSTAT & ADC_SAR_Seq_1_SAR_Bypass_MASK) >> ADC_SAR_Seq_1_SAR_Bypass_SHIFT;
+        return (fretted_latching_INTSTAT & fretted_latching_MASK) >> fretted_latching_SHIFT;
     }
 
 #endif /* If Interrupts Are Enabled for this Pins component */ 

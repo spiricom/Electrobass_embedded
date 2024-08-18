@@ -35,7 +35,7 @@ typedef enum _OLEDLine
 } OLEDLine;
 
 void OLED_init(void);
-
+void OLED_writeCalibrationScreen(int calibration);
 void initUIFunctionPointers(void);
 
 void setLED_Edit(int onOff);
