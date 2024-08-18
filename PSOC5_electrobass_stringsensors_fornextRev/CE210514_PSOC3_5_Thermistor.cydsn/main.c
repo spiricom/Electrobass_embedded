@@ -807,7 +807,7 @@ int main(void)
                 //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
                 LHMuteCounter[i] = 0;
                 pitchFreeze[i] = 0;
-                octave = ((int)I2Cbuff2[1]) + 4;
+                octave = ((int)I2Cbuff2[1]) +1;
                 lastNotes[i] = (int)openStringMIDI[i] + (octave * 12);
                 handleNotes(lastNotes[i], stringPlucks[i], i);
             }
@@ -863,7 +863,7 @@ int main(void)
             }
             else
             {
-                tx2Buffer[26] = 65535 >> 8;
+                tx2Buffer[26] = 4095 >> 8;
                 tx2Buffer[27] = 0xff;
             }
             tx2Buffer[30] = 254;
