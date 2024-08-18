@@ -123,6 +123,7 @@ void OLED_writePresetFlashing()
     
     OLEDwriteString((char *)&presetNamesArray[currentPresetSelection][0], 7, 48,FirstLine);
     OLEDwriteString((char *)&presetNamesArray[currentPresetSelection][7], 7, 48,SecondLine);
+    presetAlreadyDisplayed[currentPresetSelection] = 1;
     OLED_draw();
 	//GFXsetFont(&theGFX, &EuphemiaCAS7pt7b);
 	//OLEDwriteString(modeNamesDetails[currentPreset], (int)strlen(modeNamesDetails[currentPreset]), 0, SecondLine);

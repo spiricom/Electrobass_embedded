@@ -51,7 +51,7 @@
 #define EEPROM_CALIBRATION_OFFSET 0
 #define CALIBRATION_SIZE_IN_BYTES NUM_FRETS * NUM_STRINGS * 2 //for each fret on each string, store 2 bytes to add up to a 16-bit word
 
-
+const float versionNumber = 1.15f;
 volatile uint8 usbActivityCounter = 0u;
  uint8 midiMsg[4];
 volatile uint8_t currentVBUS = 0;
@@ -61,7 +61,7 @@ volatile uint8_t USB_check_flag = 0;
 
 uint16_t midiSent = 0;
 uint16_t midiOverflow = 0;
-
+uint8_t presetAlreadyDisplayed[MAX_NUM_PRESETS];
 uint scanPart = 0;
 uint channel = 0;
 #define TUNING_ARRAY_SIZE 258
@@ -807,7 +807,7 @@ int main(void)
                 //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
                 LHMuteCounter[i] = 0;
                 pitchFreeze[i] = 0;
-                octave = ((int)I2Cbuff2[1]) - 1;
+                octave = ((int)I2Cbuff2[1]) + 4;
                 lastNotes[i] = (int)openStringMIDI[i] + (octave * 12);
                 handleNotes(lastNotes[i], stringPlucks[i], i);
             }
@@ -840,16 +840,36 @@ int main(void)
             if (outChanged)
             {
                 tx2Buffer[0] = 15;
-                tx2Buffer[30] = 253;
-                tx2Buffer[31] = 254;
+                tx2Buffer[30] = 254;
+                tx2Buffer[31] = 253;
             }
             else
             {
-                tx2Buffer[0] = 1;
-                for (int i = 0; i < 4; i++)
-                tx2Buffer[];//TODO
-                tx2Buffer[30] = 253;
-                tx2Buffer[31] = 254;
+                tx2Buffer[0] = 3;
+
+                           
+          
+            for (int i = 0; i < 4; i++)
+            {
+                tx2Buffer[i + 9] = knobs[i] >> 4;
+            }
+
+            tx2Buffer[24] = octave | (0 << 4) | (0 << 5) | (0 << 6);
+            tx2Buffer[25] = currentPresetSelection;
+            if (CV_pedal_sense_Read())
+            {
+                tx2Buffer[26] = knobs[4] >> 8;
+                tx2Buffer[27] = knobs[4] & 0xff;
+            }
+            else
+            {
+                tx2Buffer[26] = 65535 >> 8;
+                tx2Buffer[27] = 0xff;
+            }
+            tx2Buffer[30] = 254;
+            tx2Buffer[31] = 253;
+            
+
             }
             outChanged = 0;
         }
@@ -866,14 +886,15 @@ int main(void)
                 sendMessageEnd = 0;
                 sendingMessage = 0;
                 messageArraySendCount = 0;
-                
+                tx2Buffer[30] = 254;
+                tx2Buffer[31] = 253;
             }
             else //send chunks
             {
                 //send the next preset Chunkkkkk
                 tx2Buffer[0] = 2;
                 tx2Buffer[1] = presetNumberToWrite;
-                for (uint i = 2 ; i < BUFFER_2_SIZE; i++)
+                for (uint i = 2 ; i < BUFFER_2_SIZE-2; i++)
                 {
                     if (messageArraySendCount < messageArraySize)
                     {
@@ -885,6 +906,8 @@ int main(void)
                         sendMessageEnd = 1;
                     }
                 }
+                tx2Buffer[30] = 254;
+                tx2Buffer[31] = 253;
             }
         } 
         else if (sendingMessage == 2) //sending tuning
@@ -896,13 +919,15 @@ int main(void)
                 sendMessageEnd = 0;
                 sendingMessage = 0;
                 messageArraySendCount = 0;
+                tx2Buffer[30] = 254;
+                tx2Buffer[31] = 253;
             }
             else //send chunks
             {
                 //send the next preset Chunkkkkk
                 tx2Buffer[0] = 3;
                 tx2Buffer[1] = presetNumberToWrite;
-                for (uint i = 2 ; i < BUFFER_2_SIZE; i++)
+                for (uint i = 2 ; i < BUFFER_2_SIZE-2; i++)
                 {
                     if (messageArraySendCount < messageArraySize)
                     {
@@ -914,15 +939,12 @@ int main(void)
                         sendMessageEnd = 1;
                     }
                 }
+                tx2Buffer[30] = 254;
+                tx2Buffer[31] = 253;
             }
         }
         
-        else if (sendingMessage == 3) // 3 means load a preset
-        {
-            tx2Buffer[0] = 4; //for the audio chip this message is a 4 
-            tx2Buffer[1] = presetNumberToLoad;
-            sendingMessage = 0;
-        }
+  
         #if 0
         else if (sendingMessage == 4) //4  means waiting for preset loaded response
         {
@@ -955,25 +977,27 @@ int main(void)
             //overflow
         }
         currentOutPointer = 1;
-        if (rx2Buffer[0] == 253) // message that means audio IC is sending preset names)
+
+          //parse input from synth board (names)
+        if ((rx2Buffer[0] == 253) && (rx2Buffer[31] == 254))
         {
-            uint8_t whichPresetToName = rx2Buffer[1];
-            if ((parsingSysex != 1) && (sendingMessage == 0) && (whichPresetToName != currentPresetSelection))
+            int whichPresetToStoreName = rx2Buffer[1];
+            if ((parsingSysex != 1) && (sendingMessage == 0) && (whichPresetToStoreName < MAX_NUM_PRESETS))
             {
-                if (whichPresetToName < MAX_NUM_PRESETS)
+                int bufferPointer = 2;
+                for (int i = 0; i < PRESET_NAME_LENGTH_IN_BYTES; i++)
                 {
-                    for (int i = 0; i < 14; i++)
-                    {
-                        presetNamesArray[whichPresetToName][i] = rx2Buffer[i+2];
-                    }
+                    presetNamesArray[whichPresetToStoreName][i] = rx2Buffer[bufferPointer];
+                    bufferPointer++;
+                }
+              
+                if ((whichPresetToStoreName == currentPresetSelection) && (!presetAlreadyDisplayed[whichPresetToStoreName]))
+                {
+                    sendCurrentPresetNumber();
                 }
             }
         }
-        else if (rx2Buffer[0] == 252) // message that means audio IC is acknowledging preset load)
-        {
-            presetLoadedResponse[0] = rx2Buffer[1];
-            presetLoadedResponse[1] = rx2Buffer[2];
-        }
+
         
         if (tx2Buffer[0] > 0 )
         {
@@ -1516,7 +1540,7 @@ void sendMIDINoteOn(int MIDInoteNum, int velocity, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
-    if (currentOutPointer < (BUFFER_2_SIZE - 4))
+    if (currentOutPointer < (BUFFER_2_SIZE - 6))
     {
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
@@ -1552,7 +1576,7 @@ void sendMIDIPitchBend(int val, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
-    if (currentOutPointer < (BUFFER_2_SIZE - 4))
+    if (currentOutPointer < (BUFFER_2_SIZE - 6))
     {
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
@@ -1579,7 +1603,7 @@ void sendMIDIControlChange(int CCnum, int CCval, int channel)
         USB_PutUsbMidiIn(3u, midiMsg, USB_MIDI_CABLE_00);
     } 
     midiSent += 4;
-    if (currentOutPointer < (BUFFER_2_SIZE - 4))
+    if (currentOutPointer < (BUFFER_2_SIZE - 6))
     {
         tx2BufferTemp[currentOutPointer++] = midiMsg[0];
         tx2BufferTemp[currentOutPointer++] = midiMsg[1];
@@ -2022,7 +2046,7 @@ void scanButtons(void)
         
         sendCurrentPresetNumber();
         presetNumberToLoad = currentPresetSelection;
-        sendingMessage = 3;
+       // sendingMessage = 3;
         //OLED_invert(1);
         buttonCounters[1] = 97;
     }
@@ -2040,7 +2064,7 @@ void scanButtons(void)
         }
         sendCurrentPresetNumber();
         presetNumberToLoad = currentPresetSelection;
-        sendingMessage = 3;
+       //sendingMessage = 3;
         //OLED_invert(1);
         buttonCounters[2] = 97;
     }
