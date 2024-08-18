@@ -293,7 +293,7 @@ void __ATTR_ITCMRAM updateStateFromSPIMessage(uint8_t offset)
 	voice = SPI_RX[25 + offset];
 
 
-	octave = (((int32_t) (modeBit & 15) - 5 ) * 12.0f);
+	//octave = (((int32_t) (modeBit & 15) - 5 ) * 12.0f);
 	//if "octave action" is set to 1, then immediately change octave instead of waiting for new note
 	if (octaveAction)
 	{
