@@ -1685,7 +1685,7 @@ uint8 I2C_MasterWriteBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode)
     return status;
 }
 
-//velocity comes in as a 16 bit number from 0-65*** 
+//velocity comes in as a 16 bit number from 0-65535 
 //not in decibels, raw amplitude value
 int counter2 = 1;
 void handleNotes(int note, int velocity, int string)

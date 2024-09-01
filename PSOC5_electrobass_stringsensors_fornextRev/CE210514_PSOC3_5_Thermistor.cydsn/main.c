@@ -85,6 +85,19 @@ void scanButtons(void);
 void sendCurrentPresetNumber(void);
 uint8 I2C_MasterReadBlocking(uint8 i2CAddr, uint16 nbytes, uint8_t mode);
 
+
+uint8_t mappingArray[6];
+
+
+uint32_t prevLastBufferBegin[2];
+uint32_t lastBufferBegin[2];
+uint32_t masterTimer = 0;
+uint32_t lastParseCall = 0;
+uint32_t prevLastParseCall = 0;
+uint32_t lastBufferStuff = 0;
+uint32_t lastEndReceive = 0;
+
+
 union breakFloat {
  float f;
  uint8_t b[4];  
@@ -120,11 +133,18 @@ uint16_t fretMeasurements[4][2] = {
 //1st fret, 5th fret, 9th fret, 15 fret
 float fretRatios[4] = {0.94387439674627617953623675390268f,0.749153457f, 0.594603498f, 0.420448248f}; 
 
+
 uint8_t sysexBuffer[2048];
-uint32_t sysexPointer = 0;
+uint32_t sysexWritePointer = 0;
+uint32_t sysexReadPointer = 0;
+uint8_t sysexReset = 1;
+uint32_t sysexMessageStartPoints[256];
+uint8_t sysexMessageStartPointsWritePosition = 0;
+uint8_t sysexMessageStartPointsReadPosition = 0;
 uint8_t receivingSysex = 0;
 uint8_t parsingSysex = 0;
-volatile uint8_t presetArray[1024];
+volatile uint8_t presetArray[2048];
+
 uint8_t presetNumberToWrite = 0;
 uint8_t sendMessageEnd = 0;
 enum presetArraySectionState
@@ -157,6 +177,14 @@ int stringPlucksPrev[4];
 int calibration_mode = 0;
 int max_calibration = 16;
 
+uint8_t sendSingleParamUpdate = 0;
+uint8_t singleParamToUpdateHigh = 0;
+uint8_t singleParamToUpdateLow = 0;
+uint8_t singleParamValueHigh = 0;
+uint8_t singleParamValueLow = 0;
+            
+uint8_t sendMappingChangeUpdate = 0;
+
 #define KNOB_FIR_SIZE 8
 #define KNOB_FIR_SIZE_MASK 7
 #define KNOB_FIR_SIZE_BITSHIFT 3
@@ -171,7 +199,8 @@ uint32_t knobsFIR[5][KNOB_FIR_SIZE];
 float hysteresisStates[4];
 float hysteresisLowThresh = 0.4f;
 float hysteresisHighThresh = 0.6f;
-
+uint8_t macroNamesArray[MAX_NUM_PRESETS][NUM_MACROS*NUM_MACRO_PAGES][MACRO_NAME_LENGTH_IN_BYTES];
+uint8_t controlNamesArray[MAX_NUM_PRESETS][NUM_CONTROLS][CONTROL_NAME_LENGTH_IN_BYTES];
 void DmaTxConfiguration(void);
 void DmaRxConfiguration(void);
 
@@ -595,7 +624,7 @@ int main(void)
                 //if (pitchFreeze[whichLinearSensor])
                 //pitchHistoryPointer gets incremented every time after the history is loaded, so here it should point to the next value, which is the oldest that hasn't been yet overwritten
                 {
-                    linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][(((pitchBendHistoryPointer[whichLinearSensor]) - 1) & 31)];
+                    linearFIR[whichLinearSensor][linFirPointer[whichLinearSensor]] = pitchBendHistory[whichLinearSensor][(((pitchBendHistoryPointer[whichLinearSensor]) + 20) & 31)];
                 }
                 //else
                 {
@@ -607,8 +636,8 @@ int main(void)
                     linearSmoothed[whichLinearSensor] += linearFIR[whichLinearSensor][j];
                 }             
                 linFirPointer[whichLinearSensor] = (linFirPointer[whichLinearSensor] + 1) & LINEAR_FIR_SIZE_MASK;
-                linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;
-                
+                //linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;
+                linearSmoothed[whichLinearSensor] = linearPotValue32Bit[whichLinearSensor];
                 if (calibration_mode > 0)
                 {
                     int whichStringToStore = (calibration_mode - 1) / 4;
@@ -647,6 +676,9 @@ int main(void)
                 pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = linearPotValue32Bit[whichLinearSensor];
                 pitchBendHistoryPointer[whichLinearSensor] =  (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
 
+                
+                //vibrato stuff
+                /*
                 //get vibrato by filtering unfretted signal with a highpass (computed with Max/MSP filtergraph, remember sample rate is very low, like 1Hz)    
                 float oldx = filtx[whichLinearSensor][1];
                 filtx[whichLinearSensor][1] = filtx[whichLinearSensor][0];
@@ -687,6 +719,24 @@ int main(void)
                 pitchBendVal  = ((stringMIDI[whichLinearSensor] - openStringMIDI[whichLinearSensor]) * 170.5f) + 8192.0f;
                 openStringCount[whichLinearSensor] = 0;
                 pitchBendsPerString[whichLinearSensor] = pitchBendVal;
+                
+                */
+                if (frettedState)
+                { 
+                    if ((stringMIDI[whichLinearSensor] > (stringMIDIPrev[whichLinearSensor] + linearHysteresis)) || ((stringMIDI[whichLinearSensor] < (stringMIDIPrev[whichLinearSensor] - linearHysteresis))))
+                    {
+                        stringMIDI[whichLinearSensor] = roundf(stringMIDI[whichLinearSensor]);
+                        stringMIDIPrev[whichLinearSensor] = stringMIDI[whichLinearSensor];
+                    }
+                    else
+                    {
+                       stringMIDI[whichLinearSensor] =  stringMIDIPrev[whichLinearSensor];
+                    }
+                }
+                pitchBendVal  = ((stringMIDI[whichLinearSensor] - openStringMIDI[whichLinearSensor]) * 170.5f) + 8192.0f;
+                openStringCount[whichLinearSensor] = 0;
+                pitchBendsPerString[whichLinearSensor] = pitchBendVal;
+                
 
             }
            
@@ -724,7 +774,11 @@ int main(void)
         {
             for (int i = 0; i < 5; i++)
             {
-                knobsFIR[i][firPointer] = ADC_SAR_Seq_1_GetResult16(i);
+                knobsFIR[i][firPointer] = 4095 - ADC_SAR_Seq_1_GetResult16(i);//values are upside down
+                if (i==4) //cv pedal is not backwards, flip it
+                {
+                    knobsFIR[i][firPointer] = 4095 - knobsFIR[i][firPointer];
+                }
                 knobs[i] = 0;
                 for (int j = 0; j < KNOB_FIR_SIZE; j++)
                 {
@@ -736,13 +790,13 @@ int main(void)
                 
                 if ((knobs[i] > (knobs7bitPrevLS[i] + knobs7bitHysteresis)) || (knobs[i] < (knobs7bitPrevLS[i] - knobs7bitHysteresis)))
                 {
-                    knobs7bit[i] = knobs[i] >> 5;
+                    knobs7bit[i] = (knobs[i] >> 5);
                 }
                 if (knobs7bit[i] != knobs7bitPrev[i])
                 {
                     if (i < 4)
                     {
-                        sendMIDIControlChange(9 + i , 127-knobs7bit[i], 0);
+                        sendMIDIControlChange(9 + i , knobs7bit[i], 0);
                     }
                     if ((i == 4) && (CV_pedal_sense_Read()))
                     {
@@ -768,7 +822,7 @@ int main(void)
             if (((CapSense_sensorOnMask[0] >> (i + 4)) & 1) &&  (linearPotValue32Bit[i] == 65535))
             {
                 LHMute[i] = 1; 
-                if ((LHMuteCounter[i] < 127) && (stringStates[i][0] >= 0))
+                if ((LHMuteCounter[i] < 62) && (stringStates[i][0] >= 0))
                 {
                     LHMuteCounter[i]++;
                     //sendMIDIControlChangeComputer(116+i, LHMuteCounter[i],6);
@@ -807,7 +861,7 @@ int main(void)
                 //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
                 LHMuteCounter[i] = 0;
                 pitchFreeze[i] = 0;
-                octave = ((int)I2Cbuff2[1]) +1;
+                octave = ((int)I2Cbuff2[1]) -1;
                 lastNotes[i] = (int)openStringMIDI[i] + (octave * 12);
                 handleNotes(lastNotes[i], stringPlucks[i], i);
             }
@@ -846,34 +900,30 @@ int main(void)
             else
             {
                 tx2Buffer[0] = 3;
+                for (int i = 0; i < 4; i++)
+                {
+                    tx2Buffer[i + 9] = knobs[i] >> 4;
+                }
 
-                           
-          
-            for (int i = 0; i < 4; i++)
-            {
-                tx2Buffer[i + 9] = knobs[i] >> 4;
-            }
-
-            tx2Buffer[24] = octave | (0 << 4) | (0 << 5) | (0 << 6);
-            tx2Buffer[25] = currentPresetSelection;
-            if (CV_pedal_sense_Read())
-            {
-                tx2Buffer[26] = knobs[4] >> 8;
-                tx2Buffer[27] = knobs[4] & 0xff;
-            }
-            else
-            {
-                tx2Buffer[26] = 4095 >> 8;
-                tx2Buffer[27] = 0xff;
-            }
-            tx2Buffer[30] = 254;
-            tx2Buffer[31] = 253;
-            
-
+                tx2Buffer[24] = octave | (0 << 4) | (0 << 5) | (0 << 6);
+                tx2Buffer[25] = currentPresetSelection;
+                if (CV_pedal_sense_Read())
+                {
+                    tx2Buffer[26] = knobs[4] >> 8;
+                    tx2Buffer[27] = knobs[4] & 0xff;
+                }
+                else
+                {
+                    tx2Buffer[26] = 4095 >> 8;
+                    tx2Buffer[27] = 0xff;
+                }
+                tx2Buffer[30] = 254;
+                tx2Buffer[31] = 253;
             }
             outChanged = 0;
         }
-        else if(sendingMessage == 1) //sending preset to audio chip
+               //testpin6_Write(1);
+        if (sendingMessage == 1) //sending synthesis preset to synth board
         {
             if (sendMessageEnd) //send end message
             {
@@ -881,13 +931,14 @@ int main(void)
                 tx2Buffer[1] = presetNumberToWrite;
                 currentPresetSelection = presetNumberToWrite;
                 //display previous preset as loaded
-                sendCurrentPresetNumber();
-               // OLED_invert(0);
+               // displayCurrentPresetNameAndCopedent();
+                //OLED_invert(0);
                 sendMessageEnd = 0;
                 sendingMessage = 0;
                 messageArraySendCount = 0;
                 tx2Buffer[30] = 254;
                 tx2Buffer[31] = 253;
+                
             }
             else //send chunks
             {
@@ -908,8 +959,35 @@ int main(void)
                 }
                 tx2Buffer[30] = 254;
                 tx2Buffer[31] = 253;
-            }
-        } 
+            }    
+        }
+        
+        else if (sendSingleParamUpdate)
+        {
+            tx2Buffer[0] = 6;
+            tx2Buffer[1] = singleParamToUpdateHigh;
+            tx2Buffer[2] = singleParamToUpdateLow;
+            tx2Buffer[3] = singleParamValueHigh;
+            tx2Buffer[4] = singleParamValueLow;
+            tx2Buffer[30] = 254;
+            tx2Buffer[31] = 253;
+            sendSingleParamUpdate = 0;
+        }
+        
+        else if (sendMappingChangeUpdate)
+        {
+            tx2Buffer[0] = 7;
+            tx2Buffer[1] = mappingArray[0];
+            tx2Buffer[2] =  mappingArray[1];
+            tx2Buffer[3] =  mappingArray[2];
+            tx2Buffer[4] =  mappingArray[3];
+            tx2Buffer[5] =  mappingArray[4];
+            tx2Buffer[6] =  mappingArray[5];
+            tx2Buffer[30] = 254;
+            tx2Buffer[31] = 253;
+            sendMappingChangeUpdate = 0;
+        }
+        
         else if (sendingMessage == 2) //sending tuning
         {
             if (sendMessageEnd) //send end message
@@ -971,7 +1049,7 @@ int main(void)
 
         
         
-        if (currentOutPointer > BUFFER_2_SIZE)
+        if (currentOutPointer > BUFFER_2_SIZE-2)
         {
             //LED1_Write(1);
             //overflow
@@ -1126,52 +1204,87 @@ void USB_service(void)
 
 #define NUM_MACROS 8
 
+volatile uint8_t checkStatus = 0;
+volatile uint16_t checkBase = 0;
+volatile uint8_t tempMIDI[4];
+volatile uint8_t firstSysex = 0;
+const uint32_t sysexPointerMask = 2047;
+volatile uint32_t moreToDo = 0;
+
+
+volatile uint32_t nearbyValues[16];
+
 void parseSysex(void)
 {
     parsingSysex = 1;
     
-     if (sysexBuffer[0] == 0)
+    uint32_t messageStart = sysexMessageStartPoints[sysexMessageStartPointsReadPosition];
+    uint32_t messageEnd = sysexMessageStartPoints[(sysexMessageStartPointsReadPosition + 1)];
+    sysexMessageStartPointsReadPosition++; //get ready for next one
+    sysexReadPointer = messageStart;
+    for (int i = 0; i < 16; i++)
+    {
+        nearbyValues[i]= sysexBuffer[(sysexReadPointer-8+i) &sysexPointerMask];
+    }
+    //0 = it's a preset
+    if (sysexBuffer[sysexReadPointer & sysexPointerMask] == 0)
     {
         sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
         currentFloat = 0;
         presetArraySection = presetName;
-        presetNumberToWrite = sysexBuffer[1];
+        presetNumberToWrite = sysexBuffer[(sysexReadPointer+1) & sysexPointerMask];
+        presetArray[0] = sysexBuffer[(sysexReadPointer+2) & sysexPointerMask];
+        presetArray[1] = sysexBuffer[(sysexReadPointer+3) & sysexPointerMask];
+        presetArray[2] = sysexBuffer[(sysexReadPointer+4) & sysexPointerMask];
+        presetArray[3] = sysexBuffer[(sysexReadPointer+5) & sysexPointerMask];
         
         union breakFloat theVal;
-        uint32_t i = 2;
-        uint8_t stoppingPoint = NAME_LENGTH_IN_BYTES+2;
+        uint32_t i = 6;
+        sysexReadPointer = i + sysexReadPointer;
+        uint8_t stoppingPoint = PRESET_NAME_LENGTH_IN_BYTES+i;
         for (; i < stoppingPoint; i++)
         {
-            presetArray[i-2] = sysexBuffer[i] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
-            presetNamesArray[presetNumberToWrite][i-2] = sysexBuffer[i] & 127;
+            presetArray[i-2] = sysexBuffer[sysexReadPointer & sysexPointerMask] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+            presetNamesArray[presetNumberToWrite][i-6] = sysexBuffer[sysexReadPointer & sysexPointerMask] & 127;
+            sysexReadPointer++;
         }
         
         presetArraySection = macroNames;
 
         
-        for (int j = 0; j < NUM_MACROS; j++)
+        for (int j = 0; j < (NUM_MACROS); j++)
         {
-            for (int k = 0; k < NAME_LENGTH_IN_BYTES; k++)
+            for (int k = 0; k < MACRO_NAME_LENGTH_IN_BYTES; k++)
             {
-                presetArray[i-2] = sysexBuffer[i] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
-                //don't actually need to store macro names in the Electrobass, since we can't access them right now
-                //macroNamesArray[presetNumberToWrite][j][k] = sysexBuffer[i] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+                presetArray[i-2] = sysexBuffer[sysexReadPointer & sysexPointerMask] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+                macroNamesArray[presetNumberToWrite][j][k] = sysexBuffer[sysexReadPointer & sysexPointerMask] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
                 i++;
+                sysexReadPointer++;
+            }
+        }
+        for (int j = 0; j < NUM_CONTROLS; j++)
+        {
+            for (int k = 0; k < CONTROL_NAME_LENGTH_IN_BYTES; k++)
+            {
+                presetArray[i-2] = sysexBuffer[sysexReadPointer & sysexPointerMask] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+                controlNamesArray[presetNumberToWrite][j][k] = sysexBuffer[sysexReadPointer & sysexPointerMask] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
+                 i++;
+                sysexReadPointer++;
             }
         }
         
-        uint16_t valsStart = NAME_LENGTH_IN_BYTES + (NAME_LENGTH_IN_BYTES * NUM_MACROS);
+        uint16_t valsStart = 4 + PRESET_NAME_LENGTH_IN_BYTES + (MACRO_NAME_LENGTH_IN_BYTES * NUM_MACROS) + (CONTROL_NAME_LENGTH_IN_BYTES * NUM_CONTROLS);
         
         presetArraySection = initialVals;
         
-        for (; i < sysexPointer; i = i+5)
+        for (; sysexReadPointer < (messageEnd); sysexReadPointer = (sysexReadPointer+5))
         {
             theVal.u32 = 0;
-            theVal.u32 |= ((sysexBuffer[i] &15) << 28);
-            theVal.u32 |= (sysexBuffer[i+1] << 21);
-            theVal.u32 |= (sysexBuffer[i+2] << 14);
-            theVal.u32 |= (sysexBuffer[i+3] << 7);
-            theVal.u32 |= (sysexBuffer[i+4] & 127);
+            theVal.u32 |= ((sysexBuffer[sysexReadPointer & sysexPointerMask ] &15) << 28);
+            theVal.u32 |= (sysexBuffer[(sysexReadPointer+1) & sysexPointerMask] << 21);
+            theVal.u32 |= (sysexBuffer[(sysexReadPointer+2) & sysexPointerMask] << 14);
+            theVal.u32 |= (sysexBuffer[(sysexReadPointer+3) & sysexPointerMask] << 7);
+            theVal.u32 |= (sysexBuffer[(sysexReadPointer+4) & sysexPointerMask] & 127);
             testVal = theVal.f;
             if (presetArraySection == initialVals)
             {
@@ -1203,7 +1316,7 @@ void parseSysex(void)
                         //error state
                         SPI_errors++;
                         sysexMessageInProgress = 0;
-                        sysexPointer = 0;
+                        //sysexPointer = 0;
                         sendingMessage = 0;
                         parseThatMF = 0;
                     }
@@ -1220,18 +1333,18 @@ void parseSysex(void)
             else if (presetArraySection == mapping)
             {
                 // this is the order
-                // source (int), target (int), scalarSource (arrives as -1.0f if no scalar, send as 255 if no scalar)(int), range (float -1.0 to 1.0)
+                // source (int), target (int), scalarSource (arrives as -1.0f if no scalar, send as 255 if no scalar)(int), range (float -1.0 to 1.0), slot# (in uint8_t)
                 if (numMappings < mapCountExpectation)
                 {
-                    if ((mapCount % 4) == 0)
+                    if ((mapCount % 5) == 0)
                     {
                         presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
                     }
-                    else if  (mapCount % 4 == 1)
+                    else if  (mapCount % 5 == 1)
                     {
                         presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
                     }
-                    else if (mapCount % 4 == 2) //check if the scalar source is -1 (if so send 255 instead of a valid source number)
+                    else if (mapCount % 5 == 2) //check if the scalar source is -1 (if so send 255 instead of a valid source number)
                     {
                         if (theVal.f < 0.0f)
                         {
@@ -1242,11 +1355,16 @@ void parseSysex(void)
                              presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
                         }
                     }
-                    else
+                    else if (mapCount % 5 == 3)
                     {
                         int16_t intVal = (int16_t)(theVal.f * 32767.0f); //keep it signed to allow negative numbers
                         presetArray[valsStart + currentFloat++] = intVal >> 8;
                         presetArray[valsStart + currentFloat++] = intVal & 0xff;
+
+                    }
+                    else
+                    {
+                        presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
                         numMappings++;
                     }
                     mapCount++;
@@ -1263,6 +1381,7 @@ void parseSysex(void)
                         presetArraySection = presetEnd;
                         sysexMessageInProgress = 0;
                         sendingMessage = 1;
+                        currentPresetSelection = presetNumberToWrite;
                         messageArraySize = valsStart + currentFloat;
                     }
                     else
@@ -1270,7 +1389,7 @@ void parseSysex(void)
                         //error state
                         SPI_errors++;
                         sysexMessageInProgress = 0;
-                        sysexPointer = 0;
+                       // sysexPointer = 0;
                         sendingMessage = 0;
                         parseThatMF = 0;
                     }
@@ -1278,254 +1397,181 @@ void parseSysex(void)
             }
             
         }
+    }
+    else if (sysexBuffer[sysexReadPointer & sysexPointerMask] == 3) //it's a real-time parameter change
+    {
+        sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
+        union breakFloat theVal;
+        uint32_t i = (2+messageStart);
+        
+        //get the parameter ID
+        theVal.u32 = 0;
+        theVal.u32 |= ((sysexBuffer[i & sysexPointerMask] &15) << 28);
+        theVal.u32 |= (sysexBuffer[(i+1) & sysexPointerMask] << 21);
+        theVal.u32 |= (sysexBuffer[(i+2) & sysexPointerMask] << 14);
+        theVal.u32 |= (sysexBuffer[(i+3) & sysexPointerMask] << 7);
+        theVal.u32 |= (sysexBuffer[(i+4) & sysexPointerMask] & 127);
+        uint16_t roundedIndex = (uint16_t)roundf(theVal.f);
+        singleParamToUpdateHigh = (roundedIndex << 8);
+        singleParamToUpdateLow = roundedIndex & 0xff;
+        
+        i = (i+5);
+        
+        //get the parameter value
+        theVal.u32 = 0;
+        theVal.u32 |= ((sysexBuffer[i & sysexPointerMask] &15) << 28);
+        theVal.u32 |= (sysexBuffer[(i+1)& sysexPointerMask] << 21);
+        theVal.u32 |= (sysexBuffer[(i+2)& sysexPointerMask] << 14);
+        theVal.u32 |= (sysexBuffer[(i+3)& sysexPointerMask] << 7);
+        theVal.u32 |= (sysexBuffer[(i+4)& sysexPointerMask] & 127);
+        
+        uint16_t intVal = (uint16_t)(theVal.f * 65535.0f);
+        singleParamValueHigh = intVal >> 8;
+        singleParamValueLow = intVal & 0xff;
+        
+        sysexMessageInProgress = 0;
+        sendSingleParamUpdate = 1;
     }
     
-    #if 0
-    //0 = it's a preset
-    if (sysexBuffer[0] == 0)
+     else if (sysexBuffer[sysexReadPointer & sysexPointerMask] == 4) //it's a real-time mapping change
     {
-        
-        
-        //if (sysexBuffer[2] == 0)
-        {
-            sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
-            currentFloat = 0;
-            presetArraySection = presetName;
-        }
-        presetNumberToWrite = sysexBuffer[1];
-        
+        sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
         union breakFloat theVal;
-        uint32_t i = 2;
-        for (; i < 16; i++)
-        {
-            presetArray[i-2] = sysexBuffer[i] & 127; // pass on the first 14 elements as 8-bit bytes (they are the chars for the name string)
-            presetNamesArray[presetNumberToWrite][i-2] = sysexBuffer[i] & 127;
-        }
-        uint16_t valsStart = 14;
+        uint32_t i = (2 + messageStart);
         
-        presetArraySection = initialVals;
-        for (; i < sysexPointer; i = i+5)
+        //get the destination number
+        theVal.u32 = 0;
+        theVal.u32 |= ((sysexBuffer[i & sysexPointerMask] &15) << 28);
+        theVal.u32 |= (sysexBuffer[(i+1) & sysexPointerMask] << 21);
+        theVal.u32 |= (sysexBuffer[(i+2) & sysexPointerMask] << 14);
+        theVal.u32 |= (sysexBuffer[(i+3) & sysexPointerMask] << 7);
+        theVal.u32 |= (sysexBuffer[(i+4) & sysexPointerMask] & 127);
+        uint16_t roundedIndex = (uint16_t)roundf(theVal.f);
+        mappingArray[0] = (roundedIndex << 8);
+        mappingArray[1] = roundedIndex & 0xff;
+        
+        
+        mappingArray[2] = sysexBuffer[(i+5) & sysexPointerMask]; //slot id
+        mappingArray[3] = sysexBuffer[(i+6) & sysexPointerMask]; //mapping change type
+        
+        i = (i+7);
+        
+        //get the parameter value
+        theVal.u32 = 0;
+        theVal.u32 |= ((sysexBuffer[i & sysexPointerMask] &15) << 28);
+        theVal.u32 |= (sysexBuffer[(i+1) & sysexPointerMask] << 21);
+        theVal.u32 |= (sysexBuffer[(i+2) & sysexPointerMask] << 14);
+        theVal.u32 |= (sysexBuffer[(i+3) & sysexPointerMask] << 7);
+        theVal.u32 |= (sysexBuffer[(i+4) & sysexPointerMask] & 127);
+        if (mappingArray[3] == 0) // source id
         {
-            theVal.u32 = 0;
-            theVal.u32 |= ((sysexBuffer[i] &15) << 28);
-            theVal.u32 |= (sysexBuffer[i+1] << 21);
-            theVal.u32 |= (sysexBuffer[i+2] << 14);
-            theVal.u32 |= (sysexBuffer[i+3] << 7);
-            theVal.u32 |= (sysexBuffer[i+4] & 127);
-            testVal = theVal.f;
-            if (presetArraySection == initialVals)
-            {
+            mappingArray[4] = 0;
+            mappingArray[5] = (int16_t)(roundf(theVal.f));
+        }
+        else if (mappingArray[3] == 1) // amount
+        {
+            int16_t intVal = (int16_t)(theVal.f * 32767.0f);
+            mappingArray[4] = intVal >> 8;
+            mappingArray[5] = intVal & 0xff;
+        }
+        else // scalar source
+        {
+            mappingArray[4] = 0;
+            mappingArray[5] = (int16_t)(roundf(theVal.f));
+        }
+        
+        
+        sysexMessageInProgress = 0;
+        sendMappingChangeUpdate = 1;
+    }
 
-                if (currentFloat == 0)
-                {
-                    valsCount = (uint16_t) theVal.f;
-                    presetArray[valsStart + currentFloat++] = valsCount >> 8;
-                    presetArray[valsStart + currentFloat++] = valsCount & 0xff;
-                }
-                else if (currentFloat < ((valsCount+1)*2))
-                { 
-                    uint16_t intVal = (uint16_t)(theVal.f * 65535.0f);
-                    presetArray[valsStart + currentFloat++] = intVal >> 8;
-                    presetArray[valsStart + currentFloat++] = intVal & 0xff;
-                }
-                else if (currentFloat == ((valsCount+1)*2))
-                {
-                    valCheck = theVal.f;
-                    if ((valCheck < -1.5f) && (valCheck > -2.5f))
-                    {
-                        presetArray[valsStart + currentFloat++] = 0xef;
-                        presetArray[valsStart + currentFloat++] = 0xef;
-                        presetArraySection = mapCountNext;
-                        mapCount = 0;
-                    }
-                    else
-                    {
-                        //error state
-                        SPI_errors++;
-                        sysexMessageInProgress = 0;
-                        sysexPointer = 0;
-                        sendingMessage = 0;
-                        parseThatMF = 0;
-                    }
-                }
-            }
-            else if (presetArraySection == mapCountNext)
-            {
-                mapCountExpectation = (uint16_t)theVal.f;
-                presetArray[valsStart + currentFloat++] = mapCountExpectation >> 8;
-                presetArray[valsStart + currentFloat++] = mapCountExpectation & 0xff;
-                presetArraySection = mapping;
-                numMappings = 0;
-            }
-            else if (presetArraySection == mapping)
-            {
-                // this is the order
-                // source (int), target (int), scalarSource (arrives as -1.0f if no scalar, send as 255 if no scalar)(int), range (float -1.0 to 1.0)
-                if (numMappings < mapCountExpectation)
-                {
-                    if ((mapCount % 4) == 0)
-                    {
-                        presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
-                    }
-                    else if  (mapCount % 4 == 1)
-                    {
-                        presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
-                    }
-                    else if (mapCount % 4 == 2) //check if the scalar source is -1 (if so send 255 instead of a valid source number)
-                    {
-                        if (theVal.f < 0.0f)
-                        {
-                             presetArray[valsStart + currentFloat++] = 0xff;
-                        }
-                        else
-                        {
-                             presetArray[valsStart + currentFloat++] = (uint8_t)theVal.f;
-                        }
-                    }
-                    else
-                    {
-                        int16_t intVal = (int16_t)(theVal.f * 32767.0f); //keep it signed to allow negative numbers
-                        presetArray[valsStart + currentFloat++] = intVal >> 8;
-                        presetArray[valsStart + currentFloat++] = intVal & 0xff;
-                        numMappings++;
-                    }
-                    mapCount++;
-                }
-                
+    parsingSysex = 0;
+    if (sysexMessageStartPointsReadPosition == sysexMessageStartPointsWritePosition)
+    {
+        parseThatMF = 0;
+    }
+    else
+    {
+        moreToDo++;
+    }
+}
 
+
+
+// this gets called if the Brain gets a MIDI message from the computer host
+void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
+{   
+    tempMIDI[0] = midiMsg[0];
+    tempMIDI[1] = midiMsg[1];
+    tempMIDI[2] = midiMsg[2];
+    tempMIDI[3] = midiMsg[3];
+    //check that we got here
+    
+    if ((USB_active) && (USB_VBusPresent()))
+    {
+        if (receivingSysex)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (midiMsg[i] < 128)
+                {
+                    sysexBuffer[(sysexWritePointer++) & sysexPointerMask] = midiMsg[i];
+                    lastBufferStuff = masterTimer;
+                    
+                }
                 else
                 {
-                    //mapcount ended
-                    if ((theVal.f < -2.5f) && (theVal.f > -3.5f))
+                    if (midiMsg[i] == USB_MIDI_EOSEX)
                     {
-                        presetArray[valsStart + currentFloat++] = 0xfe;
-                        presetArray[valsStart + currentFloat++] = 0xfe;
-                        presetArraySection = presetEnd;
-                        sysexMessageInProgress = 0;
-                        sendingMessage = 1;
-                        messageArraySize = valsStart + currentFloat;
-                    }
-                    else
-                    {
-                        //error state
-                        SPI_errors++;
-                        sysexMessageInProgress = 0;
-                        sysexPointer = 0;
-                        sendingMessage = 0;
-                        parseThatMF = 0;
-                    }
+                        receivingSysex = 0;
+                        lastEndReceive = masterTimer;
+
+                        //parseSysex();
+                        return;
+                     }
                 }
             }
-            
+            masterTimer++;
         }
-    }
-    #endif
-    else if (sysexBuffer[0] == 1) //its a tuning
-    {
-        
-        sysexMessageInProgress = 1; // set a flag that we've started a sysex preset transfer. May take multiple sysex parse calls on the chunks to complete
-        currentFloat = 0;
-        presetNumberToWrite = sysexBuffer[1];
-        union breakFloat theVal;
-        for (uint32_t i = 2; i < sysexPointer; i = i+5)
+        else if (midiMsg[USB_EVENT_BYTE0] == USB_MIDI_SYSEX)
         {
-            theVal.u32 = 0;
-            theVal.u32 |= ((sysexBuffer[i] &15) << 28);
-            theVal.u32 |= (sysexBuffer[i+1] << 21);
-            theVal.u32 |= (sysexBuffer[i+2] << 14);
-            theVal.u32 |= (sysexBuffer[i+3] << 7);
-            theVal.u32 |= (sysexBuffer[i+4] & 127);
-            testVal = theVal.f;
-            uint16_t intVal = (uint16_t)(theVal.f * 512.0f);//(uint16_t)(theVal.f * 65535.0f);
-            tuningArray[currentFloat++] = intVal >> 8;
-            tuningArray[currentFloat++] = intVal & 0xff;
-        }
-        
-        tuningArray[currentFloat++] = 0xef;
-        tuningArray[currentFloat++] = 0xef;
-                        
-        
-        messageArraySize = currentFloat;
+            if (!parsingSysex)
+            {
+                if (midiMsg[1] == 126) // special message saying that sysex multi-chunk transmission is finished. Parse it!
+                {
+                    parseThatMF = 1;
+                    prevLastParseCall = lastParseCall;
+                    lastParseCall = masterTimer;
+                    sysexReset = 1;
+                    sysexMessageStartPointsWritePosition++;
+                    sysexMessageStartPoints[sysexMessageStartPointsWritePosition] = sysexWritePointer;
                     
-        if(messageArraySize != TUNING_ARRAY_SIZE)
-        {
-            //error state
-            SPI_errors++;
-            sysexMessageInProgress = 0;
-            sysexPointer = 0;
-            sendingMessage = 0;
-            parseThatMF = 0;
-        } else 
-        {
-            sysexMessageInProgress = 0;
-            sendingMessage = 2;
-        }
-    }
-    parsingSysex = 0;
-    sysexPointer = 0;
-    parseThatMF = 0;
-}
-
-
-
-volatile uint8_t tempMIDI[4];
-volatile uint8_t firstSysex = 0;
-const uint16_t sysexPointerMask = 2047;
-
-//data sent from computer
-void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
-{
-    //tempMIDI[0] = midiMsg[0];
-    //tempMIDI[1] = midiMsg[1];
-    //tempMIDI[2] = midiMsg[2];
-    //tempMIDI[3] = midiMsg[3];
-    //check that we got here
-    if (receivingSysex)
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            if (midiMsg[i] < 128)
-            {
-                sysexBuffer[(sysexPointer++) & sysexPointerMask] = midiMsg[i];
-            }
-            else
-            {
-                if (midiMsg[i] == USB_MIDI_EOSEX)
+                    //sysexPointer = 0;
+                }
+                else if (midiMsg[1] == 0 || midiMsg[1] == 1 || midiMsg[1] == 2 || midiMsg[1] == 3 || midiMsg[1] == 4)
                 {
-                    receivingSysex = 0;
-                    //parseSysex();
-                    return;
-                 }
-            }
-        }
-    }
-    else if (midiMsg[USB_EVENT_BYTE0] == USB_MIDI_SYSEX)
-    {
-        if (!parsingSysex)
-        {
+                    receivingSysex = 1;
 
-            if (midiMsg[1] == 126) // special message saying that sysex multi-chunk transmission is finished. Parse it!
-            {
-                parseThatMF = 1;
-
-                //sysexPointer = 0;
-            }
-            else if (midiMsg[1] == 0 || midiMsg[1] == 1)
-            {
-                receivingSysex = 1;
-                
-                // if this is the first chunk, put in the first and second elements (following chunks need this data stripped until the final message gets sent)
-                if (sysexPointer == 0)
-                {
-
-                    sysexBuffer[sysexPointer++ & sysexPointerMask] = midiMsg[1];
-                    sysexBuffer[sysexPointer++ & sysexPointerMask] = midiMsg[2];
+                    // if this is the first chunk, put in the first and second elements (following chunks need this data stripped until the final message gets sent)
+                    if (sysexReset == 1)
+                    {
+                        sysexBuffer[sysexWritePointer++ & sysexPointerMask] = midiMsg[1];
+                        sysexBuffer[sysexWritePointer++ & sysexPointerMask] = midiMsg[2];
+                        sysexReset = 0;
+                    }
+                    prevLastBufferBegin[0] = lastBufferBegin[0] ;
+                    prevLastBufferBegin[1] = lastBufferBegin[1];
+                    lastBufferBegin[0] = masterTimer;
+                    lastBufferBegin[1] = midiMsg[1];
                 }
             }
+            masterTimer++;
         }
+        
+        
+        cable = cable; // so it doesn't complain about unused variables
     }
-    cable = cable;
-}
+}    
 
 volatile uint16_t missedNotes = 0;
 
@@ -1899,13 +1945,13 @@ void handleNotes(int note, int velocity, int string)
             //(would maybe mean this is just sympathetic bridge resonance and shouldn't interrupt the monophonic handling)
             // maybe need more complexity in time since attack? // or maybe do active suppression in the pluck detector board by summing strings with the inverse of the nearby strings
             uint8_t ignore = 0;
-            if (velocity < 10) // 25
+            if (velocity < 25) // 25
             {
                 ignore = 1;   
             }
-            else if ((loudestSoundingNote >=30) && (velocity <= 30))
+           // else if ((loudestSoundingNote >=30) && (velocity <= 30))
             {
-                ignore = 1;
+           //     ignore = 1;
             }
             
             if (!ignore)
@@ -1987,7 +2033,7 @@ void scanButtons(void)
     {
         if (buttonInputs[i] && (buttonStates[i] == 1)) //subsequent down state
         {
-            if (buttonCounters[i] < 100)
+            if (buttonCounters[i] < 60)
             {
                 buttonCounters[i]++;
             }
@@ -2002,10 +2048,10 @@ void scanButtons(void)
     }
     
     //fretted processing
-    if (buttonCounters[0] == 95)
+    if (buttonCounters[0] == 50)
     {
         frettedStateLatched = !frettedStateLatched;
-        buttonCounters[0] = 97;
+        buttonCounters[0] = 52;
     }
     
     int momentary_fretted = ((int)I2Cbuff2[2] > 0);
@@ -2033,7 +2079,7 @@ void scanButtons(void)
     
     //up and down processing
     //if up pressed
-    if (buttonCounters[1] == 95)
+    if (buttonCounters[1] == 50)
     {
         if (currentPresetSelection < highestPresetNumber)
         {
@@ -2048,10 +2094,10 @@ void scanButtons(void)
         presetNumberToLoad = currentPresetSelection;
        // sendingMessage = 3;
         //OLED_invert(1);
-        buttonCounters[1] = 97;
+        buttonCounters[1] = 52;
     }
     //if down pressed
-    if (buttonCounters[2] == 95)
+    if (buttonCounters[2] == 50)
     {
         if (currentPresetSelection > 0)
         {
@@ -2066,10 +2112,10 @@ void scanButtons(void)
         presetNumberToLoad = currentPresetSelection;
        //sendingMessage = 3;
         //OLED_invert(1);
-        buttonCounters[2] = 97;
+        buttonCounters[2] = 52;
     }
     //if enter pressed
-    if (buttonCounters[3] == 95)
+    if (buttonCounters[3] == 50)
     {
         if (calibration_mode > 0)
         {
@@ -2101,13 +2147,13 @@ void scanButtons(void)
             OLED_writeCalibrationScreen(calibration_mode);
         }
 
-        buttonCounters[3] = 97;
+        buttonCounters[3] = 52;
     }
     
-    if (buttonCounters[4] == 95)
+    if (buttonCounters[4] == 50)
     {
         //polyMode = !polyMode;
-        buttonCounters[4] = 97;
+        buttonCounters[4] = 52;
     }        
 }
 

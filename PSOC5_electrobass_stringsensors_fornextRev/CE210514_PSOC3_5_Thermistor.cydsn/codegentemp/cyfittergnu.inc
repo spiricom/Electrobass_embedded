@@ -2023,11 +2023,11 @@
 .set cv_pedal__SLW, CYREG_PRT3_SLW
 
 /* joy_x_25 */
-.set joy_x_25__0__INTTYPE, CYREG_PICU2_INTTYPE5
-.set joy_x_25__0__MASK, 0x20
-.set joy_x_25__0__PC, CYREG_PRT2_PC5
+.set joy_x_25__0__INTTYPE, CYREG_PICU2_INTTYPE3
+.set joy_x_25__0__MASK, 0x08
+.set joy_x_25__0__PC, CYREG_PRT2_PC3
 .set joy_x_25__0__PORT, 2
-.set joy_x_25__0__SHIFT, 5
+.set joy_x_25__0__SHIFT, 3
 .set joy_x_25__AG, CYREG_PRT2_AG
 .set joy_x_25__AMUX, CYREG_PRT2_AMUX
 .set joy_x_25__BIE, CYREG_PRT2_BIE
@@ -2042,7 +2042,7 @@
 .set joy_x_25__INTTYPE_BASE, CYDEV_PICU_INTTYPE_PICU2_BASE
 .set joy_x_25__LCD_COM_SEG, CYREG_PRT2_LCD_COM_SEG
 .set joy_x_25__LCD_EN, CYREG_PRT2_LCD_EN
-.set joy_x_25__MASK, 0x20
+.set joy_x_25__MASK, 0x08
 .set joy_x_25__PORT, 2
 .set joy_x_25__PRT, CYREG_PRT2_PRT
 .set joy_x_25__PRTDSI__CAPS_SEL, CYREG_PRT2_CAPS_SEL
@@ -2053,15 +2053,15 @@
 .set joy_x_25__PRTDSI__OUT_SEL1, CYREG_PRT2_OUT_SEL1
 .set joy_x_25__PRTDSI__SYNC_OUT, CYREG_PRT2_SYNC_OUT
 .set joy_x_25__PS, CYREG_PRT2_PS
-.set joy_x_25__SHIFT, 5
+.set joy_x_25__SHIFT, 3
 .set joy_x_25__SLW, CYREG_PRT2_SLW
 
 /* joy_y_23 */
-.set joy_y_23__0__INTTYPE, CYREG_PICU2_INTTYPE3
-.set joy_y_23__0__MASK, 0x08
-.set joy_y_23__0__PC, CYREG_PRT2_PC3
+.set joy_y_23__0__INTTYPE, CYREG_PICU2_INTTYPE5
+.set joy_y_23__0__MASK, 0x20
+.set joy_y_23__0__PC, CYREG_PRT2_PC5
 .set joy_y_23__0__PORT, 2
-.set joy_y_23__0__SHIFT, 3
+.set joy_y_23__0__SHIFT, 5
 .set joy_y_23__AG, CYREG_PRT2_AG
 .set joy_y_23__AMUX, CYREG_PRT2_AMUX
 .set joy_y_23__BIE, CYREG_PRT2_BIE
@@ -2076,7 +2076,7 @@
 .set joy_y_23__INTTYPE_BASE, CYDEV_PICU_INTTYPE_PICU2_BASE
 .set joy_y_23__LCD_COM_SEG, CYREG_PRT2_LCD_COM_SEG
 .set joy_y_23__LCD_EN, CYREG_PRT2_LCD_EN
-.set joy_y_23__MASK, 0x08
+.set joy_y_23__MASK, 0x20
 .set joy_y_23__PORT, 2
 .set joy_y_23__PRT, CYREG_PRT2_PRT
 .set joy_y_23__PRTDSI__CAPS_SEL, CYREG_PRT2_CAPS_SEL
@@ -2087,7 +2087,7 @@
 .set joy_y_23__PRTDSI__OUT_SEL1, CYREG_PRT2_OUT_SEL1
 .set joy_y_23__PRTDSI__SYNC_OUT, CYREG_PRT2_SYNC_OUT
 .set joy_y_23__PS, CYREG_PRT2_PS
-.set joy_y_23__SHIFT, 3
+.set joy_y_23__SHIFT, 5
 .set joy_y_23__SLW, CYREG_PRT2_SLW
 
 /* ExtMUX_EN */
