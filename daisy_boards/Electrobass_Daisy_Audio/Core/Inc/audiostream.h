@@ -139,6 +139,8 @@ void sendNoteOn(uint8_t note, uint8_t velocity);
 void sendCtrl(uint8_t value, uint8_t ctrl);
 void sendPitchBend(uint8_t value, uint8_t ctrl);
 
+extern float stringMidiPitchesNoBend;
+extern float prevStringMidiPitchesNoBend;
 extern tExpSmooth stringFreqSmoothers[NUM_STRINGS_PER_BOARD];
 extern float freqToSmoothMemoryGlobal[NUM_STRINGS_PER_BOARD];
 extern tMempool largePool;

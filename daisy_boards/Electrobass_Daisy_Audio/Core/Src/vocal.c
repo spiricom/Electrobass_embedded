@@ -21,11 +21,16 @@ tVoc vocal[NUM_STRINGS_PER_BOARD];
 int prevTractLength[NUM_STRINGS_PER_BOARD] = {22};
 int32_t prevActualTractLength[NUM_STRINGS_PER_BOARD] = {22};
 float vocalDefaults[12] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.3019f, 0.1764f, 0.7764f, 0.8155f};
+
 void __ATTR_ITCMRAM audioInitVocal()
 {
 	for (int v = 0; v < NUM_STRINGS_PER_BOARD; v++)
 	{
-		tVoc_init(&vocal[v], 22, 65, &leaf);
+		tVoc_init(&vocal[v], 44, 48, &leaf);
+
+		//tVoc_set_tractLength(&vocal[i],44);
+
+		tVoc_setDoubleComputeFlag(&vocal[v], 1.0f);
 	}
 }
 
@@ -52,13 +57,17 @@ void __ATTR_ITCMRAM audioSwitchToVocal()
 		tExpSmooth_setValAndDest(&knobSmoothers[i], vocalDefaults[i]);
 		knobFrozen[i] = 1;
 	}
+	for (int i = 0; i < NUM_STRINGS_PER_BOARD; i++)
+	{
+		tExpSmooth_setFactor(&stringFreqSmoothers[i],0.0007f);
+	}
 }
 void __ATTR_ITCMRAM audioFrameVocal(uint16_t buffer_offset)
 {
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET);
 	uint32_t tempCountFrame = DWT->CYCCNT;
 	int32_t current_sample = 0;
-
+	midi_process();
 	if (resetStringInputs)
 	{
 		for (int i = 0; i < numStringsThisBoard; i++)
@@ -103,22 +112,11 @@ void __ATTR_ITCMRAM audioFrameVocal(uint16_t buffer_offset)
 
 	for (int i = 0; i < numStringsThisBoard; i++)
 	{
-		float doublecompute = knobScaled[1] > 0.5f;
-		float oneMinusDoubleCompute = 1.0f-doublecompute;
-		float newTractLength = (knobScaled[0] * 100.0f) * (1.50f * oneMinusDoubleCompute +1.0f) ;
+		//float doublecompute = knobScaled[1] > 0.5f;
+		//float oneMinusDoubleCompute = 1.0f-doublecompute;
+		//float newTractLength = (knobScaled[0] * 100.0f) * (1.50f * oneMinusDoubleCompute +1.0f) ;
 
-		if ((newTractLength > (prevTractLength[i] + 10))|| (newTractLength < (prevTractLength[i] - 10)))
-		{
-			int32_t squishedTract = (newTractLength*0.168f) ;
-			if ( squishedTract != prevActualTractLength[i])
-			{
-				tVoc_set_tractLength(&vocal[i],squishedTract   + 2);
-				prevActualTractLength[i] = squishedTract;
-			}
-			prevTractLength[i] = newTractLength;
-		}
 
-		tVoc_setDoubleComputeFlag(&vocal[i], doublecompute);
 
 		tVoc_setTurbulenceNoiseGain(&vocal[i], knobScaled[4]);
 		tVoc_setAspirationNoiseGain(&vocal[i], knobScaled[5]);
@@ -132,7 +130,7 @@ void __ATTR_ITCMRAM audioFrameVocal(uint16_t buffer_offset)
 		//mono operation, no need to compute right channel. Also for loop iterating by 2 instead of 1 to avoid if statement.
 	for (int i = 0; i < HALF_BUFFER_SIZE; i+=2)
 	{
-		current_sample = (int32_t)(audioTickVocal() * TWO_TO_23);
+		current_sample = (int32_t)(audioTickVocal() * 2.f* TWO_TO_23);
 		audioOutBuffer[buffer_offset + i] = current_sample;
 		audioOutBuffer[buffer_offset + i + 1] = current_sample;
 	}
@@ -166,10 +164,7 @@ float __ATTR_ITCMRAM audioTickVocal(void)
 		tempSamp += tVoc_tick(&vocal[i]) * tADSRT_tickNoInterp(&fenvelopes[i]);
 
 		float freqToSmooth = stringMIDIPitches[i]+ stringOctave[i];
-		if ((freqToSmooth > (freqToSmoothMemoryGlobal[i] + 1.0f)) || (freqToSmooth < (freqToSmoothMemoryGlobal[i] - 1.0f)) )
-		{
-			tExpSmooth_setVal(&stringFreqSmoothers[i], freqToSmooth);
-		}
+
 		tExpSmooth_setDest(&stringFreqSmoothers[i], freqToSmooth);
 		freqToSmoothMemoryGlobal[i] = freqToSmooth;
 

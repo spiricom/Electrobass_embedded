@@ -53,6 +53,9 @@ float prevStringMIDI[NUM_STRINGS_PER_BOARD] ={64.0f};
 tExpSmooth volumeSmoother;
 tExpSmooth knobSmoothers[20];
 
+float stringMidiPitchesNoBend = 0.0f;
+float prevStringMidiPitchesNoBend = 0.0f;
+
 uint8_t lsDecay[NUM_STRINGS_PER_BOARD];
 
 audioFrame_t audioFrameFunction;
@@ -400,11 +403,14 @@ void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 		fvelocity = fvelocity * fvelocity;
 		stringInputs[0] = fvelocity*65535.0f;
 		noteIn = note;
+		stringMidiPitchesNoBend = noteIn;
 		stringMIDIPitches[0] = noteIn + bendIn;
 	}
 	else
 	{
 		tSimplePoly_noteOff(&myPoly, note);
+		noteIn = note;
+		stringMidiPitchesNoBend = noteIn;
 		stringInputs[0] = 0;
 	}
 	newPluck = 1;

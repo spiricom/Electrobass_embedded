@@ -71,6 +71,11 @@ void __ATTR_ITCMRAM audioSwitchToString3()
 			tExpSmooth_setValAndDest(&knobSmoothers[i], loadedKnobParams[i]);
 		}
 		knobFrozen[i] = 1;
+
+	}
+	for (int i = 0; i < NUM_STRINGS_PER_BOARD; i++)
+	{
+		tExpSmooth_setFactor(&stringFreqSmoothers[i],0.0009f);
 	}
 }
 

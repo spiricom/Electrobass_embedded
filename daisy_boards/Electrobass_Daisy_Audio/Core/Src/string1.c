@@ -18,6 +18,7 @@
 #include "synth.h"
 
 tSimpleLivingString3 livStr[NUM_STRINGS_PER_BOARD];
+tSVF string1filt;
 tPickupNonLinearity pu[NUM_STRINGS_PER_BOARD];
 float string1Defaults[12] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.3019f, 0.1764f, 0.7764f, 0.8155f};
 void __ATTR_ITCMRAM audioInitString1()
@@ -45,6 +46,7 @@ void __ATTR_ITCMRAM audioInitString1()
 			tSimpleLivingString3_setLevStrength(&livStr[v], 0.0f);
 			tSimpleLivingString3_setLevMode(&livStr[v], 1);
 			tPickupNonLinearity_init(&pu[v], &leaf);
+			tSVF_initToPool(&string1filt, SVFTypeLowpass, 3000.0f, 0.7f, &mediumPool);
 		}
 		whichStringModelLoaded = String1Loaded;
 	}
@@ -56,8 +58,10 @@ void __ATTR_ITCMRAM audioFreeString1()
 {
 	for (int v = 0; v < numStringsThisBoard; v++)
 	{
-		tSimpleLivingString3_free(&livStr[v]);
+		tSVF_free(&string1filt);
 		tPickupNonLinearity_free(&pu[v]);
+		tSimpleLivingString3_free(&livStr[v]);
+
 	}
 }
 
@@ -82,6 +86,12 @@ void __ATTR_ITCMRAM audioSwitchToString1()
 		knobFrozen[i] = 1;
 	}
 	tVZFilter_setFreq(&noiseFilt2, 3332.0f); //based on testing with knob values
+	for (int i = 0; i < NUM_STRINGS_PER_BOARD; i++)
+	{
+		tExpSmooth_setFactor(&stringFreqSmoothers[i],1.0f);
+		tExpSmooth_setFactor(&livStr[i]->wlSmooth,1.0f);
+	}
+	tSimpleLivingString3_setPickupPoint(&livStr[0], 0.9f);
 	audioFrameFunction = audioFrameString1;
 	presetReady = 1;
 }
@@ -93,76 +103,7 @@ void __ATTR_ITCMRAM audioFrameString1(uint16_t buffer_offset)
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET);
 	uint32_t tempCountFrame = DWT->CYCCNT;
 	int32_t current_sample = 0;
-	midi_process();
-	if (resetStringInputs)
-	{
-		for (int i = 0; i < numStringsThisBoard; i++)
-		{
-			//note off
-			lsDecay[i] = 0;
-			previousStringInputs[i] = 0;
-		}
-		resetStringInputs = 0;
-		newPluck = 1;
-	}
-	if (newPluck)
-	{
-		for (int i = 0; i < numStringsThisBoard; i++)
-		{
-			if (((previousStringInputs[i] == 0) && (stringInputs[i] > 0))|| (prevStringMIDI[i] != stringMIDIPitches[i]))
-			{
 
-				stringOctave[i] = octave;
-				float note = stringMIDIPitches[i] + stringOctave[i];
-				//sourceValues[MIDI_KEY_SOURCE_OFFSET][v] = (note[v] - midiKeySubtractor) * midiKeyDivisor;
-
-				if (note < 0.0f)
-				{
-					note = 0.0f;
-				}
-				if (note > 127.0f)
-				{
-					note = 127.0f;
-				}
-				if (isnan(note))
-				{
-					note = 64.0f;
-				}
-
-				float freqToSmooth = note;
-				if ((freqToSmooth > (freqToSmoothMemoryGlobal[i] + 1.0f)) || (freqToSmooth < (freqToSmoothMemoryGlobal[i] - 1.0f)) )
-				{
-					tExpSmooth_setVal(&stringFreqSmoothers[i], freqToSmooth);
-				}
-				tExpSmooth_setDest(&stringFreqSmoothers[i], freqToSmooth);
-				freqToSmoothMemoryGlobal[i] = freqToSmooth;
-
-				freqToSmooth = tExpSmooth_tick(&stringFreqSmoothers[i]);
-
-				tSimpleLivingString3_setFreq(&livStr[i], mtof(freqToSmooth));
-
-
-
-				float amplitz = stringInputs[i] * 0.000015259021897f;
-
-				//then it's the string synth
-				//tSimpleLivingString3_setDecay(&livStr[i], 20.0f);
-				tSimpleLivingString3_pluck(&livStr[i], amplitz, LEAF_clip(0.0f, ((pluckPos) * knobScaled[2]) + (pluckPos * (1.0f - knobScaled[2])),1.0f));
-				currentRandom++;
-				lsDecay[i] = 1;
-
-			}
-			else if ((previousStringInputs[i] > 0) && (stringInputs[i] == 0))
-			{
-				//note off
-				//tSimpleLivingString3_setDecay(&livStr[i], 0.1f);
-				lsDecay[i] = 0;
-			}
-			prevStringMIDI[i] = stringMIDIPitches[i];
-			previousStringInputs[i] = stringInputs[i];
-		}
-		newPluck = 0;
-	}
 	//mono operation, no need to compute right channel. Also for loop iterating by 2 instead of 1 to avoid if statement.
 	for (int i = 0; i < HALF_BUFFER_SIZE; i+=2)
 	{
@@ -171,6 +112,7 @@ void __ATTR_ITCMRAM audioFrameString1(uint16_t buffer_offset)
 		audioOutBuffer[iplusbuffer] = current_sample;
 		audioOutBuffer[iplusbuffer + 1] = current_sample;
 	}
+
 
 	/*
 	if (switchStrings)
@@ -186,6 +128,7 @@ void __ATTR_ITCMRAM audioFrameString1(uint16_t buffer_offset)
 }
 
 
+volatile uint32_t errorCatch = 0;
 
 float __ATTR_ITCMRAM audioTickString1(void)
 {
@@ -193,12 +136,85 @@ float __ATTR_ITCMRAM audioTickString1(void)
 	float note[numStringsThisBoard];
 
 	float volumeSmoothed = tExpSmooth_tick(&volumeSmoother);
+	midi_process();
+		if (resetStringInputs)
+		{
+			for (int i = 0; i < numStringsThisBoard; i++)
+			{
+				//note off
+				lsDecay[i] = 0;
+				previousStringInputs[i] = 0;
+			}
+			resetStringInputs = 0;
+			newPluck = 1;
+		}
+		if (newPluck)
+		{
+			for (int i = 0; i < numStringsThisBoard; i++)
+			{
+				if (((previousStringInputs[i] == 0) && (stringInputs[i] > 0))|| (prevStringMidiPitchesNoBend != stringMidiPitchesNoBend))
+				{
 
+					stringOctave[i] = octave;
+					float note = stringMIDIPitches[i] + stringOctave[i];
+					//sourceValues[MIDI_KEY_SOURCE_OFFSET][v] = (note[v] - midiKeySubtractor) * midiKeyDivisor;
+
+					if (note < 0.0f)
+					{
+						note = 0.0f;
+					}
+					if (note > 127.0f)
+					{
+						note = 127.0f;
+					}
+					if (isnan(note))
+					{
+						note = 64.0f;
+					}
+
+					float freqToSmooth = note;
+					if ((freqToSmooth > (freqToSmoothMemoryGlobal[i] + 1.0f)) || (freqToSmooth < (freqToSmoothMemoryGlobal[i] - 1.0f)) )
+					{
+						tExpSmooth_setVal(&stringFreqSmoothers[i], freqToSmooth);
+					}
+					tExpSmooth_setDest(&stringFreqSmoothers[i], freqToSmooth);
+					freqToSmoothMemoryGlobal[i] = freqToSmooth;
+
+					freqToSmooth = tExpSmooth_tick(&stringFreqSmoothers[i]);
+
+					tSimpleLivingString3_setFreq(&livStr[i], mtof(freqToSmooth));
+
+
+
+					float amplitz = stringInputs[i] * 0.000015259021897f;
+
+					//then it's the string synth
+					//tSimpleLivingString3_setDecay(&livStr[i], 20.0f);
+					tSimpleLivingString3_pluck(&livStr[i], amplitz, 0.7f);
+					currentRandom++;
+					lsDecay[i] = 1;
+
+				}
+				else if ((previousStringInputs[i] > 0) && (stringInputs[i] == 0))
+				{
+					//note off
+					//tSimpleLivingString3_setDecay(&livStr[i], 0.1f);
+					lsDecay[i] = 0;
+				}
+				else
+				{
+					errorCatch++;
+				}
+				prevStringMidiPitchesNoBend = stringMidiPitchesNoBend;
+				previousStringInputs[i] = stringInputs[i];
+			}
+			newPluck = 0;
+		}
 	for (int i = 0; i < 12; i++)
 	{
 		knobScaled[i] = tExpSmooth_tick(&knobSmoothers[i]);
 	}
-	pluckPos = knobScaled[9];
+	pluckPos = 0.7f;
 
 	for (int i = 0; i < numStringsThisBoard; i++)
 	{
@@ -225,14 +241,14 @@ float __ATTR_ITCMRAM audioTickString1(void)
 		{
 			decay = (knobScaled[10] * 800.0f) + 10.0f;
 		}
-		tSimpleLivingString3_setPickupPoint(&livStr[i], knobScaled[8]);
+		//tSimpleLivingString3_setPickupPoint(&livStr[i], knobScaled[8]);
 		tSimpleLivingString3_setDecay(&livStr[i], decay);
-		tSimpleLivingString3_setDampFreq(&livStr[i], dampFreq);
-		tSimpleLivingString3_setLevStrength(&livStr[i], knobScaled[0] * 0.0352872f);
+		tSimpleLivingString3_setDampFreq(&livStr[i], knobScaled[8] * 13000.0f + 300.0f);
+		tSimpleLivingString3_setLevStrength(&livStr[i], knobScaled[9] * 0.0352872f);
 
-		livStr[i]->rippleGain = knobScaled[5] * -0.03f;
+		livStr[i]->rippleGain = knobScaled[9] * -0.03f;
 		livStr[i]->invOnePlusr = 1.0f / (1.0f + livStr[i]->rippleGain);
-		livStr[i]->rippleDelay = knobScaled[11];
+		livStr[i]->rippleDelay = volumeSmoothed;
 
 		float freqToSmooth = note[i];
 		if ((freqToSmooth > (freqToSmoothMemoryGlobal[i] + 1.0f)) || (freqToSmooth < (freqToSmoothMemoryGlobal[i] - 1.0f)) )
@@ -264,10 +280,13 @@ float __ATTR_ITCMRAM audioTickString1(void)
 		temp += tPickupNonLinearity_tick(&pu[i], tSimpleLivingString3_tick(&livStr[i], 0.0f));
 	}
 
+	tSVF_setFreq(&string1filt, mtof(knobScaled[11]*60.0f+64.0f));
+	temp = tSVF_tick(&string1filt, temp);
+
 	//float outVol = 0.0265625f - (0.2467348f * volumeSmoothed) + (1.253049f * volumeSmoothed * volumeSmoothed);
 
-	float outVol = 0.006721744f + 0.4720157f*volumeSmoothed - 2.542849f*volumeSmoothed*volumeSmoothed + 6.332339f*volumeSmoothed*volumeSmoothed*volumeSmoothed - 3.271672f*volumeSmoothed*volumeSmoothed*volumeSmoothed*volumeSmoothed;
-
+	//float outVol = 0.006721744f + 0.4720157f*volumeSmoothed - 2.542849f*volumeSmoothed*volumeSmoothed + 6.332339f*volumeSmoothed*volumeSmoothed*volumeSmoothed - 3.271672f*volumeSmoothed*volumeSmoothed*volumeSmoothed*volumeSmoothed;
+	float outVol = 1.0f;
 
 	//temp = input;
 	temp *= outVol * masterVolFromBrain;

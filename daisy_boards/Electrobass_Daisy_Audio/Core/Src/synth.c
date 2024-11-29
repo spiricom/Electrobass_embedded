@@ -206,7 +206,7 @@ void audioInitSynth()
 
 			tPBSineTriangle_init(&sinePaired[i][v],&leaf);
 
-			tExpSmooth_init(&pitchSmoother[i][v], 64.0f, 0.0009f, &leaf);
+			tExpSmooth_init(&pitchSmoother[i][v], 64.0f, 0.01f, &leaf);
 
 			freqMult[i][v] = 1.0f;
 			midiAdd[i][v] = 0.0f;

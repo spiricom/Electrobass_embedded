@@ -69,7 +69,7 @@ void SystemClock_Config(void);
 void PeriphCommonClock_Config(void);
 /* USER CODE BEGIN PFP */
 
-void MPU_Conf(void);
+void MPU_Config(void);
 void SDRAM_init(void);
 static int checkForSDCardPreset(uint8_t value);
 static void writePresetToSDCard(int fileSize);
@@ -167,8 +167,8 @@ uint8_t fxPre = 0;
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  MPU_Conf();
-  //SCB_EnableICache();
+	MPU_Config();
+  SCB_EnableICache();
   /* USER CODE END 1 */
 
   /* Enable D-Cache---------------------------------------------------------*/
@@ -1012,17 +1012,21 @@ static void writeTuningToSDCard(int fileSize)
 	__enable_irq();
 }
 
+//excellent resource on sdram configuration in cubemx
+//https://community.st.com/s/article/How-to-set-up-the-FMC-peripheral-to-interface-with-the-SDRAM-IS42S16800F-6BLI-from-ISSI
+//datasheet for memory used on daisy = https://www.issi.com/WW/pdf/42-45SM-RM-VM32160E.pdf
+
 #define SDRAM_MODEREG_BURST_LENGTH_2 ((1 << 0))
 #define SDRAM_MODEREG_BURST_LENGTH_4 ((1 << 1))
 
 #define SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL ((0 << 3))
 
-#define SDRAM_MODEREG_CAS_LATENCY_3 ((1 << 4) | (1 << 5))
-
-#define SDRAM_MODEREG_OPERATING_MODE_STANDARD ()
+#define SDRAM_MODEREG_CAS_LATENCY_2 ((1 << 5))
 
 #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE ((1 << 9))
 #define SDRAM_MODEREG_WRITEBURST_MODE_PROG_BURST ((0 << 9))
+
+#define SDRAM_MODEREG_OPERATING_MODE_STANDARD ((0 << 13)|(0 << 14))
 
 void SDRAM_init()
 {
@@ -1038,8 +1042,8 @@ void SDRAM_init()
 	        /* Send the command */
 	        HAL_SDRAM_SendCommand(&hsdram1, &Command, 0x1000);
 
-	        /* Step 4: Insert 100 ms delay */
-	        HAL_Delay(100);
+	        /* Step 4: Insert 100 us delay */
+	        HAL_Delay(1);
 
 
 	        /* Step 5: Configure a PALL (precharge all) command */
@@ -1054,7 +1058,7 @@ void SDRAM_init()
 	        /* Step 6 : Configure a Auto-Refresh command */
 	        Command.CommandMode            = FMC_SDRAM_CMD_AUTOREFRESH_MODE;
 	        Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
-	        Command.AutoRefreshNumber      = 4;
+	        Command.AutoRefreshNumber      = 2;
 	        Command.ModeRegisterDefinition = 0;
 
 	        /* Send the command */
@@ -1062,9 +1066,9 @@ void SDRAM_init()
 
 	        /* Step 7: Program the external memory mode register */
 	        tmpmrd = (uint32_t)SDRAM_MODEREG_BURST_LENGTH_4
-	                 | SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL | SDRAM_MODEREG_CAS_LATENCY_3
-	                 | SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;
-	        //SDRAM_MODEREG_OPERATING_MODE_STANDARD | // Used in example, but can't find reference except for "Test Mode"
+	                 | SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL | SDRAM_MODEREG_CAS_LATENCY_2
+	                 | SDRAM_MODEREG_WRITEBURST_MODE_SINGLE | SDRAM_MODEREG_OPERATING_MODE_STANDARD;
+	        // // Used in example, but can't find reference except for "Test Mode"
 
 	        Command.CommandMode            = FMC_SDRAM_CMD_LOAD_MODE;
 	        Command.CommandTarget          = FMC_SDRAM_CMD_TARGET_BANK1;
@@ -1075,155 +1079,111 @@ void SDRAM_init()
 	        HAL_SDRAM_SendCommand(&hsdram1, &Command, 0x1000);
 
 	        //HAL_SDRAM_ProgramRefreshRate(hsdram, 0x56A - 20);
-	        HAL_SDRAM_ProgramRefreshRate(&hsdram1, 0x81A - 20);
+	        HAL_SDRAM_ProgramRefreshRate(&hsdram1, 762); // ((64ms / 8192) * 100MHz) - 20
+	        //8192 is 2^numberofrows (which is 13 in the case of the sdram)
 
 }
 
-void MPU_Conf(void)
+void MPU_Config(void)
 {
-	//code from Keshikan https://github.com/keshikan/STM32H7_DMA_sample
-  //Thanks, Keshikan! This solves the issues with accessing the SRAM in the D2 area properly. -JS
-	//should test the different possible settings to see what works best while avoiding needing to manually clear the cache -JS
+	MPU_Region_InitTypeDef MPU_InitStruct = {0};
 
-	MPU_Region_InitTypeDef MPU_InitStruct;
-
+	  /* Disables the MPU */
 	  HAL_MPU_Disable();
 
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
 	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
-
-	  //D2 Domain�SRAM1
-	  MPU_InitStruct.BaseAddress = 0x30000000;
-	  // Increased region size to 256k. In Keshikan's code, this was 512 bytes (that's all that application needed).
-	  // Each audio buffer takes up the frame size * 8 (16 bits makes it *2 and stereo makes it *2 and double buffering makes it *2)
-	  // So a buffer size for read/write of 4096 would take up 64k = 4096*8 * 2 (read and write).
-	  // I increased that to 256k so that there would be room for the ADC knob inputs and other peripherals that might require DMA access.
-	  // we have a total of 256k in SRAM1 (128k, 0x30000000-0x30020000) and SRAM2 (128k, 0x30020000-0x3004000) of D2 domain.
-	  // There is an SRAM3 in D2 domain as well (32k, 0x30040000-0x3004800) that is currently not mapped by the MPU (memory protection unit) controller.
-
-	  MPU_InitStruct.Size = MPU_REGION_SIZE_256KB;
-
-	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-
-	  //Shared Device
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-
-	  //AN4838
-//	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-//	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-//	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-//	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
 	  MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-
-	  MPU_InitStruct.SubRegionDisable = 0x00;
-
-
+	  MPU_InitStruct.BaseAddress = 0x0;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
+	  MPU_InitStruct.SubRegionDisable = 0x87;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.AccessPermission = MPU_REGION_NO_ACCESS;
 	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
-
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
 
 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
-
-	  //now set up D3 domain RAM
-	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
-	  //D2 Domain�SRAM1
-	  MPU_InitStruct.BaseAddress = 0x38000000;
-	  MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
-	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-	  //AN4838
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+	  MPU_InitStruct.BaseAddress = 0x024000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_256KB;
+	  MPU_InitStruct.SubRegionDisable = 0x0;
 	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
 	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
 	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
-	  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
-
-	  MPU_InitStruct.SubRegionDisable = 0x00;
-
-	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
 
 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
-	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+	  MPU_InitStruct.BaseAddress = 0x24040000;
+	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
 
-	  //BackupSRAM
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER3;
+	  MPU_InitStruct.BaseAddress = 0x30000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_512KB;
+
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER4;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_8KB;
+	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER5;
+	  MPU_InitStruct.BaseAddress = 0x38000000;
+	  MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+
+	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER6;
 	  MPU_InitStruct.BaseAddress = 0x38800000;
 	  MPU_InitStruct.Size = MPU_REGION_SIZE_4KB;
 
-	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
-
-	  MPU_InitStruct.Number = MPU_REGION_NUMBER2;
-	  MPU_InitStruct.SubRegionDisable = 0x00;
-	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
-
-
-
-	  //SRAM for code execution not sure if TEX1 or TEX0 is better but probably doesn't matter because this memory is never written to, only read
-	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
-	  MPU_InitStruct.BaseAddress = 0x24000000;
-	  MPU_InitStruct.Size = MPU_REGION_SIZE_512KB;
-
-	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
-	  MPU_InitStruct.Number = MPU_REGION_NUMBER3;
-	  MPU_InitStruct.SubRegionDisable = 0x00;
-	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
-
-
-	  //SDRAM as strongly ordered to avoid speculative fetches that might stall the external memory if interrupted
-	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER7;
 	  MPU_InitStruct.BaseAddress = 0xc0000000;
 	  MPU_InitStruct.Size = MPU_REGION_SIZE_64MB;
 
-	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
-	  MPU_InitStruct.Number = MPU_REGION_NUMBER4;
-	  MPU_InitStruct.SubRegionDisable = 0x00;
-	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
-
-	  //QSPI as strongly ordered to avoid speculative fetches that might stall the external memory if interrupted
-	  MPU_InitStruct.Enable = MPU_REGION_ENABLE;
+	  /** Initializes and configures the Region and the memory to be protected
+	  */
+	  MPU_InitStruct.Number = MPU_REGION_NUMBER8;
 	  MPU_InitStruct.BaseAddress = 0x90040000;
-	  MPU_InitStruct.Size = MPU_REGION_SIZE_64MB;
 
-	  MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-
-	  MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-	  MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-	  MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-	  MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-
-	  MPU_InitStruct.Number = MPU_REGION_NUMBER5;
-	  MPU_InitStruct.SubRegionDisable = 0x00;
-	  MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
 	  HAL_MPU_ConfigRegion(&MPU_InitStruct);
-
+	  /* Enables the MPU */
 	  HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
-}
 
+
+}
 
 
 

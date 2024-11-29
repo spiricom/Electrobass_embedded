@@ -110,6 +110,10 @@ void __ATTR_ITCMRAM audioSwitchToString2()
 		}
 		knobFrozen[i] = 1;
 	}
+	for (int i = 0; i < NUM_STRINGS_PER_BOARD; i++)
+	{
+		tExpSmooth_setFactor(&stringFreqSmoothers[i],0.0009f);
+	}
 	audioFrameFunction = audioFrameString2;
 	presetReady = 1;
 }
@@ -288,9 +292,11 @@ float __ATTR_ITCMRAM audioTickString2(void)
 		if (thisFrameCount == 0)
 		{
 
-			float thisString = (firstString + i);
-			float thisStringProportion = thisString * invNumStrings;
-			float thisHarmonic = (knobScaled[10] * (1.0f - thisStringProportion)) + (knobScaled[11] * thisStringProportion);
+			//float thisString = (firstString + i);
+			//float thisStringProportion = thisString * invNumStrings;
+
+			//float thisHarmonic = (knobScaled[10] * (1.0f - thisStringProportion)) + (knobScaled[11] * thisStringProportion);
+			float thisHarmonic = volumeSmoothed;
 			float harmonic = (thisHarmonic * 8.0f) + 2.0f;
 			float inHarm = LEAF_map(theNote[i], 20.0f, 76.0f, 0.0001f, 0.00001f);
 			if (knobScaled[5] > 0.05f)
@@ -320,7 +326,7 @@ float __ATTR_ITCMRAM audioTickString2(void)
 
 
 
-		tTString_setFeedbackStrength(&strings[i],knobScaled[6]);
+		tTString_setFeedbackStrength(&strings[i],knobScaled[10]);
 		tTString_setFeedbackReactionSpeed(&strings[i],knobScaled[7]);
 
 		tTString_setRippleDepth(&strings[i],knobScaled[9]);
@@ -338,7 +344,7 @@ float __ATTR_ITCMRAM audioTickString2(void)
 
 
 		Lfloat decayScaling = fastPowf(2.0f, knobScaled[0] * 4.0f - 2.0f); //0.5-2.0f
-		Lfloat filterScaling = fastPowf(2.0f, knobScaled[1] * 4.0f - 2.0f); //0.5-2.0f
+		Lfloat filterScaling = fastPowf(2.0f, knobScaled[11] * 4.0f - 2.0f); //0.5-2.0f
 
 		uint32_t which = 0;
 		float alpha = 0.0f;
@@ -414,6 +420,7 @@ float __ATTR_ITCMRAM audioTickString2(void)
 		temp += tTString_tick(&strings[i]) * 0.5f;
 	}
 	thisFrameCount = (thisFrameCount + 1) & 63;
+	volumeSmoothed = (1.0f - knobScaled[8]) + ((volumeSmoothed * knobScaled[8]));
 	//float outVol = 0.0265625f - (0.2467348f * volumeSmoothed) + (1.253049f * volumeSmoothed * volumeSmoothed);
 	float outVol = 0.006721744f + 0.4720157f*volumeSmoothed - 2.542849f*volumeSmoothed*volumeSmoothed + 6.332339f*volumeSmoothed*volumeSmoothed*volumeSmoothed - 3.271672f*volumeSmoothed*volumeSmoothed*volumeSmoothed*volumeSmoothed;
 
