@@ -33,46 +33,6 @@ union breakFloat{
 };
 
 
-float FORCE_INLINE aToDbTableLookup(float in)
-{
-    in = fastabsf(in);
-    float floatIndex = LEAF_clip (0, (in * atodbTableScalar) - atodbTableOffset, ATODB_TABLE_SIZE_MINUS_ONE);
-    uint32_t inAmpIndex = (uint32_t) floatIndex;
-    uint32_t inAmpIndexPlusOne = inAmpIndex + 1;
-    if (inAmpIndexPlusOne > ATODB_TABLE_SIZE_MINUS_ONE)
-    {
-    	inAmpIndexPlusOne = ATODB_TABLE_SIZE_MINUS_ONE;
-    }
-    float alpha = floatIndex - (float)inAmpIndex;
-    return ((atoDbTable[inAmpIndex] * (1.0f - alpha)) + (atoDbTable[inAmpIndexPlusOne] * alpha));
-}
-
-float FORCE_INLINE aToDbTableLookupFast(float in)
-{
-    in = fastabsf(in);
-    uint32_t inAmpIndex = LEAF_clip (0, (in * atodbTableScalar) - atodbTableOffset, ATODB_TABLE_SIZE_MINUS_ONE);
-    return atoDbTable[inAmpIndex];
-}
-
-float FORCE_INLINE dbToATableLookup(float in)
-{
-    float floatIndex = LEAF_clip (0, (in * dbtoaTableScalar) - dbtoaTableOffset, DBTOA_TABLE_SIZE_MINUS_ONE);
-    uint32_t inDBIndex = (uint32_t) floatIndex;
-    uint32_t inDBIndexPlusOne = inDBIndex + 1;
-    if (inDBIndexPlusOne > DBTOA_TABLE_SIZE_MINUS_ONE)
-    {
-    	inDBIndexPlusOne = DBTOA_TABLE_SIZE_MINUS_ONE;
-    }
-    float alpha = floatIndex - (float)inDBIndex;
-    return ((dbtoATable[inDBIndex] * (1.0f - alpha)) + (dbtoATable[inDBIndexPlusOne] * alpha));
-}
-
-float FORCE_INLINE dbToATableLookupFast(float in)
-{
-    uint32_t inDBIndex = LEAF_clip (0, (in * dbtoaTableScalar) - dbtoaTableOffset, DBTOA_TABLE_SIZE_MINUS_ONE);
-    return dbtoATable[inDBIndex];
-}
-
 
 
 float FORCE_INLINE mtofTableLookup(float tempMIDI)
@@ -93,7 +53,7 @@ void audioInit(void)
 
 			audioOutBuffer[ i] = (int32_t)(0.0f * TWO_TO_23);
 	}
-	audioFrameFunction = audioFrameWaiting;
+	//audioFrameFunction = audioFrameWaiting;
 	HAL_Delay(1);
 }
 
@@ -114,105 +74,11 @@ void __ATTR_ITCMRAM updateStateFromSPIMessage(uint8_t offset)
 	uint32_t tempCountSPI = DWT->CYCCNT;
 	int modeBit = SPI_RX[24 + offset];
 
-	octaveAction = (modeBit >> 6) & 1;
-	dualSlider = (modeBit >> 5) & 1;
 
-	edit = (modeBit >> 4) & 1;
-	voice = SPI_RX[25 + offset];
-
-
-	//octave = (((int32_t) (modeBit & 15) - 5 ) * 12.0f);
-	//if "octave action" is set to 1, then immediately change octave instead of waiting for new note
-	if (octaveAction)
-	{
-		for (int i = 0; i < numStringsThisBoard; i++)
-		{
-			stringOctave[i] = octave;
-		}
-	}
-
-	volumePedalInt = ((uint16_t)SPI_RX[26 + offset] << 8) + ((uint16_t)SPI_RX[27 + offset] & 0xff);
-	volumePedal = volumePedalInt * 0.0002442002442f;
-
-
-	tExpSmooth_setDest(&volumeSmoother,volumePedal);
 	timeSPI = DWT->CYCCNT - tempCountSPI;
 }
 
-void voiceChangeCheck(void)
-{
-	if (voice != prevVoice)
-	{
-		if (voice == 63)
-		{
-			audioFrameFunction = audioFrameWaiting;
-			audioSwitchToString1();
-			currentActivePreset = voice;
-			resetStringInputs = 1;
-			diskBusy = 0;
-			whichModel = 1;
-		}
-		else if (voice == 62)
-		{
-			audioFrameFunction = audioFrameWaiting;
-			audioSwitchToString2();
-			currentActivePreset = voice;
-			resetStringInputs = 1;
-			diskBusy = 0;
-			whichModel = 2;
-		}
-		else if (voice == 61)
-		{
-			audioFrameFunction = audioFrameAdditive;
-			audioSwitchToAdditive();
-			currentActivePreset = voice;
-			diskBusy = 0;
-			presetReady = 1;
-			resetStringInputs = 1;
-			whichModel = 3;
-		}
-		else if (voice == 60)
-		{
-			audioFrameFunction = audioFrameVocal;
-			audioSwitchToVocal();
-			currentActivePreset = voice;
-			diskBusy = 0;
-			presetReady = 1;
-			resetStringInputs = 1;
-			whichModel = 4;
-		}
-		else if (voice == 59)
-		{
-			audioFrameFunction = audioFrameString3;
-			audioSwitchToString3();
-			currentActivePreset = voice;
-			diskBusy = 0;
-			presetReady = 1;
-			resetStringInputs = 1;
-			whichModel = 5;
-		}
-		else
-		{
-			audioFrameFunction = audioFrameWaiting;
-			presetWaitingToLoad = 1;
-			presetNumberToLoad = voice;
-			presetReady = 0;
-			if (prevVoice > 58)
-			{
-				resetStringInputs = 1;
-			}
-			frameLoadOverCount = 0;
-			whichModel = 0;
-		}
-		for (int i = 0; i < AUDIO_BUFFER_SIZE; i+=2)
-		{
-			audioOutBuffer[i] = 0;
-			audioOutBuffer[i + 1] = 0;
-		}
-	}
 
-	prevVoice = voice;
-}
 
 float noteIn = 64.0f;
 float bendIn = 0.0f;
@@ -226,19 +92,19 @@ void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 		fvelocity = (float)velocity;
 		fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
 		fvelocity = fvelocity * fvelocity;
-		stringInputs[0] = fvelocity*65535.0f;
+		//stringInputs[0] = fvelocity*65535.0f;
 		noteIn = note;
-		stringMidiPitchesNoBend = noteIn;
-		stringMIDIPitches[0] = noteIn + bendIn;
+		//stringMidiPitchesNoBend = noteIn;
+		//stringMIDIPitches[0] = noteIn + bendIn;
 	}
 	else
 	{
 		tSimplePoly_noteOff(&myPoly, note);
 		noteIn = note;
-		stringMidiPitchesNoBend = noteIn;
-		stringInputs[0] = 0;
+		//stringMidiPitchesNoBend = noteIn;
+		//stringInputs[0] = 0;
 	}
-	newPluck = 1;
+	//newPluck = 1;
 }
 
 
@@ -254,8 +120,8 @@ void __ATTR_ITCMRAM sendPitchBend(uint8_t value, uint8_t ctrl)
 	int bendInt = value + (ctrl << 7);
 	bendInt = bendInt - 8192;
 
-	bendIn = bendInt * bendRangeMultiplier; //by default, divide by (16383 / 96 semitones)
-	stringMIDIPitches[0] = noteIn + bendIn;
+	//bendIn = bendInt * bendRangeMultiplier; //by default, divide by (16383 / 96 semitones)
+	//stringMIDIPitches[0] = noteIn + bendIn;
 }
 
 
@@ -294,12 +160,12 @@ void __ATTR_ITCMRAM HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai)
 
 	//SCB_CleanInvalidateDCache_by_Addr((uint32_t*)(((uint32_t)audioOutBuffer) & ~(uint32_t)0x1F), AUDIO_BUFFER_SIZE+32);
 
-	if ((!diskBusy)&& (presetReady))
+	//if ((!diskBusy)&& (presetReady))
 	{
 		audioFrameFunction(HALF_BUFFER_SIZE);
 	}
 
-	voiceChangeCheck();
+	//voiceChangeCheck();
 	uint32_t tempCountClean = DWT->CYCCNT;
 	SCB_CleanInvalidateDCache_by_Addr((uint32_t*)(((uint32_t)audioOutBuffer) & ~(uint32_t)0x1F), AUDIO_BUFFER_SIZE+32);
 	timeClean = DWT->CYCCNT - tempCountClean;
@@ -308,11 +174,11 @@ void __ATTR_ITCMRAM HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai)
 void __ATTR_ITCMRAM HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 {
 	//SCB_CleanInvalidateDCache_by_Addr((uint32_t*)(((uint32_t)audioOutBuffer) & ~(uint32_t)0x1F), AUDIO_BUFFER_SIZE+32);
-	if ((!diskBusy)&& (presetReady))
+	//if ((!diskBusy)&& (presetReady))
 	{
 		audioFrameFunction(0);
 	}
-	voiceChangeCheck();
+	//voiceChangeCheck();
 	SCB_CleanInvalidateDCache_by_Addr((uint32_t*)(((uint32_t)audioOutBuffer) & ~(uint32_t)0x1F), AUDIO_BUFFER_SIZE+32);
 }
 
@@ -355,8 +221,8 @@ void __ATTR_ITCMRAM audioFrameWaiting(uint16_t buffer_offset)
 		audioOutBuffer[iplusbuffer] = 0;
 		audioOutBuffer[iplusbuffer + 1] = 0;
 	}
-	timeFrame = DWT->CYCCNT - tempCountFrame;
-	frameLoadPercentage = (float)timeFrame * frameLoadMultiplier;
+	//timeFrame = DWT->CYCCNT - tempCountFrame;
+	//frameLoadPercentage = (float)timeFrame * frameLoadMultiplier;
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET);
 }
 

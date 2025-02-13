@@ -44,7 +44,7 @@ extern "C" {
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 
-#define MAX_NUM_PRESETS 64
+
 #define NUM_PARAMS numParams
 #define MAX_NUM_MAPPINGS 32
 extern param params[NUM_PARAMS];

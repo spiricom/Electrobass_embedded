@@ -86,12 +86,6 @@ void cStack_pop(cStack* stack, uint8_t* output);
 extern cStack midiStack;
 extern float fractionalMidi[128];
 
-typedef void (*audioFrame_t)(uint16_t);
-extern audioFrame_t audioFrameFunction;
-
-typedef float (*audioTick_t)(void);
-extern audioTick_t audioTickFunction;
-
 void audioFrame(uint16_t buffer_offset);
 void DMA1_TransferCpltCallback(DMA_HandleTypeDef *hdma);
 void DMA1_HalfTransferCpltCallback(DMA_HandleTypeDef *hdma);

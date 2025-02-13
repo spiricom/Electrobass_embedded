@@ -80,7 +80,7 @@ void getTuningNamesFromSDCard(void);
 LEAF leaf;
 
 
-
+uint8_t presetReady = 0;
 
 
 float random_values[256];
@@ -110,9 +110,7 @@ volatile uint8_t tuningNumberToSave;
 volatile uint8_t tuningNumberToLoad = 0;
 volatile uint8_t currentActivePreset = 0;
 volatile uint8_t presetName[14];
-volatile uint8_t presetNamesArray[MAX_NUM_PRESETS][14]__ATTR_RAM_D2;
 
-volatile uint8_t macroNamesArray[MAX_NUM_PRESETS][20][10]__ATTR_RAM_D2;
 uint8_t whichMacroToSendName = 0;
 volatile uint8_t whichPresetToSendName = 0;
 
@@ -153,6 +151,11 @@ uint8_t volatile foundOne = 0;
 uint8_t loadFailed = 0;
 uint32_t volatile myTestInt = 0;
 uint8_t fxPre = 0;
+
+
+tExpSmooth knobSmoothers[20];
+volatile uint8_t knobFrozen[20];
+
 /* USER CODE END 0 */
 
 /**
@@ -239,27 +242,26 @@ int main(void)
 
   //******** initializing leaf stuff ************//
     LEAF_init(&leaf, SAMPLE_RATE, small_memory, SMALL_MEM_SIZE, &randomNumber);
-    tLookupTable_init(&leaf->lfoRateTable, 0.0f, 30.f, 2.f, SCALE_TABLE_SIZE,leaf);
-    tLookupTable_init(&leaf->resTable, 0.01f, 10.f, 0.5f, SCALE_TABLE_SIZE,leaf);
-    tLookupTable_init(&leaf->envTimeTable, 0.0f, 20000.f, 4000.f, SCALE_TABLE_SIZE,leaf);
+    tLookupTable_init(&leaf.lfoRateTable, 0.0f, 30.f, 2.f, SCALE_TABLE_SIZE,&leaf);
+    tLookupTable_init(&leaf.resTable, 0.01f, 10.f, 0.5f, SCALE_TABLE_SIZE,&leaf);
+    tLookupTable_init(&leaf.envTimeTable, 0.0f, 20000.f, 4000.f, SCALE_TABLE_SIZE,&leaf);
 
   	tMempool_init (&mediumPool, medium_memory, MED_MEM_SIZE, &leaf);
   	tMempool_init (&largePool, large_memory, LARGE_MEM_SIZE, &leaf);
 
   	leaf.clearOnAllocation = 1;
   	LEAF_generate_exp(decayExpBuffer, 0.001f, 0.0f, 1.0f, -0.0008f, DECAY_EXP_BUFFER_SIZE); // exponential decay buffer falling from 1 to 0
-  	decayExpBufferSizeMinusOne = DECAY_EXP_BUFFER_SIZE - 1;
 
 
   	LEAF_generate_atodb(atoDbTable, ATODB_TABLE_SIZE, 0.00001f, 1.0f);
   	LEAF_generate_dbtoa(dbtoATable, DBTOA_TABLE_SIZE, -90.0f, 50.0f);
-
-  	atodbTableScalar = ATODB_TABLE_SIZE_MINUS_ONE/(1.0f-0.00001f);
-  	atodbTableOffset = 0.00001f * atodbTableScalar;
-  	dbtoaTableScalar = DBTOA_TABLE_SIZE_MINUS_ONE/(50.0f+90.0f);
-  	dbtoaTableOffset = -90.0f * dbtoaTableScalar;
-
   	LEAF_generate_mtof(mtofTable, -163.8375f, 163.8375f,  MTOF_TABLE_SIZE); //mtof table for fast calc
+
+  	for (int i = 0; i < 20; i++)
+	{
+		tExpSmooth_init(&knobSmoothers[i],0.0f, 0.0005f, &leaf);
+	}
+
 
   	//******** initializing leaf stuff ************//
 
@@ -565,11 +567,12 @@ void getPresetNamesFromSDCard(void)
 	return;
 }
 
+
 static int checkForSDCardPreset(uint8_t numberToLoad)
 {
 	int found = 0;
-	prevVoice = numberToLoad;
-	voice = numberToLoad;
+	//prevVoice = numberToLoad;
+	//voice = numberToLoad;
 	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_SET);
 	if(BSP_SD_IsDetected())
 	{
@@ -766,129 +769,6 @@ static void writePresetToSDCard(int fileSize)
 		}
 	}
 	presetWaitingToWrite = 0;
-	diskBusy = 0;
-	__enable_irq();
-}
-
-static int checkForSDCardTuning(uint8_t numberToLoad)
-{
-	int found = 0;
-	if(BSP_SD_IsDetected())
-	{
-		diskBusy = 1;
-		loadFailed = 0;
-		//HAL_Delay(300);
-
-		disk_initialize(0);
-
-	    disk_status(0);
-
-		if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
-		{
-
-			FRESULT res;
-			/* Start to search for preset files */
-			char charBuf[10];
-			char finalString[10];
-
-			//turn the integer value into a 2 digit string
-
-			itoa(numberToLoad, charBuf, 10);
-			int len = ((strlen(charBuf)));
-			if (len == 1)
-			{
-				finalString[2] = charBuf[1];
-				finalString[1] = charBuf[0];
-				finalString[0] = '0';
-				strcat(finalString, ".ebt");
-			}
-
-			else
-			{
-				strcat(charBuf, ".ebt");
-				strcpy(finalString, charBuf);
-			}
-
-			res = f_findfirst(&dir, &fno, SDPath, finalString);
-			UINT bytesRead;
-			if(res == FR_OK)
-			{
-				if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
-				{
-					f_read(&SDFile, &buffer, f_size(&SDFile), &bytesRead);
-					tuningWaitingToParse = bytesRead;
-					f_close(&SDFile);
-					found = 1;
-					for (int i = 0; i < 4; i++)
-					{
-						//HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_7);
-						//HAL_Delay(50);
-					}
-
-				}
-			}
-		}
-	}
-	if (!found)
-	{
-		loadFailed = 1;
-	}
-	tuningWaitingToLoad = 0;
-	diskBusy = 0;
-	return found;
-}
-
-static void writeTuningToSDCard(int fileSize)
-{
-	__disable_irq();
-	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
-	 {
-		 audioOutBuffer[i] = 0;
-	 }
-	if(BSP_SD_IsDetected())
-	{
-		//if(f_mount(&SDFatFS,  SDPath, 1) == FR_OK)
-		{
-			//if(res == FR_OK)
-			{
-				diskBusy = 1;
-				//make sure the number is not above 2 digits
-			    if (tuningNumberToSave > 99)
-			    {
-			    	tuningNumberToSave = 99;
-			    }
-
-				//turn the integer value into a 2 digit string
-				char charBuf[10];
-				char finalString[10];
-				itoa(tuningNumberToSave, charBuf, 10);
-				int len = ((strlen(charBuf)));
-				if (len == 1)
-				{
-					finalString[2] = charBuf[1];
-					finalString[1] = charBuf[0];
-					finalString[0] = '0';
-					strcat(finalString, ".ebt");
-				}
-
-				else
-				{
-					strcat(charBuf, ".ebt");
-					strcpy(finalString, charBuf);
-				}
-
-				if(f_open(&SDFile, finalString, FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
-				{
-					UINT bytesRead;
-					f_write(&SDFile, &buffer, fileSize, &bytesRead);
-					f_close(&SDFile);
-				}
-
-			}
-			//f_mount(0, "", 0); //unmount
-		}
-	}
-	tuningWaitingToWrite = 0;
 	diskBusy = 0;
 	__enable_irq();
 }
@@ -1161,7 +1041,7 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 	uint16_t presetVersionNumber = 0;
 	currentPresetSize = size;
 	 __disable_irq();
-	 presetReady = 0;
+	// presetReady = 0;
 	 for (int i = 0; i < AUDIO_BUFFER_SIZE; i++)
 	 {
 		 audioOutBuffer[i] = 0;
@@ -1174,8 +1054,8 @@ void __ATTR_ITCMRAM parsePreset(int size, int presetNumber)
 	presetWaitingToParse = 0;
 	currentActivePreset = presetNumber;
 	audioMasterLevel = 1.0f;
-	overSampled = 1;
-	changeOversampling(overSampled);
+	//overSampled = 1;
+	//changeOversampling(overSampled);
 	__enable_irq();
 	presetReady = 1;
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
