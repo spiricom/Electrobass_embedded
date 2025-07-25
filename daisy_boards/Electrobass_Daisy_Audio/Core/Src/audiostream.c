@@ -54,6 +54,7 @@ void audioInit(void)
 			audioOutBuffer[ i] = (int32_t)(0.0f * TWO_TO_23);
 	}
 	//audioFrameFunction = audioFrameWaiting;
+	audioChainInit();
 	HAL_Delay(1);
 }
 

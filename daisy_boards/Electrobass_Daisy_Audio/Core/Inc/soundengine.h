@@ -5,5 +5,5 @@
 
 
 void audioFrameFunction(int bufferOffset);
-
+void audioChainInit();
 #endif

@@ -164,6 +164,7 @@ volatile uint8_t knobFrozen[20];
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 	MPU_Config();
   SCB_EnableICache();
@@ -184,7 +185,7 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-/* Configure the peripherals common clocks */
+  /* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
@@ -362,18 +363,9 @@ void SystemClock_Config(void)
 
   /** Configure the main internal regulator output voltage
   */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
-
-  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
-
-  __HAL_RCC_SYSCFG_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE0);
 
   while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
-
-  /** Macro to configure the PLL clock source
-  */
-  __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.

@@ -63,6 +63,7 @@ extern volatile uint8_t currentActivePreset;
 extern volatile uint32_t presetWaitingToLoad;
 extern volatile uint8_t presetNumberToLoad;
 extern uint8_t currentRandom;
+extern LEAF leaf;
 
 extern float loadedKnobParams[20];
 extern uint8_t whichModel;
