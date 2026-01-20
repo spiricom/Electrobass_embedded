@@ -64,7 +64,13 @@ extern volatile uint32_t presetWaitingToLoad;
 extern volatile uint8_t presetNumberToLoad;
 extern uint8_t currentRandom;
 extern LEAF leaf;
-
+typedef struct CircularBuffer256
+{
+	uint8_t buffer[256];
+	uint32_t readPointer;
+	uint32_t writePointer;
+}CircularBuffer256;
+extern CircularBuffer256 presetMessageBuffer;
 extern float loadedKnobParams[20];
 extern uint8_t whichModel;
 extern uint_fast8_t knobTicked[12];

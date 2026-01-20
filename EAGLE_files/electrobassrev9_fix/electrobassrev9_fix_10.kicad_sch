@@ -1,0 +1,2483 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "2ae94264-7f3f-4adc-b176-5bc689146a55")
+	(paper "A4")
+	(lib_symbols
+		(symbol "electrobassrev9_fix-eagle-import:332-02"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "X"
+				(at 2.54 -0.762 0)
+				(effects
+					(font
+						(size 1.524 1.2954)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" ""
+				(at -0.762 1.397 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Footprint" "electrobassrev9_fix:332-02"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "2 Pin - 2mm Dual Row\n\nSource: www.mpe-connector.de / garry_shortform_2012.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "332-02_1_0"
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 0 0)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -2.54 0 0)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(symbol "332-02_2_0"
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 0 0)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -2.54 0 0)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "electrobassrev9_fix-eagle-import:3P-2MM-TH-MALE"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" ""
+				(at -1.27 5.842 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" ""
+				(at -1.27 -7.62 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Footprint" "electrobassrev9_fix:3P-2MM-TH"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "3P-2MM-TH-MALE_1_0"
+				(polyline
+					(pts
+						(xy -1.27 5.08) (xy -1.27 -5.08)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 5.08) (xy 3.81 5.08)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 2.54) (xy 2.54 2.54)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 2.54 0)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -2.54) (xy 2.54 -2.54)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 -5.08) (xy -1.27 -5.08)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 -5.08) (xy 3.81 5.08)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 7.62 2.54 180)
+					(length 5.08)
+					(name "3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 0 180)
+					(length 5.08)
+					(name "2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -2.54 180)
+					(length 5.08)
+					(name "1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "electrobassrev9_fix-eagle-import:SM06B-SRSS-TB(LF)(SN)"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 4.1656 5.3086 0)
+				(effects
+					(font
+						(size 2.0828 1.7703)
+					)
+					(justify left bottom)
+					(hide yes)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" "electrobassrev9_fix:CONN_SM06B-SRSS-TB_JST"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "SM06B-SRSS-TB(LF)(SN)_1_0"
+				(polyline
+					(pts
+						(xy 5.08 2.54) (xy 5.08 -15.24)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 -15.24) (xy 12.7 -15.24)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 0) (xy 5.08 0)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 0) (xy 8.89 0.8382)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 0) (xy 8.89 -0.8382)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 5.08 -2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 8.89 -1.7018)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -2.54) (xy 8.89 -3.3782)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 5.08 -5.08)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 8.89 -4.2418)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -5.08) (xy 8.89 -5.9182)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -7.62) (xy 5.08 -7.62)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -7.62) (xy 8.89 -6.7818)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -7.62) (xy 8.89 -8.4582)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -10.16) (xy 5.08 -10.16)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -10.16) (xy 8.89 -9.3218)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -10.16) (xy 8.89 -10.9982)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -12.7) (xy 5.08 -12.7)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -12.7) (xy 8.89 -11.8618)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 10.16 -12.7) (xy 8.89 -13.5382)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 2.54) (xy 5.08 2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 12.7 -15.24) (xy 12.7 2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 0 0 0)
+					(length 5.08)
+					(name "1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 0)
+					(length 5.08)
+					(name "3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -7.62 0)
+					(length 5.08)
+					(name "4"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -10.16 0)
+					(length 5.08)
+					(name "5"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -12.7 0)
+					(length 5.08)
+					(name "6"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(junction
+		(at 93.98 99.06)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0e38f20c-5f02-484c-bff5-cad11ef430d5")
+	)
+	(junction
+		(at 93.98 137.16)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "69c19cfc-3a07-46c4-a559-7dc5e560df90")
+	)
+	(junction
+		(at 93.98 81.28)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7a18a6d0-fa39-48e9-bdcf-6c75f8284233")
+	)
+	(junction
+		(at 93.98 119.38)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dea1ba80-46b1-4c8f-a633-2f960690bbb5")
+	)
+	(wire
+		(pts
+			(xy 93.98 134.62) (xy 93.98 137.16)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "14b5fc0c-1844-4762-b9a8-1cc9075c6087")
+	)
+	(wire
+		(pts
+			(xy 187.96 91.44) (xy 190.5 91.44)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "1571baa8-66a9-45e0-80da-dbd03859dd0c")
+	)
+	(wire
+		(pts
+			(xy 121.92 111.76) (xy 134.62 111.76)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "183a51bc-894f-4906-a5dd-9ce4e1b18aad")
+	)
+	(wire
+		(pts
+			(xy 142.24 134.62) (xy 142.24 137.16)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "23e382b9-918c-4543-bbec-c4fbf4b43936")
+	)
+	(wire
+		(pts
+			(xy 187.96 127) (xy 187.96 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "284c1dbd-aa65-437c-985e-a8517687ae20")
+	)
+	(wire
+		(pts
+			(xy 121.92 91.44) (xy 121.92 96.52)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "28eaa72f-d3e6-4ac4-86f5-dbed35fe0e71")
+	)
+	(wire
+		(pts
+			(xy 137.16 71.12) (xy 124.46 71.12)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "2b03f0df-e850-4419-8d5d-57731a6aa4dc")
+	)
+	(wire
+		(pts
+			(xy 93.98 116.84) (xy 93.98 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "2e58d64b-38fa-491a-95c8-a20272920030")
+	)
+	(wire
+		(pts
+			(xy 93.98 132.08) (xy 93.98 129.54)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "3651a57a-fbd4-46ab-92e1-4ae08f7a36a9")
+	)
+	(wire
+		(pts
+			(xy 121.92 116.84) (xy 121.92 111.76)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "393acf80-b0b7-43e0-b724-32bfa77fa4bc")
+	)
+	(wire
+		(pts
+			(xy 190.5 101.6) (xy 175.26 101.6)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "443f4049-eddc-4151-93c8-d8bbde402cef")
+	)
+	(wire
+		(pts
+			(xy 121.92 134.62) (xy 121.92 132.08)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "4e8ab826-e526-4698-83aa-36f34e2b4578")
+	)
+	(wire
+		(pts
+			(xy 93.98 93.98) (xy 93.98 88.9)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "56cebca1-677a-4c44-94e8-f1a4db4fd459")
+	)
+	(wire
+		(pts
+			(xy 142.24 99.06) (xy 93.98 99.06)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "57919a66-dcae-4a21-8f17-af77354fb6d0")
+	)
+	(wire
+		(pts
+			(xy 190.5 96.52) (xy 205.74 96.52)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "61ae66b3-c15b-4bde-9a97-6125188c8562")
+	)
+	(wire
+		(pts
+			(xy 187.96 119.38) (xy 190.5 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "63a7d6a8-cc26-452e-948c-d5e6b804d5de")
+	)
+	(wire
+		(pts
+			(xy 142.24 137.16) (xy 93.98 137.16)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "6b09c8b7-ffe6-4c9f-b571-0c713cf0cce9")
+	)
+	(wire
+		(pts
+			(xy 190.5 129.54) (xy 175.26 129.54)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "72c1d8e7-3d95-443f-add9-d47c650d5a1f")
+	)
+	(wire
+		(pts
+			(xy 93.98 76.2) (xy 93.98 68.58)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "78172750-ecae-40bf-9159-0a01badd94d7")
+	)
+	(wire
+		(pts
+			(xy 137.16 91.44) (xy 121.92 91.44)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "7edf8928-6bad-4e34-beea-c201fa02b8f6")
+	)
+	(wire
+		(pts
+			(xy 121.92 132.08) (xy 137.16 132.08)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "844fb594-3ac6-4421-93b9-7321c648fc03")
+	)
+	(wire
+		(pts
+			(xy 190.5 99.06) (xy 187.96 99.06)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "861376a4-9cee-4075-a925-fd4c3f703b04")
+	)
+	(wire
+		(pts
+			(xy 144.78 81.28) (xy 144.78 76.2)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "888dd946-dca6-4776-ac67-bf7a6769d125")
+	)
+	(wire
+		(pts
+			(xy 190.5 127) (xy 187.96 127)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "a56ee622-bc86-4dbf-b97a-660c10ea09dd")
+	)
+	(wire
+		(pts
+			(xy 142.24 119.38) (xy 142.24 116.84)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "a81a5e23-1659-49db-be99-34bc42abf41e")
+	)
+	(wire
+		(pts
+			(xy 93.98 96.52) (xy 93.98 99.06)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "ad264fa4-8476-42f0-b984-ec2d83ac8a69")
+	)
+	(wire
+		(pts
+			(xy 190.5 124.46) (xy 205.74 124.46)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "ae11e268-d9e4-45e5-aab1-b01fad9c05ce")
+	)
+	(wire
+		(pts
+			(xy 187.96 99.06) (xy 187.96 91.44)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "b71e8b07-3894-4660-a953-cfd21e435c92")
+	)
+	(wire
+		(pts
+			(xy 142.24 96.52) (xy 142.24 99.06)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "b83e60e3-516c-4238-88dc-0951164700b9")
+	)
+	(wire
+		(pts
+			(xy 93.98 114.3) (xy 93.98 109.22)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "bd778d99-e895-4d29-8e44-deb9bdd942b5")
+	)
+	(wire
+		(pts
+			(xy 190.5 93.98) (xy 190.5 96.52)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "bf9ad46f-5770-40bf-b8a2-ec37f7df44a3")
+	)
+	(wire
+		(pts
+			(xy 190.5 121.92) (xy 190.5 124.46)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "c8ab8171-f778-4520-94ac-571a173870af")
+	)
+	(wire
+		(pts
+			(xy 190.5 116.84) (xy 175.26 116.84)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "cf4cb560-ad53-4404-8db0-70a7fa82febd")
+	)
+	(wire
+		(pts
+			(xy 93.98 81.28) (xy 144.78 81.28)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "dd5a1a28-1f59-48fc-9e3a-e5e4e745cd05")
+	)
+	(wire
+		(pts
+			(xy 190.5 88.9) (xy 175.26 88.9)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "e0556dd1-4054-4c98-8a97-de1b753d191b")
+	)
+	(wire
+		(pts
+			(xy 93.98 78.74) (xy 93.98 81.28)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "f01963e0-8f50-4047-83ac-0c09f6b52a95")
+	)
+	(wire
+		(pts
+			(xy 124.46 71.12) (xy 124.46 76.2)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "f7ca5246-1709-4be7-a874-7a9657bb3c09")
+	)
+	(wire
+		(pts
+			(xy 93.98 119.38) (xy 142.24 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "fa0f2278-6bbb-4bcd-92eb-1ef6db0749b4")
+	)
+	(label "PICKUP_PWR2"
+		(at 205.74 96.52 0)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify left bottom)
+		)
+		(uuid "09b1b462-61c4-4ed0-b8f7-84bf8828c540")
+	)
+	(label "PICKUP_GND2"
+		(at 104.14 81.28 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "0d04a56d-401f-453c-a5e6-fcf9c13f72a3")
+	)
+	(label "PICKUP_PWR2"
+		(at 93.98 88.9 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "0d54dcf7-e4d9-4cb4-9d86-1930b09cb54c")
+	)
+	(label "PICKUP1_OUT2"
+		(at 175.26 129.54 180)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify right bottom)
+		)
+		(uuid "12e7adc2-a344-4aaa-8c32-1457925759e2")
+	)
+	(label "PICKUP_PWR2"
+		(at 93.98 68.58 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "1d26bc0a-9d5d-4cf0-b48e-5557bd5efece")
+	)
+	(label "PICKUP_GND2"
+		(at 104.14 99.06 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "48f7c5b8-281c-4197-93f4-f6591413a3d2")
+	)
+	(label "PICKUP1_OUT2"
+		(at 124.46 71.12 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "510bc6fc-62d5-476e-ad30-2a57c25eea0a")
+	)
+	(label "PICKUP4_OUT2"
+		(at 121.92 132.08 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "526596f5-f7b4-4638-b1d3-6561aabb7ee9")
+	)
+	(label "PICKUP_GND2"
+		(at 187.96 124.46 180)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify right bottom)
+		)
+		(uuid "630d18df-d553-495f-9ec8-6cecdea676f4")
+	)
+	(label "PICKUP3_OUT2"
+		(at 175.26 88.9 180)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify right bottom)
+		)
+		(uuid "64238927-8eac-44be-b9a9-f9cea65ab0c9")
+	)
+	(label "PICKUP2_OUT2"
+		(at 175.26 101.6 180)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify right bottom)
+		)
+		(uuid "6496d346-9c76-47ed-9bb3-8eca4973808e")
+	)
+	(label "PICKUP_GND2"
+		(at 101.6 119.38 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "74f11c80-0e12-4c7b-962b-29c2b1af34d5")
+	)
+	(label "PICKUP3_OUT2"
+		(at 121.92 111.76 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "82eff216-efc8-4848-bac7-a7f9d3395b2f")
+	)
+	(label "PICKUP_GND2"
+		(at 99.06 137.16 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "94804f07-1cb1-4fb1-8db7-4f76a7236d34")
+	)
+	(label "PICKUP_PWR2"
+		(at 93.98 129.54 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "9fa335c2-129d-430d-a462-59829fe21015")
+	)
+	(label "PICKUP4_OUT2"
+		(at 175.26 116.84 180)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify right bottom)
+		)
+		(uuid "a40d6b05-117a-4cf7-9f8d-186b7ce8ea3f")
+	)
+	(label "PICKUP2_OUT2"
+		(at 121.92 91.44 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "bc2f2cb1-376c-45f6-8c09-3842d17165ad")
+	)
+	(label "PICKUP_PWR2"
+		(at 93.98 109.22 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "c098a298-a351-4a46-af58-5db8d47181ec")
+	)
+	(label "PICKUP_PWR2"
+		(at 205.74 124.46 0)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify left bottom)
+		)
+		(uuid "cefbc2a1-b1f1-4b10-8e35-a3846f9b0c51")
+	)
+	(label "PICKUP_GND2"
+		(at 187.96 96.52 180)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify right bottom)
+		)
+		(uuid "e448b680-3305-4a43-ab39-d421b036744f")
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:SM06B-SRSS-TB(LF)(SN)")
+		(at 190.5 88.9 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0190e8c6-cee8-4899-b51e-7f7c69614fda")
+		(property "Reference" "J8"
+			(at 194.6656 83.5914 0)
+			(effects
+				(font
+					(size 2.0828 1.7703)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "SM06B-SRSS-TB(LF)(SN)"
+			(at 190.5 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:CONN_SM06B-SRSS-TB_JST"
+			(at 190.5 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 190.5 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 190.5 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2580bc53-d55a-4b32-9c94-32df408baaa9")
+		)
+		(pin "2"
+			(uuid "81c09a5a-f49c-4c48-8917-75ad9cf05966")
+		)
+		(pin "3"
+			(uuid "82397da2-fc8b-48d6-92ca-3964d8638bbb")
+		)
+		(pin "4"
+			(uuid "0cb6d11e-a2a4-4305-8def-0123184e1eda")
+		)
+		(pin "5"
+			(uuid "c7f9ee6f-c9a0-48e2-ad6d-1228fd5d81e9")
+		)
+		(pin "6"
+			(uuid "a4aa1def-8d4e-443e-8329-730fd6ee6f3a")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "J8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:3P-2MM-TH-MALE")
+		(at 86.36 96.52 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "08c94633-1f5b-4d36-8c4a-b09e6c8bad4a")
+		(property "Reference" "X10"
+			(at 85.09 90.678 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "3P-2MM-TH-MALE"
+			(at 85.09 104.14 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:3P-2MM-TH"
+			(at 86.36 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 86.36 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 86.36 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "P$3"
+			(uuid "098f1f9b-8d12-4bcf-8846-ef78b92af9ba")
+		)
+		(pin "P$2"
+			(uuid "36e955af-149b-4a7d-a470-b67a770c42f0")
+		)
+		(pin "P$1"
+			(uuid "90e9be61-f804-455a-8adf-69f35b4fac55")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 124.46 134.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "165a49e6-8117-4391-b420-eb8e53814d3c")
+		(property "Reference" "X8"
+			(at 127 135.382 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 123.698 133.223 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 124.46 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 124.46 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 124.46 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 124.46 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "132d3f9e-9996-4361-a8d0-7d16e25f5986")
+		)
+		(pin "2"
+			(uuid "64077103-5504-44d7-9389-384e680367d7")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 127 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2047fb70-17a2-4860-ae06-6e9a03ec25aa")
+		(property "Reference" "X5"
+			(at 129.54 76.962 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 126.238 74.803 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 127 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 127 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 127 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 127 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4c4a4252-0e7a-4787-9138-92ca616f3b4f")
+		)
+		(pin "2"
+			(uuid "0ee9b67a-cddd-4ecb-8e01-7e0fb2c907ea")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:3P-2MM-TH-MALE")
+		(at 86.36 116.84 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4d69f442-57f1-47ad-a2db-84aab9aff690")
+		(property "Reference" "X11"
+			(at 85.09 110.998 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "3P-2MM-TH-MALE"
+			(at 85.09 124.46 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:3P-2MM-TH"
+			(at 86.36 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 86.36 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 86.36 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "P$3"
+			(uuid "a87b22bc-fe51-4288-94ff-85e142820075")
+		)
+		(pin "P$2"
+			(uuid "a4287999-8cf6-4915-b4f8-ddd258488c00")
+		)
+		(pin "P$1"
+			(uuid "fa4ff2ad-bad2-4310-b159-3f9d19765f00")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 124.46 96.52 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "543ac208-207a-4842-a204-a0f981284a67")
+		(property "Reference" "X6"
+			(at 127 97.282 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 123.698 95.123 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 124.46 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 124.46 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 124.46 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 124.46 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b5b73de7-ddae-471e-8eca-33cacef65b22")
+		)
+		(pin "2"
+			(uuid "9e72bee9-ba55-4179-805f-30ef0ff306ac")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 144.78 96.52 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "698f1e95-ad03-4397-8467-c1c432cc828e")
+		(property "Reference" "X6"
+			(at 147.32 97.282 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 144.018 95.123 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 144.78 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 144.78 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 144.78 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 144.78 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "9e731469-2753-4029-88ed-8e0f03019f17")
+		)
+		(pin "2"
+			(uuid "91e031f1-e582-4234-8482-ab2e40d66b46")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X6")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 147.32 76.2 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "71542489-0b88-43d6-8c5d-bee1ea9a3e94")
+		(property "Reference" "X5"
+			(at 149.86 76.962 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 146.558 74.803 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 147.32 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 147.32 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 147.32 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 147.32 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c8f7a5f7-b6fb-4f6e-9f28-8325f0deabfc")
+		)
+		(pin "2"
+			(uuid "b6da71b8-e8e0-4841-8cfd-24e61e6b47d5")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X5")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 124.46 116.84 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c8cb41b5-9cd0-48dc-92a9-78c9aa610f4d")
+		(property "Reference" "X7"
+			(at 127 117.602 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 123.698 115.443 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 124.46 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 124.46 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 124.46 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 124.46 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f82e4c03-9a5a-49d9-81bf-0a3f0295aba0")
+		)
+		(pin "2"
+			(uuid "7aaddd1f-a035-45e2-86a2-28280f15d30d")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 144.78 116.84 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "de0f2a0f-5d59-4877-8899-98134fda436b")
+		(property "Reference" "X7"
+			(at 147.32 117.602 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 144.018 115.443 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 144.78 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 144.78 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 144.78 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 144.78 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ed397efb-006d-4652-b9b7-883019355793")
+		)
+		(pin "2"
+			(uuid "0da980f5-60b7-468d-aa41-48ea5d537011")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X7")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 144.78 134.62 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e89eadc1-3faf-49df-83f2-5802ebab99ed")
+		(property "Reference" "X8"
+			(at 147.32 135.382 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 144.018 133.223 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 144.78 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 144.78 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 144.78 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 144.78 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4d75606a-c0a8-423a-b968-8422b0190269")
+		)
+		(pin "2"
+			(uuid "b797597d-30bb-4e51-b0cc-01a654da5cd6")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X8")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:SM06B-SRSS-TB(LF)(SN)")
+		(at 190.5 116.84 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f665fa0f-0afe-4d42-ae01-cb865ddafcf4")
+		(property "Reference" "J7"
+			(at 194.6656 111.5314 0)
+			(effects
+				(font
+					(size 2.0828 1.7703)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "SM06B-SRSS-TB(LF)(SN)"
+			(at 190.5 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:CONN_SM06B-SRSS-TB_JST"
+			(at 190.5 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 190.5 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 190.5 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "00403950-8d82-41b2-9e31-9ea12d979812")
+		)
+		(pin "2"
+			(uuid "dfcc9ffb-40a1-4b7f-8160-98f0560fac42")
+		)
+		(pin "3"
+			(uuid "b838d001-bf0f-4e89-bb7d-a953a480262c")
+		)
+		(pin "4"
+			(uuid "5d8c01ff-2271-4325-8441-b5c321764363")
+		)
+		(pin "5"
+			(uuid "705a863e-314f-4aa7-997d-1034eec63a2e")
+		)
+		(pin "6"
+			(uuid "c692886c-ffb4-4174-a206-35d133787341")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "J7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:3P-2MM-TH-MALE")
+		(at 86.36 134.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f89ec00c-5ac5-4a02-a5e5-2c70f659aa58")
+		(property "Reference" "X12"
+			(at 85.09 128.778 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "3P-2MM-TH-MALE"
+			(at 85.09 142.24 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:3P-2MM-TH"
+			(at 86.36 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 86.36 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 86.36 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "P$3"
+			(uuid "bca367b3-6faa-47f0-9dea-ea2acbbba05f")
+		)
+		(pin "P$2"
+			(uuid "55773ef6-38d7-4705-a5d4-8fdf3e109384")
+		)
+		(pin "P$1"
+			(uuid "bc66f5e8-28f2-4190-8b45-3c42ee86c609")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:3P-2MM-TH-MALE")
+		(at 86.36 78.74 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "fafcea38-c202-4046-8fc4-c25fa7463b94")
+		(property "Reference" "X9"
+			(at 85.09 72.898 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "3P-2MM-TH-MALE"
+			(at 85.09 86.36 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:3P-2MM-TH"
+			(at 86.36 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 86.36 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 86.36 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 86.36 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "P$3"
+			(uuid "546ed358-5af5-4b41-8094-41b82efbfb4a")
+		)
+		(pin "P$2"
+			(uuid "fa886423-e461-441a-8991-d767a48034f5")
+		)
+		(pin "P$1"
+			(uuid "5d20b492-f5fd-4a7c-9d09-2e484e34ce89")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/8bc9eb5d-9981-4bfa-92c0-fb4e6b77973e"
+					(reference "X9")
+					(unit 1)
+				)
+			)
+		)
+	)
+)

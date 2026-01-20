@@ -1,0 +1,950 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "d2d4086e-3d48-4b2d-8750-a4f72f06db6a")
+	(paper "A4")
+	(lib_symbols
+		(symbol "electrobassrev9_fix-eagle-import:332-02"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "X"
+				(at 2.54 -0.762 0)
+				(effects
+					(font
+						(size 1.524 1.2954)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" ""
+				(at -0.762 1.397 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Footprint" "electrobassrev9_fix:332-02"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "2 Pin - 2mm Dual Row\n\nSource: www.mpe-connector.de / garry_shortform_2012.pdf"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "332-02_1_0"
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 0 0)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -2.54 0 0)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(symbol "332-02_2_0"
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 0 0)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -2.54 0 0)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "electrobassrev9_fix-eagle-import:3P-2MM-TH-MALE"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" ""
+				(at -1.27 5.842 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" ""
+				(at -1.27 -7.62 0)
+				(effects
+					(font
+						(size 1.778 1.5113)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Footprint" "electrobassrev9_fix:3P-2MM-TH"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "3P-2MM-TH-MALE_1_0"
+				(polyline
+					(pts
+						(xy -1.27 5.08) (xy -1.27 -5.08)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 5.08) (xy 3.81 5.08)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 2.54) (xy 2.54 2.54)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 2.54 0)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -2.54) (xy 2.54 -2.54)
+					)
+					(stroke
+						(width 0.6096)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 -5.08) (xy -1.27 -5.08)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.81 -5.08) (xy 3.81 5.08)
+					)
+					(stroke
+						(width 0.4064)
+						(type solid)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 7.62 2.54 180)
+					(length 5.08)
+					(name "3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$3"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 0 180)
+					(length 5.08)
+					(name "2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$2"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -2.54 180)
+					(length 5.08)
+					(name "1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+					(number "P$1"
+						(effects
+							(font
+								(size 0 0)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(junction
+		(at 121.92 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "4a1dcb92-46ab-4b5c-97f9-781efb8cb97a")
+	)
+	(junction
+		(at 121.92 96.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f19b15ac-c3e8-4517-9f27-266c36ef11b1")
+	)
+	(wire
+		(pts
+			(xy 170.18 114.3) (xy 170.18 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "0f6f3fa0-ed1c-45f4-9af6-168d453cd599")
+	)
+	(wire
+		(pts
+			(xy 170.18 119.38) (xy 121.92 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "330a1a77-32c0-4258-b7f5-d678ebd394c5")
+	)
+	(wire
+		(pts
+			(xy 121.92 111.76) (xy 121.92 106.68)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "4ce2d8fa-d0f3-4f7f-bdc3-c750194606fa")
+	)
+	(wire
+		(pts
+			(xy 121.92 93.98) (xy 121.92 96.52)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "4f5eeab6-9600-4ae9-b778-a972696be8ad")
+	)
+	(wire
+		(pts
+			(xy 121.92 116.84) (xy 121.92 114.3)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "5ee06849-2093-4aac-82b2-ef481841a005")
+	)
+	(wire
+		(pts
+			(xy 121.92 96.52) (xy 170.18 96.52)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "93d48d70-5668-43fd-9255-6e0535811c16")
+	)
+	(wire
+		(pts
+			(xy 121.92 91.44) (xy 121.92 86.36)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "98649f2e-f6e7-4826-bd16-9f750b129d9c")
+	)
+	(wire
+		(pts
+			(xy 170.18 96.52) (xy 170.18 93.98)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "9c8688aa-48d7-4da3-ae47-9ee78d6df442")
+	)
+	(wire
+		(pts
+			(xy 121.92 119.38) (xy 121.92 116.84)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "c773f9b8-5e93-41f2-9a72-1fd8669f3283")
+	)
+	(label "ELECTROSTEELHIGH"
+		(at 121.92 86.36 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "04f83edd-c059-416e-9d0a-a00a4dce7bb6")
+	)
+	(label "ELECTROSTEEL_GND"
+		(at 121.92 119.38 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "2a87bd73-a3d9-47d3-8fa6-11de6181d682")
+	)
+	(label "ELECTROSTEEL_GND"
+		(at 124.46 96.52 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "384d5d42-53c4-4870-aa2d-bb0ee1a7546c")
+	)
+	(label "ELECTROSTEELHIGH"
+		(at 121.92 106.68 0)
+		(effects
+			(font
+				(size 1.2446 1.2446)
+			)
+			(justify left bottom)
+		)
+		(uuid "547c2161-4023-4db6-8d1f-a96671a08a5b")
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:3P-2MM-TH-MALE")
+		(at 114.3 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1bf5f06f-aa81-4aeb-850b-f7a61f907077")
+		(property "Reference" "X21"
+			(at 113.03 108.458 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "3P-2MM-TH-MALE"
+			(at 113.03 121.92 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:3P-2MM-TH"
+			(at 114.3 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 114.3 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 114.3 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 114.3 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "P$3"
+			(uuid "92d48905-6d7a-4301-87ac-9b1719ce7b46")
+		)
+		(pin "P$2"
+			(uuid "c8a09c86-c332-4d02-b960-a7465a590208")
+		)
+		(pin "P$1"
+			(uuid "1eb970f7-3d7f-428d-90ca-073c81447100")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/799abf60-4773-446b-a89b-4384294c2b69"
+					(reference "X21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:3P-2MM-TH-MALE")
+		(at 114.3 93.98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "26eca5c7-a1f8-4286-8ddc-fdc68e8d57ff")
+		(property "Reference" "X20"
+			(at 113.03 88.138 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "3P-2MM-TH-MALE"
+			(at 113.03 101.6 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:3P-2MM-TH"
+			(at 114.3 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 114.3 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 114.3 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 114.3 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "P$3"
+			(uuid "54bc5275-285e-4a3e-a1b7-868e0b59dd6b")
+		)
+		(pin "P$2"
+			(uuid "9a9012db-b167-4591-bb6f-eddd83c1b70d")
+		)
+		(pin "P$1"
+			(uuid "f5b9d58c-0d50-404a-a6f4-8c4c33cd1866")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/799abf60-4773-446b-a89b-4384294c2b69"
+					(reference "X20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 152.4 93.98 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a00d90da-12a8-4e25-9c8d-be9e1dab6910")
+		(property "Reference" "X22"
+			(at 154.94 94.742 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 151.638 92.583 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 152.4 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 152.4 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 152.4 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fbf7c0db-807d-46d0-9df3-9718671e6e2a")
+		)
+		(pin "2"
+			(uuid "cdd89ec6-9f7c-4c09-aec1-ca9e92e82f82")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/799abf60-4773-446b-a89b-4384294c2b69"
+					(reference "X22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 152.4 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a0de02bf-7430-4bf0-8bc8-ed69a6658b88")
+		(property "Reference" "X23"
+			(at 154.94 115.062 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 151.638 112.903 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 152.4 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 152.4 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 152.4 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 152.4 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "80c30a60-09b2-4469-95ec-03b802a7efae")
+		)
+		(pin "2"
+			(uuid "be348002-c9fd-4b1b-883b-0863cf48b56f")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/799abf60-4773-446b-a89b-4384294c2b69"
+					(reference "X23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 172.72 93.98 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a68b0377-ca6b-4802-a5da-63726780d8dd")
+		(property "Reference" "X22"
+			(at 175.26 94.742 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 171.958 92.583 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 172.72 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 172.72 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 172.72 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8a16bbae-7cb4-46fa-9735-3966430b6428")
+		)
+		(pin "2"
+			(uuid "109cbc0b-dbbe-4dc7-8ab2-8deb48032ad3")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/799abf60-4773-446b-a89b-4384294c2b69"
+					(reference "X22")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "electrobassrev9_fix-eagle-import:332-02")
+		(at 172.72 114.3 0)
+		(unit 2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "cff0b6e2-0760-4a1b-addc-49f8da77fdb1")
+		(property "Reference" "X23"
+			(at 175.26 115.062 0)
+			(effects
+				(font
+					(size 1.524 1.2954)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Value" "332-02"
+			(at 171.958 112.903 0)
+			(effects
+				(font
+					(size 1.778 1.5113)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Footprint" "electrobassrev9_fix:332-02"
+			(at 172.72 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 172.72 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PARTNO" "*DNP"
+			(at 172.72 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d22c445b-c7fa-491c-b65c-673d295e3ca3")
+		)
+		(pin "2"
+			(uuid "3e19a117-19bd-4dd7-a07d-15d11ac60b2e")
+		)
+		(instances
+			(project ""
+				(path "/4232ae4d-e64a-402e-9d5c-c1fe0b6be25e/799abf60-4773-446b-a89b-4384294c2b69"
+					(reference "X23")
+					(unit 2)
+				)
+			)
+		)
+	)
+)

@@ -156,6 +156,12 @@ uint8_t fxPre = 0;
 tExpSmooth knobSmoothers[20];
 volatile uint8_t knobFrozen[20];
 
+
+
+CircularBuffer256 presetMessageBuffer;
+
+
+
 /* USER CODE END 0 */
 
 /**
@@ -976,7 +982,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 			}
 			else
 			{
-				tExpSmooth_setDest(&knobSmoothers[i], (SPI_RX[i + currentByte] * 0.003921568627451f)); //scaled 0.0 to 1.0
+				tExpSmooth_setDest(knobSmoothers[i], (SPI_RX[i + currentByte] * 0.003921568627451f)); //scaled 0.0 to 1.0
 				prevKnobByte[i] = newByte;
 			}
 
@@ -1000,7 +1006,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 			}
 			else
 			{
-				tExpSmooth_setDest(&knobSmoothers[i], (newByte * 0.003921568627451f)); //scaled 0.0 to 1.0
+				tExpSmooth_setDest(knobSmoothers[i], (newByte * 0.003921568627451f)); //scaled 0.0 to 1.0
 				prevKnobByte[i] = newByte;
 			}
 

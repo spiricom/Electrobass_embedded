@@ -26,7 +26,10 @@ tSimplePoly myPoly;
 
 uint8_t numStringsThisBoard = NUM_STRINGS_PER_BOARD;
 
+uint32_t audioSuspended = 0;
 
+float frameLoadMultiplier = 1.0f;
+float frameLoadPercentage = 0.0f;
 union breakFloat{
 	float f;
 	uint8_t b[4];
@@ -64,6 +67,7 @@ void audioStart(SAI_HandleTypeDef* hsaiOut, SAI_HandleTypeDef* hsaiIn)
 	HAL_Delay(1);
 	transmit_status = HAL_SAI_Transmit_DMA(hsaiOut, (uint8_t *)&audioOutBuffer[0], AUDIO_BUFFER_SIZE);
 	receive_status = HAL_SAI_Receive_DMA(hsaiIn, (uint8_t *)&audioInBuffer[0], AUDIO_BUFFER_SIZE);
+	frameLoadMultiplier = 1.0f / (10000.0f * AUDIO_FRAME_SIZE);
 	//HAL_GPIO_WritePin(GPIOC, GPIO_PIN_7, GPIO_PIN_SET);
 }
 
@@ -89,7 +93,7 @@ void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 	float fvelocity = 0.0f;
 	if (velocity > 0)
 	{
-		tSimplePoly_noteOn(&myPoly, note, velocity);
+		tSimplePoly_noteOn(myPoly, note, velocity);
 		fvelocity = (float)velocity;
 		fvelocity = ((0.007685533519034f*fvelocity) + 0.0239372430f);
 		fvelocity = fvelocity * fvelocity;
@@ -100,7 +104,7 @@ void __ATTR_ITCMRAM sendNoteOn(uint8_t note, uint8_t velocity)
 	}
 	else
 	{
-		tSimplePoly_noteOff(&myPoly, note);
+		tSimplePoly_noteOff(myPoly, note);
 		noteIn = note;
 		//stringMidiPitchesNoBend = noteIn;
 		//stringInputs[0] = 0;
@@ -156,12 +160,13 @@ void __ATTR_ITCMRAM midi_process(void)
 
 
 volatile uint32_t timeClean = 0;
+
 void __ATTR_ITCMRAM HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai)
 {
 
 	//SCB_CleanInvalidateDCache_by_Addr((uint32_t*)(((uint32_t)audioOutBuffer) & ~(uint32_t)0x1F), AUDIO_BUFFER_SIZE+32);
 
-	//if ((!diskBusy)&& (presetReady))
+	if (!audioSuspended)
 	{
 		audioFrameFunction(HALF_BUFFER_SIZE);
 	}
@@ -175,7 +180,7 @@ void __ATTR_ITCMRAM HAL_SAI_TxCpltCallback(SAI_HandleTypeDef *hsai)
 void __ATTR_ITCMRAM HAL_SAI_TxHalfCpltCallback(SAI_HandleTypeDef *hsai)
 {
 	//SCB_CleanInvalidateDCache_by_Addr((uint32_t*)(((uint32_t)audioOutBuffer) & ~(uint32_t)0x1F), AUDIO_BUFFER_SIZE+32);
-	//if ((!diskBusy)&& (presetReady))
+	if (!audioSuspended)
 	{
 		audioFrameFunction(0);
 	}
@@ -210,6 +215,8 @@ void __ATTR_ITCMRAM cStack_pop(cStack* stack, uint8_t* output)
     stack->readCnt = (stack->readCnt + 1) & 63;
 }
 
+uint32_t timeFrame = 0;
+
 
 void __ATTR_ITCMRAM audioFrameWaiting(uint16_t buffer_offset)
 {
@@ -222,8 +229,8 @@ void __ATTR_ITCMRAM audioFrameWaiting(uint16_t buffer_offset)
 		audioOutBuffer[iplusbuffer] = 0;
 		audioOutBuffer[iplusbuffer + 1] = 0;
 	}
-	//timeFrame = DWT->CYCCNT - tempCountFrame;
-	//frameLoadPercentage = (float)timeFrame * frameLoadMultiplier;
+	timeFrame = DWT->CYCCNT - tempCountFrame;
+	frameLoadPercentage = (float)timeFrame * frameLoadMultiplier;
 	//HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET);
 }
 

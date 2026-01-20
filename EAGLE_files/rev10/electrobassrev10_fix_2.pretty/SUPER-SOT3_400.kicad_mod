@@ -1,0 +1,161 @@
+(footprint "SUPER-SOT3_400"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "MOLDED PACKAGE SUPERSOT, 3 LEAD MKT-MAO3B\n\nSource: http://www.fairchildsemi.com/dwg/MA/MA03B.pdf")
+	(property "Reference" "REF**"
+		(at -1.75 -2 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "bac0a4d7-f7ea-4bdd-8d43-8a36c212e435")
+		(effects
+			(font
+				(size 1.1684 1.1684)
+				(thickness 0.1016)
+			)
+			(justify left bottom)
+		)
+	)
+	(property "Value" "SUPER-SOT3_400"
+		(at -1.75 3.25 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "faea740a-0121-4462-93a4-87b02406197c")
+		(effects
+			(font
+				(size 1.1684 1.1684)
+				(thickness 0.1016)
+			)
+			(justify left bottom)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ac2a39d5-64cc-43bd-95cd-c5924989f6fb")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "099be7ae-d0fc-495e-964d-f6772fe62ad3")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_line
+		(start -1.352 -0.603)
+		(end 1.352 -0.603)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "e943de0d-231e-4ad3-b019-844134ca0c24")
+	)
+	(fp_line
+		(start -1.352 0.603)
+		(end -1.352 -0.603)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "ba6d7750-d82a-40f9-b231-681daec8a37b")
+	)
+	(fp_line
+		(start 1.352 -0.603)
+		(end 1.352 0.603)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "f7559e3d-049b-48b0-9a3c-d7bcd8058723")
+	)
+	(fp_line
+		(start 1.352 0.603)
+		(end -1.352 0.603)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "99679a2f-6f10-4fe8-b8ab-a0b76dcb168b")
+	)
+	(fp_poly
+		(pts
+			(xy -1.175 1.25) (xy -0.675 1.25) (xy -0.675 0.6534) (xy -1.175 0.6534)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "beac776f-b643-455f-924c-2aafbf9cd76a")
+	)
+	(fp_poly
+		(pts
+			(xy 0.225 -1.25) (xy -0.25 -1.25) (xy -0.25 -0.6534) (xy 0.225 -0.6534)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "d463d08a-bf72-4fd1-b547-ca1ec0b54749")
+	)
+	(fp_poly
+		(pts
+			(xy 0.675 1.25) (xy 1.175 1.25) (xy 1.175 0.6534) (xy 0.675 0.6534)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "72c604c3-81df-4bf0-88a8-4bfd75cf0f6d")
+	)
+	(pad "1" smd rect
+		(at -0.95 1.1)
+		(size 1 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "3f0a9dc8-55f7-4276-95e0-7897cf0fb455")
+	)
+	(pad "2" smd rect
+		(at 0.95 1.1)
+		(size 1 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "1be8dc34-0792-4dc2-bcf6-457a94a2a8d6")
+	)
+	(pad "3" smd rect
+		(at 0 -1.1)
+		(size 1 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "f38c56d5-843b-4694-87dd-d63319ec5b23")
+	)
+	(embedded_fonts no)
+)

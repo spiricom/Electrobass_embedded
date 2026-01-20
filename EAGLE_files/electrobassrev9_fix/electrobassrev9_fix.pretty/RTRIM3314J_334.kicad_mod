@@ -1,0 +1,206 @@
+(footprint "RTRIM3314J_334"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Trimm resistor BOURNS\n\n0,25W, 20%\nSource: http://www.bourns.com/pdfs/3314.pdf  Data sheet")
+	(property "Reference" "REF**"
+		(at -2.64 2.99 90)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "71e7fe0a-1f1d-4546-938f-dcdd9015638b")
+		(effects
+			(font
+				(size 1.1684 1.1684)
+				(thickness 0.1016)
+			)
+			(justify left bottom)
+		)
+	)
+	(property "Value" "RTRIM3314J_334"
+		(at 4.01 2.99 90)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "0311a96e-b8ee-4a57-8cea-8b692b9e55f9")
+		(effects
+			(font
+				(size 1.1684 1.1684)
+				(thickness 0.1016)
+			)
+			(justify left bottom)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f4432f4a-e22e-4910-821f-3850c102522a")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5d3c1ce6-c46f-43b5-b35d-614e84b75977")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_line
+		(start -2.15 -2.15)
+		(end -2.15 0.8)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "db7e8ace-e7d1-45e3-a57e-a5d42ef0afdf")
+	)
+	(fp_line
+		(start -1.2 -2.15)
+		(end -2.15 -2.15)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "eba79e00-f11a-4fa5-b98b-6afa8cb795a5")
+	)
+	(fp_line
+		(start -0.85 0.55)
+		(end 0.55 -0.85)
+		(stroke
+			(width 0.1016)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "b34dd14f-353b-4648-a390-af6719d915f2")
+	)
+	(fp_line
+		(start -0.5 0.9)
+		(end 0.9 -0.5)
+		(stroke
+			(width 0.1016)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "41ef7ea0-319a-4d92-940a-ecb713c748f3")
+	)
+	(fp_line
+		(start 0.95 2.15)
+		(end -0.95 2.15)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "897a75b7-d353-42e3-b2a2-e0cfb9a02bca")
+	)
+	(fp_line
+		(start 2.15 -2.15)
+		(end 1.2 -2.15)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "bd7f7945-fe89-4f30-bae0-cf78971ed977")
+	)
+	(fp_line
+		(start 2.15 0.8)
+		(end 2.15 -2.15)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "0892e284-f212-427d-8a1a-f3f21edc8204")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 1.1 0)
+		(stroke
+			(width 0.1016)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "e142e2ce-60e9-472c-ae0d-33c039736057")
+	)
+	(fp_line
+		(start -2.15 -2.15)
+		(end 2.15 -2.15)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "8c2dd9f9-b259-4344-b08d-0a3c774111ce")
+	)
+	(fp_line
+		(start -2.15 2.15)
+		(end -2.15 -2.15)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b2f2c34f-ab1c-4865-bb4e-5b9a6a750b61")
+	)
+	(fp_line
+		(start 2.15 -2.15)
+		(end 2.15 2.15)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "da41da04-7a94-4387-8aab-3f58542dd5c8")
+	)
+	(fp_line
+		(start 2.15 2.15)
+		(end -2.15 2.15)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f653e292-a6e1-4a21-8331-4713fba16713")
+	)
+	(pad "1" smd rect
+		(at 1.8 2 180)
+		(size 1.3 2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "46766b0d-2d80-472a-a847-8a341b5ced23")
+	)
+	(pad "2" smd rect
+		(at 0 -2)
+		(size 2 2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "961b829d-236c-439b-8542-96424448ac6b")
+	)
+	(pad "3" smd rect
+		(at -1.8 2 180)
+		(size 1.3 2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "a31e69ec-8867-4491-8f0d-5fc6bbe76042")
+	)
+	(embedded_fonts no)
+)
