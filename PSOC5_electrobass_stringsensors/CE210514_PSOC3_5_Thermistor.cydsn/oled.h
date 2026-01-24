@@ -64,9 +64,13 @@ int getCursorX(void);
 
 void OLED_process(void);
 
+void OLED_invert(int onOff);
+
 void OLED_writePreset(void);
 
-void OLED_writeEditScreen(void);
+void OLED_writePresetFlashing();
+
+void OLED_writeCalibrationScreen(int calibration);
 
 void OLED_writeKnobParameter(int whichParam);
 

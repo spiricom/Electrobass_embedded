@@ -90,12 +90,6 @@ APPLICATION APPL_START (CY_FLASH_SIZE - APPL_START)
         * (.romvectors)
     }
 
-    DMA_INIT +0
-    {
-        * (.dma_init)
-    }
-    ScatterAssert(ImageLimit(DMA_INIT) < 0x10000) ;DMA Init must be within the first 64k of flash
-
     CODE +0
     {
         * (+RO)

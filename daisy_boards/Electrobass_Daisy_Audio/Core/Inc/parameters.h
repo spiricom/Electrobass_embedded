@@ -20,6 +20,8 @@ enum SPIMessage
 	ReceivingMIDI,
 	ReceivingPreset,
 	ReceivingTuning,
+	LoadingPreset,
+	LoadingTuning,
 	ReceivingEnd =  253
 };
 //selectable type number of possible values
@@ -34,6 +36,7 @@ enum SPIMessage
 #define FILTER_PARAMS_OFFSET 95
 #define ENVELOPE_PARAMS_OFFSET 108
 #define LFO_PARAMS_OFFSET 132
+#define FXPREPOST_PARAMS_OFFSET 154
 
 //number of modules
 #define NUM_OSC 3
@@ -50,6 +53,7 @@ enum SPIMessage
 
 #define OSC_SOURCE_OFFSET 0
 #define NOISE_SOURCE_OFFSET 3
+#define MACRO_SOURCE_OFFSET 4
 #define CTRL_SOURCE_OFFSET 12
 #define MIDI_KEY_SOURCE_OFFSET 17
 #define VELOCITY_SOURCE_OFFSET 18
@@ -366,6 +370,7 @@ enum ParamNames
 	LFO4Sync,
 	OutputAmp,
 	OutputTone,
+	FXOrder,
 	numParams
 };
 

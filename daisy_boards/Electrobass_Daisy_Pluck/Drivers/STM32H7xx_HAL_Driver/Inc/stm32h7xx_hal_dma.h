@@ -176,7 +176,7 @@ typedef struct __DMA_HandleTypeDef
 
  uint32_t                         DMAmuxRequestGenStatusMask;                                       /*!< DMAMUX request generator Status mask          */
 
-}DMA_HandleTypeDef;
+} DMA_HandleTypeDef;
 
 /**
   * @}
@@ -1222,6 +1222,14 @@ uint32_t             HAL_DMA_GetError(DMA_HandleTypeDef *hdma);
 /* Private Constants -------------------------------------------------------------*/
 /** @defgroup DMA_Private_Constants DMA Private Constants
   * @brief    DMA private defines and constants
+  * @{
+  */
+/**
+  * @}
+  */
+
+/* Private types -------------------------------------------------------------*/
+/** @defgroup DMA_Private_Types DMA Private Types
   * @{
   */
 /**

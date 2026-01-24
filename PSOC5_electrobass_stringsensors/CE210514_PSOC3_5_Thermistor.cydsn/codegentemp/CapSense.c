@@ -83,7 +83,7 @@ uint8 CYXDATA * const CYCODE CapSense_csTable[] = {
 };
 
 uint8 CapSense_idacSettings[] = {
-    40u,40u,40u,40u,60u,60u,60u,60u,
+    15u,15u,15u,15u,15u,15u,15u,15u,
 };
 
 uint8 CapSense_widgetResolution[] = {
@@ -97,7 +97,7 @@ uint8 CapSense_widgetResolution[] = {
     CapSense_PWM_RESOLUTION_8_BITS,
 };
 
-uint8 CapSense_analogSwitchDivider = 30u;
+uint8 CapSense_analogSwitchDivider = 250u;
 
 const uint8 CYCODE CapSense_widgetNumber[] = {
     0u, /* Button0__BTN */

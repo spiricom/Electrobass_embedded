@@ -104,7 +104,7 @@ SECTIONS
 
 		/* Place DMA initialization before text to ensure it gets placed in first 64K of flash */
  		*(.dma_init)
- 		ASSERT(appl_start + . <= 0x10000 || !1, "DMA Init must be within the first 64k of flash");
+ 		ASSERT(appl_start + . <= 0x10000 || !0, "DMA Init must be within the first 64k of flash");
 
  		*(.text .text.* .gnu.linkonce.t.*)
  		*(.plt)
