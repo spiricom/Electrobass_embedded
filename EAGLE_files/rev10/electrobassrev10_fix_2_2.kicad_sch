@@ -5,6 +5,215 @@
 	(uuid "bc012224-a93f-4eea-bf7d-d8567209b710")
 	(paper "User" 297.002 224.333)
 	(lib_symbols
+		(symbol "Snapeda:WL-SMRW_1206_REC"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0.552 4.372 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+				)
+			)
+			(property "Value" "WL-SMRW_1206_REC"
+				(at 0.612 -3.728 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+				)
+			)
+			(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "WL-SMRW_1206_REC_0_0"
+				(polyline
+					(pts
+						(xy -0.762 3.302) (xy 0.127 2.921) (xy -0.381 2.413) (xy -0.762 3.302)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 2.54 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 2.54 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy 0 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.381 3.429) (xy 1.27 3.048) (xy 0.762 2.54) (xy 0.381 3.429)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.635 1.905) (xy -0.762 3.302)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.778 2.032) (xy 0.381 3.429)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -1.27) (xy 0 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -1.27) (xy 2.54 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(text "+"
+					(at 3.08 -1.74 0)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+						(justify left bottom)
+					)
+				)
+				(pin passive line
+					(at -2.54 0 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "electrobassrev10_fix_2-eagle-import:20021121"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1379,211 +1588,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "D"
-				(at -3.429 -4.572 90)
-				(effects
-					(font
-						(size 1.778 1.778)
-					)
-					(justify left bottom)
-				)
-			)
-			(property "Value" ""
-				(at 1.905 -4.572 90)
-				(effects
-					(font
-						(size 1.778 1.778)
-					)
-					(justify left top)
-				)
-			)
-			(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "LED (Generic)\n\nStandard schematic elements and footprints for 5mm, 3mm, 1206, and 0603 sized LEDs. Generic LEDs with no color specified."
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_locked" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "LED1206-BOTTOM_1_0"
-				(polyline
-					(pts
-						(xy -3.048 1.27) (xy -3.429 2.159) (xy -2.54 1.778)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.921 2.413) (xy -3.302 3.302) (xy -2.413 2.921)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.032 -0.762) (xy -3.429 -2.159)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.905 -1.905) (xy -3.302 -3.302)
-					)
-					(stroke
-						(width 0.1524)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 -2.54) (xy -1.27 0)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 -2.54) (xy -1.27 -2.54)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 0) (xy -1.27 0)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 0) (xy 0 -2.54)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 -2.54) (xy 0 -2.54)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at 0 2.54 270)
-					(length 2.54)
-					(name "A"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "A"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -5.08 90)
-					(length 2.54)
-					(name "C"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-					(number "C"
-						(effects
-							(font
-								(size 0 0)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -2040,34 +2044,10 @@
 		)
 	)
 	(junction
-		(at 88.9 142.24)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "382858f4-501b-407b-9ecf-043a67ef8e7b")
-	)
-	(junction
-		(at 88.9 104.14)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "3ae0116e-3321-4d96-9ff3-ac3612eb8293")
-	)
-	(junction
-		(at 88.9 96.52)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4012b9e3-44f2-4b9e-b069-d40c652c68f0")
-	)
-	(junction
 		(at 88.9 111.76)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "5bc76f51-fb73-40a6-9a60-6b1461e29c0d")
-	)
-	(junction
-		(at 88.9 119.38)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8180ac75-5f57-45fd-b6a7-3f9d50277944")
+		(uuid "1985e767-2291-40f5-9948-8886d495a914")
 	)
 	(junction
 		(at 124.46 187.96)
@@ -2082,10 +2062,28 @@
 		(uuid "982ed158-2668-499b-b61d-5a4b4831ca52")
 	)
 	(junction
-		(at 88.9 127)
+		(at 88.9 134.62)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "a1a42712-e2f3-496b-91ec-8f7d1b5f2327")
+		(uuid "9d9e6347-dab4-46f3-9556-6500b827e5ca")
+	)
+	(junction
+		(at 88.9 96.52)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a3a585cd-42a3-410e-bf0f-c0f09b6d42f4")
+	)
+	(junction
+		(at 88.9 104.14)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a52548e0-270c-4aac-80d9-aad9890789d4")
+	)
+	(junction
+		(at 88.9 142.24)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ab3cebd7-2d0d-4e54-8720-de677dc0b35b")
 	)
 	(junction
 		(at 124.46 182.88)
@@ -2094,10 +2092,16 @@
 		(uuid "df952eae-976c-4d46-9448-bc44b2af4344")
 	)
 	(junction
-		(at 88.9 134.62)
+		(at 88.9 119.38)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "fc1d2420-6871-440a-85ee-dad916dbe1c9")
+		(uuid "e0bd60b7-a809-4bd1-af6f-ae8ba10d36b7")
+	)
+	(junction
+		(at 88.9 127)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ec43213c-a911-45e4-bc5b-14584f71ef97")
 	)
 	(wire
 		(pts
@@ -2118,6 +2122,16 @@
 			(type solid)
 		)
 		(uuid "17092192-327c-4dff-b987-55d6a5d5bd62")
+	)
+	(wire
+		(pts
+			(xy 88.9 104.14) (xy 88.9 111.76)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "19e74744-d32d-4ac6-9ab6-c492ec1cfc1a")
 	)
 	(wire
 		(pts
@@ -2151,13 +2165,23 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 149.86) (xy 88.9 142.24)
+			(xy 88.9 139.7) (xy 88.9 142.24)
 		)
 		(stroke
 			(width 0.1524)
 			(type solid)
 		)
 		(uuid "4df54ad7-1c63-4c44-95e5-f8c53e0c5a8b")
+	)
+	(wire
+		(pts
+			(xy 88.9 119.38) (xy 88.9 127)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "50f484b9-927c-48f6-88bd-99e303bb7280")
 	)
 	(wire
 		(pts
@@ -2171,16 +2195,6 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 119.38) (xy 88.9 127)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "5d85d681-58d3-4ca1-a099-dbc4510d2076")
-	)
-	(wire
-		(pts
 			(xy 124.46 182.88) (xy 137.16 182.88)
 		)
 		(stroke
@@ -2191,16 +2205,6 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 139.7) (xy 88.9 142.24)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "6c4a288e-27bd-4667-acfc-928c88cc4592")
-	)
-	(wire
-		(pts
 			(xy 124.46 187.96) (xy 124.46 182.88)
 		)
 		(stroke
@@ -2208,16 +2212,6 @@
 			(type solid)
 		)
 		(uuid "6ff471ec-f651-46c6-bf36-0ba6b7045fc5")
-	)
-	(wire
-		(pts
-			(xy 88.9 104.14) (xy 88.9 111.76)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "704957fd-624e-4863-ae9e-04060212682a")
 	)
 	(wire
 		(pts
@@ -2241,13 +2235,13 @@
 	)
 	(wire
 		(pts
-			(xy 88.9 111.76) (xy 88.9 119.38)
+			(xy 88.9 134.62) (xy 88.9 139.7)
 		)
 		(stroke
 			(width 0.1524)
 			(type solid)
 		)
-		(uuid "a4594c12-5edf-473d-9b18-341db800e513")
+		(uuid "85af1c11-cdb1-4db1-8193-8822b0c0ea6d")
 	)
 	(wire
 		(pts
@@ -2257,7 +2251,37 @@
 			(width 0.1524)
 			(type solid)
 		)
-		(uuid "b063e178-e8a0-4bda-bc61-30adda87290f")
+		(uuid "85f9ec17-d86f-4f90-8df1-ae783a9c68e8")
+	)
+	(wire
+		(pts
+			(xy 88.9 111.76) (xy 88.9 119.38)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "909665ee-8ef2-4e0c-a672-6aaa65f135be")
+	)
+	(wire
+		(pts
+			(xy 88.9 127) (xy 88.9 134.62)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "a84b136f-f0a5-4445-a319-0e04bb845b59")
+	)
+	(wire
+		(pts
+			(xy 88.9 142.24) (xy 88.9 149.86)
+		)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(uuid "b5e5da78-807b-4528-819a-3c34846de692")
 	)
 	(wire
 		(pts
@@ -2282,26 +2306,6 @@
 	(wire
 		(pts
 			(xy 88.9 88.9) (xy 88.9 96.52)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "d5d27a71-1600-4269-9ac9-88849d3ae8ba")
-	)
-	(wire
-		(pts
-			(xy 88.9 127) (xy 88.9 134.62)
-		)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(uuid "da91abda-fb63-4fa9-9dc5-eb57618121e1")
-	)
-	(wire
-		(pts
-			(xy 88.9 134.62) (xy 88.9 139.7)
 		)
 		(stroke
 			(width 0.1524)
@@ -2434,6 +2438,142 @@
 				)
 				(justify left)
 				(hide yes)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 104.14 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0860621a-0ee5-4d33-8c94-c3935dc64e7e")
+		(property "Reference" "D5"
+			(at 93.4583 95.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 97.79 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 91.44 104.14 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f362526b-c8f2-4739-9950-a03ecad62fc4")
+		)
+		(pin "2"
+			(uuid "27bf5002-c03e-4d35-a4be-785e19027bbd")
+		)
+		(instances
+			(project "electrobassrev10_fix_2"
+				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
+					(reference "D5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 142.24 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0cae76cd-fadd-4e29-9ef1-b65744fbf413")
+		(property "Reference" "D11"
+			(at 93.4583 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 91.44 142.24 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fb99819b-f58b-4ce2-ba95-3567f2af52b9")
+		)
+		(pin "2"
+			(uuid "4b35cd11-1ad6-4213-ba45-34b49fdb5b02")
+		)
+		(instances
+			(project "electrobassrev10_fix_2"
+				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
+					(reference "D11")
+					(unit 1)
+				)
 			)
 		)
 	)
@@ -2583,34 +2723,33 @@
 		)
 	)
 	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 104.14 270)
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 149.86 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "3060cf06-ad47-419e-93ad-85e62a327d36")
-		(property "Reference" "D6"
-			(at 89.408 100.711 90)
+		(fields_autoplaced yes)
+		(uuid "243fffe8-8791-4425-bf1c-a8441bc88a3b")
+		(property "Reference" "D12"
+			(at 93.4583 140.97 0)
 			(effects
 				(font
-					(size 1.778 1.778)
+					(size 1.27 1.27)
 				)
-				(justify left bottom)
 			)
 		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 106.045 90)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 143.51 0)
 			(effects
 				(font
-					(size 1.778 1.778)
+					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 104.14 0)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2619,7 +2758,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 104.14 0)
+			(at 91.44 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2628,7 +2767,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 93.98 104.14 0)
+			(at 91.44 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2636,24 +2775,82 @@
 				(hide yes)
 			)
 		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 104.14 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
+		(pin "1"
+			(uuid "33e30d6d-b178-4189-bb7e-296f78997a1f")
 		)
-		(pin "A"
-			(uuid "ca6d0376-d781-442b-9e7f-bbc702814036")
-		)
-		(pin "C"
-			(uuid "d2fe0c8c-abd9-4cd0-87f2-4cd7a103936b")
+		(pin "2"
+			(uuid "f9dcaa34-13be-434e-8cf5-4de2d68ef98a")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
+				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
+					(reference "D12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 111.76 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2fa6e202-eb4b-496d-8fff-efda82ce3a6b")
+		(property "Reference" "D6"
+			(at 93.4583 102.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 105.41 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 91.44 111.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2b70802c-1cda-46f5-8033-b1b1a24a2cc5")
+		)
+		(pin "2"
+			(uuid "61c5c287-ff95-4f87-8eab-17b7096c28d3")
+		)
+		(instances
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "D6")
 					(unit 1)
@@ -2794,34 +2991,33 @@
 		)
 	)
 	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 119.38 270)
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 96.52 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "371345f7-d218-460d-a35d-709754d0f0bb")
-		(property "Reference" "D8"
-			(at 89.408 115.951 90)
+		(fields_autoplaced yes)
+		(uuid "4df8871a-5ce5-438a-a266-66616ab979bd")
+		(property "Reference" "D4"
+			(at 93.4583 87.63 0)
 			(effects
 				(font
-					(size 1.778 1.778)
+					(size 1.27 1.27)
 				)
-				(justify left bottom)
 			)
 		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 121.285 90)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 90.17 0)
 			(effects
 				(font
-					(size 1.778 1.778)
+					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 119.38 0)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2830,7 +3026,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 119.38 0)
+			(at 91.44 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2839,7 +3035,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 93.98 119.38 0)
+			(at 91.44 96.52 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2847,263 +3043,16 @@
 				(hide yes)
 			)
 		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 119.38 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
+		(pin "1"
+			(uuid "10fd2169-7538-4ea3-861c-5e0de7efd388")
 		)
-		(pin "A"
-			(uuid "e9154e67-15aa-403e-8073-f0bc8a58b264")
-		)
-		(pin "C"
-			(uuid "a8077b67-7733-4ab3-89da-cdcd3eba9577")
+		(pin "2"
+			(uuid "47d322d4-df5f-4cb6-be3d-ae9b38919beb")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
-					(reference "D8")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 96.52 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "39001dcf-a009-4db2-88ce-19490b6d3656")
-		(property "Reference" "D5"
-			(at 89.408 93.091 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 98.425 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left top)
-			)
-		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 93.98 96.52 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 96.52 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
-		)
-		(pin "A"
-			(uuid "9c80da68-3c2e-449b-a05c-273b39b886a2")
-		)
-		(pin "C"
-			(uuid "329dc357-e3b8-448a-a35f-30d2fcb0f56b")
-		)
-		(instances
-			(project ""
-				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
-					(reference "D5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 149.86 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "46519070-281f-4173-a5ff-6a2d9f8d5558")
-		(property "Reference" "D14"
-			(at 89.408 146.431 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 151.765 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left top)
-			)
-		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 93.98 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 149.86 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
-		)
-		(pin "A"
-			(uuid "2c1267c7-98d8-4361-9234-c952d1f5cb99")
-		)
-		(pin "C"
-			(uuid "32425d2b-1dcf-4079-8064-6daae713677e")
-		)
-		(instances
-			(project ""
-				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
-					(reference "D14")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 142.24 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "55c464bb-63d9-4022-aef1-7c825800c047")
-		(property "Reference" "D12"
-			(at 89.408 138.811 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 144.145 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left top)
-			)
-		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 93.98 142.24 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 142.24 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
-		)
-		(pin "A"
-			(uuid "1b2c81a6-625f-40e3-9b11-d3267e350342")
-		)
-		(pin "C"
-			(uuid "f2fb5eff-9ed9-42e7-a9c8-8e82f5fa9548")
-		)
-		(instances
-			(project ""
-				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
-					(reference "D12")
+					(reference "D4")
 					(unit 1)
 				)
 			)
@@ -3249,6 +3198,74 @@
 			(project ""
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R125")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 119.38 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "716d096d-5d29-424a-81ca-7e649a25f927")
+		(property "Reference" "D7"
+			(at 93.4583 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 113.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 91.44 119.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "01697dfd-6083-4560-bb9d-cbc3bd547d79")
+		)
+		(pin "2"
+			(uuid "6cce19f3-59ab-4e2d-a975-e6cf941ef41f")
+		)
+		(instances
+			(project "electrobassrev10_fix_2"
+				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
+					(reference "D7")
 					(unit 1)
 				)
 			)
@@ -3437,34 +3454,33 @@
 		)
 	)
 	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 127 270)
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 127 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "84ae9d4a-ee0a-4d61-aff0-e8c108d5b09c")
-		(property "Reference" "D10"
-			(at 89.408 123.571 90)
+		(fields_autoplaced yes)
+		(uuid "7fb85712-bdbc-4806-be83-3c209ee76f1f")
+		(property "Reference" "D8"
+			(at 93.4583 118.11 0)
 			(effects
 				(font
-					(size 1.778 1.778)
+					(size 1.27 1.27)
 				)
-				(justify left bottom)
 			)
 		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 128.905 90)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 120.65 0)
 			(effects
 				(font
-					(size 1.778 1.778)
+					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 127 0)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3473,7 +3489,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 127 0)
+			(at 91.44 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3482,7 +3498,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 93.98 127 0)
+			(at 91.44 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3490,24 +3506,82 @@
 				(hide yes)
 			)
 		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 127 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
+		(pin "1"
+			(uuid "8f5fbc47-720c-4b71-b793-489ca6ec7361")
 		)
-		(pin "A"
-			(uuid "ae637de5-a6e3-4573-a69a-9bcdc53c19f1")
-		)
-		(pin "C"
-			(uuid "9d981747-6ea6-461c-b953-f565e2c6543c")
+		(pin "2"
+			(uuid "1a32afa0-85e2-4ae7-bb29-a356deac17fa")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
+				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
+					(reference "D8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 134.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "84b2fe72-94d3-4ee3-83b8-2ae4af296a04")
+		(property "Reference" "D10"
+			(at 93.4583 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 91.44 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2b8639dc-a700-4777-ace8-c95cfa6cf858")
+		)
+		(pin "2"
+			(uuid "c38e0637-e0ee-4ec3-bfb9-5be0476429ef")
+		)
+		(instances
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "D10")
 					(unit 1)
@@ -3595,34 +3669,33 @@
 		)
 	)
 	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 134.62 270)
+		(lib_id "Snapeda:WL-SMRW_1206_REC")
+		(at 91.44 88.9 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "8e57bd21-1506-48dc-b6c5-257d8dc82352")
-		(property "Reference" "D11"
-			(at 89.408 131.191 90)
+		(fields_autoplaced yes)
+		(uuid "94db9155-aa3b-4806-ad10-b0ae04df7f37")
+		(property "Reference" "D15"
+			(at 93.4583 80.01 0)
 			(effects
 				(font
-					(size 1.778 1.778)
+					(size 1.27 1.27)
 				)
-				(justify left bottom)
 			)
 		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 136.525 90)
+		(property "Value" "WL-SMRW_1206_REC"
+			(at 93.4583 82.55 0)
 			(effects
 				(font
-					(size 1.778 1.778)
+					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 134.62 0)
+		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
+			(at 91.44 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3631,7 +3704,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 134.62 0)
+			(at 91.44 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3640,7 +3713,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 93.98 134.62 0)
+			(at 91.44 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3648,26 +3721,16 @@
 				(hide yes)
 			)
 		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 134.62 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
+		(pin "1"
+			(uuid "595eddc3-5fee-434b-a6e5-ef4d137b3aed")
 		)
-		(pin "A"
-			(uuid "22336c3c-826d-481c-9010-8fb7f8a73d60")
-		)
-		(pin "C"
-			(uuid "5678bbe5-6c6f-42bc-b451-c1dbe279adfc")
+		(pin "2"
+			(uuid "11fa8263-2e9c-4ab5-9eb2-697ffbdb2fbd")
 		)
 		(instances
 			(project ""
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
-					(reference "D11")
+					(reference "D15")
 					(unit 1)
 				)
 			)
@@ -3747,164 +3810,6 @@
 			(project ""
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R43")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 111.76 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b845f5b1-944c-4b37-bf26-14660a349090")
-		(property "Reference" "D7"
-			(at 89.408 108.331 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 113.665 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left top)
-			)
-		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 93.98 111.76 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 111.76 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
-		)
-		(pin "A"
-			(uuid "ea7a131a-35d8-4fa9-922d-6358a9f8a5ab")
-		)
-		(pin "C"
-			(uuid "f166b805-301c-4153-b72d-e745b01dd5f1")
-		)
-		(instances
-			(project ""
-				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
-					(reference "D7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "electrobassrev10_fix_2-eagle-import:LED1206-BOTTOM")
-		(at 93.98 88.9 270)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "baf418ee-0f2b-4896-9e49-6c8b5cffdfec")
-		(property "Reference" "D4"
-			(at 89.408 85.471 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Value" "LED1206-BOTTOM"
-			(at 89.408 90.805 90)
-			(effects
-				(font
-					(size 1.778 1.778)
-				)
-				(justify left top)
-			)
-		)
-		(property "Footprint" "electrobassrev10_fix_2:LED-1206-BOTTOM"
-			(at 93.98 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 93.98 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PARTNO" "IN-S124BRA"
-			(at 93.98 88.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-				(hide yes)
-			)
-		)
-		(pin "A"
-			(uuid "3d6849a6-55cb-4438-9af3-388ede697a3d")
-		)
-		(pin "C"
-			(uuid "c12ba6bd-343a-435f-acc8-4b1072c6895e")
-		)
-		(instances
-			(project ""
-				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
-					(reference "D4")
 					(unit 1)
 				)
 			)

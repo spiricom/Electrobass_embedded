@@ -110,7 +110,6 @@ void processModuleHandle(moduleHandle handle, float* buffer)
 	default:
 		{};
 	}
-
 }
 
 void moduleInit(moduleHandle handle, uint32_t uuid, uint32_t whichChain, uint32_t chainIndex,float* const initialParams)
