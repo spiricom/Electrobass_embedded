@@ -17,6 +17,8 @@ typedef enum
 	PresetStart,
 	PresetChainInit,
 	PresetChainLength,
+	PresetFXLength,
+	PresetModulationLength,
 	PresetModuleArrayInit,
 	PresetModuleInit,
 	PresetMappingArrayInit,
@@ -51,17 +53,39 @@ typedef struct moduleHandle
 	uint32_t index;
 } moduleHandle;
 
-typedef struct chainStruct
+typedef struct FXlanesStruct
+{
+	uint32_t FXlengths[3];
+	moduleHandle* modulesForFXLane[3];
+} FXlanesStruct;
+
+typedef struct modulatorsStruct
+{
+	uint32_t modulatorsLength;
+	moduleHandle* modulesForModulators;
+} modulatorsStruct;
+
+typedef struct chain
 {
 	moduleHandle* moduleChain;
-	uint32_t maxLength;
-	uint32_t numChains;
-	uint32_t* chainLengths;
+	uint32_t length;
+	uint32_t uuid;
+	uint32_t audioDestination;
+	float chainVolume;
 	tMempool mempool;
-}chainStruct;
+}chain;
 
-chainStruct audioChains;
+typedef struct chainStructure
+{
+	uint32_t numChains;
+	chain* chains;
+	tMempool mempool;
+}chainStructure;
 
+
+chainStructure audioChains;
+modulatorsStruct modulators;
+FXlanesStruct FXlanes;
 
 void initModuleArraySize(ModuleType type, int size)
 {
@@ -80,20 +104,22 @@ void initModuleArraySize(ModuleType type, int size)
 	}
 }
 
-void initChainMemory(uint32_t numChains, uint32_t maxChainSize)
+void initChainStructure(uint32_t numChains)
 {
     _tMempool* m = leaf.mempool;
-    audioChains.moduleChain = (moduleHandle*) mpool_alloc(sizeof(moduleHandle) * (maxChainSize * numChains), (m));
-    audioChains.mempool = m;
-    audioChains.maxLength = maxChainSize;
-    audioChains.numChains = numChains;
-    audioChains.chainLengths = (uint32_t*) mpool_alloc(sizeof(uint32_t) * (numChains), (m));
 
+    audioChains.chains = (chain*) mpool_alloc(sizeof(chain) * (numChains)(m));
+    audioChains.mempool = m;
+    audioChains.numChains = numChains;
 }
 
-void setChainLength(uint32_t whichChain, uint32_t length)
+void initChain(uint32_t whichChain, uint32_t length, uint32_t uuid, uint32_t destination, float volume)
 {
-	audioChains.chainLengths[whichChain] = length;
+	audioChains.chains[whichChain].length = length;
+	audioChains.chains[whichChain].uuid = uuid;
+	audioChains.chains[whichChain].audioDestination = destination;
+	audioChains.chains[whichChain].chainVolume = volume;
+	audioChains.chains[whichChain].moduleChain = (moduleHandle*) mpool_alloc(sizeof(moduleHandle) * length, (m));
 }
 
 void processModuleHandle(moduleHandle handle, float* buffer)
@@ -130,8 +156,6 @@ void moduleInit(moduleHandle handle, uint32_t uuid, uint32_t whichChain, uint32_
 
 void audioFrameFunction(int bufferOffset)
 {
-
-
 	for (int i = 0; i < HALF_BUFFER_SIZE; i+=2)
 	{
 		int iplusbuffer = bufferOffset + i;
@@ -145,6 +169,7 @@ void audioFrameFunction(int bufferOffset)
 				processModuleHandle(audioChains.moduleChain[i * audioChains.maxLength  + j], &sum);
 			}
 			outVal += sum * 0.5f;
+
 
 		}
 		audioOutBuffer[iplusbuffer] = (int32_t)(outVal * TWO_TO_23);
