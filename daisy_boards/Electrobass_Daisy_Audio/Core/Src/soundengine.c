@@ -90,7 +90,6 @@ FXlanesStruct FXlanes;
 void initModuleArraySize(ModuleType type, int size)
 {
     _tMempool* m = leaf.mempool;
-
 	switch (type)
 	{
 		case ModuleTypeOscModule:
@@ -107,7 +106,6 @@ void initModuleArraySize(ModuleType type, int size)
 void initChainStructure(uint32_t numChains)
 {
     _tMempool* m = leaf.mempool;
-
     audioChains.chains = (chain*) mpool_alloc(sizeof(chain) * (numChains)(m));
     audioChains.mempool = m;
     audioChains.numChains = numChains;

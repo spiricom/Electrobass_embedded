@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20250114)
+	(version 20260306)
 	(generator "eeschema")
-	(generator_version "9.0")
+	(generator_version "10.0")
 	(uuid "ee6ac0c8-1a1e-46c2-bdf5-826436162b91")
 	(paper "A4")
 	(lib_symbols
@@ -9,53 +9,67 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Value" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Footprint" "electrobassrev10_fix_2:20021121"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -304,21 +318,27 @@
 			(embedded_fonts no)
 		)
 		(symbol "electrobassrev10_fix_2-eagle-import:3V3D3"
-			(power)
+			(power global)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "#V"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Value" ""
 				(at -3.81 0.635 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -328,33 +348,41 @@
 			)
 			(property "Footprint" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" "SUPPLY SYMBOL"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -399,8 +427,12 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "S"
 				(at 0 1.524 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.778)
@@ -410,6 +442,8 @@
 			)
 			(property "Value" ""
 				(at 0 -0.508 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.778)
@@ -419,33 +453,41 @@
 			)
 			(property "Footprint" "electrobassrev10_fix_2:TACTILE_SWITCH_PTH_6.0MM"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" "Momentary Switch (Pushbutton) - SPST\n\nNormally-open (NO) SPST momentary switches (buttons, pushbuttons).\n\nVariants PTH-12MM - 12mm square, through-hole\n\n• https://www.sparkfun.com/products/9190 Momentary Pushbutton Switch - 12mm Square (COM-09190)\n\nPTH-6.0MM, PTH-6.0MM-KIT - 6.0mm square, through-hole\n\n• https://www.sparkfun.com/products/97 Mini Pushbutton Switch (COM-00097)\n• KIT package intended for soldering kit's - only one side of pads' copper is exposed.\n\nPTH-RIGHT-ANGLE-KIT - Right-angle, through-hole\n\n• https://www.sparkfun.com/products/10791 Right Angle Tactile Button - Used on https://www.sparkfun.com/products/11734  SparkFun BigTime Watch Kit\n\nSMD-12MM - 12mm square, surface-mount\n\n• https://www.sparkfun.com/products/12993 Tactile Button - SMD (12mm) (COM-12993)\n• Used on https://www.sparkfun.com/products/11888 SparkFun PicoBoard\n\nSMD-4.5MM - 4.5mm Square Trackball Switch\n\n• Used on https://www.sparkfun.com/products/13169 SparkFun Blackberry Trackballer Breakout\n\nSMD-4.6MMX2.8MM -  4.60mm x 2.80mm, surface mount\n\n• Used on https://www.sparkfun.com/products/13664 SparkFun SAMD21 Mini Breakout\n\nSMD-5.2MM, SMD-5.2-REDUNDANT - 5.2mm square, surface-mount\n\n• https://www.sparkfun.com/products/8720 Mini Pushbutton Switch - SMD (COM-08720)\n• Used on https://www.sparkfun.com/products/11114 Arduino Pro Mini\n• REDUNDANT package connects both switch circuits together\n\nSMD-6.0X3.5MM - 6.0 x 3.5mm, surface mount\n\n• https://www.sparkfun.com/products/8229 Momentary Reset Switch SMD (COM-08229)\n\nSMD-6.2MM-TALL - 6.2mm square, surface mount\n\n• https://www.sparkfun.com/products/12992 Tactile Button - SMD (6mm)\n• Used on https://www.sparkfun.com/products/12651 SparkFun Digital Sandbox\n\nSMD-RIGHT-ANGLE - Right-angle, surface mount\n\n• Used on https://www.sparkfun.com/products/13036 SparkFun Block for Intel® Edison - Arduino"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -542,8 +584,12 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "JP"
 				(at -6.35 8.255 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -553,6 +599,8 @@
 			)
 			(property "Value" ""
 				(at -6.35 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -562,33 +610,41 @@
 			)
 			(property "Footprint" "electrobassrev10_fix_2:1X04"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" "PIN HEADER"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1176,13 +1232,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:MOMENTARY-SWITCH-SPST-PTH-6.0MM")
 		(at 96.52 121.92 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "0380be50-8020-40b0-9137-f263947388d2")
 		(property "Reference" "S11"
 			(at 96.52 120.396 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.778)
@@ -1192,6 +1252,8 @@
 		)
 		(property "Value" "MOMENTARY-SWITCH-SPST-PTH-6.0MM"
 			(at 96.52 122.428 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.778)
@@ -1201,39 +1263,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:TACTILE_SWITCH_PTH_6.0MM"
 			(at 96.52 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 96.52 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 96.52 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "TL1105SPF160Q"
 			(at 96.52 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1243,7 +1313,7 @@
 			(uuid "e7ba375f-8d6e-441a-ae5d-348f73589062")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/8cba2176-370c-4b1e-aad0-5ccb53747eee"
 					(reference "S11")
 					(unit 1)
@@ -1255,13 +1325,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:MOMENTARY-SWITCH-SPST-PTH-6.0MM")
 		(at 96.52 83.82 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "076f2cef-feee-4605-bbdd-bc1a41a71b8e")
 		(property "Reference" "S8"
 			(at 96.52 82.296 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.778)
@@ -1271,6 +1345,8 @@
 		)
 		(property "Value" "MOMENTARY-SWITCH-SPST-PTH-6.0MM"
 			(at 96.52 84.328 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.778)
@@ -1280,39 +1356,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:TACTILE_SWITCH_PTH_6.0MM"
 			(at 96.52 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 96.52 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 96.52 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "TL1105SPF160Q"
 			(at 96.52 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1322,7 +1406,7 @@
 			(uuid "d5c0a6be-c2fb-4e6c-aba1-bb2e2d7cf36b")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/8cba2176-370c-4b1e-aad0-5ccb53747eee"
 					(reference "S8")
 					(unit 1)
@@ -1334,64 +1418,78 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:20021121")
 		(at 175.26 101.6 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "2b687cc8-db9d-41d9-97d2-bc5ee400dcc9")
 		(property "Reference" "JP10"
 			(at 175.26 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "20021121"
 			(at 175.26 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "electrobassrev10_fix_2:20021121"
 			(at 175.26 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 175.26 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 175.26 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "3221-10-0300-00"
 			(at 175.26 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1425,7 +1523,7 @@
 			(uuid "528a199c-5c55-4b3d-86d2-e8f16bf0cc08")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/8cba2176-370c-4b1e-aad0-5ccb53747eee"
 					(reference "JP10")
 					(unit 1)
@@ -1437,22 +1535,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:3V3D3")
 		(at 195.58 104.14 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "37bd66a8-f869-42ba-8d21-3459d8c493a4")
 		(property "Reference" "#V28"
 			(at 195.58 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "3V3D3"
 			(at 191.77 103.505 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1462,36 +1566,42 @@
 		)
 		(property "Footprint" ""
 			(at 195.58 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 195.58 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 195.58 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "bcd2144b-88e0-4443-893d-a5bb0ec8d370")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/8cba2176-370c-4b1e-aad0-5ccb53747eee"
 					(reference "#V28")
 					(unit 1)
@@ -1503,22 +1613,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:3V3D3")
 		(at 198.12 116.84 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "51249c32-feb0-4b87-8844-b04fa23610b2")
 		(property "Reference" "#V29"
 			(at 198.12 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "3V3D3"
 			(at 194.31 116.205 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1528,36 +1644,42 @@
 		)
 		(property "Footprint" ""
 			(at 198.12 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 198.12 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 198.12 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "ba734f5f-3d10-44f3-af6e-416b75d669c6")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/8cba2176-370c-4b1e-aad0-5ccb53747eee"
 					(reference "#V29")
 					(unit 1)
@@ -1569,13 +1691,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:MOMENTARY-SWITCH-SPST-PTH-6.0MM")
 		(at 96.52 109.22 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "f72f45fd-ebe2-4ca0-a5d8-2dd2487fa776")
 		(property "Reference" "S10"
 			(at 96.52 107.696 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.778)
@@ -1585,6 +1711,8 @@
 		)
 		(property "Value" "MOMENTARY-SWITCH-SPST-PTH-6.0MM"
 			(at 96.52 109.728 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.778)
@@ -1594,39 +1722,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:TACTILE_SWITCH_PTH_6.0MM"
 			(at 96.52 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 96.52 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 96.52 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "TL1105SPF160Q"
 			(at 96.52 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1636,7 +1772,7 @@
 			(uuid "4ef972ab-435f-4449-bb2b-32f03b82bb76")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/8cba2176-370c-4b1e-aad0-5ccb53747eee"
 					(reference "S10")
 					(unit 1)
@@ -1648,13 +1784,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:PINHD-1X4")
 		(at 218.44 116.84 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "f848e75b-4c1b-4704-a62e-d540fed5ea36")
 		(property "Reference" "JP11"
 			(at 212.09 108.585 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1664,6 +1804,8 @@
 		)
 		(property "Value" "PINHD-1X4"
 			(at 212.09 124.46 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1673,39 +1815,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:1X04"
 			(at 218.44 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 218.44 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 218.44 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 218.44 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1721,7 +1871,7 @@
 			(uuid "5f803f57-93dd-46bc-a43d-2cd92bf598ce")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/8cba2176-370c-4b1e-aad0-5ccb53747eee"
 					(reference "JP11")
 					(unit 1)

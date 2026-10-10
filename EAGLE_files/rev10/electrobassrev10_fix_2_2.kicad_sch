@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20250114)
+	(version 20260306)
 	(generator "eeschema")
-	(generator_version "9.0")
+	(generator_version "10.0")
 	(uuid "bc012224-a93f-4eea-bf7d-d8567209b710")
 	(paper "User" 297.002 224.333)
 	(lib_symbols
@@ -12,8 +12,12 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "D"
 				(at 0.552 4.372 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -23,6 +27,8 @@
 			)
 			(property "Value" "WL-SMRW_1206_REC"
 				(at 0.612 -3.728 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -32,29 +38,35 @@
 			)
 			(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(symbol "WL-SMRW_1206_REC_0_0"
@@ -178,7 +190,7 @@
 				(pin passive line
 					(at -2.54 0 0)
 					(length 2.54)
-					(name "~"
+					(name ""
 						(effects
 							(font
 								(size 1.016 1.016)
@@ -196,7 +208,7 @@
 				(pin passive line
 					(at 5.08 0 180)
 					(length 2.54)
-					(name "~"
+					(name ""
 						(effects
 							(font
 								(size 1.016 1.016)
@@ -218,53 +230,67 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Value" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Footprint" "electrobassrev10_fix_2:20021121"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -516,55 +542,69 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "U"
 				(at 15.5946 9.1186 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 2.083 1.7705)
 					)
 					(justify left bottom)
-					(hide yes)
 				)
 			)
 			(property "Value" ""
 				(at 14.9552 6.5786 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 2.083 1.7705)
 					)
 					(justify left bottom)
-					(hide yes)
 				)
 			)
 			(property "Footprint" "electrobassrev10_fix_2:TQFP_24AZI-S413_CYP-L"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1053,16 +1093,52 @@
 					)
 				)
 				(pin bidirectional line
-					(at 38.1 0 180)
+					(at 38.1 -58.42 180)
 					(length 5.08)
-					(name "P1.6"
+					(name "P4.3"
 						(effects
 							(font
 								(size 1.524 1.524)
 							)
 						)
 					)
-					(number "48"
+					(number "25"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 38.1 -55.88 180)
+					(length 5.08)
+					(name "NC_4"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "26"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 38.1 -53.34 180)
+					(length 5.08)
+					(name "NC"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "27"
 						(effects
 							(font
 								(size 1.524 1.524)
@@ -1071,322 +1147,16 @@
 					)
 				)
 				(pin bidirectional line
-					(at 38.1 -2.54 180)
+					(at 38.1 -50.8 180)
 					(length 5.08)
-					(name "P1.5"
+					(name "P0.0"
 						(effects
 							(font
 								(size 1.524 1.524)
 							)
 						)
 					)
-					(number "47"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -5.08 180)
-					(length 5.08)
-					(name "P1.4"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "46"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -7.62 180)
-					(length 5.08)
-					(name "P1.3"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "45"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -10.16 180)
-					(length 5.08)
-					(name "P1.2"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "44"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -12.7 180)
-					(length 5.08)
-					(name "P1.1"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "43"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -15.24 180)
-					(length 5.08)
-					(name "P1.0"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "42"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 38.1 -17.78 180)
-					(length 5.08)
-					(name "VSSA"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "41"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 38.1 -20.32 180)
-					(length 5.08)
-					(name "VDDA"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "40"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 38.1 -22.86 180)
-					(length 5.08)
-					(name "VDDD"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "39"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 38.1 -25.4 180)
-					(length 5.08)
-					(name "VSSD"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "38"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 38.1 -27.94 180)
-					(length 5.08)
-					(name "VCCD"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "37"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 38.1 -30.48 180)
-					(length 5.08)
-					(name "XRES"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "36"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -33.02 180)
-					(length 5.08)
-					(name "P0.7"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "35"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -35.56 180)
-					(length 5.08)
-					(name "P0.6"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "34"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -38.1 180)
-					(length 5.08)
-					(name "P0.5"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "33"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -40.64 180)
-					(length 5.08)
-					(name "P0.4"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "32"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -43.18 180)
-					(length 5.08)
-					(name "P0.3"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "31"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin bidirectional line
-					(at 38.1 -45.72 180)
-					(length 5.08)
-					(name "P0.2"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "30"
+					(number "28"
 						(effects
 							(font
 								(size 1.524 1.524)
@@ -1413,52 +1183,16 @@
 					)
 				)
 				(pin bidirectional line
-					(at 38.1 -50.8 180)
+					(at 38.1 -45.72 180)
 					(length 5.08)
-					(name "P0.0"
+					(name "P0.2"
 						(effects
 							(font
 								(size 1.524 1.524)
 							)
 						)
 					)
-					(number "28"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at 38.1 -53.34 180)
-					(length 5.08)
-					(name "NC"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "27"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-				)
-				(pin no_connect line
-					(at 38.1 -55.88 180)
-					(length 5.08)
-					(name "NC_4"
-						(effects
-							(font
-								(size 1.524 1.524)
-							)
-						)
-					)
-					(number "26"
+					(number "30"
 						(effects
 							(font
 								(size 1.524 1.524)
@@ -1467,16 +1201,322 @@
 					)
 				)
 				(pin bidirectional line
-					(at 38.1 -58.42 180)
+					(at 38.1 -43.18 180)
 					(length 5.08)
-					(name "P4.3"
+					(name "P0.3"
 						(effects
 							(font
 								(size 1.524 1.524)
 							)
 						)
 					)
-					(number "25"
+					(number "31"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -40.64 180)
+					(length 5.08)
+					(name "P0.4"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "32"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -38.1 180)
+					(length 5.08)
+					(name "P0.5"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "33"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -35.56 180)
+					(length 5.08)
+					(name "P0.6"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "34"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -33.02 180)
+					(length 5.08)
+					(name "P0.7"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "35"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 38.1 -30.48 180)
+					(length 5.08)
+					(name "XRES"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "36"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 38.1 -27.94 180)
+					(length 5.08)
+					(name "VCCD"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "37"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 38.1 -25.4 180)
+					(length 5.08)
+					(name "VSSD"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "38"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 38.1 -22.86 180)
+					(length 5.08)
+					(name "VDDD"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "39"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 38.1 -20.32 180)
+					(length 5.08)
+					(name "VDDA"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "40"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 38.1 -17.78 180)
+					(length 5.08)
+					(name "VSSA"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "41"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -15.24 180)
+					(length 5.08)
+					(name "P1.0"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "42"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -12.7 180)
+					(length 5.08)
+					(name "P1.1"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "43"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -10.16 180)
+					(length 5.08)
+					(name "P1.2"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "44"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -7.62 180)
+					(length 5.08)
+					(name "P1.3"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "45"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -5.08 180)
+					(length 5.08)
+					(name "P1.4"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "46"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 -2.54 180)
+					(length 5.08)
+					(name "P1.5"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "47"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 38.1 0 180)
+					(length 5.08)
+					(name "P1.6"
+						(effects
+							(font
+								(size 1.524 1.524)
+							)
+						)
+					)
+					(number "48"
 						(effects
 							(font
 								(size 1.524 1.524)
@@ -1488,21 +1528,27 @@
 			(embedded_fonts no)
 		)
 		(symbol "electrobassrev10_fix_2-eagle-import:DGND"
-			(power)
+			(power global)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "#GND"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Value" ""
 				(at -2.54 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -1512,33 +1558,41 @@
 			)
 			(property "Footprint" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" "Digital Ground/Power Symbol  Github : https://github.com/PatternAgents  License : http://creativecommons.org/licenses/by-sa/3.0/  (Creative Commons 3.0)  THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS \"AS IS\" AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE."
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1592,8 +1646,12 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "R"
 				(at -3.81 1.4986 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -1603,6 +1661,8 @@
 			)
 			(property "Value" ""
 				(at -3.81 -3.302 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -1612,33 +1672,41 @@
 			)
 			(property "Footprint" "electrobassrev10_fix_2:R0603"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" "RESISTOR, American symbol"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1797,8 +1865,12 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "C"
 				(at 1.016 0.635 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -1808,6 +1880,8 @@
 			)
 			(property "Value" ""
 				(at 1.016 -4.191 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -1817,33 +1891,41 @@
 			)
 			(property "Footprint" "electrobassrev10_fix_2:C0603K"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" "CAPACITOR, American symbol"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1939,21 +2021,27 @@
 			(embedded_fonts no)
 		)
 		(symbol "electrobassrev10_fix_2-eagle-import:supply1_371_+3V3"
-			(power)
+			(power global)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "#+3V3"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Value" ""
 				(at -2.54 -5.08 90)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -1963,33 +2051,41 @@
 			)
 			(property "Footprint" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" "SUPPLY SYMBOL"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -2366,12 +2462,14 @@
 		(uuid "31d6bf6a-4689-4b9a-8ba0-7a9333abb5a9")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 187.3907 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 	)
@@ -2388,12 +2486,14 @@
 		(uuid "322ac16e-a2b3-4d4f-abaa-d27ec8d6dd96")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 187.5358 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 	)
@@ -2410,12 +2510,14 @@
 		(uuid "99cf0de0-9896-46d4-9fe0-86c53dc98b1f")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 135.8425 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
 			)
 		)
 	)
@@ -2432,12 +2534,14 @@
 		(uuid "c76169ca-fe61-4ce3-8b28-637191b8e432")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 187.5358 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
-				(hide yes)
 			)
 		)
 	)
@@ -2445,14 +2549,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 104.14 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0860621a-0ee5-4d33-8c94-c3935dc64e7e")
 		(property "Reference" "D5"
 			(at 93.4583 95.25 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2461,6 +2569,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 97.79 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2469,29 +2579,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -2513,14 +2629,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 142.24 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0cae76cd-fadd-4e29-9ef1-b65744fbf413")
 		(property "Reference" "D11"
 			(at 93.4583 133.35 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2529,6 +2649,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 135.89 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2537,29 +2659,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -2581,22 +2709,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:DGND")
 		(at 213.36 86.36 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "1acbe651-54d2-4f1b-899a-2103fb253c40")
 		(property "Reference" "#GND42"
 			(at 213.36 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "DGND"
 			(at 210.82 91.44 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2606,36 +2740,42 @@
 		)
 		(property "Footprint" ""
 			(at 213.36 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 213.36 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 213.36 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "64e7d922-6fe9-40b2-9347-291f38518f4c")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "#GND42")
 					(unit 1)
@@ -2647,13 +2787,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 127 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "2070bd44-cbb1-41e5-be4f-45ba7e392f04")
 		(property "Reference" "R42"
 			(at 105.41 128.4986 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2663,6 +2807,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 123.698 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2672,39 +2818,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 127 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -2714,7 +2868,7 @@
 			(uuid "9fe2c33d-e2c3-432c-9ef4-b8d3e35b2743")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R42")
 					(unit 1)
@@ -2726,14 +2880,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 149.86 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "243fffe8-8791-4425-bf1c-a8441bc88a3b")
 		(property "Reference" "D12"
 			(at 93.4583 140.97 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2742,6 +2900,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 143.51 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2750,29 +2910,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -2794,14 +2960,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 111.76 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2fa6e202-eb4b-496d-8fff-efda82ce3a6b")
 		(property "Reference" "D6"
 			(at 93.4583 102.87 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2810,6 +2980,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 105.41 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2818,29 +2990,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -2862,22 +3040,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:supply1_371_+3V3")
 		(at 147.32 104.14 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "36c7b0d9-83c5-4a91-9dea-da3aacb4d7d4")
 		(property "Reference" "#+3V3"
 			(at 147.32 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "+3V3"
 			(at 144.78 109.22 90)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2887,36 +3071,42 @@
 		)
 		(property "Footprint" ""
 			(at 147.32 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 147.32 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 147.32 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "454c1ec3-4aae-4243-85d0-2b3267883f1d")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "#+3V3")
 					(unit 1)
@@ -2928,22 +3118,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:DGND")
 		(at 81.28 139.7 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "36c8d1f9-3868-480b-a553-ee63527196c8")
 		(property "Reference" "#GND19"
 			(at 81.28 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "DGND"
 			(at 78.74 144.78 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2953,36 +3149,42 @@
 		)
 		(property "Footprint" ""
 			(at 81.28 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 81.28 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 81.28 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "0140ea0b-5076-4114-ad56-a6e8e5a8418f")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "#GND19")
 					(unit 1)
@@ -2994,14 +3196,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 96.52 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4df8871a-5ce5-438a-a266-66616ab979bd")
 		(property "Reference" "D4"
 			(at 93.4583 87.63 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3010,6 +3216,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 90.17 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3018,29 +3226,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3062,22 +3276,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:DGND")
 		(at 193.04 55.88 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "5c54d9d2-197c-43c4-bd98-23966aa3fc68")
 		(property "Reference" "#GND35"
 			(at 193.04 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "DGND"
 			(at 190.5 60.96 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3087,36 +3307,42 @@
 		)
 		(property "Footprint" ""
 			(at 193.04 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 193.04 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 193.04 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "679bdd1b-0411-4126-bdba-7b76c1b97eb4")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "#GND35")
 					(unit 1)
@@ -3128,13 +3354,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 119.38 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "5c631681-7bd7-44c6-b138-ab0dddc19d09")
 		(property "Reference" "R125"
 			(at 105.41 120.8786 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3144,6 +3374,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 116.078 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3153,39 +3385,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 119.38 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3195,7 +3435,7 @@
 			(uuid "66802a99-8910-49b1-a934-ba7a6c6584c2")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R125")
 					(unit 1)
@@ -3207,14 +3447,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 119.38 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "716d096d-5d29-424a-81ca-7e649a25f927")
 		(property "Reference" "D7"
 			(at 93.4583 110.49 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3223,6 +3467,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 113.03 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3231,29 +3477,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3275,13 +3527,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:rcl_C-USC0603K")
 		(at 147.32 109.22 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "786924ee-6ee1-4b98-848e-d6eeaac61e21")
 		(property "Reference" "C86"
 			(at 148.336 108.585 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3291,6 +3547,8 @@
 		)
 		(property "Value" ".1uf"
 			(at 148.336 113.411 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3300,39 +3558,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:C0603K"
 			(at 147.32 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 147.32 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 147.32 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "CC0603KRX7R8BB104"
 			(at 147.32 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3342,7 +3608,7 @@
 			(uuid "b1b5f509-7490-4eb7-8e58-940ecda1d9da")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "C86")
 					(unit 1)
@@ -3354,64 +3620,78 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:20021121")
 		(at 134.62 180.34 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "7ce171d9-866e-4c9e-8c3e-740edc97f188")
 		(property "Reference" "JP34"
 			(at 134.62 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "20021121"
 			(at 134.62 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "electrobassrev10_fix_2:20021121"
 			(at 134.62 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 134.62 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 134.62 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "3221-10-0300-00"
 			(at 134.62 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3445,7 +3725,7 @@
 			(uuid "a5e5839d-e841-475e-ae4f-d375fd94a6a6")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "JP34")
 					(unit 1)
@@ -3457,14 +3737,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 127 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7fb85712-bdbc-4806-be83-3c209ee76f1f")
 		(property "Reference" "D8"
 			(at 93.4583 118.11 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3473,6 +3757,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 120.65 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3481,29 +3767,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3525,14 +3817,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 134.62 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "84b2fe72-94d3-4ee3-83b8-2ae4af296a04")
 		(property "Reference" "D10"
 			(at 93.4583 125.73 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3541,6 +3837,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 128.27 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3549,29 +3847,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3593,13 +3897,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 88.9 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "8e0c6c91-0718-4f39-918d-32019200d874")
 		(property "Reference" "R118"
 			(at 105.41 90.3986 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3609,6 +3917,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 85.598 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3618,39 +3928,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 88.9 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3660,7 +3978,7 @@
 			(uuid "859e737b-3384-4321-848a-937348402786")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R118")
 					(unit 1)
@@ -3672,14 +3990,18 @@
 		(lib_id "Snapeda:WL-SMRW_1206_REC")
 		(at 91.44 88.9 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "94db9155-aa3b-4806-ad10-b0ae04df7f37")
 		(property "Reference" "D15"
 			(at 93.4583 80.01 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3688,6 +4010,8 @@
 		)
 		(property "Value" "WL-SMRW_1206_REC"
 			(at 93.4583 82.55 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3696,29 +4020,35 @@
 		)
 		(property "Footprint" "Snapeda:WL-SMRW_1206_REC"
 			(at 91.44 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 91.44 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 91.44 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3728,7 +4058,7 @@
 			(uuid "11fa8263-2e9c-4ab5-9eb2-697ffbdb2fbd")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "D15")
 					(unit 1)
@@ -3740,13 +4070,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 134.62 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "9f12c61c-f0bf-40da-a9a6-b9281641f730")
 		(property "Reference" "R43"
 			(at 105.41 136.1186 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3756,6 +4090,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 131.318 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3765,39 +4101,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 134.62 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3807,7 +4151,7 @@
 			(uuid "53c673ff-990d-407c-a9d2-c9504a736329")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R43")
 					(unit 1)
@@ -3819,13 +4163,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 142.24 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "bc66323c-439d-49fe-8fe9-17576d6c91ea")
 		(property "Reference" "R44"
 			(at 105.41 143.7386 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3835,6 +4183,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 138.938 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3844,39 +4194,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 142.24 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 142.24 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -3886,7 +4244,7 @@
 			(uuid "e4ed975e-1297-495b-837d-860aa638dc4a")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R44")
 					(unit 1)
@@ -3898,22 +4256,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:DGND")
 		(at 205.74 68.58 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "d7502717-52e4-4f9b-bbef-e2888a0fef7d")
 		(property "Reference" "#GND39"
 			(at 205.74 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "DGND"
 			(at 203.2 73.66 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3923,36 +4287,42 @@
 		)
 		(property "Footprint" ""
 			(at 205.74 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 205.74 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 205.74 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "714a08a3-525b-42eb-9712-7c2da5e8736d")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "#GND39")
 					(unit 1)
@@ -3964,13 +4334,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 104.14 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "da9a784e-f03c-4869-b02b-087befb55d54")
 		(property "Reference" "R123"
 			(at 105.41 105.6386 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3980,6 +4354,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 100.838 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -3989,39 +4365,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 104.14 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -4031,7 +4415,7 @@
 			(uuid "5f9aa964-aa3a-451a-952c-19686e484de0")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R123")
 					(unit 1)
@@ -4043,22 +4427,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:supply1_371_+3V3")
 		(at 193.04 50.8 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "dad39339-bca6-42fa-9945-4b88511f9aca")
 		(property "Reference" "#+3V6"
 			(at 193.04 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "+3V3"
 			(at 190.5 55.88 90)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4068,36 +4458,42 @@
 		)
 		(property "Footprint" ""
 			(at 193.04 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 193.04 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 193.04 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "41e6d1ee-4253-4be9-8043-a4c9eb5a1e2c")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "#+3V6")
 					(unit 1)
@@ -4109,13 +4505,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:CY8C4024AZI-S413TQFP_24AZI-S413_CYP-L")
 		(at 142.24 30.48 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "e2e702ad-5d0d-4aab-86b1-ed6c41ef804c")
 		(property "Reference" "U14"
 			(at 157.8346 21.3614 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 2.083 1.7705)
@@ -4125,6 +4525,8 @@
 		)
 		(property "Value" "CY8C4024AZI-S413TQFP_24AZI-S413_CYP-L"
 			(at 157.1952 23.9014 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 2.083 1.7705)
@@ -4134,29 +4536,35 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:TQFP_24AZI-S413_CYP-L"
 			(at 142.24 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 142.24 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 142.24 30.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -4304,7 +4712,7 @@
 			(uuid "767cf20e-cbca-4254-a09c-1d753424bcf4")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "U14")
 					(unit 1)
@@ -4316,13 +4724,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 149.86 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "e5f37021-0392-431d-8d1e-d24033c16356")
 		(property "Reference" "R58"
 			(at 105.41 151.3586 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4332,6 +4744,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 146.558 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4341,39 +4755,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 149.86 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -4383,7 +4805,7 @@
 			(uuid "01a6b68d-8c0f-4172-908f-97f90fed8bae")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R58")
 					(unit 1)
@@ -4395,13 +4817,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 96.52 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "ec4214d4-c320-4e96-887d-bbbb0f587d0a")
 		(property "Reference" "R119"
 			(at 105.41 98.0186 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4411,6 +4837,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 93.218 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4420,39 +4848,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 96.52 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -4462,7 +4898,7 @@
 			(uuid "f1f1f949-f2d4-4488-b271-88b140d3e2ef")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R119")
 					(unit 1)
@@ -4474,13 +4910,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:rcl_C-USC0603K")
 		(at 205.74 63.5 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "ed2dcb1c-e6d5-43d2-8fc4-f561aee5155c")
 		(property "Reference" "C87"
 			(at 206.756 62.865 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4490,6 +4930,8 @@
 		)
 		(property "Value" ".1uf"
 			(at 206.756 67.691 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4499,39 +4941,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:C0603K"
 			(at 205.74 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 205.74 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 205.74 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "CC0603KRX7R8BB104"
 			(at 205.74 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -4541,7 +4991,7 @@
 			(uuid "952e0397-dfe3-4844-ae73-3684d5ce8535")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "C87")
 					(unit 1)
@@ -4553,22 +5003,28 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:DGND")
 		(at 147.32 114.3 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "f85758cd-3bdf-4671-98c1-fb68c52b6acb")
 		(property "Reference" "#GND4"
 			(at 147.32 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Value" "DGND"
 			(at 144.78 119.38 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4578,36 +5034,42 @@
 		)
 		(property "Footprint" ""
 			(at 147.32 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 147.32 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 147.32 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
 			(uuid "f8ea2355-f5f1-4bc7-9356-b279f83b1162")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "#GND4")
 					(unit 1)
@@ -4619,13 +5081,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:adafruit_R-US_R0603")
 		(at 101.6 111.76 180)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "fa8ed79b-f3e5-4499-9052-52dbd463c650")
 		(property "Reference" "R124"
 			(at 105.41 113.2586 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4635,6 +5101,8 @@
 		)
 		(property "Value" "82R"
 			(at 105.41 108.458 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -4644,39 +5112,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:R0603"
 			(at 101.6 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 101.6 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 101.6 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "RC0603JR-0782RL"
 			(at 101.6 111.76 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right top)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -4686,7 +5162,7 @@
 			(uuid "ea1954f5-5244-4b31-bcdc-7a47713b5951")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/c650bfbd-dc99-4b99-8cc3-bfa7dd252ba2"
 					(reference "R124")
 					(unit 1)

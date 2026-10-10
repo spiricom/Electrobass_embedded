@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20250114)
+	(version 20260306)
 	(generator "eeschema")
-	(generator_version "9.0")
+	(generator_version "10.0")
 	(uuid "8a1abd16-85f3-4c61-b542-2be32d796602")
 	(paper "A4")
 	(lib_symbols
@@ -9,8 +9,12 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "X"
 				(at 2.54 -0.762 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.524 1.2954)
@@ -20,6 +24,8 @@
 			)
 			(property "Value" ""
 				(at -0.762 1.397 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -29,33 +35,41 @@
 			)
 			(property "Footprint" "electrobassrev10_fix_2:332-02"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" "2 Pin - 2mm Dual Row\n\nSource: www.mpe-connector.de / garry_shortform_2012.pdf"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -132,8 +146,12 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" ""
 				(at -1.27 5.842 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -143,6 +161,8 @@
 			)
 			(property "Value" ""
 				(at -1.27 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.778 1.5113)
@@ -152,33 +172,41 @@
 			)
 			(property "Footprint" "electrobassrev10_fix_2:3P-2MM-TH"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -271,16 +299,16 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 2.54 180)
+					(at 7.62 -2.54 180)
 					(length 5.08)
-					(name "3"
+					(name "1"
 						(effects
 							(font
 								(size 0 0)
 							)
 						)
 					)
-					(number "P$3"
+					(number "P$1"
 						(effects
 							(font
 								(size 0 0)
@@ -307,16 +335,16 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 -2.54 180)
+					(at 7.62 2.54 180)
 					(length 5.08)
-					(name "1"
+					(name "3"
 						(effects
 							(font
 								(size 0 0)
 							)
 						)
 					)
-					(number "P$1"
+					(number "P$3"
 						(effects
 							(font
 								(size 0 0)
@@ -331,54 +359,68 @@
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "J"
 				(at 4.1656 5.3086 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 2.0828 1.7703)
 					)
 					(justify left bottom)
-					(hide yes)
 				)
 			)
 			(property "Value" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Footprint" "electrobassrev10_fix_2:CONN_SM06B-SRSS-TB_JST"
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Datasheet" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "Description" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
 					)
-					(hide yes)
 				)
 			)
 			(property "ki_locked" ""
 				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1370,13 +1412,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:3P-2MM-TH-MALE")
 		(at 86.36 134.62 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "00c6de89-805c-495d-a086-8bd1741592f6")
 		(property "Reference" "X12"
 			(at 85.09 128.778 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1386,6 +1432,8 @@
 		)
 		(property "Value" "3P-2MM-TH-MALE"
 			(at 85.09 142.24 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1395,39 +1443,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:3P-2MM-TH"
 			(at 86.36 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 86.36 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 86.36 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 86.36 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "P$3"
@@ -1440,7 +1496,7 @@
 			(uuid "0bfefd78-8814-46fe-9842-824781434e85")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X12")
 					(unit 1)
@@ -1452,13 +1508,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:332-02")
 		(at 124.46 116.84 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "21f648a2-b02d-449e-a5cf-8d26e400bf12")
 		(property "Reference" "X7"
 			(at 127 117.602 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.524 1.2954)
@@ -1468,6 +1528,8 @@
 		)
 		(property "Value" "332-02"
 			(at 123.698 115.443 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1477,39 +1539,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:332-02"
 			(at 124.46 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 124.46 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 124.46 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 124.46 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1519,7 +1589,7 @@
 			(uuid "f1175fb0-aec2-490a-b7ae-cf03cd0458f2")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X7")
 					(unit 1)
@@ -1531,13 +1601,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:SM06B-SRSS-TB(LF)(SN)")
 		(at 190.5 116.84 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "2afa84a1-fb03-41a6-8613-358c20cade8c")
 		(property "Reference" "J7"
 			(at 194.6656 111.5314 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 2.0828 1.7703)
@@ -1547,38 +1621,46 @@
 		)
 		(property "Value" "SM06B-SRSS-TB(LF)(SN)"
 			(at 190.5 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "electrobassrev10_fix_2:CONN_SM06B-SRSS-TB_JST"
 			(at 190.5 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 190.5 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 190.5 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1600,7 +1682,7 @@
 			(uuid "883862f9-c11f-42ab-a366-5315bdb4fcc3")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "J7")
 					(unit 1)
@@ -1612,13 +1694,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:332-02")
 		(at 144.78 116.84 0)
 		(unit 2)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "44e990b8-c8e9-4b02-a22a-ccd8944e4e4e")
 		(property "Reference" "X7"
 			(at 147.32 117.602 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.524 1.2954)
@@ -1628,6 +1714,8 @@
 		)
 		(property "Value" "332-02"
 			(at 144.018 115.443 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1637,33 +1725,41 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:332-02"
 			(at 144.78 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 144.78 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 144.78 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 144.78 116.84 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1677,7 +1773,7 @@
 			(uuid "47fb3d71-48ef-48c2-a7bb-22255ae20a22")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X7")
 					(unit 2)
@@ -1689,13 +1785,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:332-02")
 		(at 144.78 134.62 0)
 		(unit 2)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "4f883506-7e6f-4fd9-83f2-4768d0887914")
 		(property "Reference" "X8"
 			(at 147.32 135.382 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.524 1.2954)
@@ -1705,6 +1805,8 @@
 		)
 		(property "Value" "332-02"
 			(at 144.018 133.223 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1714,33 +1816,41 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:332-02"
 			(at 144.78 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 144.78 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 144.78 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 144.78 134.62 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1754,7 +1864,7 @@
 			(uuid "6c72fd1b-6531-414c-b2ad-d10e821c2285")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X8")
 					(unit 2)
@@ -1766,13 +1876,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:3P-2MM-TH-MALE")
 		(at 86.36 78.74 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "77a7fc14-08bc-474d-9db7-cabdc100aedd")
 		(property "Reference" "X9"
 			(at 85.09 72.898 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1782,6 +1896,8 @@
 		)
 		(property "Value" "3P-2MM-TH-MALE"
 			(at 85.09 86.36 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1791,39 +1907,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:3P-2MM-TH"
 			(at 86.36 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 86.36 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 86.36 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 86.36 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "P$3"
@@ -1836,7 +1960,7 @@
 			(uuid "5025f62c-b678-49df-9cd2-6cf02fbbaeff")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X9")
 					(unit 1)
@@ -1848,13 +1972,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:332-02")
 		(at 124.46 134.62 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "8a09bfc2-16c8-46da-9809-9c7ff85e000e")
 		(property "Reference" "X8"
 			(at 127 135.382 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.524 1.2954)
@@ -1864,6 +1992,8 @@
 		)
 		(property "Value" "332-02"
 			(at 123.698 133.223 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1873,39 +2003,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:332-02"
 			(at 124.46 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 124.46 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 124.46 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 124.46 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1915,7 +2053,7 @@
 			(uuid "51877465-e7b8-4fc6-bba2-dc1f259cae78")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X8")
 					(unit 1)
@@ -1927,13 +2065,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:332-02")
 		(at 127 76.2 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "a9eb4f1c-5af5-41f0-a94d-db953b797273")
 		(property "Reference" "X5"
 			(at 129.54 76.962 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.524 1.2954)
@@ -1943,6 +2085,8 @@
 		)
 		(property "Value" "332-02"
 			(at 126.238 74.803 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -1952,39 +2096,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:332-02"
 			(at 127 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 127 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 127 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 127 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -1994,7 +2146,7 @@
 			(uuid "29f59b2e-150d-4309-be12-388738fd3323")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X5")
 					(unit 1)
@@ -2006,13 +2158,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:3P-2MM-TH-MALE")
 		(at 86.36 96.52 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "acaf6fab-80cb-47d2-865a-dc393842601f")
 		(property "Reference" "X10"
 			(at 85.09 90.678 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2022,6 +2178,8 @@
 		)
 		(property "Value" "3P-2MM-TH-MALE"
 			(at 85.09 104.14 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2031,39 +2189,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:3P-2MM-TH"
 			(at 86.36 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 86.36 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 86.36 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 86.36 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "P$3"
@@ -2076,7 +2242,7 @@
 			(uuid "d5f5ace4-7395-49d1-8ef4-aa85bce96f06")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X10")
 					(unit 1)
@@ -2088,13 +2254,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:332-02")
 		(at 147.32 76.2 0)
 		(unit 2)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "b725af77-5173-43ca-b479-50bf0bd2ad46")
 		(property "Reference" "X5"
 			(at 149.86 76.962 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.524 1.2954)
@@ -2104,6 +2274,8 @@
 		)
 		(property "Value" "332-02"
 			(at 146.558 74.803 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2113,33 +2285,41 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:332-02"
 			(at 147.32 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 147.32 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 147.32 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 147.32 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2153,7 +2333,7 @@
 			(uuid "7b825b1a-557e-4ab0-a177-c6324a324306")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X5")
 					(unit 2)
@@ -2165,13 +2345,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:332-02")
 		(at 144.78 96.52 0)
 		(unit 2)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "d6b03167-d168-4858-9a4b-118e3dbef701")
 		(property "Reference" "X6"
 			(at 147.32 97.282 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.524 1.2954)
@@ -2181,6 +2365,8 @@
 		)
 		(property "Value" "332-02"
 			(at 144.018 95.123 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2190,33 +2376,41 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:332-02"
 			(at 144.78 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 144.78 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 144.78 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 144.78 96.52 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2230,7 +2424,7 @@
 			(uuid "4b059864-c50f-4c3d-8ee0-c9d40d9395bf")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X6")
 					(unit 2)
@@ -2242,13 +2436,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:332-02")
 		(at 124.46 96.52 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "d73a11b1-a066-4567-9931-06af0bbcb035")
 		(property "Reference" "X6"
 			(at 127 97.282 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.524 1.2954)
@@ -2258,6 +2456,8 @@
 		)
 		(property "Value" "332-02"
 			(at 123.698 95.123 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2267,39 +2467,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:332-02"
 			(at 124.46 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 124.46 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 124.46 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 124.46 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -2309,7 +2517,7 @@
 			(uuid "e28c19bd-f6ab-4b68-9bae-16890a6fcf10")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X6")
 					(unit 1)
@@ -2321,13 +2529,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:SM06B-SRSS-TB(LF)(SN)")
 		(at 190.5 88.9 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "dcc2c40f-da32-40f8-836e-0aab035a8f75")
 		(property "Reference" "J8"
 			(at 194.6656 83.5914 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 2.0828 1.7703)
@@ -2337,38 +2549,46 @@
 		)
 		(property "Value" "SM06B-SRSS-TB(LF)(SN)"
 			(at 190.5 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Footprint" "electrobassrev10_fix_2:CONN_SM06B-SRSS-TB_JST"
 			(at 190.5 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 190.5 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 190.5 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -2390,7 +2610,7 @@
 			(uuid "cf9db563-3f28-4af0-8690-773f94739ab8")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "J8")
 					(unit 1)
@@ -2402,13 +2622,17 @@
 		(lib_id "electrobassrev10_fix_2-eagle-import:3P-2MM-TH-MALE")
 		(at 86.36 116.84 0)
 		(unit 1)
+		(body_style 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
+		(in_pos_files yes)
 		(dnp no)
 		(uuid "f0e55175-2789-4c0f-8ed8-0c706ab891b2")
 		(property "Reference" "X11"
 			(at 85.09 110.998 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2418,6 +2642,8 @@
 		)
 		(property "Value" "3P-2MM-TH-MALE"
 			(at 85.09 124.46 0)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.778 1.5113)
@@ -2427,39 +2653,47 @@
 		)
 		(property "Footprint" "electrobassrev10_fix_2:3P-2MM-TH"
 			(at 86.36 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 86.36 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 86.36 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "PARTNO" "*DNP"
 			(at 86.36 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left bottom)
-				(hide yes)
 			)
 		)
 		(pin "P$3"
@@ -2472,7 +2706,7 @@
 			(uuid "4e662022-ef60-4d13-849d-a57e80188461")
 		)
 		(instances
-			(project ""
+			(project "electrobassrev10_fix_2"
 				(path "/1ef21aac-6bb5-463b-b2e7-8b29a3c9e6a7/d58cbc32-b825-4b32-ab6f-a6cb12e0841b"
 					(reference "X11")
 					(unit 1)
