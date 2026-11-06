@@ -490,7 +490,7 @@ void getPresetNamesFromSDCard(void)
 
 
 				res = f_findfirst(&dir, &fno, SDPath, finalString);
-				uint bytesRead;
+				unsigned int bytesRead;
 				if(res == FR_OK)
 				{
 					if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
@@ -524,7 +524,7 @@ void getPresetNamesFromSDCard(void)
 
 
 				res = f_findfirst(&dir, &fno, SDPath, finalString);
-				uint bytesRead;
+				unsigned int bytesRead;
 				if(res == FR_OK)
 				{
 					if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
@@ -587,7 +587,7 @@ static int checkForSDCardPreset(uint8_t numberToLoad)
 			}
 
 			res = f_findfirst(&dir, &fno, SDPath, finalString);
-			uint bytesRead;
+			unsigned int bytesRead;
 			if(res == FR_OK)
 			{
 				if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
@@ -657,7 +657,7 @@ static void writePresetToSDCard(int fileSize)
 
 				if(f_open(&SDFile, finalString, FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
 				{
-					uint bytesRead;
+					unsigned int bytesRead;
 					f_write(&SDFile, &buffer, fileSize, &bytesRead);
 					f_close(&SDFile);
 				}
@@ -712,7 +712,7 @@ static int checkForSDCardTuning(uint8_t numberToLoad)
 			}
 
 			res = f_findfirst(&dir, &fno, SDPath, finalString);
-			uint bytesRead;
+			unsigned int bytesRead;
 			if(res == FR_OK)
 			{
 				if(f_open(&SDFile, fno.fname, FA_OPEN_ALWAYS | FA_READ) == FR_OK)
@@ -781,7 +781,7 @@ static void writeTuningToSDCard(int fileSize)
 
 				if(f_open(&SDFile, finalString, FA_CREATE_ALWAYS | FA_WRITE) == FR_OK)
 				{
-					uint bytesRead;
+					unsigned int bytesRead;
 					f_write(&SDFile, &buffer, fileSize, &bytesRead);
 					f_close(&SDFile);
 				}
@@ -1136,7 +1136,7 @@ void __ATTR_ITCMRAM handleSPI (uint8_t offset)
 		}
 	}
 
-	else if (sendPresetName)
+	if (sendPresetName)
 	{
 		SPI_TX[offset] = 253; //special byte that says this is a preset name;
 		SPI_TX[offset+1] = whichPresetToSendName;
