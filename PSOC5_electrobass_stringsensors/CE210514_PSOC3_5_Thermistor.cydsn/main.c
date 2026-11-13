@@ -44,9 +44,9 @@
 #include "math.h"
 #include "oled.h"
 
-//#define MAPLE1 1
-#define GREEN3 1
-
+#define MAPLE1 1
+//#define GREEN3 1
+#define EXTRABOARD_ADDR 9
 
 #define EEPROM_CALIBRATION_OFFSET 0
 #define CALIBRATION_SIZE_IN_BYTES NUM_FRETS * NUM_STRINGS * 2 //for each fret on each string, store 2 bytes to add up to a 16-bit word
@@ -99,11 +99,11 @@ uint8_t stringCapSensorsOnOff[1];
 uint8_t stringCapSensorsRaw[16];
 uint8_t thresholdArray[8] = {30, 30, 30, 30, 30, 30, 30, 30};
 #if MAPLE1
-uint32_t fretMeasurements[4][2] = {
-    {68958,19847},
-    {67974,20532},
-    {68984,20665},
-    {85647,24651}
+uint32_t fretMeasurements[4][4] = {
+    {68958,19847, 10000, 10000},
+    {67974,20532, 10000, 10000},
+    {68984,20665, 10000, 10000},
+    {85647,24651, 10000, 10000}
 };
 #elif defined GREEN3
  uint32_t fretMeasurements[4][4] = {
@@ -122,8 +122,9 @@ uint16_t fretMeasurements[4][2] = {
     #endif
 //1st fret, 5th fret, 9th fret, 15 fret
 float fretRatios[4] = {0.94387439674627617953623675390268f,0.749153457f, 0.594603498f, 0.420448248f}; 
-
-uint8_t sysexBuffer[2048];
+#define SYSEX_BUFFER_SIZE 128
+#define SYSEX_BUFFER_MASK SYSEX_BUFFER_SIZE-1
+uint8_t sysexBuffer[SYSEX_BUFFER_SIZE];
 uint32_t sysexPointer = 0;
 uint8_t receivingSysex = 0;
 uint8_t parsingSysex = 0;
@@ -386,6 +387,12 @@ int fretboard_fretless = 1;
 uint8_t I2Cbuff2[4];
 uint32_t SPI_errors = 0;
 
+volatile uint8_t extraBoardInputs[4];
+int8_t mainStringDirection[4] = {0,0,0,0};
+int8_t extraStringDirection[4] = {0,0,0,0};
+uint32_t mainLinear[4] = {0,0,0,0};
+uint32_t mainLinearPrev[4] = {0,0,0,0};
+
 float filtx[4][2] = {{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f}};
 float filty[4][2] = {{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f},{0.0f, 0.0f}};
 /*
@@ -444,6 +451,9 @@ void restartSystemCheck()
         }
     }
 }
+
+uint8_t whichLinear = 0;
+uint8_t prevExtraBoardInputs[4];
 
 int main(void)
 {
@@ -597,16 +607,33 @@ int main(void)
 
         //turn on the multiplexer channels that set up the resistive sensors
         //#if 0
+            ExtMUXS0_Write(whichLinear & 1);
+        ExtMUXS1_Write((whichLinear & 2)>>1);
+                CyDelayUs(50);
         ExtMUX_EN_Write(0);
         //CyDelayUs(5);
+        whichLinear = (whichLinear + 1) %4;
         scanLinearResistor();
 
         //now disconnect resistive sensors so that they don't interfere with CapSense
        // #endif
         ExtMUX_EN_Write(1);
-        CyDelayUs(5);
         
+        //uint8_t i2c_message[2] = {0,0};
+	    //I2Cbuff1[0] = 0x1;
+       // I2Cbuff1[1] = 0x2;
+	    //I2C_MasterWriteBlocking(EXTRABOARD_ADDR, 2, I2C_1_MODE_COMPLETE_XFER);
+
+        
+        CyDelayUs(5);
+        //read extra board
+        I2C_MasterReadBlocking(0x9u, 4 ,I2C_1_MODE_COMPLETE_XFER);
+        extraBoardInputs[0] = I2Cbuff2[0];
+        extraBoardInputs[1] = I2Cbuff2[1];
+        extraBoardInputs[2] = I2Cbuff2[2];
+        extraBoardInputs[3] = I2Cbuff2[3];
         scanButtons();
+        //read octave slider board
         I2C_MasterReadBlocking(0x8u, 4 ,I2C_1_MODE_COMPLETE_XFER);
         CapSense_ClearSensors();
         CapSense_UpdateEnabledBaselines();
@@ -708,16 +735,81 @@ int main(void)
                     {
                         linearSmoothed[whichLinearSensor] += linearFIR[whichLinearSensor][j];
                     }             
-                    linFirPointer[whichLinearSensor] = (linFirPointer[whichLinearSensor] + 1) & LINEAR_FIR_SIZE_MASK;
-                    linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;
-                    //linearSmoothed[whichLinearSensor] = linearPotValue32Bit[whichLinearSensor];
+                    //linFirPointer[whichLinearSensor] = (linFirPointer[whichLinearSensor] + 1) & LINEAR_FIR_SIZE_MASK;
+                    //linearSmoothed[whichLinearSensor] = linearSmoothed[whichLinearSensor] >> LINEAR_FIR_SIZE_BITSHIFT;'
+                    
+                    linearSmoothed[whichLinearSensor] = linearPotValue32Bit[whichLinearSensor];
+                    
+                    if (linearSmoothed[whichLinearSensor] > mainLinearPrev[whichLinearSensor])
+                    {
+                        mainStringDirection[whichLinearSensor] = 1;
+                    }
+                    else if (linearSmoothed[whichLinearSensor] < mainLinearPrev[whichLinearSensor])
+                    {
+                        mainStringDirection[whichLinearSensor] = -1;
+                    }
+                    else
+                    {
+                        mainStringDirection[whichLinearSensor] = 0;
+                    }
+                    
+                     mainLinearPrev[whichLinearSensor] = linearSmoothed[whichLinearSensor];
+                    
+                    if (extraBoardInputs[whichLinearSensor] > prevExtraBoardInputs[whichLinearSensor])
+                    {
+                        extraStringDirection[whichLinearSensor] = 1;
+                    }
+                    else if (extraBoardInputs[whichLinearSensor] < prevExtraBoardInputs[whichLinearSensor])
+                    {
+                        extraStringDirection[whichLinearSensor] = -1;
+                    }
+                    else
+                    {
+                        extraStringDirection[whichLinearSensor] = 0;
+                    }
+                    prevExtraBoardInputs[whichLinearSensor] = extraBoardInputs[whichLinearSensor];
+                    
+                    //only use the main value if the extra value isn't going in the same direction
+                    if (!(extraStringDirection[whichLinearSensor] ==  mainStringDirection[whichLinearSensor]))
+                    {
+                        mainLinear[whichLinearSensor] = linearSmoothed[whichLinearSensor];
+                    }
+                    
+                    
+                    
                     if (calibration_mode > 0)
                     {
                         int whichStringToStore = (calibration_mode - 1) / 4;
                         int whichFretToStore =(calibration_mode - 1) % 4;
                         fretMeasurements[whichStringToStore][whichFretToStore] = linearSmoothed[whichStringToStore];
                     }
-                    
+                    if (fretboard_fretless)
+                    {
+        				if (mainLinear[whichLinearSensor] == 65535)
+        				{
+        					invStringMappedPositions[whichLinearSensor] = 1.0f;
+        				}
+                        else if ((mainLinear[whichLinearSensor] > fretMeasurements[whichLinearSensor][1]))
+        				{
+        					invStringMappedPositions[whichLinearSensor] = 1.0f / (map((float)mainLinear[whichLinearSensor], fretMeasurements[whichLinearSensor][0], fretMeasurements[whichLinearSensor][1], fretRatios[0], fretRatios[1]));
+        				}
+        				else if ((mainLinear[whichLinearSensor] <= fretMeasurements[whichLinearSensor][1]) && (mainLinear[whichLinearSensor] > fretMeasurements[whichLinearSensor][2]))
+        				{
+        					invStringMappedPositions[whichLinearSensor] = 1.0f / (map((float)mainLinear[whichLinearSensor], fretMeasurements[whichLinearSensor][1], fretMeasurements[whichLinearSensor][2], fretRatios[1], fretRatios[2]));
+        				}
+        				else
+        				{
+        					invStringMappedPositions[whichLinearSensor] = 1.0f / map((float)mainLinear[whichLinearSensor], fretMeasurements[whichLinearSensor][2], fretMeasurements[whichLinearSensor][3], fretRatios[2], fretRatios[3]);
+        				}
+                       
+                        
+                        stringMIDI[whichLinearSensor] = ftom(invStringMappedPositions[whichLinearSensor] * openStringFreqs[whichLinearSensor]);
+                    }
+                    else
+                    {
+                        stringMIDI[whichLinearSensor] = openStringMIDI[whichLinearSensor] + roundf(21.0f-((float)mainLinear[whichLinearSensor] / 2640.0f));
+                    }
+                    #if 0
                     if (fretboard_fretless)
                     {
         				if (linearSmoothed[whichLinearSensor] == 65535)
@@ -744,7 +836,7 @@ int main(void)
                     {
                         stringMIDI[whichLinearSensor] = openStringMIDI[whichLinearSensor] + roundf(21.0f-((float)linearPotValue32Bit[whichLinearSensor] / 2640.0f));
                     }
-                    
+                    #endif
                     
                     pitchBendHistory[whichLinearSensor][pitchBendHistoryPointer[whichLinearSensor]] = linearPotValue32Bit[whichLinearSensor];
                     pitchBendHistoryPointer[whichLinearSensor] = (pitchBendHistoryPointer[whichLinearSensor] + 1) & 31;
@@ -888,10 +980,7 @@ int main(void)
                     handleNotes(lastNotes[i], 0, i);
                     LHMuteCounter[i] = 0;
                 }
-                
-
                 stringPlucksPrev[i] = stringPlucks[i];
-                
             }
         }
         //make sure previous SPI2 transmission has completed before transferring the remaining midi data
@@ -991,7 +1080,7 @@ int main(void)
 
         else if (sendingMessage == 4) //4  means load a tuning
         {
-            tx2Buffer[0] = 5; //for the audio chip this message is a 4 
+            tx2Buffer[0] = 5; //for the audio chip this message is a 5 
             tx2Buffer[1] = tuningNumberToLoad;
             sendingMessage = 0;
         }
@@ -1543,7 +1632,7 @@ void parseSysex(void)
 
 volatile uint8_t tempMIDI[4];
 volatile uint8_t firstSysex = 0;
-const uint16_t sysexPointerMask = 2047;
+const uint16_t sysexPointerMask = 127;
 
 //data sent from computer
 void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
@@ -1574,6 +1663,14 @@ void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
     }
     else if (midiMsg[USB_EVENT_BYTE0] == USB_MIDI_SYSEX)
     {
+        sysexBuffer[sysexPointer++ & SYSEX_BUFFER_MASK] = midiMsg[USB_EVENT_BYTE0];
+        sysexBuffer[sysexPointer++ & SYSEX_BUFFER_MASK] = midiMsg[USB_EVENT_BYTE1];
+        sysexBuffer[sysexPointer++ & SYSEX_BUFFER_MASK] = midiMsg[USB_EVENT_BYTE2];
+        sysexBuffer[sysexPointer++ & SYSEX_BUFFER_MASK] = midiMsg[USB_EVENT_BYTE3];
+    }
+    #if 0
+    else if (midiMsg[USB_EVENT_BYTE0] == USB_MIDI_SYSEX)
+    {
         if (!parsingSysex)
         {
 
@@ -1597,6 +1694,7 @@ void USB_callbackLocalMidiEvent(uint8 cable, uint8 *midiMsg) CYREENTRANT
             }
         }
     }
+#endif
     cable = cable;
 }
 
@@ -1719,6 +1817,70 @@ void scanLinearResistor(void)
     int32 iRes = 0;
     int32 offset = 0;
     
+
+
+        scanPart = 0;
+
+        //if (scanPart == 0)
+        {
+            AMux_1_FastSelect(scanPart);
+            CyDelayUs(4); 
+            ADC_1_StartConvert();
+            ADC_1_IsEndConversion(ADC_1_WAIT_FOR_RESULT);
+            iVtherm = ADC_1_GetResult32();
+            
+        }
+        scanPart = 1;
+       // else
+        {
+
+            AMux_1_FastSelect(scanPart);
+            CyDelayUs(4); 
+            ADC_1_StartConvert();
+            ADC_1_IsEndConversion(ADC_1_WAIT_FOR_RESULT);
+            iVref = ADC_1_GetResult32();
+
+            iVref =   iVref - offset;
+            //to print out sensor values to check in Max/MSP
+            #if 0
+            if (whichLinearSensor == 0)
+            {
+                sendMIDIControlChange(103,iVref >> 9, 4);
+                sendMIDIControlChange(104,iVref >> 7, 4);
+                sendMIDIControlChange(105,iVref & 127, 4);
+                
+                sendMIDIControlChange(106,iVtherm >> 9, 4);
+                sendMIDIControlChange(107,iVtherm >> 7, 4);
+                sendMIDIControlChange(108,iVtherm & 127, 4);
+            }
+            #endif
+            if ((iVref > 1000) && (iVtherm < 100))
+            {
+                iRes = 65535;
+            }
+            else
+            {
+                if (fretboard_fretless)
+                {
+                    iRes = (int32)(((float)iVref / (float)iVtherm) * 20000.0f); //FRETLESS
+                }
+                else
+                {
+                    iRes = (int32)(((float)iVref / (float)iVtherm) * 10000.0f); // FRETTED
+                }
+                //
+            }
+            
+            linearPotValue32Bit[whichLinear] = iRes;
+            //sendMIDIControlChangeComputer(116+whichLinearSensor, iRes / 512, 2);
+            //whichLinearSensor = (whichLinearSensor + 1) & 3;
+        }
+        
+        scanPart = (scanPart + 1) & 1;
+        //scanPart = 0;
+    
+    
+    #if 0
      for (int whichLinearSensor = 0; whichLinearSensor < 4; whichLinearSensor++)
      {
         ExtMUXS0_Write(whichLinearSensor & 1);
@@ -1784,6 +1946,7 @@ void scanLinearResistor(void)
         scanPart = (scanPart + 1) & 1;
         //scanPart = 0;
     }
+    #endif
 }
 
 void DmaTxConfiguration()
