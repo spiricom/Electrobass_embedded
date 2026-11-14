@@ -1,5 +1,5 @@
 -- Project:   extra_sensor_board
--- Generated: 11/02/2026 10:55:01
+-- Generated: 11/13/2026 18:02:38
 -- PSoC Creator  4.4
 
 ENTITY extra_sensor_board IS
@@ -1631,7 +1631,7 @@ BEGIN
     \ADC_1:DSM\:dsmodcell
         GENERIC MAP(
             cy_registers => "",
-            resolution => 12)
+            resolution => 14)
         PORT MAP(
             aclock => \ClockBlock.aclk_glb_ff_0__sig\,
             modbitin_udb => open,

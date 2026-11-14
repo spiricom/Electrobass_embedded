@@ -10,7 +10,7 @@
  * ========================================
 */
 #include "project.h"
-#define RD_BUFFER_SIZE		(4u)
+#define RD_BUFFER_SIZE		(8u)
 #define WR_BUFFER_SIZE		(2u)
 
 volatile uint8_t myInput[WR_BUFFER_SIZE];
@@ -43,6 +43,8 @@ int main(void)
     {
         while(MUX_En_Read() == 1) //wait while mux enable is high, reading the control pins
         {
+            AMux_1_FastSelect(0);
+            AMux_2_FastSelect(0);
             muxCtl = MUX_0_Read() + (MUX_1_Read() << 1); //assemble the mux control number
         }
         //when mux control goes low, do the conversion
@@ -52,8 +54,7 @@ int main(void)
         ADC_1_StartConvert();
         ADC_1_IsEndConversion(ADC_1_WAIT_FOR_RESULT);
         stringResult = ADC_1_GetResult32();
-        AMux_1_FastSelect(0);
-        AMux_2_FastSelect(0);
+
         //goin up
         if (stringResult > prevStringResults[muxCtl])
         {
@@ -72,18 +73,22 @@ int main(void)
         
         prevStringResults[muxCtl] = stringResult;
         
-        
-        sample_segment[0] = prevStringResults[0] / 72;
-        sample_segment[1] = prevStringResults[1] / 72;
-        sample_segment[2] = prevStringResults[2] / 72;
-        sample_segment[3] = prevStringResults[3] / 72;
+        for (int i = 0; i < 4; i++)
+        {
+            sample_segment[i*2] = prevStringResults[i] & 255;
+            sample_segment[(i*2) + 1] = (prevStringResults[i] >> 8) & 255;
+        }
+      
         /* Check if the slave buffer has been read */
         if(I2CS_SlaveStatus() & I2CS_SSTAT_RD_CMPLT)
         {
             I2CS_SlaveClearReadStatus();
             I2CS_SlaveClearReadBuf();
         }
-        
+        while(MUX_En_Read() == 0) //wait while mux enable is low, reading the control pins
+        {
+            ;
+        }
         #if 0
         /* Check if the slave buffer has been written to*/
         if(I2CS_SlaveStatus() & I2CS_SSTAT_WR_CMPLT)

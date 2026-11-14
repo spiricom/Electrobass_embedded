@@ -2,7 +2,7 @@
 --	Conversion of extra_sensor_board.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Mon Nov 02 10:55:00 2026
+--	Fri Nov 13 18:02:38 2026
 --
 
 USE cypress.cypress.all;
@@ -558,7 +558,7 @@ MUX_En:cy_psoc3_pins_v1_10
 		signal2=>\ADC_1:Net_34\);
 \ADC_1:DSM\:cy_psoc3_ds_mod_v4_0
 	GENERIC MAP(cy_registers=>"",
-		resolution=>12)
+		resolution=>14)
 	PORT MAP(aclock=>\ADC_1:Net_488\,
 		vplus=>Net_15,
 		vminus=>\ADC_1:Net_520\,
@@ -690,7 +690,7 @@ MUX_En:cy_psoc3_pins_v1_10
 		id=>"b05c2b3b-74e0-4872-be0d-628294a4d314/edd15f43-b66b-457b-be3a-5342345270c8",
 		source_clock_id=>"61737EF6-3B74-48f9-8B91-F7473A442AE7",
 		divisor=>0,
-		period=>"208333333.333333",
+		period=>"162786911.932281",
 		is_direct=>'0',
 		is_digital=>'0')
 	PORT MAP(clock_out=>\ADC_1:Net_488\,

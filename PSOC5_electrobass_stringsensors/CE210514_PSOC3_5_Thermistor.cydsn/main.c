@@ -384,10 +384,10 @@ int buttonCounters[6] = {0,0,0,0,0};
 int buttonStates[6] = {0,0,0,0,0};
 int frettedStateLatched = 0;
 int fretboard_fretless = 1;
-uint8_t I2Cbuff2[4];
+uint8_t I2Cbuff2[8];
 uint32_t SPI_errors = 0;
 
-volatile uint8_t extraBoardInputs[4];
+volatile uint16_t extraBoardInputs[4];
 int8_t mainStringDirection[4] = {0,0,0,0};
 int8_t extraStringDirection[4] = {0,0,0,0};
 uint32_t mainLinear[4] = {0,0,0,0};
@@ -607,12 +607,13 @@ int main(void)
 
         //turn on the multiplexer channels that set up the resistive sensors
         //#if 0
+                whichLinear = (whichLinear + 1) %4;
             ExtMUXS0_Write(whichLinear & 1);
         ExtMUXS1_Write((whichLinear & 2)>>1);
                 CyDelayUs(50);
         ExtMUX_EN_Write(0);
         //CyDelayUs(5);
-        whichLinear = (whichLinear + 1) %4;
+
         scanLinearResistor();
 
         //now disconnect resistive sensors so that they don't interfere with CapSense
@@ -627,11 +628,14 @@ int main(void)
         
         CyDelayUs(5);
         //read extra board
-        I2C_MasterReadBlocking(0x9u, 4 ,I2C_1_MODE_COMPLETE_XFER);
-        extraBoardInputs[0] = I2Cbuff2[0];
-        extraBoardInputs[1] = I2Cbuff2[1];
-        extraBoardInputs[2] = I2Cbuff2[2];
-        extraBoardInputs[3] = I2Cbuff2[3];
+        
+        I2C_MasterReadBlocking(0x9u, 8 ,I2C_1_MODE_COMPLETE_XFER);
+        for (int i = 0; i < 4; i++)
+        {
+            extraBoardInputs[i] = I2Cbuff2[i*2];
+            extraBoardInputs[i] += I2Cbuff2[i*2 + 1]<<8;
+        }
+
         scanButtons();
         //read octave slider board
         I2C_MasterReadBlocking(0x8u, 4 ,I2C_1_MODE_COMPLETE_XFER);
@@ -643,10 +647,18 @@ int main(void)
         {
             parseSysex();
         }
-        
+        sendMIDIControlChange(21 , CapSense_sensorOnMask[0] & 127, 0);
+        sendMIDIControlChange(22 , CapSense_sensorOnMask[0] >> 7, 0);
         for (int whichLinearSensor = 0; whichLinearSensor < 4; whichLinearSensor++)
         {
             float pitchBendVal = 8192.0;
+            
+            //send test data to computer
+            sendMIDIControlChange(whichLinearSensor * 5 , linearPotValue32Bit[whichLinearSensor] & 127, 0);
+            sendMIDIControlChange(whichLinearSensor * 5 + 1 ,(linearPotValue32Bit[whichLinearSensor] >> 7) & 127, 0);
+            sendMIDIControlChange(whichLinearSensor * 5 + 2, (linearPotValue32Bit[whichLinearSensor] >> 14) & 127, 0);
+            sendMIDIControlChange(whichLinearSensor * 5 + 3, extraBoardInputs[whichLinearSensor] & 127, 0);
+            sendMIDIControlChange(whichLinearSensor * 5 + 4 ,(extraBoardInputs[whichLinearSensor] >> 7) & 127, 0);
             
              //handle string plucks/noteoffs
 
@@ -937,11 +949,11 @@ int main(void)
                 {
                     if (i < 4)
                     {
-                        sendMIDIControlChange(9 + i , 127-knobs7bit[i], 0);
+                       // sendMIDIControlChange(9 + i , 127-knobs7bit[i], 0);
                     }
                     if ((i == 4) && (CV_pedal_sense_Read()))
                     {
-                        sendMIDIControlChange(9 + i , knobs7bit[i], 0);
+                       // sendMIDIControlChange(9 + i , knobs7bit[i], 0);
                         //sendMIDIControlChange(19 + i+1 , 0, 0);
                     }
                 }
@@ -962,11 +974,13 @@ int main(void)
             for (int i = 0; i < 4; i++)
             {
                 stringPlucks[i] = (rxBuffer[i*2] << 8) + rxBuffer[i*2+1];
-
+                
                 //note-on from pluck sensor
                 if ((stringPlucks[i] > 0) && (stringPlucksPrev[i] == 0))
                 {
-                    //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
+                    sendMIDIControlChangeComputer(100+i, stringPlucks[i]& 127, 0);
+                    sendMIDIControlChangeComputer(104+i, stringPlucks[i]>>7,0);
+                    sendMIDIControlChangeComputer(108+i, stringPlucks[i]>>14,0);
                     LHMuteCounter[i] = 0;
                     pitchFreeze[i] = 0;
                     octave = ((int)I2Cbuff2[1]) - 1;
@@ -977,6 +991,9 @@ int main(void)
                 else if ((stringPlucks[i] == 0) && (stringPlucksPrev[i] > 0))
                 {
                     //sendMIDIControlChangeComputer(116+i, stringPlucks[i]/512,7);
+                    sendMIDIControlChangeComputer(100+i, stringPlucks[i]& 127, 0);
+                    sendMIDIControlChangeComputer(104+i, stringPlucks[i]>>7,0);
+                    sendMIDIControlChangeComputer(108+i, stringPlucks[i]>>14,0);
                     handleNotes(lastNotes[i], 0, i);
                     LHMuteCounter[i] = 0;
                 }
