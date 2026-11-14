@@ -1,0 +1,202 @@
+(footprint "QRE1113"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "QRE1113, QRE1113GR SMD Reflective Object Sensor\n\nhttps://www.sparkfun.com/datasheets/Components/SMD/QRE1113.GR.pdf Datasheet\n\nSpecifications:\n\n• Pin Count: 4\n• Dimensions: 3.2 x 2.5 x 1.5 mm\n• Pitch: 1.8 mm\n\nDevices Using:\n\n• QRE1113")
+	(property "Reference" "REF**"
+		(at 0 -1.905 0)
+		(layer "F.SilkS")
+		(uuid "0ab2851a-536c-49ee-a456-ebbe1feba319")
+		(effects
+			(font
+				(size 0.48768 0.48768)
+				(thickness 0.12192)
+			)
+			(justify bottom)
+		)
+	)
+	(property "Value" "QRE1113"
+		(at 0 1.905 0)
+		(layer "F.Fab")
+		(uuid "00c32300-3dc0-4ce9-a8ed-c38eeb18c35d")
+		(effects
+			(font
+				(size 0.48768 0.48768)
+				(thickness 0.12192)
+			)
+			(justify top)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2ae0d1dc-7096-4aae-b1a1-ec1e25987b86")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d17b44b3-4817-47be-9765-a3ee438bf0b6")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -1.624 1.424)
+		(end -1.227 1.827)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "8219d130-d1c4-4239-8c3a-8f3c75318622")
+	)
+	(fp_line
+		(start -1.427 -1.827)
+		(end 1.4635 -1.827)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d3281652-b4f3-4a71-ae19-ce10313ee97a")
+	)
+	(fp_line
+		(start -1.427 -1.4365)
+		(end -1.427 -1.827)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "a185374e-27b2-4e84-9ad4-d8345a2c0743")
+	)
+	(fp_line
+		(start -1.227 1.827)
+		(end 1.4635 1.827)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "000ae950-fb39-45eb-96e7-fa0fb59c905f")
+	)
+	(fp_line
+		(start 1.4635 -1.827)
+		(end 1.4635 -1.4635)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "56f20869-fa20-41aa-a3ad-8a47b88e9ce5")
+	)
+	(fp_line
+		(start 1.4635 1.827)
+		(end 1.4635 1.4365)
+		(stroke
+			(width 0.2032)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "553b53b8-b037-4b69-921e-6d3eb00f8547")
+	)
+	(fp_circle
+		(center -1.8415 1.651)
+		(end -1.7145 1.651)
+		(stroke
+			(width 0.254)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "0041eaaf-43c3-4b1b-83f8-c52bdcaf8cd3")
+	)
+	(fp_line
+		(start -1.35 -1.7)
+		(end -1.35 1.7)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "89a56e97-1f80-4268-9236-41015d144168")
+	)
+	(fp_line
+		(start -1.35 1.7)
+		(end 1.35 1.7)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "64689a39-870a-4d96-affd-79edf19b9104")
+	)
+	(fp_line
+		(start 1.35 -1.7)
+		(end -1.35 -1.7)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "010c7333-4a34-4e2a-8ed3-586e4dfedfe0")
+	)
+	(fp_line
+		(start 1.35 1.7)
+		(end 1.35 -1.7)
+		(stroke
+			(width 0.127)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "705fb609-d5b4-414b-9e12-9d22326e0626")
+	)
+	(pad "1" smd rect
+		(at -1.8 0.9)
+		(size 1.2 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "bdc9a2d2-dce2-4b28-818c-2a359ad123e3")
+	)
+	(pad "2" smd rect
+		(at 1.8 0.9)
+		(size 1.2 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "71bef38a-f0c7-493b-8fb7-20daba3862f4")
+	)
+	(pad "3" smd rect
+		(at 1.8 -0.9)
+		(size 1.2 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "14f5cc29-c49f-45cf-a8c1-4d6bf93301b1")
+	)
+	(pad "4" smd rect
+		(at -1.8 -0.9)
+		(size 1.2 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.1016)
+		(solder_paste_margin 0)
+		(thermal_bridge_angle 0)
+		(uuid "457afe41-7442-4247-a900-07c3f11cfdf8")
+	)
+	(embedded_fonts no)
+)
